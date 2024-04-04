@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameplayManager : MonoBehaviour
 {
     public bool isPlaying = false;
-    [SerializeField] private UIManager UI = null;
+    [SerializeField] private UIManager UM = null;
+    [SerializeField] private GameObject Ball = null;
+    [SerializeField] private WarriorController WC = null;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +33,17 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator Kickoff()
     {
-        StartCoroutine(UI.Countdown());
+        StartCoroutine(UM.Countdown());
         yield return new WaitForSeconds(3f);
         StartPlaying();
+    }
+
+    public void Reset()
+    {
+        StopPlaying();
+        StartCoroutine(Kickoff());
+        Instantiate(Ball, new Vector3(0, 0, 2), Quaternion.identity);
+        WC.Ball = GameObject.Find("Ball(Clone)");
+        WC.BP = (BallProperties)Ball.GetComponent("BallProperties");
     }
 }

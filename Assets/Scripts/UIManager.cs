@@ -6,7 +6,9 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text countdown = null;
-    [SerializeField] private GameplayManager GM = null;
+    [SerializeField] private TMP_Text scoreText = null;
+    private int warriorScore = 0;
+    private int monsterScore = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,5 +34,22 @@ public class UIManager : MonoBehaviour
         countdown.text = "GO";
         yield return new WaitForSeconds(1f);
         countdown.gameObject.SetActive(false);
+    }
+
+    public void warriorPoint()
+    {
+        warriorScore++;
+        updateScore(); 
+    }
+
+    public void monsterPoint()
+    {
+        monsterScore++;
+        updateScore();
+    }
+
+    private void updateScore()
+    {
+        scoreText.text = warriorScore + " - " + monsterScore;
     }
 }

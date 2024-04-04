@@ -5,8 +5,8 @@ using UnityEngine;
 public class WarriorController : MonoBehaviour
 {  
     private Rigidbody rb;
-    [SerializeField] private GameObject Ball = null;
-    private BallProperties BP = null;
+    [SerializeField] public GameObject Ball = null;
+    public BallProperties BP = null;
 
     [SerializeField] float warriorSpeed = 2f;
     private Vector3 movementDirection;
