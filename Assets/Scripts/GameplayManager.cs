@@ -8,10 +8,12 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private WarriorController WC = null;
+    private GameObject BallSpawner = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        BallSpawner = GameObject.Find("BallSpawner");
         StartCoroutine(Kickoff());
     }
 
@@ -42,8 +44,9 @@ public class GameplayManager : MonoBehaviour
     {
         StopPlaying();
         StartCoroutine(Kickoff());
-        Instantiate(Ball, new Vector3(0, 0, 2), Quaternion.identity);
+        Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
         WC.Ball = GameObject.FindGameObjectWithTag("Ball");
         WC.BP = Ball.GetComponent<BallProperties>();
+        WC.ResetPlayer();
     }
 }

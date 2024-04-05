@@ -18,6 +18,7 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
+    private GameObject WarriorSpawner = null;
 
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class WarriorController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
+        WarriorSpawner = GameObject.Find("WarriorSpawner");
     }
 
     // Update is called once per frame
@@ -68,5 +70,10 @@ public class WarriorController : MonoBehaviour
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
+    }
+
+    public void ResetPlayer()
+    {
+        gameObject.transform.position = WarriorSpawner.transform.position;
     }
 }
