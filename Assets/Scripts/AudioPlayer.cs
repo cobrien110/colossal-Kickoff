@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
@@ -19,13 +20,21 @@ public class AudioPlayer : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!source.isPlaying)
+        {
+            source.volume = volume;
+            source.pitch = 1;
+        }
+    }
+
     public void PlaySound(AudioClip sound)
     {
         if (sound == null) return;
         source.clip = sound;
         source.Play();
         //Debug.Log("Playing sound: " + sound.name);
-        source.pitch = 1;
     }
 
     public void PlaySoundRandomPitch(AudioClip sound)
@@ -43,8 +52,8 @@ public class AudioPlayer : MonoBehaviour
     public void PlaySoundVolume(AudioClip sound, float tempVolume)
     {
         source.volume = volume * tempVolume;
+        Debug.Log(source.volume);
         PlaySound(sound);
-        source.volume = volume;
     }
 
     public void PlaySoundVolumeRandomPitch(AudioClip sound, float tempVolume)
