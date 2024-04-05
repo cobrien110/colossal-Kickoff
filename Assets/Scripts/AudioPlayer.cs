@@ -23,14 +23,14 @@ public class AudioPlayer : MonoBehaviour
     {
         if (sound == null) return;
         source.clip = sound;
-        source.volume = volume;
         source.Play();
-        Debug.Log("Playing sound: " + sound.name);
+        //Debug.Log("Playing sound: " + sound.name);
+        source.pitch = 1;
     }
 
     public void PlaySoundRandomPitch(AudioClip sound)
     {
-        source.pitch = Random.Range(pitchRangeLow, pitchRangeHigh);
+        SetRandomPitch();
         PlaySound(sound);
     }
 
@@ -38,6 +38,19 @@ public class AudioPlayer : MonoBehaviour
     {
         source.pitch = pitch;
         PlaySound(sound);
+    }
+
+    public void PlaySoundVolume(AudioClip sound, float tempVolume)
+    {
+        source.volume = volume * tempVolume;
+        PlaySound(sound);
+        source.volume = volume;
+    }
+
+    public void PlaySoundVolumeRandomPitch(AudioClip sound, float tempVolume)
+    {
+        SetRandomPitch();
+        PlaySoundVolume(sound, tempVolume);
     }
 
     public AudioClip Find(string soundName)
@@ -50,6 +63,11 @@ public class AudioPlayer : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void SetRandomPitch()
+    {
+        source.pitch = Random.Range(pitchRangeLow, pitchRangeHigh);
     }
 
 }

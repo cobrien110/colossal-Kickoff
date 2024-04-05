@@ -43,7 +43,7 @@ public class GameplayManager : MonoBehaviour
         StopPlaying();
         StartCoroutine(Kickoff());
         Instantiate(Ball, new Vector3(0, 0, 2), Quaternion.identity);
-        WC.Ball = GameObject.Find("Ball(Clone)");
-        WC.BP = (BallProperties)Ball.GetComponent("BallProperties");
+        WC.Ball = GameObject.FindGameObjectWithTag("Ball");
+        WC.BP = Ball.GetComponent<BallProperties>();
     }
 }

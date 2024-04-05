@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class WarriorController : MonoBehaviour
@@ -16,6 +17,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float passSpeed = 5.0f;
 
     [SerializeField] private GameplayManager GM = null;
+    private AudioPlayer audioPlayer;
 
 
     // Start is called before the first frame update
@@ -23,14 +25,15 @@ public class WarriorController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         BP = (BallProperties) Ball.GetComponent("BallProperties");
+        audioPlayer = GetComponent<AudioPlayer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Movement();
         if (GM.isPlaying)
-        {
-            Movement();
+        {  
             Dribbling();
             Passing();
         }
@@ -39,7 +42,7 @@ public class WarriorController : MonoBehaviour
     void Movement()
     {
         movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        rb.velocity = movementDirection * warriorSpeed;
+        rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         if (rb.velocity != Vector3.zero) 
         {
             Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
@@ -63,6 +66,7 @@ public class WarriorController : MonoBehaviour
             BP.ballOwner = null;
             Debug.Log(transform.forward);
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
     }
 }
