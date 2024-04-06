@@ -26,11 +26,13 @@ public class GameplayManager : MonoBehaviour
     public void StartPlaying()
     {
         isPlaying = true;
+        UM.StartTimer();
     }
 
     public void StopPlaying()
     {
         isPlaying = false;
+        UM.StopTimer();
     }
 
     private IEnumerator Kickoff()
@@ -48,5 +50,16 @@ public class GameplayManager : MonoBehaviour
         WC.Ball = GameObject.FindGameObjectWithTag("Ball");
         WC.BP = Ball.GetComponent<BallProperties>();
         WC.ResetPlayer();
+    }
+
+    //isPlaying getter and setter
+    public bool IsPlayingGet()
+    {
+        return isPlaying;
+    }
+
+    public void IsPlayingSet(bool set)
+    {
+        isPlaying = set;
     }
 }
