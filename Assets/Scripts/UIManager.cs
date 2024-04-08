@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
     [SerializeField] private TMP_Text scoreTextTimer = null;
+    [SerializeField] private int gameSeconds;
     private int warriorScore = 0;
     private int monsterScore = 0;
     private int timeRemainingSeconds = 10;
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        timeRemainingSeconds = gameSeconds;
     }
 
     // Update is called once per frame

@@ -15,6 +15,11 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private GameObject ballPosition;
 
     [SerializeField] private float passSpeed = 5.0f;
+    [SerializeField] private float kickSpeed = 5.0f;
+    [SerializeField] private float chargeMultiplier = 0.5f;
+    [SerializeField] private float maxChargeSeconds = 2f;
+    private float kickCharge = 1f;
+
 
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
@@ -38,6 +43,7 @@ public class WarriorController : MonoBehaviour
         {  
             Dribbling();
             Passing();
+            Kicking();
         }
     }
 
@@ -62,13 +68,37 @@ public class WarriorController : MonoBehaviour
 
     void Passing()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && BP.ballOwner == gameObject)
+        if(Input.GetKeyDown(KeyCode.P) && BP.ballOwner == gameObject)
         {
             Debug.Log("Pass!");
             BP.ballOwner = null;
             Debug.Log(transform.forward);
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
+        }
+    }
+
+    void Kicking()
+    {
+        if (Input.GetKeyUp(KeyCode.Space) && BP.ballOwner == gameObject)
+        {
+            Debug.Log("Kick!");
+            BP.ballOwner = null;
+            Debug.Log(kickCharge);
+            BP.GetComponent<Rigidbody>().AddForce(transform.forward * kickSpeed * (kickCharge * chargeMultiplier));
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick1"));
+        }
+        if (Input.GetKey(KeyCode.Space) && BP.ballOwner == gameObject)
+        {
+            if (kickCharge <= maxChargeSeconds)
+            {
+                //Debug.Log(kickCharge);
+                kickCharge += Time.deltaTime;
+            }
+        }
+        else
+        {
+            kickCharge = 1f;
         }
     }
 
