@@ -18,7 +18,9 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
+    [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
+    private bool isCharging;
 
 
     [SerializeField] private GameplayManager GM = null;
@@ -51,6 +53,7 @@ public class WarriorController : MonoBehaviour
     {
         movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
+        rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         if (rb.velocity != Vector3.zero) 
         {
             Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
@@ -95,11 +98,13 @@ public class WarriorController : MonoBehaviour
             {
                 //Debug.Log(kickCharge);
                 kickCharge += Time.deltaTime;
+                isCharging = true;
             }
         }
         else
         {
             kickCharge = 1f;
+            isCharging = false;
         }
     }
 
