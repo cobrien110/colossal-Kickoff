@@ -86,7 +86,8 @@ public class WarriorController : MonoBehaviour
             BP.ballOwner = null;
             Debug.Log(kickCharge);
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * kickSpeed * (kickCharge * chargeMultiplier));
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick1"));
+
+            PlayKickSound(kickCharge);
         }
         if (Input.GetKey(KeyCode.Space) && BP.ballOwner == gameObject)
         {
@@ -99,6 +100,21 @@ public class WarriorController : MonoBehaviour
         else
         {
             kickCharge = 1f;
+        }
+    }
+
+    void PlayKickSound(float charge)
+    {
+        if (charge >= maxChargeSeconds)
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick3"));
+        }
+        else if (charge >= maxChargeSeconds / 2f)
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick2"));
+        } else
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick1"));
         }
     }
 
