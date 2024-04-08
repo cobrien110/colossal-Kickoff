@@ -18,11 +18,12 @@ public class UIManager : MonoBehaviour
     private int timeRemainingSeconds = 10;
 
     Coroutine timerCoroutine;
+    GameplayManager GM;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
     }
 
     // Update is called once per frame
@@ -82,6 +83,7 @@ public class UIManager : MonoBehaviour
 
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
+        GM.StopPlaying();
     }
 
     public void StartTimer()

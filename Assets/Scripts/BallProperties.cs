@@ -57,10 +57,10 @@ public class BallProperties : MonoBehaviour
     {
         if (isWarriorGoal)
         {
-            UM.warriorPoint();
+            UM.monsterPoint();
         } else
         {
-            UM.monsterPoint();
+            UM.warriorPoint();
         }
         GM.Reset();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
