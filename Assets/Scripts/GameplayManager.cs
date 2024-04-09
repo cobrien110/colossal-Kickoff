@@ -8,6 +8,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private WarriorController WC = null;
+    [SerializeField] private MonsterController MC = null;
     private GameObject BallSpawner = null;
 
     // Start is called before the first frame update
@@ -50,6 +51,9 @@ public class GameplayManager : MonoBehaviour
         WC.Ball = GameObject.FindGameObjectWithTag("Ball");
         WC.BP = Ball.GetComponent<BallProperties>();
         WC.ResetPlayer();
+        MC.Ball = GameObject.FindGameObjectWithTag("Ball");
+        MC.BP = Ball.GetComponent<BallProperties>();
+        MC.ResetPlayer();
     }
 
     //isPlaying getter and setter

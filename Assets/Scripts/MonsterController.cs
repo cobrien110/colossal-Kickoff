@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class WarriorController : MonoBehaviour
+public class MonsterController : MonoBehaviour
 {  
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
 
-    [SerializeField] float warriorSpeed = 2f;
+    [SerializeField] float monsterSpeed = 2f;
     private Vector3 movementDirection;
 
     [SerializeField] private GameObject ballPosition;
@@ -25,7 +25,9 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
-    private GameObject WarriorSpawner = null;
+    private GameObject monsterSpawner = null;
+    public float attackRange = 1f;
+    public LayerMask layerMask;
 
 
     // Start is called before the first frame update
@@ -34,7 +36,7 @@ public class WarriorController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
-        WarriorSpawner = GameObject.Find("WarriorSpawner");
+        monsterSpawner = GameObject.Find("MonsterSpawner");
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class WarriorController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            Attack();
         }
     }
 
@@ -55,27 +58,27 @@ public class WarriorController : MonoBehaviour
         float verticalInput = 0f;
 
         // Check for WASD keys
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             verticalInput = 1f;
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             verticalInput = -1f;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             horizontalInput = 1f;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             horizontalInput = -1f;
         }
 
         movementDirection = new Vector3(horizontalInput, 0, verticalInput);
 
-        rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
+        rb.velocity = GM.isPlaying ? movementDirection * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         if (rb.velocity != Vector3.zero) 
         {
@@ -94,7 +97,7 @@ public class WarriorController : MonoBehaviour
 
     void Passing()
     {
-        if(Input.GetKeyDown(KeyCode.P) && BP.ballOwner == gameObject)
+        if(Input.GetKeyDown(KeyCode.RightShift) && BP.ballOwner == gameObject)
         {
             Debug.Log("Pass!");
             BP.ballOwner = null;
@@ -106,7 +109,7 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && BP.ballOwner == gameObject)
+        if (Input.GetKeyUp(KeyCode.KeypadEnter) && BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
             BP.ballOwner = null;
@@ -115,7 +118,7 @@ public class WarriorController : MonoBehaviour
 
             PlayKickSound(kickCharge);
         }
-        if (Input.GetKey(KeyCode.Space) && BP.ballOwner == gameObject)
+        if (Input.GetKey(KeyCode.KeypadEnter) && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxChargeSeconds)
             {
@@ -129,6 +132,20 @@ public class WarriorController : MonoBehaviour
             kickCharge = 1f;
             isCharging = false;
         }
+    }
+
+    void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Backspace)) {
+            Debug.Log("Attack!");
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, layerMask))
+            {
+                // If ray hits something, handle the collision here
+                Debug.Log("Raycast hit " + hit.collider.gameObject.name);
+            }
+        }
+        
     }
 
     void PlayKickSound(float charge)
@@ -148,6 +165,6 @@ public class WarriorController : MonoBehaviour
 
     public void ResetPlayer()
     {
-        gameObject.transform.position = WarriorSpawner.transform.position;
+        gameObject.transform.position = monsterSpawner.transform.position;
     }
 }

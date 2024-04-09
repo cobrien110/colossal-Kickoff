@@ -23,9 +23,14 @@ public class BallProperties : MonoBehaviour
         for (int i = 0; i < warriors.Length; i++)
         {
             WarriorController WC = warriors[i].GetComponent<WarriorController>();
+            //WarriorController WC = FindAnyObjectByType<WarriorController>();
             WC.Ball = this.gameObject;
             WC.BP = this;
         }
+
+        MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
+        MC.Ball = this.gameObject;
+        MC.BP = this;
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class BallProperties : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Warrior") && ballOwner == null && isInteractable)
+        if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster")) && ballOwner == null && isInteractable)
         {
             ballOwner = other.gameObject;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
