@@ -47,13 +47,16 @@ public class GameplayManager : MonoBehaviour
     {
         StopPlaying();
         StartCoroutine(Kickoff());
-        Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
-        WC.Ball = GameObject.FindGameObjectWithTag("Ball");
+        GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
+        Ball = newBall;
+        WC.Ball = newBall;
         WC.BP = Ball.GetComponent<BallProperties>();
         WC.ResetPlayer();
-        MC.Ball = GameObject.FindGameObjectWithTag("Ball");
+        MC.Ball = newBall;
         MC.BP = Ball.GetComponent<BallProperties>();
         MC.ResetPlayer();
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.targets[0] = newBall.transform;
     }
 
     //isPlaying getter and setter

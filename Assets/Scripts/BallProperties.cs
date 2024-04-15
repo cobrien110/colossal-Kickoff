@@ -9,6 +9,7 @@ public class BallProperties : MonoBehaviour
     private UIManager UM = null;
     private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
+    public Transform ballSpawnPoint;
 
     public bool isInteractable = true;
 
@@ -67,11 +68,12 @@ public class BallProperties : MonoBehaviour
         {
             UM.warriorPoint();
         }
+        ballOwner = null;
         GM.Reset();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
         isInteractable = false;
-        Destroy(this.gameObject);
+        Invoke("DestroyDelay", 3f);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -82,5 +84,10 @@ public class BallProperties : MonoBehaviour
             string bouncePick = Random.Range(1, 3).ToString();
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("bounce" + bouncePick));
         }
+    }
+
+    private void DestroyDelay()
+    {
+        Destroy(this.gameObject);
     }
 }
