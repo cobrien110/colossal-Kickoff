@@ -35,6 +35,7 @@ public class WarriorController : MonoBehaviour
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
+        transform.position = WarriorSpawner.transform.position;
     }
 
     // Update is called once per frame

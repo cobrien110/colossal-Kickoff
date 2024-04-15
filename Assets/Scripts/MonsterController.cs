@@ -37,6 +37,7 @@ public class MonsterController : MonoBehaviour
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
+        transform.position = monsterSpawner.transform.position;
     }
 
     // Update is called once per frame

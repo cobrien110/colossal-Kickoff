@@ -79,4 +79,8 @@ public class AudioPlayer : MonoBehaviour
         source.pitch = Random.Range(pitchRangeLow, pitchRangeHigh);
     }
 
+    public bool isPlaying()
+    {
+        return source.isPlaying;
+    }
 }

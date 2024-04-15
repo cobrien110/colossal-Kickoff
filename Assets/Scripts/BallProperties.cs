@@ -13,12 +13,15 @@ public class BallProperties : MonoBehaviour
 
     public bool isInteractable = true;
 
+    CommentatorSoundManager CSM;
+
     // Start is called before the first frame update
     void Start()
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         audioPlayer = GetComponent<AudioPlayer>();
+        CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
 
         GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
         for (int i = 0; i < warriors.Length; i++)
@@ -69,6 +72,7 @@ public class BallProperties : MonoBehaviour
             UM.warriorPoint();
         }
         ballOwner = null;
+        CSM.PlayGoalSound(!isWarriorGoal);
         GM.Reset();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
