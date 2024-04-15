@@ -62,6 +62,12 @@ public class AudioPlayer : MonoBehaviour
         PlaySoundVolume(sound, tempVolume);
     }
 
+    public void PlaySoundRandom()
+    {
+        int clipIndex = Random.Range(0, sounds.Length - 1);
+        PlaySoundRandomPitch(sounds[clipIndex]);
+    }
+
     public AudioClip Find(string soundName)
     {
         for (int i = 0; i < sounds.Length; i++)

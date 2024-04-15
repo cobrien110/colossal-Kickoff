@@ -54,11 +54,15 @@ public class BallProperties : MonoBehaviour
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
             ScoreBall(true);
+            AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
+            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
 
         if (other.tag.Equals("MonsterGoal") && isInteractable)
         {
             ScoreBall(false);
+            AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
+            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
     }
 
