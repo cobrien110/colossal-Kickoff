@@ -72,7 +72,10 @@ public class BallProperties : MonoBehaviour
             UM.warriorPoint();
         }
         ballOwner = null;
-        CSM.PlayGoalSound(!isWarriorGoal);
+        if (CSM != null)
+        {
+            CSM.PlayGoalSound(!isWarriorGoal);
+        }
         GM.Reset();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
