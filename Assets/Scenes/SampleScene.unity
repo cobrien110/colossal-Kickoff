@@ -3163,7 +3163,12 @@ MonoBehaviour:
   - {fileID: 623826185}
   - {fileID: 1250399042}
   - {fileID: 569667489}
-  offset: {x: 0, y: 2, z: -6.5}
+  offset: {x: 0, y: 3, z: -8}
+  smoothTime: 0.25
+  minZoom: 90
+  maxZoom: 40
+  zoomLimiter: 25
+  mainCamera: {fileID: 1412701114}
 --- !u!65 &1415205586
 BoxCollider:
   m_ObjectHideFlags: 0
