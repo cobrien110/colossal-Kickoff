@@ -8,7 +8,7 @@ public class WarriorController : MonoBehaviour
 {  
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
-    [SerializeField] public GameObject lastKicked = null;
+    //[SerializeField] public GameObject lastKicked = null;
 
     public BallProperties BP = null;
 
@@ -88,6 +88,7 @@ public class WarriorController : MonoBehaviour
         }
 
         movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        if (usingKeyboard && movementDirection != Vector3.zero) aimingDirection = movementDirection;
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -100,10 +101,10 @@ public class WarriorController : MonoBehaviour
 
     void Dribbling()
     {
-        if (BP.ballOwner == gameObject && lastKicked != gameObject)
+        if (BP.ballOwner == gameObject)
         {
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
-        } else if (lastKicked == gameObject)
+        } else
         {
             BP.ballOwner = null;
         }
@@ -123,17 +124,20 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
-        if ((rightStickInput == Vector3.zero || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
+        if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
         {
             Debug.Log("Kick!");
             BP.ballOwner = null;
+            BP.lastKicker = gameObject;
             Debug.Log(kickCharge);
-            BP.GetComponent<Rigidbody>().AddForce(aimingDirection * kickSpeed * (kickCharge * chargeMultiplier));
+            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+            Vector3 forceToAdd = aimingDirection * kickForce; 
+            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
             PlayKickSound(kickCharge);
             StartCoroutine(KickDelay());
         }
-        if ((rightStickInput != Vector3.zero || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
+        if (((rightStickInput != Vector3.zero && usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxChargeSeconds)
             {
@@ -171,10 +175,9 @@ public class WarriorController : MonoBehaviour
 
     IEnumerator KickDelay()
     {
-        lastKicked = gameObject;
-        Debug.Log(lastKicked + " just kicked");
+        Debug.Log(BP.lastKicker + " just kicked");
         yield return new WaitForSeconds(0.1f);
-        lastKicked = null;
+        BP.lastKicker = null;
         Debug.Log("Wait Done");
     }
 

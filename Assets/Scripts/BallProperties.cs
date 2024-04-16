@@ -11,6 +11,7 @@ public class BallProperties : MonoBehaviour
     private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
     public Transform ballSpawnPoint;
+    public GameObject lastKicker = null;
 
     public bool isInteractable = true;
 
@@ -48,6 +49,7 @@ public class BallProperties : MonoBehaviour
     {
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster")) && ballOwner == null && isInteractable)
         {
+            if (other.gameObject.Equals(lastKicker)) return;
             ballOwner = other.gameObject;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
         }
