@@ -12,7 +12,9 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] float warriorSpeed = 2f;
     private Vector3 movementDirection;
-    private Vector3 rotationDirection;
+    private Vector3 aimingDirection;
+    //private Vector3 leftStickInput;
+    private Vector3 rightStickInput;
 
     [SerializeField] private GameObject ballPosition;
 
@@ -23,6 +25,9 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
+
+    //Make True If Using Keyboard For Movement
+    [Header("CLICK TRUE IF USING KEYBOARD FOR MOVEMENT")]
     public bool usingKeyboard = false;
 
 
@@ -46,8 +51,9 @@ public class WarriorController : MonoBehaviour
     {
         if (usingKeyboard)
         {
-            Movement(0f, 0f);
+            Movement();
         }
+
         if (GM.isPlaying)
         {  
             Dribbling();
@@ -56,7 +62,7 @@ public class WarriorController : MonoBehaviour
         }
     }
 
-    void Movement(float hori, float vert)
+    void Movement()
     {
         float horizontalInput = 0f;
         float verticalInput = 0f;
@@ -113,16 +119,16 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
-        if (Input.GetKeyUp(KeyCode.Space) && BP.ballOwner == gameObject)
+        if ((rightStickInput == Vector3.zero || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
         {
             Debug.Log("Kick!");
             BP.ballOwner = null;
             Debug.Log(kickCharge);
-            BP.GetComponent<Rigidbody>().AddForce(transform.forward * kickSpeed * (kickCharge * chargeMultiplier));
+            BP.GetComponent<Rigidbody>().AddForce(aimingDirection * kickSpeed * (kickCharge * chargeMultiplier));
 
             PlayKickSound(kickCharge);
         }
-        if (Input.GetKey(KeyCode.Space) && BP.ballOwner == gameObject)
+        if ((rightStickInput != Vector3.zero || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxChargeSeconds)
             {
@@ -168,15 +174,19 @@ public class WarriorController : MonoBehaviour
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+        if (rb.velocity != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            transform.rotation = newRotation;
+        }
     }
 
-    public void OnRotation(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.ReadValue<Vector2>() != Vector2.zero)
+        rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        if (rightStickInput != Vector3.zero)
         {
-            rotationDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-            Quaternion newRotation = Quaternion.LookRotation(rotationDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
+            aimingDirection = rightStickInput.normalized;
         }
     }
 }
