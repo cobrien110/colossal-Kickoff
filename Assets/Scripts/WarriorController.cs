@@ -87,7 +87,7 @@ public class WarriorController : MonoBehaviour
             horizontalInput = -1f;
         }
 
-        movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
         if (usingKeyboard && movementDirection != Vector3.zero) aimingDirection = movementDirection;
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
@@ -187,13 +187,13 @@ public class WarriorController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         if (rb.velocity != Vector3.zero)
         {
-            Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
             transform.rotation = newRotation;
         }
     }

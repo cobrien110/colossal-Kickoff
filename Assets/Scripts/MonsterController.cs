@@ -77,7 +77,7 @@ public class MonsterController : MonoBehaviour
             horizontalInput = -1f;
         }
 
-        movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
         rb.velocity = GM.isPlaying ? movementDirection * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
