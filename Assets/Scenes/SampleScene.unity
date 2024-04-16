@@ -2276,6 +2276,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   m_PrefabInstance: {fileID: 8352571116431560854}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1250399043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1063518855127335618, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+  m_PrefabInstance: {fileID: 8352571116431560854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94ace1fe1c6d9843beb48a8eecb0592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1265595039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,7 +3282,7 @@ MonoBehaviour:
   isPlaying: 0
   UM: {fileID: 115017663}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
-  WC: {fileID: 0}
+  WC: {fileID: 1250399043}
   MC: {fileID: 569667488}
 --- !u!4 &1542430858
 Transform:
@@ -4357,6 +4368,10 @@ PrefabInstance:
       propertyPath: Ball
       value: 
       objectReference: {fileID: 623826179}
+    - target: {fileID: 1063518855127335618, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: usingKeyboard
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class BallProperties : MonoBehaviour
 {
     [HideInInspector] public GameObject ballOwner = null;
+
     private UIManager UM = null;
     private GameplayManager GM = null;
     private AudioPlayer audioPlayer;

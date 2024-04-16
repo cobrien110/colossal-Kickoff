@@ -8,12 +8,13 @@ public class WarriorController : MonoBehaviour
 {  
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
+    [SerializeField] public GameObject lastKicked = null;
+
     public BallProperties BP = null;
 
     [SerializeField] float warriorSpeed = 2f;
     private Vector3 movementDirection;
     private Vector3 aimingDirection;
-    //private Vector3 leftStickInput;
     private Vector3 rightStickInput;
 
     [SerializeField] private GameObject ballPosition;
@@ -27,7 +28,7 @@ public class WarriorController : MonoBehaviour
     private bool isCharging;
 
     //Make True If Using Keyboard For Movement
-    [Header("CLICK TRUE IF USING KEYBOARD FOR MOVEMENT")]
+    [Header("Click True If Using Keyboard For Movement")]
     public bool usingKeyboard = false;
 
 
@@ -99,9 +100,12 @@ public class WarriorController : MonoBehaviour
 
     void Dribbling()
     {
-        if (BP.ballOwner == gameObject)
+        if (BP.ballOwner == gameObject && lastKicked != gameObject)
         {
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
+        } else if (lastKicked == gameObject)
+        {
+            BP.ballOwner = null;
         }
     }
 
@@ -127,6 +131,7 @@ public class WarriorController : MonoBehaviour
             BP.GetComponent<Rigidbody>().AddForce(aimingDirection * kickSpeed * (kickCharge * chargeMultiplier));
 
             PlayKickSound(kickCharge);
+            StartCoroutine(KickDelay());
         }
         if ((rightStickInput != Vector3.zero || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
         {
@@ -162,6 +167,15 @@ public class WarriorController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = WarriorSpawner.transform.position;
+    }
+
+    IEnumerator KickDelay()
+    {
+        lastKicked = gameObject;
+        Debug.Log(lastKicked + " just kicked");
+        yield return new WaitForSeconds(0.1f);
+        lastKicked = null;
+        Debug.Log("Wait Done");
     }
 
     /**
