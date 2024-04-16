@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class WarriorController : MonoBehaviour
@@ -11,6 +12,7 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] float warriorSpeed = 2f;
     private Vector3 movementDirection;
+    private Vector3 rotationDirection;
 
     [SerializeField] private GameObject ballPosition;
 
@@ -21,6 +23,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
+    public bool usingKeyboard = false;
 
 
     [SerializeField] private GameplayManager GM = null;
@@ -41,7 +44,10 @@ public class WarriorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if (usingKeyboard)
+        {
+            Movement(0f, 0f);
+        }
         if (GM.isPlaying)
         {  
             Dribbling();
@@ -50,7 +56,7 @@ public class WarriorController : MonoBehaviour
         }
     }
 
-    void Movement()
+    void Movement(float hori, float vert)
     {
         float horizontalInput = 0f;
         float verticalInput = 0f;
@@ -150,5 +156,27 @@ public class WarriorController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = WarriorSpawner.transform.position;
+    }
+
+    /**
+     *  The Following Code Is For Controller Inputs
+     **/
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+
+        rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
+        rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+    }
+
+    public void OnRotation(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<Vector2>() != Vector2.zero)
+        {
+            rotationDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            Quaternion newRotation = Quaternion.LookRotation(rotationDirection.normalized, Vector3.up);
+            transform.rotation = newRotation;
+        }
     }
 }
