@@ -71,6 +71,7 @@ public class WarriorController : MonoBehaviour
 
     void Movement()
     {
+        if (isSliding) return;
         float horizontalInput = 0f;
         float verticalInput = 0f;
 
@@ -171,7 +172,7 @@ public class WarriorController : MonoBehaviour
         // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
         {
-            if (Input.GetKeyDown(KeyCode.E) && movementDirection != Vector3.zero)
+            if (Input.GetKeyDown(KeyCode.E) && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
                 Debug.Log("Sliding");
                 isSliding = true;
