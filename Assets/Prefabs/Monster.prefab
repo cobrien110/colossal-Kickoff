@@ -257,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ball: {fileID: 0}
   BP: {fileID: 0}
+  wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   monsterSpeed: 2
   ballPosition: {fileID: 9043230712970436401}
   passSpeed: 400
@@ -264,6 +265,8 @@ MonoBehaviour:
   chargeMultiplier: 0.5
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
+  wallSpawnDistance: 3
+  wallCooldown: 5
   GM: {fileID: 0}
   attackRange: 1
   layerMask:
@@ -483,6 +486,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 07cf784642d3fa545aa9db6da5e1bfb2, type: 3}
   - {fileID: 8300000, guid: 667d3ee1dc35c6d43891b31bd312b004, type: 3}
   - {fileID: 8300000, guid: 26770219239683940aa9c1d7b7d24a5b, type: 3}
+  - {fileID: 8300000, guid: 968b2228e9a341d4ab67a90669f099c6, type: 3}
+  - {fileID: 8300000, guid: efde4a4368908434d82f4799c35c96d4, type: 3}
+  - {fileID: 8300000, guid: 9bfec459b6c859c4a94abdec075171e3, type: 3}
+  - {fileID: 8300000, guid: b91fd9fd5674d1f459b7cb2285de42d2, type: 3}
+  - {fileID: 8300000, guid: 08b330173dca03b429835239d35ac087, type: 3}
+  - {fileID: 8300000, guid: d57bb918c8b5b3b42b99249ed5d18d51, type: 3}
+  - {fileID: 8300000, guid: 8011775b1b0710541986e6eea19c634e, type: 3}
+  - {fileID: 8300000, guid: 6f3babd209d27a2489f1f698831fb4a8, type: 3}
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15

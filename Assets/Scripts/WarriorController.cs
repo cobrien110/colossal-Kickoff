@@ -172,7 +172,7 @@ public class WarriorController : MonoBehaviour
         // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
         {
-            if (Input.GetKeyDown(KeyCode.E) && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+            if (Input.GetKey(KeyCode.E) && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
                 Debug.Log("Sliding");
                 isSliding = true;
@@ -180,6 +180,7 @@ public class WarriorController : MonoBehaviour
                 // Add force in direction of the player input for this warrior (movementDirection)
                 Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
                 rb.AddForce(slideVelocity);
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
 
                 // Set isSliding to false after a delay
                 Invoke("StopSliding", slideDuration);

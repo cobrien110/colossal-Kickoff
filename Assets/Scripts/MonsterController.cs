@@ -8,12 +8,14 @@ public class MonsterController : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
+    public GameObject wallPrefab;
 
     [SerializeField] float monsterSpeed = 2f;
     private Vector3 movementDirection;
 
     [SerializeField] private GameObject ballPosition;
 
+    [Header("Stats")]
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
@@ -21,6 +23,9 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
+    [SerializeField] private float wallSpawnDistance = 2f;
+    [SerializeField] private float wallCooldown = 5f;
+    private float wallTimer;
 
 
     [SerializeField] private GameplayManager GM = null;
@@ -38,19 +43,27 @@ public class MonsterController : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
         transform.position = monsterSpawner.transform.position;
+        wallTimer = wallCooldown;
     }
 
     // Update is called once per frame
     void Update()
     {
         Movement();
+        //Movement();
         if (GM.isPlaying)
         {  
             Dribbling();
             Passing();
             Kicking();
             Attack();
+            BuildWall();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //Movement();
     }
 
     void Movement()
@@ -83,7 +96,7 @@ public class MonsterController : MonoBehaviour
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         if (rb.velocity != Vector3.zero) 
         {
-            Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
             transform.rotation = newRotation;
         }
     }
@@ -150,6 +163,21 @@ public class MonsterController : MonoBehaviour
             }
         }
         
+    }
+
+    void BuildWall()
+    {
+        if (wallTimer < wallCooldown)
+        {
+            wallTimer += Time.deltaTime;
+        }
+        if (wallTimer >= wallCooldown && Input.GetKeyDown(KeyCode.J))
+        {
+            wallTimer = 0f;
+            Vector3 spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
+            Instantiate(wallPrefab, spawnLocation, transform.rotation);
+        }
     }
 
     void PlayKickSound(float charge)

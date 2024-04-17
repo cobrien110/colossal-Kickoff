@@ -168,8 +168,8 @@ MonoBehaviour:
   chargeMultiplier: 0.5
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
-  slideCooldown: 1
-  slideDuration: 0.35
+  slideCooldown: 2
+  slideDuration: 1
   usingKeyboard: 0
   GM: {fileID: 0}
 --- !u!33 &4256115640164463705
@@ -212,7 +212,7 @@ Rigidbody:
   m_GameObject: {fileID: 453280044256401214}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -344,6 +344,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 07cf784642d3fa545aa9db6da5e1bfb2, type: 3}
   - {fileID: 8300000, guid: 667d3ee1dc35c6d43891b31bd312b004, type: 3}
   - {fileID: 8300000, guid: 26770219239683940aa9c1d7b7d24a5b, type: 3}
+  - {fileID: 8300000, guid: 171c00c9aff2f934fb493dd235b28775, type: 3}
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15
