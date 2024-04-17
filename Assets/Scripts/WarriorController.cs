@@ -55,11 +55,7 @@ public class WarriorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (usingKeyboard)
-        {
-            Movement();
-        }
-
+        Movement();
         if (GM.isPlaying)
         {  
             Dribbling();
@@ -83,7 +79,6 @@ public class WarriorController : MonoBehaviour
         {
             verticalInput = -1f;
         }
-
         if (Input.GetKey(KeyCode.D))
         {
             horizontalInput = 1f;
@@ -93,7 +88,7 @@ public class WarriorController : MonoBehaviour
             horizontalInput = -1f;
         }
 
-        movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        if (usingKeyboard) movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
         if (usingKeyboard && movementDirection != Vector3.zero) aimingDirection = movementDirection;
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
@@ -143,7 +138,7 @@ public class WarriorController : MonoBehaviour
             PlayKickSound(kickCharge);
             StartCoroutine(KickDelay());
         }
-        if (((rightStickInput != Vector3.zero && usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
+        if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxChargeSeconds)
             {
@@ -228,15 +223,8 @@ public class WarriorController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        Debug.Log("OnMove");
         movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
-
-        rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
-        rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = newRotation;
-        }
     }
 
     public void OnAim(InputAction.CallbackContext context)
@@ -246,5 +234,10 @@ public class WarriorController : MonoBehaviour
         {
             aimingDirection = rightStickInput.normalized;
         }
+    }
+
+    public Vector3 GetAimDirection()
+    {
+        return aimingDirection;
     }
 }
