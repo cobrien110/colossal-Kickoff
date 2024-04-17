@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 66770728090743069}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.678, z: 0.73}
+  m_LocalPosition: {x: 0, y: -0.678, z: 0.5}
   m_LocalScale: {x: 0.45, y: 0.45, z: 1.240785}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -169,6 +169,7 @@ MonoBehaviour:
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
   slideCooldown: 1
+  slideDuration: 0.35
   usingKeyboard: 0
   GM: {fileID: 0}
 --- !u!33 &4256115640164463705
@@ -433,7 +434,7 @@ Transform:
   m_GameObject: {fileID: 2737137768588858997}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.55, z: 1.47}
+  m_LocalPosition: {x: 0, y: -0.55, z: 0.89}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -449,14 +450,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4664618820297011617}
   - component: {fileID: 1873517544955799080}
-  - component: {fileID: 4855276899668206569}
+  - component: {fileID: 2901459042039100942}
   m_Layer: 8
   m_Name: SubSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4664618820297011617
 Transform:
   m_ObjectHideFlags: 0
@@ -514,7 +515,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 93d8f6667bd71ae4685bf6b48d051c9f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.19607843}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.11764706}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -524,19 +525,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4855276899668206569
+--- !u!114 &2901459042039100942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4084431617969185580}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a5620f4c7584e34197e4b2921fbb123, type: 3}
+  m_Script: {fileID: 11500000, guid: 461bc085f73ee7c4f98b2f86eb38a472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
 --- !u!1 &4913074640812958036
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +564,7 @@ Transform:
   m_GameObject: {fileID: 4913074640812958036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.33, z: 0}
+  m_LocalPosition: {x: 0, y: -0.234, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:

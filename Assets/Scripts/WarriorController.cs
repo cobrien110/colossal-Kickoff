@@ -8,8 +8,6 @@ public class WarriorController : MonoBehaviour
 {  
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
-    //[SerializeField] public GameObject lastKicked = null;
-
     public BallProperties BP = null;
 
     [SerializeField] float warriorSpeed = 2f;
@@ -19,6 +17,7 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] private GameObject ballPosition;
 
+    [Header("Stats")]
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
@@ -27,14 +26,12 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
-
-    private bool isSliding = false;
     [SerializeField] private float slideCooldown = 1f;
+    [SerializeField] private float slideDuration = 0.35f;
+    private bool isSliding = false;
     private float lastSlideTime = -1f;
-    private float slideDuration = 0.35f;
 
     //Make True If Using Keyboard For Movement
-    [Header("Click True If Using Keyboard For Movement")]
     public bool usingKeyboard = false;
 
 
@@ -55,12 +52,19 @@ public class WarriorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
         if (GM.isPlaying)
         {  
             Dribbling();
             Passing();
-            Kicking();
+            Kicking(); 
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
+        if (GM.isPlaying)
+        {
             Sliding();
         }
     }
@@ -87,9 +91,16 @@ public class WarriorController : MonoBehaviour
         {
             horizontalInput = -1f;
         }
-
-        if (usingKeyboard) movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        if (usingKeyboard && movementDirection != Vector3.zero) aimingDirection = movementDirection;
+        Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
+        if (keyBoardInputs != Vector2.zero)
+        {
+            usingKeyboard = true;
+            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+            aimingDirection = movementDirection;
+        } else if (usingKeyboard) 
+        {
+            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        } 
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -223,17 +234,19 @@ public class WarriorController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("OnMove");
-        movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
+        //Debug.Log("OnMove");
+        if (!usingKeyboard) movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
+        usingKeyboard = false;
     }
 
     public void OnAim(InputAction.CallbackContext context)
     {
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-        if (rightStickInput != Vector3.zero)
+        if (rightStickInput != Vector3.zero && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
         }
+        usingKeyboard = false;
     }
 
     public Vector3 GetAimDirection()
