@@ -14,7 +14,8 @@ public class LookAtCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);  
+        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
+        transform.rotation = new Quaternion(0f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
         if (transform.parent.rotation.eulerAngles.y > 180f)
         {
             //transform.rotation = new Quaternion(transform.rotation.x, -transform.rotation.y, transform.rotation.z, transform.rotation.w);
