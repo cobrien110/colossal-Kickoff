@@ -21,11 +21,17 @@ public class WarriorController : MonoBehaviour
 
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
+    [SerializeField] private float slideSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
+
+    private bool isSliding = false;
+    [SerializeField] private float slideCooldown = 1f;
+    private float lastSlideTime = -1f;
+    private float slideDuration = 0.35f;
 
     //Make True If Using Keyboard For Movement
     [Header("Click True If Using Keyboard For Movement")]
@@ -35,7 +41,6 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
     private GameObject WarriorSpawner = null;
-
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +65,7 @@ public class WarriorController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            Sliding();
         }
     }
 
@@ -106,7 +112,7 @@ public class WarriorController : MonoBehaviour
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
         {
-            BP.ballOwner = null;
+            // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
         }
     }
 
@@ -151,6 +157,41 @@ public class WarriorController : MonoBehaviour
             kickCharge = 1f;
             isCharging = false;
         }
+    }
+
+
+    void Sliding()
+    {
+        // Check if enough time has passed since the last slide
+        if (Time.time - lastSlideTime >= slideCooldown)
+        {
+            if (Input.GetKeyDown(KeyCode.E) && movementDirection != Vector3.zero)
+            {
+                Debug.Log("Sliding");
+                isSliding = true;
+
+                // Add force in direction of the player input for this warrior (movementDirection)
+                Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
+                rb.AddForce(slideVelocity);
+
+                // Set isSliding to false after a delay
+                Invoke("StopSliding", slideDuration);
+
+                // Update the last slide time
+                lastSlideTime = Time.time;
+            }
+        }
+    }
+
+    void StopSliding()
+    {
+        Debug.Log("No longer sliding");
+        isSliding = false;
+    }
+
+    public bool IsSliding()
+    {
+        return isSliding;
     }
 
     void PlayKickSound(float charge)

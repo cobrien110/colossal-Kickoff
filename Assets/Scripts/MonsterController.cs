@@ -105,6 +105,9 @@ public class MonsterController : MonoBehaviour
             Debug.Log(transform.forward);
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
+        } else if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            Debug.Log("Attempt to pass failed, ballOwner: " + BP.ballOwner);
         }
     }
 

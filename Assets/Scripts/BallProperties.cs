@@ -47,9 +47,10 @@ public class BallProperties : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster")) && ballOwner == null && isInteractable)
+        if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster")) && (ballOwner == null || other.gameObject.GetComponent<WarriorController>().IsSliding()) && isInteractable)
         {
             if (other.gameObject.Equals(lastKicker)) return;
+            Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
         }
