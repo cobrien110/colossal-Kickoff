@@ -38,6 +38,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
     private GameObject WarriorSpawner = null;
+    public Animator ANIM;
 
     // Start is called before the first frame update
     void Awake()
@@ -113,6 +114,14 @@ public class WarriorController : MonoBehaviour
             Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
             transform.rotation = newRotation;
         }
+
+        if (movementDirection != Vector3.zero)
+        {
+            ANIM.SetBool("isWalking", true);
+        } else
+        {
+            ANIM.SetBool("isWalking", false);
+        }
     }
 
     void Dribbling()
@@ -151,6 +160,7 @@ public class WarriorController : MonoBehaviour
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
             PlayKickSound(kickCharge);
+            ANIM.SetBool("isKicking", true);
             StartCoroutine(KickDelay());
         }
         if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
@@ -190,6 +200,7 @@ public class WarriorController : MonoBehaviour
 
                 // Update the last slide time
                 lastSlideTime = Time.time;
+                ANIM.SetBool("isSliding", true);
             }
         }
     }
@@ -197,6 +208,7 @@ public class WarriorController : MonoBehaviour
     void StopSliding()
     {
         Debug.Log("No longer sliding");
+        ANIM.SetBool("isSliding", false);
         isSliding = false;
     }
 
@@ -228,6 +240,7 @@ public class WarriorController : MonoBehaviour
     IEnumerator KickDelay()
     {
         yield return new WaitForSeconds(0.1f);
+        ANIM.SetBool("isKicking", false);
         BP.lastKicker = null;
     }
 

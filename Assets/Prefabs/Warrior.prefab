@@ -172,6 +172,7 @@ MonoBehaviour:
   slideDuration: 1
   usingKeyboard: 0
   GM: {fileID: 0}
+  ANIM: {fileID: 7200901245418876538}
 --- !u!33 &4256115640164463705
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -425,6 +426,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e5a42b1b-6cdd-48fe-b8a1-de55d625496b
     m_ActionName: Player/Join[/XInputControllerWindows/start,/XInputControllerWindows1/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc00bcc9-7800-4eeb-b49c-a3802a867913
+    m_ActionName: Monster/Movement
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fcb81124-9eb7-4f89-886f-6f027a3cc78e
+    m_ActionName: Monster/Aim
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0072704f-9210-4b38-80ef-379f0551d4d2
+    m_ActionName: Monster/Join
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2792c12f-c955-4632-8430-398b518e297b
+    m_ActionName: Monster/Wall
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -569,6 +586,7 @@ GameObject:
   - component: {fileID: 728193941911861754}
   - component: {fileID: 169664163509255670}
   - component: {fileID: 3988217349422494004}
+  - component: {fileID: 7200901245418876538}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -585,7 +603,7 @@ Transform:
   m_GameObject: {fileID: 4913074640812958036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.234, z: 0}
+  m_LocalPosition: {x: 0, y: -0.184, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -633,7 +651,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 93d8f6667bd71ae4685bf6b48d051c9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 04f21a80f4555a843bdf96806021b285, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -657,6 +675,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+--- !u!95 &7200901245418876538
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913074640812958036}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0fad36bfeeada1a4f9a464ca5b8b40e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5388751732399795378
 GameObject:
   m_ObjectHideFlags: 0
