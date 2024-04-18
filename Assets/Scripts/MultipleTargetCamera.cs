@@ -79,4 +79,9 @@ public class MultipleTargetCamera : MonoBehaviour
         }
         return bounds.size.x;
     }
+
+    public void AddTarget(Transform targetTransform)
+    {
+        targets.Add(targetTransform);
+    }
 }

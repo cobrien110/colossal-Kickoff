@@ -40,13 +40,15 @@ public class WarriorController : MonoBehaviour
     private GameObject WarriorSpawner = null;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        BP = (BallProperties) Ball.GetComponent("BallProperties");
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        Ball = GameObject.Find("Ball");
+        BP = (BallProperties)Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
-        transform.position = WarriorSpawner.transform.position;
+        //transform.position = WarriorSpawner.transform.position;
     }
 
     // Update is called once per frame
@@ -254,5 +256,28 @@ public class WarriorController : MonoBehaviour
     public Vector3 GetAimDirection()
     {
         return aimingDirection;
+    }
+
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        if (Time.time - lastSlideTime >= slideCooldown)
+        {
+            if (context.started && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+            {
+                Debug.Log("Sliding");
+                isSliding = true;
+
+                // Add force in direction of the player input for this warrior (movementDirection)
+                Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
+                rb.AddForce(slideVelocity);
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
+
+                // Set isSliding to false after a delay
+                Invoke("StopSliding", slideDuration);
+
+                // Update the last slide time
+                lastSlideTime = Time.time;
+            }
+        }
     }
 }
