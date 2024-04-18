@@ -34,9 +34,9 @@ public class BallProperties : MonoBehaviour
             WC.BP = this;
         }
 
-        MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
+        /*MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
         MC.Ball = this.gameObject;
-        MC.BP = this;
+        MC.BP = this;*/
     }
 
     // Update is called once per frame
@@ -48,6 +48,7 @@ public class BallProperties : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
+        MonsterController mc = other.gameObject.GetComponent<MonsterController>();
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster"))
             && (ballOwner == null || (wc != null && wc.IsSliding())) && isInteractable)
         {

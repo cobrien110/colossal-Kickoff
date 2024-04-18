@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 6617068052532969396}
   - component: {fileID: 1027735692634383048}
   - component: {fileID: 3296611802759449963}
+  - component: {fileID: -7139330742833028414}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Monster
@@ -259,6 +260,7 @@ MonoBehaviour:
   BP: {fileID: 0}
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   monsterSpeed: 2
+  usingKeyboard: 0
   ballPosition: {fileID: 9043230712970436401}
   passSpeed: 400
   kickSpeed: 500
@@ -497,6 +499,104 @@ MonoBehaviour:
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15
+--- !u!114 &-7139330742833028414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495297382573149451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 5532d40cda199504296a9fb20ff172a7, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c474aff3-2ea2-4738-b207-13a371935175
+    m_ActionName: Player/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8dd4e3f6-e9d0-488b-9eac-fa533ac857f4
+    m_ActionName: Player/Aim[/XInputControllerWindows/rightStick,/XInputControllerWindows1/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5a42b1b-6cdd-48fe-b8a1-de55d625496b
+    m_ActionName: Player/Join[/XInputControllerWindows/start,/XInputControllerWindows1/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 425be3a0-7f52-46e9-b731-7952f571fec8
+    m_ActionName: Player/Slide[/XInputControllerWindows/leftShoulder,/XInputControllerWindows1/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2956063197818060719}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bc00bcc9-7800-4eeb-b49c-a3802a867913
+    m_ActionName: Monster/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2956063197818060719}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fcb81124-9eb7-4f89-886f-6f027a3cc78e
+    m_ActionName: Monster/Aim[/XInputControllerWindows/rightStick,/XInputControllerWindows1/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0072704f-9210-4b38-80ef-379f0551d4d2
+    m_ActionName: Monster/Join[/XInputControllerWindows/start,/XInputControllerWindows1/start]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2956063197818060719}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnWall
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2792c12f-c955-4632-8430-398b518e297b
+    m_ActionName: Monster/Wall[/XInputControllerWindows/leftTrigger,/XInputControllerWindows1/leftTrigger]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Xbox Control Scheme
+  m_DefaultActionMap: Monster
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6986878365702229708
 GameObject:
   m_ObjectHideFlags: 0

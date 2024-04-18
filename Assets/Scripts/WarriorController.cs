@@ -48,6 +48,7 @@ public class WarriorController : MonoBehaviour
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
+        transform.position = WarriorSpawner.transform.position;
         //transform.position = WarriorSpawner.transform.position;
     }
 
@@ -226,10 +227,8 @@ public class WarriorController : MonoBehaviour
 
     IEnumerator KickDelay()
     {
-        Debug.Log(BP.lastKicker + " just kicked");
         yield return new WaitForSeconds(0.1f);
         BP.lastKicker = null;
-        Debug.Log("Wait Done");
     }
 
     /**

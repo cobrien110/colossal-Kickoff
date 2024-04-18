@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MonsterController : MonoBehaviour
 {  
@@ -12,6 +13,11 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] float monsterSpeed = 2f;
     private Vector3 movementDirection;
+    private Vector3 aimingDirection;
+    private Vector3 rightStickInput;
+
+    //Make True If Using Keyboard For Movement
+    public bool usingKeyboard = false;
 
     [SerializeField] private GameObject ballPosition;
 
@@ -36,9 +42,11 @@ public class MonsterController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
@@ -89,8 +97,17 @@ public class MonsterController : MonoBehaviour
         {
             horizontalInput = -1f;
         }
-
-        movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
+        if (keyBoardInputs != Vector2.zero)
+        {
+            usingKeyboard = true;
+            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+            aimingDirection = movementDirection;
+        }
+        else if (usingKeyboard)
+        {
+            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        }
 
         rb.velocity = GM.isPlaying ? movementDirection * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -126,16 +143,20 @@ public class MonsterController : MonoBehaviour
 
     void Kicking()
     {
-        if (Input.GetKeyUp(KeyCode.KeypadEnter) && BP.ballOwner == gameObject)
+        if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
         {
             Debug.Log("Kick!");
             BP.ballOwner = null;
+            BP.lastKicker = gameObject;
             Debug.Log(kickCharge);
-            BP.GetComponent<Rigidbody>().AddForce(transform.forward * kickSpeed * (kickCharge * chargeMultiplier));
+            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+            Vector3 forceToAdd = aimingDirection * kickForce;
+            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
             PlayKickSound(kickCharge);
+            StartCoroutine(KickDelay());
         }
-        if (Input.GetKey(KeyCode.KeypadEnter) && BP.ballOwner == gameObject)
+        if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxChargeSeconds)
             {
@@ -198,5 +219,54 @@ public class MonsterController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = monsterSpawner.transform.position;
+    }
+
+    IEnumerator KickDelay()
+    {
+        Debug.Log(BP.lastKicker + " just kicked");
+        yield return new WaitForSeconds(0.1f);
+        BP.lastKicker = null;
+        Debug.Log("Wait Done");
+    }
+
+    /**
+    *  The Following Code Is For Controller Inputs
+    **/
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        //Debug.Log("OnMove");
+        if (!usingKeyboard) movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
+        usingKeyboard = false;
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        if (rightStickInput != Vector3.zero && !usingKeyboard)
+        {
+            aimingDirection = rightStickInput.normalized;
+        }
+        usingKeyboard = false;
+    }
+
+    public Vector3 GetAimDirection()
+    {
+        return aimingDirection;
+    }
+
+    public void OnWall(InputAction.CallbackContext context)
+    {
+        if (wallTimer < wallCooldown)
+        {
+            wallTimer += Time.deltaTime;
+        }
+        if (wallTimer >= wallCooldown && context.started)
+        {
+            wallTimer = 0f;
+            Vector3 spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
+            Instantiate(wallPrefab, spawnLocation, transform.rotation);
+        }
     }
 }

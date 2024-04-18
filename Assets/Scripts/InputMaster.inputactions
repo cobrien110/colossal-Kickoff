@@ -24,18 +24,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Slide",
+                    "name": "Join",
                     "type": "Button",
-                    "id": "425be3a0-7f52-46e9-b731-7952f571fec8",
+                    "id": "e5a42b1b-6cdd-48fe-b8a1-de55d625496b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Join",
+                    "name": "Slide",
                     "type": "Button",
-                    "id": "e5a42b1b-6cdd-48fe-b8a1-de55d625496b",
+                    "id": "425be3a0-7f52-46e9-b731-7952f571fec8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -84,6 +84,94 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Monster",
+            "id": "028c4e02-2630-4233-8db0-61d2fc7a66b4",
+            "actions": [
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "bc00bcc9-7800-4eeb-b49c-a3802a867913",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "fcb81124-9eb7-4f89-886f-6f027a3cc78e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "0072704f-9210-4b38-80ef-379f0551d4d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Wall",
+                    "type": "Button",
+                    "id": "2792c12f-c955-4632-8430-398b518e297b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9a6331d1-1232-40ae-b7c3-5145627fac7e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "46926dbe-c317-43bf-87d6-9f30d28eb9d0",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "InvertVector2,StickDeadzone",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eda209d-95dc-447a-8c06-6dc497ddd823",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "642b1a36-299f-41c2-923c-7d11d5448788",
+                    "path": "<XInputController>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Wall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

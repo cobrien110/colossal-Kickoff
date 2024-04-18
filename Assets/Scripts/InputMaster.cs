@@ -46,18 +46,18 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Slide"",
+                    ""name"": ""Join"",
                     ""type"": ""Button"",
-                    ""id"": ""425be3a0-7f52-46e9-b731-7952f571fec8"",
+                    ""id"": ""e5a42b1b-6cdd-48fe-b8a1-de55d625496b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Join"",
+                    ""name"": ""Slide"",
                     ""type"": ""Button"",
-                    ""id"": ""e5a42b1b-6cdd-48fe-b8a1-de55d625496b"",
+                    ""id"": ""425be3a0-7f52-46e9-b731-7952f571fec8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -110,6 +110,94 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Monster"",
+            ""id"": ""028c4e02-2630-4233-8db0-61d2fc7a66b4"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""bc00bcc9-7800-4eeb-b49c-a3802a867913"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""fcb81124-9eb7-4f89-886f-6f027a3cc78e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Join"",
+                    ""type"": ""Button"",
+                    ""id"": ""0072704f-9210-4b38-80ef-379f0551d4d2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Wall"",
+                    ""type"": ""Button"",
+                    ""id"": ""2792c12f-c955-4632-8430-398b518e297b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9a6331d1-1232-40ae-b7c3-5145627fac7e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46926dbe-c317-43bf-87d6-9f30d28eb9d0"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2,StickDeadzone"",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4eda209d-95dc-447a-8c06-6dc497ddd823"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""642b1a36-299f-41c2-923c-7d11d5448788"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Wall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -130,8 +218,14 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
-        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
+        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
+        // Monster
+        m_Monster = asset.FindActionMap("Monster", throwIfNotFound: true);
+        m_Monster_Movement = m_Monster.FindAction("Movement", throwIfNotFound: true);
+        m_Monster_Aim = m_Monster.FindAction("Aim", throwIfNotFound: true);
+        m_Monster_Join = m_Monster.FindAction("Join", throwIfNotFound: true);
+        m_Monster_Wall = m_Monster.FindAction("Wall", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -195,16 +289,16 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Aim;
-    private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_Join;
+    private readonly InputAction m_Player_Slide;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
-        public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @Join => m_Wrapper.m_Player_Join;
+        public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -220,12 +314,12 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
-            @Slide.started += instance.OnSlide;
-            @Slide.performed += instance.OnSlide;
-            @Slide.canceled += instance.OnSlide;
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Slide.started += instance.OnSlide;
+            @Slide.performed += instance.OnSlide;
+            @Slide.canceled += instance.OnSlide;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -236,12 +330,12 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
-            @Slide.started -= instance.OnSlide;
-            @Slide.performed -= instance.OnSlide;
-            @Slide.canceled -= instance.OnSlide;
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Slide.started -= instance.OnSlide;
+            @Slide.performed -= instance.OnSlide;
+            @Slide.canceled -= instance.OnSlide;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -259,6 +353,76 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Monster
+    private readonly InputActionMap m_Monster;
+    private List<IMonsterActions> m_MonsterActionsCallbackInterfaces = new List<IMonsterActions>();
+    private readonly InputAction m_Monster_Movement;
+    private readonly InputAction m_Monster_Aim;
+    private readonly InputAction m_Monster_Join;
+    private readonly InputAction m_Monster_Wall;
+    public struct MonsterActions
+    {
+        private @InputMaster m_Wrapper;
+        public MonsterActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Monster_Movement;
+        public InputAction @Aim => m_Wrapper.m_Monster_Aim;
+        public InputAction @Join => m_Wrapper.m_Monster_Join;
+        public InputAction @Wall => m_Wrapper.m_Monster_Wall;
+        public InputActionMap Get() { return m_Wrapper.m_Monster; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MonsterActions set) { return set.Get(); }
+        public void AddCallbacks(IMonsterActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MonsterActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MonsterActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
+            @Join.started += instance.OnJoin;
+            @Join.performed += instance.OnJoin;
+            @Join.canceled += instance.OnJoin;
+            @Wall.started += instance.OnWall;
+            @Wall.performed += instance.OnWall;
+            @Wall.canceled += instance.OnWall;
+        }
+
+        private void UnregisterCallbacks(IMonsterActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
+            @Join.started -= instance.OnJoin;
+            @Join.performed -= instance.OnJoin;
+            @Join.canceled -= instance.OnJoin;
+            @Wall.started -= instance.OnWall;
+            @Wall.performed -= instance.OnWall;
+            @Wall.canceled -= instance.OnWall;
+        }
+
+        public void RemoveCallbacks(IMonsterActions instance)
+        {
+            if (m_Wrapper.m_MonsterActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMonsterActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MonsterActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MonsterActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MonsterActions @Monster => new MonsterActions(this);
     private int m_XboxControlSchemeSchemeIndex = -1;
     public InputControlScheme XboxControlSchemeScheme
     {
@@ -272,7 +436,14 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnSlide(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
+    }
+    public interface IMonsterActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
+        void OnJoin(InputAction.CallbackContext context);
+        void OnWall(InputAction.CallbackContext context);
     }
 }
