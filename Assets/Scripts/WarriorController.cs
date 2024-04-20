@@ -57,6 +57,7 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
+        respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         transform.position = WarriorSpawner.transform.position;
         //transform.position = WarriorSpawner.transform.position;
     }
@@ -248,7 +249,7 @@ public class WarriorController : MonoBehaviour
     {
         gameObject.transform.position = WarriorSpawner.transform.position;
         rb.velocity = Vector3.zero;
-        rb.rotation = Quaternion.identity;
+        //rb.rotation = Quaternion.identity;
     }
 
     IEnumerator KickDelay()
@@ -271,7 +272,7 @@ public class WarriorController : MonoBehaviour
         if (isInvincible) return;
         isDead = true;
         isInvincible = true;
-        if (Ball != null)
+        if (BP.ballOwner.Equals(this.gameObject))
         {
             BP.ballOwner = null;
         }
@@ -279,6 +280,7 @@ public class WarriorController : MonoBehaviour
         MTC.RemoveTarget(transform);
         StartCoroutine(Respawn());
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
+        audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("pass"), .25f);
     }
 
     IEnumerator SetInvincibility(bool invin, float time)

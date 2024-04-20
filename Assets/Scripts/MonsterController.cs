@@ -199,7 +199,7 @@ public class MonsterController : MonoBehaviour
         if (wallTimer >= wallCooldown && Input.GetKeyDown(KeyCode.J))
         {
             wallTimer = 0f;
-            Vector3 spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
+            Vector3 spawnLocation = transform.position + (aimingDirection * wallSpawnDistance);
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
             Instantiate(wallPrefab, spawnLocation, transform.rotation);
         }

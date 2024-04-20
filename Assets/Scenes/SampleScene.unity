@@ -650,6 +650,7 @@ Transform:
   - {fileID: 1145408084}
   - {fileID: 2003920063}
   - {fileID: 1890957027}
+  - {fileID: 1057909971}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748757769
@@ -1004,6 +1005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior
       objectReference: {fileID: 0}
+    - target: {fileID: 1063518855127335618, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: respawnBox
+      value: 
+      objectReference: {fileID: 1057909971}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.706714
@@ -1438,6 +1443,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000005, y: 2.0000002, z: 2.0000005}
   m_Center: {x: 18.55542, y: 1.8925066, z: 21.000006}
+--- !u!1 &1057909970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1057909971}
+  m_Layer: 0
+  m_Name: RespawnBox
+  m_TagString: RespawnBox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1057909971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057909970}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.8714194, y: 9.17, z: 0.9887583}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 730803771}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1145408083
 GameObject:
   m_ObjectHideFlags: 0

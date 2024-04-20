@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 4397885869346942917}
   - component: {fileID: 4719727711758374099}
   - component: {fileID: 141275760485196338}
+  - component: {fileID: 6020660202166532150}
   m_Layer: 7
   m_Name: Warrior
   m_TagString: Warrior
@@ -162,9 +163,12 @@ MonoBehaviour:
   BP: {fileID: 0}
   warriorSpeed: 2
   ballPosition: {fileID: 2737137768588858997}
+  health: 2
+  respawnTime: 2
+  respawnInvincibilityTime: 1.5
   passSpeed: 250
   kickSpeed: 350
-  slideSpeed: 200
+  slideSpeed: 230
   chargeMultiplier: 0.5
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
@@ -172,6 +176,7 @@ MonoBehaviour:
   slideDuration: 1
   usingKeyboard: 0
   GM: {fileID: 0}
+  respawnBox: {fileID: 0}
   ANIM: {fileID: 7200901245418876538}
 --- !u!33 &4256115640164463705
 MeshFilter:
@@ -214,7 +219,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 3
-  m_AngularDrag: 0
+  m_AngularDrag: 999
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -447,6 +452,29 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!136 &6020660202166532150
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453280044256401214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 439
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.35
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2737137768588858997
 GameObject:
   m_ObjectHideFlags: 0
