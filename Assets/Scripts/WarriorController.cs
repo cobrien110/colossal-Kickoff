@@ -24,7 +24,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float respawnTime = 2f;
     [SerializeField] private float respawnInvincibilityTime = 1.5f;
     private bool isDead = false;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
@@ -213,6 +213,7 @@ public class WarriorController : MonoBehaviour
             {
                 Debug.Log("Sliding");
                 isSliding = true;
+                isInvincible = true;
 
                 // Add force in direction of the player input for this warrior (movementDirection)
                 Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
@@ -234,6 +235,7 @@ public class WarriorController : MonoBehaviour
         Debug.Log("No longer sliding");
         ANIM.SetBool("isSliding", false);
         isSliding = false;
+        isInvincible = false;
     }
 
     public bool IsSliding()

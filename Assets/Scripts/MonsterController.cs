@@ -187,7 +187,8 @@ public class MonsterController : MonoBehaviour
                 Debug.Log("Raycast hit " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject.CompareTag("Warrior"))
                 {
-                    hit.collider.GetComponent<WarriorController>().Die();
+                    WarriorController WC = hit.collider.GetComponent<WarriorController>();
+                    if (!WC.isInvincible) WC.Die();
                 }
             }
         }

@@ -32,8 +32,11 @@ public class WallShrapnel : MonoBehaviour
         if (other.tag.Equals("Warrior"))
         {
             WarriorController WC = other.GetComponent<WarriorController>();
-            WC.Damage(damage);
-            Destroy(gameObject);
+            if (!WC.isInvincible)
+            {
+                WC.Damage(damage);
+                Destroy(gameObject);
+            }
         }
     }
 }
