@@ -84,4 +84,9 @@ public class MultipleTargetCamera : MonoBehaviour
     {
         targets.Add(targetTransform);
     }
+
+    public void RemoveTarget(Transform targetTransform)
+    {
+        targets.Remove(targetTransform);
+    }
 }

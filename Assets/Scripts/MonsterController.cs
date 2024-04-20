@@ -181,6 +181,10 @@ public class MonsterController : MonoBehaviour
             {
                 // If ray hits something, handle the collision here
                 Debug.Log("Raycast hit " + hit.collider.gameObject.name);
+                if (hit.collider.gameObject.CompareTag("Warrior"))
+                {
+                    hit.collider.GetComponent<WarriorController>().Die();
+                }
             }
         }
         
@@ -257,16 +261,6 @@ public class MonsterController : MonoBehaviour
 
     public void OnWall(InputAction.CallbackContext context)
     {
-        if (wallTimer < wallCooldown)
-        {
-            wallTimer += Time.deltaTime;
-        }
-        if (wallTimer >= wallCooldown && context.started)
-        {
-            wallTimer = 0f;
-            Vector3 spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
-            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
-            Instantiate(wallPrefab, spawnLocation, transform.rotation);
-        }
+        BuildWall();
     }
 }
