@@ -12,7 +12,7 @@ public class MonsterController : MonoBehaviour
     public GameObject wallPrefab;
 
     [SerializeField] float monsterSpeed = 2f;
-    private Vector3 movementDirection;
+    [HideInInspector] public Vector3 movementDirection;
     private Vector3 aimingDirection;
     private Vector3 rightStickInput;
 

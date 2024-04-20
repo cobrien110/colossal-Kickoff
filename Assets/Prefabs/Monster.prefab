@@ -261,6 +261,7 @@ MonoBehaviour:
   BP: {fileID: 0}
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   monsterSpeed: 2
+  movementDirection: {x: 0, y: 0, z: 0}
   usingKeyboard: 0
   ballPosition: {fileID: 9043230712970436401}
   passSpeed: 400
@@ -270,6 +271,9 @@ MonoBehaviour:
   chargeMoveSpeedMult: 0.2
   wallSpawnDistance: 3
   wallCooldown: 5
+  shrapnelAmount: 5
+  shrapnelDamage: 1
+  shrapnelSpeed: 500
   GM: {fileID: 0}
   attackRange: 1
   layerMask:
@@ -608,10 +612,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 439
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 951
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

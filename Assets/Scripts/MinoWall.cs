@@ -14,13 +14,14 @@ public class MinoWall : MonoBehaviour
     public float speed = 1f;
     private float startTime;
     private float journeyLength;
+    private MonsterController MC;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = startPt.position;
         startTime = Time.time;
-        MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
+        MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
         numOfShrapnel = MC.shrapnelAmount;
         shrapnelDamage = MC.shrapnelDamage;
         shrapnelSpeed = MC.shrapnelSpeed;
@@ -43,7 +44,7 @@ public class MinoWall : MonoBehaviour
             Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
             for (int i = 0; i < numOfShrapnel; i++)
             {
-                GameObject shrap = Instantiate(shrapnelPrefab, pos, transform.rotation);
+                GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(MC.movementDirection, Vector3.up));
                 WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
                 WS.damage = shrapnelDamage;
                 WS.speed = shrapnelSpeed;
