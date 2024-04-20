@@ -125,7 +125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4f0208f412b1ee498fe1dbd2c47b8c0, type: 2}
+  - {fileID: 2100000, guid: 7058bda7aa8abdd49a33c1cd56a37ec2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -182,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPt: {fileID: 5195257871099570807}
   endPt: {fileID: 3114037186803197485}
+  shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
+  numOfShrapnel: 4
   speed: 0.5
 --- !u!1 &8271771513498744024
 GameObject:

@@ -19,7 +19,8 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private GameObject ballPosition;
 
     [Header("Stats")]
-    public int health = 2;
+    public int healthMax = 2;
+    [SerializeField] private int health = 2;
     [SerializeField] private float respawnTime = 2f;
     [SerializeField] private float respawnInvincibilityTime = 1.5f;
     private bool isDead = false;
@@ -46,6 +47,7 @@ public class WarriorController : MonoBehaviour
     private GameObject WarriorSpawner = null;
     [SerializeField] private Animator ANIM;
     private MultipleTargetCamera MTC;
+    [SerializeField] private ParticleSystem PS;
 
     // Start is called before the first frame update
     void Awake()
@@ -55,10 +57,12 @@ public class WarriorController : MonoBehaviour
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        //PS = GetComponent<ParticleSystem>();
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         transform.position = WarriorSpawner.transform.position;
+        health = healthMax;
         //transform.position = WarriorSpawner.transform.position;
     }
 
@@ -70,6 +74,13 @@ public class WarriorController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking(); 
+        }
+        if (health < healthMax && !isDead && PS != null)
+        {
+            if (!PS.isPlaying) PS.Play();
+        } else if (PS != null)
+        {
+            PS.Stop();
         }
     }
 
@@ -249,6 +260,7 @@ public class WarriorController : MonoBehaviour
     {
         gameObject.transform.position = WarriorSpawner.transform.position;
         rb.velocity = Vector3.zero;
+        health = healthMax;
         //rb.rotation = Quaternion.identity;
     }
 
@@ -287,6 +299,15 @@ public class WarriorController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         isInvincible = invin;
+    }
+
+    public void Damage(int amount)
+    {
+        health -= amount;
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 
     /**

@@ -29,8 +29,12 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
+    [Header("Ability Stats")]
     [SerializeField] private float wallSpawnDistance = 2f;
     [SerializeField] private float wallCooldown = 5f;
+    [SerializeField] public int shrapnelAmount = 5;
+    [SerializeField] public int shrapnelDamage = 1;
+    [SerializeField] public float shrapnelSpeed = 500f;
     private float wallTimer;
 
 
