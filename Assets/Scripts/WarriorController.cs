@@ -73,8 +73,13 @@ public class WarriorController : MonoBehaviour
         {  
             Dribbling();
             Passing();
-            Kicking(); 
+            Kicking();
+            if (Input.GetKey(KeyCode.E)) {
+                Sliding();
+            }
         }
+
+        //Particles
         if (health < healthMax && !isDead && PS != null)
         {
             if (!PS.isPlaying) PS.Play();
@@ -88,10 +93,6 @@ public class WarriorController : MonoBehaviour
     {
         if (isDead) return;
         Movement();
-        if (GM.isPlaying)
-        {
-            Sliding();
-        }
     }
 
     void Movement()
@@ -209,7 +210,7 @@ public class WarriorController : MonoBehaviour
         // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
         {
-            if (Input.GetKey(KeyCode.E) && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+            if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
                 Debug.Log("Sliding");
                 isSliding = true;
@@ -340,12 +341,12 @@ public class WarriorController : MonoBehaviour
 
     public void OnSlide(InputAction.CallbackContext context)
     {
-        if (GM.isPlaying) Sliding();
+        if (GM.isPlaying && !isDead) Sliding();
         /*
          * // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
         {
-            if (Input.GetKey(KeyCode.E) && movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+            if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
                 Debug.Log("Sliding");
                 isSliding = true;

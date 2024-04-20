@@ -69,7 +69,18 @@ public class MonsterController : MonoBehaviour
             Passing();
             Kicking();
             Attack();
-            BuildWall();
+
+            if (wallTimer >= wallCooldown && (Input.GetKeyDown(KeyCode.J)))
+            {
+                BuildWall();
+
+            }        
+        }
+
+        // Cooldowns
+        if (wallTimer < wallCooldown)
+        {
+            wallTimer += Time.deltaTime;
         }
     }
 
@@ -197,17 +208,10 @@ public class MonsterController : MonoBehaviour
 
     void BuildWall()
     {
-        if (wallTimer < wallCooldown)
-        {
-            wallTimer += Time.deltaTime;
-        }
-        if (wallTimer >= wallCooldown && Input.GetKeyDown(KeyCode.J))
-        {
-            wallTimer = 0f;
-            Vector3 spawnLocation = transform.position + (aimingDirection * wallSpawnDistance);
-            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
-            Instantiate(wallPrefab, spawnLocation, transform.rotation);
-        }
+        wallTimer = 0f;
+        Vector3 spawnLocation = transform.position + (aimingDirection * wallSpawnDistance);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
+        Instantiate(wallPrefab, spawnLocation, transform.rotation);
     }
 
     void PlayKickSound(float charge)
@@ -266,6 +270,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnWall(InputAction.CallbackContext context)
     {
-        BuildWall();
+        if (wallTimer >= wallCooldown && GM.isPlaying)
+        {
+            BuildWall();
+        }
     }
 }
