@@ -274,6 +274,7 @@ MonoBehaviour:
   shrapnelAmount: 5
   shrapnelDamage: 1
   shrapnelSpeed: 500
+  wallDuration: 8
   GM: {fileID: 0}
   attackRange: 1
   layerMask:
@@ -597,6 +598,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2792c12f-c955-4632-8430-398b518e297b
     m_ActionName: Monster/Wall[/XInputControllerWindows/leftTrigger,/XInputControllerWindows1/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2956063197818060719}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e2688ec4-13d0-4c16-b8ec-6bd9a7986788
+    m_ActionName: Monster/Attack[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

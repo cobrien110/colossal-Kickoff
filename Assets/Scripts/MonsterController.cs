@@ -69,12 +69,15 @@ public class MonsterController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
-            Attack();
+
+            if (Input.GetKey(KeyCode.Backspace))
+            {
+                Attack();
+            }
 
             if (wallTimer >= wallCooldown && (Input.GetKeyDown(KeyCode.J)))
             {
                 BuildWall();
-
             }        
         }
 
@@ -190,18 +193,16 @@ public class MonsterController : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.Backspace)) {
-            Debug.Log("Attack!");
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, layerMask))
+        Debug.Log("Attack!");
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, layerMask))
+        {
+            // If ray hits something, handle the collision here
+            Debug.Log("Raycast hit " + hit.collider.gameObject.name);
+            if (hit.collider.gameObject.CompareTag("Warrior"))
             {
-                // If ray hits something, handle the collision here
-                Debug.Log("Raycast hit " + hit.collider.gameObject.name);
-                if (hit.collider.gameObject.CompareTag("Warrior"))
-                {
-                    WarriorController WC = hit.collider.GetComponent<WarriorController>();
-                    if (!WC.isInvincible) WC.Die();
-                }
+                WarriorController WC = hit.collider.GetComponent<WarriorController>();
+                if (!WC.isInvincible) WC.Die();
             }
         }
         
@@ -275,5 +276,10 @@ public class MonsterController : MonoBehaviour
         {
             BuildWall();
         }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        Attack();
     }
 }

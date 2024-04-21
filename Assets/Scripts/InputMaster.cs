@@ -150,6 +150,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""e2688ec4-13d0-4c16-b8ec-6bd9a7986788"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Wall"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a5be2d2-b233-464c-94de-4f4342561158"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -226,6 +246,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Monster_Aim = m_Monster.FindAction("Aim", throwIfNotFound: true);
         m_Monster_Join = m_Monster.FindAction("Join", throwIfNotFound: true);
         m_Monster_Wall = m_Monster.FindAction("Wall", throwIfNotFound: true);
+        m_Monster_Attack = m_Monster.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Monster_Aim;
     private readonly InputAction m_Monster_Join;
     private readonly InputAction m_Monster_Wall;
+    private readonly InputAction m_Monster_Attack;
     public struct MonsterActions
     {
         private @InputMaster m_Wrapper;
@@ -369,6 +391,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Monster_Aim;
         public InputAction @Join => m_Wrapper.m_Monster_Join;
         public InputAction @Wall => m_Wrapper.m_Monster_Wall;
+        public InputAction @Attack => m_Wrapper.m_Monster_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Monster; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -390,6 +413,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Wall.started += instance.OnWall;
             @Wall.performed += instance.OnWall;
             @Wall.canceled += instance.OnWall;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IMonsterActions instance)
@@ -406,6 +432,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Wall.started -= instance.OnWall;
             @Wall.performed -= instance.OnWall;
             @Wall.canceled -= instance.OnWall;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IMonsterActions instance)
@@ -445,5 +474,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
         void OnWall(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }
