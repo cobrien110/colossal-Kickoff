@@ -12,9 +12,11 @@ public class MinoWall : MonoBehaviour
     public float shrapnelSpeed = 500f;
     public float yOffset = .5f;
     public float speed = 1f;
+    public float duration = 8f;
     private float startTime;
     private float journeyLength;
     private MonsterController MC;
+    private bool movingBack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +27,10 @@ public class MinoWall : MonoBehaviour
         numOfShrapnel = MC.shrapnelAmount;
         shrapnelDamage = MC.shrapnelDamage;
         shrapnelSpeed = MC.shrapnelSpeed;
+        duration = MC.wallDuration;
         // Calculate the journey length.
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
+        StartCoroutine("Swap", duration);
     }
 
     // Update is called once per frame
@@ -39,7 +43,7 @@ public class MinoWall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Monster"))
+        if (other.CompareTag("Monster") && !movingBack)
         {
             Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
             for (int i = 0; i < numOfShrapnel; i++)
@@ -53,5 +57,20 @@ public class MinoWall : MonoBehaviour
             aud.PlaySoundRandomPitch(aud.Find("minotaurWallSmash"));
             Destroy(this.gameObject);
         }
+    }
+
+    public void MoveBackToGround()
+    {
+        startTime = Time.time;
+        Transform temp = endPt;
+        endPt = startPt;
+        startPt = temp;
+        movingBack = true;
+    }
+
+    IEnumerator Swap()
+    {
+        yield return new WaitForSeconds(duration);
+        MoveBackToGround();
     }
 }
