@@ -43,6 +43,9 @@ public class MonsterController : MonoBehaviour
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
     public float attackRange = 1f;
+    [SerializeField] private float attackConeAngle = 30f;
+    [SerializeField] private float attackCooldown = 1f;
+    private float lastAttackTime = -1f;
     public LayerMask layerMask;
 
 
@@ -191,21 +194,43 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    // Vector3 startAngle = transform.forward
     void Attack()
     {
-        Debug.Log("Attack!");
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, attackRange, layerMask))
+        if (Time.time - lastAttackTime >= attackCooldown)
         {
-            // If ray hits something, handle the collision here
-            Debug.Log("Raycast hit " + hit.collider.gameObject.name);
-            if (hit.collider.gameObject.CompareTag("Warrior"))
+            Debug.Log("Attack!");
+            RaycastHit hit;
+
+            float halfConeAngle = attackConeAngle / 2f;
+            int numRaycasts = (int) attackConeAngle / 5;
+
+            float angleStep = attackConeAngle / (numRaycasts - 1);
+
+            // raycast several times between two angles
+            for (int i = 0; i < numRaycasts; i++)
             {
-                WarriorController WC = hit.collider.GetComponent<WarriorController>();
-                if (!WC.isInvincible) WC.Die();
+                float currentAngle = -halfConeAngle + (angleStep * i);
+                Quaternion rotation = Quaternion.AngleAxis(currentAngle, transform.up);
+                Vector3 direction = rotation * transform.forward;
+
+                if (Physics.Raycast(transform.position, direction, out hit, attackRange, layerMask))
+                {
+                    Debug.Log("Raycast hit " + hit.collider.gameObject.name);
+                    if (hit.collider.gameObject.CompareTag("Warrior"))
+                    {
+                        WarriorController WC = hit.collider.GetComponent<WarriorController>();
+                        if (!WC.isInvincible)
+                            WC.Die();
+                        else
+                            Debug.Log("Warrior is invincible");
+                    }
+                }
+                // Debug.Log("Raycast");
             }
+            lastAttackTime = Time.time;
         }
-        
+
     }
 
     void BuildWall()
