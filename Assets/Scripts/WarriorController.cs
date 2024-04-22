@@ -287,7 +287,7 @@ public class WarriorController : MonoBehaviour
         if (isInvincible) return;
         isDead = true;
         isInvincible = true;
-        if (BP.ballOwner.Equals(this.gameObject) && BP.ballOwner != null)
+        if (BP != null && BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             BP.ballOwner = null;
         }
