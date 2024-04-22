@@ -361,7 +361,11 @@ MonoBehaviour:
   shrapnelDamage: 1
   shrapnelSpeed: 500
   wallDuration: 8
+  dashSpeed: 500
+  dashCooldown: 4
+  dashDuration: 1
   GM: {fileID: 0}
+  UM: {fileID: 0}
   attackRange: 3
   attackConeAngle: 45
   attackCooldown: 1
@@ -450,7 +454,7 @@ Rigidbody:
   m_GameObject: {fileID: 6495297382573149451}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 999
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

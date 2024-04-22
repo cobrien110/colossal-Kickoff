@@ -37,7 +37,14 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public float shrapnelSpeed = 500f;
     [SerializeField] public float wallDuration = 8f;
     private float wallTimer;
-
+    [SerializeField] private float dashSpeed = 500.0f;
+    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float dashDuration = 0.35f;
+    [SerializeField] private float maxDashChargeSeconds = 2f;
+    private float lastDashTime = -1f;
+    private bool isDashing = false;
+    private float dashCharge = 1f;
+    private bool isChargingDash = false;
 
     [SerializeField] private GameplayManager GM = null;
     [SerializeField] private UIManager UM = null;
@@ -74,6 +81,7 @@ public class MonsterController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            Dash();
 
             if (Input.GetKey(KeyCode.Backspace))
             {
@@ -83,7 +91,9 @@ public class MonsterController : MonoBehaviour
             if (wallTimer >= wallCooldown && (Input.GetKeyDown(KeyCode.J)))
             {
                 BuildWall();
-            }        
+            }
+            
+
         }
 
         // Cooldowns
@@ -101,6 +111,7 @@ public class MonsterController : MonoBehaviour
 
     void Movement()
     {
+        if (isDashing) return;
         float horizontalInput = 0f;
         float verticalInput = 0f;
 
@@ -135,7 +146,7 @@ public class MonsterController : MonoBehaviour
         }
 
         rb.velocity = GM.isPlaying ? movementDirection * monsterSpeed : Vector3.zero;
-        rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+        rb.velocity = isCharging || isChargingDash ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         if (rb.velocity != Vector3.zero) 
         {
             Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
@@ -246,6 +257,57 @@ public class MonsterController : MonoBehaviour
 
     }
 
+    void Dash()
+    {
+        if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
+
+        // If R input is no longer true, dash
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            // Check if enough time has passed since the last slide
+            if (Time.time - lastDashTime >= dashCooldown)
+            {
+                if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+                {
+                    Debug.Log("Dashing");
+                    isDashing = true;
+
+                    // Add force in direction of the player input for this warrior (movementDirection)
+                    Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
+                    Debug.Log("Dash Charge: " + dashCharge);
+                    rb.AddForce(dashVelocity);
+                    // audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); replace with different sound
+
+                    Invoke("StopDashing", dashDuration);
+
+                    // Update the last dash time
+                    lastDashTime = Time.time;
+                    dashCharge = 0;
+                    isChargingDash = false;
+                    // ANIM.SetBool("isSliding", true);
+                }
+            }
+        }
+        else if (Input.GetKey(KeyCode.R)) // If it still is true, keep charging
+        {
+            if (dashCharge < maxDashChargeSeconds)
+            {
+                Debug.Log("Charging dash");
+                dashCharge += Time.deltaTime;
+                isChargingDash = true;
+            }
+        }
+
+        
+    }
+    void StopDashing()
+    {
+        Debug.Log("No longer dashing");
+        // ANIM.SetBool("isSliding", false);
+        isDashing = false;
+    }
+
+
     void BuildWall()
     {
         wallTimer = 0f;
@@ -291,6 +353,16 @@ public class MonsterController : MonoBehaviour
         BP.lastKicker = null;
         Debug.Log("Wait Done");
     }
+    private void OnTriggerEnter(Collider collider)
+    {
+        // Debug.Log("Monster Collision with: " + collider.gameObject.name);
+        if (isDashing && collider.tag.Equals("Warrior"))
+        {
+            Debug.Log("Dash killed warrior");
+            collider.gameObject.GetComponent<WarriorController>().Die();
+        }
+    }
+
 
     /**
     *  The Following Code Is For Controller Inputs
