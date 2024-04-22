@@ -40,6 +40,7 @@ public class MonsterController : MonoBehaviour
 
 
     [SerializeField] private GameplayManager GM = null;
+    [SerializeField] private UIManager UM = null;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
     public float attackRange = 1f;
@@ -54,6 +55,7 @@ public class MonsterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         audioPlayer = GetComponent<AudioPlayer>();
@@ -88,6 +90,7 @@ public class MonsterController : MonoBehaviour
         if (wallTimer < wallCooldown)
         {
             wallTimer += Time.deltaTime;
+            UM.updateMonsterAbility1Bar(1-(wallTimer/wallCooldown));
         }
     }
 
@@ -144,6 +147,8 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
+            UM.showChargeBar(true);
+            UM.updateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         }
     }
@@ -175,6 +180,8 @@ public class MonsterController : MonoBehaviour
             Vector3 forceToAdd = aimingDirection * kickForce;
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
+            UM.showChargeBar(false);
+            UM.updateChargeBar(0f);
             PlayKickSound(kickCharge);
             StartCoroutine(KickDelay());
         }
@@ -183,8 +190,14 @@ public class MonsterController : MonoBehaviour
             if (kickCharge <= maxChargeSeconds)
             {
                 //Debug.Log(kickCharge);
+                UM.updateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                 kickCharge += Time.deltaTime;
                 isCharging = true;
+            }
+            
+            if (kickCharge > maxChargeSeconds)
+            {
+                UM.updateChargeBar(1f);
             }
         }
         else

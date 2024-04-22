@@ -42,6 +42,7 @@ public class WarriorController : MonoBehaviour
     public bool usingKeyboard = false;
 
     [SerializeField] private GameplayManager GM = null;
+    [SerializeField] private UIManager UM = null;
     [SerializeField] private Transform respawnBox;
     private AudioPlayer audioPlayer;
     private GameObject WarriorSpawner = null;
@@ -54,6 +55,7 @@ public class WarriorController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
@@ -150,6 +152,8 @@ public class WarriorController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
+            UM.showChargeBar(true);
+            UM.updateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
         {
@@ -182,6 +186,8 @@ public class WarriorController : MonoBehaviour
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
             ANIM.Play("WarriorKick");
 
+            UM.showChargeBar(false);
+            UM.updateChargeBar(0f);
             PlayKickSound(kickCharge);
             
             StartCoroutine(KickDelay());
@@ -191,10 +197,17 @@ public class WarriorController : MonoBehaviour
             if (kickCharge <= maxChargeSeconds)
             {
                 //Debug.Log(kickCharge);
+                UM.updateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                 kickCharge += Time.deltaTime;
                 isCharging = true;
                 ANIM.SetBool("isChargingKick", true);
             }
+
+            if (kickCharge > maxChargeSeconds)
+            {
+                UM.updateChargeBar(1f);
+            }
+            
         }
         else
         {

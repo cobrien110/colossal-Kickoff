@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,7 +17,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int gameSeconds;
     private int warriorScore = 0;
     private int monsterScore = 0;
-    private int timeRemainingSeconds = 10;
+    private int timeRemainingSeconds;
+
+    //ChargeMeter
+    [SerializeField] private GameObject chargeBar = null;
+    [SerializeField] private Image chargeBarFill = null;
+    [SerializeField] private Image monsterAbility1Bar = null;
+    [SerializeField] private TMP_Text chargeBarText = null;
 
     Coroutine timerCoroutine;
     GameplayManager GM;
@@ -26,6 +33,8 @@ public class UIManager : MonoBehaviour
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timeRemainingSeconds = gameSeconds;
+        showChargeBar(false);
+        updateChargeBarText("");
     }
 
     // Update is called once per frame
@@ -119,5 +128,25 @@ public class UIManager : MonoBehaviour
     private void updateScoreMonster()
     {
         scoreTextMonster.text = "" + monsterScore;
+    }
+
+    public void updateChargeBar(float charge)
+    {
+        chargeBarFill.fillAmount = charge;
+    }
+
+    public void updateMonsterAbility1Bar(float charge)
+    {
+        monsterAbility1Bar.fillAmount = charge;
+    }
+
+    public void showChargeBar(bool state)
+    {
+        chargeBar.gameObject.SetActive(state);
+    }
+
+    public void updateChargeBarText(string text)
+    {
+        chargeBarText.text = text;
     }
 }
