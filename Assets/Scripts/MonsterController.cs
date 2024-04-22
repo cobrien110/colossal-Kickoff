@@ -211,9 +211,19 @@ public class MonsterController : MonoBehaviour
     void BuildWall()
     {
         wallTimer = 0f;
-        Vector3 spawnLocation = transform.position + (aimingDirection * wallSpawnDistance);
+        Vector3 spawnLocation = Vector3.zero;
+        Quaternion spawnRotation = Quaternion.identity;
+
+        Vector3 dir = movementDirection;
+        if (dir.Equals(Vector3.zero))
+        {
+            return;
+        }
+        spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
+        spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
+
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
-        Instantiate(wallPrefab, spawnLocation, transform.rotation);
+        Instantiate(wallPrefab, spawnLocation, spawnRotation);
     }
 
     void PlayKickSound(float charge)

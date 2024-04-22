@@ -32,5 +32,20 @@ public class AimVisualizer : MonoBehaviour
             }
             
         }
+        if (mc != null)
+        {
+            aimDir = mc.GetAimDirection();
+            if (aimDir != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);
+                //mr.enabled = true;
+            }
+            else
+            {
+                //mr.enabled = false;
+            }
+
+        }
     }
+
 }

@@ -651,6 +651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1829573181954669806}
+  - component: {fileID: 3120747195718422198}
   m_Layer: 0
   m_Name: AimerParent
   m_TagString: Untagged
@@ -674,6 +675,19 @@ Transform:
   - {fileID: 1838065280679496496}
   m_Father: {fileID: 5482897443782975315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3120747195718422198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6986878365702229708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c7a5fc49325894cafc8404529c033c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mr: {fileID: 4156837867804588745}
 --- !u!1 &7544545565080370887
 GameObject:
   m_ObjectHideFlags: 0
