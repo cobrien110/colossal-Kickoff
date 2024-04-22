@@ -123,7 +123,7 @@ Transform:
   m_GameObject: {fileID: 3827750005002109003}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.15, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -364,6 +364,7 @@ MonoBehaviour:
   dashSpeed: 500
   dashCooldown: 4
   dashDuration: 1
+  maxDashChargeSeconds: 2
   GM: {fileID: 0}
   UM: {fileID: 0}
   attackRange: 3
@@ -905,7 +906,7 @@ Transform:
   m_GameObject: {fileID: 8109977825588839222}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.15, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []

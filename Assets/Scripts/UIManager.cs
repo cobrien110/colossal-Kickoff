@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     //ScoreboardUI
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
+    [SerializeField] private TMP_Text scoreTextHumanBG = null;
+    [SerializeField] private TMP_Text scoreTextMonsterBG = null;
     [SerializeField] private TMP_Text scoreTextTimer = null;
     [SerializeField] private int gameSeconds;
     private int warriorScore = 0;
@@ -123,11 +125,13 @@ public class UIManager : MonoBehaviour
     private void updateScoreHuman()
     {
         scoreTextHuman.text = "" + warriorScore;
+        scoreTextHumanBG.text = "" + warriorScore;
     }
 
     private void updateScoreMonster()
     {
         scoreTextMonster.text = "" + monsterScore;
+        scoreTextMonsterBG.text = "" + monsterScore;
     }
 
     public void updateChargeBar(float charge)

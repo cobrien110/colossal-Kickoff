@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 30089341}
   - component: {fileID: 30089340}
   m_Layer: 5
-  m_Name: HumanScore (1)
+  m_Name: HumanScoreBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,11 +153,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 950448275}
+  m_Father: {fileID: 1982369712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 118, y: -50}
+  m_AnchoredPosition: {x: -4, y: -27.000008}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &30089340
@@ -407,6 +407,8 @@ MonoBehaviour:
   gameoverText: {fileID: 841225961}
   scoreTextHuman: {fileID: 1982369713}
   scoreTextMonster: {fileID: 1443010333}
+  scoreTextHumanBG: {fileID: 30089340}
+  scoreTextMonsterBG: {fileID: 2020568416}
   scoreTextTimer: {fileID: 959380558}
   gameSeconds: 180
   chargeBar: {fileID: 2109037760}
@@ -1663,9 +1665,7 @@ RectTransform:
   - {fileID: 1793686853}
   - {fileID: 1526816656}
   - {fileID: 1982369712}
-  - {fileID: 30089339}
   - {fileID: 1443010332}
-  - {fileID: 2020568415}
   - {fileID: 959380557}
   m_Father: {fileID: 115017662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2205,6 +2205,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -7308718804694308083, guid: 2711a96e4cf2ddd4898715560dc891df, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7308718804694308083, guid: 2711a96e4cf2ddd4898715560dc891df, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a5531d761189fb34588a1a8b6a116a56, type: 2}
@@ -2220,6 +2224,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a22e8b5145b66de4fa5a5329003fd54b, type: 2}
+    - target: {fileID: -4906838889796845047, guid: 2711a96e4cf2ddd4898715560dc891df, type: 3}
+      propertyPath: m_Name
+      value: Field
+      objectReference: {fileID: 0}
     - target: {fileID: -4906838889796845047, guid: 2711a96e4cf2ddd4898715560dc891df, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3122,7 +3130,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2020568415}
   m_Father: {fileID: 950448275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -4338,7 +4347,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 30089339}
   m_Father: {fileID: 950448275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -4683,7 +4693,7 @@ GameObject:
   - component: {fileID: 2020568417}
   - component: {fileID: 2020568416}
   m_Layer: 5
-  m_Name: MonsterScore (1)
+  m_Name: MonsterScoreBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4701,11 +4711,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 950448275}
+  m_Father: {fileID: 1443010332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -118, y: -50}
+  m_AnchoredPosition: {x: 4, y: -27.000008}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2020568416
