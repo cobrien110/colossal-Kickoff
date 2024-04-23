@@ -48,6 +48,7 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] private GameplayManager GM = null;
     [SerializeField] private UIManager UM = null;
+    [SerializeField] private Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
     public float attackRange = 1f;
@@ -152,6 +153,15 @@ public class MonsterController : MonoBehaviour
             Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
             transform.rotation = newRotation;
         }
+
+        if (movementDirection != Vector3.zero && GM.isPlaying)
+        {
+            ANIM.SetBool("isWalking", true);
+        }
+        else
+        {
+            ANIM.SetBool("isWalking", false);
+        }
     }
 
     void Dribbling()
@@ -195,6 +205,7 @@ public class MonsterController : MonoBehaviour
             UM.UpdateChargeBar(0f);
             PlayKickSound(kickCharge);
             StartCoroutine(KickDelay());
+            ANIM.SetBool("isWindingUp", false);
         }
         if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
         {
@@ -204,6 +215,7 @@ public class MonsterController : MonoBehaviour
                 UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                 kickCharge += Time.deltaTime;
                 isCharging = true;
+                ANIM.SetBool("isWindingUp", true);
             }
             
             if (kickCharge > maxChargeSeconds)
@@ -253,6 +265,7 @@ public class MonsterController : MonoBehaviour
                 // Debug.Log("Raycast");
             }
             lastAttackTime = Time.time;
+            ANIM.Play("MinotaurAttack");
         }
 
     }
@@ -273,6 +286,8 @@ public class MonsterController : MonoBehaviour
                 {
                     Debug.Log("Dashing");
                     isDashing = true;
+                    ANIM.SetBool("isWindingUp", false);
+                    ANIM.Play("MinotaurCharge");
 
                     // Add force in direction of the player input for this warrior (movementDirection)
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
@@ -300,6 +315,7 @@ public class MonsterController : MonoBehaviour
                 if (dashCharge < maxDashChargeSeconds)
                 {
                     Debug.Log("Charging dash");
+                    ANIM.SetBool("isWindingUp", true);
                     dashCharge += Time.deltaTime;
                     isChargingDash = true;
                 }
@@ -331,6 +347,7 @@ public class MonsterController : MonoBehaviour
 
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
         Instantiate(wallPrefab, spawnLocation, spawnRotation);
+        ANIM.Play("MinotaurWall");
     }
 
     void PlayKickSound(float charge)
