@@ -152,8 +152,8 @@ public class WarriorController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
-            UM.showChargeBar(true);
-            UM.updateChargeBarText("Warrior");
+            UM.ShowChargeBar(true);
+            UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
         {
@@ -186,8 +186,8 @@ public class WarriorController : MonoBehaviour
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
             ANIM.Play("WarriorKick");
 
-            UM.showChargeBar(false);
-            UM.updateChargeBar(0f);
+            UM.ShowChargeBar(false);
+            UM.UpdateChargeBar(0f);
             PlayKickSound(kickCharge);
             
             StartCoroutine(KickDelay());
@@ -197,7 +197,7 @@ public class WarriorController : MonoBehaviour
             if (kickCharge <= maxChargeSeconds)
             {
                 //Debug.Log(kickCharge);
-                UM.updateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                 kickCharge += Time.deltaTime;
                 isCharging = true;
                 ANIM.SetBool("isChargingKick", true);
@@ -205,7 +205,7 @@ public class WarriorController : MonoBehaviour
 
             if (kickCharge > maxChargeSeconds)
             {
-                UM.updateChargeBar(1f);
+                UM.UpdateChargeBar(1f);
             }
             
         }

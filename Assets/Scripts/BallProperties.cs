@@ -78,10 +78,10 @@ public class BallProperties : MonoBehaviour
     {
         if (isWarriorGoal)
         {
-            UM.monsterPoint();
+            UM.MonsterPoint();
         } else
         {
-            UM.warriorPoint();
+            UM.WarriorPoint();
         }
         ballOwner = null;
         if (CSM != null)

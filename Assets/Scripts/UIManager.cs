@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     //CenterScreenMessages
     [SerializeField] private TMP_Text countdown = null;
     [SerializeField] private TMP_Text gameoverText = null;
-    
+    [SerializeField] private TMP_Text playerScoredText = null;
+
     //ScoreboardUI
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
@@ -35,8 +36,8 @@ public class UIManager : MonoBehaviour
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timeRemainingSeconds = gameSeconds;
-        showChargeBar(false);
-        updateChargeBarText("");
+        ShowChargeBar(false);
+        UpdateChargeBarText("");
     }
 
     // Update is called once per frame
@@ -59,9 +60,19 @@ public class UIManager : MonoBehaviour
         countdown.gameObject.SetActive(false);
     }
 
-    private void ShowGameOverText()
+    private void ShowGameOverText(bool state)
     {
-        gameoverText.gameObject.SetActive(true);
+        gameoverText.gameObject.SetActive(state);
+    }
+
+    public void ShowPlayerScoredText(bool state)
+    {
+        playerScoredText.gameObject.SetActive(state);
+    }
+
+    public void UpdatePlayerScoredText(string player)
+    {
+        playerScoredText.text = "" + player + " SCORED!";
     }
 
     public IEnumerator ScoreTimer()
@@ -91,7 +102,7 @@ public class UIManager : MonoBehaviour
             //counter++;
         }
         scoreTextTimer.text = "0:00";
-        ShowGameOverText();
+        ShowGameOverText(true);
         Debug.Log("End Coroutine");
 
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
@@ -110,46 +121,46 @@ public class UIManager : MonoBehaviour
         StopCoroutine(timerCoroutine);
     }
 
-    public void warriorPoint()
+    public void WarriorPoint()
     {
         warriorScore++;
-        updateScoreHuman(); 
+        UpdateScoreHuman(); 
     }
 
-    public void monsterPoint()
+    public void MonsterPoint()
     {
         monsterScore++;
-        updateScoreMonster();
+        UpdateScoreMonster();
     }
 
-    private void updateScoreHuman()
+    private void UpdateScoreHuman()
     {
         scoreTextHuman.text = "" + warriorScore;
         scoreTextHumanBG.text = "" + warriorScore;
     }
 
-    private void updateScoreMonster()
+    private void UpdateScoreMonster()
     {
         scoreTextMonster.text = "" + monsterScore;
         scoreTextMonsterBG.text = "" + monsterScore;
     }
 
-    public void updateChargeBar(float charge)
+    public void UpdateChargeBar(float charge)
     {
         chargeBarFill.fillAmount = charge;
     }
 
-    public void updateMonsterAbility1Bar(float charge)
+    public void UpdateMonsterAbility1Bar(float charge)
     {
         monsterAbility1Bar.fillAmount = charge;
     }
 
-    public void showChargeBar(bool state)
+    public void ShowChargeBar(bool state)
     {
         chargeBar.gameObject.SetActive(state);
     }
 
-    public void updateChargeBarText(string text)
+    public void UpdateChargeBarText(string text)
     {
         chargeBarText.text = text;
     }
