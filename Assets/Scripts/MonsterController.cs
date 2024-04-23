@@ -261,12 +261,14 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
 
-        // If R input is no longer true, dash
-        if (Input.GetKeyUp(KeyCode.R))
+
+        if (Time.time - lastDashTime >= dashCooldown)
         {
-            // Check if enough time has passed since the last slide
-            if (Time.time - lastDashTime >= dashCooldown)
+            // If R input is no longer true, dash
+            if (Input.GetKeyUp(KeyCode.R))
             {
+                // Check if enough time has passed since the last slide
+
                 if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
                 {
                     Debug.Log("Dashing");
@@ -280,26 +282,31 @@ public class MonsterController : MonoBehaviour
 
                     Invoke("StopDashing", dashDuration);
 
-                    // Update the last dash time
-                    lastDashTime = Time.time;
-                    dashCharge = 0;
-                    isChargingDash = false;
                     // ANIM.SetBool("isSliding", true);
+                }
+                else
+                {
+                    Debug.Log("Dash failed");
+                }
+
+                // Update the last dash time
+                lastDashTime = Time.time;
+                dashCharge = 0;
+                isChargingDash = false;
+
+            }
+            else if (Input.GetKey(KeyCode.R)) // If it still is true, keep charging
+            {
+                if (dashCharge < maxDashChargeSeconds)
+                {
+                    Debug.Log("Charging dash");
+                    dashCharge += Time.deltaTime;
+                    isChargingDash = true;
                 }
             }
         }
-        else if (Input.GetKey(KeyCode.R)) // If it still is true, keep charging
-        {
-            if (dashCharge < maxDashChargeSeconds)
-            {
-                Debug.Log("Charging dash");
-                dashCharge += Time.deltaTime;
-                isChargingDash = true;
-            }
-        }
-
-        
     }
+
     void StopDashing()
     {
         Debug.Log("No longer dashing");
