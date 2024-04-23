@@ -94,6 +94,10 @@ public class MonsterController : MonoBehaviour
                 BuildWall();
             }
             
+            if (isChargingDash)
+            {
+                chargeDashing();
+            }
 
         }
 
@@ -234,7 +238,7 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject)
+        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying)
         {
             Debug.Log("Attack!");
             RaycastHit hit;
@@ -315,17 +319,22 @@ public class MonsterController : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.R)) // If it still is true, keep charging
             {
-                if (dashCharge < maxDashChargeSeconds)
-                {
-                    Debug.Log("Charging dash");
-                    ANIM.SetBool("isWindingUp", true);
-                    dashCharge += Time.deltaTime;
-                    isChargingDash = true;
-                    if (!audioPlayer.isPlaying())
-                    {
-                        audioPlayer.PlaySound(audioPlayer.Find("minotaurDashCharge"));
-                    }
-                }
+                isChargingDash = true;
+            }
+        }
+    }
+
+    void chargeDashing()
+    {
+        if (dashCharge < maxDashChargeSeconds)
+        {
+            Debug.Log("Charging dash");
+            ANIM.SetBool("isWindingUp", true);
+            dashCharge += Time.deltaTime;
+            isChargingDash = true;
+            if (!audioPlayer.isPlaying())
+            {
+                audioPlayer.PlaySound(audioPlayer.Find("minotaurDashCharge"));
             }
         }
     }
@@ -432,5 +441,53 @@ public class MonsterController : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         Attack();
+    }
+
+    public void OnCharge(InputAction.CallbackContext context)
+    {
+        if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
+
+
+        if (Time.time - lastDashTime >= dashCooldown)
+        {
+            // If R input is no longer true, dash
+            if (context.action.WasReleasedThisFrame() && dashCharge != 0)
+            {
+                // Check if enough time has passed since the last slide
+
+                if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+                {
+                    Debug.Log("Dashing");
+                    isDashing = true;
+                    ANIM.SetBool("isWindingUp", false);
+                    ANIM.Play("MinotaurCharge");
+                    audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurDash"));
+
+                    // Add force in direction of the player input for this warrior (movementDirection)
+                    Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
+                    Debug.Log("Dash Charge: " + dashCharge);
+                    rb.AddForce(dashVelocity);
+                    // audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); replace with different sound
+
+                    Invoke("StopDashing", dashDuration);
+
+                    // ANIM.SetBool("isSliding", true);
+                }
+                else
+                {
+                    Debug.Log("Dash failed");
+                }
+
+                // Update the last dash time
+                lastDashTime = Time.time;
+                dashCharge = 0;
+                isChargingDash = false;
+
+            }
+            else if (context.action.IsInProgress()) // If it still is true, keep charging
+            {
+                isChargingDash = true;
+            }
+        }
     }
 }

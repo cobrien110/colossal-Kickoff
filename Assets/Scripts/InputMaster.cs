@@ -159,6 +159,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Charge"",
+                    ""type"": ""Button"",
+                    ""id"": ""03b36eb2-82aa-435f-8813-8c4ec800c024"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54a25aad-b7de-4573-9046-c647ff7201eb"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Charge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -247,6 +267,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Monster_Join = m_Monster.FindAction("Join", throwIfNotFound: true);
         m_Monster_Wall = m_Monster.FindAction("Wall", throwIfNotFound: true);
         m_Monster_Attack = m_Monster.FindAction("Attack", throwIfNotFound: true);
+        m_Monster_Charge = m_Monster.FindAction("Charge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -383,6 +404,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Monster_Join;
     private readonly InputAction m_Monster_Wall;
     private readonly InputAction m_Monster_Attack;
+    private readonly InputAction m_Monster_Charge;
     public struct MonsterActions
     {
         private @InputMaster m_Wrapper;
@@ -392,6 +414,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Join => m_Wrapper.m_Monster_Join;
         public InputAction @Wall => m_Wrapper.m_Monster_Wall;
         public InputAction @Attack => m_Wrapper.m_Monster_Attack;
+        public InputAction @Charge => m_Wrapper.m_Monster_Charge;
         public InputActionMap Get() { return m_Wrapper.m_Monster; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -416,6 +439,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Charge.started += instance.OnCharge;
+            @Charge.performed += instance.OnCharge;
+            @Charge.canceled += instance.OnCharge;
         }
 
         private void UnregisterCallbacks(IMonsterActions instance)
@@ -435,6 +461,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Charge.started -= instance.OnCharge;
+            @Charge.performed -= instance.OnCharge;
+            @Charge.canceled -= instance.OnCharge;
         }
 
         public void RemoveCallbacks(IMonsterActions instance)
@@ -475,5 +504,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnJoin(InputAction.CallbackContext context);
         void OnWall(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnCharge(InputAction.CallbackContext context);
     }
 }
