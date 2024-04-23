@@ -206,6 +206,7 @@ public class MonsterController : MonoBehaviour
             PlayKickSound(kickCharge);
             StartCoroutine(KickDelay());
             ANIM.SetBool("isWindingUp", false);
+            ANIM.Play("MinotaurAttack");
         }
         if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
         {
@@ -233,7 +234,7 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject)
         {
             Debug.Log("Attack!");
             RaycastHit hit;
@@ -266,6 +267,7 @@ public class MonsterController : MonoBehaviour
             }
             lastAttackTime = Time.time;
             ANIM.Play("MinotaurAttack");
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurAxeAttack"));
         }
 
     }
@@ -288,6 +290,7 @@ public class MonsterController : MonoBehaviour
                     isDashing = true;
                     ANIM.SetBool("isWindingUp", false);
                     ANIM.Play("MinotaurCharge");
+                    audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurDash"));
 
                     // Add force in direction of the player input for this warrior (movementDirection)
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
@@ -318,6 +321,10 @@ public class MonsterController : MonoBehaviour
                     ANIM.SetBool("isWindingUp", true);
                     dashCharge += Time.deltaTime;
                     isChargingDash = true;
+                    if (!audioPlayer.isPlaying())
+                    {
+                        audioPlayer.PlaySound(audioPlayer.Find("minotaurDashCharge"));
+                    }
                 }
             }
         }

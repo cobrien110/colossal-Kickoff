@@ -22,7 +22,7 @@ public class AudioPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (!source.isPlaying)
+        if (!isPlaying())
         {
             source.volume = volume;
             source.pitch = 1;
@@ -40,19 +40,19 @@ public class AudioPlayer : MonoBehaviour
     public void PlaySoundRandomPitch(AudioClip sound)
     {
         SetRandomPitch();
-        PlaySound(sound);
+        PlaySoundVolume(sound, 1);
     }
 
     public void PlaySoundSpecificPitch(AudioClip sound, float pitch)
     {
         source.pitch = pitch;
-        PlaySound(sound);
+        PlaySoundVolume(sound, 1f);
     }
 
     public void PlaySoundVolume(AudioClip sound, float tempVolume)
     {
         source.volume = volume * tempVolume;
-        Debug.Log(source.volume);
+        //Debug.Log(source.volume);
         PlaySound(sound);
     }
 
