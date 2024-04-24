@@ -181,6 +181,7 @@ MonoBehaviour:
   slideDuration: 1
   usingKeyboard: 0
   GM: {fileID: 0}
+  UM: {fileID: 0}
   respawnBox: {fileID: 0}
   ANIM: {fileID: 7200901245418876538}
   PS: {fileID: 8640153958670802855}
@@ -457,6 +458,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e2688ec4-13d0-4c16-b8ec-6bd9a7986788
     m_ActionName: Monster/Attack
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 03b36eb2-82aa-435f-8813-8c4ec800c024
+    m_ActionName: Monster/Charge
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -5441,7 +5446,7 @@ GameObject:
   - component: {fileID: 4664618820297011617}
   - component: {fileID: 1873517544955799080}
   - component: {fileID: 2901459042039100942}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: SubSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
