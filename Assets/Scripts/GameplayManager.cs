@@ -51,7 +51,7 @@ public class GameplayManager : MonoBehaviour
     private IEnumerator Kickoff()
     {
         StartCoroutine(UM.Countdown());
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.8f);
         StartPlaying();
     }
 

@@ -7,9 +7,11 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     //CenterScreenMessages
-    [SerializeField] private TMP_Text countdown = null;
+    //[SerializeField] private TMP_Text countdown = null;
+    [SerializeField] private Countdown countdown;
     [SerializeField] private TMP_Text gameoverText = null;
     [SerializeField] private TMP_Text playerScoredText = null;
+
 
     //ScoreboardUI
     [SerializeField] private TMP_Text scoreTextHuman = null;
@@ -48,15 +50,10 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator Countdown()
     {
-        countdown.text = "3";
         countdown.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        countdown.text = "2";
-        yield return new WaitForSeconds(1f);
-        countdown.text = "1";
-        yield return new WaitForSeconds(1f);
-        countdown.text = "GO";
-        yield return new WaitForSeconds(1f);
+        countdown.Reset();
+        countdown.Play();
+        yield return new WaitForSeconds(2.3f);
         countdown.gameObject.SetActive(false);
     }
 
