@@ -79,6 +79,8 @@ public class GameplayManager : MonoBehaviour
         }
         MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.targets[0] = newBall.transform;
+        FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
+        FB.BP = Ball.GetComponent<BallProperties>();
     }
 
     //isPlaying getter and setter

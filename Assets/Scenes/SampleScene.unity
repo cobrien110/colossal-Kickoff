@@ -6761,6 +6761,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArenaFloor
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6e603ff68b442a04488475389f5ae302, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8102,7 +8106,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 759
+    m_Bits: 3831
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -8341,7 +8345,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.65862864, b: 0.43543077, a: 1}
+  m_Color: {r: 0.9150943, g: 0.8167756, b: 0.7467515, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -10092,6 +10096,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 79dec354cc897054ca40832e0bcbcba5, type: 3}
       propertyPath: m_Name
       value: NewArena
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009987137999418058, guid: 79dec354cc897054ca40832e0bcbcba5, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
