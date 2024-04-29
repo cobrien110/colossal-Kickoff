@@ -10,6 +10,7 @@ public class MinoWall : MonoBehaviour
     public int numOfShrapnel;
     public int shrapnelDamage = 1;
     public float shrapnelSpeed = 500f;
+    public float shrapnelSpawnDegrees = 35f;
     public float yOffset = .5f;
     public float speed = 1f;
     public float duration = 8f;
@@ -28,6 +29,7 @@ public class MinoWall : MonoBehaviour
         shrapnelDamage = MC.shrapnelDamage;
         shrapnelSpeed = MC.shrapnelSpeed;
         duration = MC.wallDuration;
+        shrapnelSpawnDegrees = MC.shrapnelSpreadAngle;
         // Calculate the journey length.
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
         StartCoroutine("Swap", duration);
@@ -45,14 +47,7 @@ public class MinoWall : MonoBehaviour
     {
         if (other.CompareTag("Monster") && !movingBack)
         {
-            Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
-            for (int i = 0; i < numOfShrapnel; i++)
-            {
-                GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(MC.movementDirection, Vector3.up));
-                WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
-                WS.damage = shrapnelDamage;
-                WS.speed = shrapnelSpeed;
-            }
+            SpawnProjectiles();
             AudioPlayer aud = other.gameObject.GetComponent<AudioPlayer>();
             aud.PlaySoundRandomPitch(aud.Find("minotaurWallSmash"));
             Destroy(this.gameObject);
@@ -72,5 +67,25 @@ public class MinoWall : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         MoveBackToGround();
+    }
+
+    private void SpawnProjectiles()
+    {
+        float angleIncrement = shrapnelSpawnDegrees / (numOfShrapnel - 1);
+        float startAngle = -shrapnelSpawnDegrees / 2; // Start angle of the spread
+
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
+        for (int i = 0; i < numOfShrapnel; i++)
+        {
+            GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(MC.movementDirection, Vector3.up));
+            WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
+            WS.damage = shrapnelDamage;
+            WS.speed = shrapnelSpeed;
+
+            // Calculate the angle for this projectile
+            float angle = startAngle + (angleIncrement * i);
+
+            shrap.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up) * shrap.transform.rotation;
+        }
     }
 }

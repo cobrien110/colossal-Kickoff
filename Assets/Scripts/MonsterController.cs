@@ -35,6 +35,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public int shrapnelAmount = 5;
     [SerializeField] public int shrapnelDamage = 1;
     [SerializeField] public float shrapnelSpeed = 500f;
+    [SerializeField] public float shrapnelSpreadAngle = 35f;
     [SerializeField] public float wallDuration = 8f;
     private float wallTimer;
     [SerializeField] private float dashSpeed = 500.0f;

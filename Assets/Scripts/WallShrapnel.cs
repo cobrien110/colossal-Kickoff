@@ -5,17 +5,18 @@ using UnityEngine;
 public class WallShrapnel : MonoBehaviour
 {
     public float speed = 300f;
-    public float spreadHori = 30f;
+    //public float spreadHori = 30f;
     public int damage = 1;
+    public int index = 0;
     //public float spreadVert = 15f;
     private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        float hSpread = Random.Range(-spreadHori, spreadHori);
+        //float hSpread = Random.Range(-spreadHori, spreadHori);
         //float vSpread = Random.Range(-spreadVert, spreadVert);
-        transform.Rotate(0f, hSpread, 0f);
+        //transform.Rotate(0f, hSpread, 0f);
         rb = GetComponent<Rigidbody>();
 
         rb.AddForce(transform.forward * speed);
