@@ -46,6 +46,8 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private Transform respawnBox;
     private AudioPlayer audioPlayer;
     private GameObject WarriorSpawner = null;
+    [SerializeField] GameObject spriteObject;
+    private Vector3 spriteScale;
     [SerializeField] private Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
@@ -61,26 +63,12 @@ public class WarriorController : MonoBehaviour
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        //PS = GetComponent<ParticleSystem>();
         audioPlayer = GetComponent<AudioPlayer>();
         WarriorSpawner = GameObject.Find("WarriorSpawner");
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         transform.position = WarriorSpawner.transform.position;
         health = healthMax;
-        //transform.position = WarriorSpawner.transform.position;
-    }
-
-    public void SetColor(int i)
-    {
-        Debug.Log("Set color called with i = " + i);
-        try
-        {
-            ring.sprite = ringColors[i];
-        } catch
-        {
-            ring.sprite = ring.sprite;
-        }
-        
+        spriteScale = spriteObject.transform.localScale;
     }
 
     // Update is called once per frame
@@ -94,6 +82,7 @@ public class WarriorController : MonoBehaviour
             if (Input.GetKey(KeyCode.E)) {
                 Sliding();
             }
+            InvincibilityFlash();
         }
 
         //Particles
@@ -326,12 +315,6 @@ public class WarriorController : MonoBehaviour
         audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("pass"), .25f);
     }
 
-    IEnumerator SetInvincibility(bool invin, float time)
-    {
-        yield return new WaitForSeconds(time);
-        isInvincible = invin;
-    }
-
     public void Damage(int amount)
     {
         health -= amount;
@@ -370,28 +353,40 @@ public class WarriorController : MonoBehaviour
     public void OnSlide(InputAction.CallbackContext context)
     {
         if (GM.isPlaying && !isDead) Sliding();
-        /*
-         * // Check if enough time has passed since the last slide
-        if (Time.time - lastSlideTime >= slideCooldown)
+    }
+
+    /**
+     *  The Following Code Is For Helper Methods
+     **/
+    public void SetColor(int i)
+    {
+        Debug.Log("Set color called with i = " + i);
+        try
         {
-            if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
-            {
-                Debug.Log("Sliding");
-                isSliding = true;
-
-                // Add force in direction of the player input for this warrior (movementDirection)
-                Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
-                rb.AddForce(slideVelocity);
-                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
-
-                // Set isSliding to false after a delay
-                Invoke("StopSliding", slideDuration);
-
-                // Update the last slide time
-                lastSlideTime = Time.time;
-                ANIM.SetBool("isSliding", true);
-            }
+            ring.sprite = ringColors[i];
         }
-         */
+        catch
+        {
+            ring.sprite = ring.sprite;
+        }
+
+    }
+
+    IEnumerator SetInvincibility(bool invin, float time)
+    {
+        yield return new WaitForSeconds(time);
+        isInvincible = invin;
+    }
+
+    public void InvincibilityFlash()
+    {
+        if (spriteObject == null) return;
+        if (isInvincible && Time.frameCount % 2 == 0)
+        {
+            spriteObject.transform.localScale = Vector3.zero;
+        } else 
+        {
+            spriteObject.transform.localScale = spriteScale;
+        }
     }
 }
