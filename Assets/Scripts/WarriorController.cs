@@ -49,6 +49,8 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
+    public Sprite[] ringColors;
+    public SpriteRenderer ring;
 
     // Start is called before the first frame update
     void Awake()
@@ -66,6 +68,19 @@ public class WarriorController : MonoBehaviour
         transform.position = WarriorSpawner.transform.position;
         health = healthMax;
         //transform.position = WarriorSpawner.transform.position;
+    }
+
+    public void SetColor(int i)
+    {
+        Debug.Log("Set color called with i = " + i);
+        try
+        {
+            ring.sprite = ringColors[i];
+        } catch
+        {
+            ring.sprite = ring.sprite;
+        }
+        
     }
 
     // Update is called once per frame

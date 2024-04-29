@@ -113,6 +113,7 @@ public class GameplayManager : MonoBehaviour
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             player = warriors[warriors.Length - 1];
             WC = player.GetComponent<WarriorController>();
+            WC.SetColor(playerList.Count);
             playerList.Add(player);
         }
     }
