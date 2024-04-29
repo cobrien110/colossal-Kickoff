@@ -10,6 +10,7 @@ public class FollowBall : MonoBehaviour
     public Color team1Col;
     public Color team2Col;
     public float alpha = 0.75f;
+    public float alphaGainRate = 0.1f;
     
     private SpriteRenderer SR;
 
@@ -19,6 +20,7 @@ public class FollowBall : MonoBehaviour
 
     Vector3 velocity;
     public float smoothTime = 0.25f;
+    private float noOwnerAlpha = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +29,7 @@ public class FollowBall : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (BP == null) return;
         if (BP.ballOwner != null)
@@ -42,17 +44,23 @@ public class FollowBall : MonoBehaviour
         if (followTarget.GetComponent<WarriorController>())
         {
             SR.color = team2Col;
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
             y = yOffsetWarrior;
+            noOwnerAlpha = -1;
         } else if (followTarget.GetComponent<MonsterController>())
         {
             SR.color = team1Col;
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
             y = yOffsetMonster;
+            noOwnerAlpha = -1;
         } else
         {
             SR.color = Color.white;
+            if (noOwnerAlpha < 1) noOwnerAlpha += Time.deltaTime * alphaGainRate;
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha * noOwnerAlpha);
             y = yOffsetBall;
         }
-        SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
+        
 
         Vector3 newPosition = followTarget.transform.position + new Vector3(0f, y, 0f);
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
