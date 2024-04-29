@@ -91,6 +91,7 @@ public class WarriorController : MonoBehaviour
             if (!PS.isPlaying) PS.Play();
         } else if (PS != null)
         {
+            PS.time = 0;
             PS.Stop();
         }
     }
@@ -256,26 +257,6 @@ public class WarriorController : MonoBehaviour
         isInvincible = false;
     }
 
-    public bool IsSliding()
-    {
-        return isSliding;
-    }
-
-    void PlayKickSound(float charge)
-    {
-        if (charge >= maxChargeSeconds)
-        {
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick3"));
-        }
-        else if (charge >= maxChargeSeconds / 2f)
-        {
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick2"));
-        } else
-        {
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick1"));
-        }
-    }
-
     public void ResetPlayer()
     {
         gameObject.transform.position = WarriorSpawner.transform.position;
@@ -304,23 +285,31 @@ public class WarriorController : MonoBehaviour
         if (isInvincible) return;
         isDead = true;
         isInvincible = true;
+        PS.Stop();
         if (BP != null && BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             BP.ballOwner = null;
         }
         transform.position = respawnBox.position;
         MTC.RemoveTarget(transform);
+        health = healthMax;
+        PlayDeathSound();
+        StopAllCoroutines();
         StartCoroutine(Respawn());
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
-        audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("pass"), .25f);
     }
 
     public void Damage(int amount)
     {
+        if (isInvincible) return;
         health -= amount;
         if (health <= 0)
         {
             Die();
+        } else
+        {
+            StartCoroutine(SetInvincibility(true, 0.15f));
+            StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
         }
     }
 
@@ -374,6 +363,7 @@ public class WarriorController : MonoBehaviour
 
     IEnumerator SetInvincibility(bool invin, float time)
     {
+        Debug.Log("Invincibility will be set to " + invin + " in " + time + " seconds");
         yield return new WaitForSeconds(time);
         isInvincible = invin;
     }
@@ -388,5 +378,32 @@ public class WarriorController : MonoBehaviour
         {
             spriteObject.transform.localScale = spriteScale;
         }
+    }
+
+    public bool IsSliding()
+    {
+        return isSliding;
+    }
+
+    void PlayKickSound(float charge)
+    {
+        if (charge >= maxChargeSeconds)
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick3"));
+        }
+        else if (charge >= maxChargeSeconds / 2f)
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick2"));
+        }
+        else
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick1"));
+        }
+    }
+
+    void PlayDeathSound()
+    {
+        int i = Random.Range(1, 6);
+        audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("warriorDeath" + i.ToString()), 1.75f);
     }
 }

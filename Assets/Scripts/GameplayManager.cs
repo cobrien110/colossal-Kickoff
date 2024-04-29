@@ -103,12 +103,12 @@ public class GameplayManager : MonoBehaviour
     public void NewPlayer()
     {
         GameObject player;
-        if (playerList.Count == 0)
+        if (playerList.Count == 0 && GameObject.FindGameObjectWithTag("Monster"))
         {
             player = GameObject.FindGameObjectWithTag("Monster");
             MC = player.GetComponent<MonsterController>();
             playerList.Add(player);
-        } else
+        } else if (GameObject.FindGameObjectWithTag("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             player = warriors[warriors.Length - 1];
