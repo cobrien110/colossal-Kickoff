@@ -371,7 +371,7 @@ public class WarriorController : MonoBehaviour
     public void InvincibilityFlash()
     {
         if (spriteObject == null) return;
-        if (isInvincible && Time.frameCount % 2 == 0)
+        if (isInvincible && Time.frameCount % 2 == 0 && !isSliding)
         {
             spriteObject.transform.localScale = Vector3.zero;
         } else 
