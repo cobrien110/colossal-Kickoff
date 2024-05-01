@@ -14,7 +14,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private MultipleTargetCamera MTC = null;
     private PlayerInputManager PIM = null;
     private GameObject BallSpawner = null;
-    private GameObject WarriorSpawner = null;
+    private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
 
     Vector3 WarSpawnPos;
@@ -24,8 +24,9 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         BallSpawner = GameObject.Find("BallSpawner");
-        WarriorSpawner = GameObject.Find("WarriorSpawner");
-        WarSpawnPos = WarriorSpawner.transform.position;
+        //WarriorSpawner = GameObject.Find("WarriorSpawner");
+        WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
+        //WarSpawnPos = WarriorSpawner.transform.position;
         PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
         StartCoroutine(Kickoff());
     }
@@ -117,6 +118,7 @@ public class GameplayManager : MonoBehaviour
             WC = player.GetComponent<WarriorController>();
             WC.SetColor(playerList.Count);
             playerList.Add(player);
+            WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
         }
     }
 }

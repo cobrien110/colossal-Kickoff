@@ -45,7 +45,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private UIManager UM = null;
     [SerializeField] private Transform respawnBox;
     private AudioPlayer audioPlayer;
-    private GameObject WarriorSpawner = null;
+    public GameObject WarriorSpawner = null;
     [SerializeField] GameObject spriteObject;
     private Vector3 spriteScale;
     [SerializeField] private Animator ANIM;
@@ -64,7 +64,7 @@ public class WarriorController : MonoBehaviour
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         audioPlayer = GetComponent<AudioPlayer>();
-        WarriorSpawner = GameObject.Find("WarriorSpawner");
+        //WarriorSpawner = GameObject.Find("WarriorSpawner");
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         transform.position = WarriorSpawner.transform.position;
         health = healthMax;
