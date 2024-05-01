@@ -64,7 +64,6 @@ public class WarriorController : MonoBehaviour
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         audioPlayer = GetComponent<AudioPlayer>();
-        //WarriorSpawner = GameObject.Find("WarriorSpawner");
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         transform.position = WarriorSpawner.transform.position;
         health = healthMax;

@@ -24,9 +24,7 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         BallSpawner = GameObject.Find("BallSpawner");
-        //WarriorSpawner = GameObject.Find("WarriorSpawner");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
-        //WarSpawnPos = WarriorSpawner.transform.position;
         PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
         StartCoroutine(Kickoff());
     }

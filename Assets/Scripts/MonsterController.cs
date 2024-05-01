@@ -47,6 +47,7 @@ public class MonsterController : MonoBehaviour
     private float dashCharge = 1f;
     private bool isChargingDash = false;
 
+    [SerializeField] private bool canMove = true;
     [SerializeField] private GameplayManager GM = null;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private Animator ANIM;
@@ -76,7 +77,10 @@ public class MonsterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if (canMove)
+        {
+            Movement();
+        }
         //Movement();
         if (GM.isPlaying)
         {  
@@ -273,6 +277,7 @@ public class MonsterController : MonoBehaviour
             lastAttackTime = Time.time;
             ANIM.Play("MinotaurAttack");
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurAxeAttack"));
+            StartCoroutine(MoveDelay());
         }
 
     }
@@ -394,6 +399,7 @@ public class MonsterController : MonoBehaviour
         BP.lastKicker = null;
         Debug.Log("Wait Done");
     }
+
     private void OnTriggerEnter(Collider collider)
     {
         // Debug.Log("Monster Collision with: " + collider.gameObject.name);
@@ -402,6 +408,14 @@ public class MonsterController : MonoBehaviour
             Debug.Log("Dash killed warrior");
             collider.gameObject.GetComponent<WarriorController>().Die();
         }
+    }
+
+    IEnumerator MoveDelay()
+    {
+        canMove = false;
+        ANIM.SetBool("isWalking", false);
+        yield return new WaitForSeconds(1.0f);
+        canMove = true;
     }
 
 
@@ -436,6 +450,7 @@ public class MonsterController : MonoBehaviour
         if (wallTimer >= wallCooldown && GM.isPlaying)
         {
             BuildWall();
+            StartCoroutine(MoveDelay());
         }
     }
 
