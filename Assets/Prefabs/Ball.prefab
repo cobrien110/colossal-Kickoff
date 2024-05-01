@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5143236640738009594}
   - component: {fileID: 6538995323527539179}
   - component: {fileID: 335954331304051254}
+  - component: {fileID: 2196076062288024532}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -101,6 +102,7 @@ MonoBehaviour:
   ballOwner: {fileID: 0}
   ballSpawnPoint: {fileID: 0}
   lastKicker: {fileID: 0}
+  previousKicker: {fileID: 0}
   isInteractable: 1
 --- !u!82 &6538995323527539179
 AudioSource:
@@ -219,6 +221,27 @@ MonoBehaviour:
   volume: 1
   pitchRangeLow: 0.9
   pitchRangeHigh: 1.1
+--- !u!135 &2196076062288024532
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062614423232293857}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 1.25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1364311945692225864
 GameObject:
   m_ObjectHideFlags: 0

@@ -187,6 +187,11 @@ public class WarriorController : MonoBehaviour
             BP.previousKicker = gameObject;
             Debug.Log(kickCharge);
             float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+            if (GM.passMeter == GM.passMeterMax)
+            {
+                kickForce = kickForce * 2;
+                GM.passMeter = 0;
+            }
             Vector3 forceToAdd = aimingDirection * kickForce; 
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
             ANIM.Play("WarriorKick");

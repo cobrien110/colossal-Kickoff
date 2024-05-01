@@ -17,7 +17,7 @@ public class GameplayManager : MonoBehaviour
     private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
     public int passMeter = 0;
-    private int passMeterMax = 100;
+    public int passMeterMax = 100;
 
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
