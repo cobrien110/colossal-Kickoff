@@ -11,6 +11,10 @@ public class WallShrapnel : MonoBehaviour
     //public float spreadVert = 15f;
     private Rigidbody rb;
 
+    List<WarriorController> hitPlayers = new List<WarriorController>();
+
+    //bool hasCollided = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +36,11 @@ public class WallShrapnel : MonoBehaviour
     {
         if (other.tag.Equals("Warrior"))
         {
+            Debug.Log("Shrapnel Hit Warrior");
             WarriorController WC = other.GetComponent<WarriorController>();
+            if (WC.isInvincible || hitPlayers.Contains(WC)) return;
             WC.Damage(damage);
+            hitPlayers.Add(WC);
             Destroy(gameObject);
         }
     }

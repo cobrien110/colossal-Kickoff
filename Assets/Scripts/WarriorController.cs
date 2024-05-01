@@ -308,6 +308,7 @@ public class WarriorController : MonoBehaviour
             Die();
         } else
         {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
             StartCoroutine(SetInvincibility(true, 0.15f));
             StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
         }
