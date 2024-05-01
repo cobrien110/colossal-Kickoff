@@ -184,6 +184,7 @@ public class WarriorController : MonoBehaviour
             Debug.Log("Kick!");
             BP.ballOwner = null;
             BP.lastKicker = gameObject;
+            BP.previousKicker = gameObject;
             Debug.Log(kickCharge);
             float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
             Vector3 forceToAdd = aimingDirection * kickForce; 

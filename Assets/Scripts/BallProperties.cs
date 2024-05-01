@@ -12,6 +12,7 @@ public class BallProperties : MonoBehaviour
     private AudioPlayer audioPlayer;
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
+    public GameObject previousKicker = null;
 
     public bool isInteractable = true;
 
@@ -57,6 +58,10 @@ public class BallProperties : MonoBehaviour
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
+            if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
+            {
+                GM.passMeter += 10;
+            }
         }
 
         if (other.tag.Equals("WarriorGoal") && isInteractable)

@@ -16,6 +16,8 @@ public class GameplayManager : MonoBehaviour
     private GameObject BallSpawner = null;
     private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
+    public int passMeter = 0;
+    private int passMeterMax = 100;
 
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
@@ -32,7 +34,11 @@ public class GameplayManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (passMeter > passMeterMax)
+        {
+            passMeter = passMeterMax;
+        }
+        UM.UpdatePassMeterText(passMeter);
     }
 
     public void StartPlaying()
@@ -80,6 +86,7 @@ public class GameplayManager : MonoBehaviour
         MTC.targets[0] = newBall.transform;
         FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
         FB.BP = Ball.GetComponent<BallProperties>();
+        passMeter = 0;
     }
 
     //isPlaying getter and setter

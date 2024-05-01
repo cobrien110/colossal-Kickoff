@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image monsterAbility1Bar = null;
     [SerializeField] private TMP_Text chargeBarText = null;
 
+    //PassMeter
+    [SerializeField] private TMP_Text passMeterText = null;
+
     Coroutine timerCoroutine;
     GameplayManager GM;
 
@@ -160,5 +163,10 @@ public class UIManager : MonoBehaviour
     public void UpdateChargeBarText(string text)
     {
         chargeBarText.text = text;
+    }
+
+    public void UpdatePassMeterText(int passMeter)
+    {
+        passMeterText.text = "Pass Meter: " + passMeter;
     }
 }
