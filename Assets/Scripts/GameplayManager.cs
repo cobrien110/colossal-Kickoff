@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -39,6 +40,11 @@ public class GameplayManager : MonoBehaviour
             passMeter = passMeterMax;
         }
         UM.UpdatePassMeterText(passMeter);
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
+        {
+            ResetGame();
+        }
     }
 
     public void StartPlaying()
@@ -125,5 +131,19 @@ public class GameplayManager : MonoBehaviour
             playerList.Add(player);
             WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
         }
+    }
+
+    public void ResetGame()
+    {
+        Debug.Log("Resetting Game");
+        isPlaying = true;
+        UM.ShowGameOverText(false);
+        GameObject ballTemp = Ball.gameObject;
+        Reset();
+        Destroy(ballTemp);
+        UM.ResetScoreAndTime();
+
+        // Resume Game
+        Time.timeScale = 1;
     }
 }

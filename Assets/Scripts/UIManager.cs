@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
         countdown.gameObject.SetActive(false);
     }
 
-    private void ShowGameOverText(bool state)
+    public void ShowGameOverText(bool state)
     {
         gameoverText.gameObject.SetActive(state);
     }
@@ -105,6 +105,9 @@ public class UIManager : MonoBehaviour
         ShowGameOverText(true);
         Debug.Log("End Coroutine");
 
+        // Pause Game
+        Time.timeScale = 0;
+
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
         GM.StopPlaying();
@@ -131,6 +134,15 @@ public class UIManager : MonoBehaviour
     {
         monsterScore++;
         UpdateScoreMonster();
+    }
+
+    public void ResetScoreAndTime()
+    {
+        monsterScore = 0;
+        UpdateScoreMonster();
+        warriorScore = 0;
+        UpdateScoreHuman();
+        timeRemainingSeconds = gameSeconds;
     }
 
     private void UpdateScoreHuman()

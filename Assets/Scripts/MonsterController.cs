@@ -362,9 +362,10 @@ public class MonsterController : MonoBehaviour
         Vector3 dir = movementDirection;
         if (dir.Equals(Vector3.zero))
         {
-            return;
+            dir = rb.transform.forward.normalized;
+            // return;
         }
-        spawnLocation = transform.position + (movementDirection * wallSpawnDistance);
+        spawnLocation = transform.position + (dir * wallSpawnDistance);
         spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
 
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
