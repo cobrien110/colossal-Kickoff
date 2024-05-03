@@ -6,6 +6,7 @@ public class FollowBall : MonoBehaviour
 {
     private GameObject followTarget;
 
+    public float startingAlpha = -3f;
     public BallProperties BP;
     public Color team1Col;
     public Color team2Col;
@@ -26,6 +27,8 @@ public class FollowBall : MonoBehaviour
     {
         SR = GetComponent<SpriteRenderer>();
         BP = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallProperties>();
+        noOwnerAlpha = startingAlpha;
+        SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha * noOwnerAlpha);
     }
 
     // Update is called once per frame

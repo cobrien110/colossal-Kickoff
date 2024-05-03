@@ -129,7 +129,14 @@ public class GameplayManager : MonoBehaviour
             WC = player.GetComponent<WarriorController>();
             WC.SetColor(playerList.Count);
             playerList.Add(player);
-            WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
+            try
+            {
+                WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
+            } catch
+            {
+                // Null Reference Catch
+            }
+            
         }
     }
 

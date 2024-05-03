@@ -65,9 +65,15 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
-        transform.position = WarriorSpawner.transform.position;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
+
+        if (WarriorSpawner == null)
+        {
+            WarriorSpawner = GameObject.FindGameObjectWithTag("WarriorSpawner");
+            
+        }
+        transform.position = WarriorSpawner.transform.position;
     }
 
     // Update is called once per frame
