@@ -62,6 +62,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Invert"",
+                    ""type"": ""Button"",
+                    ""id"": ""be6af599-cb98-41b1-9eea-53b7b0313b4c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -106,6 +115,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28a5687b-acb7-419a-85cd-e881a952add1"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Invert"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -168,6 +188,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Invert"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -236,6 +265,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Charge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b823dad2-d65b-45ab-845e-aa13852b9da9"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Invert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -260,6 +300,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
         m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
+        m_Player_Invert = m_Player.FindAction("Invert", throwIfNotFound: true);
         // Monster
         m_Monster = asset.FindActionMap("Monster", throwIfNotFound: true);
         m_Monster_Movement = m_Monster.FindAction("Movement", throwIfNotFound: true);
@@ -268,6 +309,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Monster_Wall = m_Monster.FindAction("Wall", throwIfNotFound: true);
         m_Monster_Attack = m_Monster.FindAction("Attack", throwIfNotFound: true);
         m_Monster_Charge = m_Monster.FindAction("Charge", throwIfNotFound: true);
+        m_Monster_Invert = m_Monster.FindAction("Invert", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -333,6 +375,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Join;
     private readonly InputAction m_Player_Slide;
+    private readonly InputAction m_Player_Invert;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -341,6 +384,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputAction @Slide => m_Wrapper.m_Player_Slide;
+        public InputAction @Invert => m_Wrapper.m_Player_Invert;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -362,6 +406,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Slide.started += instance.OnSlide;
             @Slide.performed += instance.OnSlide;
             @Slide.canceled += instance.OnSlide;
+            @Invert.started += instance.OnInvert;
+            @Invert.performed += instance.OnInvert;
+            @Invert.canceled += instance.OnInvert;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -378,6 +425,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Slide.started -= instance.OnSlide;
             @Slide.performed -= instance.OnSlide;
             @Slide.canceled -= instance.OnSlide;
+            @Invert.started -= instance.OnInvert;
+            @Invert.performed -= instance.OnInvert;
+            @Invert.canceled -= instance.OnInvert;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -405,6 +455,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Monster_Wall;
     private readonly InputAction m_Monster_Attack;
     private readonly InputAction m_Monster_Charge;
+    private readonly InputAction m_Monster_Invert;
     public struct MonsterActions
     {
         private @InputMaster m_Wrapper;
@@ -415,6 +466,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Wall => m_Wrapper.m_Monster_Wall;
         public InputAction @Attack => m_Wrapper.m_Monster_Attack;
         public InputAction @Charge => m_Wrapper.m_Monster_Charge;
+        public InputAction @Invert => m_Wrapper.m_Monster_Invert;
         public InputActionMap Get() { return m_Wrapper.m_Monster; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -442,6 +494,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Charge.started += instance.OnCharge;
             @Charge.performed += instance.OnCharge;
             @Charge.canceled += instance.OnCharge;
+            @Invert.started += instance.OnInvert;
+            @Invert.performed += instance.OnInvert;
+            @Invert.canceled += instance.OnInvert;
         }
 
         private void UnregisterCallbacks(IMonsterActions instance)
@@ -464,6 +519,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Charge.started -= instance.OnCharge;
             @Charge.performed -= instance.OnCharge;
             @Charge.canceled -= instance.OnCharge;
+            @Invert.started -= instance.OnInvert;
+            @Invert.performed -= instance.OnInvert;
+            @Invert.canceled -= instance.OnInvert;
         }
 
         public void RemoveCallbacks(IMonsterActions instance)
@@ -496,6 +554,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
+        void OnInvert(InputAction.CallbackContext context);
     }
     public interface IMonsterActions
     {
@@ -505,5 +564,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnWall(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnCharge(InputAction.CallbackContext context);
+        void OnInvert(InputAction.CallbackContext context);
     }
 }

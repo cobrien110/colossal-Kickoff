@@ -11,7 +11,7 @@ public class DeleteAfterDelay : MonoBehaviour
         Invoke("Kill", deathTimer);
     }
 
-    void Kill()
+    public void Kill()
     {
         Destroy(this.gameObject);
     }

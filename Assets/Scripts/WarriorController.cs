@@ -40,6 +40,7 @@ public class WarriorController : MonoBehaviour
 
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
+    public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
     [SerializeField] private UIManager UM = null;
@@ -343,6 +344,13 @@ public class WarriorController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+
+        if (invertControls)
+        {
+            rightStickInput.x = -rightStickInput.x;
+            rightStickInput.z = -rightStickInput.z;
+        }
+
         if (rightStickInput != Vector3.zero && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
@@ -358,6 +366,11 @@ public class WarriorController : MonoBehaviour
     public void OnSlide(InputAction.CallbackContext context)
     {
         if (GM.isPlaying && !isDead) Sliding();
+    }
+
+    public void OnInvert(InputAction.CallbackContext context)
+    {
+        invertControls = !invertControls;
     }
 
     /**

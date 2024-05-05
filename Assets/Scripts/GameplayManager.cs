@@ -68,6 +68,14 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
+        GameObject[] MinoWalls = GameObject.FindGameObjectsWithTag("MinoWall");
+        if (MinoWalls.Length != 0)
+        {
+            for (int i = 0; i < MinoWalls.Length; i++)
+            {
+                MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
+            }
+        }
         StopPlaying();
         StartCoroutine(Kickoff());
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);

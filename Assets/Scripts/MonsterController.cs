@@ -18,6 +18,7 @@ public class MonsterController : MonoBehaviour
 
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
+    public bool invertControls = false;
 
     [SerializeField] private GameObject ballPosition;
 
@@ -445,6 +446,13 @@ public class MonsterController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+
+        if (invertControls)
+        {
+            rightStickInput.x = -rightStickInput.x;
+            rightStickInput.z = -rightStickInput.z;
+        }
+
         if (rightStickInput != Vector3.zero && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
@@ -517,5 +525,10 @@ public class MonsterController : MonoBehaviour
                 isChargingDash = true;
             }
         }
+    }
+
+    public void OnInvert(InputAction.CallbackContext context)
+    {
+        invertControls = !invertControls;
     }
 }

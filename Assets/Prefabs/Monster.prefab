@@ -328,6 +328,7 @@ MonoBehaviour:
   monsterSpeed: 2.75
   movementDirection: {x: 0, y: 0, z: 0}
   usingKeyboard: 0
+  invertControls: 0
   ballPosition: {fileID: 9043230712970436401}
   passSpeed: 400
   kickSpeed: 475
@@ -705,6 +706,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 03b36eb2-82aa-435f-8813-8c4ec800c024
     m_ActionName: Monster/Charge[/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be6af599-cb98-41b1-9eea-53b7b0313b4c
+    m_ActionName: Player/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2956063197818060719}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnInvert
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
+    m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

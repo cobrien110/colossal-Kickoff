@@ -75,6 +75,7 @@ MonoBehaviour:
   slideCooldown: 2
   slideDuration: 1
   usingKeyboard: 0
+  invertControls: 0
   GM: {fileID: 0}
   UM: {fileID: 0}
   respawnBox: {fileID: 0}
@@ -371,6 +372,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 03b36eb2-82aa-435f-8813-8c4ec800c024
     m_ActionName: Monster/Charge
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1063518855127335618}
+        m_TargetAssemblyTypeName: WarriorController, Assembly-CSharp
+        m_MethodName: OnInvert
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: be6af599-cb98-41b1-9eea-53b7b0313b4c
+    m_ActionName: Player/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -5609,6 +5626,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 8021528492215596497}
   mr: {fileID: 0}
+  Ball: {fileID: 0}
+  BP: {fileID: 0}
 --- !u!1 &6004576494202542484
 GameObject:
   m_ObjectHideFlags: 0
