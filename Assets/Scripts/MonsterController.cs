@@ -244,6 +244,7 @@ public class MonsterController : MonoBehaviour
         {
             kickCharge = 1f;
             isCharging = false;
+            aimingDirection = Vector3.zero;
         }
     }
 

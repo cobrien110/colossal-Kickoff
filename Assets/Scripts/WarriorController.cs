@@ -231,6 +231,7 @@ public class WarriorController : MonoBehaviour
         {
             kickCharge = 1f;
             isCharging = false;
+            aimingDirection = Vector3.zero;
             ANIM.SetBool("isChargingKick", false);
         }
     }
