@@ -18,8 +18,7 @@ public class AimVisualizer : MonoBehaviour
         wc = transform.parent.gameObject.GetComponent<WarriorController>();
         mc = transform.parent.gameObject.GetComponent<MonsterController>();
         //mr = GetComponent<MeshRenderer>();
-        Ball = GameObject.Find("Ball");
-        BP = (BallProperties)Ball.GetComponent("BallProperties");
+        NewBall();
     }
 
     // Update is called once per frame
@@ -56,6 +55,16 @@ public class AimVisualizer : MonoBehaviour
             }
 
         }
+        if (Ball == null)
+        {
+            NewBall();
+        }
+    }
+
+    void NewBall()
+    {
+        Ball = GameObject.FindGameObjectWithTag("Ball");
+        BP = (BallProperties)Ball.GetComponent("BallProperties");
     }
 
 }

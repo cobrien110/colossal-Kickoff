@@ -100,6 +100,7 @@ public class GameplayManager : MonoBehaviour
         MTC.targets[0] = newBall.transform;
         FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
         FB.BP = Ball.GetComponent<BallProperties>();
+        
         passMeter = 0;
     }
 

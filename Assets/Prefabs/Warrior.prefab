@@ -388,6 +388,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: be6af599-cb98-41b1-9eea-53b7b0313b4c
     m_ActionName: Player/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
+    m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -5722,7 +5726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7369903154387812060}
   - component: {fileID: 7237666434269395940}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
