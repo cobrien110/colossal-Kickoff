@@ -49,7 +49,7 @@ public class MinoWall : MonoBehaviour
         {
             SpawnProjectiles();
             AudioPlayer aud = other.gameObject.GetComponent<AudioPlayer>();
-            aud.PlaySoundRandomPitch(aud.Find("minotaurWallSmash"));
+            aud.PlaySoundVolumeRandomPitch(aud.Find("minotaurWallSmash"), 0.35f);
             Destroy(this.gameObject);
         }
     }

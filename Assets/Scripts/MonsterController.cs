@@ -58,7 +58,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float attackCooldown = 1f;
     private float lastAttackTime = -1f;
     public LayerMask layerMask;
-
+    private CommentatorSoundManager CSM;
 
     // Start is called before the first frame update
     void Awake()
@@ -68,6 +68,7 @@ public class MonsterController : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
+        CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
         transform.position = monsterSpawner.transform.position;
@@ -101,7 +102,13 @@ public class MonsterController : MonoBehaviour
             
             if (isChargingDash)
             {
-                chargeDashing();
+                ChargeDashing();
+            }
+
+            // TESTING STUN
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Stun();
             }
 
         }
@@ -276,7 +283,7 @@ public class MonsterController : MonoBehaviour
             }
             lastAttackTime = Time.time;
             ANIM.Play("MinotaurAttack");
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurAxeAttack"));
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttack"), 0.75f);
             StartCoroutine(MoveDelay());
         }
 
@@ -300,7 +307,7 @@ public class MonsterController : MonoBehaviour
                     isDashing = true;
                     ANIM.SetBool("isWindingUp", false);
                     ANIM.Play("MinotaurCharge");
-                    audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurDash"));
+                    audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDash"), 0.85f);
 
                     // Add force in direction of the player input for this warrior (movementDirection)
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
@@ -316,12 +323,10 @@ public class MonsterController : MonoBehaviour
                 {
                     Debug.Log("Dash failed");
                 }
-
                 // Update the last dash time
                 lastDashTime = Time.time;
                 dashCharge = 0;
                 isChargingDash = false;
-
             }
             else if (Input.GetKey(KeyCode.R)) // If it still is true, keep charging
             {
@@ -330,7 +335,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    void chargeDashing()
+    void ChargeDashing()
     {
         if (dashCharge < maxDashChargeSeconds)
         {
@@ -338,9 +343,9 @@ public class MonsterController : MonoBehaviour
             ANIM.SetBool("isWindingUp", true);
             dashCharge += Time.deltaTime;
             isChargingDash = true;
-            if (!audioPlayer.isPlaying())
+            if (audioPlayer.source.clip == null || (!audioPlayer.isPlaying() && !audioPlayer.source.clip.name.Equals("minotaurDashCharge")))
             {
-                audioPlayer.PlaySound(audioPlayer.Find("minotaurDashCharge"));
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDashCharge"), 0.75f);
             }
         }
     }
@@ -371,6 +376,11 @@ public class MonsterController : MonoBehaviour
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
         Instantiate(wallPrefab, spawnLocation, spawnRotation);
         ANIM.Play("MinotaurWall");
+    }
+
+    public void Stun()
+    {
+        CSM.PlayDeathSound(false);
     }
 
     void PlayKickSound(float charge)

@@ -53,6 +53,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private ParticleSystem PS;
     public Sprite[] ringColors;
     public SpriteRenderer ring;
+    private CommentatorSoundManager CSM;
 
     // Start is called before the first frame update
     void Awake()
@@ -63,6 +64,7 @@ public class WarriorController : MonoBehaviour
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
@@ -305,6 +307,7 @@ public class WarriorController : MonoBehaviour
         MTC.RemoveTarget(transform);
         health = healthMax;
         PlayDeathSound();
+        CSM.PlayDeathSound(true);
         StopAllCoroutines();
         StartCoroutine(Respawn());
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));

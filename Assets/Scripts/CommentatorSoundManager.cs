@@ -9,6 +9,11 @@ public class CommentatorSoundManager : MonoBehaviour
     List<List<AudioClip>> comSoundsB = new List<List<AudioClip>>();
     List<List<AudioClip>> comSoundsAB = new List<List<AudioClip>>();
 
+    public float goalSoundFreq = 1f;
+    public float deathSoundFreq = 0.35f;
+    public float stunSoundFreq = 1f;
+    public float goalSoundDelay = 1f;
+    public float killSoundDelay = 0.75f;
     public bool canPlaySounds = true;
     public float volume = 0.5f;
     [Header("Commentator A Sounds")]
@@ -55,14 +60,26 @@ public class CommentatorSoundManager : MonoBehaviour
 
     public void PlayGoalSound(bool isWarriorGoal)
     {
-        if (!canPlaySounds) return;
+        bool willPlay = true;
+        if (!canPlaySounds) willPlay = false;
+        float r = Random.Range(0.0f, 1.0f);
+        if (r >= goalSoundFreq) willPlay = false;
+
+        if (willPlay)
+        {
+            StartCoroutine(GoalSoundHelper(isWarriorGoal));
+        } 
+    }
+    private IEnumerator GoalSoundHelper(bool isWarriorGoal)
+    {
+        yield return new WaitForSeconds(goalSoundDelay);
         AudioClip clip = comSoundsA_WarriorGoal[0];
         int rVoice = Random.Range(0, allSounds.Count);
         int teamClips = isWarriorGoal ? 0 : 1;
         List<List<AudioClip>> commentatorClips = allSounds[rVoice];
         List<AudioClip> theseClips = commentatorClips[teamClips];
 
-        int clipIndex = Random.Range(0, theseClips.Count - 1);
+        int clipIndex = Random.Range(0, theseClips.Count);
         clip = theseClips[clipIndex];
 
         if (!AP.isPlaying()) AP.PlaySoundVolume(clip, volume);
@@ -70,17 +87,30 @@ public class CommentatorSoundManager : MonoBehaviour
 
     public void PlayDeathSound(bool isWarriorDeath)
     {
-        /*
-        AudioClip clip = comSoundsA_WarriorDeath[0];
-        int rVoice = Random.Range(0, 3);
-        int teamClips = isWarriorDeath ? 2 : 3;
-        List<AudioClip[]> commentatorClips = allSounds[rVoice];
-        AudioClip[] theseClips = commentatorClips[teamClips];
+        bool willPlay = true;
+        if (!canPlaySounds) willPlay = false;
+        float r = Random.Range(0.0f, 1.0f);
+        float freq = isWarriorDeath ? deathSoundFreq : stunSoundFreq;
+        if (r >= freq) willPlay = false;
 
-        int clipIndex = Random.Range(0, theseClips.Length);
+        if (willPlay)
+        {
+            StartCoroutine(DeathSoundHelper(isWarriorDeath));
+        }
+    }
+
+    private IEnumerator DeathSoundHelper(bool isWarriorDeath)
+    {
+        yield return new WaitForSeconds(killSoundDelay);
+        AudioClip clip = comSoundsA_WarriorGoal[0];
+        int rVoice = Random.Range(0, allSounds.Count);
+        int teamClips = isWarriorDeath ? 2 : 3;
+        List<List<AudioClip>> commentatorClips = allSounds[rVoice];
+        List<AudioClip> theseClips = commentatorClips[teamClips];
+
+        int clipIndex = Random.Range(0, theseClips.Count);
         clip = theseClips[clipIndex];
 
-        AP.PlaySound(clip);
-        */
+        if (!AP.isPlaying()) AP.PlaySoundVolume(clip, volume);
     }
 }
