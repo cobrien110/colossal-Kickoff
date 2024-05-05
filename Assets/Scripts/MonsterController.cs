@@ -25,6 +25,7 @@ public class MonsterController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
+    [SerializeField] private float attackHitForce = 200f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
@@ -272,7 +273,7 @@ public class MonsterController : MonoBehaviour
                 float currentAngle = -halfConeAngle + (angleStep * i);
                 Quaternion rotation = Quaternion.AngleAxis(currentAngle, transform.up);
                 Vector3 direction = rotation * transform.forward;
-
+                
                 if (Physics.Raycast(transform.position, direction, out hit, attackRange, layerMask))
                 {
                     Debug.Log("Raycast hit " + hit.collider.gameObject.name);
@@ -283,6 +284,19 @@ public class MonsterController : MonoBehaviour
                             WC.Die();
                         else
                             Debug.Log("Warrior is invincible");
+                    }
+                    if (hit.collider.gameObject.CompareTag("Ball") && BP.ballOwner == null)
+                    {
+                        // SWIPE AWAY BALL - UNUSED FOR NOW
+                        /*
+                        Debug.Log("AXE HIT BALL!");
+                        float kickForce = attackHitForce;
+                        Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
+                        Vector3 posB = new Vector3(transform.position.x, 0f, transform.position.z);
+                        Vector3 dir = (posA - posB).normalized;
+                        Vector3 forceToAdd = dir * kickForce;
+                        BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                        */
                     }
                 }
                 // Debug.Log("Raycast");
