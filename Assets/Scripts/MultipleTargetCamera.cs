@@ -19,7 +19,7 @@ public class MultipleTargetCamera : MonoBehaviour
         mainCamera = GetComponent<Camera>();
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (targets.Count == 0) return;
         Move();

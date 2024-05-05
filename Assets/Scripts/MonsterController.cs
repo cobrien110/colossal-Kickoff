@@ -81,7 +81,7 @@ public class MonsterController : MonoBehaviour
     {
         if (canMove)
         {
-            Movement();
+            //Movement();
         }
         //Movement();
         if (GM.isPlaying)
@@ -124,7 +124,11 @@ public class MonsterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Movement();
+        if (canMove)
+        {
+            Movement();
+        }
+        
     }
 
     void Movement()
@@ -294,7 +298,6 @@ public class MonsterController : MonoBehaviour
     void Dash()
     {
         if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
-
 
         if (Time.time - lastDashTime >= dashCooldown)
         {

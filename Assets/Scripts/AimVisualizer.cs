@@ -8,15 +8,17 @@ public class AimVisualizer : MonoBehaviour
     MonsterController mc;
     private Vector3 aimDir;
     [SerializeField] private GameObject arrow;
-    [SerializeField] private MeshRenderer mr;
+    //[SerializeField] private MeshRenderer mr;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        wc = transform.parent.gameObject.GetComponent<WarriorController>();
-        mc = transform.parent.gameObject.GetComponent<MonsterController>();
+        //wc = GetComponentInParent<WarriorController>();
+        //mc = GetComponentInParent<MonsterController>();
+        wc = transform.parent.parent.gameObject.GetComponent<WarriorController>();
+        mc = transform.parent.parent.gameObject.GetComponent<MonsterController>();
         //mr = GetComponent<MeshRenderer>();
         NewBall();
     }
@@ -27,7 +29,7 @@ public class AimVisualizer : MonoBehaviour
         if (wc != null)
         {
             aimDir = wc.GetAimDirection();
-            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.gameObject)
+            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.parent.gameObject)
             {
                 arrow.SetActive(true);
                 transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);
@@ -42,7 +44,7 @@ public class AimVisualizer : MonoBehaviour
         if (mc != null)
         {
             aimDir = mc.GetAimDirection();
-            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.gameObject)
+            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.parent.gameObject)
             {
                 arrow.SetActive(true);
                 transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);

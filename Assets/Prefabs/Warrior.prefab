@@ -39,7 +39,6 @@ Transform:
   m_Children:
   - {fileID: 9088418411368109380}
   - {fileID: 728193941911861754}
-  - {fileID: 275178417392239571}
   - {fileID: 2357101103932996816}
   - {fileID: 3435439304168939323}
   - {fileID: 2336023225702641437}
@@ -59,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ball: {fileID: 0}
   BP: {fileID: 0}
-  warriorSpeed: 3
+  warriorSpeed: 2.85
   ballPosition: {fileID: 2737137768588858997}
   healthMax: 2
   health: 2
@@ -448,7 +447,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.55, z: 0.89}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 275178417392239571}
   m_Father: {fileID: 6106750825581961316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2861030203126778270
@@ -5608,13 +5608,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5388751732399795378}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1185, z: 0}
+  m_LocalScale: {x: 0.30000004, y: 0.30000004, z: 0.30000004}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7369903154387812060}
-  m_Father: {fileID: 6106750825581961316}
+  m_Father: {fileID: 9088418411368109380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3247079744594809931
 MonoBehaviour:
@@ -5629,7 +5629,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 8021528492215596497}
-  mr: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
 --- !u!1 &6004576494202542484
@@ -5742,7 +5741,7 @@ Transform:
   m_GameObject: {fileID: 8021528492215596497}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.219}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5790,7 +5789,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 775950e1c8ef5484d925acac0f2d281a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
+  m_Color: {r: 1, g: 0.93712294, b: 0, a: 0.6862745}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

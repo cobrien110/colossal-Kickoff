@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4740213529786104536}
   - component: {fileID: 211025038342735762}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 664036316303695430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.393}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 775950e1c8ef5484d925acac0f2d281a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
+  m_Color: {r: 1, g: 0.9372549, b: 0, a: 0.6862745}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -305,7 +305,6 @@ Transform:
   m_Children:
   - {fileID: 5637369858138916797}
   - {fileID: 8054543753921703476}
-  - {fileID: 1829573181954669806}
   - {fileID: 193361555033795765}
   - {fileID: 3250712774358354921}
   m_Father: {fileID: 0}
@@ -325,7 +324,7 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
-  monsterSpeed: 2.75
+  monsterSpeed: 3
   movementDirection: {x: 0, y: 0, z: 0}
   usingKeyboard: 0
   invertControls: 0
@@ -779,13 +778,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6986878365702229708}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0385, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4740213529786104536}
-  m_Father: {fileID: 5482897443782975315}
+  m_Father: {fileID: 5637369858138916797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3120747195718422198
 MonoBehaviour:
@@ -800,7 +799,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 664036316303695430}
-  mr: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
 --- !u!1 &7544545565080370887
@@ -831,7 +829,7 @@ Transform:
   m_GameObject: {fileID: 7544545565080370887}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0.85, z: 0}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1036,6 +1034,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.15, z: 0.6}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1829573181954669806}
   m_Father: {fileID: 5482897443782975315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
