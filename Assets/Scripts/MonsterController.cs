@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,7 +53,15 @@ public class MonsterController : MonoBehaviour
     private bool isDashing = false;
     private float dashCharge = 1f;
     private bool isChargingDash = false;
-    public bool isStunned = false;
+    [HideInInspector] public bool isStunned = false;
+    public float attackRange = 1f;
+    [SerializeField] private float attackCooldown = 1f;
+    private float lastAttackTime = -1f;
+    [SerializeField] private float attackBaseRadius = 0.5f;
+    private bool isChargingAttack = false;
+    private float attackCharge = 0f;
+    [SerializeField] private float attackChargeRate = 1f;
+    [SerializeField] private float maxAttackChargeSeconds = 2f;
 
     [SerializeField] private bool canMove = true;
     [SerializeField] private GameplayManager GM = null;
@@ -58,14 +69,11 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
-    public float attackRange = 1f;
-    [SerializeField] private float attackConeAngle = 30f;
-    [SerializeField] private float attackCooldown = 1f;
-    private float lastAttackTime = -1f;
     public LayerMask layerMask;
     private CommentatorSoundManager CSM;
     public GameObject spriteObject;
     private Vector3 spriteScale;
+    public GameObject attackVisual;
 
     // Start is called before the first frame update
     void Awake()
@@ -98,6 +106,7 @@ public class MonsterController : MonoBehaviour
             Kicking();
             RotateWhileCharging();
             Dash();
+            ResizeAttackVisual();
 
             if (Input.GetKey(KeyCode.Backspace))
             {
@@ -112,6 +121,16 @@ public class MonsterController : MonoBehaviour
             if (isChargingDash)
             {
                 ChargeDashing();
+            }
+
+            if (isChargingAttack)
+            {
+                ChargeAttack();
+
+                if (!attackVisual.activeSelf) attackVisual.SetActive(true);
+            } else
+            {
+                if (attackVisual.activeSelf) attackVisual.SetActive(false);
             }
 
             // TESTING STUN
@@ -133,6 +152,7 @@ public class MonsterController : MonoBehaviour
         {
             BP.ballOwner = null;
         }
+
     }
 
     private void FixedUpdate()
@@ -282,55 +302,55 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying)
-        {
+        if (BP != null && BP.ballOwner != gameObject && GM.isPlaying)
+        {    
             Debug.Log("Attack!");
-            RaycastHit hit;
 
-            float halfConeAngle = attackConeAngle / 2f;
-            int numRaycasts = (int) attackConeAngle / 5;
+            Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward * attackRange, attackCharge * attackChargeRate, layerMask);
 
-            float angleStep = attackConeAngle / (numRaycasts - 1);
-
-            // raycast several times between two angles
-            for (int i = 0; i < numRaycasts; i++)
+            foreach (Collider col in colliders)
             {
-                float currentAngle = -halfConeAngle + (angleStep * i);
-                Quaternion rotation = Quaternion.AngleAxis(currentAngle, transform.up);
-                Vector3 direction = rotation * transform.forward;
-                
-                if (Physics.Raycast(transform.position, direction, out hit, attackRange, layerMask))
+                // Handle collision with each collider
+                Debug.Log("SphereCast hit " + col.gameObject.name);
+                if (col.gameObject.CompareTag("Warrior"))
                 {
-                    Debug.Log("Raycast hit " + hit.collider.gameObject.name);
-                    if (hit.collider.gameObject.CompareTag("Warrior"))
-                    {
-                        WarriorController WC = hit.collider.GetComponent<WarriorController>();
-                        if (!WC.isInvincible)
-                            WC.Die();
-                        else
-                            Debug.Log("Warrior is invincible");
-                    }
-                    if (hit.collider.gameObject.CompareTag("Ball") && BP.ballOwner == null)
-                    {
-                        // SWIPE AWAY BALL - UNUSED FOR NOW
-                        /*
-                        Debug.Log("AXE HIT BALL!");
-                        float kickForce = attackHitForce;
-                        Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
-                        Vector3 posB = new Vector3(transform.position.x, 0f, transform.position.z);
-                        Vector3 dir = (posA - posB).normalized;
-                        Vector3 forceToAdd = dir * kickForce;
-                        BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-                        */
-                    }
+                    WarriorController WC = col.GetComponent<WarriorController>();
+                    if (!WC.isInvincible)
+                        WC.Die();
+                    else
+                        Debug.Log("Warrior is invincible");
                 }
-                // Debug.Log("Raycast");
+                if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null)
+                {
+                    // SWIPE AWAY BALL - UNUSED FOR NOW
+                    /*
+                    Debug.Log("AXE HIT BALL!");
+                    float kickForce = attackHitForce;
+                    Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
+                    Vector3 posB = new Vector3(transform.position.x, 0f, transform.position.z);
+                    Vector3 dir = (posA - posB).normalized;
+                    Vector3 forceToAdd = dir * kickForce;
+                    BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                    */
+                }
             }
+            
             lastAttackTime = Time.time;
+            attackCharge = 0;
+            isChargingAttack = false;
             ANIM.Play("MinotaurAttack");
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttack"), 0.75f);
             StartCoroutine(MoveDelay());
         }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 direction = transform.forward;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + direction * attackRange, attackBaseRadius + attackCharge * attackChargeRate);
+        // Gizmos.DrawLine(transform.position, transform.position + direction * 10f);
 
     }
 
@@ -398,6 +418,17 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    void ChargeAttack()
+    {
+        if (isStunned) return;
+        if (attackCharge < maxAttackChargeSeconds)
+        {
+            // Debug.Log("charging attack");
+            attackCharge += Time.deltaTime;
+            isChargingAttack = true;
+        }
+    }
+
     void StopDashing()
     {
         Debug.Log("No longer dashing");
@@ -435,6 +466,11 @@ public class MonsterController : MonoBehaviour
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
         CSM.PlayDeathSound(false);
         StartCoroutine(ResetStun());
+    }
+
+    private void ResizeAttackVisual()
+    {
+        attackVisual.transform.localScale = new Vector3(1 + attackCharge * attackChargeRate * 1.7f, 0.01f, 1 + attackCharge * attackChargeRate * 1.7f);
     }
 
     private IEnumerator ResetStun()
@@ -546,7 +582,32 @@ public class MonsterController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        Attack();
+        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
+        if (!GM.isPlaying)
+        {
+            isChargingAttack = false;
+            attackCharge = 0;
+            return;
+        }
+
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            // If input is no longer true, attack
+            if (context.action.WasReleasedThisFrame() && attackCharge != 0)
+            {
+                Attack();
+            }
+            else if (context.action.IsInProgress() && Time.time - lastAttackTime >= attackCooldown) // If it still is true, keep charging
+            {
+                Debug.Log("Is Charging Attack");
+                isChargingAttack = true;
+            } else
+            {
+                Debug.Log("Not attack and not charging");
+                isChargingAttack = false;
+                attackCharge = 0;
+            }
+        }
     }
 
     public void OnCharge(InputAction.CallbackContext context)
