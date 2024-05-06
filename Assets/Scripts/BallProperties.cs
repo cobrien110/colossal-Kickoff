@@ -121,6 +121,11 @@ public class BallProperties : MonoBehaviour
             string bouncePick = Random.Range(1, 3).ToString();
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("bounce" + bouncePick));
         }
+
+        if (collision.gameObject.tag.Equals("MinoWall"))
+        {
+            isSuperKick = false;
+        }
     }
 
     private void DestroyDelay()
