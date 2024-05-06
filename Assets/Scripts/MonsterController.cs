@@ -269,7 +269,7 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying && !isStunned)
+        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying)
         {
             Debug.Log("Attack!");
             RaycastHit hit;
