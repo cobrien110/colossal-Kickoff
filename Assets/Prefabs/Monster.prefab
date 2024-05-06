@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4740213529786104536
 Transform:
   m_ObjectHideFlags: 0
@@ -26,9 +26,9 @@ Transform:
   m_GameObject: {fileID: 664036316303695430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.393}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0.012, z: 0.574}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1829573181954669806}
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
@@ -303,6 +303,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 1829573181954669806}
   - {fileID: 5637369858138916797}
   - {fileID: 8054543753921703476}
   - {fileID: 193361555033795765}
@@ -335,6 +336,8 @@ MonoBehaviour:
   chargeMultiplier: 0.5
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
+  stunTime: 3
+  stunSpeed: 0.2
   wallSpawnDistance: 3
   wallCooldown: 8
   shrapnelAmount: 7
@@ -346,6 +349,7 @@ MonoBehaviour:
   dashCooldown: 4
   dashDuration: 1
   maxDashChargeSeconds: 2
+  isStunned: 0
   canMove: 1
   GM: {fileID: 0}
   UM: {fileID: 0}
@@ -356,6 +360,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  spriteObject: {fileID: 0}
 --- !u!33 &8268594863668974715
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -578,6 +583,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d57bb918c8b5b3b42b99249ed5d18d51, type: 3}
   - {fileID: 8300000, guid: 8011775b1b0710541986e6eea19c634e, type: 3}
   - {fileID: 8300000, guid: 6f3babd209d27a2489f1f698831fb4a8, type: 3}
+  - {fileID: 8300000, guid: 09cdeddb38a7f9e46a2ca1feee380b32, type: 3}
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15
@@ -780,12 +786,12 @@ Transform:
   m_GameObject: {fileID: 6986878365702229708}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0385, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 0, y: -0.2783333, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4740213529786104536}
-  m_Father: {fileID: 5637369858138916797}
+  m_Father: {fileID: 5482897443782975315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3120747195718422198
 MonoBehaviour:
@@ -1035,7 +1041,6 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.15, z: 0.6}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1829573181954669806}
+  m_Children: []
   m_Father: {fileID: 5482897443782975315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

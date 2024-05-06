@@ -199,6 +199,7 @@ public class WarriorController : MonoBehaviour
             if (GM.passMeter == GM.passMeterMax)
             {
                 kickForce = kickForce * 2;
+                BP.isSuperKick = true;
                 GM.passMeter = 0;
             }
             Vector3 forceToAdd = aimingDirection * kickForce; 

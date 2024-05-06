@@ -17,8 +17,8 @@ public class AimVisualizer : MonoBehaviour
     {
         //wc = GetComponentInParent<WarriorController>();
         //mc = GetComponentInParent<MonsterController>();
-        wc = transform.parent.parent.gameObject.GetComponent<WarriorController>();
-        mc = transform.parent.parent.gameObject.GetComponent<MonsterController>();
+        wc = transform.parent.gameObject.GetComponent<WarriorController>();
+        mc = transform.parent.gameObject.GetComponent<MonsterController>();
         //mr = GetComponent<MeshRenderer>();
         NewBall();
     }
@@ -29,7 +29,7 @@ public class AimVisualizer : MonoBehaviour
         if (wc != null)
         {
             aimDir = wc.GetAimDirection();
-            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.parent.gameObject)
+            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.gameObject)
             {
                 arrow.SetActive(true);
                 transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);
@@ -44,7 +44,7 @@ public class AimVisualizer : MonoBehaviour
         if (mc != null)
         {
             aimDir = mc.GetAimDirection();
-            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.parent.gameObject)
+            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.gameObject)
             {
                 arrow.SetActive(true);
                 transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);

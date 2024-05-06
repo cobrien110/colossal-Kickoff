@@ -13,6 +13,8 @@ public class BallProperties : MonoBehaviour
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
     public GameObject previousKicker = null;
+    public int passBonus = 25;
+    public bool isSuperKick = false;
 
     public bool isInteractable = true;
 
@@ -55,12 +57,23 @@ public class BallProperties : MonoBehaviour
         {
             if (other.gameObject.Equals(lastKicker)) return;
             
+            if (mc != null && !mc.isStunned && isSuperKick)
+            {
+                mc.Stun();
+                isSuperKick = false;
+                return;
+            } else if (mc != null && mc.isStunned)
+            {
+                return;
+            }
+            
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
+            isSuperKick = false;
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
             {
-                GM.passMeter += 10;
+                GM.passMeter += passBonus;
             }
         }
 

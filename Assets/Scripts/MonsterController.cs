@@ -29,6 +29,8 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
+    [SerializeField] private float stunTime = 3f;
+    [SerializeField] private float stunSpeed = 0.2f;
     private float kickCharge = 1f;
     private bool isCharging;
     [Header("Ability Stats")]
@@ -48,6 +50,7 @@ public class MonsterController : MonoBehaviour
     private bool isDashing = false;
     private float dashCharge = 1f;
     private bool isChargingDash = false;
+    public bool isStunned = false;
 
     [SerializeField] private bool canMove = true;
     [SerializeField] private GameplayManager GM = null;
@@ -61,6 +64,8 @@ public class MonsterController : MonoBehaviour
     private float lastAttackTime = -1f;
     public LayerMask layerMask;
     private CommentatorSoundManager CSM;
+    public GameObject spriteObject;
+    private Vector3 spriteScale;
 
     // Start is called before the first frame update
     void Awake()
@@ -75,6 +80,7 @@ public class MonsterController : MonoBehaviour
         monsterSpawner = GameObject.Find("MonsterSpawner");
         transform.position = monsterSpawner.transform.position;
         wallTimer = wallCooldown;
+        spriteScale = spriteObject.transform.localScale;
     }
 
     // Update is called once per frame
@@ -114,12 +120,17 @@ public class MonsterController : MonoBehaviour
             }
 
         }
-
+        InvincibilityFlash();
         // Cooldowns
         if (wallTimer < wallCooldown)
         {
             wallTimer += Time.deltaTime;
             UM.UpdateMonsterAbility1Bar(1-(wallTimer/wallCooldown));
+        }
+
+        if (isStunned && BP.ballOwner == this.gameObject)
+        {
+            BP.ballOwner = null;
         }
     }
 
@@ -167,12 +178,13 @@ public class MonsterController : MonoBehaviour
         {
             movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
         }
-
-        rb.velocity = GM.isPlaying ? movementDirection * monsterSpeed : Vector3.zero;
+        Vector3 dir = isStunned ? -movementDirection : movementDirection;
+        rb.velocity = GM.isPlaying ? dir * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging || isChargingDash ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+        rb.velocity = isStunned ? rb.velocity * stunSpeed : rb.velocity;
         if (rb.velocity != Vector3.zero) 
         {
-            Quaternion newRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+            Quaternion newRotation = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = newRotation;
         }
 
@@ -257,7 +269,7 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying)
+        if (Time.time - lastAttackTime >= attackCooldown && BP != null && BP.ballOwner != gameObject && GM.isPlaying && !isStunned)
         {
             Debug.Log("Attack!");
             RaycastHit hit;
@@ -311,7 +323,7 @@ public class MonsterController : MonoBehaviour
 
     void Dash()
     {
-        if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
+        if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
 
         if (Time.time - lastDashTime >= dashCooldown)
         {
@@ -320,13 +332,13 @@ public class MonsterController : MonoBehaviour
             {
                 // Check if enough time has passed since the last slide
 
-                if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
+                if (movementDirection != Vector3.zero && BP.ballOwner != gameObject && !isStunned)
                 {
                     Debug.Log("Dashing");
                     isDashing = true;
                     ANIM.SetBool("isWindingUp", false);
                     ANIM.Play("MinotaurCharge");
-                    audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDash"), 0.85f);
+                    audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDash"), 0.75f);
 
                     // Add force in direction of the player input for this warrior (movementDirection)
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
@@ -356,6 +368,7 @@ public class MonsterController : MonoBehaviour
 
     void ChargeDashing()
     {
+        if (isStunned) return;
         if (dashCharge < maxDashChargeSeconds)
         {
             Debug.Log("Charging dash");
@@ -364,7 +377,7 @@ public class MonsterController : MonoBehaviour
             isChargingDash = true;
             if (audioPlayer.source.clip == null || (!audioPlayer.isPlaying() && !audioPlayer.source.clip.name.Equals("minotaurDashCharge")))
             {
-                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDashCharge"), 0.75f);
+                audioPlayer.PlaySoundVolume(audioPlayer.Find("minotaurDashCharge"), 0.65f);
             }
         }
     }
@@ -379,6 +392,7 @@ public class MonsterController : MonoBehaviour
 
     void BuildWall()
     {
+        if (isStunned) return;
         wallTimer = 0f;
         Vector3 spawnLocation = Vector3.zero;
         Quaternion spawnRotation = Quaternion.identity;
@@ -399,7 +413,18 @@ public class MonsterController : MonoBehaviour
 
     public void Stun()
     {
+        if (isStunned) return;
+        BP.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+        isStunned = true;
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
         CSM.PlayDeathSound(false);
+        StartCoroutine(ResetStun());
+    }
+
+    private IEnumerator ResetStun()
+    {
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
     }
 
     void PlayKickSound(float charge)
@@ -448,6 +473,18 @@ public class MonsterController : MonoBehaviour
         canMove = true;
     }
 
+    public void InvincibilityFlash()
+    {
+        if (spriteObject == null) return;
+        if (isStunned && Time.frameCount % 2 == 0)
+        {
+            spriteObject.transform.localScale = Vector3.zero;
+        }
+        else
+        {
+            spriteObject.transform.localScale = spriteScale;
+        }
+    }
 
     /**
     *  The Following Code Is For Controller Inputs
@@ -498,7 +535,7 @@ public class MonsterController : MonoBehaviour
 
     public void OnCharge(InputAction.CallbackContext context)
     {
-        if (BP.ballOwner == gameObject) return; // ensure no dashing or dash charging when you have ball
+        if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
 
 
         if (Time.time - lastDashTime >= dashCooldown)
@@ -514,7 +551,7 @@ public class MonsterController : MonoBehaviour
                     isDashing = true;
                     ANIM.SetBool("isWindingUp", false);
                     ANIM.Play("MinotaurCharge");
-                    audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("minotaurDash"));
+                    audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDash"), 0.75f);
 
                     // Add force in direction of the player input for this warrior (movementDirection)
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
@@ -548,4 +585,5 @@ public class MonsterController : MonoBehaviour
     {
         invertControls = !invertControls;
     }
+
 }
