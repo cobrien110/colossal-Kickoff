@@ -87,6 +87,7 @@ public class WarriorController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            RotateWhileCharging();
             if (Input.GetKey(KeyCode.E)) {
                 Sliding();
             }
@@ -146,7 +147,7 @@ public class WarriorController : MonoBehaviour
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero) 
+        if (rb.velocity != Vector3.zero && !isCharging) 
         {
             Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
             transform.rotation = newRotation;
@@ -235,6 +236,18 @@ public class WarriorController : MonoBehaviour
             isCharging = false;
             aimingDirection = Vector3.zero;
             ANIM.SetBool("isChargingKick", false);
+        }
+    }
+
+    void RotateWhileCharging()
+    {
+        if (isCharging)
+        {
+            if (aimingDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(aimingDirection);
+                rb.rotation = targetRotation;
+            }
         }
     }
 

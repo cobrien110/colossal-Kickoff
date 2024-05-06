@@ -96,6 +96,7 @@ public class MonsterController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            RotateWhileCharging();
             Dash();
 
             if (Input.GetKey(KeyCode.Backspace))
@@ -119,7 +120,7 @@ public class MonsterController : MonoBehaviour
                 Stun();
             }
 
-        }
+        } else { rb.velocity = new Vector3(0, 0, 0); } // ensure monster momentum is killed when not playing
         InvincibilityFlash();
         // Cooldowns
         if (wallTimer < wallCooldown)
@@ -182,7 +183,7 @@ public class MonsterController : MonoBehaviour
         rb.velocity = GM.isPlaying ? dir * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging || isChargingDash ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         rb.velocity = isStunned ? rb.velocity * stunSpeed : rb.velocity;
-        if (rb.velocity != Vector3.zero) 
+        if (rb.velocity != Vector3.zero && !isCharging) 
         {
             Quaternion newRotation = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = newRotation;
@@ -266,6 +267,18 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    void RotateWhileCharging()
+    {
+        if (isCharging)
+        {
+            if (aimingDirection !=  Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(aimingDirection);
+                rb.rotation = targetRotation;
+            }
+        }
+    }
+
     // Vector3 startAngle = transform.forward
     void Attack()
     {
@@ -324,6 +337,12 @@ public class MonsterController : MonoBehaviour
     void Dash()
     {
         if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
+        if (!GM.isPlaying)
+        {
+            isChargingDash = false;
+            dashCharge = 0;
+            return;
+        }
 
         if (Time.time - lastDashTime >= dashCooldown)
         {
@@ -344,11 +363,8 @@ public class MonsterController : MonoBehaviour
                     Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
                     Debug.Log("Dash Charge: " + dashCharge);
                     rb.AddForce(dashVelocity);
-                    // audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); replace with different sound
 
                     Invoke("StopDashing", dashDuration);
-
-                    // ANIM.SetBool("isSliding", true);
                 }
                 else
                 {
@@ -536,7 +552,12 @@ public class MonsterController : MonoBehaviour
     public void OnCharge(InputAction.CallbackContext context)
     {
         if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
-
+        if (!GM.isPlaying)
+        {
+            isChargingDash = false;
+            dashCharge = 0;
+            return;
+        }
 
         if (Time.time - lastDashTime >= dashCooldown)
         {
