@@ -122,7 +122,7 @@ public class BallProperties : MonoBehaviour
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("bounce" + bouncePick));
         }
 
-        if (collision.gameObject.tag.Equals("MinoWall"))
+        if (collision.gameObject.tag.Equals("MinoWall") || collision.gameObject.tag.Equals("InvisWall"))
         {
             isSuperKick = false;
         }

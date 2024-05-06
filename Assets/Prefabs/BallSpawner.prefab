@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4048644467587310943}
   - component: {fileID: 1435722352328747191}
   - component: {fileID: 2534342376727907665}
+  - component: {fileID: 862854593844658427}
   m_Layer: 0
   m_Name: BallSpawner
   m_TagString: Untagged
@@ -107,3 +108,16 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &862854593844658427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5438192025408097686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcef3476b06ce242acd1f041c9a0c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MR: {fileID: 0}

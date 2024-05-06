@@ -1093,10 +1093,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarriorSpawner (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 1765947198867836250, guid: 68b1b248aeb7835488ef341b29dfb0a0, type: 3}
-      propertyPath: m_TagString
-      value: WarriorSpawner
-      objectReference: {fileID: 0}
     - target: {fileID: 5678870461056839566, guid: 68b1b248aeb7835488ef341b29dfb0a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.25
@@ -14050,7 +14046,7 @@ GameObject:
   - component: {fileID: 1726103997}
   m_Layer: 6
   m_Name: Stadium invisWalls (1)
-  m_TagString: Untagged
+  m_TagString: InvisWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14363,7 +14359,7 @@ Transform:
   m_GameObject: {fileID: 1890957023}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.25, y: 0.5, z: 0}
+  m_LocalPosition: {x: -8.15, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 5.5, z: 4.85}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14730,63 +14726,6 @@ CapsuleCollider:
   m_Height: 15.627906
   m_Direction: 1
   m_Center: {x: -0.0091166515, y: -0.112377636, z: 0.0066585555}
---- !u!1001 &1991717328
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482897443782975315, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6495297382573149451, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
-      propertyPath: m_Name
-      value: Monster
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
 --- !u!1 &1993955683
 GameObject:
   m_ObjectHideFlags: 0
@@ -15022,7 +14961,7 @@ Transform:
   m_GameObject: {fileID: 2003920059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.25, y: 0.5, z: 0}
+  m_LocalPosition: {x: 8.15, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 5.5, z: 4.85}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23719,7 +23658,7 @@ GameObject:
   - component: {fileID: 3863865382548120643}
   m_Layer: 6
   m_Name: Stadium invisWalls
-  m_TagString: Untagged
+  m_TagString: InvisWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31768,4 +31707,3 @@ SceneRoots:
   - {fileID: 1587481472}
   - {fileID: 1378675729}
   - {fileID: 1239010237}
-  - {fileID: 1991717328}
