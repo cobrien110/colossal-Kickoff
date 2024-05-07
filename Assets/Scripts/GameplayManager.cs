@@ -73,7 +73,14 @@ public class GameplayManager : MonoBehaviour
         {
             for (int i = 0; i < MinoWalls.Length; i++)
             {
-                MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
+                try
+                {
+                    MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
+                } catch
+                {
+                    // NOTHING HAHA
+                }
+                
             }
         }
         StopPlaying();
