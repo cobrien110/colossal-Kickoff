@@ -42,6 +42,7 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private Vector3 GetCenterPoint()
     {
+        if (targets.Count == 0) return Vector3.zero;
         if (targets.Count == 1)
         {
             return targets[0].position;
