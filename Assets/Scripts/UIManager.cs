@@ -218,7 +218,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePassMeter(float passMeter)
     {
-        passMeterFill.fillAmount = passMeter;
+        passMeterFill.fillAmount = passMeter / 100f;
     }
 
     public void ShowPlayerUI(bool state, int player)
