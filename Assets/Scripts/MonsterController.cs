@@ -491,7 +491,9 @@ public class MonsterController : MonoBehaviour
     private void ResizeAttackVisual()
     {
         attackVisual.transform.localScale = new Vector3(attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f,
-            attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f, attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f);
+            0.05f, attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f);
+        Vector3 dir = transform.forward * attackRange;
+        attackVisual.transform.position = new Vector3(transform.position.x, attackVisual.transform.position.y, transform.position.z) + dir;
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             attackVisual.transform.localScale = Vector3.zero;

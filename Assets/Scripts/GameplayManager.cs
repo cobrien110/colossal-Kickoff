@@ -29,7 +29,7 @@ public class GameplayManager : MonoBehaviour
         BallSpawner = GameObject.Find("BallSpawner");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
-        
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -191,7 +191,12 @@ public class GameplayManager : MonoBehaviour
     public void ResetGame()
     {
         Debug.Log("Resetting Game");
-        isPlaying = true;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        return;
+        
+        /*
+        //isPlaying = true;
         UM.ShowGameOverText(false, 3);
         GameObject ballTemp = Ball.gameObject;
         Reset();
@@ -200,5 +205,6 @@ public class GameplayManager : MonoBehaviour
 
         // Resume Game
         Time.timeScale = 1;
+        */
     }
 }
