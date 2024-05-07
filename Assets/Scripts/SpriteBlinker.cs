@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpriteBlinker : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private bool blinkingStarted = false;
+    //private bool blinkingStarted = false;
     private float blinkInterval = 0.2f; 
     private float elapsedTime = 0f;
     private float maxBlinkSpeed = 0.05f;
