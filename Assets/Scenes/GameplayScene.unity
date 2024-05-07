@@ -16796,8 +16796,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startFrame:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 0.9999
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -27031,8 +27031,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startFrame:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 0.9583333
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -27085,7 +27085,7 @@ ParticleSystem:
     speedRange: {x: 0, y: 1}
     tilesX: 8
     tilesY: 3
-    animationType: 1
+    animationType: 0
     rowIndex: 0
     cycles: 0.0001
     uvChannelMask: -1
@@ -31541,6 +31541,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 125461926371572034, guid: 703c3a51f74a62342af4d533deac197c, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 7927
+      objectReference: {fileID: 0}
     - target: {fileID: 1505253126057819337, guid: 703c3a51f74a62342af4d533deac197c, type: 3}
       propertyPath: targets.Array.data[0]
       value: 
