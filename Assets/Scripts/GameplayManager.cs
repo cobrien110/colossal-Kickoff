@@ -145,6 +145,7 @@ public class GameplayManager : MonoBehaviour
             player = warriors[warriors.Length - 1];
             WC = player.GetComponent<WarriorController>();
             WC.SetColor(playerList.Count);
+            WC.playerNum = warriors.Length;
             playerList.Add(player);
             UM.ShowPlayerUI(true, warriors.Length);
             if (warriors.Length == 1)
