@@ -115,7 +115,7 @@ public class BallProperties : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag.Equals("Ground") && ballOwner == null && isInteractable)
+        if ((collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("InvisWall")) && ballOwner == null && isInteractable)
         {
             if (audioPlayer == null) return;
             string bouncePick = Random.Range(1, 3).ToString();

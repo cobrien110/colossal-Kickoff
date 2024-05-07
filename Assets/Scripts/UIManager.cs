@@ -72,15 +72,29 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator Countdown()
     {
-        countdown.gameObject.SetActive(true);
         countdown.Reset();
+        countdown.gameObject.SetActive(true);
         countdown.Play();
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(3.0f);
         countdown.gameObject.SetActive(false);
     }
 
-    public void ShowGameOverText(bool state)
+    public void ShowGameOverText(bool state, int winner)
     {
+        if (state) {
+            if (winner == 0)
+            {
+                gameoverText.text = "HUMANS WIN!";
+            }
+            else if (winner == 1)
+            {
+                gameoverText.text = "MONSTERS WIN!";
+            }
+            else if (winner == 2)
+            {
+                gameoverText.text = "TIE GAME!";
+            }
+        }
         gameoverText.gameObject.SetActive(state);
     }
 
@@ -121,15 +135,17 @@ public class UIManager : MonoBehaviour
             //counter++;
         }
         scoreTextTimer.text = "0:00";
-        ShowGameOverText(true);
-        Debug.Log("End Coroutine");
+
+
+        ShowGameOverText(true, CheckWinner()); ;
+        //Debug.Log("End Coroutine");
 
         // Pause Game
-        Time.timeScale = 0;
+        
 
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
-        GM.StopPlaying();
+        //GM.StopPlaying();
     }
 
     public void StartTimer()
@@ -141,6 +157,11 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Should be stopped");
         StopCoroutine(timerCoroutine);
+    }
+
+    public int GetTimeRemaining()
+    {
+        return timeRemainingSeconds;
     }
 
     public void WarriorPoint()
@@ -174,6 +195,14 @@ public class UIManager : MonoBehaviour
     {
         scoreTextMonster.text = "" + monsterScore;
         scoreTextMonsterBG.text = "" + monsterScore;
+    }
+
+    public int CheckWinner()
+    {
+
+        if (warriorScore > monsterScore) return 0;
+        else if (monsterScore > warriorScore) return 1;
+        else return 2;
     }
 
     public void UpdateChargeBar(float charge)

@@ -309,6 +309,7 @@ public class WarriorController : MonoBehaviour
         if (respawnTimer < respawnTime && isDead)
         {
             respawnTimer += Time.deltaTime;
+            UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
         } else if (isDead)
         {
             isDead = false;

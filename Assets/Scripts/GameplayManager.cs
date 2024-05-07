@@ -29,7 +29,7 @@ public class GameplayManager : MonoBehaviour
         BallSpawner = GameObject.Find("BallSpawner");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
-        StartCoroutine(Kickoff());
+        
     }
 
     // Update is called once per frame
@@ -41,9 +41,31 @@ public class GameplayManager : MonoBehaviour
         }
         UM.UpdatePassMeter(passMeter);
 
+
+        //Start Game for Expo
+        if (Input.GetKeyDown(KeyCode.Return) && !isPlaying)
+        {
+            StartCoroutine(Kickoff());
+            Debug.Log("Enter");
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
         {
             ResetGame();
+        }
+
+        if (UM.GetTimeRemaining() == 0)
+        {
+            if (UM.CheckWinner() == 2)
+            {
+                Time.timeScale = 0;
+                StopPlaying();
+            }
+            else
+            {
+                Time.timeScale = 0;
+                StopPlaying();
+            }
         }
     }
 
@@ -62,9 +84,11 @@ public class GameplayManager : MonoBehaviour
     private IEnumerator Kickoff()
     {
         StartCoroutine(UM.Countdown());
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.4f);
         StartPlaying();
     }
+
+    
 
     public void Reset()
     {
@@ -168,7 +192,7 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("Resetting Game");
         isPlaying = true;
-        UM.ShowGameOverText(false);
+        UM.ShowGameOverText(false, 3);
         GameObject ballTemp = Ball.gameObject;
         Reset();
         Destroy(ballTemp);
