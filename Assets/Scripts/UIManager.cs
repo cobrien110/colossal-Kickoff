@@ -27,11 +27,25 @@ public class UIManager : MonoBehaviour
     //ChargeMeter
     [SerializeField] private GameObject chargeBar = null;
     [SerializeField] private Image chargeBarFill = null;
-    [SerializeField] private Image monsterAbility1Bar = null;
     [SerializeField] private TMP_Text chargeBarText = null;
 
     //PassMeter
-    [SerializeField] private TMP_Text passMeterText = null;
+    //[SerializeField] private TMP_Text passMeterText = null;
+    [SerializeField] private GameObject passMeter = null;
+    [SerializeField] private Image passMeterFill = null;
+
+    //Monster and Human UI
+    [SerializeField] private GameObject monsterUI = null;
+    [SerializeField] private Image monsterAbility1Bar = null;
+    [SerializeField] private Image monsterAbility2Bar = null;
+    [SerializeField] private Image monsterAbility3Bar = null;
+
+    [SerializeField] private GameObject player1UI = null;
+    [SerializeField] private GameObject player2UI = null;
+    [SerializeField] private GameObject player3UI = null;
+    [SerializeField] private Image player1respawnfill = null;
+    [SerializeField] private Image player2respawnfill = null;
+    [SerializeField] private Image player3respawnfill = null;
 
     Coroutine timerCoroutine;
     GameplayManager GM;
@@ -42,6 +56,11 @@ public class UIManager : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timeRemainingSeconds = gameSeconds;
         ShowChargeBar(false);
+        ShowMonsterUI(false);
+        ShowPlayerUI(false, 1);
+        ShowPlayerUI(false, 2);
+        ShowPlayerUI(false, 3);
+        ShowPassMeter(false);
         UpdateChargeBarText("");
     }
 
@@ -162,9 +181,24 @@ public class UIManager : MonoBehaviour
         chargeBarFill.fillAmount = charge;
     }
 
+    public void ShowMonsterUI(bool state)
+    {
+        monsterUI.gameObject.SetActive(state);
+    }
+
     public void UpdateMonsterAbility1Bar(float charge)
     {
         monsterAbility1Bar.fillAmount = charge;
+    }
+
+    public void UpdateMonsterAbility2Bar(float charge)
+    {
+        monsterAbility2Bar.fillAmount = charge;
+    }
+
+    public void UpdateMonsterAbility3Bar(float charge)
+    {
+        monsterAbility3Bar.fillAmount = charge;
     }
 
     public void ShowChargeBar(bool state)
@@ -177,8 +211,45 @@ public class UIManager : MonoBehaviour
         chargeBarText.text = text;
     }
 
-    public void UpdatePassMeterText(int passMeter)
+    public void ShowPassMeter(bool state)
     {
-        passMeterText.text = "Pass Meter: " + passMeter;
+        passMeter.gameObject.SetActive(state);
+    }
+
+    public void UpdatePassMeter(float passMeter)
+    {
+        passMeterFill.fillAmount = passMeter;
+    }
+
+    public void ShowPlayerUI(bool state, int player)
+    {
+        if (player == 1)
+        {
+            player1UI.gameObject.SetActive(state);
+        }
+        else if (player == 2)
+        {
+            player2UI.gameObject.SetActive(state);
+        }
+        else if (player == 3)
+        {
+            player3UI.gameObject.SetActive(state);
+        }
+    }
+
+    public void UpdatePlayerRespawnBar(float charge, int player)
+    {
+        if (player == 1)
+        {
+            player1respawnfill.fillAmount = charge;
+        }
+        else if (player == 2)
+        {
+            player2respawnfill.fillAmount = charge;
+        }
+        else if (player == 3)
+        {
+            player3respawnfill.fillAmount = charge;
+        }
     }
 }

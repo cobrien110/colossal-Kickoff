@@ -148,6 +148,18 @@ public class MonsterController : MonoBehaviour
             UM.UpdateMonsterAbility1Bar(1-(wallTimer/wallCooldown));
         }
 
+        if (Time.time - lastAttackTime < attackCooldown)
+        {
+            UM.UpdateMonsterAbility2Bar(1-((Time.time - lastAttackTime) / attackCooldown));
+        }
+
+        if (Time.time - lastDashTime < dashCooldown)
+        {
+            UM.UpdateMonsterAbility3Bar(1 - ((Time.time - lastDashTime) / dashCooldown));
+        }
+
+
+
         if (isStunned && BP.ballOwner == this.gameObject)
         {
             BP.ballOwner = null;

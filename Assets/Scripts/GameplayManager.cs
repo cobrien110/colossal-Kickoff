@@ -17,8 +17,8 @@ public class GameplayManager : MonoBehaviour
     private GameObject BallSpawner = null;
     private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
-    public int passMeter = 0;
-    public int passMeterMax = 100;
+    public float passMeter = 0;
+    public float passMeterMax = 1.0f;
 
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
@@ -39,7 +39,7 @@ public class GameplayManager : MonoBehaviour
         {
             passMeter = passMeterMax;
         }
-        UM.UpdatePassMeterText(passMeter);
+        UM.UpdatePassMeter(passMeter);
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
         {
@@ -131,6 +131,7 @@ public class GameplayManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Monster");
             MC = player.GetComponent<MonsterController>();
             playerList.Add(player);
+            UM.ShowMonsterUI(true);
         } else if (GameObject.FindGameObjectWithTag("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
@@ -138,6 +139,12 @@ public class GameplayManager : MonoBehaviour
             WC = player.GetComponent<WarriorController>();
             WC.SetColor(playerList.Count);
             playerList.Add(player);
+            UM.ShowPlayerUI(true, warriors.Length);
+            if (warriors.Length == 1)
+            {
+                UM.ShowPassMeter(true);
+            }
+
             try
             {
                 WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
