@@ -10,10 +10,13 @@ public class SpriteBurst : MonoBehaviour
     public float minWeight, maxWeight;
     public float size;
     public LayerMask groundLayer;
-
+    private AudioPlayer AP;
+    public AudioClip bounceSound;
     void Start()
     {
         BurstSprites();
+        AP = GetComponent<AudioPlayer>();
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("corpseExplosion"));
     }
 
     void BurstSprites()
@@ -59,6 +62,21 @@ public class SpriteBurst : MonoBehaviour
             col.isTrigger = false;
 
             spriteObj.AddComponent<SpriteBlinker>();
+
+
+            // sounds
+            if (bounceSound == null) return;
+            AudioSource AS = spriteObj.AddComponent<AudioSource>();
+            AS.clip = bounceSound;
+            AS.volume = 0.25f;
+            AS.spatialBlend = 0.5f;
+            AS.rolloffMode = AudioRolloffMode.Linear;
+            AS.maxDistance = 100;
+            AS.minDistance = 0;
+            AS.playOnAwake = false;
+
+            GoreBounceSound GBS = spriteObj.AddComponent<GoreBounceSound>();
+            GBS.AS = AS;
         }
     }
 }
