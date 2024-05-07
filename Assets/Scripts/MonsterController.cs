@@ -74,6 +74,7 @@ public class MonsterController : MonoBehaviour
     public GameObject spriteObject;
     private Vector3 spriteScale;
     public GameObject attackVisual;
+    private float attackVisualOffsetY = -0.3f;
 
     // Start is called before the first frame update
     void Awake()
@@ -235,6 +236,12 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
+            if (isChargingAttack)
+            {
+                isChargingAttack = false;
+                attackCharge = 0;
+            }
+
             UM.ShowChargeBar(true);
             UM.UpdateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
@@ -318,7 +325,9 @@ public class MonsterController : MonoBehaviour
         {    
             Debug.Log("Attack!");
 
-            Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward * attackRange, attackCharge * attackChargeRate, layerMask);
+            Debug.Log(attackCharge);
+            Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
+            Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + attackCharge * attackChargeRate, layerMask);
 
             foreach (Collider col in colliders)
             {
@@ -361,9 +370,8 @@ public class MonsterController : MonoBehaviour
     {
         Vector3 direction = transform.forward;
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + direction * attackRange, attackBaseRadius + attackCharge * attackChargeRate);
-        // Gizmos.DrawLine(transform.position, transform.position + direction * 10f);
-
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
+        Gizmos.DrawWireSphere(origin + direction * attackRange, attackBaseRadius + attackCharge * attackChargeRate);
     }
 
     void Dash()
@@ -482,7 +490,8 @@ public class MonsterController : MonoBehaviour
 
     private void ResizeAttackVisual()
     {
-        attackVisual.transform.localScale = new Vector3(1 + attackCharge * attackChargeRate * 1.7f, 0.01f, 1 + attackCharge * attackChargeRate * 1.7f);
+        attackVisual.transform.localScale = new Vector3(attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f,
+            attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f, attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f);
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             attackVisual.transform.localScale = Vector3.zero;
