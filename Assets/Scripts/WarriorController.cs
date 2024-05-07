@@ -333,6 +333,7 @@ public class WarriorController : MonoBehaviour
         {
             BP.ballOwner = null;
         }
+        Instantiate(particleObj, transform.position, Quaternion.identity);
         transform.position = respawnBox.position;
         MTC.RemoveTarget(transform);
         health = healthMax;
@@ -341,7 +342,6 @@ public class WarriorController : MonoBehaviour
         StopAllCoroutines();
         //Respawn();
         respawnTimer = 0f;
-        Instantiate(particleObj, transform.position, Quaternion.identity);
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
     }
 
