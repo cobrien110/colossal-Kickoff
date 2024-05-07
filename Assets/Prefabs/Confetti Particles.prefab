@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6274819529189827183}
   - component: {fileID: 3033918303376452457}
   - component: {fileID: 3184440720987201605}
+  - component: {fileID: -1377606297965322781}
   m_Layer: 0
   m_Name: Confetti Particles
   m_TagString: Untagged
@@ -4895,6 +4896,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-1377606297965322781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146442508470930318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d04f0b6062d3c49bbfdfab8de71ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTimer: 3
 --- !u!1 &4754206166895639140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4906,6 +4920,7 @@ GameObject:
   - component: {fileID: 4711046256359524093}
   - component: {fileID: 3890493967577958759}
   - component: {fileID: 6670492597801149804}
+  - component: {fileID: 3982570676704192961}
   m_Layer: 0
   m_Name: Candy
   m_TagString: Untagged
@@ -9797,3 +9812,16 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &3982570676704192961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754206166895639140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d04f0b6062d3c49bbfdfab8de71ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTimer: 3

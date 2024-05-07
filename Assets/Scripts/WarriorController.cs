@@ -57,7 +57,7 @@ public class WarriorController : MonoBehaviour
     public SpriteRenderer ring;
     private CommentatorSoundManager CSM;
     public int playerNum = 1;
-
+    public GameObject particleObj;
     // Start is called before the first frame update
     void Awake()
     {
@@ -341,6 +341,7 @@ public class WarriorController : MonoBehaviour
         StopAllCoroutines();
         //Respawn();
         respawnTimer = 0f;
+        Instantiate(particleObj, transform.position, Quaternion.identity);
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
     }
 
