@@ -22,6 +22,7 @@ public class WarriorController : MonoBehaviour
     public int healthMax = 2;
     [SerializeField] private int health = 2;
     [SerializeField] private float respawnTime = 2f;
+    private float respawnTimer;
     [SerializeField] private float respawnInvincibilityTime = 1.5f;
     private bool isDead = false;
     public bool isInvincible = false;
@@ -55,6 +56,7 @@ public class WarriorController : MonoBehaviour
     public Sprite[] ringColors;
     public SpriteRenderer ring;
     private CommentatorSoundManager CSM;
+    public int playerNum = 1;
 
     // Start is called before the first frame update
     void Awake()
@@ -93,6 +95,7 @@ public class WarriorController : MonoBehaviour
             }
             InvincibilityFlash();
         }
+        Respawn();
 
         //Particles
         if (health < healthMax && !isDead && PS != null)
@@ -301,12 +304,23 @@ public class WarriorController : MonoBehaviour
         BP.lastKicker = null;
     }
 
-    IEnumerator Respawn()
+    void Respawn()
     {
-        yield return new WaitForSeconds(respawnTime);
-        isDead = false;
-        MTC.AddTarget(transform);
-        ResetPlayer();
+        if (respawnTimer < respawnTime && isDead)
+        {
+            respawnTimer += Time.deltaTime;
+        } else if (isDead)
+        {
+            isDead = false;
+            respawnTimer = 0;
+            MTC.AddTarget(transform);
+            ResetPlayer();
+        }
+    }
+
+    public float GetCurrentRespawnTime()
+    {
+        return respawnTimer;
     }
 
     public void Die()
@@ -325,7 +339,8 @@ public class WarriorController : MonoBehaviour
         PlayDeathSound();
         CSM.PlayDeathSound(true);
         StopAllCoroutines();
-        StartCoroutine(Respawn());
+        //Respawn();
+        respawnTimer = 0f;
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
     }
 

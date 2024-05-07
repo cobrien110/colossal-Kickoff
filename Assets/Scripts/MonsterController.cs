@@ -148,6 +148,18 @@ public class MonsterController : MonoBehaviour
             UM.UpdateMonsterAbility1Bar(1-(wallTimer/wallCooldown));
         }
 
+        if (Time.time - lastAttackTime < attackCooldown)
+        {
+            UM.UpdateMonsterAbility2Bar(1-((Time.time - lastAttackTime) / attackCooldown));
+        }
+
+        if (Time.time - lastDashTime < dashCooldown)
+        {
+            UM.UpdateMonsterAbility3Bar(1 - ((Time.time - lastDashTime) / dashCooldown));
+        }
+
+
+
         if (isStunned && BP.ballOwner == this.gameObject)
         {
             BP.ballOwner = null;
@@ -323,7 +335,7 @@ public class MonsterController : MonoBehaviour
                 if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null)
                 {
                     // SWIPE AWAY BALL - UNUSED FOR NOW
-                    /*
+                    
                     Debug.Log("AXE HIT BALL!");
                     float kickForce = attackHitForce;
                     Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
@@ -331,7 +343,7 @@ public class MonsterController : MonoBehaviour
                     Vector3 dir = (posA - posB).normalized;
                     Vector3 forceToAdd = dir * kickForce;
                     BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-                    */
+                    
                 }
             }
             

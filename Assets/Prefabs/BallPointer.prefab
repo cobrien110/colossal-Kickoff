@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4466199008292117113}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.09000003, y: 1.22, z: 0}
+  m_LocalPosition: {x: -0.09000003, y: 0, z: 0}
   m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -75,10 +75,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 775950e1c8ef5484d925acac0f2d281a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5000eb58cd0e074ebdffd402ffed7f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
   m_AdaptiveModeThreshold: 0.5
@@ -117,7 +117,7 @@ MonoBehaviour:
   team2Col: {r: 0, g: 0.51622534, b: 1, a: 1}
   alpha: 0.7
   alphaGainRate: 0.5
-  yOffsetBall: 0.85
+  yOffsetBall: 0.5
   yOffsetWarrior: 0.9
   yOffsetMonster: 2
   smoothTime: 0.05

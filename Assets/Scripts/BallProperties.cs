@@ -13,7 +13,7 @@ public class BallProperties : MonoBehaviour
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
     public GameObject previousKicker = null;
-    public int passBonus = 25;
+    public float passBonus = .25f;
     public bool isSuperKick = false;
 
     public bool isInteractable = true;
