@@ -20,7 +20,7 @@ public class SpriteBlinker : MonoBehaviour
 
     void StartBlinking()
     {
-        blinkingStarted = true;
+        //blinkingStarted = true;
         InvokeRepeating("BlinkSprite", 0f, blinkInterval);
     }
 
