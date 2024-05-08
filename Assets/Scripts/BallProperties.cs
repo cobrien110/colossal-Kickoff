@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class BallProperties : MonoBehaviour
 {
-    [HideInInspector] public GameObject ballOwner = null;
+    /*[HideInInspector] public GameObject ballOwner = null;
 
     private UIManager UM = null;
     private GameplayManager GM = null;
@@ -40,10 +40,10 @@ public class BallProperties : MonoBehaviour
         /*MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
         MC.Ball = this.gameObject;
         MC.BP = this;*/
-    }
+    
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         
     }
@@ -131,5 +131,5 @@ public class BallProperties : MonoBehaviour
     private void DestroyDelay()
     {
         Destroy(this.gameObject);
-    }
+    }*/
 }

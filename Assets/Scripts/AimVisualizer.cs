@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AimVisualizer : MonoBehaviour
 {
-    WarriorController wc;
+    /*WarriorController wc;
     MonsterController mc;
     private Vector3 aimDir;
     [SerializeField] private GameObject arrow;
@@ -68,5 +68,5 @@ public class AimVisualizer : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
     }
-
+*/
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallShrapnel : MonoBehaviour
 {
-    public float speed = 300f;
+    /*public float speed = 300f;
     //public float spreadHori = 30f;
     public int damage = 1;
     public int index = 0;
@@ -43,5 +43,5 @@ public class WallShrapnel : MonoBehaviour
             hitPlayers.Add(WC);
             Destroy(gameObject);
         }
-    }
+    }*/
 }

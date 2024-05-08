@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
-    public bool isPlaying = false;
+    /*public bool isPlaying = false;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
@@ -207,4 +207,4 @@ public class GameplayManager : MonoBehaviour
         Time.timeScale = 1;
         */
     }
-}
+

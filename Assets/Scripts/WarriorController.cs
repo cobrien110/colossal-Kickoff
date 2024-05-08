@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 public class WarriorController : MonoBehaviour
 {  
-    private Rigidbody rb;
+    /*private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
 
@@ -56,10 +56,10 @@ public class WarriorController : MonoBehaviour
     public Sprite[] ringColors;
     public SpriteRenderer ring;
     private CommentatorSoundManager CSM;
-    public int playerNum = 1;
+    public int playerNum = 1;*/
     public GameObject particleObj;
     // Start is called before the first frame update
-    void Awake()
+    /*void Awake()
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
@@ -80,10 +80,14 @@ public class WarriorController : MonoBehaviour
         }
         transform.position = WarriorSpawner.transform.position;
     }
-
+*/
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.E)) {
+                Die();
+            }
+            /*
         if (GM.isPlaying && !isDead)
         {  
             Dribbling();
@@ -91,7 +95,7 @@ public class WarriorController : MonoBehaviour
             Kicking();
             RotateWhileCharging();
             if (Input.GetKey(KeyCode.E)) {
-                Sliding();
+                Die();
             }
             InvincibilityFlash();
         }
@@ -106,8 +110,11 @@ public class WarriorController : MonoBehaviour
             PS.time = 0;
             PS.Stop();
         }
-    }
 
+
+*/
+    }
+/*
     private void FixedUpdate()
     {
         if (isDead) return;
@@ -323,29 +330,14 @@ public class WarriorController : MonoBehaviour
     {
         return respawnTimer;
     }
-
+*/
     public void Die()
     {
-        if (isInvincible) return;
-        isDead = true;
-        isInvincible = true;
-        PS.Stop();
-        if (BP != null && BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
-        {
-            BP.ballOwner = null;
-        }
+        
         Instantiate(particleObj, transform.position, Quaternion.identity);
-        transform.position = respawnBox.position;
-        MTC.RemoveTarget(transform);
-        health = healthMax;
-        PlayDeathSound();
-        CSM.PlayDeathSound(true);
-        StopAllCoroutines();
-        //Respawn();
-        respawnTimer = 0f;
-        StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
+        Destroy(gameObject);
     }
-
+/*
     public void Damage(int amount)
     {
         if (isInvincible) return;
@@ -364,7 +356,7 @@ public class WarriorController : MonoBehaviour
     /**
      *  The Following Code Is For Controller Inputs
      **/
-
+/*
     public void OnMove(InputAction.CallbackContext context)
     {
         //Debug.Log("OnMove");
@@ -407,6 +399,7 @@ public class WarriorController : MonoBehaviour
     /**
      *  The Following Code Is For Helper Methods
      **/
+     /*
     public void SetColor(int i)
     {
         Debug.Log("Set color called with i = " + i);
@@ -466,4 +459,6 @@ public class WarriorController : MonoBehaviour
         int i = Random.Range(1, 6);
         audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("warriorDeath" + i.ToString()), 1.75f);
     }
+
+*/
 }

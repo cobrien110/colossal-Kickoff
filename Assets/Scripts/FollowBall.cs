@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowBall : MonoBehaviour
 {
-    private GameObject followTarget;
+    /*private GameObject followTarget;
 
     public float startingAlpha = -3f;
     public BallProperties BP;
@@ -67,5 +67,5 @@ public class FollowBall : MonoBehaviour
 
         Vector3 newPosition = followTarget.transform.position + new Vector3(0f, y, 0f);
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
-    }
+    }*/
 }

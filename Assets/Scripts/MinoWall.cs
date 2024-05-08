@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MinoWall : MonoBehaviour
 {
-    public Transform startPt;
+    /*public Transform startPt;
     public Transform endPt;
     public GameObject shrapnelPrefab;
     public int numOfShrapnel;
@@ -87,5 +87,5 @@ public class MinoWall : MonoBehaviour
 
             shrap.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up) * shrap.transform.rotation;
         }
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 public class MonsterController : MonoBehaviour
 {  
-    private Rigidbody rb;
+    /*private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public GameObject wallPrefab;
@@ -588,11 +588,11 @@ public class MonsterController : MonoBehaviour
             spriteObject.transform.localScale = spriteScale;
         }
     }
-
+*/
     /**
     *  The Following Code Is For Controller Inputs
     **/
-
+/*
     public void OnMove(InputAction.CallbackContext context)
     {
         //Debug.Log("OnMove");
@@ -718,5 +718,5 @@ public class MonsterController : MonoBehaviour
     {
         invertControls = !invertControls;
     }
-
+*/
 }
