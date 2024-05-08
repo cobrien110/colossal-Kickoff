@@ -175,11 +175,12 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
+  shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   monsterSpeed: 3
   movementDirection: {x: 0, y: 0, z: 0}
   usingKeyboard: 0
   invertControls: 0
-  ballPosition: {fileID: 1764291824864585042}
+  ballPosition: {fileID: 0}
   passSpeed: 400
   kickSpeed: 475
   attackHitForce: 150
@@ -200,20 +201,20 @@ MonoBehaviour:
   dashDuration: 1
   maxDashChargeSeconds: 2
   isStunned: 0
-  attackRange: 1
-  attackCooldown: 1
+  attackRange: 1.35
+  attackCooldown: 1.5
   attackBaseRadius: 0.75
   attackChargeRate: 0.5
   maxAttackChargeSeconds: 1.5
   canMove: 1
   GM: {fileID: 0}
   UM: {fileID: 0}
-  ANIM: {fileID: 1174079186975617763}
+  ANIM: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
-  spriteObject: {fileID: 7581612499400799079}
-  attackVisual: {fileID: 1170473730850981982}
+  spriteObject: {fileID: 0}
+  attackVisual: {fileID: 0}
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0

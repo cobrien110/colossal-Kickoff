@@ -13,6 +13,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public GameObject wallPrefab;
+    public GameObject shrapnelPrefab;
 
     [SerializeField] float monsterSpeed = 2f;
     [HideInInspector] public Vector3 movementDirection;
@@ -62,6 +63,7 @@ public class MonsterController : MonoBehaviour
     private float attackCharge = 0f;
     [SerializeField] private float attackChargeRate = 1f;
     [SerializeField] private float maxAttackChargeSeconds = 2f;
+    [SerializeField] private bool canSpawnShrapnelOnAttack = true;
 
     [SerializeField] private bool canMove = true;
     [SerializeField] private GameplayManager GM = null;
@@ -356,14 +358,32 @@ public class MonsterController : MonoBehaviour
                 }
             }
             
+            if (attackCharge < maxAttackChargeSeconds)
+            {
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttack"), 0.7f);
+            } else
+            {
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttackCharged"), 0.7f);
+                if (canSpawnShrapnelOnAttack) SpawnShrapnel();
+            }
             lastAttackTime = Time.time;
             attackCharge = 0;
             isChargingAttack = false;
             ANIM.Play("MinotaurAttack");
-            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttack"), 0.75f);
+
             StartCoroutine(MoveDelay());
         }
 
+    }
+
+    void SpawnShrapnel()
+    {
+        if (shrapnelPrefab == null) return;
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
+        WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
+        WS.damage = shrapnelDamage;
+        WS.speed = shrapnelSpeed;
     }
 
     private void OnDrawGizmos()
@@ -444,6 +464,10 @@ public class MonsterController : MonoBehaviour
         if (attackCharge < maxAttackChargeSeconds)
         {
             // Debug.Log("charging attack");
+            if (audioPlayer.source.clip == null || audioPlayer.source.clip != audioPlayer.Find("minotaurAxeCharge"))
+            {
+                audioPlayer.PlaySoundVolume(audioPlayer.Find("minotaurAxeCharge"), 0.5f);
+            }
             attackCharge += Time.deltaTime;
             isChargingAttack = true;
         }
