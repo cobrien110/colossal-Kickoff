@@ -180,7 +180,7 @@ MonoBehaviour:
   movementDirection: {x: 0, y: 0, z: 0}
   usingKeyboard: 0
   invertControls: 0
-  ballPosition: {fileID: 0}
+  ballPosition: {fileID: 1764291824864585042}
   passSpeed: 400
   kickSpeed: 475
   attackHitForce: 150
@@ -202,19 +202,20 @@ MonoBehaviour:
   maxDashChargeSeconds: 2
   isStunned: 0
   attackRange: 1.35
-  attackCooldown: 1.5
+  attackCooldown: 1.2
   attackBaseRadius: 0.75
   attackChargeRate: 0.5
   maxAttackChargeSeconds: 1.5
+  canSpawnShrapnelOnAttack: 1
   canMove: 1
   GM: {fileID: 0}
   UM: {fileID: 0}
-  ANIM: {fileID: 0}
+  ANIM: {fileID: 1174079186975617763}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
-  spriteObject: {fileID: 0}
-  attackVisual: {fileID: 0}
+  spriteObject: {fileID: 7581612499400799079}
+  attackVisual: {fileID: 1170473730850981982}
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
