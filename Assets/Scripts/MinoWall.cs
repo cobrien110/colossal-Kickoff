@@ -16,6 +16,7 @@ public class MinoWall : MonoBehaviour
     public float duration = 8f;
     private float startTime;
     private float journeyLength;
+    private AbilityMinotaurWall ABW;
     private MonsterController MC;
     private bool movingBack = false;
 
@@ -24,12 +25,13 @@ public class MinoWall : MonoBehaviour
     {
         transform.position = startPt.position;
         startTime = Time.time;
-        MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
-        numOfShrapnel = MC.shrapnelAmount;
-        shrapnelDamage = MC.shrapnelDamage;
-        shrapnelSpeed = MC.shrapnelSpeed;
-        duration = MC.wallDuration;
-        shrapnelSpawnDegrees = MC.shrapnelSpreadAngle;
+        ABW = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityMinotaurWall>();
+        MC = ABW.MC;
+        numOfShrapnel = ABW.shrapnelAmount;
+        shrapnelDamage = ABW.shrapnelDamage;
+        shrapnelSpeed = ABW.shrapnelSpeed;
+        duration = ABW.wallDuration;
+        shrapnelSpawnDegrees = ABW.shrapnelSpreadAngle;
         // Calculate the journey length.
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
         StartCoroutine("Swap", duration);
@@ -47,7 +49,7 @@ public class MinoWall : MonoBehaviour
     {
         if (other.CompareTag("Monster") && !movingBack)
         {
-            SpawnProjectiles();
+            SpawnShrapnel();
             AudioPlayer aud = other.gameObject.GetComponent<AudioPlayer>();
             aud.PlaySoundVolumeRandomPitch(aud.Find("minotaurWallSmash"), 0.35f);
             Destroy(this.gameObject);
@@ -69,7 +71,7 @@ public class MinoWall : MonoBehaviour
         MoveBackToGround();
     }
 
-    private void SpawnProjectiles()
+    private void SpawnShrapnel()
     {
         float angleIncrement = shrapnelSpawnDegrees / (numOfShrapnel - 1);
         float startAngle = -shrapnelSpawnDegrees / 2; // Start angle of the spread

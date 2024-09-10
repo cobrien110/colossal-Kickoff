@@ -12,6 +12,7 @@ public class MonsterController : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
+    public AbilityScript[] abilities;
     public GameObject wallPrefab;
     public GameObject shrapnelPrefab;
 
@@ -42,14 +43,14 @@ public class MonsterController : MonoBehaviour
     private float kickCharge = 1f;
     private bool isCharging;
     [Header("Ability Stats")]
-    [SerializeField] private float wallSpawnDistance = 2f;
-    [SerializeField] private float wallCooldown = 5f;
-    [SerializeField] public int shrapnelAmount = 5;
+    //[SerializeField] private float wallSpawnDistance = 2f;
+    //[SerializeField] private float wallCooldown = 5f;
+    //[SerializeField] public int shrapnelAmount = 5;
     [SerializeField] public int shrapnelDamage = 1;
     [SerializeField] public float shrapnelSpeed = 500f;
-    [SerializeField] public float shrapnelSpreadAngle = 35f;
-    [SerializeField] public float wallDuration = 8f;
-    private float wallTimer;
+    //[SerializeField] public float shrapnelSpreadAngle = 35f;
+    //[SerializeField] public float wallDuration = 8f;
+    //private float wallTimer;
     [SerializeField] private float dashSpeed = 500.0f;
     [SerializeField] private float dashCooldown = 1f;
     [SerializeField] private float dashDuration = 0.35f;
@@ -67,12 +68,12 @@ public class MonsterController : MonoBehaviour
     private float attackCharge = 0f;
     [SerializeField] private float attackChargeRate = 1f;
     [SerializeField] private float maxAttackChargeSeconds = 2f;
-    [SerializeField] private bool canSpawnShrapnelOnAttack = true;
+    public bool canSpawnShrapnelOnAttack = true;
 
     [SerializeField] private bool canMove = true;
-    [SerializeField] private GameplayManager GM = null;
-    [SerializeField] private UIManager UM = null;
-    [SerializeField] private Animator ANIM;
+    private GameplayManager GM = null;
+    private UIManager UM = null;
+    private Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
     public LayerMask layerMask;
@@ -94,8 +95,9 @@ public class MonsterController : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
         transform.position = monsterSpawner.transform.position;
-        wallTimer = wallCooldown;
+        //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
+        abilities = GetComponents<AbilityScript>();
     }
 
     // Temp Controller Scheme Swap
@@ -132,7 +134,7 @@ public class MonsterController : MonoBehaviour
                 Attack();
             }
 
-            if (wallTimer >= wallCooldown && (Input.GetKeyDown(KeyCode.J)))
+            if (Input.GetKeyDown(KeyCode.J))
             {
                 BuildWall();
             }
@@ -161,11 +163,6 @@ public class MonsterController : MonoBehaviour
         } else { rb.velocity = new Vector3(0, 0, 0); } // ensure monster momentum is killed when not playing
         InvincibilityFlash();
         // Cooldowns
-        if (wallTimer < wallCooldown)
-        {
-            wallTimer += Time.deltaTime;
-            UM.UpdateMonsterAbility1Bar(1-(wallTimer/wallCooldown));
-        }
 
         if (Time.time - lastAttackTime < attackCooldown)
         {
@@ -550,23 +547,7 @@ public class MonsterController : MonoBehaviour
 
     void BuildWall()
     {
-        if (isStunned) return;
-        wallTimer = 0f;
-        Vector3 spawnLocation = Vector3.zero;
-        Quaternion spawnRotation = Quaternion.identity;
-
-        Vector3 dir = movementDirection;
-        if (dir.Equals(Vector3.zero))
-        {
-            dir = rb.transform.forward.normalized;
-            // return;
-        }
-        spawnLocation = transform.position + (dir * wallSpawnDistance);
-        spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
-
-        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
-        Instantiate(wallPrefab, spawnLocation, spawnRotation);
-        ANIM.Play("MinotaurWall");
+        abilities[0].Activate();
     }
 
     public void Stun()
@@ -635,7 +616,7 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    IEnumerator MoveDelay()
+    public IEnumerator MoveDelay()
     {
         canMove = false;
         ANIM.SetBool("isWalking", false);
@@ -689,12 +670,21 @@ public class MonsterController : MonoBehaviour
         return aimingDirection;
     }
 
+    public Rigidbody GetRB()
+    {
+        return rb;
+    }
+
+    public Animator GetAnimator()
+    {
+        return ANIM;
+    }
+
     public void OnWall(InputAction.CallbackContext context)
     {
-        if (wallTimer >= wallCooldown && GM.isPlaying)
+        if (GM.isPlaying)
         {
-            BuildWall();
-            StartCoroutine(MoveDelay());
+            abilities[0].Activate();
         }
     }
 
