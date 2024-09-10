@@ -20,6 +20,10 @@ public class MonsterController : MonoBehaviour
     private Vector3 aimingDirection;
     private Vector3 rightStickInput;
 
+    //Temp Controller Scheme Swap
+    public bool usingNewScheme = false;
+    public InputAction monsterControls;
+
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
     public bool invertControls = false;
@@ -94,6 +98,18 @@ public class MonsterController : MonoBehaviour
         spriteScale = spriteObject.transform.localScale;
     }
 
+    // Temp Controller Scheme Swap
+    private void OnEnable()
+    {
+        monsterControls.Enable();
+    }
+
+    // Temp Controller Scheme Swap
+    private void OnDisable()
+    {
+        monsterControls.Enable();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -166,6 +182,13 @@ public class MonsterController : MonoBehaviour
         if (isStunned && BP.ballOwner == this.gameObject)
         {
             BP.ballOwner = null;
+        }
+
+        //Temp Controller Scheme Swap
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            usingNewScheme = !usingNewScheme;
+            invertControls = !invertControls;
         }
 
     }
@@ -267,44 +290,88 @@ public class MonsterController : MonoBehaviour
 
     void Kicking()
     {
-        if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
+        if (!usingNewScheme)
         {
-            Debug.Log("Kick!");
-            BP.ballOwner = null;
-            BP.lastKicker = gameObject;
-            Debug.Log(kickCharge);
-            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-            Vector3 forceToAdd = aimingDirection * kickForce;
-            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+            if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
+            {
+                Debug.Log("Kick!");
+                BP.ballOwner = null;
+                BP.lastKicker = gameObject;
+                Debug.Log(kickCharge);
+                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+                Vector3 forceToAdd = aimingDirection * kickForce;
+                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
-            UM.ShowChargeBar(false);
-            UM.UpdateChargeBar(0f);
-            PlayKickSound(kickCharge);
-            StartCoroutine(KickDelay());
-            ANIM.SetBool("isWindingUp", false);
-            ANIM.Play("MinotaurAttack");
-        }
-        if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
-        {
-            if (kickCharge <= maxChargeSeconds)
-            {
-                //Debug.Log(kickCharge);
-                UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                kickCharge += Time.deltaTime;
-                isCharging = true;
-                ANIM.SetBool("isWindingUp", true);
+                UM.ShowChargeBar(false);
+                UM.UpdateChargeBar(0f);
+                PlayKickSound(kickCharge);
+                StartCoroutine(KickDelay());
+                ANIM.SetBool("isWindingUp", false);
+                ANIM.Play("MinotaurAttack");
             }
-            
-            if (kickCharge > maxChargeSeconds)
+            if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
             {
-                UM.UpdateChargeBar(1f);
+                if (kickCharge <= maxChargeSeconds)
+                {
+                    //Debug.Log(kickCharge);
+                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    kickCharge += Time.deltaTime;
+                    isCharging = true;
+                    ANIM.SetBool("isWindingUp", true);
+                }
+
+                if (kickCharge > maxChargeSeconds)
+                {
+                    UM.UpdateChargeBar(1f);
+                }
             }
-        }
-        else
+            else
+            {
+                kickCharge = 1f;
+                isCharging = false;
+                aimingDirection = Vector3.zero;
+            }
+        } else
         {
-            kickCharge = 1f;
-            isCharging = false;
-            aimingDirection = Vector3.zero;
+            if (((monsterControls.phase == InputActionPhase.Canceled || monsterControls.WasReleasedThisFrame()) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
+            {
+                Debug.Log("Kick!");
+                BP.ballOwner = null;
+                BP.lastKicker = gameObject;
+                Debug.Log(kickCharge);
+                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+                Vector3 forceToAdd = aimingDirection * kickForce;
+                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+
+                UM.ShowChargeBar(false);
+                UM.UpdateChargeBar(0f);
+                PlayKickSound(kickCharge);
+                StartCoroutine(KickDelay());
+                ANIM.SetBool("isWindingUp", false);
+                ANIM.Play("MinotaurAttack");
+            }
+            if ((monsterControls.IsInProgress() || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
+            {
+                if (kickCharge <= maxChargeSeconds)
+                {
+                    //Debug.Log(kickCharge);
+                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    kickCharge += Time.deltaTime;
+                    isCharging = true;
+                    ANIM.SetBool("isWindingUp", true);
+                }
+
+                if (kickCharge > maxChargeSeconds)
+                {
+                    UM.UpdateChargeBar(1f);
+                }
+            }
+            else
+            {
+                kickCharge = 1f;
+                isCharging = false;
+                //aimingDirection = Vector3.zero;
+            }
         }
     }
 
@@ -717,6 +784,7 @@ public class MonsterController : MonoBehaviour
     public void OnInvert(InputAction.CallbackContext context)
     {
         invertControls = !invertControls;
+        usingNewScheme = !usingNewScheme;
     }
 
 }

@@ -178,6 +178,24 @@ MonoBehaviour:
   shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   monsterSpeed: 3
   movementDirection: {x: 0, y: 0, z: 0}
+  usingNewScheme: 0
+  monsterControls:
+    m_Name: Monster Controls
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 188f2358-c876-4b3f-9c16-5afabb94a418
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9320af2d-b4f5-460c-8506-2140003c32a1
+      m_Path: <XInputController>/rightTrigger
+      m_Interactions: Hold(duration=0.01,pressPoint=0.01)
+      m_Processors: 
+      m_Groups: 
+      m_Action: Monster Controls
+      m_Flags: 0
+    m_Flags: 0
   usingKeyboard: 0
   invertControls: 0
   ballPosition: {fileID: 1764291824864585042}
@@ -587,6 +605,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
     m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
+    m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

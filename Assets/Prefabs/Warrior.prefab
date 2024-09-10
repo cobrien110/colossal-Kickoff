@@ -74,6 +74,24 @@ MonoBehaviour:
   chargeMoveSpeedMult: 0.2
   slideCooldown: 2
   slideDuration: 1
+  usingNewScheme: 0
+  warriorControls:
+    m_Name: Warrior Controls
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: b8881557-46dd-435d-b467-9aa0354c1965
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 202bea71-3098-45eb-801d-7c3fa4da94e4
+      m_Path: <XInputController>/rightTrigger
+      m_Interactions: Hold(duration=0.01,pressPoint=0.01)
+      m_Processors: 
+      m_Groups: 
+      m_Action: Warrior Controls
+      m_Flags: 0
+    m_Flags: 0
   usingKeyboard: 0
   invertControls: 0
   GM: {fileID: 0}
@@ -394,6 +412,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
     m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
+    m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
