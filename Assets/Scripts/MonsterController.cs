@@ -92,6 +92,7 @@ public class MonsterController : MonoBehaviour
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        ANIM = GetComponentInChildren<Animator>();
         audioPlayer = GetComponent<AudioPlayer>();
         monsterSpawner = GameObject.Find("MonsterSpawner");
         transform.position = monsterSpawner.transform.position;
