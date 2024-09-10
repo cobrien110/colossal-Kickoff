@@ -123,7 +123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5861363668788466571}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12506379, y: -0, z: -0, w: 0.9921487}
+  m_LocalRotation: {x: 0.12506485, y: 0, z: 0, w: 0.9921486}
   m_LocalPosition: {x: -0.08, y: 3.65, z: -7.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -164,13 +164,13 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 75
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3831
+    m_Bits: 7927
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -204,9 +204,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targets:
   - {fileID: 0}
-  offset: {x: 0, y: 3, z: -8}
+  offset: {x: 0, y: 3, z: -7.5}
+  maxZOffset: -10
   smoothTime: 0.25
-  minZoom: 90
-  maxZoom: 40
-  zoomLimiter: 25
+  minZoom: 115
+  maxZoom: 30
+  zoomLimiter: 20
+  minFOV: 40
+  maxFOV: 75
+  maxGreatestDistance: 7
+  useJumpCutoff: 1
+  zJumpCutoff: 1
   mainCamera: {fileID: 125461926371572034}
