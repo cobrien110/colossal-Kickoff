@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Kick",
+                    "type": "Button",
+                    "id": "b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -104,6 +113,17 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "Invert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b69c9ce-b79f-49aa-a823-d838c91eeb9a",
+                    "path": "<XInputController>/rightTrigger",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Kick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

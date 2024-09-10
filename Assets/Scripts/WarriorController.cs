@@ -39,6 +39,9 @@ public class WarriorController : MonoBehaviour
     private bool isSliding = false;
     private float lastSlideTime = -1f;
 
+    //Temp Controller Scheme Swap
+    public bool usingNewScheme = true;
+
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
     public bool invertControls = false;
@@ -105,6 +108,13 @@ public class WarriorController : MonoBehaviour
         {
             PS.time = 0;
             PS.Stop();
+        }
+
+        //Temp Controller Scheme Swap
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            usingNewScheme = !usingNewScheme;
+            invertControls = !invertControls;
         }
     }
 
@@ -192,53 +202,59 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
-        if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
+        if (!usingNewScheme)
         {
-            Debug.Log("Kick!");
-            BP.ballOwner = null;
-            BP.lastKicker = gameObject;
-            BP.previousKicker = gameObject;
-            Debug.Log(kickCharge);
-            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-            if (GM.passMeter == GM.passMeterMax)
+            if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
             {
-                kickForce = kickForce * 2;
-                BP.isSuperKick = true;
-                GM.passMeter = 0;
-            }
-            Vector3 forceToAdd = aimingDirection * kickForce; 
-            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-            ANIM.Play("WarriorKick");
+                Debug.Log("Kick!");
+                BP.ballOwner = null;
+                BP.lastKicker = gameObject;
+                BP.previousKicker = gameObject;
+                Debug.Log(kickCharge);
+                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+                if (GM.passMeter == GM.passMeterMax)
+                {
+                    kickForce = kickForce * 2;
+                    BP.isSuperKick = true;
+                    GM.passMeter = 0;
+                }
+                Vector3 forceToAdd = aimingDirection * kickForce;
+                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                ANIM.Play("WarriorKick");
 
-            UM.ShowChargeBar(false);
-            UM.UpdateChargeBar(0f);
-            PlayKickSound(kickCharge);
-            
-            StartCoroutine(KickDelay());
-        }
-        if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
-        {
-            if (kickCharge <= maxChargeSeconds)
-            {
-                //Debug.Log(kickCharge);
-                UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                kickCharge += Time.deltaTime;
-                isCharging = true;
-                ANIM.SetBool("isChargingKick", true);
-            }
+                UM.ShowChargeBar(false);
+                UM.UpdateChargeBar(0f);
+                PlayKickSound(kickCharge);
 
-            if (kickCharge > maxChargeSeconds)
-            {
-                UM.UpdateChargeBar(1f);
+                StartCoroutine(KickDelay());
             }
-            
-        }
-        else
+            if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
+            {
+                if (kickCharge <= maxChargeSeconds)
+                {
+                    //Debug.Log(kickCharge);
+                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    kickCharge += Time.deltaTime;
+                    isCharging = true;
+                    ANIM.SetBool("isChargingKick", true);
+                }
+
+                if (kickCharge > maxChargeSeconds)
+                {
+                    UM.UpdateChargeBar(1f);
+                }
+
+            }
+            else
+            {
+                kickCharge = 1f;
+                isCharging = false;
+                aimingDirection = Vector3.zero;
+                ANIM.SetBool("isChargingKick", false);
+            }
+        } else
         {
-            kickCharge = 1f;
-            isCharging = false;
-            aimingDirection = Vector3.zero;
-            ANIM.SetBool("isChargingKick", false);
+            
         }
     }
 
@@ -402,6 +418,40 @@ public class WarriorController : MonoBehaviour
     public void OnInvert(InputAction.CallbackContext context)
     {
         invertControls = !invertControls;
+    }
+
+    //Temp Controller Scheme Swap
+    public void OnKick (InputAction.CallbackContext context)
+    {
+        if (context.action.WasReleasedThisFrame() && BP.ballOwner == gameObject && kickCharge != 1)
+        {
+            
+        }
+
+        if (context.action.IsInProgress() && BP.ballOwner == gameObject)
+        {
+            if (kickCharge <= maxChargeSeconds)
+            {
+                //Debug.Log(kickCharge);
+                UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                kickCharge += Time.deltaTime;
+                isCharging = true;
+                ANIM.SetBool("isChargingKick", true);
+                Debug.Log(kickCharge);
+            }
+
+            if (kickCharge > maxChargeSeconds)
+            {
+                UM.UpdateChargeBar(1f);
+            }
+        }
+        else
+        {
+            kickCharge = 1f;
+            isCharging = false;
+            aimingDirection = Vector3.zero;
+            ANIM.SetBool("isChargingKick", false);
+        }
     }
 
     /**
