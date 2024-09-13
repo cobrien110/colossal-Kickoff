@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
 
-public class AbilitySphericalAttack : AbilityChargable
+public class AbilitySphericalAttack : AbilityChargeable
 {
     
     public float attackHitForce = 150f;

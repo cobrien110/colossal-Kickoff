@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class AbilityChargable : AbilityScript
+public abstract class AbilityChargeable : AbilityScript
 {
     public float chargeRate = 1;
     public float maxChargeSeconds = 2;

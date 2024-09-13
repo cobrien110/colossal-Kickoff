@@ -696,9 +696,9 @@ public class MonsterController : MonoBehaviour
     {
         if (GM.isPlaying)
         {
-            if (abilities[0] is AbilityChargable)
+            if (abilities[0] is AbilityChargeable)
             {
-                AbilityChargable ab = (AbilityChargable)abilities[1];
+                AbilityChargeable ab = (AbilityChargeable)abilities[1];
                 ab.CheckInputs(context);
             }
             else
@@ -711,9 +711,9 @@ public class MonsterController : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
-        if (abilities[1] is AbilityChargable)
+        if (abilities[1] is AbilityChargeable)
         {
-            AbilityChargable ab = (AbilityChargable)abilities[1];
+            AbilityChargeable ab = (AbilityChargeable)abilities[1];
             ab.CheckInputs(context);
         } else
         {
