@@ -11,9 +11,9 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
 
-    [SerializeField] float warriorSpeed = 2f;
-    private Vector3 movementDirection;
-    private Vector3 aimingDirection;
+    [SerializeField] public float warriorSpeed = 2f;
+    public Vector3 movementDirection;
+    public Vector3 aimingDirection;
     private Vector3 rightStickInput;
 
     [SerializeField] private GameObject ballPosition;
@@ -26,17 +26,17 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float respawnInvincibilityTime = 1.5f;
     private bool isDead = false;
     public bool isInvincible = false;
-    [SerializeField] private float passSpeed = 5.0f;
+    [SerializeField] protected float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
-    [SerializeField] private float chargeMoveSpeedMult = 0.2f;
+    [SerializeField] protected float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
-    private bool isCharging;
+    protected bool isCharging;
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
-    private bool isSliding = false;
+    public bool isSliding = false;
     private float lastSlideTime = -1f;
 
     //Temp Controller Scheme Swap
@@ -54,7 +54,7 @@ public class WarriorController : MonoBehaviour
     public GameObject WarriorSpawner = null;
     [SerializeField] GameObject spriteObject;
     private Vector3 spriteScale;
-    [SerializeField] private Animator ANIM;
+    [SerializeField] public Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
     public Sprite[] ringColors;
@@ -62,6 +62,7 @@ public class WarriorController : MonoBehaviour
     private CommentatorSoundManager CSM;
     public int playerNum = 1;
     public GameObject particleObj;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -101,7 +102,8 @@ public class WarriorController : MonoBehaviour
     void Update()
     {
         if (GM.isPlaying && !isDead)
-        {  
+        {
+            //if (GetComponent<WarriorAiController>() != null) return;
             Dribbling();
             Passing();
             Kicking();
@@ -133,6 +135,7 @@ public class WarriorController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GetComponent<WarriorAiController>() != null) return;
         if (isDead) return;
         Movement();
     }
@@ -331,7 +334,7 @@ public class WarriorController : MonoBehaviour
     }
 
 
-    void Sliding()
+    public void Sliding()
     {
         // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
@@ -437,6 +440,11 @@ public class WarriorController : MonoBehaviour
         }
     }
 
+    public void SetIsSliding(bool isSliding)
+    {
+        this.isSliding = isSliding;
+    }
+
     /**
      *  The Following Code Is For Controller Inputs
      **/
@@ -486,7 +494,7 @@ public class WarriorController : MonoBehaviour
      **/
     public void SetColor(int i)
     {
-        Debug.Log("Set color called with i = " + i);
+        //Debug.Log("Set color called with i = " + i);
         try
         {
             ring.sprite = ringColors[i];
