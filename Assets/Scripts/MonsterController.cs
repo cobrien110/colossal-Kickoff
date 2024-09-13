@@ -41,7 +41,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float stunTime = 3f;
     [SerializeField] private float stunSpeed = 0.2f;
     private float kickCharge = 1f;
-    private bool isCharging;
+    public bool isCharging;
     [Header("Ability Stats")]
     //[SerializeField] private float wallSpawnDistance = 2f;
     //[SerializeField] private float wallCooldown = 5f;
@@ -71,7 +71,7 @@ public class MonsterController : MonoBehaviour
     public bool canSpawnShrapnelOnAttack = true;
 
     [SerializeField] private bool canMove = true;
-    private GameplayManager GM = null;
+    public GameplayManager GM = null;
     private UIManager UM = null;
     private Animator ANIM;
     private AudioPlayer audioPlayer;
@@ -128,7 +128,9 @@ public class MonsterController : MonoBehaviour
             Kicking();
             RotateWhileCharging();
             Dash();
-            ResizeAttackVisual();
+            
+            //ResizeAttackVisual();
+            
 
             if (Input.GetKey(KeyCode.Backspace))
             {
@@ -145,6 +147,7 @@ public class MonsterController : MonoBehaviour
                 ChargeDashing();
             }
 
+            /*
             if (isChargingAttack)
             {
                 ChargeAttack();
@@ -154,6 +157,7 @@ public class MonsterController : MonoBehaviour
             {
                 if (attackVisual.activeSelf) attackVisual.SetActive(false);
             }
+            */
 
             // TESTING STUN
             if (Input.GetKeyDown(KeyCode.T))
@@ -388,6 +392,7 @@ public class MonsterController : MonoBehaviour
     // Vector3 startAngle = transform.forward
     void Attack()
     {
+        /*
         if (BP != null && BP.ballOwner != gameObject && GM.isPlaying)
         {    
             Debug.Log("Attack!");
@@ -438,17 +443,19 @@ public class MonsterController : MonoBehaviour
 
             StartCoroutine(MoveDelay());
         }
-
+        */
     }
 
     void SpawnShrapnel()
     {
+        /*
         if (shrapnelPrefab == null) return;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
         WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
         WS.damage = shrapnelDamage;
         WS.speed = shrapnelSpeed;
+        */
     }
 
     private void OnDrawGizmos()
@@ -525,6 +532,7 @@ public class MonsterController : MonoBehaviour
 
     void ChargeAttack()
     {
+        /*
         if (isStunned) return;
         if (attackCharge < maxAttackChargeSeconds)
         {
@@ -536,6 +544,7 @@ public class MonsterController : MonoBehaviour
             attackCharge += Time.deltaTime;
             isChargingAttack = true;
         }
+        */
     }
 
     void StopDashing()
@@ -563,6 +572,7 @@ public class MonsterController : MonoBehaviour
 
     private void ResizeAttackVisual()
     {
+        /*
         attackVisual.transform.localScale = new Vector3(attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f,
             0.05f, attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f);
         Vector3 dir = transform.forward * attackRange;
@@ -571,6 +581,7 @@ public class MonsterController : MonoBehaviour
         {
             attackVisual.transform.localScale = Vector3.zero;
         }
+        */
     }
 
     private IEnumerator ResetStun()
@@ -685,13 +696,30 @@ public class MonsterController : MonoBehaviour
     {
         if (GM.isPlaying)
         {
-            abilities[0].Activate();
+            if (abilities[0] is AbilityChargable)
+            {
+                AbilityChargable ab = (AbilityChargable)abilities[1];
+                ab.CheckInputs(context);
+            }
+            else
+            {
+                abilities[0].Activate();
+            }
         }
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
+        if (abilities[1] is AbilityChargable)
+        {
+            AbilityChargable ab = (AbilityChargable)abilities[1];
+            ab.CheckInputs(context);
+        } else
+        {
+            abilities[1].Activate();
+        }
+        /*
         if (!GM.isPlaying)
         {
             isChargingAttack = false;
@@ -717,6 +745,7 @@ public class MonsterController : MonoBehaviour
                 attackCharge = 0;
             }
         }
+        */
     }
 
     public void OnCharge(InputAction.CallbackContext context)

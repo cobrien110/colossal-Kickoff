@@ -12,21 +12,35 @@ public abstract class AbilityScript : MonoBehaviour
     [HideInInspector] public UIManager UM;
     protected float timer;
     public float cooldown;
+    protected GameplayManager GM;
+    protected BallProperties BP;
 
     // Start is called before the first frame update
     private void Start()
+    {
+        Setup();
+    }
+
+    protected void Setup()
     {
         MC = GetComponent<MonsterController>();
         audioPlayer = GetComponent<AudioPlayer>();
         ANIM = MC.GetAnimator();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timer = cooldown;
     }
 
     private void Update()
     {
+        UpdateSetup();
+    }
+
+    protected void UpdateSetup()
+    {
         if (timer < cooldown) timer += Time.deltaTime;
         UpdateUI();
+        BP = MC.BP;
     }
 
     public string GetName()
