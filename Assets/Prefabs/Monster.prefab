@@ -211,16 +211,11 @@ MonoBehaviour:
   stunTime: 1.5
   stunSpeed: 0.2
   isCharging: 0
-  shrapnelDamage: 1
-  shrapnelSpeed: 450
   dashSpeed: 500
   dashCooldown: 4
   dashDuration: 1
   maxDashChargeSeconds: 2
   isStunned: 0
-  attackRange: 1.35
-  attackCooldown: 1.2
-  attackBaseRadius: 0.75
   attackChargeRate: 0.5
   maxAttackChargeSeconds: 1.5
   canSpawnShrapnelOnAttack: 1
@@ -280,13 +275,14 @@ MonoBehaviour:
   chargeRate: 0.75
   maxChargeSeconds: 1
   attackRange: 1.35
-  attackBaseRadius: 0.75
+  attackBaseRadius: 0.6
   attackVisual: {fileID: 0}
+  willStopWhenDribbling: 1
   attackHitForce: 150
   attackVisualOffsetY: -0.3
   affectedLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
   canSpawnShrapnel: 1
   shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   shrapnelDamage: 1

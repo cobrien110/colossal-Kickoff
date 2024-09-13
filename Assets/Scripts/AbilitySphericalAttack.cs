@@ -92,4 +92,12 @@ public class AbilitySphericalAttack : AbilityChargeable
             attackVisual.transform.localScale = Vector3.zero;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 direction = transform.forward;
+        Gizmos.color = Color.red;
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
+        Gizmos.DrawWireSphere(origin + direction * attackRange, attackBaseRadius + chargeAmount * chargeRate);
+    }
 }

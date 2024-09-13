@@ -12,6 +12,7 @@ public abstract class AbilityChargeable : AbilityScript
     public float attackRange = 1f;
     public float attackBaseRadius = 1f;
     public GameObject attackVisual;
+    public bool willStopWhenDribbling = true;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,10 @@ public abstract class AbilityChargeable : AbilityScript
     void Update()
     {
         UpdateSetup();
+        if (willStopWhenDribbling)
+        {
+            StopWhenDribbling();
+        }
         ResizeAttackVisual();
         if (isCharging)
         {
@@ -34,6 +39,19 @@ public abstract class AbilityChargeable : AbilityScript
         {
             chargeAmount = 0f;
             if (attackVisual != null && attackVisual.activeSelf) attackVisual.SetActive(false);
+        }
+
+    }
+
+    protected void StopWhenDribbling()
+    {
+        if (BP.ballOwner == gameObject)
+        {
+            if (isCharging)
+            {
+                isCharging = false;
+                chargeAmount = 0;
+            }
         }
     }
 
@@ -56,6 +74,7 @@ public abstract class AbilityChargeable : AbilityScript
         Debug.Log("Is Charging Attack");
         isCharging = true;
         MC.isCharging = true;
+
     }
 
     public virtual void ChargeDown()

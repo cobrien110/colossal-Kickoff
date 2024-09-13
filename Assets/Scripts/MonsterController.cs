@@ -46,8 +46,8 @@ public class MonsterController : MonoBehaviour
     //[SerializeField] private float wallSpawnDistance = 2f;
     //[SerializeField] private float wallCooldown = 5f;
     //[SerializeField] public int shrapnelAmount = 5;
-    [SerializeField] public int shrapnelDamage = 1;
-    [SerializeField] public float shrapnelSpeed = 500f;
+    //[SerializeField] public int shrapnelDamage = 1;
+    //[SerializeField] public float shrapnelSpeed = 500f;
     //[SerializeField] public float shrapnelSpreadAngle = 35f;
     //[SerializeField] public float wallDuration = 8f;
     //private float wallTimer;
@@ -60,12 +60,12 @@ public class MonsterController : MonoBehaviour
     private float dashCharge = 1f;
     private bool isChargingDash = false;
     [HideInInspector] public bool isStunned = false;
-    public float attackRange = 1f;
-    [SerializeField] private float attackCooldown = 1f;
-    private float lastAttackTime = -1f;
-    [SerializeField] private float attackBaseRadius = 0.5f;
-    private bool isChargingAttack = false;
-    private float attackCharge = 0f;
+    //public float attackRange = 1f;
+    //[SerializeField] private float attackCooldown = 1f;
+    //private float lastAttackTime = -1f;
+    //[SerializeField] private float attackBaseRadius = 0.5f;
+    //private bool isChargingAttack = false;
+    //private float attackCharge = 0f;
     [SerializeField] private float attackChargeRate = 1f;
     [SerializeField] private float maxAttackChargeSeconds = 2f;
     public bool canSpawnShrapnelOnAttack = true;
@@ -169,11 +169,6 @@ public class MonsterController : MonoBehaviour
         InvincibilityFlash();
         // Cooldowns
 
-        if (Time.time - lastAttackTime < attackCooldown)
-        {
-            UM.UpdateMonsterAbility2Bar(1-((Time.time - lastAttackTime) / attackCooldown));
-        }
-
         if (Time.time - lastDashTime < dashCooldown)
         {
             UM.UpdateMonsterAbility3Bar(1 - ((Time.time - lastDashTime) / dashCooldown));
@@ -263,12 +258,6 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
-            if (isChargingAttack)
-            {
-                isChargingAttack = false;
-                attackCharge = 0;
-            }
-
             UM.ShowChargeBar(true);
             UM.UpdateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
@@ -458,14 +447,6 @@ public class MonsterController : MonoBehaviour
         */
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 direction = transform.forward;
-        Gizmos.color = Color.red;
-        Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
-        Gizmos.DrawWireSphere(origin + direction * attackRange, attackBaseRadius + attackCharge * attackChargeRate);
-    }
-
     void Dash()
     {
         if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
@@ -568,20 +549,6 @@ public class MonsterController : MonoBehaviour
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
         CSM.PlayDeathSound(false);
         StartCoroutine(ResetStun());
-    }
-
-    private void ResizeAttackVisual()
-    {
-        /*
-        attackVisual.transform.localScale = new Vector3(attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f,
-            0.05f, attackBaseRadius * 2f + attackCharge * attackChargeRate * 2f);
-        Vector3 dir = transform.forward * attackRange;
-        attackVisual.transform.position = new Vector3(transform.position.x, attackVisual.transform.position.y, transform.position.z) + dir;
-        if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
-        {
-            attackVisual.transform.localScale = Vector3.zero;
-        }
-        */
     }
 
     private IEnumerator ResetStun()
