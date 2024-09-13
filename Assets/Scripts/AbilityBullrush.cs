@@ -51,4 +51,14 @@ public class AbilityBullrush : AbilityChargeable
         // ANIM.SetBool("isSliding", false);
         MC.isDashing = false;
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        // Debug.Log("Monster Collision with: " + collider.gameObject.name);
+        if (MC.isDashing && collider.tag.Equals("Warrior"))
+        {
+            Debug.Log("Dash killed warrior");
+            collider.gameObject.GetComponent<WarriorController>().Die();
+        }
+    }
 }

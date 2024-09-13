@@ -558,16 +558,6 @@ public class MonsterController : MonoBehaviour
         Debug.Log("Wait Done");
     }
 
-    private void OnTriggerEnter(Collider collider)
-    {
-        // Debug.Log("Monster Collision with: " + collider.gameObject.name);
-        if (isDashing && collider.tag.Equals("Warrior"))
-        {
-            Debug.Log("Dash killed warrior");
-            collider.gameObject.GetComponent<WarriorController>().Die();
-        }
-    }
-
     public IEnumerator MoveDelay()
     {
         canMove = false;
