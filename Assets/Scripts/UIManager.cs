@@ -54,6 +54,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image player2respawnfill = null;
     [SerializeField] private Image player3respawnfill = null;
 
+    //Dev Stats and/or stats to add to Scoreboard
+    /* Kills with specific abilities
+     * Timestamps and player ID of goals
+     * Goal count as well by player
+     * Steal count
+     * Pass count
+     * Monster and Warrior dribble time
+     * 
+     */
+
     Coroutine timerCoroutine;
     GameplayManager GM;
 

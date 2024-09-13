@@ -13,6 +13,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private MonsterController MC = null;
     [SerializeField] private WarriorController WC = null;
     [SerializeField] private MultipleTargetCamera MTC = null;
+    [SerializeField] private GameObject WarriorAI = null;
     private PlayerInputManager PIM = null;
     private GameObject BallSpawner = null;
     private GameObject[] WarriorSpawners = null;
@@ -47,6 +48,12 @@ public class GameplayManager : MonoBehaviour
         {
             StartCoroutine(Kickoff());
             Debug.Log("Enter");
+        }
+
+        if (Input.GetKeyDown(KeyCode.B) && !isPlaying)
+        {
+            SpawnAI();
+            Debug.Log("Birthed");
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
@@ -186,6 +193,13 @@ public class GameplayManager : MonoBehaviour
             }
             
         }
+    }
+
+    public void SpawnAI()
+    {
+        Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+        Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
+        Instantiate(WarriorAI, new Vector3(5.25f, 0f, 2f), Quaternion.identity);
     }
 
     public void ResetGame()
