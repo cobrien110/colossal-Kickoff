@@ -26,6 +26,10 @@ public class UIManager : MonoBehaviour
 
     //(Stats) ScoreboardUI
     [SerializeField] private GameObject statsScoreboard = null;
+    [SerializeField] private TMP_Text killsTextMonster = null;
+    private int monsterKills = 0;
+    [SerializeField] private TMP_Text abilitiesTextMonster = null;
+    private int monsterAbilities = 0;
 
     //ChargeMeter
     [SerializeField] private GameObject chargeBar = null;
@@ -298,5 +302,17 @@ public class UIManager : MonoBehaviour
     public void ShowStatsScoreboard (bool state)
     {
         statsScoreboard.gameObject.SetActive(state);
+    }
+
+    public void UpdateMonsterKills()
+    {
+        monsterKills = monsterKills + 1;
+        killsTextMonster.text = "" + monsterKills;
+    }
+
+    public void UpdateMonsterAbilities()
+    {
+        monsterAbilities = monsterAbilities + 1;
+        abilitiesTextMonster.text = "" + monsterAbilities;
     }
 }

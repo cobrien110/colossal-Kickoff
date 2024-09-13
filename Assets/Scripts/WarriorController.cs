@@ -406,6 +406,7 @@ public class WarriorController : MonoBehaviour
     public void Die()
     {
         if (isInvincible) return;
+        UM.UpdateMonsterKills();
         isDead = true;
         isInvincible = true;
         PS.Stop();
