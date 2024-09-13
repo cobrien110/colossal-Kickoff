@@ -26,6 +26,10 @@ public class UIManager : MonoBehaviour
 
     //(Stats) ScoreboardUI
     [SerializeField] private GameObject statsScoreboard = null;
+    [SerializeField] private TMP_Text killsTextMonster = null;
+    private int monsterKills = 0;
+    [SerializeField] private TMP_Text abilitiesTextMonster = null;
+    private int monsterAbilities = 0;
 
     //ChargeMeter
     [SerializeField] private GameObject chargeBar = null;
@@ -49,6 +53,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image player1respawnfill = null;
     [SerializeField] private Image player2respawnfill = null;
     [SerializeField] private Image player3respawnfill = null;
+
+    //Dev Stats and/or stats to add to Scoreboard
+    /* Kills with specific abilities
+     * Timestamps and player ID of goals
+     * Goal count as well by player
+     * Steal count
+     * Pass count
+     * Monster and Warrior dribble time
+     * 
+     */
 
     Coroutine timerCoroutine;
     GameplayManager GM;
@@ -298,5 +312,17 @@ public class UIManager : MonoBehaviour
     public void ShowStatsScoreboard (bool state)
     {
         statsScoreboard.gameObject.SetActive(state);
+    }
+
+    public void UpdateMonsterKills()
+    {
+        monsterKills = monsterKills + 1;
+        killsTextMonster.text = "" + monsterKills;
+    }
+
+    public void UpdateMonsterAbilities()
+    {
+        monsterAbilities = monsterAbilities + 1;
+        abilitiesTextMonster.text = "" + monsterAbilities;
     }
 }
