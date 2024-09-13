@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     private int monsterScore = 0;
     private int timeRemainingSeconds;
 
+    //(Stats) ScoreboardUI
+    [SerializeField] private GameObject statsScoreboard = null;
+
     //ChargeMeter
     [SerializeField] private GameObject chargeBar = null;
     [SerializeField] private Image chargeBarFill = null;
@@ -67,7 +70,17 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (statsScoreboard.activeInHierarchy)
+            {
+                ShowStatsScoreboard(false);
+            }
+            else
+            {
+                ShowStatsScoreboard(true);
+            }
+        }
     }
 
     public IEnumerator Countdown()
@@ -280,5 +293,10 @@ public class UIManager : MonoBehaviour
         {
             player3respawnfill.fillAmount = charge;
         }
+    }
+
+    public void ShowStatsScoreboard (bool state)
+    {
+        statsScoreboard.gameObject.SetActive(state);
     }
 }
