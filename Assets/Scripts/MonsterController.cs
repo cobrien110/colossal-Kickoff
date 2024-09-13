@@ -66,9 +66,9 @@ public class MonsterController : MonoBehaviour
     //[SerializeField] private float attackBaseRadius = 0.5f;
     //private bool isChargingAttack = false;
     //private float attackCharge = 0f;
-    [SerializeField] private float attackChargeRate = 1f;
-    [SerializeField] private float maxAttackChargeSeconds = 2f;
-    public bool canSpawnShrapnelOnAttack = true;
+    //[SerializeField] private float attackChargeRate = 1f;
+    //[SerializeField] private float maxAttackChargeSeconds = 2f;
+    //public bool canSpawnShrapnelOnAttack = true;
 
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
@@ -134,7 +134,7 @@ public class MonsterController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Backspace))
             {
-                Attack();
+                abilities[1].Activate();
             }
 
             if (Input.GetKeyDown(KeyCode.J))

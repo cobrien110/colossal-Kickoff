@@ -6,8 +6,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class AbilitySphericalAttack : AbilityChargeable
 {
-    
-    public float attackHitForce = 150f;
+    [Header("Ability Specific Variables")]
     public float attackVisualOffsetY;
     public LayerMask affectedLayers;
     public bool canSpawnShrapnel = true;
@@ -40,15 +39,16 @@ public class AbilitySphericalAttack : AbilityChargeable
                 if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null)
                 {
                     // SWIPE AWAY BALL - UNUSED FOR NOW
-
-                    Debug.Log("AXE HIT BALL!");
-                    float kickForce = attackHitForce;
-                    Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
-                    Vector3 posB = new Vector3(transform.position.x, 0f, transform.position.z);
-                    Vector3 dir = (posA - posB).normalized;
-                    Vector3 forceToAdd = dir * kickForce;
-                    BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-
+                    if (canHitBall)
+                    {
+                        Debug.Log("AXE HIT BALL!");
+                        float kickForce = attackHitForce;
+                        Vector3 posA = new Vector3(BP.gameObject.transform.position.x, 0f, BP.gameObject.transform.position.z);
+                        Vector3 posB = new Vector3(transform.position.x, 0f, transform.position.z);
+                        Vector3 dir = (posA - posB).normalized;
+                        Vector3 forceToAdd = dir * kickForce;
+                        BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                    }
                 }
             }
 
@@ -64,7 +64,7 @@ public class AbilitySphericalAttack : AbilityChargeable
             timer = 0;
             chargeAmount = 0;
             isCharging = false;
-            ANIM.Play("MinotaurAttack");
+            ANIM.Play(animationName);
 
             StartCoroutine(MC.MoveDelay());
         }

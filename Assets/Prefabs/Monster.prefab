@@ -240,11 +240,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: MinotaurWall
   abilityNum: 1
+  cooldown: 8.5
+  attackVisual: {fileID: 0}
+  animationName: minotaurAxeCharge
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  cooldown: 8.5
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   wallSpawnDistance: 3
   wallDuration: 8
@@ -267,17 +269,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: MinotaurAttack
   abilityNum: 2
+  cooldown: 1.2
+  attackVisual: {fileID: 0}
+  animationName: MinotaurAttack
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  cooldown: 1.2
   chargeRate: 0.75
   maxChargeSeconds: 1
   attackRange: 1.35
   attackBaseRadius: 0.6
-  attackVisual: {fileID: 0}
   willStopWhenDribbling: 1
+  canHitBall: 1
   attackHitForce: 150
   attackVisualOffsetY: -0.3
   affectedLayers:

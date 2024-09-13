@@ -5,14 +5,19 @@ using UnityEngine.InputSystem;
 
 public abstract class AbilityChargeable : AbilityScript
 {
+    [Header("Chargable Variables")]
     public float chargeRate = 1;
     public float maxChargeSeconds = 2;
     protected bool isCharging = false;
     protected float chargeAmount = 0f;
+    public string chargeSoundName = "minotaurAxeCharge";
+
+    [Header("Attack Stats")]
     public float attackRange = 1f;
     public float attackBaseRadius = 1f;
-    public GameObject attackVisual;
     public bool willStopWhenDribbling = true;
+    public bool canHitBall = true;
+    public float attackHitForce = 150f;
 
     // Start is called before the first frame update
     void Start()
@@ -61,9 +66,9 @@ public abstract class AbilityChargeable : AbilityScript
         if (chargeAmount < maxChargeSeconds)
         {
             // Debug.Log("charging attack");
-            if (audioPlayer.source.clip == null || audioPlayer.source.clip != audioPlayer.Find("minotaurAxeCharge"))
+            if (audioPlayer.source.clip == null || audioPlayer.source.clip != audioPlayer.Find(chargeSoundName))
             {
-                audioPlayer.PlaySoundVolume(audioPlayer.Find("minotaurAxeCharge"), 0.5f);
+                audioPlayer.PlaySoundVolume(audioPlayer.Find(chargeSoundName), 0.5f);
             }
             chargeAmount += Time.deltaTime * chargeRate;
         }

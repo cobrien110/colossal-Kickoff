@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AbilityMinotaurWall : AbilityScript
 {
+    [Header("Ability Specific Variables")]
     public GameObject wallPrefab;
     public float wallSpawnDistance;
     public float wallDuration;

@@ -4,16 +4,22 @@ using UnityEngine;
 
 public abstract class AbilityScript : MonoBehaviour
 {
+    [Header("Basic Info")]
     public string abilityName = "NoName";
-    public int abilityNum = 0;
-    [HideInInspector] public MonsterController MC;
-    [HideInInspector] public AudioPlayer audioPlayer;
-    [HideInInspector]  public Animator ANIM;
-    [HideInInspector] public UIManager UM;
+    [Range(0,3)] public int abilityNum = 0;
     protected float timer;
     public float cooldown;
+
+    [Header("Visuals")]
+    public GameObject attackVisual;
+    public string animationName = "minotaurAxeCharge";
+
     protected GameplayManager GM;
     protected BallProperties BP;
+    [HideInInspector] public MonsterController MC;
+    [HideInInspector] public AudioPlayer audioPlayer;
+    [HideInInspector] public Animator ANIM;
+    [HideInInspector] public UIManager UM;
 
     // Start is called before the first frame update
     private void Start()
