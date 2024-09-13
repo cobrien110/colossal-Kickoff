@@ -96,8 +96,6 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   abilities: []
-  wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
-  shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   monsterSpeed: 3
   movementDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
@@ -207,10 +205,10 @@ MonoBehaviour:
   affectedLayers:
     serializedVersion: 2
     m_Bits: 129
-  canSpawnShrapnel: 1
-  shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
-  shrapnelDamage: 1
-  shrapnelSpeed: 450
+  canSpawnProjectile: 1
+  projectilePrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
+  projectileDamage: 1
+  projectileSpeed: 450
 --- !u!114 &1110472901978447733
 MonoBehaviour:
   m_ObjectHideFlags: 0

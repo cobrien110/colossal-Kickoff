@@ -13,8 +13,8 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public AbilityScript[] abilities;
-    public GameObject wallPrefab;
-    public GameObject shrapnelPrefab;
+    //public GameObject wallPrefab;
+    //public GameObject shrapnelPrefab;
 
     [SerializeField] float monsterSpeed = 2f;
     [HideInInspector] public Vector3 movementDirection;

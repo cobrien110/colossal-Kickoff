@@ -13,10 +13,10 @@ public class AbilitySphericalAttack : AbilityChargeable
     [Header("Ability Specific Variables")]
     public float attackVisualOffsetY;
     public LayerMask affectedLayers;
-    public bool canSpawnShrapnel = true;
-    public GameObject shrapnelPrefab;
-    public int shrapnelDamage = 1;
-    public float shrapnelSpeed = 450f;
+    public bool canSpawnProjectile = true;
+    public GameObject projectilePrefab;
+    public int projectileDamage = 1;
+    public float projectileSpeed = 450f;
 
     public override void Activate()
     {
@@ -63,7 +63,7 @@ public class AbilitySphericalAttack : AbilityChargeable
             else
             {
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttackCharged"), 0.7f);
-                if (canSpawnShrapnel) SpawnShrapnel();
+                if (canSpawnProjectile) SpawnShrapnel();
             }
             timer = 0;
             chargeAmount = 0;
@@ -76,12 +76,12 @@ public class AbilitySphericalAttack : AbilityChargeable
 
     void SpawnShrapnel()
     {
-        if (shrapnelPrefab == null) return;
+        if (projectilePrefab == null) return;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
+        GameObject shrap = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
         WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
-        WS.damage = shrapnelDamage;
-        WS.speed = shrapnelSpeed;
+        WS.damage = projectileDamage;
+        WS.speed = projectileSpeed;
     }
 
     public override void ResizeAttackVisual()
