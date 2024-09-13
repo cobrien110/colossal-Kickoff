@@ -11,8 +11,10 @@ public abstract class AbilityScript : MonoBehaviour
     public float cooldown;
 
     [Header("Visuals")]
-    public GameObject attackVisual;
-    public string animationName = "minotaurAxeCharge";
+    public GameObject attackVisualizer;
+    public GameObject attackVisualizerPrefab;
+    public Transform attackVisHolder;
+    public string activatedAnimationName = "minotaurAxeCharge";
 
     protected GameplayManager GM;
     protected BallProperties BP;
@@ -35,6 +37,8 @@ public abstract class AbilityScript : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timer = cooldown;
+        if (attackVisualizerPrefab != null) attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
+        Debug.Log(attackVisualizer);
     }
 
     private void Update()

@@ -10,11 +10,10 @@ public abstract class AbilityChargeable : AbilityScript
     public float maxChargeSeconds = 2;
     protected bool isCharging = false;
     protected float chargeAmount = 0f;
+    public bool slowsDownCharacterWhileCharging = false;
     public string chargeSoundName = "minotaurAxeCharge";
+    public bool hasChargeUpAnimation;
 
-    [Header("Attack Stats")]
-    public float attackRange = 1f;
-    public float attackBaseRadius = 1f;
     public bool willStopWhenDribbling = true;
     public bool canHitBall = true;
     public float attackHitForce = 150f;
@@ -23,7 +22,6 @@ public abstract class AbilityChargeable : AbilityScript
     void Start()
     {
         Setup();
-        attackVisual = MC.attackVisual;
     }
 
     // Update is called once per frame
@@ -38,12 +36,13 @@ public abstract class AbilityChargeable : AbilityScript
         if (isCharging)
         {
             ChargeAbility();
-            if (attackVisual != null && !attackVisual.activeSelf) attackVisual.SetActive(true);
+            if (attackVisualizer != null && !attackVisualizer.activeSelf) attackVisualizer.SetActive(true);
+            if (hasChargeUpAnimation) ANIM.SetBool("isWindingUp", true);
         }
         else
         {
             chargeAmount = 0f;
-            if (attackVisual != null && attackVisual.activeSelf) attackVisual.SetActive(false);
+            if (attackVisualizer != null && attackVisualizer.activeSelf) attackVisualizer.SetActive(false);
         }
 
     }
@@ -65,7 +64,7 @@ public abstract class AbilityChargeable : AbilityScript
         if (MC.isStunned) return;
         if (chargeAmount < maxChargeSeconds)
         {
-            // Debug.Log("charging attack");
+            Debug.Log("Charging Ability: " + abilityName);
             if (audioPlayer.source.clip == null || audioPlayer.source.clip != audioPlayer.Find(chargeSoundName))
             {
                 audioPlayer.PlaySoundVolume(audioPlayer.Find(chargeSoundName), 0.5f);
@@ -78,15 +77,15 @@ public abstract class AbilityChargeable : AbilityScript
     {
         Debug.Log("Is Charging Attack");
         isCharging = true;
-        MC.isCharging = true;
-
+        if (slowsDownCharacterWhileCharging) MC.isChargingAbility = true;
     }
 
     public virtual void ChargeDown()
     {
         Debug.Log("Not attack and not charging");
         isCharging = false;
-        MC.isCharging = false;
+        if (slowsDownCharacterWhileCharging) MC.isChargingAbility = false;
+        ANIM.SetBool("isWindingUp", false);
     }
 
     public virtual void CheckInputs(InputAction.CallbackContext context)
@@ -104,6 +103,7 @@ public abstract class AbilityChargeable : AbilityScript
             if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
             {
                 Activate();
+                ANIM.SetBool("isWindingUp", false);
             }
             else if (context.action.IsInProgress() && timer >= cooldown) // If it still is true, keep charging
             {
@@ -118,6 +118,6 @@ public abstract class AbilityChargeable : AbilityScript
 
     public virtual void ResizeAttackVisual()
     {
-        if (attackVisual == null) return;
+        if (attackVisualizer == null) return;
     }
 }

@@ -6,6 +6,10 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class AbilitySphericalAttack : AbilityChargeable
 {
+    [Header("Attack Stats")]
+    public float attackRange = 1f;
+    public float attackBaseRadius = 1f;
+
     [Header("Ability Specific Variables")]
     public float attackVisualOffsetY;
     public LayerMask affectedLayers;
@@ -64,7 +68,7 @@ public class AbilitySphericalAttack : AbilityChargeable
             timer = 0;
             chargeAmount = 0;
             isCharging = false;
-            ANIM.Play(animationName);
+            ANIM.Play(activatedAnimationName);
 
             StartCoroutine(MC.MoveDelay());
         }
@@ -82,14 +86,14 @@ public class AbilitySphericalAttack : AbilityChargeable
 
     public override void ResizeAttackVisual()
     {
-        if (attackVisual == null) return;
-        attackVisual.transform.localScale = new Vector3(attackBaseRadius * 2f + chargeAmount * chargeRate * 2f,
+        if (attackVisualizer == null) return;
+        attackVisualizer.transform.localScale = new Vector3(attackBaseRadius * 2f + chargeAmount * chargeRate * 2f,
             0.05f, attackBaseRadius * 2f + chargeAmount * chargeRate * 2f);
         Vector3 dir = transform.forward * attackRange;
-        attackVisual.transform.position = new Vector3(transform.position.x, attackVisual.transform.position.y, transform.position.z) + dir;
+        attackVisualizer.transform.position = new Vector3(transform.position.x, attackVisualizer.transform.position.y, transform.position.z) + dir;
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
-            attackVisual.transform.localScale = Vector3.zero;
+            attackVisualizer.transform.localScale = Vector3.zero;
         }
     }
 

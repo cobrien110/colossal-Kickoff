@@ -8,6 +8,7 @@ public class AbilityMinotaurWall : AbilityScript
     public GameObject wallPrefab;
     public float wallSpawnDistance;
     public float wallDuration;
+    public string wallSoundEffect = "minotaurCreateWall";
 
     public GameObject shrapnelPrefab;
     public int shrapnelDamage;
@@ -34,8 +35,8 @@ public class AbilityMinotaurWall : AbilityScript
             spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
             Instantiate(wallPrefab, spawnLocation, spawnRotation);
 
-            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurCreateWall"), 0.2f);
-            ANIM.Play("MinotaurWall");
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(wallSoundEffect), 0.2f);
+            ANIM.Play(activatedAnimationName);
             StartCoroutine(MC.MoveDelay());
         }
     }

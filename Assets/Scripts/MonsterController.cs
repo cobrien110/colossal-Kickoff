@@ -8,8 +8,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MonsterController : MonoBehaviour
-{  
-    private Rigidbody rb;
+{
+    [HideInInspector] public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public AbilityScript[] abilities;
@@ -34,7 +34,7 @@ public class MonsterController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
-    [SerializeField] private float attackHitForce = 200f;
+    //[SerializeField] private float attackHitForce = 200f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxChargeSeconds = 2f;
     [SerializeField] private float chargeMoveSpeedMult = 0.2f;
@@ -42,33 +42,17 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float stunSpeed = 0.2f;
     private float kickCharge = 1f;
     public bool isCharging;
+    public bool isChargingAbility;
     [Header("Ability Stats")]
-    //[SerializeField] private float wallSpawnDistance = 2f;
-    //[SerializeField] private float wallCooldown = 5f;
-    //[SerializeField] public int shrapnelAmount = 5;
-    //[SerializeField] public int shrapnelDamage = 1;
-    //[SerializeField] public float shrapnelSpeed = 500f;
-    //[SerializeField] public float shrapnelSpreadAngle = 35f;
-    //[SerializeField] public float wallDuration = 8f;
-    //private float wallTimer;
-    [SerializeField] private float dashSpeed = 500.0f;
-    [SerializeField] private float dashCooldown = 1f;
-    [SerializeField] private float dashDuration = 0.35f;
-    [SerializeField] private float maxDashChargeSeconds = 2f;
-    private float lastDashTime = -1f;
-    private bool isDashing = false;
-    private float dashCharge = 1f;
-    private bool isChargingDash = false;
+    //[SerializeField] private float dashSpeed = 500.0f;
+    //[SerializeField] private float dashCooldown = 1f;
+    //[SerializeField] private float dashDuration = 0.35f;
+    //[SerializeField] private float maxDashChargeSeconds = 2f;
+    //private float lastDashTime = -1f;
+    [HideInInspector] public bool isDashing = false;
+    //private float dashCharge = 1f;
+    //private bool isChargingDash = false;
     [HideInInspector] public bool isStunned = false;
-    //public float attackRange = 1f;
-    //[SerializeField] private float attackCooldown = 1f;
-    //private float lastAttackTime = -1f;
-    //[SerializeField] private float attackBaseRadius = 0.5f;
-    //private bool isChargingAttack = false;
-    //private float attackCharge = 0f;
-    //[SerializeField] private float attackChargeRate = 1f;
-    //[SerializeField] private float maxAttackChargeSeconds = 2f;
-    //public bool canSpawnShrapnelOnAttack = true;
 
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
@@ -80,8 +64,8 @@ public class MonsterController : MonoBehaviour
     private CommentatorSoundManager CSM;
     public GameObject spriteObject;
     private Vector3 spriteScale;
-    public GameObject attackVisual;
-    private float attackVisualOffsetY = -0.3f;
+    //public GameObject attackVisual;
+    //private float attackVisualOffsetY = -0.3f;
 
     // Start is called before the first frame update
     void Awake()
@@ -142,12 +126,13 @@ public class MonsterController : MonoBehaviour
                 BuildWall();
             }
             
+            /*
             if (isChargingDash)
             {
                 ChargeDashing();
             }
 
-            /*
+            
             if (isChargingAttack)
             {
                 ChargeAttack();
@@ -166,15 +151,8 @@ public class MonsterController : MonoBehaviour
             }
 
         } else { rb.velocity = new Vector3(0, 0, 0); } // ensure monster momentum is killed when not playing
+
         InvincibilityFlash();
-        // Cooldowns
-
-        if (Time.time - lastDashTime < dashCooldown)
-        {
-            UM.UpdateMonsterAbility3Bar(1 - ((Time.time - lastDashTime) / dashCooldown));
-        }
-
-
 
         if (isStunned && BP.ballOwner == this.gameObject)
         {
@@ -236,7 +214,7 @@ public class MonsterController : MonoBehaviour
         }
         Vector3 dir = isStunned ? -movementDirection : movementDirection;
         rb.velocity = GM.isPlaying ? dir * monsterSpeed : Vector3.zero;
-        rb.velocity = isCharging || isChargingDash ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+        rb.velocity = isCharging || isChargingAbility ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
         rb.velocity = isStunned ? rb.velocity * stunSpeed : rb.velocity;
         if (rb.velocity != Vector3.zero && !isCharging) 
         {
@@ -435,20 +413,9 @@ public class MonsterController : MonoBehaviour
         */
     }
 
-    void SpawnShrapnel()
-    {
-        /*
-        if (shrapnelPrefab == null) return;
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
-        WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
-        WS.damage = shrapnelDamage;
-        WS.speed = shrapnelSpeed;
-        */
-    }
-
     void Dash()
     {
+        /*
         if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
         if (!GM.isPlaying)
         {
@@ -493,10 +460,12 @@ public class MonsterController : MonoBehaviour
                 isChargingDash = true;
             }
         }
+        */
     }
 
     void ChargeDashing()
     {
+        /*
         if (isStunned) return;
         if (dashCharge < maxDashChargeSeconds)
         {
@@ -509,6 +478,7 @@ public class MonsterController : MonoBehaviour
                 audioPlayer.PlaySoundVolume(audioPlayer.Find("minotaurDashCharge"), 0.65f);
             }
         }
+        */
     }
 
     void ChargeAttack()
@@ -528,13 +498,16 @@ public class MonsterController : MonoBehaviour
         */
     }
 
+    /*
     void StopDashing()
     {
+        
         Debug.Log("No longer dashing");
         // ANIM.SetBool("isSliding", false);
         isDashing = false;
+        
     }
-
+    */
 
     void BuildWall()
     {
@@ -717,6 +690,17 @@ public class MonsterController : MonoBehaviour
 
     public void OnCharge(InputAction.CallbackContext context)
     {
+        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
+        if (abilities[2] is AbilityChargeable)
+        {
+            AbilityChargeable ab = (AbilityChargeable)abilities[2];
+            ab.CheckInputs(context);
+        }
+        else
+        {
+            abilities[2].Activate();
+        }
+        /*
         if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
         if (!GM.isPlaying)
         {
@@ -766,6 +750,7 @@ public class MonsterController : MonoBehaviour
                 isChargingDash = true;
             }
         }
+        */
     }
 
     public void OnInvert(InputAction.CallbackContext context)

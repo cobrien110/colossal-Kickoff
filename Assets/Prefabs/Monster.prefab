@@ -1,88 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1170473730850981982
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7992444155663071675}
-  - component: {fileID: 4895488824558762878}
-  - component: {fileID: 4397211299165422107}
-  m_Layer: 10
-  m_Name: attackVisual
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &7992444155663071675
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170473730850981982}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 0.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1718773609196591379}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4895488824558762878
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170473730850981982}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4397211299165422107
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170473730850981982}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 35ac983c8e1bf994a98e477c994b3e15, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1764291824864585042
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +43,7 @@ GameObject:
   - component: {fileID: 3703359982807322521}
   - component: {fileID: 8342599681389894631}
   - component: {fileID: 2061249857265671894}
+  - component: {fileID: 1110472901978447733}
   - component: {fileID: 4594944956692112125}
   - component: {fileID: 5060133158299346773}
   - component: {fileID: 2590812713453336614}
@@ -159,7 +77,7 @@ Transform:
   - {fileID: 4932507239016259744}
   - {fileID: 8545803620029514259}
   - {fileID: 1666151125957682457}
-  - {fileID: 7992444155663071675}
+  - {fileID: 6558373449549645104}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3703359982807322521
@@ -174,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265edbb104cd4284f82789864241e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
   abilities: []
@@ -204,28 +123,21 @@ MonoBehaviour:
   ballPosition: {fileID: 1764291824864585042}
   passSpeed: 400
   kickSpeed: 475
-  attackHitForce: 150
   chargeMultiplier: 0.5
   maxChargeSeconds: 3
   chargeMoveSpeedMult: 0.2
   stunTime: 1.5
   stunSpeed: 0.2
   isCharging: 0
-  dashSpeed: 500
-  dashCooldown: 4
-  dashDuration: 1
-  maxDashChargeSeconds: 2
+  isChargingAbility: 0
+  isDashing: 0
   isStunned: 0
-  attackChargeRate: 0.5
-  maxAttackChargeSeconds: 1.5
-  canSpawnShrapnelOnAttack: 1
   canMove: 1
   GM: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
-  attackVisual: {fileID: 1170473730850981982}
 --- !u!114 &8342599681389894631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,8 +153,10 @@ MonoBehaviour:
   abilityName: MinotaurWall
   abilityNum: 1
   cooldown: 8.5
-  attackVisual: {fileID: 0}
-  animationName: minotaurAxeCharge
+  attackVisualizer: {fileID: 0}
+  attackVisualizerPrefab: {fileID: 0}
+  attackVisHolder: {fileID: 0}
+  activatedAnimationName: minotaurAxeCharge
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
@@ -250,6 +164,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   wallSpawnDistance: 3
   wallDuration: 8
+  wallSoundEffect: minotaurCreateWall
   shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   shrapnelDamage: 1
   shrapnelSpeed: 450
@@ -270,19 +185,24 @@ MonoBehaviour:
   abilityName: MinotaurAttack
   abilityNum: 2
   cooldown: 1.2
-  attackVisual: {fileID: 0}
-  animationName: MinotaurAttack
+  attackVisualizer: {fileID: 0}
+  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisHolder: {fileID: 6558373449549645104}
+  activatedAnimationName: MinotaurAttack
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   chargeRate: 0.75
   maxChargeSeconds: 1
-  attackRange: 1.35
-  attackBaseRadius: 0.6
+  slowsDownCharacterWhileCharging: 0
+  chargeSoundName: minotaurAxeCharge
+  hasChargeUpAnimation: 0
   willStopWhenDribbling: 1
   canHitBall: 1
   attackHitForce: 150
+  attackRange: 1.35
+  attackBaseRadius: 0.6
   attackVisualOffsetY: -0.3
   affectedLayers:
     serializedVersion: 2
@@ -291,6 +211,40 @@ MonoBehaviour:
   shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   shrapnelDamage: 1
   shrapnelSpeed: 450
+--- !u!114 &1110472901978447733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176374829716338387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0f7c8cc22084246b7951c18d98dda2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Bullrush
+  abilityNum: 3
+  cooldown: 4
+  attackVisualizer: {fileID: 0}
+  attackVisualizerPrefab: {fileID: 0}
+  attackVisHolder: {fileID: 0}
+  activatedAnimationName: MinotaurCharge
+  MC: {fileID: 0}
+  audioPlayer: {fileID: 0}
+  ANIM: {fileID: 0}
+  UM: {fileID: 0}
+  chargeRate: 1
+  maxChargeSeconds: 2
+  slowsDownCharacterWhileCharging: 1
+  chargeSoundName: minotaurDashCharge
+  hasChargeUpAnimation: 1
+  willStopWhenDribbling: 1
+  canHitBall: 0
+  attackHitForce: 150
+  dashSpeed: 500
+  duration: 1
+  dashSoundEffect: minotaurDash
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -694,6 +648,37 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!1 &3908749058469895971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6558373449549645104}
+  m_Layer: 10
+  m_Name: AttackVisualizerHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6558373449549645104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908749058469895971}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.3, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1718773609196591379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4296981131088373551
 GameObject:
   m_ObjectHideFlags: 0
