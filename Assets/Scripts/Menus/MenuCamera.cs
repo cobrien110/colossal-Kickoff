@@ -12,15 +12,15 @@ public class MenuCamera : MonoBehaviour
     [SerializeField] private Vector3 settingsPosition;
     [SerializeField] private Vector3 settingsRotation;
     //camera movement speed
-    private float speed = 90.0f;
+    private float speed = 120.0f;
     //camera rotation speed
-    private float angleSpeed = 1.2f;
+    private float angleSpeed = 4.0f;
     //position we're moving towards, if any
     private Vector3 targetPos;
     //angle we're rotating towards, if any
     private Quaternion targetAngle;
     //whether we're moving or not
-    private bool isMoving = false;
+    [SerializeField] private bool isMoving = false;
     void Start()
     {
         transform.position = mainMenuPosition;
@@ -32,7 +32,7 @@ public class MenuCamera : MonoBehaviour
         if (isMoving) {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, (speed * Time.deltaTime));
             transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, (angleSpeed * Time.deltaTime));
-            if (Vector3.Distance(transform.position, targetPos) < 0.001f)
+            if ((Vector3.Distance(transform.position, targetPos) < 0.001f) && (transform.rotation == targetAngle))
             {
                 isMoving = false;
             }
