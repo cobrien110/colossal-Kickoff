@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
+    [SerializeField] private GameObject characterSelect;
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) {
@@ -18,6 +19,7 @@ public class MenuController : MonoBehaviour
                 case 0:
                 menuCamera.goToVersusSetup();
                 mainMenuButtons.SetActive(false);
+                characterSelect.SetActive(true);
                 break;
 
                 //SETTINGS
