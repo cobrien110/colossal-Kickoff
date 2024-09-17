@@ -16,6 +16,9 @@ public class AbilityDive : AbilityScript
 
     private float activeDuration = 0f;
 
+    public string diveSound = "";
+    public string emergeSound = "";
+
     private void Start()
     {
         Setup();
@@ -50,6 +53,7 @@ public class AbilityDive : AbilityScript
         {
             isActive = false;
             inputBuffer = 0f;
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(emergeSound));
         }
         if (timer >= cooldown && inputBuffer >= inputBufferTime)
         {
@@ -58,7 +62,7 @@ public class AbilityDive : AbilityScript
                 isActive = true;
                 timer = 0;
                 inputBuffer = 0f;
-                //audioPlayer.PlaySoundRandomPitch(sound)
+                audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(diveSound));
             }
         }
     }
