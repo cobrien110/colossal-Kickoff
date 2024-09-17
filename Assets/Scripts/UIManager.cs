@@ -31,6 +31,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text abilitiesTextMonster = null;
     private int monsterAbilities = 0;
 
+    
+
+    // Dev Stats
+    [SerializeField] private GameObject devStats = null;
+    [SerializeField] private TMP_Text gameWinnerText = null;
+
     //ChargeMeter
     [SerializeField] private GameObject chargeBar = null;
     [SerializeField] private Image chargeBarFill = null;
@@ -90,10 +96,52 @@ public class UIManager : MonoBehaviour
             {
                 ShowStatsScoreboard(false);
             }
-            else
+            else if (!devStats.activeInHierarchy)
             {
                 ShowStatsScoreboard(true);
             }
+            else if (devStats.activeInHierarchy)
+            {
+                ShowDevStats(false);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (statsScoreboard.activeInHierarchy)
+            {
+                ShowStatsScoreboard(false);
+                ShowDevStats(true);
+            }
+            else if (devStats.activeInHierarchy)
+            {
+                ShowDevStats(false);
+                ShowStatsScoreboard(true);
+            }
+        }
+
+        // Copy game stats to Clipboard
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            string textToCopy = "";
+
+            if (timeRemainingSeconds <= 0)
+            {
+                textToCopy = "Stats from Game:\n";
+                    
+            }
+            else
+            {
+                textToCopy = "Stats from " + timeRemainingSeconds + " seconds:\n";
+            }
+
+            textToCopy += "\nWinner: " + gameWinnerText.text;
+
+            textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
+
+            textToCopy += "\nKills: " + killsTextMonster.text;
+            
+            CopyToClipboard(textToCopy);
         }
     }
 
@@ -112,14 +160,17 @@ public class UIManager : MonoBehaviour
             if (winner == 0)
             {
                 gameoverText.text = "HUMANS WIN!";
+                gameWinnerText.text = "Humans";
             }
             else if (winner == 1)
             {
                 gameoverText.text = "MONSTERS WIN!";
+                gameWinnerText.text = "Monster";
             }
             else if (winner == 2)
             {
                 gameoverText.text = "TIE GAME!";
+                gameWinnerText.text = "Tie";
             }
         }
         gameoverText.gameObject.SetActive(state);
@@ -314,6 +365,11 @@ public class UIManager : MonoBehaviour
         statsScoreboard.gameObject.SetActive(state);
     }
 
+    public void ShowDevStats (bool state)
+    {
+        devStats.gameObject.SetActive(state);
+    }
+
     public void UpdateMonsterKills()
     {
         monsterKills = monsterKills + 1;
@@ -324,5 +380,18 @@ public class UIManager : MonoBehaviour
     {
         monsterAbilities = monsterAbilities + 1;
         abilitiesTextMonster.text = "" + monsterAbilities;
+    }
+
+    /*public void UpdateGameWinner(string winner)
+    {
+        gameWinnerText.text = winner;    
+    }*/
+
+    void CopyToClipboard(string s)
+    {
+        TextEditor te = new TextEditor();
+        te.text = s;
+        te.SelectAll();
+        te.Copy();
     }
 }

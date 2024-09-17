@@ -63,16 +63,8 @@ public class GameplayManager : MonoBehaviour
 
         if (UM.GetTimeRemaining() == 0)
         {
-            if (UM.CheckWinner() == 2)
-            {
-                Time.timeScale = 0;
-                StopPlaying();
-            }
-            else
-            {
-                Time.timeScale = 0;
-                StopPlaying();
-            }
+            Time.timeScale = 0;
+            StopPlaying();
         }
     }
 
