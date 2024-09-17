@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AbilityDive : AbilityScript
 {
+    [Header("Ability Specific Variables")]
     public bool isActive = false;
     public float initialSpeed = 6f;
     public float speed = 4f;
