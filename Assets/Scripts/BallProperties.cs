@@ -62,7 +62,7 @@ public class BallProperties : MonoBehaviour
                 mc.Stun();
                 isSuperKick = false;
                 return;
-            } else if (mc != null && mc.isStunned)
+            } else if (mc != null && (mc.isStunned || mc.isIntangible))
             {
                 return;
             }

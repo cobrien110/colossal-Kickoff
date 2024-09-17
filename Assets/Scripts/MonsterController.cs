@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,11 +14,11 @@ public class MonsterController : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
-    public AbilityScript[] abilities;
+    public List<AbilityScript> abilities;
     //public GameObject wallPrefab;
     //public GameObject shrapnelPrefab;
 
-    [SerializeField] float monsterSpeed = 2f;
+    [SerializeField] public float monsterSpeed = 2f;
     [HideInInspector] public Vector3 movementDirection;
     private Vector3 aimingDirection;
     private Vector3 rightStickInput;
@@ -53,6 +55,7 @@ public class MonsterController : MonoBehaviour
     //private float dashCharge = 1f;
     //private bool isChargingDash = false;
     [HideInInspector] public bool isStunned = false;
+    public bool isIntangible = false;
 
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
@@ -82,7 +85,7 @@ public class MonsterController : MonoBehaviour
         transform.position = monsterSpawner.transform.position;
         //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
-        abilities = GetComponents<AbilityScript>();
+        abilities = new List<AbilityScript> { null, null, null };
     }
 
     // Temp Controller Scheme Swap
@@ -154,7 +157,7 @@ public class MonsterController : MonoBehaviour
 
         InvincibilityFlash();
 
-        if (isStunned && BP.ballOwner == this.gameObject)
+        if ((isStunned || isIntangible) && BP.ballOwner == this.gameObject)
         {
             BP.ballOwner = null;
         }
@@ -572,6 +575,10 @@ public class MonsterController : MonoBehaviour
         if (isStunned && Time.frameCount % 2 == 0)
         {
             spriteObject.transform.localScale = Vector3.zero;
+        } 
+        else if (isIntangible && Time.frameCount % 4 == 0)
+        {
+            spriteObject.transform.localScale = Vector3.zero;
         }
         else
         {
@@ -624,23 +631,23 @@ public class MonsterController : MonoBehaviour
 
     public void OnWall(InputAction.CallbackContext context)
     {
-        if (GM.isPlaying)
+        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[0].usableWhileDribbling)
+            || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
+        if (abilities[0] is AbilityChargeable)
         {
-            if (abilities[0] is AbilityChargeable)
-            {
-                AbilityChargeable ab = (AbilityChargeable)abilities[1];
-                ab.CheckInputs(context);
-            }
-            else
-            {
-                abilities[0].Activate();
-            }
+            AbilityChargeable ab = (AbilityChargeable)abilities[1];
+            ab.CheckInputs(context);
+        }
+        else
+        {
+            abilities[0].Activate();
         }
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
+        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[1].usableWhileDribbling)
+            || (isIntangible && !abilities[1].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
         if (abilities[1] is AbilityChargeable)
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[1];
@@ -680,7 +687,8 @@ public class MonsterController : MonoBehaviour
 
     public void OnCharge(InputAction.CallbackContext context)
     {
-        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject)) return; // ensure no dashing or dash charging when you have ball
+        if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[2].usableWhileDribbling)
+            || (isIntangible && !abilities[2].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
         if (abilities[2] is AbilityChargeable)
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[2];

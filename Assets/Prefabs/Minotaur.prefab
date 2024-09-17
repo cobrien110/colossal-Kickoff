@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 6204409598234497509}
   - component: {fileID: 2228513988069930200}
   m_Layer: 10
-  m_Name: Monster
+  m_Name: Minotaur
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,6 +130,7 @@ MonoBehaviour:
   isChargingAbility: 0
   isDashing: 0
   isStunned: 0
+  isIntangible: 0
   canMove: 1
   GM: {fileID: 0}
   layerMask:
@@ -149,12 +150,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityName: MinotaurWall
-  abilityNum: 1
+  abilityNum: 0
   cooldown: 8.5
+  usableWhileIntangible: 0
+  usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: minotaurAxeCharge
+  activatedAnimationName: MinotaurWall
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
@@ -181,8 +184,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityName: MinotaurAttack
-  abilityNum: 2
+  abilityNum: 1
   cooldown: 1.2
+  usableWhileIntangible: 0
+  usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
   attackVisHolder: {fileID: 6558373449549645104}
@@ -195,7 +200,7 @@ MonoBehaviour:
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 0
   chargeSoundName: minotaurAxeCharge
-  hasChargeUpAnimation: 0
+  hasChargeUpAnimation: 1
   willStopWhenDribbling: 1
   canHitBall: 1
   attackHitForce: 150
@@ -222,8 +227,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityName: Bullrush
-  abilityNum: 3
+  abilityNum: 2
   cooldown: 4
+  usableWhileIntangible: 0
+  usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
@@ -232,15 +239,15 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  chargeRate: 1
-  maxChargeSeconds: 2
+  chargeRate: 2
+  maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 1
   chargeSoundName: minotaurDashCharge
   hasChargeUpAnimation: 1
   willStopWhenDribbling: 1
   canHitBall: 0
   attackHitForce: 150
-  dashSpeed: 500
+  dashSpeed: 400
   duration: 1
   dashSoundEffect: minotaurDash
 --- !u!33 &4594944956692112125
@@ -618,6 +625,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
     m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20a88ab4-3266-4574-80a2-45a2a42ef632
+    m_ActionName: Cursor/Move[/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c64a372-95aa-4e1b-9188-a8f3801f09e1
+    m_ActionName: Cursor/Select[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c332dd73-fa7e-4004-9ba3-11efbe618d0a
+    m_ActionName: Cursor/Back[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

@@ -6,18 +6,21 @@ public abstract class AbilityScript : MonoBehaviour
 {
     [Header("Basic Info")]
     public string abilityName = "NoName";
-    [Range(0,3)] public int abilityNum = 0;
+    [Range(0,2)] public int abilityNum = 0;
     protected float timer;
     public float cooldown;
+    public bool usableWhileIntangible = false;
+    public bool usableWhileDribbling = false;
 
     [Header("Visuals")]
     public GameObject attackVisualizer;
     public GameObject attackVisualizerPrefab;
     public Transform attackVisHolder;
-    public string activatedAnimationName = "minotaurAxeCharge";
+    public string activatedAnimationName = "none";
 
     protected GameplayManager GM;
     protected BallProperties BP;
+    protected bool timerPaused = false;
     [HideInInspector] public MonsterController MC;
     [HideInInspector] public AudioPlayer audioPlayer;
     [HideInInspector] public Animator ANIM;
@@ -38,7 +41,8 @@ public abstract class AbilityScript : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timer = cooldown;
         if (attackVisualizerPrefab != null) attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
-        Debug.Log(attackVisualizer);
+        //Debug.Log(attackVisualizer);
+        MC.abilities.Insert(abilityNum, this);
     }
 
     private void Update()
@@ -48,7 +52,7 @@ public abstract class AbilityScript : MonoBehaviour
 
     protected void UpdateSetup()
     {
-        if (timer < cooldown) timer += Time.deltaTime;
+        if (timer < cooldown && !timerPaused) timer += Time.deltaTime;
         UpdateUI();
         BP = MC.BP;
     }
@@ -61,13 +65,13 @@ public abstract class AbilityScript : MonoBehaviour
     public void UpdateUI()
     {
         switch (abilityNum) {
-            case 1:
+            case 0:
                 UM.UpdateMonsterAbility1Bar(1 - (timer / cooldown));
                 break;
-            case 2:
+            case 1:
                 UM.UpdateMonsterAbility2Bar(1 - (timer / cooldown));
                 break;
-            case 3:
+            case 2:
                 UM.UpdateMonsterAbility3Bar(1 - (timer / cooldown));
                 break;
             default:

@@ -18,7 +18,6 @@ public class AbilityMinotaurWall : AbilityScript
 
     public override void Activate()
     {
-        if (MC.isStunned) return;
         if (timer >= cooldown)
         {
             timer = 0f;

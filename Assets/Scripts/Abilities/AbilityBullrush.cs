@@ -28,7 +28,8 @@ public class AbilityBullrush : AbilityChargeable
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(dashSoundEffect), 0.75f);
 
             // Add force in direction of the player input for this warrior (movementDirection)
-            Vector3 dashVelocity = MC.movementDirection.normalized * chargeAmount * dashSpeed;
+            float charge = chargeAmount + 1f;
+            Vector3 dashVelocity = MC.movementDirection.normalized * charge * dashSpeed;
             Debug.Log("Dash Charge: " + chargeAmount);
             MC.rb.AddForce(dashVelocity);
 
@@ -54,6 +55,7 @@ public class AbilityBullrush : AbilityChargeable
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (!this.enabled) return;
         // Debug.Log("Monster Collision with: " + collider.gameObject.name);
         if (MC.isDashing && collider.tag.Equals("Warrior"))
         {
