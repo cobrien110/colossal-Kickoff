@@ -11,6 +11,7 @@ public class MenuController : MonoBehaviour
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject characterSelect;
+    [SerializeField] private GameObject[] cursors;
     void Update()
     {
         //if (Input.GetMouseButtonDown(0)) {
@@ -43,6 +44,7 @@ public class MenuController : MonoBehaviour
 
     public void OptionSelect(int optionID)
     {
+        findAllCursors();
         switch (optionID)
         {
             //VERSUS MATCH
@@ -50,6 +52,9 @@ public class MenuController : MonoBehaviour
                 menuCamera.goToVersusSetup();
                 mainMenuButtons.SetActive(false);
                 characterSelect.SetActive(true);
+                for (int i = 0; i < cursors.Length; i++) {
+                    cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
+                }
                 break;
 
             //SETTINGS
@@ -68,5 +73,9 @@ public class MenuController : MonoBehaviour
                 Debug.Log("Error: unknown menu option");
                 break;
         }
+    }
+
+    private void findAllCursors() {
+        cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MenuButton : MonoBehaviour, IPointerEnterHandler
+public class MenuButton : MonoBehaviour
 {
     //each button saves its own positions it changes between
     //when it's selected or not
@@ -29,13 +29,16 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler
     void Start() {
         becomeUnselected();
     }
-    public void OnPointerEnter(PointerEventData eventData)
+
+    //if we add this back in this needs to extend IPointerEventHandler
+    /**public void OnPointerEnter(PointerEventData eventData)
     {
         becomeSelected();
         for (int i = 0; i < otherButtons.Length; i++) {
             otherButtons[i].GetComponent<MenuButton>().becomeUnselected();
         }
-    }
+    }**/
+
     public void becomeSelected() {
         GetComponent<RectTransform>().anchoredPosition = new Vector3(selectedXPos, selectedYPos, 0);
         menuController.selected = myID;
