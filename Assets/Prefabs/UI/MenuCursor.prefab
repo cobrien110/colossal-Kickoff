@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 5532d40cda199504296a9fb20ff172a7, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -127,7 +127,111 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c474aff3-2ea2-4738-b207-13a371935175
+    m_ActionName: Player/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/XInputControllerWindows2/leftStick,/XInputControllerWindows3/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8dd4e3f6-e9d0-488b-9eac-fa533ac857f4
+    m_ActionName: Player/Aim[/XInputControllerWindows/rightStick,/XInputControllerWindows1/rightStick,/XInputControllerWindows2/rightStick,/XInputControllerWindows3/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5a42b1b-6cdd-48fe-b8a1-de55d625496b
+    m_ActionName: Player/Join[/XInputControllerWindows/start,/XInputControllerWindows1/start,/XInputControllerWindows2/start,/XInputControllerWindows3/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 425be3a0-7f52-46e9-b731-7952f571fec8
+    m_ActionName: Player/Slide[/XInputControllerWindows/leftShoulder,/XInputControllerWindows1/leftShoulder,/XInputControllerWindows2/leftShoulder,/XInputControllerWindows3/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: be6af599-cb98-41b1-9eea-53b7b0313b4c
+    m_ActionName: Player/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select,/XInputControllerWindows3/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
+    m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger,/XInputControllerWindows2/rightTrigger,/XInputControllerWindows3/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc00bcc9-7800-4eeb-b49c-a3802a867913
+    m_ActionName: Monster/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/XInputControllerWindows2/leftStick,/XInputControllerWindows3/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fcb81124-9eb7-4f89-886f-6f027a3cc78e
+    m_ActionName: Monster/Aim[/XInputControllerWindows/rightStick,/XInputControllerWindows1/rightStick,/XInputControllerWindows2/rightStick,/XInputControllerWindows3/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0072704f-9210-4b38-80ef-379f0551d4d2
+    m_ActionName: Monster/Join[/XInputControllerWindows/start,/XInputControllerWindows1/start,/XInputControllerWindows2/start,/XInputControllerWindows3/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2792c12f-c955-4632-8430-398b518e297b
+    m_ActionName: Monster/Wall[/XInputControllerWindows/leftTrigger,/XInputControllerWindows1/leftTrigger,/XInputControllerWindows2/leftTrigger,/XInputControllerWindows3/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e2688ec4-13d0-4c16-b8ec-6bd9a7986788
+    m_ActionName: Monster/Attack[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger,/XInputControllerWindows2/rightTrigger,/XInputControllerWindows3/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 03b36eb2-82aa-435f-8813-8c4ec800c024
+    m_ActionName: Monster/Charge[/XInputControllerWindows/leftShoulder,/XInputControllerWindows1/leftShoulder,/XInputControllerWindows2/leftShoulder,/XInputControllerWindows3/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
+    m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select,/XInputControllerWindows3/select]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8885980520540486607}
+        m_TargetAssemblyTypeName: MenuCursor, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 20a88ab4-3266-4574-80a2-45a2a42ef632
+    m_ActionName: Cursor/Move[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/XInputControllerWindows2/leftStick,/XInputControllerWindows3/leftStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8885980520540486607}
+        m_TargetAssemblyTypeName: MenuCursor, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5c64a372-95aa-4e1b-9188-a8f3801f09e1
+    m_ActionName: Cursor/Select[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/XInputControllerWindows3/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8885980520540486607}
+        m_TargetAssemblyTypeName: MenuCursor, Assembly-CSharp
+        m_MethodName: OnDeselect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c332dd73-fa7e-4004-9ba3-11efbe618d0a
+    m_ActionName: Cursor/Back[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/XInputControllerWindows3/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c34c1313-aef7-4cbd-90cf-a57ecee41e60
+    m_ActionName: Cursor/Join[/XInputControllerWindows1/start,/XInputControllerWindows2/start,/XInputControllerWindows3/start,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Cursor
@@ -147,7 +251,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 1060536525743962686}
   speed: 350
-  selectedSlot: 0
+  playerSlot: -1
+  menuSlot: -1
+  MC: {fileID: 0}
+  cursorMove:
+    m_Name: Cursor Move
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: aeb3e693-9e2d-4f37-84c5-973ea33868d0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  hoveringItem: null
+  hoveringID: -1
+  isFirstCursor: 0
 --- !u!50 &1060536525743962686
 Rigidbody2D:
   serializedVersion: 4

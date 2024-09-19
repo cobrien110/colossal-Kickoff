@@ -329,6 +329,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Join"",
+                    ""type"": ""Button"",
+                    ""id"": ""c34c1313-aef7-4cbd-90cf-a57ecee41e60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -338,7 +347,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -349,7 +358,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -360,8 +369,19 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""114c8384-5304-49c5-9cae-68e0fb90b346"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -404,6 +424,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Cursor_Move = m_Cursor.FindAction("Move", throwIfNotFound: true);
         m_Cursor_Select = m_Cursor.FindAction("Select", throwIfNotFound: true);
         m_Cursor_Back = m_Cursor.FindAction("Back", throwIfNotFound: true);
+        m_Cursor_Join = m_Cursor.FindAction("Join", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -648,6 +669,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Cursor_Move;
     private readonly InputAction m_Cursor_Select;
     private readonly InputAction m_Cursor_Back;
+    private readonly InputAction m_Cursor_Join;
     public struct CursorActions
     {
         private @InputMaster m_Wrapper;
@@ -655,6 +677,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Cursor_Move;
         public InputAction @Select => m_Wrapper.m_Cursor_Select;
         public InputAction @Back => m_Wrapper.m_Cursor_Back;
+        public InputAction @Join => m_Wrapper.m_Cursor_Join;
         public InputActionMap Get() { return m_Wrapper.m_Cursor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -673,6 +696,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
+            @Join.started += instance.OnJoin;
+            @Join.performed += instance.OnJoin;
+            @Join.canceled += instance.OnJoin;
         }
 
         private void UnregisterCallbacks(ICursorActions instance)
@@ -686,6 +712,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
+            @Join.started -= instance.OnJoin;
+            @Join.performed -= instance.OnJoin;
+            @Join.canceled -= instance.OnJoin;
         }
 
         public void RemoveCallbacks(ICursorActions instance)
@@ -736,5 +765,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+        void OnJoin(InputAction.CallbackContext context);
     }
 }

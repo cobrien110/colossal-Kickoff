@@ -307,6 +307,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "c34c1313-aef7-4cbd-90cf-a57ecee41e60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -316,7 +325,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox Control Scheme",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -327,7 +336,7 @@
                     "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox Control Scheme",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -338,8 +347,19 @@
                     "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox Control Scheme",
                     "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "114c8384-5304-49c5-9cae-68e0fb90b346",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "Join",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

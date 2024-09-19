@@ -13,31 +13,60 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject characterSelect;
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
-            switch (selected) {
-                //VERSUS MATCH
-                case 0:
+        //if (Input.GetMouseButtonDown(0)) {
+        //    switch (selected) {
+        //        //VERSUS MATCH
+        //        case 0:
+        //        menuCamera.goToVersusSetup();
+        //        mainMenuButtons.SetActive(false);
+        //        characterSelect.SetActive(true);
+        //        break;
+
+        //        //SETTINGS
+        //        case 1:
+        //        menuCamera.goToSettings();
+        //        mainMenuButtons.SetActive(false);
+        //        break;
+
+        //        //QUIT GAME
+        //        case 2:
+        //        Debug.Log("Quitting game. Goodbye!");
+        //        Application.Quit();
+        //        break;
+
+        //        default:
+        //        Debug.Log("Error: unknown menu option");
+        //        break;
+        //    }
+        //}
+    }
+
+    public void OptionSelect(int optionID)
+    {
+        switch (optionID)
+        {
+            //VERSUS MATCH
+            case 0:
                 menuCamera.goToVersusSetup();
                 mainMenuButtons.SetActive(false);
                 characterSelect.SetActive(true);
                 break;
 
-                //SETTINGS
-                case 1:
+            //SETTINGS
+            case 1:
                 menuCamera.goToSettings();
                 mainMenuButtons.SetActive(false);
                 break;
 
-                //QUIT GAME
-                case 2:
+            //QUIT GAME
+            case 2:
                 Debug.Log("Quitting game. Goodbye!");
                 Application.Quit();
                 break;
 
-                default:
+            default:
                 Debug.Log("Error: unknown menu option");
                 break;
-            }
         }
     }
 }

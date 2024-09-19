@@ -5457,6 +5457,16 @@ MonoBehaviour:
   slideCooldown: 2
   slideDuration: 1
   isSliding: 0
+  usingNewScheme: 0
+  warriorControls:
+    m_Name: Warrior Controls
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 15bb9d8f-b7d3-4a39-b869-6c9ee8957fde
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   usingKeyboard: 0
   invertControls: 0
   GM: {fileID: 0}
@@ -5777,6 +5787,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5f31f0b3-ea33-4fc7-8d8f-2ee5d76def41
     m_ActionName: Monster/Invert[/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
+    m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger,/XInputControllerWindows2/rightTrigger,/XInputControllerWindows3/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20a88ab4-3266-4574-80a2-45a2a42ef632
+    m_ActionName: Cursor/Move[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/XInputControllerWindows2/leftStick,/XInputControllerWindows3/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c64a372-95aa-4e1b-9188-a8f3801f09e1
+    m_ActionName: Cursor/Select[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/XInputControllerWindows3/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c332dd73-fa7e-4004-9ba3-11efbe618d0a
+    m_ActionName: Cursor/Back[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/XInputControllerWindows3/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player

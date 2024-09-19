@@ -10,19 +10,29 @@ public class CharacterSelectOption : MonoBehaviour
     [SerializeField] private int cursorsOver = 0;
     [SerializeField] private UIDropShadow shadow;
 
+    public bool canBeSelected = true;
+
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.tag == "MenuCursor") {
-            other.gameObject.GetComponent<MenuCursor>().setSelected(characterID);
+        if (other.gameObject.tag == "MenuCursor")
+        {
+            //other.gameObject.GetComponent<MenuCursor>().setSelected(characterID);
+            other.gameObject.GetComponent<MenuCursor>().StartHovering("playerSelect", characterID);
             cursorsOver++;
             shadow.enabled = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.tag == "MenuCursor") {
-            cursorsOver--;
-            if (cursorsOver <= 0) {
-                shadow.enabled = false;
+        if (canBeSelected)
+        {
+            if (other.gameObject.tag == "MenuCursor")
+            {
+                other.gameObject.GetComponent<MenuCursor>().StopHovering();
+                cursorsOver--;
+                if (cursorsOver <= 0)
+                {
+                    shadow.enabled = false;
+                }
             }
         }
     }

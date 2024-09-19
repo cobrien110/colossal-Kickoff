@@ -44,4 +44,22 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler
     public void becomeUnselected() {
         GetComponent<RectTransform>().anchoredPosition = new Vector3(unselectedXPos, unselectedYPos, 0);
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "MenuCursor")
+        {
+            other.gameObject.GetComponent<MenuCursor>().StartHovering("menuSelect", myID);
+            becomeSelected();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "MenuCursor")
+        {
+            other.gameObject.GetComponent<MenuCursor>().StopHovering();
+            becomeUnselected();
+        }
+    }
 }
