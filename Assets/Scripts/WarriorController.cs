@@ -38,6 +38,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float slideDuration = 0.35f;
     public bool isSliding = false;
     private float lastSlideTime = -1f;
+    [HideInInspector] public bool isStunned = false;
 
     //Temp Controller Scheme Swap
     public bool usingNewScheme = false;
@@ -142,7 +143,7 @@ public class WarriorController : MonoBehaviour
 
     void Movement()
     {
-        if (isSliding) return;
+        if (isSliding || isStunned) return;
         float horizontalInput = 0f;
         float verticalInput = 0f;
 
@@ -336,6 +337,7 @@ public class WarriorController : MonoBehaviour
 
     public void Sliding()
     {
+        if (isStunned) return;
         // Check if enough time has passed since the last slide
         if (Time.time - lastSlideTime >= slideCooldown)
         {
@@ -444,6 +446,22 @@ public class WarriorController : MonoBehaviour
     public void SetIsSliding(bool isSliding)
     {
         this.isSliding = isSliding;
+    }
+
+    public void Stun(float stunTime)
+    {
+        if (isStunned) return;
+        isStunned = true;
+        rb.velocity = Vector3.zero;
+        //audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
+        CSM.PlayDeathSound(false);
+        StartCoroutine(ResetStun(stunTime));
+    }
+
+    private IEnumerator ResetStun(float stunTime)
+    {
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
     }
 
     /**

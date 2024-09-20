@@ -40,7 +40,12 @@ public abstract class AbilityScript : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timer = cooldown;
-        if (attackVisualizerPrefab != null) attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
+        if (attackVisualizerPrefab != null)
+        {
+            attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
+            attackVisualizer.transform.SetParent(gameObject.transform);
+            attackVisualizer.transform.localPosition = Vector3.zero;
+        }
         //Debug.Log(attackVisualizer);
         MC.abilities.Insert(abilityNum, this);
     }

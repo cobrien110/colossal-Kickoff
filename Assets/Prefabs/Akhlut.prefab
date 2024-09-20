@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718773609196591379}
   - component: {fileID: 3703359982807322521}
+  - component: {fileID: 8496617740474720550}
   - component: {fileID: 8342599681389894631}
   - component: {fileID: 2061249857265671894}
   - component: {fileID: -4927149353131515462}
@@ -137,7 +138,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
---- !u!114 &8342599681389894631
+--- !u!114 &8496617740474720550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +146,33 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bae7181cb650bc4d929d9e5ac37a3bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Howl
+  abilityNum: 0
+  cooldown: 0
+  usableWhileIntangible: 0
+  usableWhileDribbling: 0
+  attackVisualizer: {fileID: 0}
+  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisHolder: {fileID: 0}
+  activatedAnimationName: none
+  MC: {fileID: 0}
+  audioPlayer: {fileID: 0}
+  ANIM: {fileID: 0}
+  UM: {fileID: 0}
+  howlRadius: 2
+  stunTime: 1.5
+--- !u!114 &8342599681389894631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176374829716338387}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: baef40b854fc9c942bfa7387434eb1f2, type: 3}
   m_Name: 

@@ -48,6 +48,7 @@ public class WarriorAiController : MonoBehaviour
     private AudioPlayer audioPlayer;
 
     // Get all WarriorController components (including subclasses)
+    [SerializeField]    
     WarriorController[] warriors;
 
     private void Awake()
@@ -68,7 +69,7 @@ public class WarriorAiController : MonoBehaviour
         StartCoroutine(CheckForPass());
         //warriors = FindObjectsOfType<WarriorController>();
         int index = 0;
-        Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
+        // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
         foreach (WarriorController warrior in FindObjectsOfType<WarriorController>())
         {
             if (warrior.gameObject != gameObject) // Ensure it's not the same object
@@ -90,11 +91,13 @@ public class WarriorAiController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AiBehavior();;
+        AiBehavior();
     }
 
     public void AiBehavior()
     {
+        if (wc.isStunned) return;
+
         // If no one has the ball
         if (wc.BP.ballOwner == null)
         {
@@ -291,6 +294,7 @@ public class WarriorAiController : MonoBehaviour
     {
         while (true)
         {
+            
             // Determine the goal based on isMovingTowardsGoal1
             Vector3 targetGoalPosition = roamForward ? monsterGoal.transform.position : warriorGoal.transform.position;
 
@@ -302,6 +306,7 @@ public class WarriorAiController : MonoBehaviour
             // Move towards the current goal
             while (Vector3.Distance(transform.position, targetWithOffset) * distanceToTravelMultiplier > stoppingDistanceFromGoal)
             {
+                if (wc.isStunned) break;
                 Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
                 //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
                 BaseMovement(new Vector2(directionToGoal.x, directionToGoal.z));
