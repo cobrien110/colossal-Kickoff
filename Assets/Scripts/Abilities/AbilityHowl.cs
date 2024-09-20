@@ -36,6 +36,7 @@ public class AbilityHowl : AbilityScript
             {
                 // Stop ball
                 MC.BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                MC.BP.GetComponent<Rigidbody>().rotation = Quaternion.identity;
                 // Debug.Log("Ball stopped by howl");
             }
 
