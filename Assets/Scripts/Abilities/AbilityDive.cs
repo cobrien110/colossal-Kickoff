@@ -18,6 +18,8 @@ public class AbilityDive : AbilityScript
 
     public string diveSound = "";
     public string emergeSound = "";
+    public string diveLoopSound = "";
+    public AudioPlayer diveLooper;
 
     private void Start()
     {
@@ -38,13 +40,22 @@ public class AbilityDive : AbilityScript
             MC.monsterSpeed = Mathf.Lerp(initialSpeed, speed, t);
             MC.isIntangible = true;
             timerPaused = true;
+            if (diveLooper != null && !diveLooper.isPlaying())
+            {
+                diveLooper.PlaySoundVolume(diveLooper.Find(diveLoopSound), 0.25f);
+            }
         } else
         {
             activeDuration = 0;
             MC.monsterSpeed = baseMonsterSpeed;
             MC.isIntangible = false;
             timerPaused = false;
+            if (diveLooper != null)
+            {
+                diveLooper.source.Stop();
+            }
         }
+        ANIM.SetBool("isDiving", isActive);
     }
 
     public override void Activate()
@@ -53,7 +64,7 @@ public class AbilityDive : AbilityScript
         {
             isActive = false;
             inputBuffer = 0f;
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(emergeSound));
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(emergeSound), 0.7f);
         }
         if (timer >= cooldown && inputBuffer >= inputBufferTime)
         {
@@ -62,7 +73,7 @@ public class AbilityDive : AbilityScript
                 isActive = true;
                 timer = 0;
                 inputBuffer = 0f;
-                audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(diveSound));
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(diveSound), 0.7f);
             }
         }
     }

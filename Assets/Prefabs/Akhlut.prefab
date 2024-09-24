@@ -1,5 +1,152 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &91935969148026418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2510212114477865929}
+  - component: {fileID: 4050622469413555987}
+  - component: {fileID: 2973422116827230780}
+  m_Layer: 10
+  m_Name: DiveSoundLooper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2510212114477865929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91935969148026418}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1718773609196591379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4050622469413555987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91935969148026418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a2efc67ae1f4749b7766d3a2371cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 2973422116827230780}
+  sounds:
+  - {fileID: 8300000, guid: 3b419536796060c48b9d3599f69ebf5f, type: 3}
+  volume: 1
+  pitchRangeLow: 0.85
+  pitchRangeHigh: 1.15
+--- !u!82 &2973422116827230780
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91935969148026418}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.25
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1764291824864585042
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,7 +189,6 @@ GameObject:
   - component: {fileID: 1718773609196591379}
   - component: {fileID: 3703359982807322521}
   - component: {fileID: 8496617740474720550}
-  - component: {fileID: 8342599681389894631}
   - component: {fileID: 2061249857265671894}
   - component: {fileID: -4927149353131515462}
   - component: {fileID: 4594944956692112125}
@@ -79,6 +225,7 @@ Transform:
   - {fileID: 8545803620029514259}
   - {fileID: 1666151125957682457}
   - {fileID: 6558373449549645104}
+  - {fileID: 2510212114477865929}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3703359982807322521
@@ -158,47 +305,14 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: none
+  activatedAnimationName: AkhlutHowl
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   howlRadius: 3
-  stunTime: 0.75
---- !u!114 &8342599681389894631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3176374829716338387}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baef40b854fc9c942bfa7387434eb1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityName: MinotaurWall
-  abilityNum: 0
-  cooldown: 8.5
-  usableWhileIntangible: 0
-  usableWhileDribbling: 0
-  attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 0}
-  attackVisHolder: {fileID: 0}
-  activatedAnimationName: MinotaurWall
-  MC: {fileID: 0}
-  audioPlayer: {fileID: 0}
-  ANIM: {fileID: 0}
-  UM: {fileID: 0}
-  wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
-  wallSpawnDistance: 3
-  wallDuration: 8
-  wallSoundEffect: minotaurCreateWall
-  shrapnelPrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
-  shrapnelDamage: 1
-  shrapnelSpeed: 450
-  shrapnelAmount: 7
-  shrapnelSpreadAngle: 37
+  stunTime: 1
+  soundName: akhlutHowl
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +333,7 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
   attackVisHolder: {fileID: 6558373449549645104}
-  activatedAnimationName: MinotaurAttack
+  activatedAnimationName: AkhlutHowl
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
@@ -262,7 +376,7 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: 
+  activatedAnimationName: AkhlutSwim
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
@@ -274,6 +388,8 @@ MonoBehaviour:
   inputBufferTime: 0.45
   diveSound: akhlutDive
   emergeSound: akhlutEmerge
+  diveLoopSound: akhlutDivingLoop
+  diveLooper: {fileID: 4050622469413555987}
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -492,10 +608,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: efde4a4368908434d82f4799c35c96d4, type: 3}
   - {fileID: 8300000, guid: 9bfec459b6c859c4a94abdec075171e3, type: 3}
   - {fileID: 8300000, guid: b91fd9fd5674d1f459b7cb2285de42d2, type: 3}
-  - {fileID: 8300000, guid: f8ab3a05a89a6d84899352f5e1634d9d, type: 3}
-  - {fileID: 8300000, guid: 011f6d49e1a2e5949aee2135785187c8, type: 3}
-  - {fileID: 8300000, guid: 8011775b1b0710541986e6eea19c634e, type: 3}
-  - {fileID: 8300000, guid: 6f3babd209d27a2489f1f698831fb4a8, type: 3}
+  - {fileID: 8300000, guid: 57a57e604a6918a4ebe987feb4cce350, type: 3}
+  - {fileID: 8300000, guid: 062426a3631e5a24fbf7ebe58bbc060c, type: 3}
+  - {fileID: 8300000, guid: ba05f727655a4f3438ffcc1bd58cc56c, type: 3}
+  - {fileID: 8300000, guid: 3b419536796060c48b9d3599f69ebf5f, type: 3}
   - {fileID: 8300000, guid: 09cdeddb38a7f9e46a2ca1feee380b32, type: 3}
   volume: 1
   pitchRangeLow: 0.85
@@ -1148,9 +1264,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7581612499400799079}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.85, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.502, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8177828523731862544}
@@ -1197,8 +1313,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fdeeb87b0cf4b6847aec797914da8273, type: 3}
-  m_Color: {r: 0, g: 0.6251521, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: aa6cf526532e1444dab327d6372ea058, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1231,7 +1347,7 @@ Animator:
   m_GameObject: {fileID: 7581612499400799079}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f2b9c5423d1263c4b80ef065c027919d, type: 2}
+  m_Controller: {fileID: 9100000, guid: dbe8456537e77a64cb280fa84efb7f17, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

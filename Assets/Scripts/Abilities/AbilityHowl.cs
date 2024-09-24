@@ -8,6 +8,8 @@ public class AbilityHowl : AbilityScript
     public float howlRadius = 1f;
     public float stunTime = 1.5f;
 
+    public string soundName;
+
     /*
     
     1. Stop momentum of ball if in radius
@@ -23,6 +25,8 @@ public class AbilityHowl : AbilityScript
         attackVisualizer.SetActive(true);
         // Schedule the deactivation after 1 second
         Invoke(nameof(DeactivateVisualizer), 1f);
+        ANIM.Play(activatedAnimationName);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), .6f);
 
         Debug.Log("Howl");
 
