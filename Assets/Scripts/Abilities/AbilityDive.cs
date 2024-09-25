@@ -31,15 +31,17 @@ public class AbilityDive : AbilityScript
     private void Update()
     {
         UpdateSetup();
+        // Input buffer prevents ability from being activated and deactivated with a single press
         if (inputBuffer < inputBufferTime) inputBuffer += Time.deltaTime;
 
         float t = activeDuration / durationOfSpeedBoost;
-        if (isActive)
+        if (isActive) // If ability has been toggled on
         {
+            // Boost speed and gradually roll back speed boost
             activeDuration += Time.deltaTime;
             MC.monsterSpeed = Mathf.Lerp(initialSpeed, speed, t);
             MC.isIntangible = true;
-            timerPaused = true;
+            timerPaused = true; // Pause cooldown while active
             if (diveLooper != null && !diveLooper.isPlaying())
             {
                 diveLooper.PlaySoundVolume(diveLooper.Find(diveLoopSound), 0.25f);
