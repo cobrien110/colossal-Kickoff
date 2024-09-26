@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Countdown countdown;
     [SerializeField] private TMP_Text gameoverText = null;
     [SerializeField] private TMP_Text playerScoredText = null;
+
+    public bool menuReturn = false;
 
 
     //ScoreboardUI
@@ -224,6 +227,12 @@ public class UIManager : MonoBehaviour
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
         //GM.StopPlaying();
+    
+        if (menuReturn)
+        {
+            Debug.Log("Back to Menu");
+            SceneManager.LoadScene("MainMenus");
+        }
     }
 
     public void StartTimer()

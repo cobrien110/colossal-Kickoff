@@ -31,6 +31,15 @@ public class GameplayManager : MonoBehaviour
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
         Time.timeScale = 1;
+
+
+        //WIP
+        int count = 0;
+        while (count < 2) {
+            string currentPlayer = "Player" + count;
+            Debug.Log(count + " Player Selected: " + PlayerPrefs.GetInt(currentPlayer));
+            count++;
+        }
     }
 
     // Update is called once per frame

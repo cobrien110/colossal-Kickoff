@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject[] cursors;
+    private SceneManager SM;
+
     void Update()
     {
         //if (Input.GetMouseButtonDown(0)) {
@@ -40,6 +43,19 @@ public class MenuController : MonoBehaviour
         //        break;
         //    }
         //}
+
+        //WIP
+        if (Input.GetKey(KeyCode.Return))
+        {
+            for (int i = 0; i < cursors.Length; i++)
+            {
+                string currentPlayer = "Player" + i;
+                MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
+                PlayerPrefs.SetInt(currentPlayer, currentCursor.playerSlot);
+            }
+            SceneManager.LoadScene("GameplayScene");
+        }
+
     }
 
     public void OptionSelect(int optionID)
