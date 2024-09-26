@@ -13,7 +13,19 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject[] cursors;
+    [SerializeField] private GameObject[] playerOptions;
+    [SerializeField] private CharacterInfo[] characterInfos;
+    [SerializeField] private GameObject readyText;
+    private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
     private SceneManager SM;
+    public int currentScreen = 0;
+    /**
+    0: Top Menu
+    1: Settings
+    2: Character Select
+    3: Stage Select
+    **/
+    public bool canMoveToStageSelect = false;
 
     void Update()
     {
@@ -65,6 +77,7 @@ public class MenuController : MonoBehaviour
         {
             //VERSUS MATCH
             case 0:
+                currentScreen = 2;
                 menuCamera.goToVersusSetup();
                 mainMenuButtons.SetActive(false);
                 characterSelect.SetActive(true);
@@ -75,6 +88,7 @@ public class MenuController : MonoBehaviour
 
             //SETTINGS
             case 1:
+                currentScreen = 1;
                 menuCamera.goToSettings();
                 mainMenuButtons.SetActive(false);
                 break;
@@ -91,7 +105,56 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    private void findAllCursors() {
+    public void returnToTop() {
+        menuCamera.goToMainMenu();
+        currentScreen = 0;
+        for (int i = 0; i < cursors.Length; i++)
+        {
+            cursors[i].GetComponent<MenuCursor>().deselect();
+        }
+        for (int i = 0; i < characterInfos.Length; i++) {
+            unconfirmCharacter(i);
+        }
+        mainMenuButtons.SetActive(true);
+        characterSelect.SetActive(false);
+    }
+
+    public void findAllCursors() {
+        if (canMoveToStageSelect) {
+            canMoveToStageSelect = false;
+            readyText.SetActive(false);
+        }
         cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
+    }
+
+    public void characterSelected(int playerNumber, int playerSlot) {
+        Debug.Log("Player " + playerNumber + " selected Character " + playerSlot);
+        //todo: set it so playerNumber can control playerSlot's character options
+        playerOptions[playerSlot].SetActive(true);
+    }
+
+    public void characterUnselected(int playerNumber, int playerSlot) {
+        Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
+        //todo: reverse that thing from the last comment
+        playerOptions[playerSlot].SetActive(false);
+        unconfirmCharacter(playerSlot);
+    }
+
+    public void confirmCharacter(int playerSlot) {
+        confirmedInfos.Add(characterInfos[playerSlot]);
+        characterInfos[playerSlot].confirm();
+        if (confirmedInfos.Count == cursors.Length) {
+            canMoveToStageSelect = true;
+            readyText.SetActive(true);
+        }
+    }
+
+    public void unconfirmCharacter(int playerSlot) {
+        confirmedInfos.Remove(characterInfos[playerSlot]);
+        characterInfos[playerSlot].unconfirm();
+        if (canMoveToStageSelect) {
+            canMoveToStageSelect = false;
+            readyText.SetActive(false);
+        }
     }
 }

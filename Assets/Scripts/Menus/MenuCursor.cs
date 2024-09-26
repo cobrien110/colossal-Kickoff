@@ -24,12 +24,14 @@ public class MenuCursor : MonoBehaviour
     public int hoveringID = -1;
     public bool hasSelected = false;
 
+
     private void Start()
     {
         hasSelected = false;
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.position = new Vector3(0, 0, 0);
         MC = GameObject.Find("MenuController").GetComponent<MenuController>();
+        MC.findAllCursors();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
         //findCharSelectItems();
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
@@ -67,11 +69,11 @@ public class MenuCursor : MonoBehaviour
 
     public void PlayerSelected(int value) {
         playerSlot = value;
-        Debug.Log("Player " + playerNumber + " selected Character " + playerSlot);
         hasSelected = true;
         this.GetComponent<Image>().enabled = false;
         body.velocity = new Vector2(0, 0);
         //cursorMove.Disable();
+        MC.characterSelected(playerNumber, playerSlot);
     }
 
     public void StartHovering(string item, int ID)
@@ -95,10 +97,12 @@ public class MenuCursor : MonoBehaviour
     public void OnSelect(InputAction.CallbackContext action)
     {
         if (!hasSelected) {
-            if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID) && !playerMarkerIcons[hoveringID].isAssigned)
+            if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
             {
-                PlayerSelected(hoveringID);
-                playerMarkerIcons[hoveringID].changeSprite(playerNumber);
+                if (!playerMarkerIcons[hoveringID].isAssigned) {
+                    PlayerSelected(hoveringID);
+                    playerMarkerIcons[hoveringID].changeSprite(playerNumber);
+                }
             } else if (hoveringItem.Equals("menuSelect") && playerNumber == 1)
             {
                 MC.OptionSelect(hoveringID);
@@ -110,13 +114,23 @@ public class MenuCursor : MonoBehaviour
     {
         if (hasSelected)
         {
-            hasSelected = false;
-            //cursorMove.Enable();
-            this.GetComponent<Image>().enabled = true;
-            playerMarkerIcons[playerSlot].changeSprite(0);
-            Debug.Log("Player " + playerNumber + " deselected Character " + playerSlot);
-            playerSlot = -1;
+            deselect();
+        } else if ((playerNumber == 1) && (MC.currentScreen == 2)) {
+            MC.returnToTop();
+        } else if ((playerNumber == 1) && (MC.currentScreen == 3)) {
+            //TODO: Return to Character Select
         }
+    }
+
+    public void deselect() {
+            //cursorMove.Enable();
+            if (hasSelected) {
+                playerMarkerIcons[playerSlot].changeSprite(0);
+                MC.characterUnselected(playerNumber, playerSlot);
+            }
+            hasSelected = false;
+            this.GetComponent<Image>().enabled = true;
+            playerSlot = -1;
     }
 
     //find the icons that display who's selected which characters on screen
