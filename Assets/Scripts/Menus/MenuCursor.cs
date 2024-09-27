@@ -17,6 +17,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private MenuController MC = null;
     [SerializeField] private InputManager IM = null;
     [SerializeField] private MonsterName MN = null;
+    [SerializeField] private WarriorDesc[] WDarr = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
     [SerializeField] private Sprite[] cursorSprites;
 
@@ -35,6 +36,10 @@ public class MenuCursor : MonoBehaviour
         MC.findAllCursors();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
         MN = FindObjectOfType<MonsterName>(true);
+        WDarr = FindObjectsOfType<WarriorDesc>(true);
+        WarriorDesc holder = WDarr[1];
+        WDarr[1] = WDarr[2];
+        WDarr[2] = holder;
         //findCharSelectItems();
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
     }
@@ -98,38 +103,48 @@ public class MenuCursor : MonoBehaviour
 
     public void OnSelect(InputAction.CallbackContext action)
     {
-        if (!hasSelected) {
-            if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
-            {
-                if (!playerMarkerIcons[hoveringID].isAssigned) {
-                    PlayerSelected(hoveringID);
-                    playerMarkerIcons[hoveringID].changeSprite(playerNumber);
-                }
-            } else if (hoveringItem.Equals("menuSelect") && playerNumber == 1)
-            {
-                MC.OptionSelect(hoveringID);
-            }
-        } else
+        if (action.started)
         {
-            MC.confirmCharacter(playerSlot);
+            if (!hasSelected)
+            {
+                if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
+                {
+                    if (!playerMarkerIcons[hoveringID].isAssigned)
+                    {
+                        PlayerSelected(hoveringID);
+                        playerMarkerIcons[hoveringID].changeSprite(playerNumber);
+                    }
+                }
+                else if (hoveringItem.Equals("menuSelect") && playerNumber == 1)
+                {
+                    MC.OptionSelect(hoveringID);
+                }
+            }
+            else
+            {
+                MC.confirmCharacter(playerSlot);
+            }
         }
     }
 
     public void OnDeselect(InputAction.CallbackContext action)
     {
-        if (hasSelected && action.started)
+        if (action.started)
         {
-            Debug.Log("Deselecting");
-            deselect();
-        }
-
-        if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2)) {
-            Debug.Log("Return to top");
-            MC.returnToTop();
-        }
-
-        if ((playerNumber == 1) && (MC.currentScreen == 3)) {
-            //TODO: Return to Character Select
+            if (hasSelected)
+            {
+                Debug.Log("Deselecting");
+                deselect();
+            }
+            else if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2))
+            {
+                Debug.Log("Return to top");
+                MC.returnToTop();
+            }
+            else if ((playerNumber == 1) && (MC.currentScreen == 3))
+            {
+                //TODO: Return to Character Select
+            }
         }
     }
 
@@ -157,12 +172,27 @@ public class MenuCursor : MonoBehaviour
         if (hasSelected && action.started)
         {
             float changeDir = action.ReadValue<Vector2>().x;
-            if (changeDir > 0)
+            if (playerSlot == 0)
             {
-                MN.pageRight();
-            } else if (changeDir < 0)
+                if (changeDir > 0)
+                {
+                    MN.pageRight();
+                }
+                else if (changeDir < 0)
+                {
+                    MN.pageLeft();
+                }
+            } else
             {
-                MN.pageLeft();
+                int i = playerSlot - 1;
+                if (changeDir > 0)
+                {
+                    WDarr[i].pageRight();
+                }
+                else if (changeDir < 0)
+                {
+                    WDarr[i].pageLeft();
+                }
             }
         }
     }
