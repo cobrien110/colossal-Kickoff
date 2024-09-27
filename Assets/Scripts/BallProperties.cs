@@ -103,14 +103,17 @@ public class BallProperties : MonoBehaviour
             if (playerTest.name.StartsWith('1'))
             {
                 ST.UpdateWGoals(1);
+                UM.UpdateWarriorGoalsSB(1);
             }
             if (playerTest.name.StartsWith('2'))
             {
                 ST.UpdateWGoals(2);
+                UM.UpdateWarriorGoalsSB(2);
             }
             if (playerTest.name.StartsWith('3'))
             {
                 ST.UpdateWGoals(3);
+                UM.UpdateWarriorGoalsSB(3);
             }
             ScoreBall(false);
 
