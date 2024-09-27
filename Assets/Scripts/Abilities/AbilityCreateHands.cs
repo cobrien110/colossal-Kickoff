@@ -18,14 +18,20 @@ public class AbilityCreateHands : PassiveAbility
     private float hand1Timer = 0f;
     private float hand2Timer = 0f;
 
+    public float hitballSpeed = 50f;
+
     // Start is called before the first frame update
     void Start()
     {
         Setup();
-        hand1 = Instantiate(handPrefab, MC.gameObject.transform);
-        hand1.transform.position = new Vector3(spawnDistance + hand1.transform.position.x, hand1.transform.position.y, hand1.transform.position.z);
-        hand2 = Instantiate(handPrefab, MC.gameObject.transform);
-        hand2.transform.position = new Vector3(-spawnDistance + hand2.transform.position.x, hand2.transform.position.y, hand2.transform.position.z);
+        //hand1 = Instantiate(handPrefab, MC.gameObject.transform);
+        //hand1.transform.position = new Vector3(spawnDistance + hand1.transform.position.x, hand1.transform.position.y, hand1.transform.position.z);
+        //hand2 = Instantiate(handPrefab, MC.gameObject.transform);
+        //hand2.transform.position = new Vector3(-spawnDistance + hand2.transform.position.x, hand2.transform.position.y, hand2.transform.position.z);
+
+        // Instantiate the hands without parenting them to the monster
+        hand1 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
+        hand2 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
 
         hand1IsActive = false;
         hand2IsActive = false;
@@ -46,6 +52,17 @@ public class AbilityCreateHands : PassiveAbility
 
     private void Update()
     {
+        // Maintain hand positions relative to the monster without rotation
+        if (hand1 != null)
+        {
+            hand1.transform.position = new Vector3(MC.transform.position.x, hand1.transform.position.y, MC.transform.position.z + spawnDistance);
+        }
+
+        if (hand2 != null)
+        {
+            hand2.transform.position = new Vector3(MC.transform.position.x, hand2.transform.position.y, MC.transform.position.z - spawnDistance);
+        }
+
         // Count up timers if hand is dead
         if (hand1Timer < handSpawnTime && !hand1IsActive)
         {
@@ -71,6 +88,8 @@ public class AbilityCreateHands : PassiveAbility
 
         hand1.SetActive(hand1IsActive);
         hand2.SetActive(hand2IsActive);
+
+        
     }
 
     public void KillHand(int handNum)
@@ -78,4 +97,5 @@ public class AbilityCreateHands : PassiveAbility
         SetHandActive(handNum, false);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("gashaHandDeath"), 1f);
     }
+
 }
