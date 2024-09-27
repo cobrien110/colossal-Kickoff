@@ -338,6 +338,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change"",
+                    ""type"": ""Value"",
+                    ""id"": ""e0ec9db5-f865-4f9d-9007-8948999c036b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -384,6 +393,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5eba7e2d-0dff-4fbb-8028-cdfb9f86e6d5"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -425,6 +445,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Cursor_Select = m_Cursor.FindAction("Select", throwIfNotFound: true);
         m_Cursor_Back = m_Cursor.FindAction("Back", throwIfNotFound: true);
         m_Cursor_Join = m_Cursor.FindAction("Join", throwIfNotFound: true);
+        m_Cursor_Change = m_Cursor.FindAction("Change", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -670,6 +691,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Cursor_Select;
     private readonly InputAction m_Cursor_Back;
     private readonly InputAction m_Cursor_Join;
+    private readonly InputAction m_Cursor_Change;
     public struct CursorActions
     {
         private @InputMaster m_Wrapper;
@@ -678,6 +700,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Select => m_Wrapper.m_Cursor_Select;
         public InputAction @Back => m_Wrapper.m_Cursor_Back;
         public InputAction @Join => m_Wrapper.m_Cursor_Join;
+        public InputAction @Change => m_Wrapper.m_Cursor_Change;
         public InputActionMap Get() { return m_Wrapper.m_Cursor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -699,6 +722,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Change.started += instance.OnChange;
+            @Change.performed += instance.OnChange;
+            @Change.canceled += instance.OnChange;
         }
 
         private void UnregisterCallbacks(ICursorActions instance)
@@ -715,6 +741,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Change.started -= instance.OnChange;
+            @Change.performed -= instance.OnChange;
+            @Change.canceled -= instance.OnChange;
         }
 
         public void RemoveCallbacks(ICursorActions instance)
@@ -766,5 +795,6 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnChange(InputAction.CallbackContext context);
     }
 }
