@@ -14,6 +14,7 @@ public class BallProperties : MonoBehaviour
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
     public GameObject previousKicker = null;
+    public GameObject playerTest = null;
     public float passBonus = 25f;
     public bool isSuperKick = false;
 
@@ -72,6 +73,7 @@ public class BallProperties : MonoBehaviour
             
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
+            SetScorer(ballOwner);
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
             isSuperKick = false;
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
@@ -82,16 +84,39 @@ public class BallProperties : MonoBehaviour
 
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
-            //Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
+            Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
+            
+            UM.MonsterPoint();
+            ST.UpdateMGoals();
             ScoreBall(true);
+
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
-            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
+            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom(); 
         }
 
         if (other.tag.Equals("MonsterGoal") && isInteractable)
         {
-            //Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
+            Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
+
+            UM.WarriorPoint();
+
+            if (playerTest.name.StartsWith('1'))
+            {
+                ST.UpdateWGoals(1);
+                UM.UpdateWarriorGoalsSB(1);
+            }
+            if (playerTest.name.StartsWith('2'))
+            {
+                ST.UpdateWGoals(2);
+                UM.UpdateWarriorGoalsSB(2);
+            }
+            if (playerTest.name.StartsWith('3'))
+            {
+                ST.UpdateWGoals(3);
+                UM.UpdateWarriorGoalsSB(3);
+            }
             ScoreBall(false);
+
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
             if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
@@ -99,6 +124,9 @@ public class BallProperties : MonoBehaviour
 
     private void ScoreBall(bool isWarriorGoal)
     {
+        /*Debug.Log(ballOwner);
+        Debug.Log(player);
+        
         if (isWarriorGoal)
         {
             UM.MonsterPoint();
@@ -106,23 +134,20 @@ public class BallProperties : MonoBehaviour
         } else
         {
             UM.WarriorPoint();
-            
-            /*if (ballOwner.name.StartsWith('1'))
+
+            if (ballOwner.name.StartsWith('1'))
             {
-                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
                 ST.UpdateWGoals(1);
             }
             if (ballOwner.name.StartsWith('2'))
             {
-                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
                 ST.UpdateWGoals(2);
             }
             if (ballOwner.name.StartsWith('3'))
             {
-                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
                 ST.UpdateWGoals(3);
-            }*/
-        }
+            }
+        }*/
         ballOwner = null;
         if (CSM != null)
         {
@@ -154,5 +179,10 @@ public class BallProperties : MonoBehaviour
     private void DestroyDelay()
     {
         Destroy(this.gameObject);
+    }
+
+    private void SetScorer(GameObject player)
+    {
+        playerTest = player;
     }
 }

@@ -14,6 +14,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private WarriorController WC = null;
     [SerializeField] private MultipleTargetCamera MTC = null;
     [SerializeField] private GameObject WarriorAI = null;
+    [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
     private GameObject BallSpawner = null;
     private GameObject[] WarriorSpawners = null;
@@ -57,6 +58,11 @@ public class GameplayManager : MonoBehaviour
         {
             StartCoroutine(Kickoff());
             Debug.Log("Enter");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            Instantiate(MonsterPlayer, new Vector3(-5.25f, 0f, 0f), Quaternion.identity);
         }
 
         if (Input.GetKeyDown(KeyCode.B) && !isPlaying)
