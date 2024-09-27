@@ -16,6 +16,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private int menuSlot = -1;
     [SerializeField] private MenuController MC = null;
     [SerializeField] private InputManager IM = null;
+    [SerializeField] private MonsterName MN = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
     [SerializeField] private Sprite[] cursorSprites;
 
@@ -33,6 +34,7 @@ public class MenuCursor : MonoBehaviour
         MC = GameObject.Find("MenuController").GetComponent<MenuController>();
         MC.findAllCursors();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
+        MN = FindObjectOfType<MonsterName>(true);
         //findCharSelectItems();
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
     }
@@ -107,17 +109,26 @@ public class MenuCursor : MonoBehaviour
             {
                 MC.OptionSelect(hoveringID);
             }
-        }   
+        } else
+        {
+            MC.confirmCharacter(playerSlot);
+        }
     }
 
     public void OnDeselect(InputAction.CallbackContext action)
     {
-        if (hasSelected)
+        if (hasSelected && action.started)
         {
+            Debug.Log("Deselecting");
             deselect();
-        } else if ((playerNumber == 1) && (MC.currentScreen == 2)) {
+        }
+
+        if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2)) {
+            Debug.Log("Return to top");
             MC.returnToTop();
-        } else if ((playerNumber == 1) && (MC.currentScreen == 3)) {
+        }
+
+        if ((playerNumber == 1) && (MC.currentScreen == 3)) {
             //TODO: Return to Character Select
         }
     }
@@ -139,5 +150,20 @@ public class MenuCursor : MonoBehaviour
         playerMarkerIcons[1] = GameObject.Find("Warrior1Selected").GetComponent<PlayerSelectedDisplay>();
         playerMarkerIcons[2] = GameObject.Find("Warrior2Selected").GetComponent<PlayerSelectedDisplay>();
         playerMarkerIcons[3] = GameObject.Find("Warrior3Selected").GetComponent<PlayerSelectedDisplay>();
+    }
+
+    public void OnChange(InputAction.CallbackContext action)
+    {
+        if (hasSelected && action.started)
+        {
+            float changeDir = action.ReadValue<Vector2>().x;
+            if (changeDir > 0)
+            {
+                MN.pageRight();
+            } else if (changeDir < 0)
+            {
+                MN.pageLeft();
+            }
+        }
     }
 }
