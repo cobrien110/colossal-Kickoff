@@ -60,6 +60,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
     private UIManager UM = null;
+    private StatTracker ST = null;
     private Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
@@ -76,6 +77,7 @@ public class MonsterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();

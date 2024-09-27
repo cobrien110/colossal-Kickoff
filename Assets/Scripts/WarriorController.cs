@@ -49,7 +49,8 @@ public class WarriorController : MonoBehaviour
     public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
-    [SerializeField] private UIManager UM = null;
+    private UIManager UM = null;
+    private StatTracker ST = null;
     [SerializeField] private Transform respawnBox;
     private AudioPlayer audioPlayer;
     public GameObject WarriorSpawner = null;
@@ -70,6 +71,7 @@ public class WarriorController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
@@ -408,7 +410,13 @@ public class WarriorController : MonoBehaviour
     public void Die()
     {
         if (isInvincible) return;
+
+        Debug.Log("PLAYER THAT DIED: (" + int.Parse(this.name.Substring(0, 1)) + ")");
+        ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
+
+        ST.UpdateMKills();
         UM.UpdateMonsterKills();
+
         isDead = true;
         isInvincible = true;
         PS.Stop();

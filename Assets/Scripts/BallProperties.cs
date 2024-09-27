@@ -9,6 +9,7 @@ public class BallProperties : MonoBehaviour
 
     private UIManager UM = null;
     private GameplayManager GM = null;
+    private StatTracker ST = null;
     private AudioPlayer audioPlayer;
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
@@ -25,6 +26,7 @@ public class BallProperties : MonoBehaviour
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         audioPlayer = GetComponent<AudioPlayer>();
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
 
@@ -80,6 +82,7 @@ public class BallProperties : MonoBehaviour
 
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
+            //Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
             ScoreBall(true);
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
             if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
@@ -87,6 +90,7 @@ public class BallProperties : MonoBehaviour
 
         if (other.tag.Equals("MonsterGoal") && isInteractable)
         {
+            //Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
             ScoreBall(false);
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
             if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
@@ -98,15 +102,33 @@ public class BallProperties : MonoBehaviour
         if (isWarriorGoal)
         {
             UM.MonsterPoint();
+            ST.UpdateMGoals();
         } else
         {
             UM.WarriorPoint();
+            
+            /*if (ballOwner.name.StartsWith('1'))
+            {
+                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
+                ST.UpdateWGoals(1);
+            }
+            if (ballOwner.name.StartsWith('2'))
+            {
+                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
+                ST.UpdateWGoals(2);
+            }
+            if (ballOwner.name.StartsWith('3'))
+            {
+                Debug.Log("PLAYER (" + ballOwner.name + ") SCORED");
+                ST.UpdateWGoals(3);
+            }*/
         }
         ballOwner = null;
         if (CSM != null)
         {
             CSM.PlayGoalSound(!isWarriorGoal);
         }
+        Debug.Log("RESET");
         GM.Reset();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));

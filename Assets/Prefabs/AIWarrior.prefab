@@ -5457,6 +5457,7 @@ MonoBehaviour:
   slideCooldown: 2
   slideDuration: 1
   isSliding: 0
+  isStunned: 0
   usingNewScheme: 0
   warriorControls:
     m_Name: Warrior Controls
@@ -5470,7 +5471,6 @@ MonoBehaviour:
   usingKeyboard: 0
   invertControls: 0
   GM: {fileID: 0}
-  UM: {fileID: 0}
   respawnBox: {fileID: 0}
   WarriorSpawner: {fileID: 0}
   spriteObject: {fileID: 394014351206952005}
@@ -5854,3 +5854,4 @@ MonoBehaviour:
   slideRange: 1
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
+  warriors: []

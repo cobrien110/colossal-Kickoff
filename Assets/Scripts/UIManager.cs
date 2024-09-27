@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+
+
     //CenterScreenMessages
     //[SerializeField] private TMP_Text countdown = null;
     [SerializeField] private Countdown countdown;
@@ -16,7 +18,7 @@ public class UIManager : MonoBehaviour
     public bool menuReturn = false;
 
 
-    //ScoreboardUI
+    //UpperScoreboardUI
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
     [SerializeField] private TMP_Text scoreTextHumanBG = null;
@@ -29,12 +31,19 @@ public class UIManager : MonoBehaviour
 
     //(Stats) ScoreboardUI
     [SerializeField] private GameObject statsScoreboard = null;
-    [SerializeField] private TMP_Text killsTextMonster = null;
-    private int monsterKills = 0;
-    [SerializeField] private TMP_Text abilitiesTextMonster = null;
-    private int monsterAbilities = 0;
 
-    
+    [SerializeField] private TMP_Text Warrior1GoalsText = null;
+    [SerializeField] private TMP_Text Warrior2GoalsText = null;
+    [SerializeField] private TMP_Text Warrior3GoalsText = null;
+
+    [SerializeField] private TMP_Text Warrior1DeathsText = null;
+    [SerializeField] private TMP_Text Warrior2DeathsText = null;
+    [SerializeField] private TMP_Text Warrior3DeathsText = null;
+
+
+    [SerializeField] private TMP_Text MonsterKillsText = null;  
+    [SerializeField] private TMP_Text MonsterAbUsedText = null;
+
 
     // Dev Stats
     [SerializeField] private GameObject devStats = null;
@@ -75,11 +84,13 @@ public class UIManager : MonoBehaviour
 
     Coroutine timerCoroutine;
     GameplayManager GM;
+    StatTracker ST;
 
     // Start is called before the first frame update
     void Start()
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         timeRemainingSeconds = gameSeconds;
         ShowChargeBar(false);
         ShowMonsterUI(false);
@@ -142,7 +153,7 @@ public class UIManager : MonoBehaviour
 
             textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
 
-            textToCopy += "\nKills: " + killsTextMonster.text;
+            textToCopy += "\nKills: " + MonsterKillsText.text;
             
             CopyToClipboard(textToCopy);
         }
@@ -379,22 +390,33 @@ public class UIManager : MonoBehaviour
         devStats.gameObject.SetActive(state);
     }
 
+    public void UpdateWarriorGoalsSB(int player)
+    {
+        if (player == 1) Warrior1GoalsText.text = "" + ST.GetWGoals(1);
+        if (player == 2) Warrior2GoalsText.text = "" + ST.GetWGoals(2);
+        if (player == 3) Warrior3GoalsText.text = "" + ST.GetWGoals(3);
+    }
+
+    public void UpdateWarriorDeathsSB(int player)
+    {
+        if (player == 1) Warrior1DeathsText.text = "" + ST.GetWDeaths(1);
+        if (player == 2) Warrior2DeathsText.text = "" + ST.GetWDeaths(2);
+        if (player == 3) Warrior3DeathsText.text = "" + ST.GetWDeaths(3);
+    }
     public void UpdateMonsterKills()
     {
-        monsterKills = monsterKills + 1;
-        killsTextMonster.text = "" + monsterKills;
+        MonsterKillsText.text = "" + ST.GetMKills();
     }
 
     public void UpdateMonsterAbilities()
     {
-        monsterAbilities = monsterAbilities + 1;
-        abilitiesTextMonster.text = "" + monsterAbilities;
+        MonsterAbUsedText.text = "" + ST.GetMAbUsed();
     }
 
-    /*public void UpdateGameWinner(string winner)
+    public void UpdateGameWinner(string winner)
     {
-        gameWinnerText.text = winner;    
-    }*/
+        gameWinnerText.text = winner;
+    }
 
     void CopyToClipboard(string s)
     {

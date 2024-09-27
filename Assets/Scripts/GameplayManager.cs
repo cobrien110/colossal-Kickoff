@@ -198,8 +198,11 @@ public class GameplayManager : MonoBehaviour
 
     public void SpawnAI()
     {
+        WarriorAI.name = "1_WarriorAI";
         Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+        WarriorAI.name = "2_WarriorAI";
         Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
+        WarriorAI.name = "3_WarriorAI";
         Instantiate(WarriorAI, new Vector3(5.25f, 0f, 2f), Quaternion.identity);
     }
 
