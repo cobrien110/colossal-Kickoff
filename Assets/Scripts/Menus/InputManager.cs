@@ -22,8 +22,9 @@ public class InputManager : MonoBehaviour
 
     }
 
-    public void NewPlayer(PlayerInput player)
+    public void NewPlayer(GameObject cursorPrefab)
     {
+        PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[0]);
         GameObject newCursor;
         GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
         newCursor = cursors[cursors.Length - 1];
