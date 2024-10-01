@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MonsterHolder : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class MonsterHolder : MonoBehaviour
 
     public void spawnMonster()
     {
-        GM.AddPlayer();
+        PlayerInput newInput = new PlayerInput();
+        GM.AddPlayer(newInput, monsterPrefab);
     }
 }

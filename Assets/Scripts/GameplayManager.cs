@@ -160,16 +160,21 @@ public class GameplayManager : MonoBehaviour
         isPlaying = set;
     }
 
-    public void AddPlayer(PlayerInput player)
+    public void AddPlayer(PlayerInput player, GameObject monsterPrefab)
     {
-        playerInputs.Add(player);
-        MTC.AddTarget(player.transform);
+        //playerInputs.Add(player);
+       // MTC.AddTarget(player.transform);
+
+        PlayerInput p = PlayerInput.Instantiate(monsterPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[0]);
+        MTC.AddTarget(p.transform);
+
         NewPlayer();
         if (PIM != null) PIM.playerPrefab = warriorPrefab;
     }
 
     public void NewPlayer()
     {
+
         GameObject player;
         if (playerList.Count == 0 && GameObject.FindGameObjectWithTag("Monster"))
         {
