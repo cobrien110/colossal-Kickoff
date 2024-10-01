@@ -17,10 +17,11 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
     private GameObject BallSpawner = null;
-    private GameObject[] WarriorSpawners = null;
+    [SerializeField] private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
     public float passMeter = 0;
     public float passMeterMax = 1.0f;
+    private int spawnCount = 0;
 
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
@@ -160,16 +161,16 @@ public class GameplayManager : MonoBehaviour
         isPlaying = set;
     }
 
-    public void AddPlayer(PlayerInput player, GameObject monsterPrefab)
+    public void AddPlayer(GameObject playerPrefab, int playerID)
     {
         //playerInputs.Add(player);
-       // MTC.AddTarget(player.transform);
+        // MTC.AddTarget(player.transform);
 
-        PlayerInput p = PlayerInput.Instantiate(monsterPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[0]);
+        PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[playerID]);
         MTC.AddTarget(p.transform);
 
         NewPlayer();
-        if (PIM != null) PIM.playerPrefab = warriorPrefab;
+        //if (PIM != null) PIM.playerPrefab = warriorPrefab;
     }
 
     public void NewPlayer()
@@ -191,14 +192,16 @@ public class GameplayManager : MonoBehaviour
             WC.playerNum = warriors.Length;
             playerList.Add(player);
             UM.ShowPlayerUI(true, warriors.Length);
-            if (warriors.Length == 1)
-            {
-                UM.ShowPassMeter(true);
-            }
+            UM.ShowPassMeter(true);
+            //if (warriors.Length == 1)
+            //{
+               
+            //}
 
             try
             {
-                WC.WarriorSpawner = WarriorSpawners[warriors.Length - 1];
+                WC.WarriorSpawner = WarriorSpawners[spawnCount++];
+                WC.transform.position = WC.WarriorSpawner.transform.position;
             } catch
             {
                 // Null Reference Catch

@@ -13,14 +13,22 @@ public class PlayerHolder : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
+        playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
 
         if (SceneManager.GetActiveScene().name.Equals("MainMenus"))
         {
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor();
+            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID);
         }
         else
         {
-            GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster();
+            if (playerID == 0)
+            {
+                GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID);
+            } else
+            {
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID);
+
+            }
         }
     }
 
@@ -42,14 +50,21 @@ public class PlayerHolder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Entered Scene Loaded");
         if (scene.name.Equals("MainMenus"))
         {
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor();
+            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID);
         }
         else
         {
-            GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster();
+            if (playerID == 0)
+            {
+                GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID);
+            }
+            else
+            {
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID);
+
+            }
         }
     }
 }

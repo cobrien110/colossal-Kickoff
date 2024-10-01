@@ -411,8 +411,8 @@ public class WarriorController : MonoBehaviour
     {
         if (isInvincible) return;
 
-        Debug.Log("PLAYER THAT DIED: (" + int.Parse(this.name.Substring(0, 1)) + ")");
-        ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
+        //Debug.Log("PLAYER THAT DIED: (" + int.Parse(this.name.Substring(0, 1)) + ")");
+        //ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
 
         ST.UpdateMKills();
         UM.UpdateMonsterKills();
