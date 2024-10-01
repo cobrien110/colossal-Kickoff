@@ -41,7 +41,7 @@ public class MenuButton : MonoBehaviour
 
     public void becomeSelected() {
         GetComponent<RectTransform>().anchoredPosition = new Vector3(selectedXPos, selectedYPos, 0);
-        menuController.selected = myID;
+        //menuController.selected = myID;
     }
 
     public void becomeUnselected() {

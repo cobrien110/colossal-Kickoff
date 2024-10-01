@@ -25,6 +25,7 @@ public class MenuCursor : MonoBehaviour
     public string hoveringItem = "null";
     public int hoveringID = -1;
     public bool hasSelected = false;
+    private Vector3 savedPosition;
 
 
     private void Start()
@@ -69,7 +70,7 @@ public class MenuCursor : MonoBehaviour
         //    horizontal *= moveLimiter;
         //    vertical *= moveLimiter;
         //} 
-        if (!hasSelected) {
+        if ((!hasSelected) || MC.currentScreen == 3) {
             body.velocity = new Vector2(horizontal * speed, vertical * speed);
         }
     }
@@ -105,24 +106,38 @@ public class MenuCursor : MonoBehaviour
     {
         if (action.started)
         {
-            if (!hasSelected)
-            {
-                if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
-                {
-                    if (!playerMarkerIcons[hoveringID].isAssigned)
-                    {
-                        PlayerSelected(hoveringID);
-                        playerMarkerIcons[hoveringID].changeSprite(playerNumber);
-                    }
-                }
-                else if (hoveringItem.Equals("menuSelect") && playerNumber == 1)
-                {
+            if (MC.currentScreen == 0) {
+                //Top Menu
+                if (hoveringItem.Equals("menuSelect") && playerNumber == 1) {
                     MC.OptionSelect(hoveringID);
                 }
-            }
-            else
-            {
-                MC.confirmCharacter(playerSlot);
+            } else if (MC.currentScreen == 2) {
+                //Character Select
+                if (!MC.canMoveToStageSelect) {
+                    if (!hasSelected) {
+                        if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
+                        {
+                            if (!playerMarkerIcons[hoveringID].isAssigned)
+                            {
+                                PlayerSelected(hoveringID);
+                                playerMarkerIcons[hoveringID].changeSprite(playerNumber);
+                            }
+                        }
+                    }
+                    else {
+                        MC.confirmCharacter(playerSlot);
+                    }
+                } else if (playerNumber == 1) {
+                    this.GetComponent<Image>().enabled = true;
+                    savedPosition = transform.position;
+                    MC.moveToStageSelect();
+                }
+            } else if (MC.currentScreen == 3) {
+                //Stage Select
+                if (hoveringItem.Equals("stageSelect") && playerNumber == 1) {
+                    //TODO: Loading Gameplay and grabbing controller info and all that junk
+                    MC.loadGameplay(hoveringID);
+                }
             }
         }
     }
@@ -131,19 +146,26 @@ public class MenuCursor : MonoBehaviour
     {
         if (action.started)
         {
-            if (hasSelected)
+            //Deselect Character
+            if ((hasSelected) && (MC.currentScreen == 2))
             {
                 Debug.Log("Deselecting");
                 deselect();
             }
+            //Back to top menu
             else if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2))
             {
                 Debug.Log("Return to top");
                 MC.returnToTop();
             }
+            //Back to character select
             else if ((playerNumber == 1) && (MC.currentScreen == 3))
             {
-                //TODO: Return to Character Select
+                //go back from stage select to character select
+                transform.position = savedPosition;
+                this.GetComponent<Image>().enabled = false;
+                body.velocity = new Vector2(0, 0);
+                MC.backToCharSelect();
             }
         }
     }

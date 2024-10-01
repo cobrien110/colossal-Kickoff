@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
     //selected is updated by buttons when they become selected
-    public int selected;
+    //public int selected;
     //camera that this can move around
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject characterSelect;
+    [SerializeField] private GameObject stageSelect;
     [SerializeField] private GameObject[] cursors;
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
@@ -56,18 +57,29 @@ public class MenuController : MonoBehaviour
         //    }
         //}
 
-        //WIP
-        if (Input.GetKey(KeyCode.Return))
-        {
-            for (int i = 0; i < cursors.Length; i++)
+    }
+
+    public void loadGameplay(int targetScene) {
+        for (int i = 0; i < cursors.Length; i++)
             {
                 string currentPlayer = "Player" + i;
                 MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
                 PlayerPrefs.SetInt(currentPlayer, currentCursor.playerSlot);
             }
-            SceneManager.LoadScene("GameplayScene");
-        }
-
+            switch (targetScene) {
+                case 0:
+                    //Greece
+                    SceneManager.LoadScene("GameplayScene");
+                    break;
+                case 1:
+                    //Canada
+                    SceneManager.LoadScene("CanadaGameplay");
+                    break;
+                default:
+                   //Scene that hasn't been made yet
+                    SceneManager.LoadScene("GameplayScene");
+                    break; 
+            }
     }
 
     public void OptionSelect(int optionID)
@@ -156,5 +168,28 @@ public class MenuController : MonoBehaviour
             canMoveToStageSelect = false;
             readyText.SetActive(false);
         }
+    }
+
+    public void moveToStageSelect() {
+        currentScreen = 3;
+        //findAllCursors();
+        for (int i = 0; i < cursors.Length; i++) {
+            if (cursors[i].GetComponent<MenuCursor>().playerNumber != 1) {
+                cursors[i].SetActive(false);
+            }
+        }
+        characterSelect.SetActive(false);
+        stageSelect.SetActive(true);
+    }
+
+    public void backToCharSelect() {
+        currentScreen = 2;
+        findAllCursors();
+        for (int i = 0; i < cursors.Length; i++) {
+            cursors[i].SetActive(true);
+        }
+        Debug.Log("going back to character select");
+        characterSelect.SetActive(true);
+        stageSelect.SetActive(false);
     }
 }
