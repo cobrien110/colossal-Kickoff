@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718773609196591379}
   - component: {fileID: 3703359982807322521}
-  - component: {fileID: 8496617740474720550}
+  - component: {fileID: 935016637366541079}
   - component: {fileID: 5683144866873222350}
   - component: {fileID: 4341092847349457789}
   - component: {fileID: 2061249857265671894}
@@ -286,7 +286,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
---- !u!114 &8496617740474720550
+--- !u!114 &935016637366541079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,25 +295,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bae7181cb650bc4d929d9e5ac37a3bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 840e1eccce607684bb66c06de30f7bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Howl
+  abilityName: Firebreath
   abilityNum: 0
-  cooldown: 4
+  cooldown: 5
   usableWhileIntangible: 0
-  usableWhileDribbling: 0
+  usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: AkhlutHowl
+  activatedAnimationName: none
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  howlRadius: 3
-  stunTime: 1
-  soundName: akhlutHowl
+  fireballPrefab: {fileID: 2880556549041844083, guid: 618554093c51c0f459fdad427d24dd71, type: 3}
+  spawnPoint: {fileID: 0}
+  speedOfFireball: 15
+  numToSpawn: 4
+  delayBetweenShots: 0.45
+  soundName: gashaFire
 --- !u!114 &5683144866873222350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,13 +367,17 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   handPrefab: {fileID: 7239391342528114501, guid: a0287b9f7e8205b4fb870b5bcebc3b71, type: 3}
+  headPrefab: {fileID: 378480094369760963, guid: 5bd4c050fbd10cc4fb93b550657f05d0, type: 3}
   spawnDistance: 1.5
   handSpawnTime: 2.5
   hand1: {fileID: 0}
   hand2: {fileID: 0}
+  head: {fileID: 0}
+  headSpawnPosition: {x: -9.03, y: 2.76, z: 0}
   hand1IsActive: 1
   hand2IsActive: 1
-  hitballSpeed: 500
+  hitballSpeed: 350
+  secondHandSprite: {fileID: 21300000, guid: a5ec8483b49e7f5419c3a522e949edbf, type: 3}
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0

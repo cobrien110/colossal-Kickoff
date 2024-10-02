@@ -6,11 +6,14 @@ public class AbilityCreateHands : PassiveAbility
 {
     [Header("Ability Variables")]
     public GameObject handPrefab;
+    public GameObject headPrefab;
     public float spawnDistance = 1.5f;
     public float handSpawnTime = 1f;
 
     public GameObject hand1;
     public GameObject hand2;
+    public GameObject head;
+    public Vector3 headSpawnPosition;
 
     [HideInInspector] public bool hand1IsActive = true;
     [HideInInspector] public bool hand2IsActive = true;
@@ -19,6 +22,7 @@ public class AbilityCreateHands : PassiveAbility
     private float hand2Timer = 0f;
 
     public float hitballSpeed = 50f;
+    public Sprite secondHandSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +36,17 @@ public class AbilityCreateHands : PassiveAbility
         // Instantiate the hands without parenting them to the monster
         hand1 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
         hand2 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
+        if (secondHandSprite != null)
+        {
+            hand1.GetComponentInChildren<SpriteRenderer>().sprite = secondHandSprite;
+        }
 
         hand1IsActive = false;
         hand2IsActive = false;
         hand1Timer = handSpawnTime / 2f;
         hand2Timer = handSpawnTime / 2f;
+
+        head = Instantiate(headPrefab, headSpawnPosition, Quaternion.identity);
     }
 
     public void SetHandActive(int handNum, bool isActive)

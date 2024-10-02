@@ -84,7 +84,7 @@ public class BallProperties : MonoBehaviour
 
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
-            Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
+            if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
             
             UM.MonsterPoint();
             ST.UpdateMGoals();
