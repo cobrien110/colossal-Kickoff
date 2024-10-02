@@ -6,6 +6,7 @@ public class Icicle : MonoBehaviour
 {
     public GameObject dangerZoneIndicator;
     public float indicatorSpawnHeight = .5f;
+    [SerializeField] private GameObject shardsPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,10 +41,12 @@ public class Icicle : MonoBehaviour
         if (other.CompareTag("Indicator"))
         {
             Destroy(dangerZoneIndicator);
+            willDestroy = true;
         }
 
         if (willDestroy)
         {
+            Instantiate(shardsPrefab, transform.position - new Vector3(0,.8f,0), Quaternion.identity);
             Destroy(dangerZoneIndicator);
             Destroy(gameObject);
         }
