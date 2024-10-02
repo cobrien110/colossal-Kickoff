@@ -121,7 +121,7 @@ public class MonsterController : MonoBehaviour
             //ResizeAttackVisual();
             
 
-            if (Input.GetKey(KeyCode.Backspace))
+            if (Input.GetKey(KeyCode.Z))
             {
                 abilities[1].Activate();
             }

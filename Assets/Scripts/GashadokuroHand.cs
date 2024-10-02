@@ -5,10 +5,12 @@ using UnityEngine;
 public class GashadokuroHand : MonoBehaviour
 {
     AbilityCreateHands createHandsScript;
+    BallProperties BP;
     // Start is called before the first frame update
     void Start()
     {
         createHandsScript = FindObjectOfType<AbilityCreateHands>();
+        BP = FindObjectOfType<BallProperties>();
     }
 
     // Update is called once per frame
@@ -19,6 +21,8 @@ public class GashadokuroHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (BP == null) return;
+        if (BP.ballOwner != null) return;
         if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null)
         {
             Debug.Log("Hand hit ball: " + collider.name);
