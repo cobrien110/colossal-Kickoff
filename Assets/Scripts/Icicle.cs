@@ -6,6 +6,7 @@ public class Icicle : MonoBehaviour
 {
     public GameObject dangerZoneIndicator;
     public float indicatorSpawnHeight = .5f;
+    public float indicatorScaleIncrement = 0.05f;
     [SerializeField] private GameObject shardsPrefab;
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class Icicle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        dangerZoneIndicator.transform.localScale += new Vector3(indicatorScaleIncrement, 0f, indicatorScaleIncrement) * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,7 +47,7 @@ public class Icicle : MonoBehaviour
 
         if (willDestroy)
         {
-            Instantiate(shardsPrefab, transform.position - new Vector3(0,.8f,0), Quaternion.identity);
+            Instantiate(shardsPrefab, transform.position - new Vector3(0,.5f,0), Quaternion.identity);
             Destroy(dangerZoneIndicator);
             Destroy(gameObject);
         }

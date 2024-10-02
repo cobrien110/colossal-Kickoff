@@ -31,7 +31,7 @@ public class GameplayManager : MonoBehaviour
     {
         BallSpawner = GameObject.Find("BallSpawner");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
-        PIM = GameObject.Find("Warrior Manager").GetComponent<PlayerInputManager>();
+        PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         Time.timeScale = 1;
 
 
@@ -167,7 +167,7 @@ public class GameplayManager : MonoBehaviour
         // MTC.AddTarget(player.transform);
 
         PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[playerID]);
-        MTC.AddTarget(p.transform);
+        //MTC.AddTarget(p.transform);
 
         NewPlayer();
         //if (PIM != null) PIM.playerPrefab = warriorPrefab;
@@ -182,7 +182,7 @@ public class GameplayManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Monster");
             MC = player.GetComponent<MonsterController>();
             playerList.Add(player);
-            UM.ShowMonsterUI(true);
+            //UM.ShowMonsterUI(true);
         } else if (GameObject.FindGameObjectWithTag("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
@@ -191,8 +191,8 @@ public class GameplayManager : MonoBehaviour
             WC.SetColor(playerList.Count);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
-            UM.ShowPlayerUI(true, warriors.Length);
-            UM.ShowPassMeter(true);
+            //UM.ShowPlayerUI(true, warriors.Length);
+            //UM.ShowPassMeter(true);
             //if (warriors.Length == 1)
             //{
                

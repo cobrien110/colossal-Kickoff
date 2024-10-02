@@ -68,6 +68,7 @@ public class MonsterController : MonoBehaviour
     private CommentatorSoundManager CSM;
     public GameObject spriteObject;
     private Vector3 spriteScale;
+    private MultipleTargetCamera MTC;
     //public GameObject attackVisual;
     //private float attackVisualOffsetY = -0.3f;
 
@@ -77,9 +78,12 @@ public class MonsterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM.ShowMonsterUI(true);
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
+        MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         ANIM = GetComponentInChildren<Animator>();
         audioPlayer = GetComponent<AudioPlayer>();

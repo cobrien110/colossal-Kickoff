@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.218, z: 0}
-  m_LocalScale: {x: 0.8811738, y: 0.056588978, z: 0.8811738}
+  m_LocalScale: {x: 0.23472708, y: 0.015074173, z: 0.23472708}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8821806298963121593}
@@ -233,7 +233,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &3558329219645131818
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -254,9 +254,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.40000004
-  m_Height: 2
+  m_Height: 1.6423473
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0.000000074505806}
+  m_Center: {x: 0, y: 0.17882633, z: 0.000000059604645}
 --- !u!114 &8108905593048149359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,5 +283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dangerZoneIndicator: {fileID: 6193379378746755708}
-  indicatorSpawnHeight: -0.3
+  indicatorSpawnHeight: -0.35
+  indicatorScaleIncrement: 0.3
   shardsPrefab: {fileID: 6937700952622878620, guid: 2d2571756b3391c4d9bed3775ee35074, type: 3}

@@ -340,6 +340,8 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   slamRadius: 0.7
+  visEffect: {fileID: 898531435147855845, guid: 08799baedbc3e5447bfd99a53ed6c727, type: 3}
+  soundName: gashaSlam
 --- !u!114 &4341092847349457789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,6 +810,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c34c1313-aef7-4cbd-90cf-a57ecee41e60
     m_ActionName: Cursor/Join[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
+    m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

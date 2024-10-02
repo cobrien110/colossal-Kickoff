@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class AbilityHandSlam : AbilityScript
 {
+    [Header("Ability Vars")]
     AbilityCreateHands abilityCreateHands;
     public float slamRadius = 2.0f; // Radius within which the hand slam will kill warriors
     float ejectForce = 10f;
+    public GameObject visEffect;
+    public string soundName;
 
     public override void Activate()
     {
@@ -69,6 +72,8 @@ public class AbilityHandSlam : AbilityScript
         }
 
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
+        Instantiate(visEffect, chosenHand.transform.position, Quaternion.identity);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.75f);
     }
 
     // Start is called before the first frame update

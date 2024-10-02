@@ -71,10 +71,13 @@ public class WarriorController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
+        UM.ShowPassMeter(true);
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;

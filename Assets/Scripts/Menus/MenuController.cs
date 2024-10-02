@@ -69,15 +69,15 @@ public class MenuController : MonoBehaviour
             switch (targetScene) {
                 case 0:
                     //Greece
-                    SceneManager.LoadScene("GameplayScene");
+                    SceneManager.LoadScene("GreeceArena");
                     break;
                 case 1:
                     //Canada
-                    SceneManager.LoadScene("CanadaGameplay");
+                    SceneManager.LoadScene("CanadaArena");
                     break;
                 default:
                    //Scene that hasn't been made yet
-                    SceneManager.LoadScene("GameplayScene");
+                    SceneManager.LoadScene("GreeceArena");
                     break; 
             }
     }
