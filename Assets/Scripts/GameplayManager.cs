@@ -107,21 +107,6 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
-        GameObject[] MinoWalls = GameObject.FindGameObjectsWithTag("MinoWall");
-        if (MinoWalls.Length != 0)
-        {
-            for (int i = 0; i < MinoWalls.Length; i++)
-            {
-                try
-                {
-                    MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
-                } catch
-                {
-                    // NOTHING HAHA
-                }
-                
-            }
-        }
         StopPlaying();
         StartCoroutine(Kickoff());
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
@@ -142,6 +127,24 @@ public class GameplayManager : MonoBehaviour
                 WC.ResetPlayer();
             }
         }
+
+        GameObject[] MinoWalls = GameObject.FindGameObjectsWithTag("MinoWall");
+        if (MinoWalls.Length != 0)
+        {
+            for (int i = 0; i < MinoWalls.Length; i++)
+            {
+                try
+                {
+                    MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
+                }
+                catch
+                {
+                    // NOTHING HAHA
+                }
+
+            }
+        }
+
         MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.targets[0] = newBall.transform;
         FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();

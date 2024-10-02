@@ -79,4 +79,10 @@ public class AbilityDive : AbilityScript
             }
         }
     }
+
+    public override void Deactivate()
+    {
+        isActive = false;
+        inputBuffer = 0f;
+    }
 }

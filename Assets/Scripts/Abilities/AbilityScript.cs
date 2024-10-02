@@ -85,4 +85,8 @@ public abstract class AbilityScript : MonoBehaviour
     }
 
     public abstract void Activate();
+    public virtual void Deactivate()
+    {
+        // Do nothing;
+    }
 }

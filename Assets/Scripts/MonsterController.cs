@@ -156,7 +156,7 @@ public class MonsterController : MonoBehaviour
             // TESTING STUN
             if (Input.GetKeyDown(KeyCode.T))
             {
-                Stun();
+                //Stun();
             }
 
         } else { rb.velocity = new Vector3(0, 0, 0); } // ensure monster momentum is killed when not playing
@@ -557,6 +557,11 @@ public class MonsterController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = monsterSpawner.transform.position;
+        isIntangible = false;
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            if (abilities[i] != null) abilities[i].Deactivate();
+        }
     }
 
     IEnumerator KickDelay()
@@ -584,7 +589,7 @@ public class MonsterController : MonoBehaviour
         } 
         else if (isIntangible && Time.frameCount % 4 == 0)
         {
-            spriteObject.transform.localScale = Vector3.zero;
+            //spriteObject.transform.localScale = Vector3.zero;
         }
         else
         {
