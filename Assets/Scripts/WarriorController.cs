@@ -70,9 +70,6 @@ public class WarriorController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
-        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
-        UM.ShowPassMeter(true);
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
@@ -90,6 +87,13 @@ public class WarriorController : MonoBehaviour
             
         }
         transform.position = WarriorSpawner.transform.position;
+    }
+
+    void Start()
+    {
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
+        UM.ShowPassMeter(true);
     }
 
     // Temp Controller Scheme Swap
