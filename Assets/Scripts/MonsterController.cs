@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -77,8 +76,6 @@ public class MonsterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
-        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        UM.ShowMonsterUI(true);
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties) Ball.GetComponent("BallProperties");
@@ -92,6 +89,12 @@ public class MonsterController : MonoBehaviour
         //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
         abilities = new List<AbilityScript> { null, null, null };
+    }
+
+    void Start()
+    {
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM.ShowMonsterUI(true);
     }
 
     // Temp Controller Scheme Swap
