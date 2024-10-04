@@ -16,7 +16,6 @@ public class WarriorHolder : MonoBehaviour
         UM.ShowPassMeter(true);
         for (int i = 1; i < warriorCount; i++)
         {
-            Debug.Log("Showing UI for warrior: " + i);
             UM.ShowPlayerUI(true, i);
         }
     }

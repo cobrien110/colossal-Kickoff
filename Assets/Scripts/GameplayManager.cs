@@ -203,6 +203,7 @@ public class GameplayManager : MonoBehaviour
 
             try
             {
+                WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;
             } catch
