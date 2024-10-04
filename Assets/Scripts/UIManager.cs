@@ -235,10 +235,20 @@ public class UIManager : MonoBehaviour
         scoreTextTimer.text = "0:00";
         timeRemainingSeconds = -1;
 
-        ShowGameOverText(true, CheckWinner());
-        ST.UpdateGameWinner(CheckWinner());
-        ShowTopScoreboard(false);
-        ShowStatsScoreboard(true);
+        if (warriorScore != monsterScore)
+        {
+            ShowGameOverText(true, CheckWinner());
+            ST.UpdateGameWinner(CheckWinner());
+            ShowTopScoreboard(false);
+            ShowStatsScoreboard(true);
+        }
+
+        //OT
+        else if (warriorScore == monsterScore)
+        {
+            Overtime();
+        }
+        
         //Debug.Log("End Coroutine");
 
         // Pause Game
@@ -264,6 +274,12 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Should be stopped");
         StopCoroutine(timerCoroutine);
+    }
+
+    public void Overtime()
+    {
+        timeRemainingSeconds = 60;
+        GM.Reset();
     }
 
     public int GetTimeRemaining()

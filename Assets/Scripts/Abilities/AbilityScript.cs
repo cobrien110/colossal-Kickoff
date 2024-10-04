@@ -25,6 +25,7 @@ public abstract class AbilityScript : MonoBehaviour
     [HideInInspector] public AudioPlayer audioPlayer;
     [HideInInspector] public Animator ANIM;
     [HideInInspector] public UIManager UM;
+    [HideInInspector] public StatTracker ST;
 
     // Start is called before the first frame update
     private void Start()
@@ -39,6 +40,7 @@ public abstract class AbilityScript : MonoBehaviour
         ANIM = MC.GetAnimator();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         timer = cooldown;
         if (attackVisualizerPrefab != null)
         {
