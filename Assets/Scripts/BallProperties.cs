@@ -77,7 +77,7 @@ public class BallProperties : MonoBehaviour
             ballOwner = other.gameObject;
             SetOwner(ballOwner);
 
-            if (wc.IsSliding())
+            if (wc != null && wc.IsSliding())
             {
                 if (GetOwner().name.StartsWith('1'))
                 {

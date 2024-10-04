@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
 
 
     //UpperScoreboardUI
+    [SerializeField] private GameObject topScoreboard = null;
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
     [SerializeField] private TMP_Text scoreTextHumanBG = null;
@@ -234,6 +236,8 @@ public class UIManager : MonoBehaviour
         timeRemainingSeconds = -1;
 
         ShowGameOverText(true, CheckWinner());
+        ST.UpdateGameWinner(CheckWinner());
+        ShowTopScoreboard(false);
         ShowStatsScoreboard(true);
         //Debug.Log("End Coroutine");
 
@@ -386,6 +390,11 @@ public class UIManager : MonoBehaviour
         {
             player3respawnfill.fillAmount = charge;
         }
+    }
+
+    public void ShowTopScoreboard(bool state)
+    {
+        topScoreboard.gameObject.SetActive(state);
     }
 
     public void ShowStatsScoreboard(bool state)

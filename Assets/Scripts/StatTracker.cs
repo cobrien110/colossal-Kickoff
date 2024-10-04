@@ -49,6 +49,15 @@ public class StatTracker : MonoBehaviour
         
     }
 
+    public void UpdateGameWinner(int winner)
+    {
+        if (winner == 0) gameWinner = "Warriors";
+        else if (winner == 1) gameWinner = "Monster";
+        else gameWinner = "Tie";
+    }
+
+    public string GetGameWinner() {  return gameWinner; }
+
     public void UpdateWGoals(int player)
     {
         if (player == 1) w1Goals++;
