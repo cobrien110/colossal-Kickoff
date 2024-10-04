@@ -420,11 +420,27 @@ public class WarriorController : MonoBehaviour
     {
         if (isInvincible) return;
 
-        //Debug.Log("PLAYER THAT DIED: (" + int.Parse(this.name.Substring(0, 1)) + ")");
+        Debug.Log("PLAYER THAT DIED: (" + this + ")");
         //ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
 
+        if (this.name.StartsWith('1'))
+        {
+            ST.UpdateWDeaths(1);
+            UM.UpdateWarriorDeathsSB(1);
+        }
+        if (this.name.StartsWith('2'))
+        {
+            ST.UpdateWDeaths(2);
+            UM.UpdateWarriorDeathsSB(2);
+        }
+        if (this.name.StartsWith('3'))
+        {
+            ST.UpdateWDeaths(3);
+            UM.UpdateWarriorDeathsSB(3);
+        }
+
         ST.UpdateMKills();
-        UM.UpdateMonsterKills();
+        UM.UpdateMonsterKillsSB();
 
         isDead = true;
         isInvincible = true;

@@ -40,7 +40,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text Warrior2DeathsText = null;
     [SerializeField] private TMP_Text Warrior3DeathsText = null;
 
+    [SerializeField] private TMP_Text Warrior1StealsText = null;
+    [SerializeField] private TMP_Text Warrior2StealsText = null;
+    [SerializeField] private TMP_Text Warrior3StealsText = null;
 
+    [SerializeField] private TMP_Text MonsterGoalsText = null;
     [SerializeField] private TMP_Text MonsterKillsText = null;  
     [SerializeField] private TMP_Text MonsterAbUsedText = null;
 
@@ -227,18 +231,19 @@ public class UIManager : MonoBehaviour
             //counter++;
         }
         scoreTextTimer.text = "0:00";
+        timeRemainingSeconds = -1;
 
-
-        ShowGameOverText(true, CheckWinner()); ;
+        ShowGameOverText(true, CheckWinner());
+        ShowStatsScoreboard(true);
         //Debug.Log("End Coroutine");
 
         // Pause Game
-        
+
 
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
         //GM.StopPlaying();
-    
+
         if (menuReturn)
         {
             Debug.Log("Back to Menu");
@@ -383,12 +388,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowStatsScoreboard (bool state)
+    public void ShowStatsScoreboard(bool state)
     {
         statsScoreboard.gameObject.SetActive(state);
     }
 
-    public void ShowDevStats (bool state)
+    public void ShowDevStats(bool state)
     {
         devStats.gameObject.SetActive(state);
     }
@@ -406,14 +411,26 @@ public class UIManager : MonoBehaviour
         if (player == 2) Warrior2DeathsText.text = "" + ST.GetWDeaths(2);
         if (player == 3) Warrior3DeathsText.text = "" + ST.GetWDeaths(3);
     }
-    public void UpdateMonsterKills()
+
+    public void UpdateWarriorStealsSB(int player)
+    {
+        if (player == 1) Warrior1StealsText.text = "" + ST.GetWSteals(1);
+        if (player == 2) Warrior2StealsText.text = "" + ST.GetWSteals(2);
+        if (player == 3) Warrior3StealsText.text = "" + ST.GetWSteals(3);
+    }
+    public void UpdateMonsterKillsSB()
     {
         MonsterKillsText.text = "" + ST.GetMKills();
     }
 
-    public void UpdateMonsterAbilities()
+    public void UpdateMonsterAbilitiesSB()
     {
         MonsterAbUsedText.text = "" + ST.GetMAbUsed();
+    }
+
+    public void UpdateMonsterGoalsSB()
+    {
+        MonsterGoalsText.text = "" + ST.GetMGoals();
     }
 
     public void UpdateGameWinner(string winner)

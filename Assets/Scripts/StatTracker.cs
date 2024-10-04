@@ -15,9 +15,13 @@ public class StatTracker : MonoBehaviour
     private int w1Deaths = 0;
     private int w2Deaths = 0;
     private int w3Deaths = 0;
+
+    private int w1Steals = 0;
+    private int w2Steals = 0;
+    private int w3Steals = 0;
+
     //Inactive:
     private int wAssists = 0;
-    private int wSteals = 0;
     private int wSaves = 0;
 
     // Monster:
@@ -81,9 +85,19 @@ public class StatTracker : MonoBehaviour
         return -1;
     }
 
-    public void UpdateWSteals()
+    public void UpdateWSteals(int player)
     {
-        wSteals++;
+        if (player == 1) w1Steals++;
+        if (player == 2) w2Steals++;
+        if (player == 3) w3Steals++;
+    }
+
+    public int GetWSteals(int player)
+    {
+        if (player == 1) return w1Steals;
+        if (player == 2) return w2Steals;
+        if (player == 3) return w3Steals;
+        return -1;
     }
 
     public void UpdateWSaves()

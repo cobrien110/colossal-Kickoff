@@ -77,7 +77,7 @@ public class GameplayManager : MonoBehaviour
             ResetGame();
         }
 
-        if (UM.GetTimeRemaining() == 0)
+        if (UM.GetTimeRemaining() <= 0 && isPlaying)
         {
             Time.timeScale = 0;
             StopPlaying();

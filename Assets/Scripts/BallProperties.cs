@@ -88,6 +88,7 @@ public class BallProperties : MonoBehaviour
             
             UM.MonsterPoint();
             ST.UpdateMGoals();
+            UM.UpdateMonsterGoalsSB();
             ScoreBall(true);
 
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
