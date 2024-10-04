@@ -799,6 +799,7 @@ MonoBehaviour:
   gameoverText: {fileID: 841225961}
   playerScoredText: {fileID: 1993955685}
   menuReturn: 0
+  topScoreboard: {fileID: 0}
   scoreTextHuman: {fileID: 1982369713}
   scoreTextMonster: {fileID: 1443010333}
   scoreTextHumanBG: {fileID: 30089340}
@@ -812,6 +813,10 @@ MonoBehaviour:
   Warrior1DeathsText: {fileID: 0}
   Warrior2DeathsText: {fileID: 0}
   Warrior3DeathsText: {fileID: 0}
+  Warrior1StealsText: {fileID: 0}
+  Warrior2StealsText: {fileID: 0}
+  Warrior3StealsText: {fileID: 0}
+  MonsterGoalsText: {fileID: 0}
   MonsterKillsText: {fileID: 0}
   MonsterAbUsedText: {fileID: 0}
   devStats: {fileID: 808437937}
@@ -2361,7 +2366,7 @@ GameObject:
   - component: {fileID: 677902051}
   - component: {fileID: 677902050}
   - component: {fileID: 677902049}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2466,7 +2471,7 @@ GameObject:
   - component: {fileID: 708351795}
   - component: {fileID: 708351794}
   - component: {fileID: 708351793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3045,7 +3050,7 @@ GameObject:
   - component: {fileID: 784772722}
   - component: {fileID: 784772721}
   - component: {fileID: 784772720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3445,7 +3450,7 @@ GameObject:
   - component: {fileID: 823589569}
   - component: {fileID: 823589568}
   - component: {fileID: 823589567}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14308,13 +14313,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ice Arena
       objectReference: {fileID: 0}
+    - target: {fileID: 275957800468365601, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 275957800468365601, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 419173755941365325, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 419173755941365325, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 790671615944597451, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2741119010749753370, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080058806318815224, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3080058806318815224, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 3289194280232538741, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3289194280232538741, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.45
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 3289194280232538741, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14347,6 +14384,38 @@ PrefabInstance:
     - target: {fileID: 3289194280232538741, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4107181528257561926, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035640361186568065, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035640361186568065, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 5923859579135383877, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771182948968500127, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710913855922737716, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8361695845904529551, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378318813212398322, guid: 514e6d9db87b0bb4e921b98291efbb9d, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14510,7 +14579,7 @@ GameObject:
   - component: {fileID: 1040080317}
   - component: {fileID: 1040080316}
   - component: {fileID: 1040080315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15111,9 +15180,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1542430857}
     - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: monsterPrefab
       value: 
       objectReference: {fileID: 3176374829716338387, guid: 146a4dee6574e204facf61ccad7f0b12, type: 3}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 3176374829716338387, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 3176374829716338387, guid: 146a4dee6574e204facf61ccad7f0b12, type: 3}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 3176374829716338387, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 3176374829716338387, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
     - target: {fileID: 2488476523441867446, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: m_Name
       value: MonsterHolder
@@ -15221,7 +15318,7 @@ GameObject:
   - component: {fileID: 1176765315}
   - component: {fileID: 1176765314}
   - component: {fileID: 1176765313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16455,7 +16552,7 @@ GameObject:
   - component: {fileID: 1449407526}
   - component: {fileID: 1449407525}
   - component: {fileID: 1449407524}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
