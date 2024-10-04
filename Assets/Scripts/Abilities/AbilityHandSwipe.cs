@@ -12,6 +12,9 @@ public class AbilityHandSwipe : AbilityScript
     public float swipeRange = 5f;
     public float swipeBallForce = 5f;
     private float directionMultiplier = 1f; // Should be 1 or -1
+    private float ballSwipeRandX = 0.25f;
+
+    MonsterController monsterController;
 
     public override void Activate()
     {
@@ -62,6 +65,10 @@ public class AbilityHandSwipe : AbilityScript
         // Perform an OverlapBox to detect all colliders within the swipe area
         Collider[] objectsInSwipeRange = Physics.OverlapBox(boxCenter, boxSize / 2f, chosenHand.transform.rotation);
 
+        // Determine Direction to hit ball
+        Vector3 hitDirection = Vector3.zero;
+        bool hitBall = false;
+
         foreach (Collider obj in objectsInSwipeRange)
         {
             WarriorController warrior = obj.GetComponent<WarriorController>();
@@ -76,28 +83,29 @@ public class AbilityHandSwipe : AbilityScript
             if (BP != null)
             {
                 // Hit ball with swipe
+                hitBall = true;
                 // Debug.Log("Swipe Ball");
-
-                // Determine Direction to hit ball
-                Vector3 hitDirection;
 
                 if (chosenHand == abilityCreateHands.hand1) // Downward swipe
                 {
+                    Debug.Log("Hit downward");
                     // Hit ball downward (negative z) with slight x-axis randomness
-                    float randomX = Random.Range(-0.5f, 0.5f);  // Small random value on x-axis
+                    float randomX = Random.Range(-ballSwipeRandX, ballSwipeRandX);  // Small random value on x-axis
                     hitDirection = new Vector3(randomX, 0, -1f);  // Move ball in negative z direction
                 }
                 else // Upward swipe
                 {
+                    Debug.Log("Hit upward");
                     // Hit ball upward (positive z) with slight x-axis randomness
-                    float randomX = Random.Range(-0.5f, 0.5f);  // Small random value on x-axis
+                    float randomX = Random.Range(-ballSwipeRandX, ballSwipeRandX);  // Small random value on x-axis
                     hitDirection = new Vector3(randomX, 0, 1f);  // Move ball in positive z direction
                 }
-
-                // Apply force in the determined direction, multiplied by a force amount
-                BP.gameObject.GetComponent<Rigidbody>().AddForce(hitDirection * swipeBallForce, ForceMode.Impulse);
             }
         }
+
+        // Apply force in the determined direction, multiplied by a force amount
+        if (hitBall) monsterController.BP.GetComponent<Rigidbody>().AddForce(hitDirection * swipeBallForce, ForceMode.Impulse);
+        Debug.Log("Hit ball");
 
         // 3. Deactivate the hand after swipe
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
@@ -109,6 +117,7 @@ public class AbilityHandSwipe : AbilityScript
     {
         Setup();
         abilityCreateHands = GetComponent<AbilityCreateHands>();
+        monsterController = GetComponent<MonsterController>();
     }
 
     // Update is called once per frame
