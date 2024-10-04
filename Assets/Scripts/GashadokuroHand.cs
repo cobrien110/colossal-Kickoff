@@ -33,6 +33,7 @@ public class GashadokuroHand : MonoBehaviour
         // Determine if the MonsterController moved left or right on the x-axis
         float horizontalMovement = currentMonsterPosition.x - previousMonsterPosition.x;
 
+        /*
         // If moving to the right (positive x), set hand rotation to 0 degrees
         if (horizontalMovement > 0)
         {
@@ -42,7 +43,7 @@ public class GashadokuroHand : MonoBehaviour
         else if (horizontalMovement < 0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0); // Face left
-        }
+        }*/
 
         // Update the previous position to the current position
         previousMonsterPosition = currentMonsterPosition;

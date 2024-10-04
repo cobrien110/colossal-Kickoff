@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityHandSlam : AbilityScript
@@ -13,7 +14,9 @@ public class AbilityHandSlam : AbilityScript
 
     public override void Activate()
     {
-        if (timer < cooldown) return;
+        Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
+        if (timer < cooldown) return; // Ability not off cooldown
+        if (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive) return; // No hand is active
         timer = 0;
         // Debug.Log("Activate Hand Slam");
 
@@ -86,7 +89,7 @@ public class AbilityHandSlam : AbilityScript
 
     private void Update()
     {
-        //UpdateSetup();
+        UpdateSetup();
     }
 
     // Finds the closest WarriorController in the scene

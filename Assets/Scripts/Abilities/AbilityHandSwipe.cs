@@ -11,17 +11,21 @@ public class AbilityHandSwipe : AbilityScript
     public float swipeHeight = 2.0f;       // Vertical height of the swipe
     public float swipeRange = 5f;
     public float swipeBallForce = 5f;
-    private float directionMultiplier = 1f; // Should be 1 or -1
     private float ballSwipeRandX = 0.25f;
 
     MonsterController monsterController;
 
     public override void Activate()
     {
-        if (timer < cooldown) return;
+        Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
+        if (timer < cooldown)
+        {
+            Debug.Log("Return");
+            return;
+        }
         timer = 0;
 
-        // Debug.Log("Hand Swipe");
+        Debug.Log("Hand Swipe");
 
         if (abilityCreateHands == null)
         {
@@ -39,18 +43,8 @@ public class AbilityHandSwipe : AbilityScript
             return;
         }
 
-        if (chosenHand.transform.forward.z < 0)
-        {
-            directionMultiplier = Mathf.Abs(directionMultiplier) * -1f;
-        } else
-        {
-            directionMultiplier = Mathf.Abs(directionMultiplier);
-        }
-        // Debug.Log("Forward: " + chosenHand.transform.forward);
-
-
         // 2. Define the swipe area in front of the monster using a box cast
-        Vector3 swipeStart = transform.position + new Vector3(swipeRange * directionMultiplier, 0f, -swipeDistance / 2); // Starting position of the hand
+        Vector3 swipeStart = transform.position + new Vector3(swipeRange, 0f, -swipeDistance / 2); // Starting position of the hand
         // Debug.Log("Start: " +  swipeStart);
         
         Vector3 swipeDirection = new Vector3(0f, 0f, 1f); // Always upward as far as OverlapBox is concerned
@@ -137,7 +131,7 @@ public class AbilityHandSwipe : AbilityScript
                 Gizmos.color = Color.green;
 
                 // Calculate swipe area
-                Vector3 swipeStart = transform.position + new Vector3(swipeRange * directionMultiplier, 0f, -swipeDistance / 2); // activeHand.transform.position;
+                Vector3 swipeStart = transform.position + new Vector3(swipeRange, 0f, -swipeDistance / 2); // activeHand.transform.position;
                 Vector3 swipeDirection = new Vector3(0f, 0f, 1f); ;
                 Vector3 boxCenter = swipeStart + swipeDirection * (swipeDistance / 2f);
                 Vector3 boxSize = new Vector3(swipeWidth, swipeHeight, swipeDistance);
