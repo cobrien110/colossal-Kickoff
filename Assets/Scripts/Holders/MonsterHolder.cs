@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 
 public class MonsterHolder : MonoBehaviour
 {
-    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private GameObject[] monsterPrefabs;
     [SerializeField] private GameplayManager GM;
+    public int monsterIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,6 @@ public class MonsterHolder : MonoBehaviour
 
     public void spawnMonster(int playerID)
     {
-        GM.AddPlayer(monsterPrefab, playerID);
+        GM.AddPlayer(monsterPrefabs[monsterIndex], playerID);
     }
 }

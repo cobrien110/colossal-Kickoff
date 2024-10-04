@@ -7,10 +7,18 @@ public class WarriorHolder : MonoBehaviour
 {
     [SerializeField] private GameObject warriorPrefab;
     [SerializeField] private GameplayManager GM;
+    [SerializeField] private UIManager UM;
+    private int warriorCount = 1;
     // Start is called before the first frame update
     void Start()
     {
-
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM.ShowPassMeter(true);
+        for (int i = 1; i < warriorCount; i++)
+        {
+            Debug.Log("Showing UI for warrior: " + i);
+            UM.ShowPlayerUI(true, i);
+        }
     }
 
     // Update is called once per frame
@@ -21,6 +29,8 @@ public class WarriorHolder : MonoBehaviour
 
     public void spawnWarrior(int playerID)
     {
+        //Debug.Log(warriorCount);
+        warriorCount++;
         GM.AddPlayer(warriorPrefab, playerID);
     }
 }

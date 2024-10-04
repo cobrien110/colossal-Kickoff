@@ -11,7 +11,7 @@ public class MonsterName : MonoBehaviour
     [SerializeField] private CharacterInfo charInfo;
     [SerializeField] private MenuController MC;
     [SerializeField] private int playerSlot;
-    private int monsterIndex;
+    public int monsterIndex;
     private int numMonsters;
     void Start()
     {

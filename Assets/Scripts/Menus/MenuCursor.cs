@@ -21,6 +21,9 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
     [SerializeField] private Sprite[] cursorSprites;
 
+    [SerializeField] private PlayerHolder PH;
+    [SerializeField] private GameObject[] playerHolders;
+
     public InputAction cursorMove;
     public string hoveringItem = "null";
     public int hoveringID = -1;
@@ -43,6 +46,10 @@ public class MenuCursor : MonoBehaviour
         WDarr[2] = holder;
         //findCharSelectItems();
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
+
+        playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        PH = playerHolders[playerHolders.Length - 1].GetComponent<PlayerHolder>();
+        Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
     }
 
     private void OnEnable()
@@ -78,6 +85,17 @@ public class MenuCursor : MonoBehaviour
     public void PlayerSelected(int value) {
         playerSlot = value;
         hasSelected = true;
+
+        if (value == 0)
+        {
+            PH.teamName = "Monster";
+            PH.monsterIndex = MN.monsterIndex;
+        }
+        else
+        {
+            PH.teamName = "Warrior";
+        }
+
         this.GetComponent<Image>().enabled = false;
         body.velocity = new Vector2(0, 0);
         //cursorMove.Disable();
@@ -176,6 +194,8 @@ public class MenuCursor : MonoBehaviour
                 playerMarkerIcons[playerSlot].changeSprite(0);
                 MC.characterUnselected(playerNumber, playerSlot);
             }
+
+            PH.teamName = "";
             hasSelected = false;
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
@@ -204,6 +224,7 @@ public class MenuCursor : MonoBehaviour
                 {
                     MN.pageLeft();
                 }
+                PH.monsterIndex = MN.monsterIndex;
             } else
             {
                 int i = playerSlot - 1;

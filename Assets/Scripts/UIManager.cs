@@ -94,10 +94,10 @@ public class UIManager : MonoBehaviour
         timeRemainingSeconds = gameSeconds;
         ShowChargeBar(false);
         ShowMonsterUI(false);
-        ShowPlayerUI(false, 1);
-        ShowPlayerUI(false, 2);
-        ShowPlayerUI(false, 3);
-        ShowPassMeter(false);
+        //ShowPlayerUI(false, 1);
+        //ShowPlayerUI(false, 2);
+        //ShowPlayerUI(false, 3);
+        //ShowPassMeter(false);
         UpdateChargeBarText("");
     }
 
@@ -350,12 +350,15 @@ public class UIManager : MonoBehaviour
 
     public void ShowPlayerUI(bool state, int player)
     {
+        Debug.Log("Showing UI sucessfully for player: " + player);
         if (player == 1)
         {
+            Debug.Log("Calling UI player 1");
             player1UI.gameObject.SetActive(state);
         }
         else if (player == 2)
         {
+            Debug.Log("Calling UI player 2");
             player2UI.gameObject.SetActive(state);
         }
         else if (player == 3)

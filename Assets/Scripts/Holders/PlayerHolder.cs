@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerHolder : MonoBehaviour
 {
-    [SerializeField] private int playerID;
+    public int playerID = -1;
+    public string teamName = "";
+    public int monsterIndex = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -56,9 +58,11 @@ public class PlayerHolder : MonoBehaviour
         }
         else
         {
-            if (playerID == 0)
+            if (teamName.Equals("Monster"))
             {
-                GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID);
+                MonsterHolder MH = GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>();
+                MH.monsterIndex = monsterIndex;
+                MH.spawnMonster(playerID);
             }
             else
             {

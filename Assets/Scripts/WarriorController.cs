@@ -70,6 +70,7 @@ public class WarriorController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
@@ -384,6 +385,7 @@ public class WarriorController : MonoBehaviour
         gameObject.transform.position = WarriorSpawner.transform.position;
         rb.velocity = Vector3.zero;
         health = healthMax;
+        isStunned = false;
         //rb.rotation = Quaternion.identity;
     }
 

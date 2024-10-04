@@ -39,9 +39,19 @@ public class AbilityHowl : AbilityScript
             if (obj.GetComponent<BallProperties>() != null)
             {
                 // Stop ball
-                MC.BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                MC.BP.GetComponent<Rigidbody>().rotation = Quaternion.identity;
-                // Debug.Log("Ball stopped by howl");
+                try
+                {
+                    MC.BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    MC.BP.GetComponent<Rigidbody>().rotation = Quaternion.identity;
+                    // Debug.Log("Ball stopped by howl");
+                } catch
+                {
+                    Rigidbody ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallProperties>().GetComponent<Rigidbody>();
+                    ball.velocity = Vector3.zero;
+                    ball.rotation = Quaternion.identity;
+                }
+
+
             }
 
             // Check for warriors
