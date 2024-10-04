@@ -36,7 +36,7 @@ public class AbilityFirebreath : AbilityScript
 
     public override void Activate()
     {
-        if (!isFiring && cooldown >= timer)
+        if (!isFiring && timer >= cooldown)
         {
             isFiring = true;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.75f);
