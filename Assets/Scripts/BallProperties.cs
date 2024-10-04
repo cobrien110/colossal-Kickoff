@@ -60,6 +60,8 @@ public class BallProperties : MonoBehaviour
         {
             if (other.gameObject.Equals(lastKicker)) return;
             
+
+
             if (mc != null && !mc.isStunned && isSuperKick)
             {
                 if (mc.isIntangible) return;
@@ -73,7 +75,27 @@ public class BallProperties : MonoBehaviour
             
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
-            SetScorer(ballOwner);
+            SetOwner(ballOwner);
+
+            if (wc.IsSliding())
+            {
+                if (GetOwner().name.StartsWith('1'))
+                {
+                    ST.UpdateWSteals(1);
+                    UM.UpdateWarriorStealsSB(1);
+                }
+                if (GetOwner().name.StartsWith('2'))
+                {
+                    ST.UpdateWSteals(2);
+                    UM.UpdateWarriorStealsSB(2);
+                }
+                if (GetOwner().name.StartsWith('3'))
+                {
+                    ST.UpdateWSteals(3);
+                    UM.UpdateWarriorStealsSB(3);
+                }
+            }
+
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
             isSuperKick = false;
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
@@ -182,8 +204,13 @@ public class BallProperties : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void SetScorer(GameObject player)
+    private void SetOwner(GameObject player)
     {
         playerTest = player;
+    }
+
+    private GameObject GetOwner()
+    {
+        return playerTest;
     }
 }
