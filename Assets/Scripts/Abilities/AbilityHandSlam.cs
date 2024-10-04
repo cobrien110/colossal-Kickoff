@@ -84,6 +84,11 @@ public class AbilityHandSlam : AbilityScript
         BP = FindObjectOfType<BallProperties>();
     }
 
+    private void Update()
+    {
+        //UpdateSetup();
+    }
+
     // Finds the closest WarriorController in the scene
     private GameObject FindClosestWarrior()
     {

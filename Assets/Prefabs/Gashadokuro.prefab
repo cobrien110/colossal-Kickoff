@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 935016637366541079}
   - component: {fileID: 5683144866873222350}
   - component: {fileID: 4341092847349457789}
-  - component: {fileID: 2061249857265671894}
+  - component: {fileID: 2382606119857605531}
   - component: {fileID: 4594944956692112125}
   - component: {fileID: 5060133158299346773}
   - component: {fileID: 2590812713453336614}
@@ -378,7 +378,7 @@ MonoBehaviour:
   hand2IsActive: 1
   hitballSpeed: 350
   secondHandSprite: {fileID: 21300000, guid: a5ec8483b49e7f5419c3a522e949edbf, type: 3}
---- !u!114 &2061249857265671894
+--- !u!114 &2382606119857605531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -387,40 +387,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90848d451c18054a8f34e81a178cda6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f7cf73d4a06d454185a25e0bcd30a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: MinotaurAttack
+  abilityName: HandSwipe
   abilityNum: 2
-  cooldown: 1.2
+  cooldown: 2
   usableWhileIntangible: 0
   usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
-  attackVisHolder: {fileID: 6558373449549645104}
-  activatedAnimationName: AkhlutHowl
+  attackVisualizerPrefab: {fileID: 0}
+  attackVisHolder: {fileID: 0}
+  activatedAnimationName: none
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  chargeRate: 0.75
-  maxChargeSeconds: 1
-  slowsDownCharacterWhileCharging: 0
-  chargeSoundName: minotaurAxeCharge
-  hasChargeUpAnimation: 1
-  willStopWhenDribbling: 1
-  canHitBall: 1
-  attackHitForce: 150
-  attackRange: 1.35
-  attackBaseRadius: 0.6
-  attackVisualOffsetY: -0.3
-  affectedLayers:
-    serializedVersion: 2
-    m_Bits: 129
-  canSpawnProjectile: 0
-  projectilePrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
-  projectileDamage: 1
-  projectileSpeed: 450
+  swipeDistance: 3
+  swipeWidth: 1
+  swipeHeight: 1
+  swipeRange: 1.5
+  swipeBallForce: 5
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
