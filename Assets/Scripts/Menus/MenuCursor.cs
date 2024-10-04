@@ -29,6 +29,7 @@ public class MenuCursor : MonoBehaviour
     public int hoveringID = -1;
     public bool hasSelected = false;
     private Vector3 savedPosition;
+    private bool charConfirmed = false;
 
 
     private void Start()
@@ -142,7 +143,8 @@ public class MenuCursor : MonoBehaviour
                             }
                         }
                     }
-                    else {
+                    else if (!charConfirmed) {
+                        charConfirmed = true;
                         MC.confirmCharacter(playerSlot);
                     }
                 } else if (playerNumber == 1) {
@@ -167,6 +169,7 @@ public class MenuCursor : MonoBehaviour
             //Deselect Character
             if ((hasSelected) && (MC.currentScreen == 2))
             {
+                charConfirmed = false;
                 Debug.Log("Deselecting");
                 deselect();
             }
