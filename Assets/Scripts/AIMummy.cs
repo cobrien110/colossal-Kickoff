@@ -1,0 +1,366 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AIMummy : MonoBehaviour
+{
+    MonsterController mc;
+    GameObject monsterGoal;
+    GameObject warriorGoal;
+    GameObject monster;
+
+    [Header("AI Stats/Behavior")]
+    [SerializeField]
+    private float mummySpeed = 5f;
+    [SerializeField]
+    private float aiKickSpeed = 300f;
+    [SerializeField]
+    private float aiShootRange = 4f;
+    [SerializeField]
+    private float aiPassRange = 6f;
+    [SerializeField]
+    private float passChance = 0.1f; // 10% chance to pass
+    [SerializeField]
+    private float stoppingDistanceFromGoal = 5f;
+    [SerializeField]
+    private float waitInPlaceTime = 1.5f;
+    [SerializeField]
+    private float randomZRange = 2f;
+    [SerializeField]
+    private float distanceToTravelMultiplierFloor = 0.4f;
+    [SerializeField]
+    private float slideRange = 3f;
+
+    [SerializeField]
+    private GameObject ballPosition;
+
+    private Vector3 movementDirection;
+
+    private bool checkToPass = false;
+    private bool roamForward = true;
+    private Coroutine roaoroutine;
+
+    [SerializeField]
+    private float checkForPassFrequency = 0.5f; // How many seconds between checks
+
+    AIMummy[] teammates = new AIMummy[1];
+
+    private Rigidbody rb;
+    [SerializeField] private GameplayManager GM = null;
+    private AudioPlayer audioPlayer;
+
+    // Get all WarriorController components (including subclasses)
+    ////[SerializeField]
+    ////WarriorController[] warriors;
+
+    private void Awake()
+    {
+        mc = FindObjectOfType<MonsterController>();
+        rb = GetComponent<Rigidbody>();
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        monsterGoal = GameObject.FindWithTag("MonsterGoal");
+        warriorGoal = GameObject.FindWithTag("WarriorGoal");
+        monster = FindObjectOfType<MonsterController>().gameObject;
+        audioPlayer = GetComponent<AudioPlayer>();
+        //Debug.Log(": " + );
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(CheckForPass());
+        //warriors = FindObjectsOfType<WarriorController>();
+        int index = 0;
+        // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
+        foreach (AIMummy mummy in FindObjectsOfType<AIMummy>())
+        {
+            if (mummy.gameObject != gameObject) // Ensure it's not the same object
+            {
+                teammates[index] = mummy;
+                index++;
+            }
+        }
+
+        Debug.Log("Teammate 1: " + teammates[0].gameObject.name);
+        //Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
+    }
+
+    public void test()
+    {
+        Debug.Log("test");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!GM.isPlaying) return;
+        if (mc.BP == null) mc.BP = FindObjectOfType<BallProperties>();
+        if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
+        AiBehavior();
+        Dribbling();
+    }
+
+    public void AiBehavior()
+    {
+        //if (isStunned) return;
+
+        // If no one has the ball
+        if (mc.BP.ballOwner == null)
+        {
+            // Stop roaming if it's happening
+            StopRoaming();
+
+            //Debug.Log("Unpossessed");
+            // Move toward the ball
+            Vector2 toBall = new Vector2(
+                mc.BP.gameObject.transform.position.x - transform.position.x,
+                mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
+            BaseMovement(toBall); ;
+        }
+        // If this mummy has the ball
+        else if (mc.BP.ballOwner == gameObject)
+        {
+            //Debug.Log("Has Ball");
+            // Stop roaming if it's happening
+            StopRoaming();
+
+            //Debug.Log("HasBall");
+            HasBall();
+        }
+        // If a teammate has the ball (start roaming)
+        else if (mc.BP.ballOwner.GetComponent<AIMummy>() != null
+            || mc.BP.ballOwner.GetComponent<MonsterController>() != null)
+        {
+            //Debug.Log("Roaming");
+            StartRoaming();
+        }
+        // If a warrior has the ball (do something else, e.g., tackle)
+        else if (mc.BP.ballOwner.GetComponent<WarriorController>() != null)
+        {
+            //Debug.Log("Monster has ball");
+            // Stop roaming if it's happening
+            StopRoaming();
+
+            // Run to warrior ball owner and slide tackle
+            if (Vector3.Distance(transform.position, mc.BP.ballOwner.transform.position) > slideRange)
+            {
+                // Chase down warrior
+                Vector2 toBall = new Vector2(
+                    mc.BP.gameObject.transform.position.x - transform.position.x,
+                    mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
+                BaseMovement(toBall);
+            }
+            else
+            {
+                // Close enough to slide
+                //.Sliding();
+                Debug.Log("Mummy reached warrior. Do something?");
+            }
+        }
+
+        // Stop movement if velocity is very low
+        if (rb.velocity.magnitude < 1) movementDirection = Vector3.zero;
+    }
+
+    void BaseMovement(Vector2 targetPos)
+    {
+        //if (.isSliding) return;
+
+        if (targetPos != Vector2.zero)
+        {
+            //usingKeyboard = true;
+            movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
+            ////aimingDirection = movementDirection;
+        }
+
+
+        rb.velocity = GM.isPlaying ? movementDirection * mummySpeed : Vector3.zero;
+        //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
+        if (rb.velocity != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+            transform.rotation = newRotation;
+        }
+
+        if (movementDirection != Vector3.zero && GM.isPlaying)
+        {
+            ////ANIM.SetBool("isWalking", true);
+        }
+        else
+        {
+            ////ANIM.SetBool("isWalking", false);
+        }
+
+    }
+
+    // The pass and shoot method for Ai Warriors
+    void Kick()
+    {
+        if (mc.BP.ballOwner == gameObject)
+        {
+            Debug.Log("Kick!");
+            mc.BP.ballOwner = null;
+            Debug.Log(transform.forward);
+            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
+        }
+    }
+
+    void HasBall()
+    {
+        // Mummy should now be dribbling using Dribbling method in this class
+        //Debug.Log("Dribbling");
+        if (ShouldPass())
+        {
+            // Pass
+
+            Pass(teammates[0]);
+            // Determine target
+            ////float distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
+            ////float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
+
+            /*if (distanceToWarrior1 < distanceToWarrior2)
+            {
+                Pass(teammates[0]);
+            }
+            else
+            {
+                Pass(teammates[1]);
+            }*/
+        }
+
+        // Move toward goal until close enough
+        float distanceToWarriorGoal = new Vector2(warriorGoal.transform.position.x - transform.position.x,
+            warriorGoal.transform.position.z - transform.position.z).magnitude;
+        if (distanceToWarriorGoal > aiShootRange)
+        {
+            //Debug.Log("Moving to goal");
+            Vector2 toWarriorGoal = new Vector2(warriorGoal.transform.position.x - transform.position.x,
+            warriorGoal.transform.position.z - transform.position.z).normalized;
+            BaseMovement(toWarriorGoal);
+        } // When close enough, shoot 
+        else
+        {
+            Kick();
+        }
+
+    }
+
+    IEnumerator CheckForPass()
+    {
+        while (true)
+        {
+            // Debug.Log("CheckForPass courintine called");
+            checkToPass = true;
+            yield return new WaitForSeconds(checkForPassFrequency);
+        }
+    }
+
+    bool ShouldPass()
+    {
+        if (!checkToPass) return false; // Shouldn't even consider passing
+
+        // Should consider passing, reset bool
+        checkToPass = false;
+
+        // Only continue if passChance check succeeds
+        if (Random.value > passChance) return false;
+
+        // Check if nearest teammate is close enough for a pass
+
+        // Debug.Log(warrior.name + ": " + warrior.transform.position);
+        float distanceToMummy1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
+        ////float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
+
+        /*if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange)
+        {
+            return true;
+        }*/
+
+        if (distanceToMummy1 <= aiPassRange) return true;
+
+        return false;
+    }
+
+    void Pass(AIMummy target)
+    {
+        // Turn to teammate
+
+        // Calculate the direction from this GameObject to the target
+        Vector3 directionToTarget = target.transform.position - transform.position;
+
+        // Ensure the direction vector is not zero (to avoid errors)
+        if (directionToTarget != Vector3.zero)
+        {
+            // Calculate the rotation needed to face the target
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+
+            // Apply the rotation to this GameObject
+            transform.rotation = targetRotation;
+        }
+
+        // Kick in their direction
+        Kick();
+    }
+
+    IEnumerator Roam()
+    {
+        while (true)
+        {
+
+            // Determine the goal based on isMovingTowardsGoal1
+            Vector3 targetGoalPosition = roamForward ? monsterGoal.transform.position : warriorGoal.transform.position;
+
+            // Add random z-axis offset to make the movement less linear
+            float randomZOffset = Random.Range(-randomZRange, randomZRange); // Random Z offset in the given range
+            Vector3 targetWithOffset = new Vector3(targetGoalPosition.x, targetGoalPosition.y, targetGoalPosition.z + randomZOffset);
+
+            float distanceToTravelMultiplier = Random.Range(distanceToTravelMultiplierFloor, 1f);
+            // Move towards the current goal
+            while (Vector3.Distance(transform.position, targetWithOffset) * distanceToTravelMultiplier > stoppingDistanceFromGoal)
+            {
+                ////if (isStunned) break;
+                Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
+                //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
+                BaseMovement(new Vector2(directionToGoal.x, directionToGoal.z));
+
+                yield return null;
+            }
+
+            // Wait after reaching the goal
+            Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
+            yield return new WaitForSeconds(waitInPlaceTime);
+
+            // Reverse the direction (toggle the goal)
+            roamForward = !roamForward;
+
+        }
+    }
+
+    void Dribbling()
+    {
+        if (mc.BP.ballOwner == gameObject)
+        {
+            //UM.ShowChargeBar(true);
+            //UM.UpdateChargeBarText("Monster");
+            mc.Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
+        }
+    }
+
+    private void StartRoaming()
+    {
+        if (roaoroutine == null)
+        {
+            roaoroutine = StartCoroutine(Roam());
+        }
+    }
+
+    private void StopRoaming()
+    {
+        if (roaoroutine != null)
+        {
+            StopCoroutine(roaoroutine);
+            roaoroutine = null;
+        }
+    }
+}
