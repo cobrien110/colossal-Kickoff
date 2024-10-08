@@ -565,6 +565,13 @@ public class MonsterController : MonoBehaviour
         {
             if (abilities[i] != null) abilities[i].Deactivate();
         }
+
+        // If playing Quetz, reset it's segments
+        AbilitySnakeSegments segments = GetComponent<AbilitySnakeSegments>();
+        if (segments != null)
+        {
+            segments.ResetSegments();
+        }
     }
 
     IEnumerator KickDelay()

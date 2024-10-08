@@ -16,7 +16,7 @@ public class AbilitySnakeSegments : PassiveAbility
 
     private Transform head;
     [HideInInspector] public List<GameObject> segments = new List<GameObject>();
-    private List<GameObject> cutSegments = new List<GameObject>();
+    [HideInInspector] public List<GameObject> cutSegments = new List<GameObject>();
     private Vector3 lastHeadPosition;
 
     // Start is called before the first frame update
@@ -143,5 +143,30 @@ public class AbilitySnakeSegments : PassiveAbility
 
         // Spawn in a new segment to create the new tail if needed
         AddSegment();
+    }
+
+    public void ResetSegments()
+    {
+        // remove boms
+        for (int i = 0; i < cutSegments.Count; i++)
+        {
+            Destroy(cutSegments[i]);
+        }
+        cutSegments.Clear();
+
+        // reset segments to starting amount
+        for (int i = 0; i < segments.Count; i++)
+        {
+            Destroy(segments[i]);
+        }
+        segments.Clear();
+
+        // Re add new segments
+        lastHeadPosition = head.position;
+
+        for (int i = 0; i < numOfSpawnSegments; i++)
+        {
+            AddSegment();
+        }
     }
 }

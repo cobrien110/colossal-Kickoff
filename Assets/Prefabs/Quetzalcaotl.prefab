@@ -188,10 +188,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1718773609196591379}
   - component: {fileID: 3703359982807322521}
-  - component: {fileID: 8496617740474720550}
+  - component: {fileID: 5236233889971040232}
+  - component: {fileID: 7396456557364846954}
   - component: {fileID: 2061249857265671894}
   - component: {fileID: -4927149353131515462}
-  - component: {fileID: 5236233889971040232}
   - component: {fileID: 4594944956692112125}
   - component: {fileID: 5060133158299346773}
   - component: {fileID: 2590812713453336614}
@@ -286,7 +286,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
---- !u!114 &8496617740474720550
+--- !u!114 &5236233889971040232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,16 +295,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bae7181cb650bc4d929d9e5ac37a3bd, type: 3}
+  m_Script: {fileID: 11500000, guid: fb382bdce013e8f49b2a4f4dc4059cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Howl
+  abilityName: SnakeSegments
+  hasCooldown: 0
+  cooldown: 0
+  counterMax: 0
+  visualizer: {fileID: 0}
+  MC: {fileID: 0}
+  audioPlayer: {fileID: 0}
+  ANIM: {fileID: 0}
+  UM: {fileID: 0}
+  numOfSpawnSegments: 3
+  segmentPrefab: {fileID: 1034161283862982796, guid: 7037b862cc1445b43962c0855081c622, type: 3}
+  tailPrefab: {fileID: 1034161283862982796, guid: fa461cbe2e68f874ea080459cfec966f, type: 3}
+  cutSegmentPrefab: {fileID: 2830204344427194864, guid: 88d806be7f6e72e42b478326a7c5e3c3, type: 3}
+  followDistance: 0.35
+  speed: 6
+  movementThreshold: 0.001
+  minNumOfSegmentsToSplit: 3
+  segments: []
+  cutSegments: []
+--- !u!114 &7396456557364846954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176374829716338387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 113bf162c2a8a5a439b770f022c2b062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Snake Mines
   abilityNum: 0
-  cooldown: 4
-  usableWhileIntangible: 0
-  usableWhileDribbling: 0
+  cooldown: 2
+  usableWhileIntangible: 1
+  usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
   activatedAnimationName: AkhlutHowl
   MC: {fileID: 0}
@@ -312,9 +343,7 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  howlRadius: 3
-  stunTime: 1
-  soundName: akhlutHowl
+  radius: 0.65
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,36 +423,6 @@ MonoBehaviour:
   emergeSound: akhlutEmerge
   diveLoopSound: akhlutDivingLoop
   diveLooper: {fileID: 4050622469413555987}
---- !u!114 &5236233889971040232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3176374829716338387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb382bdce013e8f49b2a4f4dc4059cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityName: SnakeSegments
-  hasCooldown: 0
-  cooldown: 0
-  counterMax: 0
-  visualizer: {fileID: 0}
-  MC: {fileID: 0}
-  audioPlayer: {fileID: 0}
-  ANIM: {fileID: 0}
-  UM: {fileID: 0}
-  numOfSpawnSegments: 3
-  segmentPrefab: {fileID: 1034161283862982796, guid: 7037b862cc1445b43962c0855081c622, type: 3}
-  tailPrefab: {fileID: 1034161283862982796, guid: fa461cbe2e68f874ea080459cfec966f, type: 3}
-  cutSegmentPrefab: {fileID: 2830204344427194864, guid: 88d806be7f6e72e42b478326a7c5e3c3, type: 3}
-  followDistance: 0.35
-  speed: 6
-  movementThreshold: 0.001
-  minNumOfSegmentsToSplit: 3
-  segments: []
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
