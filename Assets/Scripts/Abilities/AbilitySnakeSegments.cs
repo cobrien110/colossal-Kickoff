@@ -24,7 +24,7 @@ public class AbilitySnakeSegments : PassiveAbility
     {
         Setup();
 
-        head = this.transform;
+        head = MC.spriteObject.transform;
         lastHeadPosition = head.position;
 
         for (int i = 0; i < numOfSpawnSegments; i++)

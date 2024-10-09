@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 5236233889971040232}
   - component: {fileID: 7396456557364846954}
   - component: {fileID: 2061249857265671894}
-  - component: {fileID: -4927149353131515462}
+  - component: {fileID: 3357644000442038238}
   - component: {fileID: 4594944956692112125}
   - component: {fileID: 5060133158299346773}
   - component: {fileID: 2590812713453336614}
@@ -388,7 +388,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   projectileDamage: 1
   projectileSpeed: 450
---- !u!114 &-4927149353131515462
+--- !u!114 &3357644000442038238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,32 +397,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3a6044d1887b7438bd8edf8d9d5c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d3671b387c371a4f8e39bffe2975e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Dive
+  abilityName: Fly
   abilityNum: 2
   cooldown: 4
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 0}
-  attackVisHolder: {fileID: 0}
-  activatedAnimationName: AkhlutSwim
+  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisHolder: {fileID: 6558373449549645104}
+  activatedAnimationName: none
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
   isActive: 0
-  initialSpeed: 6.5
-  speed: 4.25
-  durationOfSpeedBoost: 2
-  inputBufferTime: 0.45
-  diveSound: akhlutDive
-  emergeSound: akhlutEmerge
-  diveLoopSound: akhlutDivingLoop
-  diveLooper: {fileID: 4050622469413555987}
+  activeDuration: 0
+  slamRadius: 1
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0

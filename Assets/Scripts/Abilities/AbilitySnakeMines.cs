@@ -22,7 +22,7 @@ public class AbilitySnakeMines : AbilityScript
 
     public override void Activate()
     {
-        if (timer >= cooldown && ASS.cutSegments.Count < 1)
+        if (timer >= cooldown && ASS.cutSegments.Count >= 1)
         {
             timer = 0;
             for (int i = 0; i < ASS.cutSegments.Count; i++)
@@ -57,6 +57,8 @@ public class AbilitySnakeMines : AbilityScript
         Gizmos.color = Color.red;
 
         // Draw a wireframe sphere at the object's position with the radius
+        if (ASS == null) return;
+        if (ASS.cutSegments == null) return;
         for (int i = 0; i < ASS.cutSegments.Count; i++)
         {
             Gizmos.DrawWireSphere(ASS.cutSegments[i].transform.position, radius);
