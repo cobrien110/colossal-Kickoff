@@ -5313,7 +5313,7 @@ GameObject:
   - component: {fileID: 3124687607624498327}
   m_Layer: 7
   m_Name: AIMummy
-  m_TagString: Warrior
+  m_TagString: Mummy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5545,7 +5545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e4ccd7f26c4a04b82c95f15bb5dc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mummySpeed: 1
+  mummySpeed: 2
   aiKickSpeed: 300
   aiShootRange: 4
   aiPassRange: 6
@@ -5555,6 +5555,9 @@ MonoBehaviour:
   randomZRange: 2
   distanceToTravelMultiplierFloor: 0.4
   slideRange: 1
+  slideSpeed: 100
+  slideCooldown: 1
+  slideDuration: 0.35
   ballPosition: {fileID: 3482737404897961101}
   checkForPassFrequency: 0.5
   GM: {fileID: 0}

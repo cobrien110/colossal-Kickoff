@@ -55,12 +55,19 @@ public class BallProperties : MonoBehaviour
     {
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
         MonsterController mc = other.gameObject.GetComponent<MonsterController>();
-        if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster"))
-            && (ballOwner == null || (wc != null && wc.IsSliding())) && isInteractable)
+        AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
+        if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster") || other.tag.Equals("Mummy"))
+            && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()) )) && isInteractable)
         {
             if (other.gameObject.Equals(lastKicker)) return;
             
-
+            // If mummy tries to steal ball from sliding warrior, don't allow it
+            if (mummy != null && ballOwner != null && ballOwner.GetComponent<WarriorController>() != null
+                && ballOwner.GetComponent<WarriorController>().IsSliding())
+            {
+                // Debug.Log("Mummy can't steal from sliding warrior");
+                return;
+            }
 
             if (mc != null && !mc.isStunned && isSuperKick)
             {
@@ -72,7 +79,7 @@ public class BallProperties : MonoBehaviour
             {
                 return;
             }
-            
+
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
             SetOwner(ballOwner);

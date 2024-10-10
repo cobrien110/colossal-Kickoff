@@ -353,7 +353,7 @@ public class WarriorController : MonoBehaviour
         {
             if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
-                Debug.Log("Sliding");
+                // Debug.Log("Sliding");
                 isSliding = true;
                 isInvincible = true;
 
@@ -374,7 +374,7 @@ public class WarriorController : MonoBehaviour
 
     void StopSliding()
     {
-        Debug.Log("No longer sliding");
+        // Debug.Log("No longer sliding");
         ANIM.SetBool("isSliding", false);
         isSliding = false;
         isInvincible = false;

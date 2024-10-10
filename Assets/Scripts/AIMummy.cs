@@ -10,26 +10,21 @@ public class AIMummy : MonoBehaviour
     GameObject monster;
 
     [Header("AI Stats/Behavior")]
-    [SerializeField]
-    private float mummySpeed = 5f;
-    [SerializeField]
-    private float aiKickSpeed = 300f;
-    [SerializeField]
-    private float aiShootRange = 4f;
-    [SerializeField]
-    private float aiPassRange = 6f;
-    [SerializeField]
-    private float passChance = 0.1f; // 10% chance to pass
-    [SerializeField]
-    private float stoppingDistanceFromGoal = 5f;
-    [SerializeField]
-    private float waitInPlaceTime = 1.5f;
-    [SerializeField]
-    private float randomZRange = 2f;
-    [SerializeField]
-    private float distanceToTravelMultiplierFloor = 0.4f;
-    [SerializeField]
-    private float slideRange = 3f;
+    [SerializeField] private float mummySpeed = 5f;
+    [SerializeField] private float aiKickSpeed = 300f;
+    [SerializeField] private float aiShootRange = 4f;
+    [SerializeField] private float aiPassRange = 6f;
+    [SerializeField] private float passChance = 0.1f; // 10% chance to pass
+    [SerializeField] private float stoppingDistanceFromGoal = 5f;
+    [SerializeField] private float waitInPlaceTime = 1.5f;
+    [SerializeField] private float randomZRange = 2f;
+    [SerializeField] private float distanceToTravelMultiplierFloor = 0.4f;
+    [SerializeField] private float slideRange = 3f;
+    [SerializeField] private float slideSpeed = 5.0f;
+    [SerializeField] private float slideCooldown = 1f;
+    [SerializeField] private float slideDuration = 0.35f;
+    private bool isSliding = false;
+    private float lastSlideTime = -1f;
 
     [SerializeField]
     private GameObject ballPosition;
@@ -40,8 +35,7 @@ public class AIMummy : MonoBehaviour
     private bool roamForward = true;
     private Coroutine roaoroutine;
 
-    [SerializeField]
-    private float checkForPassFrequency = 0.5f; // How many seconds between checks
+    [SerializeField] private float checkForPassFrequency = 0.5f; // How many seconds between checks
 
     AIMummy[] teammates = new AIMummy[1];
 
@@ -152,9 +146,10 @@ public class AIMummy : MonoBehaviour
             }
             else
             {
+                //Debug.Log("Distance: " + Vector3.Distance(transform.position, mc.BP.ballOwner.transform.position));
+                //Debug.Log("Slide Range: " + slideRange);
                 // Close enough to slide
-                //.Sliding();
-                Debug.Log("Mummy reached warrior. Do something?");
+                Sliding();
             }
         }
 
@@ -362,5 +357,48 @@ public class AIMummy : MonoBehaviour
             StopCoroutine(roaoroutine);
             roaoroutine = null;
         }
+    }
+
+    public void Sliding()
+    {
+        // Debug.Log("Mummy slide");
+        //if (isStunned) return;
+        // Check if enough time has passed since the last slide
+        if (Time.time - lastSlideTime >= slideCooldown)
+        {
+            //Debug.Log("Slide off cooldown - ready to use");
+            //Debug.Log("movementDirection: " + movementDirection);
+            if (movementDirection != Vector3.zero && mc.BP.ballOwner != gameObject)
+            {
+                Debug.Log("Sliding");
+                isSliding = true;
+                //isInvincible = true;
+
+                // Add force in direction of the player input for this warrior (movementDirection)
+                Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
+                rb.AddForce(slideVelocity);
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
+
+                // Set isSliding to false after a delay
+                Invoke("StopSliding", slideDuration);
+
+                // Update the last slide time
+                lastSlideTime = Time.time;
+                //ANIM.SetBool("isSliding", true);
+            }
+        }
+    }
+
+    void StopSliding()
+    {
+        Debug.Log("No longer sliding");
+        //ANIM.SetBool("isSliding", false);
+        isSliding = false;
+        //isInvincible = false;
+    }
+
+    public bool IsSliding()
+    {
+        return isSliding;
     }
 }
