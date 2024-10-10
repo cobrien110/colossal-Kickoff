@@ -455,6 +455,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateMonsterGoalsSB()
     {
+        Debug.Log(ST);
+        Debug.Log(MonsterGoalsText);
         MonsterGoalsText.text = "" + ST.GetMGoals();
     }
 

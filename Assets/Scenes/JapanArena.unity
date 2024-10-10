@@ -179,6 +179,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JapanWhitebox 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8009987137999418058, guid: 679a9d353173d074287bdae027942c9a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8632055958874330854, guid: 679a9d353173d074287bdae027942c9a, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.07
@@ -186,7 +190,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8009987137999418058, guid: 679a9d353173d074287bdae027942c9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1796349865}
   m_SourcePrefab: {fileID: 100100000, guid: 679a9d353173d074287bdae027942c9a, type: 3}
 --- !u!1 &12671701
 GameObject:
@@ -958,9 +965,9 @@ MonoBehaviour:
   Warrior1StealsText: {fileID: 0}
   Warrior2StealsText: {fileID: 0}
   Warrior3StealsText: {fileID: 0}
-  MonsterGoalsText: {fileID: 0}
+  MonsterGoalsText: {fileID: 1630373019}
   MonsterKillsText: {fileID: 1613392744}
-  MonsterAbUsedText: {fileID: 0}
+  MonsterAbUsedText: {fileID: 1605427151}
   devStats: {fileID: 808437937}
   gameWinnerText: {fileID: 1584692389}
   chargeBar: {fileID: 2109037760}
@@ -22600,6 +22607,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793686852}
   m_CullTransparentMesh: 1
+--- !u!1 &1796349861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8009987137999418058, guid: 679a9d353173d074287bdae027942c9a, type: 3}
+  m_PrefabInstance: {fileID: 5122680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1796349865
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796349861}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -153830957423991239, guid: 679a9d353173d074287bdae027942c9a, type: 3}
 --- !u!1 &1839812753
 GameObject:
   m_ObjectHideFlags: 0
