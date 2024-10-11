@@ -158,6 +158,11 @@ public class MenuCursor : MonoBehaviour
                     //TODO: Loading Gameplay and grabbing controller info and all that junk
                     MC.loadGameplay(hoveringID);
                 }
+            } else if (MC.currentScreen == 1) {
+                //Options Menu
+                if (hoveringItem.Equals("goreSelect") && playerNumber == 1) {
+                    MC.setGore(hoveringID);
+                }
             }
         }
     }
@@ -187,6 +192,9 @@ public class MenuCursor : MonoBehaviour
                 this.GetComponent<Image>().enabled = false;
                 body.velocity = new Vector2(0, 0);
                 MC.backToCharSelect();
+            } else if (MC.currentScreen == 1) {
+                //options menu
+                MC.returnToTop();
             }
         }
     }

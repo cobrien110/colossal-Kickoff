@@ -60,6 +60,8 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   warriorSpeed: 2.85
+  movementDirection: {x: 0, y: 0, z: 0}
+  aimingDirection: {x: 0, y: 0, z: 0}
   ballPosition: {fileID: 2737137768588858997}
   healthMax: 2
   health: 2
@@ -74,6 +76,8 @@ MonoBehaviour:
   chargeMoveSpeedMult: 0.2
   slideCooldown: 2
   slideDuration: 1
+  isSliding: 0
+  isStunned: 0
   usingNewScheme: 0
   warriorControls:
     m_Name: Warrior Controls
@@ -95,7 +99,6 @@ MonoBehaviour:
   usingKeyboard: 0
   invertControls: 0
   GM: {fileID: 0}
-  UM: {fileID: 0}
   respawnBox: {fileID: 0}
   WarriorSpawner: {fileID: 0}
   spriteObject: {fileID: 4913074640812958036}
@@ -108,7 +111,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c838fea01b66d964f8a758be8d020bda, type: 3}
   ring: {fileID: 5541382916214441110}
   playerNum: 1
-  particleObj: {fileID: 4709248696784352767, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+  goreParticleObj: {fileID: 4709248696784352767, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+  pinataParticleObj: {fileID: 4146442508470930318, guid: 71220862bbd1b764db97fa185bc56537, type: 3}
 --- !u!33 &4256115640164463705
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -416,6 +420,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b00ef9fc-c8f6-4904-87f9-a9c2d808c8b2
     m_ActionName: Player/Kick[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20a88ab4-3266-4574-80a2-45a2a42ef632
+    m_ActionName: Cursor/Move[/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c64a372-95aa-4e1b-9188-a8f3801f09e1
+    m_ActionName: Cursor/Select[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c332dd73-fa7e-4004-9ba3-11efbe618d0a
+    m_ActionName: Cursor/Back[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c34c1313-aef7-4cbd-90cf-a57ecee41e60
+    m_ActionName: Cursor/Join[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
+    m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player

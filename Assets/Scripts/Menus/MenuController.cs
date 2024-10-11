@@ -11,12 +11,14 @@ public class MenuController : MonoBehaviour
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
+    [SerializeField] private GameObject settingsButtons;
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
     [SerializeField] private GameObject[] cursors;
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
     [SerializeField] private GameObject readyText;
+    [SerializeField] private GoreButton[] goreButtons;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
     private SceneManager SM;
     public int currentScreen = 0;
@@ -102,6 +104,7 @@ public class MenuController : MonoBehaviour
             case 1:
                 currentScreen = 1;
                 menuCamera.goToSettings();
+                settingsButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 break;
 
@@ -129,6 +132,7 @@ public class MenuController : MonoBehaviour
         }
         mainMenuButtons.SetActive(true);
         characterSelect.SetActive(false);
+        settingsButtons.SetActive(false);
     }
 
     public void findAllCursors() {
@@ -191,5 +195,16 @@ public class MenuController : MonoBehaviour
         Debug.Log("going back to character select");
         characterSelect.SetActive(true);
         stageSelect.SetActive(false);
+    }
+
+    public void setGore(int value) {
+        PlayerPrefs.SetInt("goreMode", value);
+        for (int i = 0; i < goreButtons.Length; i++) {
+            if (goreButtons[i].goreButtonID == value) {
+                goreButtons[i].selectOption();
+            } else {
+                goreButtons[i].unselectOption();
+            }
+        }
     }
 }

@@ -52,8 +52,10 @@ public class MenuButton : MonoBehaviour
     {
         if (other.gameObject.tag == "MenuCursor")
         {
-            other.gameObject.GetComponent<MenuCursor>().StartHovering("menuSelect", myID);
-            becomeSelected();
+            if (other.gameObject.GetComponent<MenuCursor>().playerNumber == 1) {
+                other.gameObject.GetComponent<MenuCursor>().StartHovering("menuSelect", myID);
+                becomeSelected();
+            }
         }
     }
 
@@ -61,8 +63,10 @@ public class MenuButton : MonoBehaviour
     {
         if (other.gameObject.tag == "MenuCursor")
         {
-            other.gameObject.GetComponent<MenuCursor>().StopHovering();
-            becomeUnselected();
+            if (other.gameObject.GetComponent<MenuCursor>().playerNumber == 1) {
+                other.gameObject.GetComponent<MenuCursor>().StopHovering();
+                becomeUnselected();
+            }
         }
     }
 }

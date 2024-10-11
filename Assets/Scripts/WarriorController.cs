@@ -63,7 +63,8 @@ public class WarriorController : MonoBehaviour
     public SpriteRenderer ring;
     private CommentatorSoundManager CSM;
     public int playerNum = 1;
-    public GameObject particleObj;
+    [SerializeField] public GameObject goreParticleObj;
+    [SerializeField] public GameObject pinataParticleObj;
 
     // Start is called before the first frame update
     void Awake()
@@ -449,7 +450,13 @@ public class WarriorController : MonoBehaviour
         {
             BP.ballOwner = null;
         }
-        Instantiate(particleObj, transform.position, Quaternion.identity);
+        int goreMode = PlayerPrefs.GetInt("goreMode", 0);
+        if (goreMode == 0) {
+            Instantiate(goreParticleObj, transform.position, Quaternion.identity);
+        } else if (goreMode == 1) {
+            Instantiate(pinataParticleObj, transform.position, Quaternion.identity);
+        }
+        //Instantiate(particleObj, transform.position, Quaternion.identity);
         transform.position = respawnBox.position;
         MTC.RemoveTarget(transform);
         health = healthMax;
