@@ -748,6 +748,7 @@ GameObject:
   - component: {fileID: 3086703149506516855}
   - component: {fileID: 3506013190895298579}
   - component: {fileID: 9081834079298197155}
+  - component: {fileID: 6021416794832217543}
   m_Layer: 10
   m_Name: Sphinx
   m_TagString: Monster
@@ -1361,3 +1362,18 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6021416794832217543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936589732318928993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7890982a61266f4aa9537418c2127cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mummyPrefab: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
+  respawnDelay: 2
+  startingMummyAmount: 3

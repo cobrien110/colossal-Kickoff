@@ -8,6 +8,7 @@ public class AIMummy : MonoBehaviour
     GameObject monsterGoal;
     GameObject warriorGoal;
     GameObject monster;
+    AiMummyManager aiMummyManager;
 
     [Header("AI Stats/Behavior")]
     [SerializeField] private float mummySpeed = 5f;
@@ -23,8 +24,11 @@ public class AIMummy : MonoBehaviour
     [SerializeField] private float slideSpeed = 5.0f;
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
+    [SerializeField] private float mummyLifeSpan = 12f;
+    private float timer = 0f;
     private bool isSliding = false;
     private float lastSlideTime = -1f;
+    
 
     [SerializeField]
     private GameObject ballPosition;
@@ -37,7 +41,8 @@ public class AIMummy : MonoBehaviour
 
     [SerializeField] private float checkForPassFrequency = 0.5f; // How many seconds between checks
 
-    AIMummy[] teammates = new AIMummy[1];
+    //AIMummy[] teammates = new AIMummy[1];
+    List<AIMummy> teammates = new List<AIMummy>();
 
     private Rigidbody rb;
     [SerializeField] private GameplayManager GM = null;
@@ -56,6 +61,8 @@ public class AIMummy : MonoBehaviour
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
         monster = FindObjectOfType<MonsterController>().gameObject;
         audioPlayer = GetComponent<AudioPlayer>();
+        aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
+
         //Debug.Log(": " + );
     }
 
@@ -63,19 +70,27 @@ public class AIMummy : MonoBehaviour
     void Start()
     {
         StartCoroutine(CheckForPass());
+        StartCoroutine(DelayedTeammateAssignment());
         //warriors = FindObjectsOfType<WarriorController>();
-        int index = 0;
+        //int index = 0;
         // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
+
+        /* teammates.Clear();
+        Debug.Log("Mummy: " + gameObject.name);
+        Debug.Log("Mummy start, FindObjectsOfType<AIMummy>(): " + FindObjectsOfType<AIMummy>().Length);
         foreach (AIMummy mummy in FindObjectsOfType<AIMummy>())
         {
             if (mummy.gameObject != gameObject) // Ensure it's not the same object
             {
-                teammates[index] = mummy;
-                index++;
+                teammates.Add(mummy);
+                //teammates[index] = mummy;
+                //index++;
             }
         }
+        */
 
-        Debug.Log("Teammate 1: " + teammates[0].gameObject.name);
+        //foreach (AIMummy mummy in teammates) Debug.Log(mummy.gameObject.name);
+        //Debug.Log("Teammate 1: " + teammates[0].gameObject.name);
         //Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
     }
 
@@ -92,6 +107,15 @@ public class AIMummy : MonoBehaviour
         if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
         AiBehavior();
         Dribbling();
+
+        // Despawn mummies after lifespan is reached
+        if (timer < mummyLifeSpan)
+        {
+            timer += Time.deltaTime;
+        } else
+        {
+            Die(true);
+        }
     }
 
     public void AiBehavior()
@@ -195,7 +219,7 @@ public class AIMummy : MonoBehaviour
         {
             Debug.Log("Kick!");
             mc.BP.ballOwner = null;
-            Debug.Log(transform.forward);
+            //Debug.Log(transform.forward);
             mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
@@ -209,7 +233,21 @@ public class AIMummy : MonoBehaviour
         {
             // Pass
 
-            Pass(teammates[0]);
+            AIMummy clostestMummy = null;
+            float closestDistance = 100f;
+            foreach (AIMummy mummy in teammates)
+            {
+                float distance = Vector3.Distance(mummy.transform.position, transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    clostestMummy = mummy;
+                }
+            }
+
+            if (clostestMummy == null) return;
+
+            Pass(clostestMummy);
             // Determine target
             ////float distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
             ////float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
@@ -263,8 +301,18 @@ public class AIMummy : MonoBehaviour
 
         // Check if nearest teammate is close enough for a pass
 
+        float closestDistance = 100f;
+        foreach (AIMummy mummy in teammates)
+        {
+            float distance = Vector3.Distance(mummy.transform.position, transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+            }
+        }
+
         // Debug.Log(warrior.name + ": " + warrior.transform.position);
-        float distanceToMummy1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
+        //float distanceToMummy1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
         ////float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
 
         /*if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange)
@@ -272,7 +320,7 @@ public class AIMummy : MonoBehaviour
             return true;
         }*/
 
-        if (distanceToMummy1 <= aiPassRange) return true;
+        if (closestDistance <= aiPassRange) return true;
 
         return false;
     }
@@ -304,10 +352,11 @@ public class AIMummy : MonoBehaviour
         {
 
             // Determine the goal based on isMovingTowardsGoal1
-            Vector3 targetGoalPosition = roamForward ? monsterGoal.transform.position : warriorGoal.transform.position;
+            Vector3 targetGoalPosition = roamForward ? warriorGoal.transform.position : monsterGoal.transform.position;
 
             // Add random z-axis offset to make the movement less linear
             float randomZOffset = Random.Range(-randomZRange, randomZRange); // Random Z offset in the given range
+            //Debug.Log("Random Z offset: " + randomZOffset);
             Vector3 targetWithOffset = new Vector3(targetGoalPosition.x, targetGoalPosition.y, targetGoalPosition.z + randomZOffset);
 
             float distanceToTravelMultiplier = Random.Range(distanceToTravelMultiplierFloor, 1f);
@@ -323,7 +372,8 @@ public class AIMummy : MonoBehaviour
             }
 
             // Wait after reaching the goal
-            Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
+            Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting " + Vector3.Distance(transform.position, targetWithOffset)
+                + " units from goal");
             yield return new WaitForSeconds(waitInPlaceTime);
 
             // Reverse the direction (toggle the goal)
@@ -346,6 +396,7 @@ public class AIMummy : MonoBehaviour
     {
         if (roaoroutine == null)
         {
+            Debug.Log(gameObject.name + " start roaming coroutine");
             roaoroutine = StartCoroutine(Roam());
         }
     }
@@ -400,5 +451,35 @@ public class AIMummy : MonoBehaviour
     public bool IsSliding()
     {
         return isSliding;
+    }
+
+    public void Die(bool shouldRespawn)
+    {
+        // Debug.Log("Mummy despawned");
+
+        if (shouldRespawn)
+        {
+            // Start the respawn coroutine from AiMummyManager
+            aiMummyManager.StartCoroutine(aiMummyManager.TriggerDelayedRespawn());
+        }
+
+        // Destroy this mummy
+        Destroy(gameObject);
+    }
+
+    IEnumerator DelayedTeammateAssignment()
+    {
+        yield return new WaitForEndOfFrame(); // Wait for a frame to ensure all old mummies are destroyed
+        teammates.Clear();
+        foreach (AIMummy mummy in FindObjectsOfType<AIMummy>())
+        {
+            if (mummy.gameObject != gameObject) // Ensure it's not the same object
+            {
+                teammates.Add(mummy);
+            }
+        }
+        Debug.Log(gameObject.name + " : Teammates assigned");
+
+        foreach (AIMummy mummy in teammates) Debug.Log(mummy.gameObject.name);
     }
 }

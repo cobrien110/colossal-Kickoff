@@ -189,6 +189,12 @@ public class BallProperties : MonoBehaviour
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
         isInteractable = false;
         Invoke("DestroyDelay", 3f);
+
+        // Reset mummies if applicable
+        MonsterController mc = FindObjectOfType<MonsterController>();
+        AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
+        if (aiMummyManager != null) aiMummyManager.ResetMummies(); 
+
     }
 
     private void OnCollisionEnter(Collision collision)
