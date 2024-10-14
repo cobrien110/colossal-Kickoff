@@ -23,6 +23,11 @@ public class AiMummyManager : MonoBehaviour
         spawnPosition2 = new Vector3(monsterGoal.transform.position.x + spawnPositionOffsetX, 0f, -spawnPositionOffsetZ);
     }
 
+    void Start()
+    {
+        ResetMummies();
+    }
+
     public void ResetMummies()
     {
         // Debug.Log("Reset Mummies");

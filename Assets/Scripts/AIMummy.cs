@@ -48,6 +48,8 @@ public class AIMummy : MonoBehaviour
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
 
+    private bool isPursuing = false;
+
     // Get all WarriorController components (including subclasses)
     ////[SerializeField]
     ////WarriorController[] warriors;
@@ -105,7 +107,7 @@ public class AIMummy : MonoBehaviour
         if (!GM.isPlaying) return;
         if (mc.BP == null) mc.BP = FindObjectOfType<BallProperties>();
         if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
-        AiBehavior();
+        if (!isPursuing) AiBehavior();
         Dribbling();
 
         // Despawn mummies after lifespan is reached
@@ -237,6 +239,7 @@ public class AIMummy : MonoBehaviour
             float closestDistance = 100f;
             foreach (AIMummy mummy in teammates)
             {
+                if (clostestMummy == null) continue;
                 float distance = Vector3.Distance(mummy.transform.position, transform.position);
                 if (distance < closestDistance)
                 {
@@ -304,6 +307,7 @@ public class AIMummy : MonoBehaviour
         float closestDistance = 100f;
         foreach (AIMummy mummy in teammates)
         {
+            if (mummy == null) continue;
             float distance = Vector3.Distance(mummy.transform.position, transform.position);
             if (distance < closestDistance)
             {
@@ -481,5 +485,15 @@ public class AIMummy : MonoBehaviour
         Debug.Log(gameObject.name + " : Teammates assigned");
 
         foreach (AIMummy mummy in teammates) Debug.Log(mummy.gameObject.name);
+    }
+
+    public bool IsPursuing()
+    {
+        return isPursuing;
+    }
+
+    public void SetIsPursuing(bool isPursuing)
+    {
+        this.isPursuing = isPursuing;
     }
 }

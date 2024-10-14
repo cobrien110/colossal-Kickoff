@@ -737,7 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5182124356325014640}
   - component: {fileID: 2135929633283431826}
-  - component: {fileID: 4808255227988311036}
+  - component: {fileID: 1368558541276869668}
   - component: {fileID: 3059677831159847511}
   - component: {fileID: 6707142146492037626}
   - component: {fileID: 1161454067046078756}
@@ -835,7 +835,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 2871052085933946400}
---- !u!114 &4808255227988311036
+--- !u!114 &1368558541276869668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -844,26 +844,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6936589732318928993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bae7181cb650bc4d929d9e5ac37a3bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 577685589bfca964cbbe872aa3d88469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Howl
+  abilityName: MummyExplode
   abilityNum: 0
-  cooldown: 4
+  cooldown: 2
   usableWhileIntangible: 0
   usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: AkhlutHowl
+  activatedAnimationName: none
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  howlRadius: 3
-  stunTime: 1
-  soundName: akhlutHowl
+  distanceUntilExplode: 1
+  pursueSpeed: 3
+  explosionRadius: 5
 --- !u!114 &3059677831159847511
 MonoBehaviour:
   m_ObjectHideFlags: 0

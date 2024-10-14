@@ -61,7 +61,8 @@ public abstract class AbilityScript : MonoBehaviour
     {
         if (timer < cooldown && !timerPaused) timer += Time.deltaTime;
         UpdateUI();
-        BP = MC.BP;
+        if (BP == null) BP = MC.BP;
+        if (MC == null) MC = GetComponent<MonsterController>();
     }
 
     public string GetName()
