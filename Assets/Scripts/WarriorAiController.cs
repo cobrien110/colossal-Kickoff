@@ -79,8 +79,8 @@ public class WarriorAiController : MonoBehaviour
             }
         }
 
-        Debug.Log("Teammate 1: " + teammates[0].gameObject.name);
-        Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
+        // Debug.Log("Teammate 1: " + teammates[0].gameObject.name);
+        // Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
     }
 
     public void test()
@@ -128,14 +128,15 @@ public class WarriorAiController : MonoBehaviour
             StartRoaming();
         }
         // If a monster has the ball (do something else, e.g., tackle)
-        else if (wc.BP.ballOwner.GetComponent<MonsterController>() != null)
+        else if (wc.BP.ballOwner.GetComponent<MonsterController>() != null
+            || wc.BP.ballOwner.GetComponent<AIMummy>() != null)
         {
             //Debug.Log("Monster has ball");
             // Stop roaming if it's happening
             StopRoaming();
 
             // Run to monster and slide tackle
-            if (Vector3.Distance(transform.position, monster.transform.position) > slideRange)
+            if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRange)
             {
                 // Chase down monster
                 Vector2 toBall = new Vector2(
@@ -258,8 +259,10 @@ public class WarriorAiController : MonoBehaviour
         // Check if nearest teammate is close enough for a pass
 
         // Debug.Log(warrior.name + ": " + warrior.transform.position);
-        float distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
-        float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
+        float distanceToWarrior1 = 100f;
+        float distanceToWarrior2 = 100f;
+        if (teammates[0] != null) { distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude; }
+        if (teammates[1] != null) { distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude; }
 
         if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange)
         {

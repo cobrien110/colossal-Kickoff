@@ -11,7 +11,8 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
 
-    [SerializeField] public float warriorSpeed = 2f;
+    public const float baseMovementSpeed = 2.85f;
+    [SerializeField] public float warriorSpeed = baseMovementSpeed;
     public Vector3 movementDirection;
     public Vector3 aimingDirection;
     private Vector3 rightStickInput;
@@ -451,9 +452,9 @@ public class WarriorController : MonoBehaviour
             BP.ballOwner = null;
         }
         int goreMode = PlayerPrefs.GetInt("goreMode", 0);
-        if (goreMode == 0) {
+        if (goreParticleObj != null && goreMode == 0) {
             Instantiate(goreParticleObj, transform.position, Quaternion.identity);
-        } else if (goreMode == 1) {
+        } else if (goreParticleObj != null && goreMode == 1) {
             Instantiate(pinataParticleObj, transform.position, Quaternion.identity);
         }
         //Instantiate(particleObj, transform.position, Quaternion.identity);

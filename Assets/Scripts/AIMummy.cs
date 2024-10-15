@@ -233,13 +233,14 @@ public class AIMummy : MonoBehaviour
         //Debug.Log("Dribbling");
         if (ShouldPass())
         {
+            Debug.Log("Passing");
             // Pass
 
             AIMummy clostestMummy = null;
             float closestDistance = 100f;
             foreach (AIMummy mummy in teammates)
             {
-                if (clostestMummy == null) continue;
+                if (mummy == null) continue;
                 float distance = Vector3.Distance(mummy.transform.position, transform.position);
                 if (distance < closestDistance)
                 {
@@ -376,8 +377,8 @@ public class AIMummy : MonoBehaviour
             }
 
             // Wait after reaching the goal
-            Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting " + Vector3.Distance(transform.position, targetWithOffset)
-                + " units from goal");
+            //Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting " + Vector3.Distance(transform.position, targetWithOffset)
+            //    + " units from goal");
             yield return new WaitForSeconds(waitInPlaceTime);
 
             // Reverse the direction (toggle the goal)
@@ -400,7 +401,7 @@ public class AIMummy : MonoBehaviour
     {
         if (roaoroutine == null)
         {
-            Debug.Log(gameObject.name + " start roaming coroutine");
+            // Debug.Log(gameObject.name + " start roaming coroutine");
             roaoroutine = StartCoroutine(Roam());
         }
     }

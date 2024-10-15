@@ -8,6 +8,7 @@ public class AbilityMummyExplode : AbilityScript
     [SerializeField] private float distanceUntilExplode = 1f;
     [SerializeField] private float pursueSpeed = 3f;
     [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private GameObject slowAura;
 
     public override void Activate()
     {
@@ -111,6 +112,9 @@ public class AbilityMummyExplode : AbilityScript
                 warrior.Die();
             }
         }
+
+        // Create slow aura at point of explosion
+        Instantiate(slowAura, pursuer.gameObject.transform.position, Quaternion.identity);
 
         // Destroy the mummy after exploding
         pursuer.Die(true);
