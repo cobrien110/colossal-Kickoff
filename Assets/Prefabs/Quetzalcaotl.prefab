@@ -307,12 +307,12 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  numOfSpawnSegments: 3
+  numOfSpawnSegments: 4
   segmentPrefab: {fileID: 1034161283862982796, guid: 7037b862cc1445b43962c0855081c622, type: 3}
   tailPrefab: {fileID: 1034161283862982796, guid: fa461cbe2e68f874ea080459cfec966f, type: 3}
   cutSegmentPrefab: {fileID: 2830204344427194864, guid: 88d806be7f6e72e42b478326a7c5e3c3, type: 3}
-  followDistance: 0.35
-  speed: 6
+  followDistance: 0.25
+  speed: 8.5
   movementThreshold: 0.001
   minNumOfSegmentsToSplit: 3
   segments: []
@@ -421,6 +421,7 @@ MonoBehaviour:
   duration: 1.25
   speed: 6.5
   slamRadius: 1
+  maxSpriteYOffset: 5
   activatedSoundName: quetzFly
   slamSoundName: quetzCrash
 --- !u!33 &4594944956692112125
@@ -1306,8 +1307,8 @@ Transform:
   m_GameObject: {fileID: 7581612499400799079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.502, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
+  m_LocalPosition: {x: 0, y: 0.497, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8177828523731862544}
@@ -1353,9 +1354,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aa6cf526532e1444dab327d6372ea058, type: 3}
-  m_Color: {r: 0.28773582, g: 0.972112, b: 1, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 96b06c9da57e3194fb946428afe7454b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1388,7 +1389,7 @@ Animator:
   m_GameObject: {fileID: 7581612499400799079}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dbe8456537e77a64cb280fa84efb7f17, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
