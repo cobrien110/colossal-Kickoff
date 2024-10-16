@@ -29,7 +29,7 @@ public class AbilityMummyExplode : AbilityScript
         }
 
         // Ensure ball owner is a warrior
-        if (BP.ballOwner.GetComponent<WarriorController>() == null)
+        if (BP.ballOwner == null || BP.ballOwner.GetComponent<WarriorController>() == null)
         {
             Debug.Log("Ball owner is not a warrior - can't activate Mummy Explode");
             return; // Ball owner is not a warrior
@@ -69,7 +69,7 @@ public class AbilityMummyExplode : AbilityScript
 
     private IEnumerator PursueBallOwner(AIMummy pursuer, WarriorController target)
     {
-        Debug.Log("PursueBallOwner start");
+        // Debug.Log("PursueBallOwner start");
 
         Rigidbody pursuerRB = pursuer.gameObject.GetComponent<Rigidbody>();
         pursuer.SetIsPursuing(true);
@@ -85,7 +85,7 @@ public class AbilityMummyExplode : AbilityScript
 
         pursuer.SetIsPursuing(false);
 
-        Debug.Log("PursueBallOwner end");
+        // Debug.Log("PursueBallOwner end");
 
         ExplodeMummy(pursuer);
     }
@@ -101,13 +101,19 @@ public class AbilityMummyExplode : AbilityScript
         // Detect all objects within the explosion radius
         Collider[] hitColliders = Physics.OverlapSphere(pursuer.gameObject.transform.position, explosionRadius, warriorLayer);
 
+        // Use a HashSet to avoid duplicate hits on the same warrior
+        HashSet<WarriorController> hitWarriors = new HashSet<WarriorController>();
+
         foreach (Collider collider in hitColliders)
         {
             WarriorController warrior = collider.GetComponent<WarriorController>();
-            if (warrior != null)
+            if (warrior != null && !hitWarriors.Contains(warrior))
             {
+                // Add to the set to ensure it doesn't get processed again
+                hitWarriors.Add(warrior);
+
                 // Kill warrior
-                Debug.Log($"Warrior {warrior.name} hit by explosion!");
+                Debug.Log($"Warrior {warrior.name} hit by {pursuer.name} explosion!");
 
                 warrior.Die();
             }

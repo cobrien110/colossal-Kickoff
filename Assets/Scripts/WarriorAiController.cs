@@ -33,6 +33,8 @@ public class WarriorAiController : MonoBehaviour
     private float distanceToTravelMultiplierFloor = 0.4f;
     [SerializeField]
     private float slideRange = 3f;
+    [SerializeField]
+    private float dodgeChance = 0.3f;
     
     private bool checkToPass = false;
     private bool roamForward = true;
@@ -342,6 +344,11 @@ public class WarriorAiController : MonoBehaviour
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
         }
+    }
+
+    public float GetDodgeChance()
+    {
+        return dodgeChance;
     }
 }
 

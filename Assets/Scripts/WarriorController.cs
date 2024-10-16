@@ -421,6 +421,16 @@ public class WarriorController : MonoBehaviour
     public void Die()
     {
         if (isInvincible) return;
+        
+        // Chance for AiWarrior to dodge if slide is off cooldown
+        if (GetComponent<WarriorAiController>() != null
+            && Random.value < GetComponent<WarriorAiController>().GetDodgeChance()
+            && Time.time - lastSlideTime >= slideCooldown)
+        {
+            Debug.Log("Dodge!");
+            Sliding();
+            return;
+        }
 
         Debug.Log("PLAYER THAT DIED: (" + this + ")");
         //ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
