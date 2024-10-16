@@ -6,12 +6,20 @@ public class AbilityFly : AbilityScript
 {
     [Header("Ability Specific Variables")]
     public bool isActive = false;
-    public float activeDuration = 0f;
+    [HideInInspector] public float activeDuration = 0f;
+    public float duration = 1.5f;
+    public float speed = 5f;
+    private float baseSpeed;
     public float slamRadius = 3f;
 
     private GameObject sprite;
     private float spritePositionY;
+    public float maxSpriteYOffset = 5f;
+    private float sY;
     private Quaternion spriteRotation;
+
+    public string activatedSoundName;
+    public string slamSoundName;
 
     void Start()
     {
@@ -19,8 +27,10 @@ public class AbilityFly : AbilityScript
 
         sprite = MC.spriteObject;
         spritePositionY = sprite.transform.position.y;
+        sY = spritePositionY + maxSpriteYOffset;
         spriteRotation = sprite.transform.rotation;
         attackVisualizer.transform.localScale *= slamRadius * 1.7f;
+        baseSpeed = MC.monsterSpeed;
     }
 
     void Update()
@@ -30,10 +40,11 @@ public class AbilityFly : AbilityScript
         if (isActive)
         {
             MC.isIntangible = true;
+            MC.monsterSpeed = speed;
             activeDuration += Time.deltaTime;
             timerPaused = true;
-            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, 10, sprite.transform.position.z), Time.deltaTime);
-            if (activeDuration >= 2.0f)
+            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime);
+            if (activeDuration >= duration)
             {
                 isActive = false;
                 Slam();
@@ -41,6 +52,7 @@ public class AbilityFly : AbilityScript
         } else
         {
             MC.isIntangible = false;
+            MC.monsterSpeed = baseSpeed;
             timerPaused = false;
             activeDuration = 0;
             sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
@@ -56,6 +68,7 @@ public class AbilityFly : AbilityScript
             timer = 0;
             isActive = true;
             //sprite.transform.SetPositionAndRotation(new Vector3(sprite.transform.position.x, 10, sprite.transform.position.z), sprite.transform.rotation);
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(activatedSoundName), 0.95f);
         }
     }
 
@@ -78,6 +91,7 @@ public class AbilityFly : AbilityScript
                 // Debug.Log("Stunned Warrior: " + obj.name);
             }
         }
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(slamSoundName), 0.75f);
     }
 
     // Method to deactivate the visualizer

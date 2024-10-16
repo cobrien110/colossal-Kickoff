@@ -19,6 +19,8 @@ public class AbilitySnakeSegments : PassiveAbility
     [HideInInspector] public List<GameObject> cutSegments = new List<GameObject>();
     private Vector3 lastHeadPosition;
 
+    public string popSound = "";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,11 +100,12 @@ public class AbilitySnakeSegments : PassiveAbility
 
     public void CutSegments(int index)
     {
-        if (index < minNumOfSegmentsToSplit) return;
+        if (index < minNumOfSegmentsToSplit || MC.isIntangible) return;
         for (int i = segments.Count - 1; i >= index; i--)
         {
             RemoveSegment(i);
         }
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(popSound), 0.8f);
         /*
         int indexToStartRemoval = -1;
         for (int i = 0; i < segments.Count; i++)

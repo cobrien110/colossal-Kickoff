@@ -317,6 +317,7 @@ MonoBehaviour:
   minNumOfSegmentsToSplit: 3
   segments: []
   cutSegments: []
+  popSound: quetzCreateMine
 --- !u!114 &7396456557364846954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +345,7 @@ MonoBehaviour:
   UM: {fileID: 0}
   ST: {fileID: 0}
   radius: 0.65
+  soundName: quetzExplode
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +418,11 @@ MonoBehaviour:
   ST: {fileID: 0}
   isActive: 0
   activeDuration: 0
+  duration: 1.25
+  speed: 6.5
   slamRadius: 1
+  activatedSoundName: quetzFly
+  slamSoundName: quetzCrash
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -639,7 +645,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 062426a3631e5a24fbf7ebe58bbc060c, type: 3}
   - {fileID: 8300000, guid: ba05f727655a4f3438ffcc1bd58cc56c, type: 3}
   - {fileID: 8300000, guid: 3b419536796060c48b9d3599f69ebf5f, type: 3}
-  - {fileID: 8300000, guid: 09cdeddb38a7f9e46a2ca1feee380b32, type: 3}
+  - {fileID: 8300000, guid: 63afeb109f0b0b446aff9ebc1ff4be7a, type: 3}
+  - {fileID: 8300000, guid: 81655490d2bab574b874238b54f457aa, type: 3}
+  - {fileID: 8300000, guid: cb6c3fc426b673243935f233cfc0f2f0, type: 3}
+  - {fileID: 8300000, guid: 155f6bc88e3f6bc45ac4c32c0c7d9edc, type: 3}
+  - {fileID: 8300000, guid: 31460d07dc80d2b47809239bc1c49ec8, type: 3}
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15

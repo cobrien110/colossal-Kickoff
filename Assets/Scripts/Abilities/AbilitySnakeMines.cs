@@ -7,6 +7,8 @@ public class AbilitySnakeMines : AbilityScript
     private AbilitySnakeSegments ASS;
     public float radius = 1f;
 
+    public string soundName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,7 @@ public class AbilitySnakeMines : AbilityScript
                 ASS.cutSegments.RemoveAt(i);
                 Destroy(bombToDestroy);
             }
+            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
         }
     }
 
