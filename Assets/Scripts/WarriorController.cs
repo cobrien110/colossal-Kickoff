@@ -35,6 +35,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] protected float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     protected bool isCharging;
+    
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
     public bool isSliding = false;
@@ -62,10 +63,16 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private ParticleSystem PS;
     public Sprite[] ringColors;
     public SpriteRenderer ring;
+    //public SpriteRenderer playerRend;
+    //public Color curseColor;
     private CommentatorSoundManager CSM;
     public int playerNum = 1;
     [SerializeField] public GameObject goreParticleObj;
     [SerializeField] public GameObject pinataParticleObj;
+
+    //Mummy Curse
+    private bool isCursed = false;
+    [SerializeField] private GameObject Mummy = null;
 
     // Start is called before the first frame update
     void Awake()
@@ -83,6 +90,7 @@ public class WarriorController : MonoBehaviour
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
+        //playerRend = GetComponent<SpriteRenderer>();
 
         if (WarriorSpawner == null)
         {
@@ -144,6 +152,7 @@ public class WarriorController : MonoBehaviour
             usingNewScheme = !usingNewScheme;
             invertControls = !invertControls;
         }
+
     }
 
     private void FixedUpdate()
@@ -151,6 +160,22 @@ public class WarriorController : MonoBehaviour
         if (GetComponent<WarriorAiController>() != null) return;
         if (isDead) return;
         Movement();
+    }
+
+    //CURSE OF RA
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isCursed) return;
+        
+        AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
+        if ((other.tag.Equals("Mummy")) && (mummy != null))
+        {
+            isCursed = true;
+            Debug.Log("This player is cursed");
+            Instantiate(goreParticleObj, transform.position, Quaternion.identity);
+            //playerRend.color = curseColor;
+        }
+
     }
 
     void Movement()
@@ -420,6 +445,7 @@ public class WarriorController : MonoBehaviour
 
     public void Die()
     {
+        Vector3 deathPosition = this.transform.position;
         if (isInvincible) return;
         
         // Chance for AiWarrior to dodge if slide is off cooldown
@@ -474,8 +500,20 @@ public class WarriorController : MonoBehaviour
         PlayDeathSound();
         CSM.PlayDeathSound(true);
         StopAllCoroutines();
+        
+        //Curse
+        if (isCursed)
+        {
+            Debug.Log("Cursed Mummy Should Spawn");
+            if (Mummy != null)
+            {
+                Instantiate(Mummy, deathPosition, Quaternion.identity);
+            }
+        }
+
         //Respawn();
         respawnTimer = 0f;
+        isCursed = false;
         StartCoroutine(SetInvincibility(false, respawnTime + respawnInvincibilityTime));
     }
 
@@ -598,6 +636,11 @@ public class WarriorController : MonoBehaviour
     public bool IsSliding()
     {
         return isSliding;
+    }
+
+    public bool GetCursedStatus()
+    {
+        return isCursed;
     }
 
     void PlayKickSound(float charge)

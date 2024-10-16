@@ -189,6 +189,8 @@ public class MonsterController : MonoBehaviour
         
     }
 
+    
+
     void Movement()
     {
         if (isDashing) return;
