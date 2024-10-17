@@ -33,6 +33,7 @@ public class AudioPlayer : MonoBehaviour
     {
         if (sound == null) return;
         source.clip = sound;
+        source.volume = volume * PlayerPrefs.GetInt("effectsVolume", 100);
         source.Play();
         //Debug.Log("Playing sound: " + sound.name);
     }
@@ -40,13 +41,13 @@ public class AudioPlayer : MonoBehaviour
     public void PlaySoundRandomPitch(AudioClip sound)
     {
         SetRandomPitch();
-        PlaySoundVolume(sound, 1);
+        PlaySound(sound);
     }
 
     public void PlaySoundSpecificPitch(AudioClip sound, float pitch)
     {
         source.pitch = pitch;
-        PlaySoundVolume(sound, 1f);
+        PlaySound(sound);
     }
 
     public void PlaySoundVolume(AudioClip sound, float tempVolume)

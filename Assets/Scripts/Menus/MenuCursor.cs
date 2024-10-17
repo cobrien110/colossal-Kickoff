@@ -16,6 +16,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private int menuSlot = -1;
     [SerializeField] private MenuController MC = null;
     [SerializeField] private InputManager IM = null;
+    [SerializeField] private VolumeManager VM = null;
     [SerializeField] private MonsterName MN = null;
     [SerializeField] private WarriorDesc[] WDarr = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
@@ -40,6 +41,7 @@ public class MenuCursor : MonoBehaviour
         MC = GameObject.Find("MenuController").GetComponent<MenuController>();
         MC.findAllCursors();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
+        VM = FindObjectOfType<VolumeManager>(true);
         MN = FindObjectOfType<MonsterName>(true);
         WDarr = FindObjectsOfType<WarriorDesc>(true);
         WarriorDesc holder = WDarr[1];
@@ -163,6 +165,11 @@ public class MenuCursor : MonoBehaviour
                 if (hoveringItem.Equals("goreSelect") && playerNumber == 1) {
                     MC.setGore(hoveringID);
                 }
+                if (hoveringItem.Equals("audioOptions") && playerNumber == 1) {
+                    if (!hasSelected) {
+                        enterAudio(hoveringID);
+                    }
+                }
             }
         }
     }
@@ -194,7 +201,13 @@ public class MenuCursor : MonoBehaviour
                 MC.backToCharSelect();
             } else if (MC.currentScreen == 1) {
                 //options menu
-                MC.returnToTop();
+                if (hasSelected) {
+                    VM.unselect();
+                    hasSelected = false;
+                    this.GetComponent<Image>().enabled = true;
+                } else {
+                    MC.returnToTop();
+                }
             }
         }
     }
@@ -222,32 +235,53 @@ public class MenuCursor : MonoBehaviour
 
     public void OnChange(InputAction.CallbackContext action)
     {
-        if (hasSelected && action.started)
-        {
-            float changeDir = action.ReadValue<Vector2>().x;
-            if (playerSlot == 0)
-            {
+        if (MC.currentScreen == 1) { //OPTIONS MENU
+            if (hasSelected && action.started) {
+                float changeDir = action.ReadValue<Vector2>().x;
                 if (changeDir > 0)
                 {
-                    MN.pageRight();
+                    VM.pageRight();
                 }
                 else if (changeDir < 0)
                 {
-                    MN.pageLeft();
-                }
-                PH.monsterIndex = MN.monsterIndex;
-            } else
-            {
-                int i = playerSlot - 1;
-                if (changeDir > 0)
-                {
-                    WDarr[i].pageRight();
-                }
-                else if (changeDir < 0)
-                {
-                    WDarr[i].pageLeft();
+                    VM.pageLeft();
                 }
             }
+        } else if (MC.currentScreen == 2) { //CHARACTER SELECT
+            if (hasSelected && action.started)
+            {
+                float changeDir = action.ReadValue<Vector2>().x;
+                if (playerSlot == 0)
+                {
+                    if (changeDir > 0)
+                    {
+                        MN.pageRight();
+                    }
+                    else if (changeDir < 0)
+                    {
+                        MN.pageLeft();
+                    }
+                    PH.monsterIndex = MN.monsterIndex;
+                } else
+                {
+                    int i = playerSlot - 1;
+                    if (changeDir > 0)
+                    {
+                        WDarr[i].pageRight();
+                    }
+                    else if (changeDir < 0)
+                    {
+                        WDarr[i].pageLeft();
+                    }
+                }
+            }   
         }
+    }
+
+    public void enterAudio(int optionSelected) {
+        hasSelected = true;
+        this.GetComponent<Image>().enabled = false;
+        body.velocity = new Vector2(0, 0);
+        VM.select(optionSelected);
     }
 }
