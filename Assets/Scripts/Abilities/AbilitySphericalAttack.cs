@@ -36,6 +36,12 @@ public class AbilitySphericalAttack : AbilityChargeable
                     WarriorController WC = col.GetComponent<WarriorController>();
                     if (!WC.isInvincible)
                         WC.Die();
+                    //Temp code for Quetz to get bigger on kill
+                    AbilitySnakeSegments ASS = this.gameObject.GetComponent<AbilitySnakeSegments>();
+                    if (ASS != null)
+                    {
+                        ASS.AddSegment();
+                    }
                     else
                         Debug.Log("Warrior is invincible");
                 }
