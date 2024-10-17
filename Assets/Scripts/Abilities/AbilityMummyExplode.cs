@@ -9,6 +9,7 @@ public class AbilityMummyExplode : AbilityScript
     [SerializeField] private float pursueSpeed = 3f;
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private GameObject slowAura;
+    [SerializeField] private string soundName;
 
     public override void Activate()
     {
@@ -53,6 +54,9 @@ public class AbilityMummyExplode : AbilityScript
         if (nearestMummy != null && target != null) StartCoroutine(PursueBallOwner(nearestMummy, target));
 
         // When close enough to ball owner, mummy explodes, killing ball owner
+
+        // Play sound
+        audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
     }
 
     // Start is called before the first frame update
@@ -69,6 +73,10 @@ public class AbilityMummyExplode : AbilityScript
 
     private IEnumerator PursueBallOwner(AIMummy pursuer, WarriorController target)
     {
+        // Visually show pursuer
+        SpriteRenderer SR = pursuer.gameObject.GetComponentInChildren<SpriteRenderer>();
+        SR.color = new Color(255, 0, 0);
+
         // Debug.Log("PursueBallOwner start");
 
         Rigidbody pursuerRB = pursuer.gameObject.GetComponent<Rigidbody>();

@@ -5167,7 +5167,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 93d8f6667bd71ae4685bf6b48d051c9f, type: 3}
-  m_Color: {r: 0.5, g: 0.28976893, b: 0, a: 1}
+  m_Color: {r: 0.16379723, g: 0.54901963, b: 0.078431375, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5506,10 +5506,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 0}
-  sounds: []
+  sounds:
+  - {fileID: 8300000, guid: 7c1dd76054daa9d4b9c5509e8e0e3d66, type: 3}
+  - {fileID: 8300000, guid: 07cf784642d3fa545aa9db6da5e1bfb2, type: 3}
+  - {fileID: 8300000, guid: 667d3ee1dc35c6d43891b31bd312b004, type: 3}
+  - {fileID: 8300000, guid: 26770219239683940aa9c1d7b7d24a5b, type: 3}
+  - {fileID: 8300000, guid: 171c00c9aff2f934fb493dd235b28775, type: 3}
+  - {fileID: 8300000, guid: 18715d19f3567c84b9108a886c55f84b, type: 3}
+  - {fileID: 8300000, guid: ee51d1bfe7c1ab043b60a9ac9f2eeee6, type: 3}
+  - {fileID: 8300000, guid: b21f1dfd89333ee4ca3b0783a96e9423, type: 3}
+  - {fileID: 8300000, guid: 8428a883bf7ff8943a9919929eae8cb5, type: 3}
+  - {fileID: 8300000, guid: 8c099dc8aa6c1ea49b8313f65805a03f, type: 3}
+  - {fileID: 8300000, guid: 00343e9ef6ffecd4895444f84c685203, type: 3}
+  - {fileID: 8300000, guid: a256479b36e10b640895b0aa76aa97f1, type: 3}
   volume: 1
-  pitchRangeLow: 0.85
-  pitchRangeHigh: 1.15
+  pitchRangeLow: 0.55
+  pitchRangeHigh: 0.75
 --- !u!136 &2584155789053043675
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5545,7 +5557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e4ccd7f26c4a04b82c95f15bb5dc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mummySpeed: 2
+  mummySpeed: 1.8
   aiKickSpeed: 300
   aiShootRange: 4
   aiPassRange: 6

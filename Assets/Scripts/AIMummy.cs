@@ -73,6 +73,7 @@ public class AIMummy : MonoBehaviour
     {
         StartCoroutine(CheckForPass());
         StartCoroutine(DelayedTeammateAssignment());
+        audioPlayer.PlaySoundVolume(audioPlayer.Find("sphinxMummyGroan"), 0.75f);
         //warriors = FindObjectsOfType<WarriorController>();
         //int index = 0;
         // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
