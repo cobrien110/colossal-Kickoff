@@ -737,9 +737,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5182124356325014640}
   - component: {fileID: 2135929633283431826}
+  - component: {fileID: 6021416794832217543}
   - component: {fileID: 1368558541276869668}
   - component: {fileID: 3059677831159847511}
-  - component: {fileID: 6707142146492037626}
+  - component: {fileID: -4918385606014247282}
   - component: {fileID: 1161454067046078756}
   - component: {fileID: 8658955660684170781}
   - component: {fileID: 4183370787308584973}
@@ -748,7 +749,6 @@ GameObject:
   - component: {fileID: 3086703149506516855}
   - component: {fileID: 3506013190895298579}
   - component: {fileID: 9081834079298197155}
-  - component: {fileID: 6021416794832217543}
   m_Layer: 10
   m_Name: Sphinx
   m_TagString: Monster
@@ -835,6 +835,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 2871052085933946400}
+--- !u!114 &6021416794832217543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936589732318928993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7890982a61266f4aa9537418c2127cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mummyPrefab: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
+  respawnDelay: 2
+  startingMummyAmount: 2
 --- !u!114 &1368558541276869668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,11 +876,12 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  distanceUntilExplode: 1
+  distanceUntilExplode: 0.5
   pursueSpeed: 3
   explosionRadius: 5
   slowAura: {fileID: 2233076425796087852, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
   soundName: sphinxMummyOrder
+  explodeSoundName: sphinxMummyExplode
 --- !u!114 &3059677831159847511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -910,7 +926,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
   projectileDamage: 1
   projectileSpeed: 450
---- !u!114 &6707142146492037626
+--- !u!114 &-4918385606014247282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -919,32 +935,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 6936589732318928993}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3a6044d1887b7438bd8edf8d9d5c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: a3d75c3f4ce492b4b866d026f885cfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Dive
+  abilityName: Curse
   abilityNum: 2
-  cooldown: 4
-  usableWhileIntangible: 1
-  usableWhileDribbling: 1
+  cooldown: 6
+  usableWhileIntangible: 0
+  usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: AkhlutSwim
+  activatedAnimationName: none
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  isActive: 0
-  initialSpeed: 6.5
-  speed: 4.25
-  durationOfSpeedBoost: 2
-  inputBufferTime: 0.45
-  diveSound: akhlutDive
-  emergeSound: akhlutEmerge
-  diveLoopSound: akhlutDivingLoop
-  diveLooper: {fileID: 6788664264453644680}
+  projectilePrefab: {fileID: 3912831470668395494, guid: f0b8ab56d8a7a084ab43b7bf3bbc5c3a, type: 3}
+  projectileSpeed: 280
+  soundName: sphinxCurse
 --- !u!33 &1161454067046078756
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1165,10 +1175,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b91fd9fd5674d1f459b7cb2285de42d2, type: 3}
   - {fileID: 8300000, guid: 57a57e604a6918a4ebe987feb4cce350, type: 3}
   - {fileID: 8300000, guid: 062426a3631e5a24fbf7ebe58bbc060c, type: 3}
-  - {fileID: 8300000, guid: ba05f727655a4f3438ffcc1bd58cc56c, type: 3}
   - {fileID: 8300000, guid: 3b419536796060c48b9d3599f69ebf5f, type: 3}
   - {fileID: 8300000, guid: 09cdeddb38a7f9e46a2ca1feee380b32, type: 3}
   - {fileID: 8300000, guid: 6b724a7b3b2b9714eaf7fb1a270ad9f3, type: 3}
+  - {fileID: 8300000, guid: 7cc4516ee92207f4d821449a73f24503, type: 3}
+  - {fileID: 8300000, guid: 8a967b06cc642a04da366c66b83f5f66, type: 3}
+  - {fileID: 8300000, guid: eee3fcab47f15b5489d7f306f0c03a3c, type: 3}
   volume: 1
   pitchRangeLow: 0.85
   pitchRangeHigh: 1.15
@@ -1369,18 +1381,3 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &6021416794832217543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6936589732318928993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7890982a61266f4aa9537418c2127cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mummyPrefab: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
-  respawnDelay: 2
-  startingMummyAmount: 2
