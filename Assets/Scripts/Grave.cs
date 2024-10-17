@@ -7,7 +7,7 @@ public class Grave : MonoBehaviour
     public int health = 3;
     public BoxCollider BC;
     public Vector3 scale;
-
+    public GameObject[] healthSprites;
     private void Start()
     {
         scale = transform.localScale;
@@ -20,6 +20,14 @@ public class Grave : MonoBehaviour
             BallProperties BP = collision.gameObject.GetComponent<BallProperties>();
             if (BP.ballOwner != null) return;
             health--;
+            try
+            {
+                healthSprites[health].SetActive(false);
+            }
+            catch
+            {
+                Debug.LogWarning("Tried to access healthsprite out of bounds of array");
+            }
             if (health <= 0)
             {
                 Destroy(gameObject);
@@ -34,6 +42,10 @@ public class Grave : MonoBehaviour
             health = 3;
             BC.enabled = true;
             transform.localScale = scale;
+            for (int i = 0; i < healthSprites.Length; i++)
+            {
+                healthSprites[i].SetActive(true);
+            }
         } else
         {
             BC.enabled = false;
