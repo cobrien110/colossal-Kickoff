@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Car : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(DelayedDestroy());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        gameObject.transform.position += new Vector3(15.0f, 0.0f, 0.0f) * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.CompareTag("Warrior"))
+        {
+            WarriorController WC = collision.GetComponent<WarriorController>();
+            WC.Die();
+        } else if (collision.CompareTag("Monster"))
+        {
+            MonsterController MC = collision.GetComponent<MonsterController>();
+            MC.Stun();
+        }
+    }
+
+    IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(5.0f);
+        Destroy(this.gameObject);
+    }
+}
