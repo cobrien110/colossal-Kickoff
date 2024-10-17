@@ -77,6 +77,14 @@ public class MenuController : MonoBehaviour
                     //Canada
                     SceneManager.LoadScene("CanadaArena");
                     break;
+                case 2:
+                    //Japan
+                    SceneManager.LoadScene("JapanArena");
+                    break;
+                case 3:
+                    //Egypt
+                    SceneManager.LoadScene("EgyptArena");
+                    break;
                 default:
                    //Scene that hasn't been made yet
                     SceneManager.LoadScene("GreeceArena");
