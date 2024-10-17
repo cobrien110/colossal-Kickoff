@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.07000045
       objectReference: {fileID: 0}
+    - target: {fileID: -1018664272722485354, guid: 679a9d353173d074287bdae027942c9a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 679a9d353173d074287bdae027942c9a, type: 3}
       propertyPath: m_Name
       value: JapanWhitebox 2
@@ -16468,7 +16472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1890957024
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22102,6 +22106,10 @@ PrefabInstance:
       propertyPath: GM
       value: 
       objectReference: {fileID: 1542430857}
+    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
+      propertyPath: monsterIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2488476523441867446, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: m_Name
       value: MonsterHolder

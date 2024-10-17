@@ -26,6 +26,10 @@ public class Car : MonoBehaviour
         {
             MonsterController MC = collision.GetComponent<MonsterController>();
             MC.Stun();
+        } else if (collision.CompareTag("Mummy"))
+        {
+            AIMummy AIM = collision.GetComponent<AIMummy>();
+            AIM.Die(true);
         }
     }
 
