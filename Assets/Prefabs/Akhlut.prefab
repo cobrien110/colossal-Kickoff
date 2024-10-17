@@ -244,7 +244,7 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   abilities: []
-  monsterSpeed: 3
+  monsterSpeed: 3.2
   movementDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
   monsterControls:
@@ -310,6 +310,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   howlRadius: 3
   stunTime: 1
   soundName: akhlutHowl
@@ -338,6 +339,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   chargeRate: 0.75
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 0
@@ -381,6 +383,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   isActive: 0
   initialSpeed: 6.5
   speed: 4.25
@@ -781,6 +784,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c34c1313-aef7-4cbd-90cf-a57ecee41e60
     m_ActionName: Cursor/Join[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
+    m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

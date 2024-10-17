@@ -96,7 +96,7 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   abilities: []
-  monsterSpeed: 3
+  monsterSpeed: 3.1
   movementDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
   monsterControls:
@@ -162,6 +162,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   wallPrefab: {fileID: 8271771513498744024, guid: df7c3520c2778dc47a95f4c7dd016a28, type: 3}
   wallSpawnDistance: 3
   wallDuration: 8
@@ -196,6 +197,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   chargeRate: 0.75
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   chargeRate: 2
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 1
@@ -637,6 +640,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c332dd73-fa7e-4004-9ba3-11efbe618d0a
     m_ActionName: Cursor/Back[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c34c1313-aef7-4cbd-90cf-a57ecee41e60
+    m_ActionName: Cursor/Join[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
+    m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

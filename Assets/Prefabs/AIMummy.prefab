@@ -5305,12 +5305,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7656957060039556379}
   - component: {fileID: 1570753010710112409}
+  - component: {fileID: 3124687607624498327}
   - component: {fileID: 8984695175946079552}
   - component: {fileID: 3434023132131665940}
   - component: {fileID: 5874721782835885992}
   - component: {fileID: 1416126086845133636}
   - component: {fileID: 2584155789053043675}
-  - component: {fileID: 3124687607624498327}
   m_Layer: 7
   m_Name: AIMummy
   m_TagString: Mummy
@@ -5347,6 +5347,35 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8199813728392553911}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &3124687607624498327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199813728392553911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e4ccd7f26c4a04b82c95f15bb5dc3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mummySpeed: 1.8
+  aiKickSpeed: 300
+  aiShootRange: 4
+  aiPassRange: 6
+  passChance: 0.1
+  stoppingDistanceFromGoal: 5
+  waitInPlaceTime: 1.5
+  randomZRange: 9
+  distanceToTravelMultiplierFloor: 0.4
+  slideRange: 1
+  slideSpeed: 100
+  slideCooldown: 1
+  slideDuration: 0.35
+  mummyLifeSpan: 12
+  ballPosition: {fileID: 3482737404897961101}
+  checkForPassFrequency: 0.5
+  GM: {fileID: 0}
 --- !u!136 &8984695175946079552
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5545,35 +5574,6 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3124687607624498327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199813728392553911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e4ccd7f26c4a04b82c95f15bb5dc3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mummySpeed: 1.8
-  aiKickSpeed: 300
-  aiShootRange: 4
-  aiPassRange: 6
-  passChance: 0.1
-  stoppingDistanceFromGoal: 5
-  waitInPlaceTime: 1.5
-  randomZRange: 9
-  distanceToTravelMultiplierFloor: 0.4
-  slideRange: 1
-  slideSpeed: 100
-  slideCooldown: 1
-  slideDuration: 0.35
-  mummyLifeSpan: 12
-  ballPosition: {fileID: 3482737404897961101}
-  checkForPassFrequency: 0.5
-  GM: {fileID: 0}
 --- !u!1 &8509758436619388604
 GameObject:
   m_ObjectHideFlags: 0
