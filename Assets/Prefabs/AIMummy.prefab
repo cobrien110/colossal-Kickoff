@@ -5359,7 +5359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e4ccd7f26c4a04b82c95f15bb5dc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mummySpeed: 1.8
+  mummySpeed: 1.6
   aiKickSpeed: 300
   aiShootRange: 4
   aiPassRange: 6
@@ -5376,6 +5376,7 @@ MonoBehaviour:
   ballPosition: {fileID: 3482737404897961101}
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
+  audioPlayer: {fileID: 1416126086845133636}
 --- !u!136 &8984695175946079552
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5534,7 +5535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a2efc67ae1f4749b7766d3a2371cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 0}
+  source: {fileID: 5874721782835885992}
   sounds:
   - {fileID: 8300000, guid: 7c1dd76054daa9d4b9c5509e8e0e3d66, type: 3}
   - {fileID: 8300000, guid: 07cf784642d3fa545aa9db6da5e1bfb2, type: 3}

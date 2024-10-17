@@ -10,6 +10,7 @@ public class AbilityMummyExplode : AbilityScript
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private GameObject slowAura;
     [SerializeField] private string soundName;
+    [SerializeField] private string explodeSoundName;
 
     public override void Activate()
     {
@@ -132,5 +133,8 @@ public class AbilityMummyExplode : AbilityScript
 
         // Destroy the mummy after exploding
         pursuer.Die(true);
+
+        // play sound
+        audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(explodeSoundName));
     }
 }

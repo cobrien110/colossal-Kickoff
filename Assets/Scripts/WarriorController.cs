@@ -71,7 +71,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public GameObject pinataParticleObj;
 
     //Mummy Curse
-    private bool isCursed = false;
+    [HideInInspector] public bool isCursed = false;
     [SerializeField] private GameObject Mummy = null;
 
     // Start is called before the first frame update
@@ -137,7 +137,7 @@ public class WarriorController : MonoBehaviour
         Respawn();
 
         //Particles
-        if (health < healthMax && !isDead && PS != null)
+        if ((health < healthMax || isCursed) && !isDead && PS != null)
         {
             if (!PS.isPlaying) PS.Play();
         } else if (PS != null)
@@ -165,6 +165,7 @@ public class WarriorController : MonoBehaviour
     //CURSE OF RA
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if (isCursed) return;
         
         AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
@@ -175,6 +176,7 @@ public class WarriorController : MonoBehaviour
             Instantiate(goreParticleObj, transform.position, Quaternion.identity);
             //playerRend.color = curseColor;
         }
+        */
 
     }
 
@@ -211,6 +213,10 @@ public class WarriorController : MonoBehaviour
         {
             movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
         } 
+        if (isCursed)
+        {
+            movementDirection *= -1;
+        }
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -663,5 +669,10 @@ public class WarriorController : MonoBehaviour
     {
         int i = Random.Range(1, 6);
         audioPlayer.PlaySoundSpecificPitch(audioPlayer.Find("warriorDeath" + i.ToString()), 1.75f);
+    }
+
+    public void BecomeBomb()
+    {
+
     }
 }

@@ -46,7 +46,7 @@ public class AIMummy : MonoBehaviour
 
     private Rigidbody rb;
     [SerializeField] private GameplayManager GM = null;
-    private AudioPlayer audioPlayer;
+    public AudioPlayer audioPlayer;
 
     private bool isPursuing = false;
 
@@ -63,6 +63,7 @@ public class AIMummy : MonoBehaviour
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
         monster = FindObjectOfType<MonsterController>().gameObject;
         audioPlayer = GetComponent<AudioPlayer>();
+        audioPlayer.PlaySoundVolume(audioPlayer.Find("sphinxMummyGroan"), 0.75f);
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
 
         //Debug.Log(": " + );
@@ -73,7 +74,7 @@ public class AIMummy : MonoBehaviour
     {
         StartCoroutine(CheckForPass());
         StartCoroutine(DelayedTeammateAssignment());
-        audioPlayer.PlaySoundVolume(audioPlayer.Find("sphinxMummyGroan"), 0.75f);
+        
         //warriors = FindObjectsOfType<WarriorController>();
         //int index = 0;
         // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
