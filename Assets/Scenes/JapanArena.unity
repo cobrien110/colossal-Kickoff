@@ -642,7 +642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 60337150}
   - component: {fileID: 60337151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -819,6 +819,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61052342}
   m_CullTransparentMesh: 1
+--- !u!1001 &88950905
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.63263
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.74996
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.4269787
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137296216186184701, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_Name
+      value: Grave (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
 --- !u!1 &115017658
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1054,63 @@ MonoBehaviour:
   player1respawnfill: {fileID: 1349152524}
   player2respawnfill: {fileID: 158089850}
   player3respawnfill: {fileID: 865703675}
+--- !u!1001 &156464518
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137296216186184701, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_Name
+      value: Grave
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
 --- !u!1 &156687129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,7 +2051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 329683162}
   - component: {fileID: 329683163}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2261,9 +2387,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 518068462}
-  m_Layer: 0
+  - component: {fileID: 518068463}
+  m_Layer: 6
   m_Name: JapanInvisWalls
-  m_TagString: Untagged
+  m_TagString: InvisWall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2289,6 +2416,28 @@ Transform:
   - {fileID: 722723378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &518068463
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518068461}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &536279966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2532,7 +2681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 663812855}
   - component: {fileID: 663812856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2660,7 +2809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 722723378}
   - component: {fileID: 722723379}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19277,7 +19426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1100489380}
   - component: {fileID: 1100489381}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22280,7 +22429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1628535483}
   - component: {fileID: 1628535484}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InvisWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30030,10 +30179,6 @@ PrefabInstance:
       propertyPath: GM
       value: 
       objectReference: {fileID: 1542430857}
-    - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
-      propertyPath: monsterPrefab
-      value: 
-      objectReference: {fileID: 3176374829716338387, guid: 146a4dee6574e204facf61ccad7f0b12, type: 3}
     - target: {fileID: 2488476523441867446, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: m_Name
       value: MonsterHolder
@@ -35196,3 +35341,5 @@ SceneRoots:
   - {fileID: 518068462}
   - {fileID: 1014400460}
   - {fileID: 5122680}
+  - {fileID: 156464518}
+  - {fileID: 88950905}

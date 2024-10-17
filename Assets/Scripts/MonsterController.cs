@@ -574,6 +574,12 @@ public class MonsterController : MonoBehaviour
         {
             segments.ResetSegments();
         }
+        // If playing Sphinx, reset mummies
+        AiMummyManager AMM = GetComponent<AiMummyManager>();
+        if (AMM != null)
+        {
+            AMM.ResetMummies();
+        }
     }
 
     IEnumerator KickDelay()
