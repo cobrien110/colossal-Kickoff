@@ -51,7 +51,16 @@ public class MenuCursor : MonoBehaviour
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
 
         playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
-        PH = playerHolders[playerHolders.Length - 1].GetComponent<PlayerHolder>();
+        PlayerHolder temp = null;
+        for (int i = 0; i < playerHolders.Length; i++)
+        {
+            temp = playerHolders[i].GetComponent<PlayerHolder>();
+            if (temp.playerID == playerNumber - 1)
+            {
+                PH = temp;
+            }
+        }
+
         Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
     }
 

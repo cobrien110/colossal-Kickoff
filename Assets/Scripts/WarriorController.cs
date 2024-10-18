@@ -73,6 +73,11 @@ public class WarriorController : MonoBehaviour
     //Mummy Curse
     [HideInInspector] public bool isCursed = false;
     [SerializeField] private GameObject Mummy = null;
+    private bool isBomb = false;
+    private float bombCooldown = 3f;
+    private float bombTimer = 0f;
+    [SerializeField] private GameObject BombVisual = null;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -151,6 +156,30 @@ public class WarriorController : MonoBehaviour
         {
             usingNewScheme = !usingNewScheme;
             invertControls = !invertControls;
+        }
+
+        //Bomb Curse
+        if (isBomb)
+        {
+            bombTimer += Time.deltaTime;
+            if (bombTimer > bombCooldown)
+            {
+                Instantiate(BombVisual, new Vector3(transform.position.x, 1.3f, transform.position.z), Quaternion.identity);
+                Die();
+                Debug.Log("Explode");
+                Collider[] objectsInRange = Physics.OverlapSphere(transform.position, 0.5f);
+                foreach (Collider obj in objectsInRange)
+                {
+                    if (obj.GetComponent<WarriorController>() != null)
+                    {
+                        obj.GetComponent<WarriorController>().Damage(1);
+                        Debug.Log("Player was hurt by bomb");
+                    }
+                    
+                }
+                bombTimer = 0;
+                isBomb = false;
+            }
         }
 
     }
@@ -488,7 +517,10 @@ public class WarriorController : MonoBehaviour
 
         isDead = true;
         isInvincible = true;
+        isBomb = false;
+        bombTimer = 0;
         PS.Stop();
+
         if (BP != null && BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             BP.ballOwner = null;
@@ -673,6 +705,6 @@ public class WarriorController : MonoBehaviour
 
     public void BecomeBomb()
     {
-
+        isBomb = true;
     }
 }
