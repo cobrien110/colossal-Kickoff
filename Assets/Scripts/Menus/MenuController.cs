@@ -82,6 +82,10 @@ public class MenuController : MonoBehaviour
                     SceneManager.LoadScene("JapanArena");
                     break;
                 case 3:
+                    //Mexico
+                    SceneManager.LoadScene("MexicoStage");
+                    break;
+                case 4:
                     //Egypt
                     SceneManager.LoadScene("EgyptArena");
                     break;

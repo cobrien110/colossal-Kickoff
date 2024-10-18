@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1018664272722485354, guid: 679a9d353173d074287bdae027942c9a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 679a9d353173d074287bdae027942c9a, type: 3}
       propertyPath: m_Name
@@ -296,6 +296,10 @@ PrefabInstance:
     - target: {fileID: 936849419113456813, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 936849419113456813, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2529909992509541054, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_Pivot.x
@@ -16472,7 +16476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1890957024
 BoxCollider:
   m_ObjectHideFlags: 0

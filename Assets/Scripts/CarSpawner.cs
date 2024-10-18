@@ -27,6 +27,9 @@ public class CarSpawner : MonoBehaviour
                 Instantiate(carPrefab, new Vector3(-15.0f, 0.0f, 0.0f), Quaternion.identity);
                 spawnTimer = 0;
             }
+        } else
+        {
+            spawnTimer = 0;
         }
     }
 }
