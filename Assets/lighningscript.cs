@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class lighningscript : MonoBehaviour
 {
-    public Animator lightningAnimator; // Reference to the Animator that handles the lightning flash
-    public string lightningTriggerName = "Flash"; // The name of the trigger in the Animator
+    public Animator lightningAnimator; 
+    public string lightningTriggerName = "Flash"; //The name of the trigger in the Animator
 
-    public float minInterval = 10f; // Minimum time between flashes
-    public float maxInterval = 30f; // Maximum time between flashes
+    public float minInterval = 10f; //Minimum time between flashes
+    public float maxInterval = 30f; //Maximum time between flashes
 
-    public AudioSource audioSource; // Assign an AudioSource component
-    public AudioClip lightningSound; // Assign the sound clip for the lightning
+    public AudioSource audioSource; 
+    public AudioClip lightningSound; 
 
     private void Start()
     {
         StartCoroutine(LightningLoop());
     }
 
-    // This function will be called by the animation event
+    //This function will be called by the animation event
     public void PlayLightningSound()
     {
         if (audioSource != null && lightningSound != null)
@@ -31,11 +31,11 @@ public class lighningscript : MonoBehaviour
     {
         while (true)
         {
-            // Wait for a random interval between minInterval and maxInterval
+            //Wait for a random interval between minInterval and maxInterval
             float randomInterval = Random.Range(minInterval, maxInterval);
             yield return new WaitForSeconds(randomInterval);
 
-            // Trigger the lightning animation
+            //Trigger the lightning animation
             lightningAnimator.SetTrigger(lightningTriggerName);
         }
     }

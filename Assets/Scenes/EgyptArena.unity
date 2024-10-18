@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 3006541}
   - component: {fileID: 3006540}
   - component: {fileID: 3006539}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statue (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -768,7 +768,7 @@ GameObject:
   - component: {fileID: 289748185}
   - component: {fileID: 289748187}
   - component: {fileID: 289748186}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 306464120}
   - component: {fileID: 306464122}
   - component: {fileID: 306464121}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,7 +1381,7 @@ GameObject:
   - component: {fileID: 555398270}
   - component: {fileID: 555398269}
   - component: {fileID: 555398268}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statue (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1798,7 +1798,7 @@ GameObject:
   - component: {fileID: 790521040}
   - component: {fileID: 790521042}
   - component: {fileID: 790521041}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1882,7 +1882,7 @@ GameObject:
   - component: {fileID: 858469709}
   - component: {fileID: 858469708}
   - component: {fileID: 858469707}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statue (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12624,7 +12624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1265720430}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GoalPosts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12722,7 +12722,7 @@ GameObject:
   - component: {fileID: 1319139441}
   - component: {fileID: 1319139443}
   - component: {fileID: 1319139442}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13252,7 +13252,7 @@ GameObject:
   - component: {fileID: 1558947022}
   - component: {fileID: 1558947024}
   - component: {fileID: 1558947023}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13324,6 +13324,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558947021}
   m_Mesh: {fileID: -4123511112055462572, guid: 2d598348ef0f7aa459f19ce25f4ed69a, type: 3}
+--- !u!1 &1573747779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1573747780}
+  m_Layer: 0
+  m_Name: Environment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1573747780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573747779}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4725876703348907903}
+  m_Father: {fileID: 1588227318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1588227317
 GameObject:
   m_ObjectHideFlags: 0
@@ -13357,6 +13389,7 @@ Transform:
   - {fileID: 1265720430}
   - {fileID: 543450653666141795}
   - {fileID: 156824440}
+  - {fileID: 1573747780}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1623512429
@@ -13436,7 +13469,7 @@ GameObject:
   - component: {fileID: 1722346699}
   - component: {fileID: 1722346701}
   - component: {fileID: 1722346700}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19642,7 +19675,7 @@ GameObject:
   - component: {fileID: 860747826590313662}
   - component: {fileID: 8384023224006737515}
   - component: {fileID: 6557566972916377924}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22576,7 +22609,7 @@ GameObject:
   - component: {fileID: 8897240367382026546}
   - component: {fileID: 3129779573465047502}
   - component: {fileID: 8897240367382026547}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25732,6 +25765,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 543450653666141795}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3707452373640030967
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1573747780}
+    m_Modifications:
+    - target: {fileID: 865691430132059767, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: CollisionModule.m_Planes.Array.data[0]
+      value: 
+      objectReference: {fileID: 3469642340899296673}
+    - target: {fileID: 865691430132059767, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: CollisionModule.m_Planes.Array.data[1]
+      value: 
+      objectReference: {fileID: 6619659068379141817}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -31.203785
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 35.145
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -67.95034
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072409395657467971, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+      propertyPath: m_Name
+      value: DustCloudsRolling
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
 --- !u!1 &3727716953642746544
 GameObject:
   m_ObjectHideFlags: 0
@@ -27737,7 +27835,7 @@ GameObject:
   - component: {fileID: 1787666684148795331}
   - component: {fileID: 7561444067509185377}
   - component: {fileID: 6137760624299076605}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Set Cane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27801,6 +27899,11 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4725876703348907903 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4778003006126703431, guid: 14923b59c2cf75a4aab872c18c613154, type: 3}
+  m_PrefabInstance: {fileID: 3707452373640030967}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &4743044431694147647
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38320,7 +38423,7 @@ GameObject:
   - component: {fileID: 8401952774857904330}
   - component: {fileID: 7416691523771861051}
   - component: {fileID: 8401952774857904331}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41213,6 +41316,6 @@ SceneRoots:
   - {fileID: 665379640449076556}
   - {fileID: 4067862408232743441}
   - {fileID: 8402116903593336146}
-  - {fileID: 1588227318}
   - {fileID: 1156245721}
   - {fileID: 2029786925}
+  - {fileID: 1588227318}
