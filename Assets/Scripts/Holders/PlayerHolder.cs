@@ -54,6 +54,8 @@ public class PlayerHolder : MonoBehaviour
     {
         if (scene.name.Equals("MainMenus"))
         {
+            teamName = "";
+            monsterIndex = -1;
             GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID);
         }
         else
