@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameplayManager : MonoBehaviour
 {
     public bool isPlaying = false;
+    public bool automaticAISpawn = true;
+    public bool automaticStart = true;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
@@ -34,6 +36,10 @@ public class GameplayManager : MonoBehaviour
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         Time.timeScale = 1;
 
+        if (automaticAISpawn && playerList.Count < 4)
+        {
+            SpawnAI();
+        }
 
         //WIP
         int count = 0;
@@ -55,7 +61,12 @@ public class GameplayManager : MonoBehaviour
 
 
         //Start Game for Expo
-        if (Input.GetKeyDown(KeyCode.Return) && !isPlaying)
+        if (automaticStart && !isPlaying)
+        {
+            automaticStart = false;
+            StartCoroutine(Kickoff());
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && !isPlaying)
         {
             StartCoroutine(Kickoff());
             Debug.Log("Enter");
@@ -216,10 +227,21 @@ public class GameplayManager : MonoBehaviour
 
     public void SpawnAI()
     {
-        WarriorAI.name = "1_WarriorAI";
-        Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
-        WarriorAI.name = "2_WarriorAI";
-        Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
+        for (int i = playerList.Count; i < 4; i++)
+        {
+            WarriorAI.name = i + "_WarriorAI";
+            Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+            WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
+            WC = WarriorAI.GetComponent<WarriorController>();
+            WC.WarriorSpawner = WarriorSpawners[spawnCount++];
+            WC.transform.position = WC.WarriorSpawner.transform.position;
+            WC.SetColor(playerList.Count);
+            playerList.Add(WarriorAI);
+            UM.ShowPlayerUI(true, i);
+        }
+
+        //WarriorAI.name = "2_WarriorAI";
+        //Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
         /*WarriorAI.name = "3_WarriorAI";
         Instantiate(WarriorAI, new Vector3(5.25f, 0f, 2f), Quaternion.identity);*/
     }
