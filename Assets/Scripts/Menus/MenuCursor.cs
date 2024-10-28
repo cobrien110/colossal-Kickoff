@@ -9,7 +9,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] Rigidbody2D body;
     private float horizontal;
     private float vertical;
-    private float moveLimiter = 0.7f;
+    //private float moveLimiter = 0.7f;
     [SerializeField] private float speed = 500.0f;
     public int playerNumber = -1;
     public int playerSlot = -1;
@@ -62,6 +62,8 @@ public class MenuCursor : MonoBehaviour
         }
 
         Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
+
+        transform.position = new Vector3 (325, 185, 0);
     }
 
     private void OnEnable()
@@ -92,6 +94,21 @@ public class MenuCursor : MonoBehaviour
         if ((!hasSelected) || MC.currentScreen == 3) {
             body.velocity = new Vector2(horizontal * speed, vertical * speed);
         }
+
+        //bounding box
+        if (transform.position.y > 370) {
+            transform.position = new Vector3(transform.position.x, 370, 0);
+        }
+        if (transform.position.y < 0) {
+            transform.position = new Vector3(transform.position.x, 0, 0);
+        }
+        if (transform.position.x < 0) {
+            transform.position = new Vector3(0, transform.position.y, 0);
+        }
+        if (transform.position.x > 650) {
+            transform.position = new Vector3(650, transform.position.y, 0);
+        }
+        
     }
 
     public void PlayerSelected(int value) {

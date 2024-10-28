@@ -28,6 +28,7 @@ public class MenuController : MonoBehaviour
     2: Character Select
     3: Stage Select
     **/
+    private bool monsterConfirmed = false;
     public bool canMoveToStageSelect = false;
 
     void Update()
@@ -171,7 +172,8 @@ public class MenuController : MonoBehaviour
     public void confirmCharacter(int playerSlot) {
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
-        if (confirmedInfos.Count == cursors.Length) {
+        if (playerSlot == 0) {
+            monsterConfirmed = true;
             canMoveToStageSelect = true;
             readyText.SetActive(true);
         }
@@ -180,7 +182,7 @@ public class MenuController : MonoBehaviour
     public void unconfirmCharacter(int playerSlot) {
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
-        if (canMoveToStageSelect) {
+        if (playerSlot == 0 && canMoveToStageSelect) {
             canMoveToStageSelect = false;
             readyText.SetActive(false);
         }
