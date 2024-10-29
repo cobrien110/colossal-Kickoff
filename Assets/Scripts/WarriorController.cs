@@ -25,6 +25,8 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float respawnTime = 2f;
     private float respawnTimer;
     [SerializeField] private float respawnInvincibilityTime = 1.5f;
+    [SerializeField] private float damageInvincibilityTime = 0.35f;
+    [SerializeField] private bool willBeStunnedOnHit = false;
     private bool isDead = false;
     public bool isInvincible = false;
     [SerializeField] protected float passSpeed = 5.0f;
@@ -138,6 +140,11 @@ public class WarriorController : MonoBehaviour
                 Sliding();
             }
             InvincibilityFlash();
+
+            if ((isStunned) && BP.ballOwner == this.gameObject)
+            {
+                BP.ballOwner = null;
+            }
         }
         Respawn();
 
@@ -566,7 +573,8 @@ public class WarriorController : MonoBehaviour
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
             StartCoroutine(SetInvincibility(true, 0.1f));
-            StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
+            StartCoroutine(SetInvincibility(false, damageInvincibilityTime + 0.1f));
+            if (willBeStunnedOnHit) Stun(0.1f);
         }
     }
 
@@ -582,7 +590,8 @@ public class WarriorController : MonoBehaviour
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
             SetInvincibility(true);
-            StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
+            StartCoroutine(SetInvincibility(false, damageInvincibilityTime));
+            if (willBeStunnedOnHit) Stun(0.1f);
         }
     }
 
@@ -597,7 +606,7 @@ public class WarriorController : MonoBehaviour
         isStunned = true;
         rb.velocity = Vector3.zero;
         //audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
-        CSM.PlayDeathSound(false);
+        //CSM.PlayDeathSound(false);
         StartCoroutine(ResetStun(stunTime));
     }
 
@@ -683,7 +692,11 @@ public class WarriorController : MonoBehaviour
     public void InvincibilityFlash()
     {
         if (spriteObject == null) return;
-        if (isInvincible && Time.frameCount % 2 == 0 && !isSliding)
+        if (isStunned && Time.frameCount % 2 == 0)
+        {
+            spriteObject.transform.localScale = Vector3.zero;
+        }
+        else if (isInvincible && Time.frameCount % 4 == 0 && !isSliding)
         {
             spriteObject.transform.localScale = Vector3.zero;
         } else 
