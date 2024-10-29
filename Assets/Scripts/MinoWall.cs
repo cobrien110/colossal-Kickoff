@@ -52,7 +52,7 @@ public class MinoWall : MonoBehaviour
         if (other.CompareTag("Monster") && !movingBack)
         {
             float mult = 1f;
-            if (MC.isDashing)
+            if (MC.isDashing || !MC.canBeStunned)
             {
                 mult = chargeShrapnelMult;
                 AbilityMinotaurBoost AMB = other.GetComponent<AbilityMinotaurBoost>();
@@ -85,8 +85,10 @@ public class MinoWall : MonoBehaviour
     private void SpawnShrapnel(float mult)
     {
         int num = numOfShrapnel * (int) mult;
-        float angleIncrement = shrapnelSpawnDegrees / (num - 1);
-        float startAngle = -shrapnelSpawnDegrees / 2; // Start angle of the spread
+        float a = shrapnelSpawnDegrees;
+        if (mult > 1) a = 359;
+        float angleIncrement = a / (num - 1);
+        float startAngle = -a / 2; // Start angle of the spread
 
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
         for (int i = 0; i < num; i++)

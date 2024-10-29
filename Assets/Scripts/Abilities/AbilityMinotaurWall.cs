@@ -16,6 +16,14 @@ public class AbilityMinotaurWall : AbilityScript
     public int shrapnelAmount;
     public float shrapnelSpreadAngle;
     public float chargeShrapnelMult = 2;
+    public bool willSpawnWallAtGoal = true;
+    public Vector3 goalWallSpawnPos;
+
+    private void Start()
+    {
+        Setup();
+        goalWallSpawnPos = new Vector3(-6.5f, transform.position.y, transform.position.z);
+    }
 
     public override void Activate()
     {
@@ -34,6 +42,10 @@ public class AbilityMinotaurWall : AbilityScript
             spawnLocation = transform.position + (dir * wallSpawnDistance);
             spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
             Instantiate(wallPrefab, spawnLocation, spawnRotation);
+            if (willSpawnWallAtGoal)
+            {
+                Instantiate(wallPrefab, goalWallSpawnPos, Quaternion.LookRotation(new Vector3(-1, 0, 0), Vector3.up));
+            }
 
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(wallSoundEffect), 0.2f);
             ANIM.Play(activatedAnimationName);
