@@ -324,6 +324,7 @@ GameObject:
   - component: {fileID: 2362369478393533628}
   - component: {fileID: 4899238629852190018}
   - component: {fileID: 7559168659025101647}
+  - component: {fileID: 7699497776856100877}
   m_Layer: 6
   m_Name: Wall
   m_TagString: MinoWall
@@ -419,9 +420,9 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 7159
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -446,9 +447,31 @@ MonoBehaviour:
   shrapnelDamage: 1
   shrapnelSpeed: 500
   shrapnelSpawnDegrees: 35
+  chargeShrapnelMult: 2
   yOffset: 0.5
   speed: 0.5
   duration: 8
+--- !u!65 &7699497776856100877
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245119529360210988}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_Center: {x: 0, y: -0.000000029802322, z: 0}
 --- !u!1 &6437467587611459302
 GameObject:
   m_ObjectHideFlags: 0

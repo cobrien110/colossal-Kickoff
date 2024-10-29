@@ -15,6 +15,7 @@ public class AbilityMinotaurWall : AbilityScript
     public float shrapnelSpeed;
     public int shrapnelAmount;
     public float shrapnelSpreadAngle;
+    public float chargeShrapnelMult = 2;
 
     public override void Activate()
     {
