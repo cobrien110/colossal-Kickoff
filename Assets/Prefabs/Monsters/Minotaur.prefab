@@ -206,6 +206,8 @@ MonoBehaviour:
   willStopWhenDribbling: 1
   canHitBall: 1
   attackHitForce: 150
+  autoCharge: 0
+  inputBuffer: 0.4
   attackRange: 1.35
   attackBaseRadius: 0.6
   attackVisualOffsetY: -0.3
@@ -242,14 +244,16 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  chargeRate: 2
-  maxChargeSeconds: 1
+  chargeRate: 1.5
+  maxChargeSeconds: 1.75
   slowsDownCharacterWhileCharging: 1
   chargeSoundName: minotaurDashCharge
   hasChargeUpAnimation: 1
   willStopWhenDribbling: 1
   canHitBall: 0
   attackHitForce: 150
+  autoCharge: 1
+  inputBuffer: 0.25
   dashSpeed: 400
   duration: 1
   dashSoundEffect: minotaurDash

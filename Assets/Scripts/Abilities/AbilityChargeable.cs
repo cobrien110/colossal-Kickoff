@@ -18,6 +18,12 @@ public abstract class AbilityChargeable : AbilityScript
     public bool canHitBall = true;
     public float attackHitForce = 150f;
 
+    [Header("Auto Charging")]
+    public bool autoCharge = false;
+    private bool isAutoCharging = false;
+    public float inputBuffer = 0.4f;
+    private float inputBufferTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +51,17 @@ public abstract class AbilityChargeable : AbilityScript
             if (attackVisualizer != null && attackVisualizer.activeSelf) attackVisualizer.SetActive(false);
         }
 
+        // activate ability if max charge is reached on auto-charge
+        if (autoCharge)
+        {
+            if (inputBufferTimer < inputBuffer && isAutoCharging) inputBufferTimer += Time.deltaTime;
+            if (chargeAmount >= maxChargeSeconds)
+            {
+                Activate();
+                ANIM.SetBool("isWindingUp", false);
+                isAutoCharging = false;
+            }
+        }
     }
 
     protected void StopWhenDribbling()
@@ -90,7 +107,7 @@ public abstract class AbilityChargeable : AbilityScript
 
     public virtual void CheckInputs(InputAction.CallbackContext context)
     {
-        if (!GM.isPlaying)
+        if (!GM.isPlaying || MC.isStunned)
         {
             isCharging = false;
             chargeAmount = 0;
@@ -99,20 +116,40 @@ public abstract class AbilityChargeable : AbilityScript
 
         if (timer >= cooldown)
         {
-            // If input is no longer true, attack
-            if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
+            if (autoCharge) // Do this if this ability charges itself once pressed
             {
-                Activate();
-                ANIM.SetBool("isWindingUp", false);
-            }
-            else if (context.action.IsInProgress() && timer >= cooldown) // If it still is true, keep charging
+                if (isAutoCharging && inputBufferTimer >= inputBuffer && context.action.WasPerformedThisFrame())
+                {
+                    inputBufferTimer = 0;
+                    Activate();
+                    isAutoCharging = false;
+                }
+                else if (context.action.WasPerformedThisFrame() || isAutoCharging)
+                {
+                    ChargeUp();
+                    isAutoCharging = true;
+                } else if (!isAutoCharging)
+                {
+                    ChargeDown();
+                }
+            } else // Do this if the ability requires to be held down
             {
-                ChargeUp();
+                // If input is no longer true, attack
+                if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
+                {
+                    Activate();
+                    ANIM.SetBool("isWindingUp", false);
+                }
+                else if (context.action.IsInProgress() && timer >= cooldown) // If it still is true, keep charging
+                {
+                    ChargeUp();
+                }
+                else
+                {
+                    ChargeDown();
+                }
             }
-            else
-            {
-                ChargeDown();
-            }
+            
         }
     }
 
