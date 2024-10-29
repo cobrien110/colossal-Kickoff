@@ -565,7 +565,23 @@ public class WarriorController : MonoBehaviour
         } else
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
-            StartCoroutine(SetInvincibility(true, 0.15f));
+            StartCoroutine(SetInvincibility(true, 0.1f));
+            StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
+        }
+    }
+
+    public void DamageWithInstantInvincibility(int amount)
+    {
+        if (isInvincible) return;
+        health -= amount;
+        if (health <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
+            SetInvincibility(true);
             StartCoroutine(SetInvincibility(false, respawnInvincibilityTime));
         }
     }
@@ -656,6 +672,11 @@ public class WarriorController : MonoBehaviour
     {
         Debug.Log("Invincibility will be set to " + invin + " in " + time + " seconds");
         yield return new WaitForSeconds(time);
+        isInvincible = invin;
+    }
+
+    public void SetInvincibility(bool invin)
+    {
         isInvincible = invin;
     }
 

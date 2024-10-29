@@ -15,15 +15,18 @@ public class MinoWall : MonoBehaviour
     public float yOffset = .5f;
     public float speed = 1f;
     public float duration = 8f;
+    public LayerMask players;
     private float startTime;
     private float journeyLength;
     private AbilityMinotaurWall ABW;
     private MonsterController MC;
     private bool movingBack = false;
+    private BoxCollider BC;
 
     // Start is called before the first frame update
     void Start()
     {
+        BC = GetComponent<BoxCollider>();
         transform.position = startPt.position;
         startTime = Time.time;
         ABW = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityMinotaurWall>();
@@ -37,11 +40,25 @@ public class MinoWall : MonoBehaviour
         // Calculate the journey length.
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
         StartCoroutine("Swap", duration);
+
+        if (Physics.Raycast(transform.position, Vector3.up, players)) {
+            BC.enabled = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!BC.enabled)
+        {
+            if (Physics.Raycast(transform.position, Vector3.up, players))
+            {
+                BC.enabled = false;
+            } else
+            {
+                BC.enabled = true;
+            }
+        }
         float distCovered = (Time.time - startTime) * speed;
         float fractionOfJourney = distCovered / journeyLength;
         transform.position = Vector3.Lerp(transform.position, endPt.position, fractionOfJourney);
