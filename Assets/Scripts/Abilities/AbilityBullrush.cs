@@ -12,10 +12,15 @@ public class AbilityBullrush : AbilityChargeable
     //private float inputBuffer = 0f;
     //public float inputBufferTime = 1f;
 
+    public GameObject magmaPrefab;
+    public float magmaSpawnDistance = 0.1f;
+    private Vector3 lastMagmaSpawn;
+    public float magmaSpawnTime = 1f;
+    private bool isSpawningMagma = false;
+
     private void Start()
     {
         Setup();
-        //inputBuffer = inputBufferTime;
     }
 
     public override void Activate()
@@ -49,6 +54,9 @@ public class AbilityBullrush : AbilityChargeable
             MC.rb.AddForce(dashVelocity);
 
             Invoke("StopDashing", duration);
+            isSpawningMagma = true;
+            SpawnMagma();
+            Invoke("StopSpawnMagma", magmaSpawnTime);
         }
         else
         {
@@ -67,6 +75,24 @@ public class AbilityBullrush : AbilityChargeable
         Debug.Log("No longer dashing");
         // ANIM.SetBool("isSliding", false);
         MC.isDashing = false;
+    }
+
+    private void SpawnMagma()
+    {
+        if (!GM.isPlaying || !isSpawningMagma) return;
+        if (lastMagmaSpawn == null || Vector3.Distance(lastMagmaSpawn, transform.position) >= magmaSpawnDistance)
+        {
+            Vector3 spawnPos = transform.position;
+            spawnPos.y = -0.275f;
+            Instantiate(magmaPrefab, spawnPos, transform.rotation);
+            lastMagmaSpawn = transform.position;
+        }
+        Invoke("SpawnMagma", 0.02f);
+    }
+
+    private void StopSpawnMagma()
+    {
+        isSpawningMagma = false;
     }
 
     private void OnTriggerEnter(Collider collider)

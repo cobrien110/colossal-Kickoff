@@ -139,14 +139,15 @@ public class GameplayManager : MonoBehaviour
             }
         }
 
-        GameObject[] MinoWalls = GameObject.FindGameObjectsWithTag("MinoWall");
-        if (MinoWalls.Length != 0)
+        // These lines of code should delete any objects in the scene that have the DELETEAFTERDELAY script attatched
+        DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
+        if (ObjectsToDelete.Length != 0)
         {
-            for (int i = 0; i < MinoWalls.Length; i++)
+            for (int i = 0; i < ObjectsToDelete.Length; i++)
             {
                 try
                 {
-                    MinoWalls[i].GetComponent<DeleteAfterDelay>().Kill();
+                    ObjectsToDelete[i].Kill();
                 }
                 catch
                 {
