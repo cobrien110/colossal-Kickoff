@@ -59,6 +59,12 @@ public class AbilitySphericalAttack : AbilityChargeable
                         BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                     }
                 }
+                DamagePlayer magmaPool = col.gameObject.GetComponent<DamagePlayer>();
+                if (magmaPool != null && canSpawnProjectile)
+                {
+                    SpawnShrapnel(magmaPool.transform.position);
+                    Destroy(magmaPool.gameObject);
+                }
             }
 
             if (chargeAmount < maxChargeSeconds)
@@ -68,7 +74,7 @@ public class AbilitySphericalAttack : AbilityChargeable
             else
             {
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurAxeAttackCharged"), 0.7f);
-                if (canSpawnProjectile) SpawnShrapnel();
+                if (canSpawnProjectile) SpawnShrapnel(transform.position);
             }
             timer = 0;
             chargeAmount = 0;
@@ -79,10 +85,10 @@ public class AbilitySphericalAttack : AbilityChargeable
         }
     }
 
-    void SpawnShrapnel()
+    void SpawnShrapnel(Vector3 point)
     {
         if (projectilePrefab == null) return;
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 pos = new Vector3(point.x, point.y, point.z);
         GameObject shrap = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
         WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
         WS.damage = projectileDamage;

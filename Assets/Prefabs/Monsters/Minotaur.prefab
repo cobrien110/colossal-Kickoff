@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718773609196591379}
   - component: {fileID: 3703359982807322521}
+  - component: {fileID: -8464121941330500085}
   - component: {fileID: 8342599681389894631}
   - component: {fileID: 2061249857265671894}
   - component: {fileID: 1110472901978447733}
@@ -130,6 +131,7 @@ MonoBehaviour:
   isChargingAbility: 0
   isDashing: 0
   isStunned: 0
+  canBeStunned: 1
   isIntangible: 0
   canMove: 1
   GM: {fileID: 0}
@@ -137,6 +139,30 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
+--- !u!114 &-8464121941330500085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176374829716338387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d232143869d6eb8448d7e51aecdef80b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: NoName
+  hasCooldown: 0
+  cooldown: 0
+  counterMax: 0
+  visualizer: {fileID: 0}
+  MC: {fileID: 0}
+  audioPlayer: {fileID: 0}
+  ANIM: {fileID: 0}
+  UM: {fileID: 0}
+  duration: 5
+  speedBoost: 0.5
+  onColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &8342599681389894631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +285,7 @@ MonoBehaviour:
   duration: 1
   dashSoundEffect: minotaurDash
   magmaPrefab: {fileID: 1659247539086615764, guid: 888530a8288cf154883f81bfe873398b, type: 3}
-  magmaSpawnDistance: 0.5
+  magmaSpawnDistance: 0.75
   magmaSpawnTime: 1
 --- !u!33 &4594944956692112125
 MeshFilter:

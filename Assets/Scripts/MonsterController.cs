@@ -54,6 +54,7 @@ public class MonsterController : MonoBehaviour
     //private float dashCharge = 1f;
     //private bool isChargingDash = false;
     [HideInInspector] public bool isStunned = false;
+    [HideInInspector] public bool canBeStunned = true;
     public bool isIntangible = false;
 
     [SerializeField] private bool canMove = true;
@@ -530,7 +531,7 @@ public class MonsterController : MonoBehaviour
 
     public void Stun()
     {
-        if (isStunned) return;
+        if (isStunned || !canBeStunned) return;
         BP.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
         isStunned = true;
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);

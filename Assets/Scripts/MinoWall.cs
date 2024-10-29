@@ -55,11 +55,14 @@ public class MinoWall : MonoBehaviour
             if (MC.isDashing)
             {
                 mult = chargeShrapnelMult;
-                // start boosted state ???
+                AbilityMinotaurBoost AMB = other.GetComponent<AbilityMinotaurBoost>();
+                AMB.Activate();
             }
             SpawnShrapnel(mult);
-            AudioPlayer aud = other.gameObject.GetComponent<AudioPlayer>();
-            aud.PlaySoundVolumeRandomPitch(aud.Find("minotaurWallSmash"), 0.35f);
+            //AudioPlayer aud = GetComponent<AudioPlayer>();
+            //aud.PlaySoundVolumeRandomPitch(aud.Find("minotaurWallSmash"), 0.35f);
+            AudioPlayer aud2 = other.gameObject.GetComponent<AudioPlayer>();
+            aud2.PlaySoundVolumeRandomPitch(aud2.Find("minotaurWallSmash"), 0.45f);
             Destroy(this.gameObject);
         }
     }
@@ -81,16 +84,17 @@ public class MinoWall : MonoBehaviour
 
     private void SpawnShrapnel(float mult)
     {
-        float angleIncrement = shrapnelSpawnDegrees / (numOfShrapnel - 1);
+        int num = numOfShrapnel * (int) mult;
+        float angleIncrement = shrapnelSpawnDegrees / (num - 1);
         float startAngle = -shrapnelSpawnDegrees / 2; // Start angle of the spread
 
         Vector3 pos = new Vector3(transform.position.x, transform.position.y - yOffset, transform.position.z);
-        for (int i = 0; i < numOfShrapnel * mult; i++)
+        for (int i = 0; i < num; i++)
         {
             GameObject shrap = Instantiate(shrapnelPrefab, pos, Quaternion.LookRotation(MC.movementDirection, Vector3.up));
             WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
             WS.damage = shrapnelDamage;
-            WS.speed = shrapnelSpeed * (mult *.75f);
+            WS.speed = shrapnelSpeed;
 
             // Calculate the angle for this projectile
             float angle = startAngle + (angleIncrement * i);
