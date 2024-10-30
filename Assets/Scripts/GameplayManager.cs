@@ -123,19 +123,22 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(Kickoff());
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
         Ball = newBall;
+        BallProperties BP = Ball.GetComponent<BallProperties>();
+        BP.isSuperKick = false;
+        passMeter = 0;
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].tag.Equals("Monster"))
             {
                 MC = playerList[i].GetComponent<MonsterController>();
                 MC.Ball = newBall;
-                MC.BP = Ball.GetComponent<BallProperties>();
+                MC.BP = BP;
                 MC.ResetPlayer();
             } else
             {
                 WC = playerList[i].GetComponent<WarriorController>();
                 WC.Ball = newBall;
-                WC.BP = Ball.GetComponent<BallProperties>();
+                WC.BP = BP;
                 WC.ResetPlayer();
             }
         }
