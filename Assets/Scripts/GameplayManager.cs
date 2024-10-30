@@ -219,7 +219,6 @@ public class GameplayManager : MonoBehaviour
             try
             {
                 WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
-                Debug.Log("NewPlayer: " + spawnCount);
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;
             } catch
@@ -238,7 +237,6 @@ public class GameplayManager : MonoBehaviour
             Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
             WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
             WC = WarriorAI.GetComponent<WarriorController>();
-            Debug.Log("SpawnAI: " + spawnCount);
             WC.WarriorSpawner = WarriorSpawners[spawnCount++];
             WC.transform.position = WC.WarriorSpawner.transform.position;
             WC.SetColor(playerList.Count);
