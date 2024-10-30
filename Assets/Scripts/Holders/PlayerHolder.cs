@@ -9,6 +9,7 @@ public class PlayerHolder : MonoBehaviour
     public int playerID = -1;
     public string teamName = "";
     public int monsterIndex = 0;
+    public Gamepad thisGamepad;
 
     // Start is called before the first frame update
     void Awake()
@@ -17,18 +18,26 @@ public class PlayerHolder : MonoBehaviour
 
         playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
 
+        for (int i = 0; i < Gamepad.all.Count; i++)
+        {
+            if (Gamepad.all[i].startButton.wasPressedThisFrame)
+            {
+                thisGamepad = Gamepad.all[i];
+            }
+        }
+
         if (SceneManager.GetActiveScene().name.Equals("MainMenus"))
         {
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID);
+            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
         }
         else
         {
             if (playerID == 0)
             {
-                GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID);
+                GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID, thisGamepad);
             } else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad);
 
             }
         }
@@ -56,7 +65,7 @@ public class PlayerHolder : MonoBehaviour
         {
             teamName = "";
             monsterIndex = -1;
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID);
+            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
         }
         else
         {
@@ -64,11 +73,11 @@ public class PlayerHolder : MonoBehaviour
             {
                 MonsterHolder MH = GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>();
                 MH.monsterIndex = monsterIndex;
-                MH.spawnMonster(playerID);
+                MH.spawnMonster(playerID, thisGamepad);
             }
             else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad);
 
             }
         }

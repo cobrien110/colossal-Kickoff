@@ -180,12 +180,12 @@ public class GameplayManager : MonoBehaviour
         isPlaying = set;
     }
 
-    public void AddPlayer(GameObject playerPrefab, int playerID)
+    public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
     {
         //playerInputs.Add(player);
         // MTC.AddTarget(player.transform);
 
-        PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[playerID]);
+        PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
         //MTC.AddTarget(p.transform);
 
         NewPlayer();
@@ -219,6 +219,7 @@ public class GameplayManager : MonoBehaviour
             try
             {
                 WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
+                Debug.Log("NewPlayer: " + spawnCount);
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;
             } catch
@@ -237,6 +238,7 @@ public class GameplayManager : MonoBehaviour
             Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
             WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
             WC = WarriorAI.GetComponent<WarriorController>();
+            Debug.Log("SpawnAI: " + spawnCount);
             WC.WarriorSpawner = WarriorSpawners[spawnCount++];
             WC.transform.position = WC.WarriorSpawner.transform.position;
             WC.SetColor(playerList.Count);
