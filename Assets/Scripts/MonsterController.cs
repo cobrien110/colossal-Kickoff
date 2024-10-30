@@ -118,7 +118,7 @@ public class MonsterController : MonoBehaviour
             //Movement();
         }
         //Movement();
-        if (GM.isPlaying)
+        if (GM.isPlaying && !GM.isPaused)
         {  
             Dribbling();
             Passing();
@@ -662,7 +662,7 @@ public class MonsterController : MonoBehaviour
     public void OnWall(InputAction.CallbackContext context)
     {
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[0].usableWhileDribbling)
-            || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
+            || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[0] is AbilityChargeable)
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[1];
@@ -677,7 +677,7 @@ public class MonsterController : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[1].usableWhileDribbling)
-            || (isIntangible && !abilities[1].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
+            || (isIntangible && !abilities[1].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[1] is AbilityChargeable)
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[1];
@@ -718,7 +718,7 @@ public class MonsterController : MonoBehaviour
     public void OnCharge(InputAction.CallbackContext context)
     {
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[2].usableWhileDribbling)
-            || (isIntangible && !abilities[2].usableWhileIntangible) || !GM.isPlaying) return; // ensure no dashing or dash charging when you have ball
+            || (isIntangible && !abilities[2].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[2] is AbilityChargeable)
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[2];
@@ -783,8 +783,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnInvert(InputAction.CallbackContext context)
     {
-        invertControls = !invertControls;
-        usingNewScheme = !usingNewScheme;
+        //invertControls = !invertControls;
+        //usingNewScheme = !usingNewScheme;
+        GM.PauseGame();
     }
 
 }

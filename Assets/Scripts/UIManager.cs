@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Countdown countdown;
     [SerializeField] private TMP_Text gameoverText = null;
     [SerializeField] private TMP_Text playerScoredText = null;
+    [SerializeField] private GameObject pauseScreen = null;
 
     public bool menuReturn = false;
 
@@ -471,5 +472,10 @@ public class UIManager : MonoBehaviour
         te.text = s;
         te.SelectAll();
         te.Copy();
+    }
+
+    public void PauseScreen(bool isPaused)
+    {
+        pauseScreen.SetActive(isPaused);
     }
 }

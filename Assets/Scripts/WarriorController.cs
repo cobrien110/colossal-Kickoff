@@ -129,7 +129,7 @@ public class WarriorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GM.isPlaying && !isDead)
+        if (GM.isPlaying && !isDead && !GM.isPaused)
         {
             //if (GetComponent<WarriorAiController>() != null) return;
             Dribbling();
@@ -651,13 +651,14 @@ public class WarriorController : MonoBehaviour
 
     public void OnSlide(InputAction.CallbackContext context)
     {
-        if (GM.isPlaying && !isDead) Sliding();
+        if (GM.isPlaying && !isDead && !GM.isPaused) Sliding();
     }
 
     public void OnInvert(InputAction.CallbackContext context)
     {
-        invertControls = !invertControls;
-        usingNewScheme = !usingNewScheme;
+        //invertControls = !invertControls;
+        //usingNewScheme = !usingNewScheme;
+        GM.PauseGame();
     }
 
     /**

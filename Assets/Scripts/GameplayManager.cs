@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameplayManager : MonoBehaviour
 {
     public bool isPlaying = false;
+    public bool isPaused = false;
     public bool automaticAISpawn = true;
     public bool automaticStart = true;
     [SerializeField] private UIManager UM = null;
@@ -190,7 +191,6 @@ public class GameplayManager : MonoBehaviour
 
     public void NewPlayer()
     {
-
         GameObject player;
         if (playerList.Count == 0 && GameObject.FindGameObjectWithTag("Monster"))
         {
@@ -265,5 +265,24 @@ public class GameplayManager : MonoBehaviour
         // Resume Game
         Time.timeScale = 1;
         */
+    }
+
+    public void PauseGame()
+    {
+        if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
+        {
+            if (isPaused)
+            {
+                Time.timeScale = 1;
+                isPaused = false;
+                UM.PauseScreen(isPaused);
+            }
+            else
+            {
+                Time.timeScale = 0;
+                isPaused = true;
+                UM.PauseScreen(isPaused);
+            }
+        }
     }
 }
