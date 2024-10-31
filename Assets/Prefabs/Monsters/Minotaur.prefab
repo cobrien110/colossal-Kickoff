@@ -199,6 +199,8 @@ MonoBehaviour:
   shrapnelAmount: 5
   shrapnelSpreadAngle: 37
   chargeShrapnelMult: 3
+  willSpawnWallAtGoal: 1
+  goalWallSpawnPos: {x: 0, y: 0, z: 0}
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +289,7 @@ MonoBehaviour:
   magmaPrefab: {fileID: 1659247539086615764, guid: 888530a8288cf154883f81bfe873398b, type: 3}
   magmaSpawnDistance: 0.75
   magmaSpawnTime: 1
+  killCooldownReduction: 2.5
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0

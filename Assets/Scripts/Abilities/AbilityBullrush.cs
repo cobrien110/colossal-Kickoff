@@ -17,6 +17,7 @@ public class AbilityBullrush : AbilityChargeable
     private Vector3 lastMagmaSpawn;
     public float magmaSpawnTime = 1f;
     private bool isSpawningMagma = false;
+    public float killCooldownReduction = 3f;
 
     private void Start()
     {
@@ -105,6 +106,8 @@ public class AbilityBullrush : AbilityChargeable
             {
                 Debug.Log("Dash killed warrior");
                 collider.gameObject.GetComponent<WarriorController>().Die();
+                timer += killCooldownReduction;
+                Mathf.Clamp(timer, 0f, cooldown); // Reduce cooldown on kill
             }
             /*
             if (collider.CompareTag("MinoWall"))
