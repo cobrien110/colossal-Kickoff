@@ -188,25 +188,23 @@ public class GameplayManager : MonoBehaviour
         PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
         //MTC.AddTarget(p.transform);
 
-        NewPlayer();
+        NewPlayer(p);
         //if (PIM != null) PIM.playerPrefab = warriorPrefab;
     }
 
-    public void NewPlayer()
+    public void NewPlayer(PlayerInput p)
     {
-        GameObject player;
-        if (playerList.Count == 0 && GameObject.FindGameObjectWithTag("Monster"))
+        GameObject player = p.gameObject;
+        if (player.tag.Equals("Monster"))
         {
-            player = GameObject.FindGameObjectWithTag("Monster");
             MC = player.GetComponent<MonsterController>();
             playerList.Add(player);
             //UM.ShowMonsterUI(true);
-        } else if (GameObject.FindGameObjectWithTag("Warrior"))
+        } else if (player.tag.Equals("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
-            player = warriors[warriors.Length - 1];
             WC = player.GetComponent<WarriorController>();
-            WC.SetColor(playerList.Count);
+            WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
             //UM.ShowPlayerUI(true, warriors.Length);
@@ -233,6 +231,7 @@ public class GameplayManager : MonoBehaviour
     {
         for (int i = playerList.Count; i < 4; i++)
         {
+            Debug.Log("SpawnAI Method Call Reference: " + i);
             WarriorAI.name = i + "_WarriorAI";
             Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
             WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
