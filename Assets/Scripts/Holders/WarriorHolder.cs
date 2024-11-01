@@ -26,10 +26,10 @@ public class WarriorHolder : MonoBehaviour
 
     }
 
-    public void spawnWarrior(int playerID)
+    public void spawnWarrior(int playerID, Gamepad gamepad)
     {
         //Debug.Log(warriorCount);
         warriorCount++;
-        GM.AddPlayer(warriorPrefab, playerID);
+        GM.AddPlayer(warriorPrefab, playerID, gamepad);
     }
 }

@@ -19,9 +19,9 @@ public class CursorHolder : MonoBehaviour
         
     }
 
-    public void spawnCursor(int playerID)
+    public void spawnCursor(int playerID, Gamepad gamepad)
     {
         //PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[0]);
-        IM.NewPlayer(cursorPrefab, playerID);
+        IM.NewPlayer(cursorPrefab, playerID, gamepad);
     }
 }

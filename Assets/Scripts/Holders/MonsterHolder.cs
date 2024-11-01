@@ -21,8 +21,8 @@ public class MonsterHolder : MonoBehaviour
         
     }
 
-    public void spawnMonster(int playerID)
+    public void spawnMonster(int playerID, Gamepad gamepad)
     {
-        GM.AddPlayer(monsterPrefabs[monsterIndex], playerID);
+        GM.AddPlayer(monsterPrefabs[monsterIndex], playerID, gamepad);
     }
 }

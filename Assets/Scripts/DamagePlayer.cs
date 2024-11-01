@@ -8,6 +8,19 @@ public class DamagePlayer : MonoBehaviour
     private float cooldown = 0.05f;
     private float timer = 0;
 
+    private void Start()
+    {
+        GameObject[] obs = GameObject.FindGameObjectsWithTag("WarriorSpawner");
+        for (int i = 0; i < obs.Length; i++)
+        {
+            Vector3 pos = obs[i].transform.position;
+            pos.y = transform.position.y;
+            float dis = Vector3.Distance(transform.position, obs[i].transform.position);
+            //Debug.Log("Distance: " + dis);
+            if (dis < 0.5) Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         WarriorController WC = other.GetComponent<WarriorController>();

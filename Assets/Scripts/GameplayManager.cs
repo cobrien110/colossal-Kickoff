@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameplayManager : MonoBehaviour
 {
     public bool isPlaying = false;
+    public bool isPaused = false;
     public bool automaticAISpawn = true;
     public bool automaticStart = true;
     [SerializeField] private UIManager UM = null;
@@ -122,19 +123,22 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(Kickoff());
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
         Ball = newBall;
+        BallProperties BP = Ball.GetComponent<BallProperties>();
+        BP.isSuperKick = false;
+        passMeter = 0;
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].tag.Equals("Monster"))
             {
                 MC = playerList[i].GetComponent<MonsterController>();
                 MC.Ball = newBall;
-                MC.BP = Ball.GetComponent<BallProperties>();
+                MC.BP = BP;
                 MC.ResetPlayer();
             } else
             {
                 WC = playerList[i].GetComponent<WarriorController>();
                 WC.Ball = newBall;
-                WC.BP = Ball.GetComponent<BallProperties>();
+                WC.BP = BP;
                 WC.ResetPlayer();
             }
         }
@@ -176,12 +180,12 @@ public class GameplayManager : MonoBehaviour
         isPlaying = set;
     }
 
-    public void AddPlayer(GameObject playerPrefab, int playerID)
+    public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
     {
         //playerInputs.Add(player);
         // MTC.AddTarget(player.transform);
 
-        PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: Gamepad.all[playerID]);
+        PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
         //MTC.AddTarget(p.transform);
 
         NewPlayer();
@@ -190,7 +194,6 @@ public class GameplayManager : MonoBehaviour
 
     public void NewPlayer()
     {
-
         GameObject player;
         if (playerList.Count == 0 && GameObject.FindGameObjectWithTag("Monster"))
         {
@@ -265,5 +268,24 @@ public class GameplayManager : MonoBehaviour
         // Resume Game
         Time.timeScale = 1;
         */
+    }
+
+    public void PauseGame()
+    {
+        if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
+        {
+            if (isPaused)
+            {
+                Time.timeScale = 1;
+                isPaused = false;
+                UM.PauseScreen(isPaused);
+            }
+            else
+            {
+                Time.timeScale = 0;
+                isPaused = true;
+                UM.PauseScreen(isPaused);
+            }
+        }
     }
 }
