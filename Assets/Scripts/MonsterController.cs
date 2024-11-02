@@ -19,7 +19,7 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] public float monsterSpeed = 2f;
     [HideInInspector] public Vector3 movementDirection;
-    private Vector3 aimingDirection;
+    public Vector3 aimingDirection;
     private Vector3 rightStickInput;
 
     //Temp Controller Scheme Swap
@@ -61,7 +61,7 @@ public class MonsterController : MonoBehaviour
     public GameplayManager GM = null;
     private UIManager UM = null;
     private StatTracker ST = null;
-    private Animator ANIM;
+    public Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
     public LayerMask layerMask;
@@ -195,38 +195,45 @@ public class MonsterController : MonoBehaviour
     void Movement()
     {
         if (isDashing) return;
-        float horizontalInput = 0f;
-        float verticalInput = 0f;
 
-        // Check for WASD keys
-        if (Input.GetKey(KeyCode.UpArrow))
+        // Ignore inputs if Warrior is AI
+        // movementDirection will be set manually by AiMonsterController
+        if (GetComponent<AiMonsterController>() == null)
         {
-            verticalInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            verticalInput = -1f;
+            float horizontalInput = 0f;
+            float verticalInput = 0f;
+
+            // Check for WASD keys
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                verticalInput = 1f;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                verticalInput = -1f;
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                horizontalInput = 1f;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                horizontalInput = -1f;
+            }
+            Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
+            if (keyBoardInputs != Vector2.zero)
+            {
+                usingKeyboard = true;
+                movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+                aimingDirection = movementDirection;
+            }
+            else if (usingKeyboard)
+            {
+                movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+            }
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            horizontalInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            horizontalInput = -1f;
-        }
-        Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
-        if (keyBoardInputs != Vector2.zero)
-        {
-            usingKeyboard = true;
-            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-            aimingDirection = movementDirection;
-        }
-        else if (usingKeyboard)
-        {
-            movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        }
         Vector3 dir = isStunned ? -movementDirection : movementDirection;
         rb.velocity = GM.isPlaying ? dir * monsterSpeed : Vector3.zero;
         rb.velocity = isCharging || isChargingAbility ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -259,6 +266,12 @@ public class MonsterController : MonoBehaviour
 
     void Passing()
     {
+        if (GetComponent<AiMonsterController>() != null)
+        {
+            // Debug.Log("Passing : skip method because monster is AI");
+            return;
+        }
+
         if(Input.GetKeyDown(KeyCode.RightShift) && BP.ballOwner == gameObject)
         {
             Debug.Log("Pass!");
@@ -274,6 +287,12 @@ public class MonsterController : MonoBehaviour
 
     void Kicking()
     {
+        if (GetComponent<AiMonsterController>() != null)
+        {
+            // Debug.Log("Kicking : skip method because monster is AI");
+            return;
+        }
+
         if (!usingNewScheme)
         {
             if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
