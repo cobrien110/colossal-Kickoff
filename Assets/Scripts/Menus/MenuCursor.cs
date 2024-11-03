@@ -96,7 +96,7 @@ public class MenuCursor : MonoBehaviour
         }
 
         //bounding box
-        if (transform.position.y > 370) {
+        /**if (transform.position.y > 370) {
             transform.position = new Vector3(transform.position.x, 370, 0);
         }
         if (transform.position.y < 0) {
@@ -107,7 +107,7 @@ public class MenuCursor : MonoBehaviour
         }
         if (transform.position.x > 650) {
             transform.position = new Vector3(650, transform.position.y, 0);
-        }
+        }**/
         
     }
 
