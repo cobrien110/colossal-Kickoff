@@ -113,6 +113,9 @@ public class MonsterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log("movementDirection: " + movementDirection);
+        // Debug.Log("Input.GetAxis(Horizontal): " + Input.GetAxis("Horizontal"));
+        // Debug.Log("Input.GetAxis(Vertical): " + Input.GetAxis("Vertical"));
         if (canMove)
         {
             //Movement();
@@ -641,6 +644,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        // Ignore input if monster is ai
+        if (GetComponent<AiMonsterController>() != null) return;
+
         //Debug.Log("OnMove");
         if (!usingKeyboard) movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
         usingKeyboard = false;
@@ -648,6 +654,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        // Ignore input if monster is ai
+        if (GetComponent<AiMonsterController>() != null) return;
+
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
         if (invertControls)
@@ -680,6 +689,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnWall(InputAction.CallbackContext context)
     {
+        // Ignore input if monster is ai
+        if (GetComponent<AiMonsterController>() != null) return;
+
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[0].usableWhileDribbling)
             || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[0] is AbilityChargeable)
@@ -695,6 +707,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        // Ignore input if monster is ai
+        if (GetComponent<AiMonsterController>() != null) return;
+
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[1].usableWhileDribbling)
             || (isIntangible && !abilities[1].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[1] is AbilityChargeable)
@@ -736,6 +751,9 @@ public class MonsterController : MonoBehaviour
 
     public void OnCharge(InputAction.CallbackContext context)
     {
+        // Ignore input if monster is ai
+        if (GetComponent<AiMonsterController>() != null) return;
+
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[2].usableWhileDribbling)
             || (isIntangible && !abilities[2].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[2] is AbilityChargeable)
