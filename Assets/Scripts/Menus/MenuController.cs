@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class MenuController : MonoBehaviour
 {
@@ -18,10 +21,14 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
     [SerializeField] private GameObject readyText;
-    [SerializeField] private GoreButton[] goreButtons;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
     private SceneManager SM;
     public int currentScreen = 0;
+    int effectsVolume, musicVolume;
+    //MENU INTERFACES
+    [SerializeField] private Slider effectsSlider, musicSlider;
+    [SerializeField] private TMP_Dropdown goreDropdown;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, settingsClosedButton;
     /**
     0: Top Menu
     1: Settings
@@ -30,6 +37,11 @@ public class MenuController : MonoBehaviour
     **/
     private bool monsterConfirmed = false;
     public bool canMoveToStageSelect = false;
+
+    void Start() {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(topFirstButton);
+    }
 
     void Update()
     {
@@ -105,7 +117,7 @@ public class MenuController : MonoBehaviour
             //VERSUS MATCH
             case 0:
                 currentScreen = 2;
-                menuCamera.goToVersusSetup();
+                //menuCamera.goToVersusSetup();
                 mainMenuButtons.SetActive(false);
                 characterSelect.SetActive(true);
                 for (int i = 0; i < cursors.Length; i++) {
@@ -116,9 +128,14 @@ public class MenuController : MonoBehaviour
             //SETTINGS
             case 1:
                 currentScreen = 1;
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(settingsFirstButton);
                 menuCamera.goToSettings();
                 settingsButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
+                goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
+                musicSlider.value = PlayerPrefs.GetInt("musicVolume", 100);
+                effectsSlider.value = PlayerPrefs.GetInt("effectsVolume", 100);
                 break;
 
             //QUIT GAME
@@ -134,6 +151,8 @@ public class MenuController : MonoBehaviour
     }
 
     public void returnToTop() {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(topFirstButton);
         menuCamera.goToMainMenu();
         currentScreen = 0;
         for (int i = 0; i < cursors.Length; i++)
@@ -211,14 +230,15 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(false);
     }
 
-    public void setGore(int value) {
-        PlayerPrefs.SetInt("goreMode", value);
-        for (int i = 0; i < goreButtons.Length; i++) {
-            if (goreButtons[i].goreButtonID == value) {
-                goreButtons[i].selectOption();
-            } else {
-                goreButtons[i].unselectOption();
-            }
-        }
+    public void setGore() {
+        PlayerPrefs.SetInt("goreMode", goreDropdown.value);
+    }
+
+    public void setMusicVolume() {
+        PlayerPrefs.SetInt("musicVolume", (int) musicSlider.value);
+    }
+
+    public void setEffectsVolume() {
+        PlayerPrefs.SetInt("effectsVolume", (int) effectsSlider.value);
     }
 }
