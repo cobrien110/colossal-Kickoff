@@ -13,6 +13,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected GameplayManager GM;
     protected GameObject warriorGoal;
     private bool isUsingAbility = false;
+    protected bool isPerformingAbility = false;
     // protected List<WarriorController> warriors;
 
     // Stats

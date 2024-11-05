@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class AiMinotaurController : AiMonsterController
 {
@@ -25,19 +27,31 @@ public class AiMinotaurController : AiMonsterController
     protected override void PerformAbility1Chance(float chargeAmount)
     {
         // Debug.Log("PerformAbility1Chance. chargeAmount: " + chargeAmount);
-        if (Random.value < ability1Chance) mc.abilities[0].Activate();
+        if (Random.value < ability1Chance)
+        {
+            isPerformingAbility = true;
+            mc.abilities[0].Activate();
+        }
     }
 
     protected override void PerformAbility2Chance(float chargeAmount)
     {
         // Debug.Log("PerformAbility2Chance. chargeAmount: " + chargeAmount);
-        if (Random.value < ability2Chance) mc.abilities[1].Activate();
+        if (Random.value < ability2Chance)
+        {
+            isPerformingAbility = true;
+            mc.abilities[1].Activate();
+        }
     }
 
     protected override void PerformAbility3Chance(float chargeAmount)
     {
         // Debug.Log("PerformAbility3Chance. chargeAmount: " + chargeAmount);
-        if (Random.value < ability3Chance) mc.abilities[2].Activate();
+        if (Random.value < ability3Chance)
+        {
+            isPerformingAbility = true;
+            mc.abilities[2].Activate();
+        }
     }
 
     protected override void PerformShootChance(float chargeAmount)
@@ -94,6 +108,9 @@ public class AiMinotaurController : AiMonsterController
             StartRoaming();
 
             // Occasionally use ability
+            ability1Chance = 0.1f;
+            ability2Chance = 0.1f;
+            ability3Chance = 0.1f;
         }
 
         // If mino and warrior with ball in mino half...
@@ -279,6 +296,7 @@ public class AiMinotaurController : AiMonsterController
 
     private void StartRoaming()
     {
+        if (isPerformingAbility) return;
         if (roamCoroutine == null)
         {
             roamCoroutine = StartCoroutine(Roam());
@@ -292,6 +310,25 @@ public class AiMinotaurController : AiMonsterController
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
         }
+    }
+
+    private void SphericalAttack(AbilitySphericalAttack sphereAttack)
+    {
+        /*
+        // If input is no longer true, attack
+        if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
+        {
+            Activate();
+            ANIM.SetBool("isWindingUp", false);
+        }
+        else if (context.action.IsInProgress() && timer >= cooldown) // If it still is true, keep charging
+        {
+            ChargeUp();
+        }
+        else
+        {
+            ChargeDown();
+        }*/
     }
 
     private void FixedUpdate()
