@@ -16,7 +16,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private int menuSlot = -1;
     [SerializeField] private MenuController MC = null;
     [SerializeField] private InputManager IM = null;
-    [SerializeField] private VolumeManager VM = null;
+    //[SerializeField] private VolumeManager VM = null;
     [SerializeField] private MonsterName MN = null;
     [SerializeField] private WarriorDesc[] WDarr = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
@@ -41,7 +41,7 @@ public class MenuCursor : MonoBehaviour
         MC = GameObject.Find("MenuController").GetComponent<MenuController>();
         MC.findAllCursors();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
-        VM = FindObjectOfType<VolumeManager>(true);
+        //VM = FindObjectOfType<VolumeManager>(true);
         MN = FindObjectOfType<MonsterName>(true);
         WDarr = FindObjectsOfType<WarriorDesc>(true);
         WarriorDesc holder = WDarr[1];
@@ -153,12 +153,12 @@ public class MenuCursor : MonoBehaviour
     {
         if (action.started)
         {
-            if (MC.currentScreen == 0) {
+            /**if (MC.currentScreen == 0) {
                 //Top Menu
                 if (hoveringItem.Equals("menuSelect") && playerNumber == 1) {
                     MC.OptionSelect(hoveringID);
                 }
-            } else if (MC.currentScreen == 2) {
+            } else**/ if (MC.currentScreen == 2) {
                 //Character Select
                 if (!MC.canMoveToStageSelect) {
                     if (!hasSelected) {
@@ -180,7 +180,7 @@ public class MenuCursor : MonoBehaviour
                     savedPosition = transform.position;
                     MC.moveToStageSelect();
                 }
-            } else if (MC.currentScreen == 3) {
+            } /**else if (MC.currentScreen == 3) {
                 //Stage Select
                 if (hoveringItem.Equals("stageSelect") && playerNumber == 1) {
                     //TODO: Loading Gameplay and grabbing controller info and all that junk
@@ -197,6 +197,7 @@ public class MenuCursor : MonoBehaviour
                     }
                 }
             }
+            **/
         }
     }
 
@@ -228,7 +229,7 @@ public class MenuCursor : MonoBehaviour
             } else if (MC.currentScreen == 1) {
                 //options menu
                 if (hasSelected) {
-                    VM.unselect();
+                    //VM.unselect();
                     hasSelected = false;
                     this.GetComponent<Image>().enabled = true;
                 } else {
@@ -261,7 +262,7 @@ public class MenuCursor : MonoBehaviour
 
     public void OnChange(InputAction.CallbackContext action)
     {
-        if (MC.currentScreen == 1) { //OPTIONS MENU
+        /**if (MC.currentScreen == 1) { //OPTIONS MENU
             if (hasSelected && action.started) {
                 float changeDir = action.ReadValue<Vector2>().x;
                 if (changeDir > 0)
@@ -273,7 +274,7 @@ public class MenuCursor : MonoBehaviour
                     VM.pageLeft();
                 }
             }
-        } else if (MC.currentScreen == 2) { //CHARACTER SELECT
+        } else**/ if (MC.currentScreen == 2) { //CHARACTER SELECT
             if (hasSelected && action.started)
             {
                 float changeDir = action.ReadValue<Vector2>().x;
@@ -304,10 +305,10 @@ public class MenuCursor : MonoBehaviour
         }
     }
 
-    public void enterAudio(int optionSelected) {
+    /**public void enterAudio(int optionSelected) {
         hasSelected = true;
         this.GetComponent<Image>().enabled = false;
         body.velocity = new Vector2(0, 0);
         VM.select(optionSelected);
-    }
+    }**/
 }
