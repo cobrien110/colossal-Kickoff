@@ -125,9 +125,6 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
-                /**for (int i = 0; i < cursors.Length; i++) {
-                    cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
-                }**/
                 break;
 
             //SETTINGS
@@ -265,5 +262,8 @@ public class MenuController : MonoBehaviour
         currentScreen = 2;
         stageSelect.SetActive(false);
         characterSelect.SetActive(true);
+        for (int i = 0; i < cursors.Length; i++) {
+                    cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
+        }
     }
 }

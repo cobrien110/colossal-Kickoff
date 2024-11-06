@@ -47,7 +47,9 @@ public class MenuCursor : MonoBehaviour
         WarriorDesc holder = WDarr[1];
         WDarr[1] = WDarr[2];
         WDarr[2] = holder;
-        findCharSelectItems();
+        if (MC.currentScreen == 3) {
+            findCharSelectItems();
+        }
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
 
         playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
