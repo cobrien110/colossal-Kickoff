@@ -47,7 +47,7 @@ public class MenuCursor : MonoBehaviour
         WarriorDesc holder = WDarr[1];
         WDarr[1] = WDarr[2];
         WDarr[2] = holder;
-        //findCharSelectItems();
+        findCharSelectItems();
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
 
         playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
@@ -160,7 +160,7 @@ public class MenuCursor : MonoBehaviour
                 }
             } else**/ if (MC.currentScreen == 2) {
                 //Character Select
-                if (!MC.canMoveToStageSelect) {
+                if (!MC.canMoveToGame) {
                     if (!hasSelected) {
                         if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
                         {
@@ -176,9 +176,7 @@ public class MenuCursor : MonoBehaviour
                         MC.confirmCharacter(playerSlot);
                     }
                 } else if (playerNumber == 1) {
-                    this.GetComponent<Image>().enabled = true;
-                    savedPosition = transform.position;
-                    MC.moveToStageSelect();
+                    MC.loadGameplay(MC.stageSelection);
                 }
             } /**else if (MC.currentScreen == 3) {
                 //Stage Select
@@ -212,29 +210,25 @@ public class MenuCursor : MonoBehaviour
                 Debug.Log("Deselecting");
                 deselect();
             }
-            //Back to top menu
+            //Back to stage select
             else if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2))
             {
-                Debug.Log("Return to top");
-                MC.returnToTop();
+                MC.backToStageSelect();
             }
-            //Back to character select
+            //Back to top menu
             else if ((playerNumber == 1) && (MC.currentScreen == 3))
             {
-                //go back from stage select to character select
-                transform.position = savedPosition;
-                this.GetComponent<Image>().enabled = false;
-                body.velocity = new Vector2(0, 0);
-                MC.backToCharSelect();
+                MC.returnToTop();
+                //go back from stage select to stage select
             } else if (MC.currentScreen == 1) {
                 //options menu
-                if (hasSelected) {
+                /**if (hasSelected) {
                     //VM.unselect();
                     hasSelected = false;
                     this.GetComponent<Image>().enabled = true;
-                } else {
+                } else {**/
                     MC.returnToTop();
-                }
+                //}
             }
         }
     }

@@ -28,7 +28,7 @@ public class MenuController : MonoBehaviour
     //MENU INTERFACES
     [SerializeField] private Slider effectsSlider, musicSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, settingsClosedButton;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
     /**
     0: Top Menu
     1: Settings
@@ -36,7 +36,10 @@ public class MenuController : MonoBehaviour
     3: Stage Select
     **/
     private bool monsterConfirmed = false;
-    public bool canMoveToStageSelect = false;
+    public bool canMoveToGame = false;
+
+    //tracks the stage the game will move to when it starts
+    public int stageSelection;
 
     void Start() {
         EventSystem.current.SetSelectedGameObject(null);
@@ -118,11 +121,13 @@ public class MenuController : MonoBehaviour
             case 0:
                 currentScreen = 2;
                 //menuCamera.goToVersusSetup();
+                stageSelect.SetActive(true);
                 mainMenuButtons.SetActive(false);
-                characterSelect.SetActive(true);
-                for (int i = 0; i < cursors.Length; i++) {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(stageFirstButton);
+                /**for (int i = 0; i < cursors.Length; i++) {
                     cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
-                }
+                }**/
                 break;
 
             //SETTINGS
@@ -163,13 +168,13 @@ public class MenuController : MonoBehaviour
             unconfirmCharacter(i);
         }
         mainMenuButtons.SetActive(true);
-        characterSelect.SetActive(false);
+        stageSelect.SetActive(false);
         settingsButtons.SetActive(false);
     }
 
     public void findAllCursors() {
-        if (canMoveToStageSelect) {
-            canMoveToStageSelect = false;
+        if (canMoveToGame) {
+            canMoveToGame = false;
             readyText.SetActive(false);
         }
         cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
@@ -193,7 +198,7 @@ public class MenuController : MonoBehaviour
         characterInfos[playerSlot].confirm();
         if (playerSlot == 0) {
             monsterConfirmed = true;
-            canMoveToStageSelect = true;
+            canMoveToGame = true;
             readyText.SetActive(true);
         }
     }
@@ -201,8 +206,8 @@ public class MenuController : MonoBehaviour
     public void unconfirmCharacter(int playerSlot) {
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
-        if (playerSlot == 0 && canMoveToStageSelect) {
-            canMoveToStageSelect = false;
+        if (playerSlot == 0 && canMoveToGame) {
+            canMoveToGame = false;
             readyText.SetActive(false);
         }
     }
@@ -210,16 +215,16 @@ public class MenuController : MonoBehaviour
     public void moveToStageSelect() {
         currentScreen = 3;
         //findAllCursors();
-        for (int i = 0; i < cursors.Length; i++) {
+        /**for (int i = 0; i < cursors.Length; i++) {
             if (cursors[i].GetComponent<MenuCursor>().playerNumber != 1) {
                 cursors[i].SetActive(false);
             }
-        }
-        characterSelect.SetActive(false);
+        }**/
+        mainMenuButtons.SetActive(false);
         stageSelect.SetActive(true);
     }
 
-    public void backToCharSelect() {
+    /**public void backToCharSelect() {
         currentScreen = 2;
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
@@ -228,6 +233,19 @@ public class MenuController : MonoBehaviour
         Debug.Log("going back to character select");
         characterSelect.SetActive(true);
         stageSelect.SetActive(false);
+    }**/
+
+    public void backToStageSelect() {
+        currentScreen = 3;
+        /**findAllCursors();
+        for (int i = 0; i < cursors.Length; i++) {
+            cursors[i].SetActive(true);
+        }**/
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(stageFirstButton);
+        Debug.Log("going back to stage select");
+        characterSelect.SetActive(false);
+        stageSelect.SetActive(true);
     }
 
     public void setGore() {
@@ -240,5 +258,12 @@ public class MenuController : MonoBehaviour
 
     public void setEffectsVolume() {
         PlayerPrefs.SetInt("effectsVolume", (int) effectsSlider.value);
+    }
+
+    public void selectStage(int stageID) {
+        stageSelection = stageID;
+        currentScreen = 2;
+        stageSelect.SetActive(false);
+        characterSelect.SetActive(true);
     }
 }
