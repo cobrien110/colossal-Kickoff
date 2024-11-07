@@ -8,11 +8,11 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class AiMinotaurController : AiMonsterController
 {
     // Ability Order (by index)
-        // Wall - 0
-        // Basic Attack - 1
-        // Dash - 2
-        
-    private float redirectionInterval = 0.5f; // Time interval in seconds
+    // Wall - 0
+    // Basic Attack - 1
+    // Dash - 2
+
+    [SerializeField] private float redirectionInterval = 0.5f; // Time interval in seconds
     private float redirectionTimer = 0f;      // Timer to track redirection intervals
     private Vector3 currentRandomOffset = Vector3.zero;
     private Coroutine roamCoroutine;
@@ -22,11 +22,37 @@ public class AiMinotaurController : AiMonsterController
     private const float leftBoundary = -6f;
     private const float fieldDepth = 4f;
     private const float rotationSpeed = 2f;
+    [SerializeField] private float asaMinimumCharge = 0.3f;
+    [SerializeField] private float pursueDelay = 1f;
+    [SerializeField] private float minPursueDistance = 2f;
+    private float pursuitSmoothingFactor = 1f;
+    //private float pursueDelayFrequency;
 
     // private bool shouldPerformAbility1 = false;
     private bool isCharging = false;
     private bool canPickUpBall = true;
-    private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
+    // private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
+
+   private enum SphericalAttackMode
+   {
+       TargetBallOwner,
+       TargetNearestWarrior
+   }
+
+    private enum WallMode
+    {
+        Defensive,
+        Offensive
+    }
+
+    private enum DashMode
+    {
+
+    }
+
+    // Used to track current Spherical Attack Mode
+    SphericalAttackMode asaMode = SphericalAttackMode.TargetBallOwner;
+
 
 
     protected override void PerformAbility1Chance(float chargeAmount)
@@ -47,14 +73,8 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("PerformAbility2. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
-            
-            if (targetBallController)
-            {
-                StartCoroutine(SphericalAttackBallController());
-            } else
-            {
-                StartCoroutine(SphericalAttackNearestWarrior());
-            }
+
+            SphericalAttack(asaMode);
         }
     }
 
@@ -92,6 +112,9 @@ public class AiMinotaurController : AiMonsterController
     protected override void MonsterBehaviour()
     {
         // Debug.Log("MonsterBehaviour");
+
+        // Make sure mc.BP is assigned a value
+        EnsureBallOwnerValid();
 
         // If no one has ball...
         if (mc.BP.ballOwner == null)
@@ -138,7 +161,7 @@ public class AiMinotaurController : AiMonsterController
             if (!isPerformingAbility) StartRoaming();
 
             // Set abilities to target nearest warrior
-            if (targetBallController == true) targetBallController = false;
+            if (asaMode == SphericalAttackMode.TargetBallOwner) asaMode = SphericalAttackMode.TargetNearestWarrior;
 
             // Occasionally use ability
             ability1Chance = 0.0f;
@@ -150,31 +173,54 @@ public class AiMinotaurController : AiMonsterController
         // If mino and warrior with ball in mino half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // TEMPORARY - Reset ability chances to 0 and make mino stationary
-            ability1Chance = 0.0f;
-            ability2Chance = 0.0f;
-            ability3Chance = 0.0f;
-            mc.movementDirection = Vector3.zero;
+            if (!isPerformingAbility) // Allow ability to finish if one is happening
+            {
+                // TEMPORARY - Reset ability chances to 0 and make mino stationary
+                /*ability1Chance = 0.0f;
+                ability2Chance = 0.0f;
+                ability3Chance = 0.0f;
+                mc.movementDirection = Vector3.zero;*/
+
+                // Pursue warrior with ball
+                //if (!isPerformingAbility) mc.movementDirection = (mc.BP.ballOwner.transform.position - transform.position).normalized;
+
+                if (!isPerformingAbility) StartCoroutine(PursuePlayer());
+
+                // Spherical Attack ball owner
+                ability2Chance = 0.1f;
+                asaMode = SphericalAttackMode.TargetBallOwner;
+
+                // Wall defensively
+                // Charge warrior
+            }
+
+
         }
 
         // If mino and warrior in warrior half...
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // TEMPORARY - Reset ability chances to 0 and make mino stationary
-            ability1Chance = 0.0f;
-            ability2Chance = 0.0f;
-            ability3Chance = 0.0f;
-            mc.movementDirection = Vector3.zero;
+            if (!isPerformingAbility) // Allow ability to finish if one is happening
+            {
+                // TEMPORARY - Reset ability chances to 0 and make mino stationary
+                ability1Chance = 0.0f;
+                ability2Chance = 0.0f;
+                ability3Chance = 0.0f;
+                mc.movementDirection = Vector3.zero;
+            }
         }
 
         // If mino in warrior half, warrior in mino half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // TEMPORARY - Reset ability chances to 0 and make mino stationary
-            ability1Chance = 0.0f;
-            ability2Chance = 0.0f;
-            ability3Chance = 0.0f;
-            mc.movementDirection = Vector3.zero;
+            if (!isPerformingAbility) // Allow ability to finish if one is happening
+            {
+                // TEMPORARY - Reset ability chances to 0 and make mino stationary
+                ability1Chance = 0.0f;
+                ability2Chance = 0.0f;
+                ability3Chance = 0.0f;
+                mc.movementDirection = Vector3.zero;
+            }
         }
     }
 
@@ -416,19 +462,21 @@ public class AiMinotaurController : AiMonsterController
         asa.SetIsCharging(true);
 
         // If input is no longer true, attack
-        if (ShouldSphericalAttack(asa) && asa.GetChargeAmount() != 0)
+        if (ShouldSphericalAttack(asa) && asa.GetChargeAmount() > asaMinimumCharge)
         {
-            //shouldPerformAbility1 = false;
+            Debug.Log("Activate");
             asa.Activate();
             asa.ANIM.SetBool("isWindingUp", false);
             isPerformingAbility = false;
         }
         else if (asa.GetIsCharging() && asa.GetTimer() >= asa.GetCooldown()) // If it still is true, keep charging
         {
+            Debug.Log("ChargeUp");
             asa.ChargeUp();
         }
         else
         {
+            Debug.Log("ChargeDown");
             asa.ChargeDown();
         }
     }
@@ -543,6 +591,18 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
+    private void SphericalAttack(SphericalAttackMode mode)
+    {
+        if (mode == SphericalAttackMode.TargetBallOwner)
+        {
+            StartCoroutine(SphericalAttackBallController());
+        }
+        else if (mode == SphericalAttackMode.TargetNearestWarrior)
+        {
+            StartCoroutine(SphericalAttackNearestWarrior());
+        }
+    }
+
     IEnumerator SetPickUpBallTrue()
     {
         yield return new WaitForSeconds(0.2f);
@@ -553,6 +613,44 @@ public class AiMinotaurController : AiMonsterController
     {
         return canPickUpBall;
     }
+
+    IEnumerator PursuePlayer()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(pursueDelay);
+
+            // Ensure the ball owner is valid before pursuing
+            if (mc.BP.ballOwner != null)
+            {
+                Vector3 targetPosition = mc.BP.ballOwner.transform.position;
+                float distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
+
+                // Check if the monster is too close; stop if within minimum distance
+                if (distanceToPlayer > minPursueDistance)
+                {
+                    // Calculate target direction
+                    Vector3 targetDirection = (targetPosition - transform.position).normalized;
+
+                    // Smoothly update the movement direction using linear interpolation
+                    mc.movementDirection = Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
+                }
+                else
+                {
+                    // Stop moving if too close to the player
+                    mc.movementDirection = Vector3.zero;
+                }
+            }
+            else
+            {
+                // If ball owner is null, stop movement
+                mc.movementDirection = Vector3.zero;
+            }
+
+            yield return null; // Continue to next frame
+        }
+    }
+
 
     private void FixedUpdate()
     {
@@ -568,16 +666,20 @@ public class AiMinotaurController : AiMonsterController
         Setup();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void EnsureBallOwnerValid()
     {
-        // Make sure mc.BP is assigned a value
         if (mc.BP == null)
         {
             mc.BP = FindObjectOfType<BallProperties>();
         }
 
         if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
     
 
