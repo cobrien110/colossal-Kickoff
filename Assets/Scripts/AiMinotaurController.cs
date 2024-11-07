@@ -25,6 +25,8 @@ public class AiMinotaurController : AiMonsterController
 
     // private bool shouldPerformAbility1 = false;
     private bool isCharging = false;
+    private bool canPickUpBall = true;
+    private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
 
 
     protected override void PerformAbility1Chance(float chargeAmount)
@@ -45,9 +47,14 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("PerformAbility2. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
-            //SphericalAttack();
-            StartCoroutine(SphericalAttack());
-            //mc.abilities[1].Activate();
+            
+            if (targetBallController)
+            {
+                StartCoroutine(SphericalAttackBallController());
+            } else
+            {
+                StartCoroutine(SphericalAttackNearestWarrior());
+            }
         }
     }
 
@@ -64,6 +71,7 @@ public class AiMinotaurController : AiMonsterController
 
     protected override void PerformShootChance(float chargeAmount)
     {
+        // Debug.Log("shootChance: " + shootChance);
         // Debug.Log("PerformShootChance. chargeAmount: " + chargeAmount);
         if (Random.value < shootChance)
         {
@@ -116,15 +124,21 @@ public class AiMinotaurController : AiMonsterController
     {
         // Debug.Log("WarriorHasBall");
 
+        //Debug.Log("isPerformingAbility: " + isPerformingAbility);
+        //if (mc.rb.velocity.magnitude < 0.3f) Debug.Log("movementDirection: " + mc.movementDirection);
+        // Debug.Log("Ability2Chance: " + ability2Chance);
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         // If mino in mino half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // Debug.Log("Monster Left, warrior right");
-            // Roam around
-            StartRoaming();
+            // Roam if not using ability
+            if (!isPerformingAbility) StartRoaming();
+
+            // Set abilities to target nearest warrior
+            if (targetBallController == true) targetBallController = false;
 
             // Occasionally use ability
             ability1Chance = 0.0f;
@@ -134,10 +148,34 @@ public class AiMinotaurController : AiMonsterController
         }
 
         // If mino and warrior with ball in mino half...
+        else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
+        {
+            // TEMPORARY - Reset ability chances to 0 and make mino stationary
+            ability1Chance = 0.0f;
+            ability2Chance = 0.0f;
+            ability3Chance = 0.0f;
+            mc.movementDirection = Vector3.zero;
+        }
 
         // If mino and warrior in warrior half...
+        else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
+        {
+            // TEMPORARY - Reset ability chances to 0 and make mino stationary
+            ability1Chance = 0.0f;
+            ability2Chance = 0.0f;
+            ability3Chance = 0.0f;
+            mc.movementDirection = Vector3.zero;
+        }
 
         // If mino in warrior half, warrior in mino half...
+        else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
+        {
+            // TEMPORARY - Reset ability chances to 0 and make mino stationary
+            ability1Chance = 0.0f;
+            ability2Chance = 0.0f;
+            ability3Chance = 0.0f;
+            mc.movementDirection = Vector3.zero;
+        }
     }
 
     private void MonsterHasBall()
@@ -165,6 +203,8 @@ public class AiMinotaurController : AiMonsterController
 
         // Calculate shootChance based on these factors
         shootChance = Mathf.Pow((distToGoalFactor + proximityToWarriorFactor) / 2f, 2);
+
+        // Debug.Log("shootChance: " + shootChance);
 
         // If shooting, chargeAmount depends on distance to goal
     }
@@ -198,9 +238,11 @@ public class AiMinotaurController : AiMonsterController
             transform.rotation = newRotation;
 
             mc.BP.ballOwner = null;
+            canPickUpBall = false;
+            StartCoroutine(SetPickUpBallTrue());
             // Debug.Log(transform.forward);
             float distFromGoalMultiplier = Vector3.Distance(warriorGoal.transform.position, transform.position) / (maxShootingRange / 2f);
-            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiShootSpeed * distFromGoalMultiplier);
+            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiShootSpeed);// * distFromGoalMultiplier);
             //audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
     }
@@ -283,6 +325,26 @@ public class AiMinotaurController : AiMonsterController
         }
         return distToNearestWarrior;
     }
+
+    private WarriorController GetNearestWarrior()
+    {
+        WarriorController[] warriors = FindObjectsOfType<WarriorController>();
+        WarriorController nearestWarrior = null;
+        float distToNearestWarrior = maxProximityRange;
+
+        foreach (WarriorController warrior in warriors)
+        {
+            float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);
+            if (distanceToWarrior < distToNearestWarrior)
+            {
+                nearestWarrior = warrior;
+                distToNearestWarrior = distanceToWarrior;
+            }
+        }
+
+        return nearestWarrior;
+    }
+
 
     IEnumerator Roam()
     {
@@ -371,14 +433,14 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    IEnumerator SphericalAttack()
+    /*IEnumerator SphericalAttack()
     {
         while (isPerformingAbility)
         {
             SphericalAttackHelper();
             yield return null;
         }
-    }
+    }*/
 
     private bool ShouldSphericalAttack(AbilitySphericalAttack asa)
     {
@@ -403,6 +465,93 @@ public class AiMinotaurController : AiMonsterController
             }
         }
         return false;
+    }
+
+    IEnumerator SphericalAttackNearestWarrior()
+    {
+        Debug.Log("SphericalAttackNearestWarrior");
+        WarriorController nearestWarrior = GetNearestWarrior();
+        if (nearestWarrior == null)
+        {
+            Debug.Log("No warrior close enough to attack");
+            isPerformingAbility = false;  // not performing ability so reset bool
+            yield break;
+        }
+
+        StopRoaming();
+        while (isPerformingAbility)
+        {
+            // If targeted warrior died during ability charge, go to next warrior
+            if (nearestWarrior == null)
+            {
+                Debug.Log("nearestWarrior: " + nearestWarrior);
+                nearestWarrior = GetNearestWarrior();
+            }
+            if (nearestWarrior == null)
+            {
+                Debug.Log("Break");
+                break; // If going to next warrior didn't work because there are none, break
+            }
+
+            SphericalAttackHelper();
+            mc.movementDirection = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
+            yield return null;
+        }
+
+        // In case where break happened, just flush ability stuff by using it
+        if (isPerformingAbility)
+        {
+            Debug.Log("Flush spherical attack");
+            //SphericalAttackHelper();
+            AbilitySphericalAttack asa = (AbilitySphericalAttack) mc.abilities[1];
+            asa.ChargeDown();
+            isPerformingAbility = false;
+            mc.movementDirection = Vector3.zero;
+        }
+            
+    }
+
+    IEnumerator SphericalAttackBallController()
+    {
+
+        // Ensure ball owner is not null
+        if (mc.BP == null || mc.BP.ballOwner == null)
+        {
+            Debug.Log("BP or BP.ballOwner is null - don't attack");
+            isPerformingAbility = false;  // not performing ability so reset bool
+            yield break;
+        }
+        // Ensure ballOwner is in range
+        if (Vector3.Distance(mc.BP.ballOwner.transform.position, transform.position) > maxProximityRange)
+        {
+            Debug.Log("Ball owner not close enough to attack");
+            isPerformingAbility = false;  // not performing ability so reset bool
+            yield break;
+        }
+        GameObject ballController = mc.BP.ballOwner;
+
+        StopRoaming();
+
+        while (isPerformingAbility)
+        {
+            // If ballOwner died, just retarget to nearest warrior
+            if (ballController == null) ballController = GetNearestWarrior().gameObject;
+
+            SphericalAttackHelper();
+            mc.movementDirection = (ballController.transform.position - transform.position).normalized;
+            yield return null;
+        }
+    }
+
+    IEnumerator SetPickUpBallTrue()
+    {
+        yield return new WaitForSeconds(0.2f);
+        canPickUpBall = true;
+    }
+
+    public bool GetCanPickUpBall()
+    {
+        return canPickUpBall;
     }
 
     private void FixedUpdate()

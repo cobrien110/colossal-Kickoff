@@ -46,6 +46,9 @@ public abstract class AiMonsterController : MonoBehaviour
                 PerformAbility2Chance(0);
                 PerformAbility3Chance(0);
                 PerformShootChance(0);
+            } else
+            {
+                Debug.Log("isPerformingAbility: " + isPerformingAbility);
             }
             yield return new WaitForSeconds(performActionChanceFrequency);
         }
