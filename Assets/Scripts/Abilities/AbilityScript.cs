@@ -92,4 +92,14 @@ public abstract class AbilityScript : MonoBehaviour
     {
         // Do nothing;
     }
+
+    public float GetTimer()
+    {
+        return timer;
+    }
+
+    public float GetCooldown()
+    {
+        return cooldown;
+    }
 }

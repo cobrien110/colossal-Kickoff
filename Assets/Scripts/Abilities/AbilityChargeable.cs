@@ -134,6 +134,7 @@ public abstract class AbilityChargeable : AbilityScript
                 }
             } else // Do this if the ability requires to be held down
             {
+                Debug.Log("CheckInput: non-autoCharge ability");
                 // If input is no longer true, attack
                 if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
                 {
@@ -158,6 +159,20 @@ public abstract class AbilityChargeable : AbilityScript
         if (attackVisualizer == null) return;
     }
 
+    public float GetChargeAmount()
+    {
+        return chargeAmount;
+    }
+
+    public bool GetIsCharging()
+    {
+        return isCharging;
+    }
+
+    public void SetIsCharging(bool isCharging)
+    {
+        this.isCharging = isCharging;
+    }
     public override void Deactivate()
     {
         ChargeDown();

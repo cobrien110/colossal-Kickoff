@@ -51,10 +51,13 @@ public class BallProperties : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
         MonsterController mc = other.gameObject.GetComponent<MonsterController>();
+        AiMinotaurController aiMC = other.gameObject.GetComponent<AiMinotaurController>();
+        if (aiMC != null && !aiMC.GetCanPickUpBall()) return; // To prevent issue with AiMino picking up ball right after kicking it
+
         AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster") || other.tag.Equals("Mummy"))
             && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()) )) && isInteractable)

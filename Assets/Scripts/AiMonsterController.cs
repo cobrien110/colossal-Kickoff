@@ -12,7 +12,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected Rigidbody rb;
     protected GameplayManager GM;
     protected GameObject warriorGoal;
-    private bool isUsingAbility = false;
+    protected GameObject monsterGoal;
     protected bool isPerformingAbility = false;
     // protected List<WarriorController> warriors;
 
@@ -40,13 +40,16 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            if (!isUsingAbility)
+            if (!isPerformingAbility)
             {
                 // Debug.Log("Performing action chances");
                 PerformAbility1Chance(0);
                 PerformAbility2Chance(0);
                 PerformAbility3Chance(0);
                 PerformShootChance(0);
+            } else
+            {
+                Debug.Log("isPerformingAbility: " + isPerformingAbility);
             }
             yield return new WaitForSeconds(performActionChanceFrequency);
         }
@@ -64,6 +67,7 @@ public abstract class AiMonsterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
+        monsterGoal = GameObject.FindWithTag("MonsterGoal");
 
         StartCoroutine(PerformActionChances());
     }
