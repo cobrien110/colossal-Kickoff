@@ -7,12 +7,11 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class AiMinotaurController : AiMonsterController
 {
-    // Ability Order
+    // Ability Order (by index)
+        // Wall - 0
         // Basic Attack - 1
         // Dash - 2
-        // Wall - 3
-
-
+        
     private float redirectionInterval = 0.5f; // Time interval in seconds
     private float redirectionTimer = 0f;      // Timer to track redirection intervals
     private Vector3 currentRandomOffset = Vector3.zero;
@@ -24,11 +23,16 @@ public class AiMinotaurController : AiMonsterController
     private const float fieldDepth = 4f;
     private const float rotationSpeed = 2f;
 
+    // private bool shouldPerformAbility1 = false;
+    private bool isCharging = false;
+
+
     protected override void PerformAbility1Chance(float chargeAmount)
     {
         // Debug.Log("PerformAbility1Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability1Chance)
         {
+            Debug.Log("PerformAbility1. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
             mc.abilities[0].Activate();
         }
@@ -39,8 +43,11 @@ public class AiMinotaurController : AiMonsterController
         // Debug.Log("PerformAbility2Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability2Chance)
         {
+            Debug.Log("PerformAbility2. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
-            mc.abilities[1].Activate();
+            //SphericalAttack();
+            StartCoroutine(SphericalAttack());
+            //mc.abilities[1].Activate();
         }
     }
 
@@ -49,6 +56,7 @@ public class AiMinotaurController : AiMonsterController
         // Debug.Log("PerformAbility3Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability3Chance)
         {
+            Debug.Log("PerformAbility3. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
             mc.abilities[2].Activate();
         }
@@ -57,7 +65,11 @@ public class AiMinotaurController : AiMonsterController
     protected override void PerformShootChance(float chargeAmount)
     {
         // Debug.Log("PerformShootChance. chargeAmount: " + chargeAmount);
-        if (Random.value < shootChance) Shoot();
+        if (Random.value < shootChance)
+        {
+            Debug.Log("PerformShoot. chargeAmount: " + chargeAmount);
+            Shoot();
+        }
     }
 
     /*
@@ -76,18 +88,21 @@ public class AiMinotaurController : AiMonsterController
         // If no one has ball...
         if (mc.BP.ballOwner == null)
         {
+            // Debug.Log("BallNotPossessed");
             // Logic
             BallNotPossessed();
         }
         // If I have ball...
         else if (mc.BP.ballOwner == gameObject)
         {
+            // Debug.Log("MonsterHasBall");
             // Logic
             MonsterHasBall();
         }
         // If warrior has ball...
         else if (mc.BP.ballOwner.GetComponent<WarriorController>() != null)
         {
+            // Debug.Log("WarriorHasBall");
             // Logic
             WarriorHasBall();
         }
@@ -101,16 +116,21 @@ public class AiMinotaurController : AiMonsterController
     {
         // Debug.Log("WarriorHasBall");
 
+        // Reset shootChance to 0.0
+        if (shootChance != 0.0f) shootChance = 0.0f;
+
         // If mino in mino half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
+            // Debug.Log("Monster Left, warrior right");
             // Roam around
             StartRoaming();
 
             // Occasionally use ability
-            ability1Chance = 0.1f;
+            ability1Chance = 0.0f;
             ability2Chance = 0.1f;
-            ability3Chance = 0.1f;
+            ability3Chance = 0.0f;
+
         }
 
         // If mino and warrior with ball in mino half...
@@ -122,6 +142,11 @@ public class AiMinotaurController : AiMonsterController
 
     private void MonsterHasBall()
     {
+        // Monster should not use abilities
+        ability1Chance = 0.0f;
+        ability2Chance = 0.0f;
+        ability3Chance = 0.0f;
+
         // Stop roaming if its happening
         StopRoaming();
 
@@ -146,6 +171,9 @@ public class AiMinotaurController : AiMonsterController
 
     private void BallNotPossessed()
     {
+        // Reset shootChance to 0.0
+        if (shootChance != 0.0f) shootChance = 0.0f;
+
         // Stop roaming if its happening
         StopRoaming();
 
@@ -312,23 +340,69 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    private void SphericalAttack(AbilitySphericalAttack sphereAttack)
+    private void SphericalAttackHelper()
     {
-        /*
+        Debug.Log("SphericalAttack");
+        // Make sure first ability is an AbilityChargable
+        if (!(mc.abilities[1] is AbilitySphericalAttack)) return;
+
+        AbilitySphericalAttack asa = (AbilitySphericalAttack)mc.abilities[1];
+
+        // Check if off cooldown
+        if (asa.GetTimer() < asa.GetCooldown()) return;
+
+        asa.SetIsCharging(true);
+
         // If input is no longer true, attack
-        if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
+        if (ShouldSphericalAttack(asa) && asa.GetChargeAmount() != 0)
         {
-            Activate();
-            ANIM.SetBool("isWindingUp", false);
+            //shouldPerformAbility1 = false;
+            asa.Activate();
+            asa.ANIM.SetBool("isWindingUp", false);
+            isPerformingAbility = false;
         }
-        else if (context.action.IsInProgress() && timer >= cooldown) // If it still is true, keep charging
+        else if (asa.GetIsCharging() && asa.GetTimer() >= asa.GetCooldown()) // If it still is true, keep charging
         {
-            ChargeUp();
+            asa.ChargeUp();
         }
         else
         {
-            ChargeDown();
-        }*/
+            asa.ChargeDown();
+        }
+    }
+
+    IEnumerator SphericalAttack()
+    {
+        while (isPerformingAbility)
+        {
+            SphericalAttack();
+            yield return null;
+        }
+    }
+
+    private bool ShouldSphericalAttack(AbilitySphericalAttack asa)
+    {
+        // Should attack either if at full charge, or anytime a warrior is in attack radius
+        return asa.GetChargeAmount() >= asa.maxChargeSeconds || WarriorIsInAttackSphereRadius(asa);
+    }
+
+    private bool WarriorIsInAttackSphereRadius(AbilitySphericalAttack asa)
+    {
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + asa.attackVisualOffsetY, transform.position.z);
+        Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * asa.attackRange, asa.attackBaseRadius
+            + asa.GetChargeAmount() * asa.chargeRate, asa.affectedLayers);
+
+        foreach (Collider col in colliders)
+        {
+            // Handle collision with each collider
+            Debug.Log("SphereCast hit " + col.gameObject.name);
+            if (col.gameObject.CompareTag("Warrior"))
+            {
+                Debug.Log("Warrior in attack sphere radius");
+                return true;
+            }
+        }
+        return false;
     }
 
     private void FixedUpdate()
@@ -356,7 +430,6 @@ public class AiMinotaurController : AiMonsterController
 
         if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
     }
-
     
 
 }

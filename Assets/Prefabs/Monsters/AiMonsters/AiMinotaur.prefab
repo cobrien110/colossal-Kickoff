@@ -1180,7 +1180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d03adcb3b378b54ca721b3bf2156d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiKickSpeed: 5
+  aiShootSpeed: 500
+  performActionChanceFrequency: 0.25
+  maxShootingRange: 16
+  maxProximityRange: 8
+  midFieldPoint: 0
+  wiggleOffset: 2
+  waitInPlaceTime: 1
 --- !u!1 &8972001307259076129
 GameObject:
   m_ObjectHideFlags: 0

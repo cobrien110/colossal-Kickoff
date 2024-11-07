@@ -12,7 +12,6 @@ public abstract class AiMonsterController : MonoBehaviour
     protected Rigidbody rb;
     protected GameplayManager GM;
     protected GameObject warriorGoal;
-    private bool isUsingAbility = false;
     protected bool isPerformingAbility = false;
     // protected List<WarriorController> warriors;
 
@@ -40,7 +39,7 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            if (!isUsingAbility)
+            if (!isPerformingAbility)
             {
                 // Debug.Log("Performing action chances");
                 PerformAbility1Chance(0);
