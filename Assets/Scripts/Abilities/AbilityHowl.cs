@@ -6,10 +6,12 @@ public class AbilityHowl : AbilityScript
 {
     [Header("Ability Specific Variables")]
     public float howlRadius = 1f;
+    public float crystalRadius = 1f;
     public float stunTime = 1.5f;
 
     public string soundName;
-
+    public IceCrystal currentCrystal;
+    private AbilityAkhlutPassive AAP;
     /*
     
     1. Stop momentum of ball if in radius
@@ -62,15 +64,21 @@ public class AbilityHowl : AbilityScript
                 // Debug.Log("Stunned Warrior: " + obj.name);
             }
         }
-
+        // if there is a crystal on the field
+        if (currentCrystal != null)
+        {
+            currentCrystal.GetComponent<IceCrystal>().Echo();
+            AAP.SetActive(false);
+            AAP.SetCounter(0f);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         Setup();
-        MC = GetComponent<MonsterController>();
         attackVisualizer.transform.localScale *= howlRadius * 1.7f;
+        AAP = GetComponent<AbilityAkhlutPassive>();
     }
 
     // Update is called once per frame

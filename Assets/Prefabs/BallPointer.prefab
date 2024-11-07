@@ -27,9 +27,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4466199008292117113}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.09000003, y: 0, z: 0}
-  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,11 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4c4af9cd01ac5419ea59974d88f8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingAlpha: -3
+  startingAlpha: -2
   BP: {fileID: 0}
   team1Col: {r: 1, g: 0.025330067, b: 0, a: 1}
   team2Col: {r: 0, g: 0.51622534, b: 1, a: 1}
-  alpha: 0.7
+  alpha: 0.9
   alphaGainRate: 0.5
   yOffsetBall: 0.5
   yOffsetWarrior: 0.9

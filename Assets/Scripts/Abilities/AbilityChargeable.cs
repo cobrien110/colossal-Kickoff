@@ -172,5 +172,9 @@ public abstract class AbilityChargeable : AbilityScript
     public void SetIsCharging(bool isCharging)
     {
         this.isCharging = isCharging;
+    public override void Deactivate()
+    {
+        ChargeDown();
+        timer = cooldown;
     }
 }

@@ -16,16 +16,24 @@ public class AbilityDive : AbilityScript
 
     private float activeDuration = 0f;
 
+    public bool isAttack;
+    public float delayBeforeAttack = 0.3f;
+
     public string diveSound = "";
     public string emergeSound = "";
     public string diveLoopSound = "";
     public AudioPlayer diveLooper;
+    private AbilityAkhlutPassive AAP;
+    private AbilityHowl AH;
+    public GameObject crystalPrefab;
 
     private void Start()
     {
         Setup();
         baseMonsterSpeed = MC.monsterSpeed;
         inputBuffer = inputBufferTime;
+        AAP = GetComponent<AbilityAkhlutPassive>();
+        AH = GetComponent<AbilityHowl>();
     }
 
     private void Update()
@@ -42,6 +50,7 @@ public class AbilityDive : AbilityScript
             MC.monsterSpeed = Mathf.Lerp(initialSpeed, speed, t);
             MC.isIntangible = true;
             timerPaused = true; // Pause cooldown while active
+            AAP.isCharging = true;
             if (diveLooper != null && !diveLooper.isPlaying())
             {
                 diveLooper.PlaySoundVolume(diveLooper.Find(diveLoopSound), 0.25f);
@@ -52,9 +61,20 @@ public class AbilityDive : AbilityScript
             MC.monsterSpeed = baseMonsterSpeed;
             MC.isIntangible = false;
             timerPaused = false;
+            AAP.isCharging = false;
             if (diveLooper != null)
             {
                 diveLooper.source.Stop();
+            }
+
+            // create crystal if passive is charged
+            if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
+            {
+                AH.currentCrystal = Instantiate(crystalPrefab, transform.position, Quaternion.identity).GetComponent<IceCrystal>();
+                AH.currentCrystal.stunTime = AH.stunTime;
+                AH.currentCrystal.MC = MC;
+                AH.currentCrystal.radius = AH.crystalRadius;
+                return;
             }
         }
         ANIM.SetBool("isDiving", isActive);

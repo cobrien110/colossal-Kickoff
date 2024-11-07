@@ -5,6 +5,7 @@ using UnityEngine;
 public class DeleteAfterDelay : MonoBehaviour
 {
     public float deathTimer = 5f;
+    private float counter;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +15,10 @@ public class DeleteAfterDelay : MonoBehaviour
     public void Kill()
     {
         Destroy(this.gameObject);
+    }
+
+    public void NewTimer(float time)
+    {
+        Invoke("Kill", time);
     }
 }

@@ -39,7 +39,7 @@ public class AbilityMinotaurBoost : PassiveAbility
         }
     }
 
-    public void Deactivate()
+    public override void Deactivate()
     {
         MC.canBeStunned = true;
         MC.monsterSpeed = baseSpeed;
