@@ -157,4 +157,10 @@ public abstract class AbilityChargeable : AbilityScript
     {
         if (attackVisualizer == null) return;
     }
+
+    public override void Deactivate()
+    {
+        ChargeDown();
+        timer = cooldown;
+    }
 }

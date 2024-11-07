@@ -246,6 +246,7 @@ MonoBehaviour:
   abilities: []
   monsterSpeed: 3.2
   movementDirection: {x: 0, y: 0, z: 0}
+  aimingDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
   monsterControls:
     m_Name: Monster Controls
@@ -278,9 +279,11 @@ MonoBehaviour:
   isChargingAbility: 0
   isDashing: 0
   isStunned: 0
+  canBeStunned: 1
   isIntangible: 0
   canMove: 1
   GM: {fileID: 0}
+  ANIM: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -299,9 +302,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Howl
   abilityNum: 0
-  cooldown: 4
+  cooldown: 8
   usableWhileIntangible: 0
-  usableWhileDribbling: 0
+  usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
   attackVisHolder: {fileID: 0}
@@ -311,7 +314,7 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  howlRadius: 3
+  howlRadius: 2.5
   stunTime: 1
   soundName: akhlutHowl
 --- !u!114 &2061249857265671894
@@ -348,6 +351,8 @@ MonoBehaviour:
   willStopWhenDribbling: 1
   canHitBall: 1
   attackHitForce: 150
+  autoCharge: 0
+  inputBuffer: 0.4
   attackRange: 1.35
   attackBaseRadius: 0.6
   attackVisualOffsetY: -0.3
@@ -372,7 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Dive
   abilityNum: 2
-  cooldown: 4
+  cooldown: 5
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -385,14 +390,14 @@ MonoBehaviour:
   UM: {fileID: 0}
   ST: {fileID: 0}
   isActive: 0
-  initialSpeed: 6.5
-  speed: 4.25
-  durationOfSpeedBoost: 2
+  initialSpeed: 6.75
+  speed: 2.85
+  durationOfSpeedBoost: 2.5
   inputBufferTime: 0.45
   diveSound: akhlutDive
   emergeSound: akhlutEmerge
   diveLoopSound: akhlutDivingLoop
-  diveLooper: {fileID: 4050622469413555987}
+  diveLooper: {fileID: 0}
 --- !u!33 &4594944956692112125
 MeshFilter:
   m_ObjectHideFlags: 0
