@@ -10,7 +10,8 @@ public class PassiveAbility : MonoBehaviour
     public bool hasCooldown = false;
     public float cooldown;
     public float counterMax;
-    private float counterAmount;
+    [SerializeField] protected float counterAmount;
+    protected bool isActive;
 
     [Header("Visuals")]
     public GameObject visualizer;
@@ -35,5 +36,25 @@ public class PassiveAbility : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         timer = cooldown;
+    }
+
+    public virtual void Deactivate()
+    {
+        isActive = false;
+    }
+
+    public bool GetActive()
+    {
+        return isActive;
+    }
+
+    public void SetActive(bool a)
+    {
+        isActive = a;
+    }
+
+    public void SetCounter(float x)
+    {
+        counterAmount = x;
     }
 }
