@@ -173,6 +173,31 @@ public abstract class AbilityChargeable : AbilityScript
     {
         this.isCharging = isCharging;
     }
+
+    public void SetIsAutoCharging(bool isAutoCharging)
+    {
+        this.isAutoCharging = isAutoCharging;
+    }
+
+    public bool GetIsAutoCharging()
+    {
+        return isAutoCharging;
+    }
+
+    public float GetInputBufferTimer()
+    {
+        return inputBufferTimer;
+    }
+
+    public float GetInputBuffer()
+    {
+        return inputBuffer;
+    }
+
+    public void SetInputBufferTimer(float inputBufferTimer)
+    {
+        this.inputBufferTimer = inputBufferTimer;
+    }
     public override void Deactivate()
     {
         ChargeDown();

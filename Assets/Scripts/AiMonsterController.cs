@@ -69,6 +69,8 @@ public abstract class AiMonsterController : MonoBehaviour
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
 
+       
+
         StartCoroutine(PerformActionChances());
     }
 

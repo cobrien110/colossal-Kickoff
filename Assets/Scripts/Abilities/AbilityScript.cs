@@ -102,4 +102,9 @@ public abstract class AbilityScript : MonoBehaviour
     {
         return cooldown;
     }
+
+    public bool AbilityOffCooldown()
+    {
+        return timer >= cooldown;
+    }
 }
