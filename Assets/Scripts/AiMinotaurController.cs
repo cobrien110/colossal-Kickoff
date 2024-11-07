@@ -375,7 +375,7 @@ public class AiMinotaurController : AiMonsterController
     {
         while (isPerformingAbility)
         {
-            SphericalAttack();
+            SphericalAttackHelper();
             yield return null;
         }
     }
