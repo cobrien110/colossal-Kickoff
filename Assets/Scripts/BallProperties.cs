@@ -51,7 +51,7 @@ public class BallProperties : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
         MonsterController mc = other.gameObject.GetComponent<MonsterController>();
