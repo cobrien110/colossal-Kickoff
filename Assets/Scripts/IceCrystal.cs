@@ -58,6 +58,15 @@ public class IceCrystal : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        WarriorController WC = other.gameObject.GetComponent<WarriorController>();
+        if (WC != null && WC.isSliding)
+        {
+            DAD.Kill();
+        }
+    }
+
     private void DeactivateVisualizer()
     {
         attackVisualizer.SetActive(false);

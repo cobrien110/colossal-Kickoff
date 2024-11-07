@@ -13,7 +13,7 @@ public class FollowBall : MonoBehaviour
     public float alpha = 0.75f;
     public float alphaGainRate = 0.1f;
     
-    private SpriteRenderer SR;
+    [HideInInspector] public SpriteRenderer SR;
 
     public float yOffsetBall = 1f;
     public float yOffsetWarrior = 1.5f;
