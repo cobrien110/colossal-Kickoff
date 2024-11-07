@@ -12,6 +12,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected Rigidbody rb;
     protected GameplayManager GM;
     protected GameObject warriorGoal;
+    protected GameObject monsterGoal;
     protected bool isPerformingAbility = false;
     // protected List<WarriorController> warriors;
 
@@ -66,6 +67,7 @@ public abstract class AiMonsterController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
+        monsterGoal = GameObject.FindWithTag("MonsterGoal");
 
         StartCoroutine(PerformActionChances());
     }

@@ -50,8 +50,9 @@ public class AiMinotaurController : AiMonsterController
 
     }
 
-    // Used to track current Spherical Attack Mode
+    // Used to track current Ability Modes
     SphericalAttackMode asaMode = SphericalAttackMode.TargetBallOwner;
+    WallMode wallMode = WallMode.Offensive;
 
 
 
@@ -62,7 +63,8 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("PerformAbility1. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
-            mc.abilities[0].Activate();
+
+            Wall(wallMode);
         }
     }
 
@@ -85,7 +87,8 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("PerformAbility3. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
-            mc.abilities[2].Activate();
+
+            //mc.abilities[2].Activate();
         }
     }
 
@@ -184,10 +187,15 @@ public class AiMinotaurController : AiMonsterController
                 // Pursue warrior with ball
                 //if (!isPerformingAbility) mc.movementDirection = (mc.BP.ballOwner.transform.position - transform.position).normalized;
 
-                if (!isPerformingAbility) StartCoroutine(PursuePlayer());
+                //if (!isPerformingAbility) StartCoroutine(PursuePlayer());
+                if (!isPerformingAbility) mc.movementDirection = (GetDefendGoalPosition() - transform.position).normalized;
 
-                // Spherical Attack ball owner
-                ability2Chance = 0.1f;
+                // Set Wall chance and behavior
+                ability1Chance = 0.1f;
+                wallMode = WallMode.Offensive;
+
+                // Set Spherical Attack chance and behavior
+                ability2Chance = 0.0f;
                 asaMode = SphericalAttackMode.TargetBallOwner;
 
                 // Wall defensively
@@ -464,19 +472,19 @@ public class AiMinotaurController : AiMonsterController
         // If input is no longer true, attack
         if (ShouldSphericalAttack(asa) && asa.GetChargeAmount() > asaMinimumCharge)
         {
-            Debug.Log("Activate");
+            // Debug.Log("Activate");
             asa.Activate();
             asa.ANIM.SetBool("isWindingUp", false);
             isPerformingAbility = false;
         }
         else if (asa.GetIsCharging() && asa.GetTimer() >= asa.GetCooldown()) // If it still is true, keep charging
         {
-            Debug.Log("ChargeUp");
+            // Debug.Log("ChargeUp");
             asa.ChargeUp();
         }
         else
         {
-            Debug.Log("ChargeDown");
+            // Debug.Log("ChargeDown");
             asa.ChargeDown();
         }
     }
@@ -651,6 +659,43 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
+    // Defend goal position is in the middle of the ballOwner and the goal
+    private Vector3 GetDefendGoalPosition()
+    {
+        Vector3 vec = mc.BP.ballOwner.transform.position - monsterGoal.transform.position;
+        Vector3 dir = vec.normalized;
+        float distance = vec.magnitude;
+        Vector3 defendPos = monsterGoal.transform.position + (dir * distance / 2);
+        // Debug.Log(defendPos);
+        return defendPos;
+    }
+
+    private void WallDefensive()
+    {
+        // Look toward goal
+
+        // Summon wall
+
+    }
+
+    private void WallOffensive()
+    {
+        // Look toward ball
+
+        // Summon wall
+    }
+
+    private void Wall(WallMode wallMode)
+    {
+        if (wallMode == WallMode.Defensive)
+        {
+            WallDefensive();
+        } else if (wallMode == WallMode.Offensive)
+        {
+            WallOffensive();
+        }
+    }
+
 
     private void FixedUpdate()
     {
@@ -682,5 +727,11 @@ public class AiMinotaurController : AiMonsterController
         
     }
     
-
+    /*
+     * TODO
+     * 
+     * Introduce delay in moving to defend position
+     * 
+     * 
+     */
 }
