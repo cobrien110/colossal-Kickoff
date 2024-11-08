@@ -20,8 +20,6 @@ public class AiMinotaurController : AiMonsterController
     [SerializeField] private float wiggleOffset = 1f;
     [SerializeField] private float waitInPlaceTime = 1f;
     private const float stoppingDistance = 0.5f;
-    private const float leftBoundary = -6f;
-    private const float fieldDepth = 4f;
     private const float rotationSpeed = 2f;
     [SerializeField] private float asaMinimumCharge = 0.3f;
     [SerializeField] private float pursueDelay = 1f;
@@ -114,7 +112,7 @@ public class AiMinotaurController : AiMonsterController
     {
         // Debug.Log("shootChance: " + shootChance);
         // Debug.Log("PerformShootChance. chargeAmount: " + chargeAmount);
-        if (Random.value < shootChance)
+        if (Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
         {
             Debug.Log("PerformShoot. chargeAmount: " + chargeAmount);
             Shoot();
@@ -166,13 +164,13 @@ public class AiMinotaurController : AiMonsterController
 
     private void WarriorHasBall()
     {
-        // StopPursuing();
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         // If mino in mino half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
+            StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
@@ -390,9 +388,10 @@ public class AiMinotaurController : AiMonsterController
 
         // Calculate the base direction toward the goal
         Vector3 toGoal = (goalPosition - transform.position).normalized;
+        Vector3 toGoalIgnoreY = new Vector3 ( toGoal.x, transform.position.y, toGoal.z);
 
         // Apply the current random offset to the direction vector
-        mc.movementDirection = (toGoal + currentRandomOffset).normalized;
+        mc.movementDirection = (toGoalIgnoreY + currentRandomOffset).normalized;
 
         // Set the minotaur’s movement based on the calculated `movementDirection`
         // rb.velocity = mc.movementDirection * mc.monsterSpeed;
@@ -454,7 +453,8 @@ public class AiMinotaurController : AiMonsterController
 
                 // Calculate direction and move toward the target position
                 Vector3 directionToTarget = (randomTargetPosition - transform.position).normalized;
-                mc.movementDirection = directionToTarget;
+                Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
+                mc.movementDirection = directionToTargetIgnoreY;
                 rb.velocity = mc.movementDirection * mc.monsterSpeed;
 
                 // Rotate the minotaur to face the direction it's moving
@@ -689,9 +689,11 @@ public class AiMinotaurController : AiMonsterController
                 {
                     // Calculate target direction
                     Vector3 targetDirection = (targetPosition - transform.position).normalized;
+                    Vector3 targetDirectionIgnoreY = new Vector3(targetDirection.x, transform.position.y, targetDirection.z);
 
                     // Smoothly update the movement direction using linear interpolation
-                    mc.movementDirection = Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
+                    mc.movementDirection = targetDirectionIgnoreY;
+                        //Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
                 }
                 else
                 {
@@ -785,7 +787,10 @@ public class AiMinotaurController : AiMonsterController
         while (isPerformingAbility)
         {
             // Look at ball owner
-            mc.movementDirection = (mc.BP.ballOwner.transform.position - transform.position).normalized;
+            if (mc.BP != null && mc.BP.ballOwner != null)
+            {
+                mc.movementDirection = (mc.BP.ballOwner.transform.position - transform.position).normalized;
+            }
 
             // Dash
             DashHelper();
@@ -919,5 +924,8 @@ public class AiMinotaurController : AiMonsterController
      * 
      * Optimize GetNearestWarrior so that it uses a global List/Array of warriors rather than retrieving them each frame
      * 
+     * Bias roaming to go in direction of/near ballOwner
+     * 
+     * Make ability chances based on math rather than set values
      */
 }

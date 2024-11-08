@@ -22,6 +22,8 @@ public abstract class AiMonsterController : MonoBehaviour
     [SerializeField] protected float maxShootingRange = 16f; // 16 is an estimate of the width of the whole field
     [SerializeField] protected float maxProximityRange = 8f; // Distance from nearest warrior that is considered "absolutely safe to shoot from"
     [SerializeField] protected float midFieldPoint = 0f; // Represent the value on x axis that is midfield
+    [SerializeField] protected float leftBoundary = -4f;
+    [SerializeField] protected float fieldDepth = 3f;
 
     // Not necessarily all of these will use the chargeAmount
     protected abstract void PerformAbility1Chance(float chargeAmount);
@@ -40,17 +42,11 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            if (!isPerformingAbility)
-            {
-                // Debug.Log("Performing action chances");
-                //PerformAbility1Chance(0);
-                //PerformAbility2Chance(0);
-                PerformAbility3Chance(0);
-                PerformShootChance(0);
-            } else
-            {
-                Debug.Log("isPerformingAbility: " + isPerformingAbility);
-            }
+            if (!isPerformingAbility) PerformAbility1Chance(0);
+            if (!isPerformingAbility) PerformAbility2Chance(0);
+            if (!isPerformingAbility) PerformAbility3Chance(0);
+            PerformShootChance(0);
+            
             yield return new WaitForSeconds(performActionChanceFrequency);
         }
     }
