@@ -263,7 +263,7 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(false);
         characterSelect.SetActive(true);
         for (int i = 0; i < cursors.Length; i++) {
-                    cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
+            cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
         }
     }
 }

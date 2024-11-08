@@ -43,8 +43,8 @@ public abstract class AiMonsterController : MonoBehaviour
             if (!isPerformingAbility)
             {
                 // Debug.Log("Performing action chances");
-                PerformAbility1Chance(0);
-                PerformAbility2Chance(0);
+                //PerformAbility1Chance(0);
+                //PerformAbility2Chance(0);
                 PerformAbility3Chance(0);
                 PerformShootChance(0);
             } else
@@ -74,7 +74,17 @@ public abstract class AiMonsterController : MonoBehaviour
         StartCoroutine(PerformActionChances());
     }
 
+    public void SetIsPerformingAbility(bool isPerformingAbility)
+    {
+        this.isPerformingAbility = isPerformingAbility;
+    }
 
+    public IEnumerator SetIsPerformingAbilityDelay(bool isPerformingAbility)
+    {
+        yield return new WaitForSeconds(0.8f);
+
+        this.isPerformingAbility = isPerformingAbility;
+    }
 
     // Start is called before the first frame update
     void Start()

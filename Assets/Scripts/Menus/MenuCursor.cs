@@ -35,6 +35,9 @@ public class MenuCursor : MonoBehaviour
 
     private void Start()
     {
+        //Debug.Log("Height:" + Screen.height);
+        //Debug.Log("Width:" + Screen.width);
+        speed = 120.0f * (Screen.height / 100);
         hasSelected = false;
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.position = new Vector3(0, 0, 0);
@@ -64,7 +67,6 @@ public class MenuCursor : MonoBehaviour
         }
 
         Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
-
         transform.position = new Vector3 (325, 185, 0);
     }
 
@@ -250,6 +252,7 @@ public class MenuCursor : MonoBehaviour
 
     //find the icons that display who's selected which characters on screen
     public void findCharSelectItems() {
+        Debug.Log("findcharselectitems running");
         playerMarkerIcons[0] = GameObject.Find("MonsterSelected").GetComponent<PlayerSelectedDisplay>();
         playerMarkerIcons[1] = GameObject.Find("Warrior1Selected").GetComponent<PlayerSelectedDisplay>();
         playerMarkerIcons[2] = GameObject.Find("Warrior2Selected").GetComponent<PlayerSelectedDisplay>();
