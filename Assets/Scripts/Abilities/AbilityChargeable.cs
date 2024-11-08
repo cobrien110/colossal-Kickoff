@@ -68,6 +68,7 @@ public abstract class AbilityChargeable : AbilityScript
                 {
                     Debug.Log("SET ISPERFORMINGABILITY FALSE");
                     StartCoroutine(aiMonsterController.SetIsPerformingAbilityDelay(false));
+                    //aiMonsterController.SetIsPerformingAbility(false);
                 }
             }
         }
@@ -90,7 +91,7 @@ public abstract class AbilityChargeable : AbilityScript
         if (MC.isStunned) return;
         if (chargeAmount < maxChargeSeconds)
         {
-            Debug.Log("Charging Ability: " + abilityName);
+            // Debug.Log("Charging Ability: " + abilityName);
             if (audioPlayer.source.clip == null || audioPlayer.source.clip != audioPlayer.Find(chargeSoundName))
             {
                 audioPlayer.PlaySoundVolume(audioPlayer.Find(chargeSoundName), 0.5f);
@@ -101,14 +102,14 @@ public abstract class AbilityChargeable : AbilityScript
 
     public virtual void ChargeUp()
     {
-        Debug.Log("Is Charging Attack");
+        // Debug.Log("Is Charging Attack");
         isCharging = true;
         if (slowsDownCharacterWhileCharging) MC.isChargingAbility = true;
     }
 
     public virtual void ChargeDown()
     {
-        Debug.Log("Not attack and not charging");
+        // Debug.Log("Not attack and not charging");
         isCharging = false;
         if (slowsDownCharacterWhileCharging) MC.isChargingAbility = false;
         ANIM.SetBool("isWindingUp", false);

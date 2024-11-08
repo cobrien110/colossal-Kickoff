@@ -16,6 +16,7 @@ public class AiMinotaurController : AiMonsterController
     private float redirectionTimer = 0f;      // Timer to track redirection intervals
     private Vector3 currentRandomOffset = Vector3.zero;
     private Coroutine roamCoroutine;
+    private Coroutine pursueCoroutine;
     [SerializeField] private float wiggleOffset = 1f;
     [SerializeField] private float waitInPlaceTime = 1f;
     private const float stoppingDistance = 0.5f;
@@ -69,6 +70,7 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("PerformAbility1. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
 
+            StopCoroutines();
             Wall(wallMode);
         }
     }
@@ -85,6 +87,7 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("PerformAbility2. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
 
+            StopCoroutines();
             SphericalAttack(asaMode);
         }
     }
@@ -101,6 +104,7 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("PerformAbility3. chargeAmount: " + chargeAmount);
             isPerformingAbility = true;
 
+            StopCoroutines();
             Dash(dashMode);
             //DashHelper();
         }
@@ -162,6 +166,7 @@ public class AiMinotaurController : AiMonsterController
 
     private void WarriorHasBall()
     {
+        // StopPursuing();
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
@@ -188,7 +193,7 @@ public class AiMinotaurController : AiMonsterController
         // If mino and warrior with ball in mino half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopRoaming();
+            StopCoroutines();
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
@@ -211,11 +216,14 @@ public class AiMinotaurController : AiMonsterController
         // If mino and warrior in warrior half...
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
+            // Debug.Log("mino and warrior in warrior half");
             StopRoaming();
+
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
+                // Debug.Log("isPerformingAbility false");
                 // Default behavior
-                PursuePlayer();
+                StartPursuing();
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
@@ -234,7 +242,8 @@ public class AiMinotaurController : AiMonsterController
         // If mino in warrior half, warrior in mino half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopRoaming();
+            StopCoroutines();
+
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
@@ -257,13 +266,15 @@ public class AiMinotaurController : AiMonsterController
 
     private void MonsterHasBall()
     {
+        ResetAbilities();
+
         // Monster should not use abilities
         ability1Chance = 0.0f;
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
 
         // Stop roaming if its happening
-        StopRoaming();
+        StopCoroutines();
 
         // Debug.Log("MonsterHasBall");
 
@@ -288,11 +299,13 @@ public class AiMinotaurController : AiMonsterController
 
     private void BallNotPossessed()
     {
+        ResetAbilities();
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         // Stop roaming if its happening
-        StopRoaming();
+        StopCoroutines();
 
         // Debug.Log("BallNotPossessed");
 
@@ -464,6 +477,7 @@ public class AiMinotaurController : AiMonsterController
         if (isPerformingAbility) return;
         if (roamCoroutine == null)
         {
+            Debug.Log("Start roaming");
             roamCoroutine = StartCoroutine(Roam());
         }
     }
@@ -472,9 +486,36 @@ public class AiMinotaurController : AiMonsterController
     {
         if (roamCoroutine != null)
         {
+            Debug.Log("Stop roaming");
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
         }
+    }
+
+    private void StartPursuing()
+    {
+        if (isPerformingAbility) return;
+        if (pursueCoroutine == null)
+        {
+            Debug.Log("Start pursuing");
+            pursueCoroutine = StartCoroutine(PursuePlayer());
+        }
+    }
+
+    private void StopPursuing()
+    {
+        if (pursueCoroutine != null)
+        {
+            Debug.Log("Stop pursuing");
+            StopCoroutine(pursueCoroutine);
+            pursueCoroutine = null;
+        }
+    }
+
+    private void StopCoroutines()
+    {
+        StopPursuing();
+        StopRoaming();
     }
 
     // SPEHRICAL ATTACK METHODS
@@ -541,7 +582,7 @@ public class AiMinotaurController : AiMonsterController
             yield break;
         }
 
-        StopRoaming();
+        StopCoroutines();
         while (isPerformingAbility)
         {
             // If targeted warrior died during ability charge, go to next warrior
@@ -593,7 +634,7 @@ public class AiMinotaurController : AiMonsterController
         }
         GameObject ballController = mc.BP.ballOwner;
 
-        StopRoaming();
+        StopCoroutines();
 
         while (isPerformingAbility)
         {
@@ -633,11 +674,13 @@ public class AiMinotaurController : AiMonsterController
     {
         while (true)
         {
+            Debug.Log("Pursuing player");
             yield return new WaitForSeconds(pursueDelay);
 
             // Ensure the ball owner is valid before pursuing
             if (mc.BP.ballOwner != null)
             {
+                Debug.Log("Pursuing player, ball owner is valid");
                 Vector3 targetPosition = mc.BP.ballOwner.transform.position;
                 float distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
 
@@ -759,10 +802,16 @@ public class AiMinotaurController : AiMonsterController
             yield break;
         }
 
+        WarriorController nearestWarrior = GetNearestWarrior();
+        if (nearestWarrior == null) yield break;
+
         while (isPerformingAbility)
         {
-            // Look at ball owner
-            mc.movementDirection = (GetNearestWarrior().transform.position - transform.position).normalized;
+            // Look at nearest warrior
+            if (nearestWarrior != null)
+            {
+                mc.movementDirection = (nearestWarrior.transform.position - transform.position).normalized;
+            }
 
             // Dash
             DashHelper();
@@ -787,6 +836,49 @@ public class AiMinotaurController : AiMonsterController
         }
 
     }
+
+    private void ResetAbilities()
+    {
+        // Debug.Log("Reset Abilities");
+        isPerformingAbility = false;
+        
+        if (mc.abilities[2] is AbilityBullrush)
+        {
+            AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
+            abr.SetIsAutoCharging(false);
+            abr.ChargeDown();
+            abr.SetInputBufferTimer(0);
+            abr.SetIsCharging(false);
+            //abr.SetTimer(0);
+        }
+    }
+
+    /*
+     * 
+     * private void DashHelper()
+    {
+        // Debug.Log("Dash");
+
+        // Make sure first ability is an AbilityChargable
+        if (!(mc.abilities[2] is AbilityBullrush)) return;
+
+        AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
+
+        // Check if off cooldown
+        if (abr.GetTimer() < abr.GetCooldown()) return;
+
+        abr.SetIsAutoCharging(true);
+
+        if (abr.GetIsAutoCharging())
+        {
+            abr.ChargeUp();
+            abr.SetIsAutoCharging(true);
+        }
+        else if (!abr.GetIsAutoCharging())
+        {
+            abr.ChargeDown();
+        }
+    }*/
 
     private void FixedUpdate()
     {

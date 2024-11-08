@@ -81,7 +81,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
     public IEnumerator SetIsPerformingAbilityDelay(bool isPerformingAbility)
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
 
         this.isPerformingAbility = isPerformingAbility;
     }

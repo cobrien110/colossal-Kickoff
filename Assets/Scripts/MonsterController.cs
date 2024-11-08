@@ -609,6 +609,12 @@ public class MonsterController : MonoBehaviour
         {
             AMM.ResetMummies();
         }
+
+        // Reset AiMonster
+        AiMonsterController aiMonster = GetComponent<AiMonsterController>();
+        if (aiMonster != null) aiMonster.SetIsPerformingAbility(false);
+        if (isChargingAbility) isChargingAbility = false;
+        if (isCharging) isCharging = false;
     }
 
     IEnumerator KickDelay()
