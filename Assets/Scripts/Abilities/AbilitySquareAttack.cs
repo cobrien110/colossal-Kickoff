@@ -17,6 +17,7 @@ public class AbilitySquareAttack : AbilityChargeable
     public GameObject projectilePrefab;
     public int projectileDamage = 1;
     public float projectileSpeed = 450f;
+    public Mesh M;
 
     public override void Activate()
     {
@@ -29,9 +30,9 @@ public class AbilitySquareAttack : AbilityChargeable
             //Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
 
             Vector3 direction = transform.forward;
-            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
+            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize);
             Vector3 origin = new Vector3(transform.position.x + direction.x * attackRange, transform.position.y + direction.y + attackVisualOffsetY, transform.position.z + direction.z * attackRange);
-            Collider[] colliders = Physics.OverlapBox(origin, size, transform.rotation, affectedLayers);
+            Collider[] colliders = Physics.OverlapBox(origin, size / 2, transform.rotation * Quaternion.Euler(0, 90, 0), affectedLayers);
 
             foreach (Collider col in colliders)
             {
@@ -124,6 +125,16 @@ public class AbilitySquareAttack : AbilityChargeable
 
         Vector3 origin = new Vector3(transform.position.x + direction.x * attackRange, transform.position.y + direction.y + attackVisualOffsetY, transform.position.z + direction.z * attackRange);
         Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
+        Quaternion rot = transform.rotation * Quaternion.Euler(0, 90, 0);
+
+        Mesh boxMesh = attackVisualizer.GetComponent<MeshFilter>().GetComponent<Mesh>();
+        Gizmos.DrawWireMesh(M, 0, origin, rot, size);
         Gizmos.DrawWireCube(origin, size);
+    }
+
+    private void Start()
+    {
+        Setup();
+        M = attackVisualizer.GetComponent<MeshFilter>().mesh;
     }
 }
