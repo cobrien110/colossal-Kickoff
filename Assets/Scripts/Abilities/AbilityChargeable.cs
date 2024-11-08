@@ -57,9 +57,18 @@ public abstract class AbilityChargeable : AbilityScript
             if (inputBufferTimer < inputBuffer && isAutoCharging) inputBufferTimer += Time.deltaTime;
             if (chargeAmount >= maxChargeSeconds)
             {
+                Debug.Log("AbilityChargeable update: activate");
                 Activate();
                 ANIM.SetBool("isWindingUp", false);
                 isAutoCharging = false;
+
+                // Auto charging abilities for ai monsters need to have their isPerformingAbility set to to false here
+                AiMonsterController aiMonsterController = gameObject.GetComponent<AiMonsterController>();
+                if (aiMonsterController != null)
+                {
+                    Debug.Log("SET ISPERFORMINGABILITY FALSE");
+                    StartCoroutine(aiMonsterController.SetIsPerformingAbilityDelay(false));
+                }
             }
         }
     }
