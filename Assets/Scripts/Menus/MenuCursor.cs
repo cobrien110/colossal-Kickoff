@@ -96,10 +96,10 @@ public class MenuCursor : MonoBehaviour
         if ((!hasSelected) || MC.currentScreen == 3) {
             body.velocity = new Vector2(horizontal * speed, vertical * speed);
         }
-
+        //Rect screenBounds = new Rect(0f, 0f, Screen.width, Screen.height); // Screen space bounds (assumes camera renders across the entire screen)
         //bounding box
-        /**if (transform.position.y > 370) {
-            transform.position = new Vector3(transform.position.x, 370, 0);
+        if (transform.position.y > Screen.height) {
+            transform.position = new Vector3(transform.position.x, Screen.height, 0);
         }
         if (transform.position.y < 0) {
             transform.position = new Vector3(transform.position.x, 0, 0);
@@ -107,9 +107,9 @@ public class MenuCursor : MonoBehaviour
         if (transform.position.x < 0) {
             transform.position = new Vector3(0, transform.position.y, 0);
         }
-        if (transform.position.x > 650) {
-            transform.position = new Vector3(650, transform.position.y, 0);
-        }**/
+        if (transform.position.x > Screen.width) {
+            transform.position = new Vector3(Screen.width, transform.position.y, 0);
+        }
         
     }
 
