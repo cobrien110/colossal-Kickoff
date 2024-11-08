@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 3703359982807322521}
   - component: {fileID: 5236233889971040232}
   - component: {fileID: 7396456557364846954}
-  - component: {fileID: 2061249857265671894}
+  - component: {fileID: 7204633629675209748}
   - component: {fileID: 3357644000442038238}
   - component: {fileID: 4594944956692112125}
   - component: {fileID: 5060133158299346773}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 6204409598234497509}
   - component: {fileID: 2228513988069930200}
   m_Layer: 10
-  m_Name: Quetzalcaotl
+  m_Name: Quetzalcaotl (Square)
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
   ST: {fileID: 0}
   radius: 0.65
   soundName: quetzExplode
---- !u!114 &2061249857265671894
+--- !u!114 &7204633629675209748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3176374829716338387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90848d451c18054a8f34e81a178cda6, type: 3}
+  m_Script: {fileID: 11500000, guid: 365f2855722ded3408bb22c8bdc54a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   abilityName: MinotaurAttack
@@ -369,7 +369,7 @@ MonoBehaviour:
   usableWhileIntangible: 0
   usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
+  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: 7211a9b8042dd394eb9678e5e9b5f67d, type: 3}
   attackVisHolder: {fileID: 6558373449549645104}
   activatedAnimationName: AkhlutHowl
   MC: {fileID: 0}
@@ -388,7 +388,8 @@ MonoBehaviour:
   autoCharge: 0
   inputBuffer: 0.4
   attackRange: 1.35
-  attackBaseRadius: 0.6
+  attackBaseRadius: 1
+  attackBaseSize: 1
   attackVisualOffsetY: -0.3
   affectedLayers:
     serializedVersion: 2
