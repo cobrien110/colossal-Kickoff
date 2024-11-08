@@ -1186,13 +1186,16 @@ MonoBehaviour:
   performActionChanceFrequency: 0.25
   maxShootingRange: 16
   maxProximityRange: 8
-  midFieldPoint: 2
+  midFieldPoint: -2
+  leftBoundary: -6
+  fieldDepth: 3
   redirectionInterval: 0.5
-  wiggleOffset: 1.5
+  wiggleOffset: 1
   waitInPlaceTime: 1
   asaMinimumCharge: 0.3
   pursueDelay: 1
   minPursueDistance: 2
+  defendGoalDelay: 0.5
 --- !u!1 &8972001307259076129
 GameObject:
   m_ObjectHideFlags: 0

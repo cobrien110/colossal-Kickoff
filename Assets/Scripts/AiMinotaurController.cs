@@ -12,11 +12,13 @@ public class AiMinotaurController : AiMonsterController
     // Basic Attack - 1
     // Dash - 2
 
+    [Header("AI Mino Stats & Behaviour")]
     [SerializeField] private float redirectionInterval = 0.5f; // Time interval in seconds
     private float redirectionTimer = 0f;      // Timer to track redirection intervals
     private Vector3 currentRandomOffset = Vector3.zero;
     private Coroutine roamCoroutine;
     private Coroutine pursueCoroutine;
+    private Coroutine defendGoalCoroutine;
     [SerializeField] private float wiggleOffset = 1f;
     [SerializeField] private float waitInPlaceTime = 1f;
     private const float stoppingDistance = 0.5f;
@@ -25,6 +27,7 @@ public class AiMinotaurController : AiMonsterController
     [SerializeField] private float pursueDelay = 1f;
     [SerializeField] private float minPursueDistance = 2f;
     private float pursuitSmoothingFactor = 1f;
+    [SerializeField] private float defendGoalDelay = 0.5f;
     //private float pursueDelayFrequency;
 
     // private bool shouldPerformAbility1 = false;
@@ -56,16 +59,15 @@ public class AiMinotaurController : AiMonsterController
 
 
 
-    protected override void PerformAbility1Chance(float chargeAmount)
+    protected override void PerformAbility1Chance()
     {
         if (mc.abilities[0] == null) return;
             
         if (!mc.abilities[0].AbilityOffCooldown()) return;
 
-        // Debug.Log("PerformAbility1Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability1Chance)
         {
-            Debug.Log("PerformAbility1. chargeAmount: " + chargeAmount);
+            Debug.Log("PerformAbility1");
             isPerformingAbility = true;
 
             StopCoroutines();
@@ -73,16 +75,15 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    protected override void PerformAbility2Chance(float chargeAmount)
+    protected override void PerformAbility2Chance()
     {
         if (mc.abilities[1] == null) return;
 
         if (!mc.abilities[1].AbilityOffCooldown()) return;
 
-        // Debug.Log("PerformAbility2Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability2Chance)
         {
-            Debug.Log("PerformAbility2. chargeAmount: " + chargeAmount);
+            Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
             StopCoroutines();
@@ -90,16 +91,15 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    protected override void PerformAbility3Chance(float chargeAmount)
+    protected override void PerformAbility3Chance()
     {
         if (mc.abilities[2] == null) return;
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
 
-        // Debug.Log("PerformAbility3Chance. chargeAmount: " + chargeAmount);
         if (Random.value < ability3Chance)
         {
-            Debug.Log("PerformAbility3. chargeAmount: " + chargeAmount);
+            Debug.Log("PerformAbility3");
             isPerformingAbility = true;
 
             StopCoroutines();
@@ -108,13 +108,11 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    protected override void PerformShootChance(float chargeAmount)
+    protected override void PerformShootChance()
     {
-        // Debug.Log("shootChance: " + shootChance);
-        // Debug.Log("PerformShootChance. chargeAmount: " + chargeAmount);
         if (Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
         {
-            Debug.Log("PerformShoot. chargeAmount: " + chargeAmount);
+            Debug.Log("PerformShoot");
             Shoot();
         }
     }
@@ -195,7 +193,7 @@ public class AiMinotaurController : AiMonsterController
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
-                mc.movementDirection = (GetDefendGoalPosition() - transform.position).normalized; // Stand in between goal and ball owner
+                StartDefendGoal();
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
@@ -441,10 +439,21 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("Monster roaming");
 
-            // Generate a random x and z position within the left half of the field
+            // Determine a random position within the left half of the field
             float randomX = Random.Range(leftBoundary, midFieldPoint);
             float randomZ = Random.Range(-fieldDepth, fieldDepth);
             Vector3 randomTargetPosition = new Vector3(randomX, transform.position.y, randomZ);
+
+            // If there is a ball owner, bias the random target position toward it
+            if (mc.BP.ballOwner != null)
+            {
+                Vector3 ballOwnerPosition = mc.BP.ballOwner.transform.position;
+
+                // Calculate the bias factor (range: 0 = no bias, 1 = full bias)
+                float biasFactor = 0.35f; // Adjust this value to control how strongly it biases toward the ball owner
+                randomTargetPosition = Vector3.Lerp(randomTargetPosition, new Vector3(ballOwnerPosition.x, transform.position.y, ballOwnerPosition.z), biasFactor);
+                randomTargetPosition = new Vector3(randomTargetPosition.x, transform.position.y, randomTargetPosition.z); // Ignore y
+            }
 
             // Move toward the random target position
             while (Vector3.Distance(transform.position, randomTargetPosition) > stoppingDistance)
@@ -472,6 +481,7 @@ public class AiMinotaurController : AiMonsterController
             yield return new WaitForSeconds(waitInPlaceTime);
         }
     }
+
     private void StartRoaming()
     {
         if (isPerformingAbility) return;
@@ -509,6 +519,16 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("Stop pursuing");
             StopCoroutine(pursueCoroutine);
             pursueCoroutine = null;
+        }
+    }
+
+    private void StartDefendGoal()
+    {
+        // if (isPerformingAbility) return;
+        if (defendGoalCoroutine == null)
+        {
+            Debug.Log("Start Defend Goal");
+            defendGoalCoroutine = StartCoroutine(DefendGoal());
         }
     }
 
@@ -682,6 +702,7 @@ public class AiMinotaurController : AiMonsterController
             {
                 Debug.Log("Pursuing player, ball owner is valid");
                 Vector3 targetPosition = mc.BP.ballOwner.transform.position;
+                targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z); // Ignore y
                 float distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
 
                 // Check if the monster is too close; stop if within minimum distance
@@ -719,6 +740,8 @@ public class AiMinotaurController : AiMonsterController
     // Defend goal position is in the middle of the ballOwner and the goal
     private Vector3 GetDefendGoalPosition()
     {
+        if (mc.BP == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (mc.BP.ballOwner == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 vec = mc.BP.ballOwner.transform.position - monsterGoal.transform.position;
         Vector3 dir = vec.normalized;
         float distance = vec.magnitude;
@@ -858,32 +881,12 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    /*
-     * 
-     * private void DashHelper()
+    IEnumerator DefendGoal()
     {
-        // Debug.Log("Dash");
-
-        // Make sure first ability is an AbilityChargable
-        if (!(mc.abilities[2] is AbilityBullrush)) return;
-
-        AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-
-        // Check if off cooldown
-        if (abr.GetTimer() < abr.GetCooldown()) return;
-
-        abr.SetIsAutoCharging(true);
-
-        if (abr.GetIsAutoCharging())
-        {
-            abr.ChargeUp();
-            abr.SetIsAutoCharging(true);
-        }
-        else if (!abr.GetIsAutoCharging())
-        {
-            abr.ChargeDown();
-        }
-    }*/
+        yield return new WaitForSeconds(defendGoalDelay);
+        mc.movementDirection = (GetDefendGoalPosition() - transform.position).normalized; // Stand in between goal and ball owner
+        defendGoalCoroutine = null;
+    }
 
     private void FixedUpdate()
     {
@@ -915,17 +918,25 @@ public class AiMinotaurController : AiMonsterController
         //AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
         //Debug.Log("isAutoCharging: " + abr.GetIsAutoCharging());
         //Debug.Log("autoCharge: " + abr.autoCharge);
+
+        if (mc.abilities[1] != null && (mc.abilities[1].attackVisualizer.transform.position.y > 0
+            || mc.abilities[1].attackVisualizer.transform.position.x > 0))
+        {
+            // Debug.Log("Attack visual change position!!!!");
+        }
     }
     
     /*
      * TODO
      * 
-     * Introduce delay in moving to defend position
-     * 
      * Optimize GetNearestWarrior so that it uses a global List/Array of warriors rather than retrieving them each frame
      * 
-     * Bias roaming to go in direction of/near ballOwner
-     * 
      * Make ability chances based on math rather than set values
+     * 
+     * Introduce maxRange to wall
+     * 
+     * Fix spherical attack visual
+     * 
+     * Add ability use into BallNotPossessed
      */
 }

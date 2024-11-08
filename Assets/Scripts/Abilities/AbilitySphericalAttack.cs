@@ -16,6 +16,7 @@ public class AbilitySphericalAttack : AbilityChargeable
     public GameObject projectilePrefab;
     public int projectileDamage = 1;
     public float projectileSpeed = 450f;
+    [SerializeField] private float sphericalAttackPosY = 0f;
 
     public override void Activate()
     {
@@ -101,7 +102,7 @@ public class AbilitySphericalAttack : AbilityChargeable
         attackVisualizer.transform.localScale = new Vector3(attackBaseRadius * 2f + chargeAmount * chargeRate * 2f,
             0.05f, attackBaseRadius * 2f + chargeAmount * chargeRate * 2f);
         Vector3 dir = transform.forward * attackRange;
-        attackVisualizer.transform.position = new Vector3(transform.position.x, attackVisualizer.transform.position.y, transform.position.z) + dir;
+        attackVisualizer.transform.position = new Vector3(transform.position.x, sphericalAttackPosY, transform.position.z) + dir;
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             attackVisualizer.transform.localScale = Vector3.zero;

@@ -17,19 +17,20 @@ public abstract class AiMonsterController : MonoBehaviour
     // protected List<WarriorController> warriors;
 
     // Stats
+    [Header("AI Monster Stats & Behaviour")]
     [SerializeField] protected float aiShootSpeed;
-    [SerializeField] private float performActionChanceFrequency = 0.25f;
+    [SerializeField] private float performActionChanceFrequency = 0.25f; // How often monster checks to perform ability
     [SerializeField] protected float maxShootingRange = 16f; // 16 is an estimate of the width of the whole field
     [SerializeField] protected float maxProximityRange = 8f; // Distance from nearest warrior that is considered "absolutely safe to shoot from"
     [SerializeField] protected float midFieldPoint = 0f; // Represent the value on x axis that is midfield
-    [SerializeField] protected float leftBoundary = -4f;
-    [SerializeField] protected float fieldDepth = 3f;
+    [SerializeField] protected float leftBoundary = -4f; // Left boundary for monster roaming purposes
+    [SerializeField] protected float fieldDepth = 3f; // field depth for monster roaming purposes
 
     // Not necessarily all of these will use the chargeAmount
-    protected abstract void PerformAbility1Chance(float chargeAmount);
-    protected abstract void PerformAbility2Chance(float chargeAmount);
-    protected abstract void PerformAbility3Chance(float chargeAmount);
-    protected abstract void PerformShootChance(float chargeAmount);
+    protected abstract void PerformAbility1Chance();
+    protected abstract void PerformAbility2Chance();
+    protected abstract void PerformAbility3Chance();
+    protected abstract void PerformShootChance();
     protected abstract void MonsterBehaviour();
     protected abstract void Shoot();
 
@@ -42,10 +43,10 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            if (!isPerformingAbility) PerformAbility1Chance(0);
-            if (!isPerformingAbility) PerformAbility2Chance(0);
-            if (!isPerformingAbility) PerformAbility3Chance(0);
-            PerformShootChance(0);
+            /*if (!isPerformingAbility) PerformAbility1Chance();
+            if (!isPerformingAbility) PerformAbility2Chance();
+            if (!isPerformingAbility) PerformAbility3Chance();*/
+            PerformShootChance();
             
             yield return new WaitForSeconds(performActionChanceFrequency);
         }
