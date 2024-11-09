@@ -49,7 +49,8 @@ public class AiMinotaurController : AiMonsterController
     private enum DashMode
     {
         BallOwner,
-        Nearest
+        Nearest,
+        Ball
     }
 
     // Used to track current Ability Modes
@@ -262,7 +263,27 @@ public class AiMinotaurController : AiMonsterController
 
     private void MonsterHasBall()
     {
-        ResetAbilities();
+        // Default behaviour
+        if (!isPerformingAbility)
+        {
+            ResetAbilities();
+
+            // "Wiggle" your way towards the goal
+            WiggleTowardGoal();
+
+            // Constant chance to shoot depending on:
+            // Distance to warrior goal
+            float distToGoalFactor = Mathf.Clamp01(1 - (Vector3.Distance(warriorGoal.transform.position, transform.position) / maxShootingRange));
+            // proximity to closest warrior
+            float proximityToWarriorFactor = Mathf.Clamp01(1 - (GetDistanceToNearestWarrior() / maxProximityRange));
+            // How clear path is to goal
+            // float pathToGoalFactor = 0.0f;
+
+            // Calculate shootChance based on these factors
+            shootChance = Mathf.Pow((distToGoalFactor + proximityToWarriorFactor) / 2f, 2);
+
+            // If shooting, chargeAmount depends on distance to goal
+        }
 
         // Monster should not use abilities
         ability1Chance = 0.0f;
@@ -273,43 +294,41 @@ public class AiMinotaurController : AiMonsterController
         StopCoroutines();
 
         // Debug.Log("MonsterHasBall");
-
-        // "Wiggle" your way towards the goal
-        WiggleTowardGoal();
-
-        // Constant chance to shoot depending on:
-        // Distance to warrior goal
-        float distToGoalFactor = Mathf.Clamp01(1 - (Vector3.Distance(warriorGoal.transform.position, transform.position) / maxShootingRange));
-        // proximity to closest warrior
-        float proximityToWarriorFactor = Mathf.Clamp01(1 - (GetDistanceToNearestWarrior() / maxProximityRange));
-        // How clear path is to goal
-        // float pathToGoalFactor = 0.0f;
-
-        // Calculate shootChance based on these factors
-        shootChance = Mathf.Pow((distToGoalFactor + proximityToWarriorFactor) / 2f, 2);
-
         // Debug.Log("shootChance: " + shootChance);
 
-        // If shooting, chargeAmount depends on distance to goal
     }
 
     private void BallNotPossessed()
     {
-        ResetAbilities();
+        // ResetAbilities();
+
+        // Stop roaming and pursuing if its happening
+        StopCoroutines();
 
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
-        // Stop roaming if its happening
-        StopCoroutines();
+        if (!isPerformingAbility)
+        {
+            // Default behaviour
+            Vector2 toBall = new Vector2(
+                    mc.BP.gameObject.transform.position.x - transform.position.x,
+                    mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
+            MoveTo(toBall);
+        }
+
+        // Set Wall chance and behavior
+        ability1Chance = 0.1f;
+        wallMode = WallMode.Offensive; // Try to block warrior from getting to ball
+
+        // Set Spherical attack chance
+        ability2Chance = 0.0f;
+
+        // Set Dash chance and behavior
+        ability3Chance = 0.1f;
+        dashMode = DashMode.Ball; // Dash at ball
 
         // Debug.Log("BallNotPossessed");
-
-        // Move to ball
-        Vector2 toBall = new Vector2(
-                mc.BP.gameObject.transform.position.x - transform.position.x,
-                mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
-        MoveTo(toBall); ;
     }
 
     protected override void Shoot()
@@ -777,7 +796,7 @@ public class AiMinotaurController : AiMonsterController
     // DASH METHODS
     private void DashHelper()
     {
-        // Debug.Log("Dash");
+        Debug.Log("Dash Helper");
 
         // Make sure first ability is an AbilityChargable
         if (!(mc.abilities[2] is AbilityBullrush)) return;
@@ -804,6 +823,8 @@ public class AiMinotaurController : AiMonsterController
     {
         if (mc.BP.ballOwner == null) 
         {
+            Debug.Log("ballOwner is null");
+            isPerformingAbility = false;
             yield break;
         }
 
@@ -827,6 +848,8 @@ public class AiMinotaurController : AiMonsterController
     {
         if (mc.BP.ballOwner == null)
         {
+            Debug.Log("ballOwner is null");
+            isPerformingAbility = false;
             yield break;
         }
 
@@ -848,6 +871,30 @@ public class AiMinotaurController : AiMonsterController
         }
         Debug.Log("DashBallOwner done");
     }
+    IEnumerator DashBall()
+    {
+        if (mc.BP.gameObject == null)
+        {
+            Debug.Log("ball is null");
+            isPerformingAbility = false;
+            yield break;
+        }
+
+        while (isPerformingAbility)
+        {
+            // Look at ball owner
+            if (mc.BP != null && mc.BP.gameObject != null)
+            {
+                mc.movementDirection = (mc.BP.gameObject.transform.position - transform.position).normalized;
+            }
+
+            // Dash
+            DashHelper();
+
+            yield return null;
+        }
+        Debug.Log("DashOffensive done");
+    }
     private void Dash(DashMode dashMode)
     {
         Debug.Log("Dash");
@@ -857,6 +904,10 @@ public class AiMinotaurController : AiMonsterController
         } else if (dashMode == DashMode.Nearest)
         {
             StartCoroutine(DashNearest());
+        }
+        else if (dashMode == DashMode.Ball)
+        {
+            StartCoroutine(DashBall());
         }
         else
         {
@@ -868,16 +919,33 @@ public class AiMinotaurController : AiMonsterController
     private void ResetAbilities()
     {
         // Debug.Log("Reset Abilities");
-        isPerformingAbility = false;
+        if (isPerformingAbility) isPerformingAbility = false;
         
         if (mc.abilities[2] is AbilityBullrush)
         {
             AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-            abr.SetIsAutoCharging(false);
-            abr.ChargeDown();
-            abr.SetInputBufferTimer(0);
-            abr.SetIsCharging(false);
-            //abr.SetTimer(0);
+            if (abr.GetIsCharging() || abr.GetIsAutoCharging())
+            {
+                abr.SetIsAutoCharging(false);
+                abr.ChargeDown();
+                abr.SetInputBufferTimer(0);
+                abr.SetIsCharging(false);
+                //abr.SetTimer(0);
+            }
+        }
+
+        if (mc.abilities[1] is AbilitySphericalAttack)
+        {
+            AbilitySphericalAttack asa = (AbilitySphericalAttack)mc.abilities[1];
+
+            if (asa.GetIsAutoCharging() || asa.GetIsCharging())
+            {
+                asa.SetIsAutoCharging(false);
+                asa.SetIsCharging(false);
+                asa.SetInputBufferTimer(0);
+                asa.ChargeDown();
+                //asa.SetTimer(0);
+            }
         }
     }
 
@@ -924,6 +992,11 @@ public class AiMinotaurController : AiMonsterController
         {
             // Debug.Log("Attack visual change position!!!!");
         }
+
+        if (isPerformingAbility)
+        {
+            Debug.Log("IsPerformingAbility: " + isPerformingAbility);
+        }
     }
     
     /*
@@ -935,6 +1008,6 @@ public class AiMinotaurController : AiMonsterController
      * 
      * Introduce maxRange to wall
      * 
-     * Add ability use into BallNotPossessed
+     * Add ability use into BallNotPossessed (dash based on distance, wall to block warrior from ball
      */
 }
