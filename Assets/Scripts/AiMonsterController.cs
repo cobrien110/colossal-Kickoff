@@ -43,9 +43,9 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            /*if (!isPerformingAbility) PerformAbility1Chance();
+            if (!isPerformingAbility) PerformAbility1Chance();
             if (!isPerformingAbility) PerformAbility2Chance();
-            if (!isPerformingAbility) PerformAbility3Chance();*/
+            if (!isPerformingAbility) PerformAbility3Chance();
             PerformShootChance();
             
             yield return new WaitForSeconds(performActionChanceFrequency);

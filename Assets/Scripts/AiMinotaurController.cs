@@ -935,8 +935,6 @@ public class AiMinotaurController : AiMonsterController
      * 
      * Introduce maxRange to wall
      * 
-     * Fix spherical attack visual
-     * 
      * Add ability use into BallNotPossessed
      */
 }

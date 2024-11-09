@@ -16,7 +16,7 @@ public class AbilitySphericalAttack : AbilityChargeable
     public GameObject projectilePrefab;
     public int projectileDamage = 1;
     public float projectileSpeed = 450f;
-    [SerializeField] private float sphericalAttackPosY = 0f;
+    [SerializeField] private float sphericalAttackPosY = -0.3f;
 
     public override void Activate()
     {
