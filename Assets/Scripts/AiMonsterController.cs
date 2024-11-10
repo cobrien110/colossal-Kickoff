@@ -15,7 +15,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected GameObject warriorGoal;
     protected GameObject monsterGoal;
     protected bool isPerformingAbility = false;
-    public List<GameObject> warriors;
+    [HideInInspector] public List<GameObject> warriors;
     // protected List<WarriorController> warriors;
 
     // Stats
@@ -45,7 +45,6 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            // Debug.Log("while");
             if (GM.IsPlayingGet())
             {
                 // Debug.Log("isPlaying");
@@ -55,7 +54,7 @@ public abstract class AiMonsterController : MonoBehaviour
                 PerformShootChance();
             } else
             {
-                Debug.Log("IsPlayingGet: " + GM.IsPlayingGet());
+                // Debug.Log("IsPlayingGet: " + GM.IsPlayingGet());
             }
             
             yield return new WaitForSeconds(performActionChanceFrequency);
@@ -102,6 +101,6 @@ public abstract class AiMonsterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log("udpate");
+        
     }
 }

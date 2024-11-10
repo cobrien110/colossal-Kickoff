@@ -92,6 +92,8 @@ public class MonsterController : MonoBehaviour
         spriteScale = spriteObject.transform.localScale;
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbility = GetComponent<PassiveAbility>();
+
+        StartCoroutine(RemoveNullAbilities());
     }
 
     void Start()
@@ -835,6 +837,19 @@ public class MonsterController : MonoBehaviour
         //invertControls = !invertControls;
         //usingNewScheme = !usingNewScheme;
         GM.PauseGame();
+    }
+
+    IEnumerator RemoveNullAbilities()
+    {
+        yield return new WaitForSeconds(1f);
+
+        for (int i = abilities.Count - 1; i >= 0; i--)
+        {
+            if (abilities[i] == null)
+            {
+                abilities.RemoveAt(i);
+            }
+        }
     }
 
 }
