@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,8 @@ public class AiMinotaurController : AiMonsterController
 
     private enum WallMode
     {
-        Offensive
+        BallNotPossessed,
+        WarriorHasBall
     }
 
     private enum DashMode
@@ -55,7 +57,7 @@ public class AiMinotaurController : AiMonsterController
 
     // Used to track current Ability Modes
     SphericalAttackMode asaMode = SphericalAttackMode.BallOwner;
-    WallMode wallMode = WallMode.Offensive;
+    WallMode wallMode = WallMode.BallNotPossessed;
     DashMode dashMode = DashMode.BallOwner;
 
 
@@ -66,7 +68,7 @@ public class AiMinotaurController : AiMonsterController
             
         if (!mc.abilities[0].AbilityOffCooldown()) return;
 
-        if (Random.value < ability1Chance)
+        if (UnityEngine.Random.value < ability1Chance)
         {
             Debug.Log("PerformAbility1");
             isPerformingAbility = true;
@@ -82,7 +84,7 @@ public class AiMinotaurController : AiMonsterController
 
         if (!mc.abilities[1].AbilityOffCooldown()) return;
 
-        if (Random.value < ability2Chance)
+        if (UnityEngine.Random.value < ability2Chance)
         {
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
@@ -98,7 +100,7 @@ public class AiMinotaurController : AiMonsterController
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
 
-        if (Random.value < ability3Chance)
+        if (UnityEngine.Random.value < ability3Chance)
         {
             Debug.Log("PerformAbility3");
             isPerformingAbility = true;
@@ -111,7 +113,7 @@ public class AiMinotaurController : AiMonsterController
 
     protected override void PerformShootChance()
     {
-        if (Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
+        if (UnityEngine.Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
         {
             Debug.Log("PerformShoot");
             Shoot();
@@ -175,7 +177,7 @@ public class AiMinotaurController : AiMonsterController
 
             // Set Wall chance and behavior
             ability1Chance = 0.1f; // Wall
-            wallMode = WallMode.Offensive;
+            wallMode = WallMode.WarriorHasBall;
 
             // Set Spherical Attack chance and behavior
             ability2Chance = 0.1f; // Spherical Attack
@@ -198,7 +200,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
-                wallMode = WallMode.Offensive;
+                wallMode = WallMode.WarriorHasBall;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
@@ -224,7 +226,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
-                wallMode = WallMode.Offensive;
+                wallMode = WallMode.WarriorHasBall;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
@@ -248,7 +250,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
-                wallMode = WallMode.Offensive;
+                wallMode = WallMode.WarriorHasBall;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
@@ -318,8 +320,8 @@ public class AiMinotaurController : AiMonsterController
         }
 
         // Set Wall chance and behavior
-        ability1Chance = 0.1f;
-        wallMode = WallMode.Offensive; // Try to block warrior from getting to ball
+        ability1Chance = 0.3f;
+        wallMode = WallMode.BallNotPossessed; // Try to block warrior from getting to ball
 
         // Set Spherical attack chance
         ability2Chance = 0.0f;
@@ -397,9 +399,9 @@ public class AiMinotaurController : AiMonsterController
 
             // Generate a new random offset for "wiggle" effect
             currentRandomOffset = new Vector3(
-                Random.Range(-wiggleOffset, wiggleOffset),  // Random x offset
+                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset),  // Random x offset
                 0,                          // Keep y as zero for ground-based movement
-                Random.Range(-wiggleOffset, wiggleOffset)   // Random z offset
+                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset)   // Random z offset
             );
         }
 
@@ -419,9 +421,8 @@ public class AiMinotaurController : AiMonsterController
 
     private float GetDistanceToNearestWarrior()
     {
-        List<WarriorController> warriors = FindObjectsOfType<WarriorController>().ToList<WarriorController>();
         float distToNearestWarrior = maxProximityRange;
-        foreach (WarriorController warrior in warriors)
+        foreach (GameObject warrior in warriors)
         {
             float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);
             if (distanceToWarrior < distToNearestWarrior)
@@ -432,15 +433,14 @@ public class AiMinotaurController : AiMonsterController
         return distToNearestWarrior;
     }
 
-    private WarriorController GetNearestWarrior()
+    private WarriorController GetNearestWarrior(Vector3 pos)
     {
-        WarriorController[] warriors = FindObjectsOfType<WarriorController>();
-        WarriorController nearestWarrior = null;
+        GameObject nearestWarrior = null;
         float distToNearestWarrior = maxProximityRange;
 
-        foreach (WarriorController warrior in warriors)
+        foreach (GameObject warrior in warriors)
         {
-            float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);
+            float distanceToWarrior = Vector3.Distance(pos, warrior.transform.position);
             if (distanceToWarrior < distToNearestWarrior)
             {
                 nearestWarrior = warrior;
@@ -448,7 +448,7 @@ public class AiMinotaurController : AiMonsterController
             }
         }
 
-        return nearestWarrior;
+        return nearestWarrior.GetComponent<WarriorController>();
     }
 
     // ROAM METHODS
@@ -459,8 +459,8 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("Monster roaming");
 
             // Determine a random position within the left half of the field
-            float randomX = Random.Range(leftBoundary, midFieldPoint);
-            float randomZ = Random.Range(-fieldDepth, fieldDepth);
+            float randomX = UnityEngine.Random.Range(leftBoundary, midFieldPoint);
+            float randomZ = UnityEngine.Random.Range(-fieldDepth, fieldDepth);
             Vector3 randomTargetPosition = new Vector3(randomX, transform.position.y, randomZ);
 
             // If there is a ball owner, bias the random target position toward it
@@ -613,7 +613,7 @@ public class AiMinotaurController : AiMonsterController
     IEnumerator SphericalAttackNearestWarrior()
     {
         Debug.Log("SphericalAttackNearestWarrior");
-        WarriorController nearestWarrior = GetNearestWarrior();
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
         if (nearestWarrior == null)
         {
             Debug.Log("No warrior close enough to attack");
@@ -628,7 +628,7 @@ public class AiMinotaurController : AiMonsterController
             if (nearestWarrior == null)
             {
                 Debug.Log("nearestWarrior: " + nearestWarrior);
-                nearestWarrior = GetNearestWarrior();
+                nearestWarrior = GetNearestWarrior(transform.position);
             }
             if (nearestWarrior == null)
             {
@@ -678,7 +678,7 @@ public class AiMinotaurController : AiMonsterController
         while (isPerformingAbility)
         {
             // If ballOwner died, just retarget to nearest warrior
-            if (ballController == null) ballController = GetNearestWarrior().gameObject;
+            if (ballController == null) ballController = GetNearestWarrior(transform.position).gameObject;
 
             SphericalAttackHelper();
             mc.movementDirection = (ballController.transform.position - transform.position).normalized;
@@ -771,26 +771,130 @@ public class AiMinotaurController : AiMonsterController
     }
 
     // WALL METHODS
-    private void WallOffensive()
+    private void WallWarriorHasBall()
     {
+        // Ensure wall is in correct slot
+        if (!(mc.abilities[0] is AbilityMinotaurWall))
+        {
+            isPerformingAbility = false;
+            return;
+        }
+
+        AbilityMinotaurWall amw =  (AbilityMinotaurWall)mc.abilities[0];
+        GameObject ball = mc.BP.gameObject;
+
+        // Only wall if in range
+        if (Vector3.Distance(ball.transform.position, transform.position) > amw.wallSpawnDistance + 1f) // Allow walling a bit outside of ball range
+        {
+            isPerformingAbility = false;
+            return;
+        }
+
         // Look toward ball
-        mc.movementDirection = (mc.BP.gameObject.transform.position - transform.position).normalized;
+        mc.movementDirection = (ball.transform.position - transform.position).normalized;
 
         // Summon wall
-        if (mc.abilities[0] is AbilityMinotaurWall)
+        mc.abilities[0].Activate();
+    }
+
+    private void WallBallNotPossessed()
+    {
+        // Ensure wall is in correct slot
+        if (!(mc.abilities[0] is AbilityMinotaurWall))
         {
-            mc.abilities[0].Activate();
+            isPerformingAbility = false;
+            return;
         }
+
+        GameObject ball = mc.BP.gameObject;
+        if (ball == null)
+        {
+            isPerformingAbility = false;
+            return;
+        }
+
+        AbilityMinotaurWall amw = (AbilityMinotaurWall)mc.abilities[0];
+
+        List<GameObject> warriors = GetWarriorsToBlock();
+        if (warriors.Count < 1)
+        {
+            Debug.Log("No warriors to block");
+            isPerformingAbility = false;
+            return;
+        }
+
+        foreach (GameObject warrior in warriors)
+        {
+            Vector3 toWarrior = (warrior.transform.position - transform.position).normalized;
+            Vector3 wallPos = transform.position + (toWarrior * amw.wallSpawnDistance);
+
+            Vector3 warriorToWall = (wallPos - warrior.transform.position).normalized;
+            Vector3 ballToWall = (wallPos - ball.transform.position).normalized;
+
+            // Check if wall would be between warrior and ball
+            if (Vector3.Dot(warriorToWall, ballToWall) < -0.5f)
+            {
+                Debug.Log("Blocking warrior");
+                // Wall would be between warrior and ball, thus blocking warrior
+
+                // Look toward warrior
+                mc.movementDirection = toWarrior;
+
+                // Summon wall
+                mc.abilities[0].Activate();
+
+                // No need to continue, ability was activated
+                return;
+            }
+            
+        }
+        
+        Debug.Log("Wall would not have blocked - No activation");
+        isPerformingAbility = false;
+
     }
 
     private void Wall(WallMode wallMode)
     {
         Debug.Log("Wall");
-        if (wallMode == WallMode.Offensive)
+        if (wallMode == WallMode.WarriorHasBall)
         {
-            WallOffensive();
+            WallWarriorHasBall();
+        } else if (wallMode == WallMode.BallNotPossessed)
+        {
+            WallBallNotPossessed();
         }
         isPerformingAbility = false;
+    }
+
+    private List<GameObject> GetWarriorsToBlock()
+    {
+        if (mc.BP.gameObject == null) return null;
+
+        List<GameObject> warriorsToBlock = new List<GameObject>();
+
+        foreach (GameObject warrior in warriors) {
+
+            Vector3 minoToBall = (mc.BP.gameObject.transform.position - transform.position).normalized;
+            Vector3 warriorToBall = (mc.BP.gameObject.transform.position - warrior.transform.position).normalized;
+
+            // If warrior is on same side of ball, add to list
+            if (Vector3.Dot(minoToBall, warriorToBall) > 0.5f)
+            {
+                Debug.Log(warrior.name + " is on the same side of the ball");
+                warriorsToBlock.Add(warrior.gameObject);
+            }
+
+            // If warrior is on opposite side of ball, add to list
+            if (Vector3.Dot(minoToBall, warriorToBall) < -0.5f)
+            {
+                warriorsToBlock.Add(warrior.gameObject);
+                Debug.Log(warrior.name + " is on the opposite side of the ball");
+            }
+        }
+
+        return warriorsToBlock;
+
     }
 
     // DASH METHODS
@@ -853,7 +957,7 @@ public class AiMinotaurController : AiMonsterController
             yield break;
         }
 
-        WarriorController nearestWarrior = GetNearestWarrior();
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
         if (nearestWarrior == null) yield break;
 
         while (isPerformingAbility)
@@ -997,6 +1101,10 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("IsPerformingAbility: " + isPerformingAbility);
         }
+
+        //Debug.Log("ability1Chance: " + ability1Chance);
+        //Debug.Log("ability2Chance: " + ability2Chance);
+        //Debug.Log("ability3Chance: " + ability3Chance);
     }
     
     /*

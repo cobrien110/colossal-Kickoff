@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AiMonsterController : MonoBehaviour
@@ -14,6 +15,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected GameObject warriorGoal;
     protected GameObject monsterGoal;
     protected bool isPerformingAbility = false;
+    public List<GameObject> warriors;
     // protected List<WarriorController> warriors;
 
     // Stats
@@ -43,12 +45,17 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
+            // Debug.Log("while");
             if (GM.IsPlayingGet())
             {
-                //if (!isPerformingAbility) PerformAbility1Chance();
-                //if (!isPerformingAbility) PerformAbility2Chance();
+                // Debug.Log("isPlaying");
+                if (!isPerformingAbility) PerformAbility1Chance();
+                if (!isPerformingAbility) PerformAbility2Chance();
                 if (!isPerformingAbility) PerformAbility3Chance();
                 PerformShootChance();
+            } else
+            {
+                Debug.Log("IsPlayingGet: " + GM.IsPlayingGet());
             }
             
             yield return new WaitForSeconds(performActionChanceFrequency);
@@ -68,8 +75,8 @@ public abstract class AiMonsterController : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         warriorGoal = GameObject.FindWithTag("WarriorGoal");
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
+        warriors = FindObjectsOfType<WarriorController>().Select(w => w.gameObject).ToList();
 
-       
 
         StartCoroutine(PerformActionChances());
     }
@@ -95,6 +102,6 @@ public abstract class AiMonsterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Debug.Log("udpate");
     }
 }

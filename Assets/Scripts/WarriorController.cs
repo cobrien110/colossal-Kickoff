@@ -477,6 +477,16 @@ public class WarriorController : MonoBehaviour
             respawnTimer = 0;
             MTC.AddTarget(transform);
             ResetPlayer();
+
+            // Update list of warriors in AiMonsterController if appropriate
+            AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
+            if (aiMonsterController != null)
+            {
+                // Debug.Log("respawn");
+                // Debug.Log("Before: " + aiMonsterController.warriors.Count);
+                aiMonsterController.warriors.Add(gameObject);
+                // Debug.Log("After: " + aiMonsterController.warriors.Count);
+            }
         }
     }
 
@@ -554,6 +564,16 @@ public class WarriorController : MonoBehaviour
             {
                 Instantiate(Mummy, deathPosition, Quaternion.identity);
             }
+        }
+
+        // Update list of warriors in AiMonsterController if appropriate
+        AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
+        if (aiMonsterController != null)
+        {
+            // Debug.Log("Die");
+            // Debug.Log("Before: " + aiMonsterController.warriors.Count);
+            aiMonsterController.warriors.Remove(gameObject);
+            // Debug.Log("After: " + aiMonsterController.warriors.Count);
         }
 
         //Respawn();
