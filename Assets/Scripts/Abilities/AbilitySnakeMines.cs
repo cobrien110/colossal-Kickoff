@@ -6,6 +6,8 @@ public class AbilitySnakeMines : AbilityScript
 {
     private AbilitySnakeSegments ASS;
     public float radius = 1f;
+    public float delayBeforeExplosion = 0.1f;
+    public Vector3 centerOffset = new Vector3(0f, -.25f, 0f);
 
     public string soundName;
 
@@ -27,28 +29,15 @@ public class AbilitySnakeMines : AbilityScript
         if (timer >= cooldown && ASS.cutSegments.Count >= 1)
         {
             timer = 0;
-            for (int i = 0; i < ASS.cutSegments.Count; i++)
-            {
-                Vector3 center = ASS.cutSegments[i].transform.position;
-                //center.y = 0;
-
-                Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
-                foreach (Collider obj in objectsInRange)
-                {
-                    // Check for warriors
-                    if (obj.GetComponent<WarriorController>() != null)
-                    {
-                        // Damage warrior
-                        obj.GetComponent<WarriorController>().Die();
-                        // Debug.Log("Stunned Warrior: " + obj.name);
-                    }
-                }
-            }
+            
             for (int i = ASS.cutSegments.Count - 1; i >= 0; i--)
             {
-                GameObject bombToDestroy = ASS.cutSegments[i];
+                SnakeBomb bombToDestroy = ASS.cutSegments[i].GetComponent<SnakeBomb>();
+                bombToDestroy.radius = radius;
+                bombToDestroy.delay = delayBeforeExplosion;
+                bombToDestroy.centerOffset = centerOffset;
                 ASS.cutSegments.RemoveAt(i);
-                Destroy(bombToDestroy);
+                bombToDestroy.PrimeExplosion();
             }
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
         }
@@ -64,7 +53,8 @@ public class AbilitySnakeMines : AbilityScript
         if (ASS.cutSegments == null) return;
         for (int i = 0; i < ASS.cutSegments.Count; i++)
         {
-            Gizmos.DrawWireSphere(ASS.cutSegments[i].transform.position, radius);
+            Vector3 pos = ASS.cutSegments[i].transform.position + centerOffset;
+            Gizmos.DrawWireSphere(pos + centerOffset, radius);
         }      
     }
 }

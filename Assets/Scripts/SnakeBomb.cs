@@ -15,6 +15,10 @@ public class SnakeBomb : MonoBehaviour
     //private Vector3 startingPos;
     // Start is called before the first frame update
     private float timeOffset;  // Time offset for object1 to control different starting points
+    public GameObject explosionPrefab;
+    public float radius = 1f;
+    public float delay = 0.05f;
+    public Vector3 centerOffset = new Vector3(0f, -.25f, 0f);
     void Start()
     {
         RB = GetComponent<Rigidbody>();
@@ -29,5 +33,32 @@ public class SnakeBomb : MonoBehaviour
     {
         float newY = baseHeight + Mathf.Sin(Time.time * floatSpeed + timeOffset) * heightAmplitude;
         sprite.transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+    }
+
+    public void PrimeExplosion()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        transform.localScale = Vector3.zero;
+        Invoke("Explode", delay);
+    }
+
+    private void Explode()
+    {
+        Vector3 center = transform.position + centerOffset;
+        //center.y = 0;
+
+        Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
+        foreach (Collider obj in objectsInRange)
+        {
+            // Check for warriors
+            if (obj.GetComponent<WarriorController>() != null)
+            {
+                // Damage warrior
+                obj.GetComponent<WarriorController>().Die();
+                // Debug.Log("Stunned Warrior: " + obj.name);
+            }
+        }
+        
+        Destroy(gameObject);
     }
 }
