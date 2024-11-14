@@ -17,6 +17,7 @@ public class BallProperties : MonoBehaviour
     public GameObject playerTest = null;
     public float passBonus = 25f;
     public bool isSuperKick = false;
+    [SerializeField] private float heightLockDelay = 3.5f;
 
     public bool isInteractable = true;
 
@@ -39,6 +40,8 @@ public class BallProperties : MonoBehaviour
             WC.Ball = this.gameObject;
             WC.BP = this;
         }
+
+        Invoke("LockHeight", heightLockDelay);
 
         /*MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
         MC.Ball = this.gameObject;
@@ -191,7 +194,7 @@ public class BallProperties : MonoBehaviour
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
         isInteractable = false;
-        Invoke("DestroyDelay", 3f);
+        Invoke("DestroyDelay", 1f);
 
         // Reset mummies if applicable
         MonsterController mc = FindObjectOfType<MonsterController>();
@@ -228,5 +231,11 @@ public class BallProperties : MonoBehaviour
     private GameObject GetOwner()
     {
         return playerTest;
+    }
+
+    private void LockHeight()
+    {
+        Rigidbody RB = GetComponent<Rigidbody>();
+        RB.constraints = RigidbodyConstraints.FreezePositionY;
     }
 }

@@ -611,6 +611,15 @@ public class MonsterController : MonoBehaviour
         {
             AMM.ResetMummies();
         }
+        // If playing Gasha, reset hand BP
+        GashadokuroHand[] GH = GameObject.FindObjectsOfType<GashadokuroHand>();
+        if (GH.Length > 0)
+        {
+            foreach (GashadokuroHand hand in GH)
+            {
+                hand.BP = BP;
+            }
+        }
 
         // Reset AiMonster
         AiMonsterController aiMonster = GetComponent<AiMonsterController>();

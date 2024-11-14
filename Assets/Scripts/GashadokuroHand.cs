@@ -5,7 +5,7 @@ using UnityEngine;
 public class GashadokuroHand : MonoBehaviour
 {
     AbilityCreateHands createHandsScript;
-    BallProperties BP;
+    [HideInInspector] public BallProperties BP;
 
     private GameObject monster; // Reference to the MonsterController GameObject
     private Vector3 previousMonsterPosition; // To track previous position of the monster
@@ -58,6 +58,13 @@ public class GashadokuroHand : MonoBehaviour
         if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null)
         {
             Debug.Log("Hand hit ball: " + collider.name);
+
+            Vector3 hitballDirection =
+                (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)
+                - new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z)).normalized;
+            collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
+        } else if (collider.gameObject.GetComponent<SoulOrb>() != null) {
+            Debug.Log("Hand hit orb: " + collider.name);
 
             Vector3 hitballDirection =
                 (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)

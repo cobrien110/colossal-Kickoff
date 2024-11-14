@@ -245,8 +245,10 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   abilities: []
+  passiveAbility: {fileID: 0}
   monsterSpeed: 2.75
   movementDirection: {x: 0, y: 0, z: 0}
+  aimingDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
   monsterControls:
     m_Name: Monster Controls
@@ -279,9 +281,11 @@ MonoBehaviour:
   isChargingAbility: 0
   isDashing: 0
   isStunned: 0
+  canBeStunned: 1
   isIntangible: 0
   canMove: 1
   GM: {fileID: 0}
+  ANIM: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -363,6 +367,7 @@ MonoBehaviour:
   hasCooldown: 0
   cooldown: 0
   counterMax: 0
+  counterAmount: 0
   visualizer: {fileID: 0}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
@@ -375,7 +380,7 @@ MonoBehaviour:
   hand1: {fileID: 0}
   hand2: {fileID: 0}
   head: {fileID: 0}
-  headSpawnPosition: {x: -8, y: 2.76, z: 0}
+  headSpawnPosition: {x: -6.85, y: 3.55, z: 0}
   hand1IsActive: 1
   hand2IsActive: 1
   hitballSpeed: 350
