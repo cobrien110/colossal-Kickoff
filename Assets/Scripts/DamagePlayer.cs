@@ -17,7 +17,7 @@ public class DamagePlayer : MonoBehaviour
             pos.y = transform.position.y;
             float dis = Vector3.Distance(transform.position, obs[i].transform.position);
             //Debug.Log("Distance: " + dis);
-            if (dis < 0.5) Destroy(gameObject);
+            if (dis < 0.75) Destroy(gameObject);
         }
     }
 
