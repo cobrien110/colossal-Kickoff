@@ -62,8 +62,33 @@ public class GashadokuroHand : MonoBehaviour
             Vector3 hitballDirection =
                 (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)
                 - new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z)).normalized;
+
+            // Calculate the angle of the hit direction relative to the positive x-axis
+            float angle = Vector3.SignedAngle(Vector3.right, hitballDirection, Vector3.up);
+
+            // Define valid angle range (e.g., between -60 degrees and 60 degrees)
+            float minValidAngle = -60f;
+            float maxValidAngle = 60f;
+
+            // Correct the direction if the angle is outside the valid range
+            if (angle < minValidAngle)
+            {
+                angle = minValidAngle;
+            }
+            else if (angle > maxValidAngle)
+            {
+                angle = maxValidAngle;
+            }
+
+            // Calculate the corrected direction based on the clamped angle
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            hitballDirection = rotation * Vector3.right;
+
+            // Apply force to the ball
             collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
-        } else if (collider.gameObject.GetComponent<SoulOrb>() != null) {
+        }
+        else if (collider.gameObject.GetComponent<SoulOrb>() != null)
+        {
             Debug.Log("Hand hit orb: " + collider.name);
 
             Vector3 hitballDirection =
@@ -72,4 +97,5 @@ public class GashadokuroHand : MonoBehaviour
             collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
         }
     }
+
 }
