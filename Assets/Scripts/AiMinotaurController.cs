@@ -177,7 +177,7 @@ public class AiMinotaurController : AiMonsterController
             if (!isPerformingAbility) StartRoaming();
 
             // Set Wall chance and behavior
-            ability1Chance = 0.1f; // Wall
+            ability1Chance = 0.2f; // Wall
             wallMode = WallMode.Offensive;
 
             // Set Spherical Attack chance and behavior
@@ -287,6 +287,11 @@ public class AiMinotaurController : AiMonsterController
 
             // If shooting, chargeAmount depends on distance to goal
         }
+        // If dash is being charged, charge is down
+        else
+        {
+            ResetAbilities();
+        }
 
         // Monster should not use abilities
         ability1Chance = 0.0f;
@@ -332,7 +337,8 @@ public class AiMinotaurController : AiMonsterController
         }
 
         // Set Spherical attack chance
-        ability2Chance = 0.0f;
+        ability2Chance = 0.1f;
+        asaMode = SphericalAttackMode.NearestWarrior;
 
         // Set Dash chance and behavior
         ability3Chance = 0.1f;
@@ -1204,6 +1210,14 @@ public class AiMinotaurController : AiMonsterController
         //Debug.Log("ability1Chance: " + ability1Chance);
         //Debug.Log("ability2Chance: " + ability2Chance);
         //Debug.Log("ability3Chance: " + ability3Chance);
+
+        // To fix issue where mino can't pickup ball if he killed a warrior with the ball while he was already in the ball colider
+        if (mc.BP != null && mc.BP.gameObject != null && mc.BP.ballOwner == null
+            && Vector3.Distance(transform.position, mc.BP.gameObject.transform.position) < 0.1f)
+        {
+            Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
+            mc.BP.ballOwner = gameObject;
+        }
     }
     
     /*
@@ -1212,6 +1226,8 @@ public class AiMinotaurController : AiMonsterController
      * Make ability chances based on math rather than set values
      * 
      * Fix bug where monster can't pickup ball if he is on top of ball when he kills warrior with ball (Doesn't cue OnTriggerEnter)
+     * 
+     * If mino starts charging and picks up ball, he keeps going slow. Charge needs to be charged down
      * 
      */
 
