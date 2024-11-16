@@ -37,6 +37,10 @@ public class AbilityHandSlam : AbilityScript
             return;
         }
 
+        // Attack visual
+        attackVisualizer.SetActive(true);
+        StartCoroutine(DisableVisual());
+
         // 1. Determine which hand is closer to the nearest WarriorController
         /*GameObject closestWarrior = FindClosestWarrior();
         if (closestWarrior == null)
@@ -73,10 +77,9 @@ public class AbilityHandSlam : AbilityScript
         // 2. Check for all WarriorControllers within the slam radius
         Vector3 point1 = transform.position; // Start of the capsule (left sphere)
         Vector3 point2 = transform.position + Vector3.right * slamLength; // End of the capsule (right sphere)
-        float radius = 1.0f;
 
         bool ejectBall = false;
-        Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, radius);
+        Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, slamRadius);
         foreach (Collider obj in hitColliders)
         {
             Debug.Log("Hit: " + obj.name);
@@ -113,11 +116,18 @@ public class AbilityHandSlam : AbilityScript
         abilityCreateHands = GetComponent<AbilityCreateHands>();
         BP = FindObjectOfType<BallProperties>();
         monsterRB = gameObject.GetComponent<Rigidbody>();
+
+        attackVisualizer.transform.localScale *= slamRadius * 2;
     }
 
     private void Update()
     {
         UpdateSetup();
+
+        // Prevent visualizer from rotating
+        attackVisualizer.transform.rotation = Quaternion.Euler(0, 0, 90);
+        attackVisualizer.transform.position = 
+            new Vector3(transform.position.x + slamLength / 2, transform.position.y, transform.position.z);
     }
 
     // Finds the closest WarriorController in the scene
@@ -147,23 +157,22 @@ public class AbilityHandSlam : AbilityScript
         // Define points and radius for the capsule
         Vector3 point1 = transform.position;
         Vector3 point2 = transform.position + Vector3.right * slamLength;
-        float radius = 1.0f;
 
         // Draw spheres to represent the capsule endpoints
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(point1, radius);
-        Gizmos.DrawWireSphere(point2, radius);
+        Gizmos.DrawWireSphere(point1, slamRadius);
+        Gizmos.DrawWireSphere(point2, slamRadius);
 
         // Draw lines connecting the spheres to give the appearance of a capsule
         Vector3 direction = (point2 - point1).normalized;
-        Vector3 offset = Vector3.Cross(direction, Vector3.up).normalized * radius;
+        Vector3 offset = Vector3.Cross(direction, Vector3.up).normalized * slamRadius;
 
         Gizmos.DrawLine(point1 + offset, point2 + offset);
         Gizmos.DrawLine(point1 - offset, point2 - offset);
-        Gizmos.DrawLine(point1 + Vector3.Cross(direction, Vector3.forward).normalized * radius,
-                        point2 + Vector3.Cross(direction, Vector3.forward).normalized * radius);
-        Gizmos.DrawLine(point1 - Vector3.Cross(direction, Vector3.forward).normalized * radius,
-                        point2 - Vector3.Cross(direction, Vector3.forward).normalized * radius);
+        Gizmos.DrawLine(point1 + Vector3.Cross(direction, Vector3.forward).normalized * slamRadius,
+                        point2 + Vector3.Cross(direction, Vector3.forward).normalized * slamRadius);
+        Gizmos.DrawLine(point1 - Vector3.Cross(direction, Vector3.forward).normalized * slamRadius,
+                        point2 - Vector3.Cross(direction, Vector3.forward).normalized * slamRadius);
     }
 
 
@@ -186,4 +195,10 @@ public class AbilityHandSlam : AbilityScript
         BP.gameObject.GetComponent<Rigidbody>().AddForce(randomDirection * ejectForce, ForceMode.Impulse);
     }
 
+    IEnumerator DisableVisual()
+    {
+        yield return new WaitForSeconds(1);
+
+        attackVisualizer.SetActive(false);
+    }
 }
