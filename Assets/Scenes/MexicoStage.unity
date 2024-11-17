@@ -1138,7 +1138,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.22
+      value: -20.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1146,7 +1146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.7
+      value: 29.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1191,7 +1191,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 861202399}
   m_SourcePrefab: {fileID: 100100000, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
 --- !u!4 &623826185 stripped
 Transform:
@@ -1532,6 +1535,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818881605}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &861202395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 22b9b2d6453e9f447a3e0a46f8bcc970, type: 3}
+  m_PrefabInstance: {fileID: 460529255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &861202399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861202395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fba763a4266b5d4d8651aee54df5cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {fileID: 890122338051826070}
+  orbitSpeed: 0.41
+  spinSpeed: -158.5
+  orbitRadius: 67.9
 --- !u!1 &910977418
 GameObject:
   m_ObjectHideFlags: 0
@@ -12578,7 +12602,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.9150943, g: 0.8167756, b: 0.7467515, a: 1}
-  m_Intensity: 1.85
+  m_Intensity: 1.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -12587,7 +12611,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.476
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -19485,7 +19509,7 @@ MeshRenderer:
   m_GameObject: {fileID: 509339005490854700}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
