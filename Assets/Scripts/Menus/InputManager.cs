@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private List<PlayerInput> playerInputs = new List<PlayerInput>();
     [SerializeField] private List<GameObject> cursorList = new List<GameObject>();
     [SerializeField] private MenuCursor MC = null;
+    //[SerializeField] private MenuController menuController;
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +25,13 @@ public class InputManager : MonoBehaviour
 
     public void NewPlayer(GameObject cursorPrefab, int playerID, Gamepad gamepad)
     {
-        PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
-        GameObject newCursor;
-        GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
-        newCursor = cursors[cursors.Length - 1];
-        MC = newCursor.GetComponent<MenuCursor>();
-        MC.playerNumber = cursors.Length;
-        cursorList.Add(newCursor);
+            PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
+            GameObject newCursor;
+            GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
+            newCursor = cursors[cursors.Length - 1];
+            MC = newCursor.GetComponent<MenuCursor>();
+            MC.playerNumber = cursors.Length;
+            cursorList.Add(newCursor);
     }
 
     /*
