@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityCreateHands : PassiveAbility
@@ -26,6 +27,8 @@ public class AbilityCreateHands : PassiveAbility
     public float hitballSpeed = 50f;
     public Sprite secondHandSprite;
 
+    private AbilityHandSlam abilityHandSlam;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +51,8 @@ public class AbilityCreateHands : PassiveAbility
 
         gashaHand1 = hand1.GetComponent<GashadokuroHand>();
         gashaHand2 = hand2.GetComponent<GashadokuroHand>();
+
+        abilityHandSlam = GetComponent<AbilityHandSlam>();
     }
 
     public void SetHandActive(int handNum, bool isActive)
@@ -68,10 +73,22 @@ public class AbilityCreateHands : PassiveAbility
         {
             hand1.transform.position = new Vector3(MC.transform.position.x, hand1.transform.position.y, MC.transform.position.z + spawnDistance);
         }
+        // If this hand is detached, set its position to be above visualizer
+        else if (hand1 != null && gashaHand1 && gashaHand1.GetIsDetached())
+        {
+            hand1.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
+                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
+        }
 
         if (hand2 != null && gashaHand2 != null && !gashaHand2.GetIsDetached()) // Ignore if hand is detached
         {
             hand2.transform.position = new Vector3(MC.transform.position.x, hand2.transform.position.y, MC.transform.position.z - spawnDistance);
+        }
+        // If this hand is detached, set its position to be above visualizer
+        else if (hand2 != null && gashaHand2 && gashaHand2.GetIsDetached())
+        {
+            hand2.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
+                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
         }
 
         // Count up timers if hand is dead
