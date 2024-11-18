@@ -9,6 +9,7 @@ public class GashadokuroHand : MonoBehaviour
 
     private GameObject monster; // Reference to the MonsterController GameObject
     private Vector3 previousMonsterPosition; // To track previous position of the monster
+    private bool isDetached = false;
 
     void Start()
     {
@@ -86,4 +87,14 @@ public class GashadokuroHand : MonoBehaviour
         }
     }
 
+
+    public bool GetIsDetached()
+    {
+        return isDetached;
+    }
+
+    public void SetIsDetached(bool isDetached)
+    {
+        this.isDetached = isDetached;
+    }
 }

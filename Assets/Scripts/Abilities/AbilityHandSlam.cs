@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class AbilityHandSlam : AbilityScript
+public class AbilityHandSlam : AbilityDelayed
 {
     [Header("Ability Vars")]
     AbilityCreateHands abilityCreateHands;
@@ -14,69 +15,23 @@ public class AbilityHandSlam : AbilityScript
     public float slamLength = 2f;
 
     private Rigidbody monsterRB;
+    private GameObject chosenHand;
+    private int chosenHandIndex;
+    private Vector3 attackPosStart;
+    private Vector3 attackPosEnd;
+    private Vector3 visualizerPos;
 
     public override void Activate()
     {
-        Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
-        if (timer < cooldown)
-        {
-            Debug.Log("Hand slam not off cooldown");
-            return; // Ability not off cooldown
-        }
-
-        if (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
-        {
-            Debug.Log("No hand is active");
-            return; // No hand is active
-        }
-
-        // Ensure that we have reference to the hands
-        if (abilityCreateHands == null)
-        {
-            Debug.LogError("AbilityCreateHands reference is missing.");
-            return;
-        }
-
-        // Attack visual
-        attackVisualizer.SetActive(true);
-        StartCoroutine(DisableVisual());
-
-        // 1. Determine which hand is closer to the nearest WarriorController
-        /*GameObject closestWarrior = FindClosestWarrior();
-        if (closestWarrior == null)
-        {
-            Debug.Log("No warriors found to target.");
-            return;
-        }*/
 
         Debug.Log("Activate hand slam");
         timer = 0;
 
-        // Get distances from each hand to the closest warrior
-        //float distanceToHand1 = Vector3.Distance(abilityCreateHands.hand1.transform.position, closestWarrior.transform.position);
-        //float distanceToHand2 = Vector3.Distance(abilityCreateHands.hand2.transform.position, closestWarrior.transform.position);
-
-        GameObject chosenHand;
-        int chosenHandIndex;
-
-        // Choose hand based on if monster movement direction, up or down
-        float zDirection = monsterRB.velocity.z;
-
-        if (zDirection > 0)
-        {
-            chosenHand = abilityCreateHands.hand1;
-            chosenHandIndex = 1;
-        } else
-        {
-            chosenHand = abilityCreateHands.hand2;
-            chosenHandIndex = 2;
-        }
-
         // Debug.Log("Chosen hand for slam: " + chosenHand.name);
 
         // 2. Check for all WarriorControllers within the slam radius
-        Vector3 point1 = transform.position; // Start of the capsule (left sphere)
-        Vector3 point2 = transform.position + Vector3.right * slamLength; // End of the capsule (right sphere)
+        Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
+        Vector3 point2 = attackPosEnd; // End of the capsule (right sphere)
 
         bool ejectBall = false;
         Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, slamRadius);
@@ -118,6 +73,9 @@ public class AbilityHandSlam : AbilityScript
         monsterRB = gameObject.GetComponent<Rigidbody>();
 
         attackVisualizer.transform.localScale *= slamRadius * 2;
+
+        // Unparent visualizer from monster
+        attackVisualizer.transform.parent = null;
     }
 
     private void Update()
@@ -126,28 +84,20 @@ public class AbilityHandSlam : AbilityScript
 
         // Prevent visualizer from rotating
         attackVisualizer.transform.rotation = Quaternion.Euler(0, 0, 90);
-        attackVisualizer.transform.position = 
-            new Vector3(transform.position.x + slamLength / 2, transform.position.y, transform.position.z);
-    }
 
-    // Finds the closest WarriorController in the scene
-    private GameObject FindClosestWarrior()
-    {
-        GameObject[] allWarriors = GameObject.FindGameObjectsWithTag("Warrior"); // Make sure warriors are tagged correctly
-        GameObject closest = null;
-        float minDistance = Mathf.Infinity;
-
-        // Find the closest warrior
-        foreach (GameObject warrior in allWarriors)
+        // If hand isn't detached, set visualizer to follow monster
+        if (!abilityCreateHands.AHandIsDetached())
         {
-            float distance = Vector3.Distance(transform.position, warrior.transform.position);
-            if (distance < minDistance)
-            {
-                closest = warrior;
-                minDistance = distance;
-            }
+            attackVisualizer.transform.position =
+            new Vector3(transform.position.x + slamLength / 2, transform.position.y, transform.position.z);
         }
-        return closest;
+
+        // Activate ability if monster picks up ball while hand is detached
+        if (MC != null && MC.BP != null && MC.BP.ballOwner == gameObject
+            && abilityCreateHands.AHandIsDetached())
+        {
+            TriggerSlam();
+        }
     }
 
     private void OnDrawGizmos()
@@ -195,10 +145,79 @@ public class AbilityHandSlam : AbilityScript
         BP.gameObject.GetComponent<Rigidbody>().AddForce(randomDirection * ejectForce, ForceMode.Impulse);
     }
 
-    IEnumerator DisableVisual()
+    private void TriggerSlam()
     {
-        yield return new WaitForSeconds(1);
+        // Activate
+        attackPosStart = attackVisualizer.transform.position;
+        attackPosEnd = attackVisualizer.transform.position + Vector3.right * slamLength;
+        Activate();
 
+        // Reattach hand and visualizer, disable visualizer
+        chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(false);
         attackVisualizer.SetActive(false);
     }
+
+    public override void CheckInputs(InputAction.CallbackContext context)
+    {
+        Debug.Log("Ability delayed input action: " + context);
+
+        if (!GM.isPlaying || MC.isStunned)
+        {
+            return;
+        }
+
+        if (timer < cooldown)
+        {
+            Debug.Log("Hand slam not off cooldown");
+            Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
+            return; // Ability not off cooldown
+        }
+
+        if (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
+        {
+            Debug.Log("No hand is active");
+            return; // No hand is active
+        }
+
+        // Ensure that we have reference to the hands
+        if (abilityCreateHands == null)
+        {
+            Debug.LogError("AbilityCreateHands reference is missing.");
+            return;
+        }
+
+        if (context.action.WasPressedThisFrame())
+        {
+            Debug.Log("Hand slam - Ability pressed");
+            // Detach hand and visualizer, show visualizer
+
+            // Show attack visual
+            attackVisualizer.SetActive(true);
+
+            // Choose hand based on if monster movement direction, up or down
+            float zDirection = monsterRB.velocity.z;
+
+            if (zDirection > 0)
+            {
+                chosenHand = abilityCreateHands.hand1;
+                chosenHandIndex = 1;
+            }
+            else
+            {
+                chosenHand = abilityCreateHands.hand2;
+                chosenHandIndex = 2;
+            }
+
+            // Detach hand
+            chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
+
+        } else if (context.action.WasReleasedThisFrame())
+        {
+            Debug.Log("Hand slam - Ability released");
+
+            TriggerSlam();
+
+        }
+    }
+
 }
