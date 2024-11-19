@@ -741,7 +741,7 @@ public class MonsterController : MonoBehaviour
             AbilityChargeable ab = (AbilityChargeable)abilities[0];
             ab.CheckInputs(context);
         }
-        else if (abilities[1] is AbilityDelayed) // Ability Delayed
+        else if (abilities[0] is AbilityDelayed) // Ability Delayed
         {
             AbilityDelayed ab = (AbilityDelayed)abilities[1];
             ab.CheckInputs(context);
@@ -786,7 +786,7 @@ public class MonsterController : MonoBehaviour
             AbilityChargeable ab = (AbilityChargeable)abilities[2];
             ab.CheckInputs(context);
         }
-        else if (abilities[1] is AbilityDelayed) // Ability Delayed
+        else if (abilities[2] is AbilityDelayed) // Ability Delayed
         {
             AbilityDelayed ab = (AbilityDelayed)abilities[1];
             ab.CheckInputs(context);
@@ -812,6 +812,7 @@ public class MonsterController : MonoBehaviour
         {
             if (abilities[i] == null)
             {
+                Debug.Log("Removed a null ability");
                 abilities.RemoveAt(i);
             }
         }
