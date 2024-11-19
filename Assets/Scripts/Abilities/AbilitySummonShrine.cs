@@ -6,8 +6,13 @@ public class AbilitySummonShrine : AbilityScript
 {
     AbilityCreateHands abilityCreateHands; // Reference to the AbilityCreateHands script
 
-    public float structure1Duration = 10f;
+    // Soul Shrine
+    public float structure1Duration = 20f;
     public GameObject structure1;
+    public float orbLaunchSpeed = 4;
+    public float timeBetweenSpawns = 5f;
+
+    // Torii Goal
     public float structure2Duration = 12f;
     public GameObject structure2;
 
@@ -42,7 +47,9 @@ public class AbilitySummonShrine : AbilityScript
         }
 
         // 2. Create a structure
-        Instantiate(structure1, chosenHand.transform.position, Quaternion.identity);
+        GashaShrine shrine = Instantiate(structure1, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaShrine>();
+        shrine.orbLaunchSpeed = orbLaunchSpeed;
+        shrine.timeBetweenSpawns = timeBetweenSpawns;
 
         // 3. Deactivate the hand after swipe
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);

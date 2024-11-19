@@ -47,18 +47,15 @@ public class SoulOrb : MonoBehaviour
         // if close enough to shrine, launch again
         float distance = Vector3.Distance(transform.position, closestShrine.transform.position);
         if (!launchable || distance > 0.3f) return;
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
-        Vector3 force = launchSpeed * dir;
-        Launch(force);
-        SetTeam(true);
+        Launch(GetRandomLaunchForce());
+        //SetTeam(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         WarriorController WC = other.GetComponent<WarriorController>();
-        if (WC == null) return;
 
-        if (isMonsterTeam) // if monster controlled
+        if (isMonsterTeam && WC != null) // if monster controlled
         {
             if (!WC.isSliding) // and warrior not sliding
             {
@@ -67,10 +64,19 @@ public class SoulOrb : MonoBehaviour
                 Destroy(gameObject);
             } else // else swap teams
             {
-                Vector3 dir = (WC.transform.position - transform.position).normalized;
+                Vector3 dir = (transform.position - WC.transform.position).normalized;
+                dir.y = 0f;
                 Launch(dir * launchSpeed);
                 SetTeam(false);
             }
+        }
+
+        // if on warrior team and hit monster, convert it
+        SoulOrb SO = other.GetComponent<SoulOrb>();
+        if (SO == null) return;
+        if (!isMonsterTeam && SO.isMonsterTeam)
+        {
+            SO.Launch(GetRandomLaunchForce());
         }
     }
 
@@ -83,6 +89,13 @@ public class SoulOrb : MonoBehaviour
 
         launchable = false;
         Invoke("SetLaunchable", timeBeforeCanBeLaunched);
+    }
+
+    public Vector3 GetRandomLaunchForce()
+    {
+        Vector3 dir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        Vector3 force = launchSpeed * dir;
+        return force;
     }
 
     private void CheckShrines()
