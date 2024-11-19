@@ -1133,18 +1133,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.63263
-      objectReference: {fileID: 0}
-    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.74996
-      objectReference: {fileID: 0}
-    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4269787
-      objectReference: {fileID: 0}
-    - target: {fileID: 7492721187244068721, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.13
       objectReference: {fileID: 0}
@@ -4711,6 +4699,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: debfc555b1236244b8283f728b00888d, type: 3}
       propertyPath: m_Name
       value: JapanSmoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: debfc555b1236244b8283f728b00888d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2915357609019638705, guid: debfc555b1236244b8283f728b00888d, type: 3}
       propertyPath: m_CastShadows
@@ -39132,7 +39124,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8009987137643292497}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -39401,7 +39393,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6329871187822970666}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -39413,7 +39405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6629797300637803691, guid: 14dd861685e87614f96a9e1f50ed7930, type: 3}
+  - {fileID: 2100000, guid: c0e5c73979b52fa448b5634b135448b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

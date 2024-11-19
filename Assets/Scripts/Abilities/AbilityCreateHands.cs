@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityCreateHands : PassiveAbility
@@ -12,6 +13,8 @@ public class AbilityCreateHands : PassiveAbility
 
     public GameObject hand1;
     public GameObject hand2;
+    private GashadokuroHand gashaHand1;
+    private GashadokuroHand gashaHand2;
     public GameObject head;
     public Vector3 headSpawnPosition;
 
@@ -24,15 +27,13 @@ public class AbilityCreateHands : PassiveAbility
     public float hitballSpeed = 50f;
     public Sprite secondHandSprite;
 
+    private AbilityHandSlam abilityHandSlam;
+
     // Start is called before the first frame update
     void Start()
     {
         Setup();
-        //hand1 = Instantiate(handPrefab, MC.gameObject.transform);
-        //hand1.transform.position = new Vector3(spawnDistance + hand1.transform.position.x, hand1.transform.position.y, hand1.transform.position.z);
-        //hand2 = Instantiate(handPrefab, MC.gameObject.transform);
-        //hand2.transform.position = new Vector3(-spawnDistance + hand2.transform.position.x, hand2.transform.position.y, hand2.transform.position.z);
-
+        
         // Instantiate the hands without parenting them to the monster
         hand1 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
         hand2 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
@@ -47,6 +48,11 @@ public class AbilityCreateHands : PassiveAbility
         hand2Timer = handSpawnTime / 2f;
 
         head = Instantiate(headPrefab, headSpawnPosition, Quaternion.identity);
+
+        gashaHand1 = hand1.GetComponent<GashadokuroHand>();
+        gashaHand2 = hand2.GetComponent<GashadokuroHand>();
+
+        abilityHandSlam = GetComponent<AbilityHandSlam>();
     }
 
     public void SetHandActive(int handNum, bool isActive)
@@ -63,14 +69,26 @@ public class AbilityCreateHands : PassiveAbility
     private void Update()
     {
         // Maintain hand positions relative to the monster without rotation
-        if (hand1 != null)
+        if (hand1 != null && gashaHand1 != null && !gashaHand1.GetIsDetached()) // Ignore if hand is detached
         {
             hand1.transform.position = new Vector3(MC.transform.position.x, hand1.transform.position.y, MC.transform.position.z + spawnDistance);
         }
+        // If this hand is detached, set its position to be above visualizer
+        else if (hand1 != null && gashaHand1 && gashaHand1.GetIsDetached())
+        {
+            hand1.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
+                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
+        }
 
-        if (hand2 != null)
+        if (hand2 != null && gashaHand2 != null && !gashaHand2.GetIsDetached()) // Ignore if hand is detached
         {
             hand2.transform.position = new Vector3(MC.transform.position.x, hand2.transform.position.y, MC.transform.position.z - spawnDistance);
+        }
+        // If this hand is detached, set its position to be above visualizer
+        else if (hand2 != null && gashaHand2 && gashaHand2.GetIsDetached())
+        {
+            hand2.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
+                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
         }
 
         // Count up timers if hand is dead
@@ -106,6 +124,16 @@ public class AbilityCreateHands : PassiveAbility
     {
         SetHandActive(handNum, false);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("gashaHandDeath"), 1f);
+    }
+
+    public bool AHandIsDetached()
+    {
+        if (gashaHand1 == null || gashaHand2 == null)
+        {
+            Debug.Log("Gasha hand(s) are null");
+            return false;
+        }
+        return gashaHand1.GetIsDetached() || gashaHand2.GetIsDetached();
     }
 
 }

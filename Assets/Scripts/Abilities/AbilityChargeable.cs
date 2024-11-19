@@ -144,7 +144,7 @@ public abstract class AbilityChargeable : AbilityScript
                 }
             } else // Do this if the ability requires to be held down
             {
-                Debug.Log("CheckInput: non-autoCharge ability");
+                // Debug.Log("CheckInput: non-autoCharge ability");
                 // If input is no longer true, attack
                 if (context.action.WasReleasedThisFrame() && chargeAmount != 0)
                 {

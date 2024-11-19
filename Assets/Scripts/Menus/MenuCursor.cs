@@ -31,13 +31,14 @@ public class MenuCursor : MonoBehaviour
     public bool hasSelected = false;
     private Vector3 savedPosition;
     private bool charConfirmed = false;
-
+    private Vector3 screenMidpoint;
 
     private void Start()
     {
         //Debug.Log("Height:" + Screen.height);
         //Debug.Log("Width:" + Screen.width);
         speed = 120.0f * (Screen.height / 100);
+        screenMidpoint = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         hasSelected = false;
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.position = new Vector3(0, 0, 0);
@@ -50,8 +51,11 @@ public class MenuCursor : MonoBehaviour
         WarriorDesc holder = WDarr[1];
         WDarr[1] = WDarr[2];
         WDarr[2] = holder;
-        if (MC.currentScreen == 3) {
+        if (MC.currentScreen == 2) {
+            showCursor();
             findCharSelectItems();
+        } else {
+            hideCursor();
         }
         GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
 
@@ -112,7 +116,16 @@ public class MenuCursor : MonoBehaviour
         if (transform.position.x > Screen.width) {
             transform.position = new Vector3(Screen.width, transform.position.y, 0);
         }
-        
+    }
+
+    public void hideCursor() {
+        this.GetComponent<Image>().enabled = false;
+        body.velocity = new Vector2(0, 0);
+    }
+
+    public void showCursor() {
+        transform.position = screenMidpoint;
+        this.GetComponent<Image>().enabled = true;
     }
 
     public void PlayerSelected(int value) {
@@ -128,9 +141,7 @@ public class MenuCursor : MonoBehaviour
         {
             PH.teamName = "Warrior";
         }
-
-        this.GetComponent<Image>().enabled = false;
-        body.velocity = new Vector2(0, 0);
+        hideCursor();
         //cursorMove.Disable();
         MC.characterSelected(playerNumber, playerSlot);
     }

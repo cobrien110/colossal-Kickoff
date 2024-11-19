@@ -23,19 +23,19 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject readyText;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
     private SceneManager SM;
-    public int currentScreen = 0;
-    int effectsVolume, musicVolume;
-    //MENU INTERFACES
-    [SerializeField] private Slider effectsSlider, musicSlider;
-    [SerializeField] private TMP_Dropdown goreDropdown;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
     /**
     0: Top Menu
     1: Settings
     2: Character Select
     3: Stage Select
     **/
-    private bool monsterConfirmed = false;
+    public int currentScreen = 0;
+    int effectsVolume, musicVolume;
+    //MENU INTERFACES
+    [SerializeField] private Slider effectsSlider, musicSlider;
+    [SerializeField] private TMP_Dropdown goreDropdown;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
+    private int numPlayersConfirmed = 0;
     public bool canMoveToGame = false;
 
     //tracks the stage the game will move to when it starts
@@ -114,12 +114,12 @@ public class MenuController : MonoBehaviour
 
     public void OptionSelect(int optionID)
     {
-        findAllCursors();
+        //findAllCursors();
         switch (optionID)
         {
             //VERSUS MATCH
             case 0:
-                currentScreen = 2;
+                currentScreen = 3;
                 //menuCamera.goToVersusSetup();
                 stageSelect.SetActive(true);
                 mainMenuButtons.SetActive(false);
@@ -157,23 +157,12 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(topFirstButton);
         menuCamera.goToMainMenu();
         currentScreen = 0;
-        for (int i = 0; i < cursors.Length; i++)
-        {
-            cursors[i].GetComponent<MenuCursor>().deselect();
-        }
-        for (int i = 0; i < characterInfos.Length; i++) {
-            unconfirmCharacter(i);
-        }
         mainMenuButtons.SetActive(true);
         stageSelect.SetActive(false);
         settingsButtons.SetActive(false);
     }
 
     public void findAllCursors() {
-        if (canMoveToGame) {
-            canMoveToGame = false;
-            readyText.SetActive(false);
-        }
         cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
     }
 
@@ -193,8 +182,8 @@ public class MenuController : MonoBehaviour
     public void confirmCharacter(int playerSlot) {
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
-        if (playerSlot == 0) {
-            monsterConfirmed = true;
+        numPlayersConfirmed++;
+        if (numPlayersConfirmed == cursors.Length) {
             canMoveToGame = true;
             readyText.SetActive(true);
         }
@@ -203,7 +192,8 @@ public class MenuController : MonoBehaviour
     public void unconfirmCharacter(int playerSlot) {
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
-        if (playerSlot == 0 && canMoveToGame) {
+        numPlayersConfirmed--;
+        if (canMoveToGame) {
             canMoveToGame = false;
             readyText.SetActive(false);
         }
@@ -240,6 +230,10 @@ public class MenuController : MonoBehaviour
         }**/
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(stageFirstButton);
+        findAllCursors();
+        for (int i = 0; i < cursors.Length; i++) {
+            cursors[i].GetComponent<MenuCursor>().hideCursor();
+        }
         Debug.Log("going back to stage select");
         characterSelect.SetActive(false);
         stageSelect.SetActive(true);
@@ -262,8 +256,10 @@ public class MenuController : MonoBehaviour
         currentScreen = 2;
         stageSelect.SetActive(false);
         characterSelect.SetActive(true);
+        findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
             cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
+            cursors[i].GetComponent<MenuCursor>().showCursor();
         }
     }
 }

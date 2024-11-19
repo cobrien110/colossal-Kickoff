@@ -735,13 +735,18 @@ public class MonsterController : MonoBehaviour
 
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[0].usableWhileDribbling)
             || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
-        if (abilities[0] is AbilityChargeable)
+        if (abilities[0] is AbilityChargeable) // Ability Chargeable
         {
             //is this supposed to be a 0 or 1 (it was a 1 before)
             AbilityChargeable ab = (AbilityChargeable)abilities[0];
             ab.CheckInputs(context);
         }
-        else
+        else if (abilities[1] is AbilityDelayed) // Ability Delayed
+        {
+            AbilityDelayed ab = (AbilityDelayed)abilities[1];
+            ab.CheckInputs(context);
+        }
+        else // Regular Ability
         {
             abilities[0].Activate();
         }
@@ -754,41 +759,19 @@ public class MonsterController : MonoBehaviour
 
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[1].usableWhileDribbling)
             || (isIntangible && !abilities[1].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
-        if (abilities[1] is AbilityChargeable)
+        if (abilities[1] is AbilityChargeable) // Ability Chargeable
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[1];
             ab.CheckInputs(context);
-        } else
+        } else if (abilities[1] is AbilityDelayed) // Ability Delayed
+        {
+            AbilityDelayed ab = (AbilityDelayed)abilities[1];
+            ab.CheckInputs(context);
+        }
+        else // Regular Ability
         {
             abilities[1].Activate();
         }
-        /*
-        if (!GM.isPlaying)
-        {
-            isChargingAttack = false;
-            attackCharge = 0;
-            return;
-        }
-
-        if (Time.time - lastAttackTime >= attackCooldown)
-        {
-            // If input is no longer true, attack
-            if (context.action.WasReleasedThisFrame() && attackCharge != 0)
-            {
-                Attack();
-            }
-            else if (context.action.IsInProgress() && Time.time - lastAttackTime >= attackCooldown) // If it still is true, keep charging
-            {
-                Debug.Log("Is Charging Attack");
-                isChargingAttack = true;
-            } else
-            {
-                Debug.Log("Not attack and not charging");
-                isChargingAttack = false;
-                attackCharge = 0;
-            }
-        }
-        */
     }
 
     public void OnCharge(InputAction.CallbackContext context)
@@ -798,66 +781,20 @@ public class MonsterController : MonoBehaviour
 
         if (isStunned || (BP.ballOwner != null && BP.ballOwner == gameObject && !abilities[2].usableWhileDribbling)
             || (isIntangible && !abilities[2].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
-        if (abilities[2] is AbilityChargeable)
+        if (abilities[2] is AbilityChargeable) // Ability Chargeable
         {
             AbilityChargeable ab = (AbilityChargeable)abilities[2];
             ab.CheckInputs(context);
         }
-        else
+        else if (abilities[1] is AbilityDelayed) // Ability Delayed
+        {
+            AbilityDelayed ab = (AbilityDelayed)abilities[1];
+            ab.CheckInputs(context);
+        }
+        else // Regular Ability
         {
             abilities[2].Activate();
         }
-        /*
-        if (BP.ballOwner == gameObject || isStunned) return; // ensure no dashing or dash charging when you have ball
-        if (!GM.isPlaying)
-        {
-            isChargingDash = false;
-            dashCharge = 0;
-            return;
-        }
-
-        if (Time.time - lastDashTime >= dashCooldown)
-        {
-            // If R input is no longer true, dash
-            if (context.action.WasReleasedThisFrame() && dashCharge != 0)
-            {
-                // Check if enough time has passed since the last slide
-
-                if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
-                {
-                    Debug.Log("Dashing");
-                    isDashing = true;
-                    ANIM.SetBool("isWindingUp", false);
-                    ANIM.Play("MinotaurCharge");
-                    audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurDash"), 0.75f);
-
-                    // Add force in direction of the player input for this warrior (movementDirection)
-                    Vector3 dashVelocity = movementDirection.normalized * dashCharge * dashSpeed;
-                    Debug.Log("Dash Charge: " + dashCharge);
-                    rb.AddForce(dashVelocity);
-                    // audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); replace with different sound
-
-                    Invoke("StopDashing", dashDuration);
-
-                    // ANIM.SetBool("isSliding", true);
-                }
-                else
-                {
-                    Debug.Log("Dash failed");
-                }
-
-                // Update the last dash time
-                lastDashTime = Time.time;
-                dashCharge = 0;
-                isChargingDash = false;
-
-            }
-            else if (context.action.IsInProgress()) // If it still is true, keep charging
-            {
-                isChargingDash = true;
-            }
-        }
-        */
     }
 
     public void OnInvert(InputAction.CallbackContext context)
