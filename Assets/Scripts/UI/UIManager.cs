@@ -79,6 +79,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image player2respawnfill = null;
     [SerializeField] private Image player3respawnfill = null;
 
+    //Player Prefs
+    [SerializeField] private int playerPortraitsPref;
+    [SerializeField] private GameObject playerPortraitsHolder = null;
+
+    [SerializeField] private TMP_InputField console = null;
+
     //Dev Stats and/or stats to add to Scoreboard
     /* Kills with specific abilities
      * Timestamps and player ID of goals
@@ -92,12 +98,14 @@ public class UIManager : MonoBehaviour
     Coroutine timerCoroutine;
     GameplayManager GM;
     StatTracker ST;
+    //TMP_InputField console;
 
     // Start is called before the first frame update
     void Start()
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
+        //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
         timeRemainingSeconds = gameSeconds;
         ShowChargeBar(false);
         ShowMonsterUI(false);
@@ -106,63 +114,90 @@ public class UIManager : MonoBehaviour
         //ShowPlayerUI(false, 3);
         //ShowPassMeter(false);
         UpdateChargeBarText("");
+
+        //UI Toggling, Player Prefs
+        if (playerPortraitsPref == 0)
+        {
+            playerPortraitsHolder.SetActive(false);
+        }
+        else
+        {
+            playerPortraitsHolder.SetActive(true);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (console.gameObject.activeInHierarchy)
         {
-            if (statsScoreboard.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.Tilde))
             {
-                ShowStatsScoreboard(false);
-            }
-            else if (!devStats.activeInHierarchy)
-            {
-                ShowStatsScoreboard(true);
-            }
-            else if (devStats.activeInHierarchy)
-            {
-                ShowDevStats(false);
-            }
+                console.gameObject.SetActive(false);
+            } 
         }
-
-        if (Input.GetKeyDown(KeyCode.F))
+        
+        else if (!console.isFocused)
         {
-            if (statsScoreboard.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.Tilde))
             {
-                ShowStatsScoreboard(false);
-                ShowDevStats(true);
-            }
-            else if (devStats.activeInHierarchy)
-            {
-                ShowDevStats(false);
-                ShowStatsScoreboard(true);
-            }
-        }
-
-        // Copy game stats to Clipboard
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            string textToCopy = "";
-
-            if (timeRemainingSeconds <= 0)
-            {
-                textToCopy = "Stats from Game:\n";
-                    
-            }
-            else
-            {
-                textToCopy = "Stats from " + timeRemainingSeconds + " seconds:\n";
+                console.gameObject.SetActive(true);
             }
 
-            textToCopy += "\nWinner: " + gameWinnerText.text;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (statsScoreboard.activeInHierarchy)
+                {
+                    ShowStatsScoreboard(false);
+                }
+                else if (!devStats.activeInHierarchy)
+                {
+                    ShowStatsScoreboard(true);
+                }
+                else if (devStats.activeInHierarchy)
+                {
+                    ShowDevStats(false);
+                }
+            }
 
-            textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (statsScoreboard.activeInHierarchy)
+                {
+                    ShowStatsScoreboard(false);
+                    ShowDevStats(true);
+                }
+                else if (devStats.activeInHierarchy)
+                {
+                    ShowDevStats(false);
+                    ShowStatsScoreboard(true);
+                }
+            }
 
-            textToCopy += "\nKills: " + MonsterKillsText.text;
-            
-            CopyToClipboard(textToCopy);
+            // Copy game stats to Clipboard
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                string textToCopy = "";
+
+                if (timeRemainingSeconds <= 0)
+                {
+                    textToCopy = "Stats from Game:\n";
+
+                }
+                else
+                {
+                    textToCopy = "Stats from " + timeRemainingSeconds + " seconds:\n";
+                }
+
+                textToCopy += "\nWinner: " + gameWinnerText.text;
+
+                textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
+
+                textToCopy += "\nKills: " + MonsterKillsText.text;
+
+                CopyToClipboard(textToCopy);
+            }
         }
     }
 

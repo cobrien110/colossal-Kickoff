@@ -60,8 +60,11 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
+    
     private UIManager UM = null;
+    private PlayerAttachedUI PAUI = null;
     private StatTracker ST = null;
+
     public Animator ANIM;
     private AudioPlayer audioPlayer;
     private GameObject monsterSpawner = null;
@@ -99,6 +102,7 @@ public class MonsterController : MonoBehaviour
     void Start()
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        PAUI = GetComponentInChildren<PlayerAttachedUI>();
         UM.ShowMonsterUI(true);
     }
 
@@ -265,6 +269,8 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
+            PAUI.ShowChargeBar(true);           
+            
             UM.ShowChargeBar(true);
             UM.UpdateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
@@ -312,8 +318,13 @@ public class MonsterController : MonoBehaviour
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
+
+                //Outdated
                 UM.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
+
                 PlayKickSound(kickCharge);
                 StartCoroutine(KickDelay());
                 ANIM.SetBool("isWindingUp", false);
@@ -324,6 +335,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -332,6 +344,7 @@ public class MonsterController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
+                    PAUI.UpdateChargeBar(1f);
                     UM.UpdateChargeBar(1f);
                 }
             }
@@ -353,6 +366,9 @@ public class MonsterController : MonoBehaviour
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
+
                 UM.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
@@ -365,6 +381,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -373,6 +390,7 @@ public class MonsterController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
+                    PAUI.UpdateChargeBar(1f);
                     UM.UpdateChargeBar(1f);
                 }
             }
@@ -719,7 +737,8 @@ public class MonsterController : MonoBehaviour
             || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[0] is AbilityChargeable)
         {
-            AbilityChargeable ab = (AbilityChargeable)abilities[1];
+            //is this supposed to be a 0 or 1 (it was a 1 before)
+            AbilityChargeable ab = (AbilityChargeable)abilities[0];
             ab.CheckInputs(context);
         }
         else

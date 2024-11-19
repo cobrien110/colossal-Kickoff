@@ -73,12 +73,14 @@ public class GameplayManager : MonoBehaviour
             Debug.Log("Enter");
         }
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        //Add inputfield.isfocused here when adding console
+        
+        if (Input.GetKeyDown(KeyCode.Slash))
         {
             Instantiate(MonsterPlayer, new Vector3(-5.25f, 0f, 0f), Quaternion.identity);
         }
 
-        if (Input.GetKeyDown(KeyCode.B) && !isPlaying)
+        if (Input.GetKeyDown(KeyCode.Dollar) && !isPlaying)
         {
             SpawnAI();
             Debug.Log("Birthed");

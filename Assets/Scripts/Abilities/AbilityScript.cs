@@ -25,6 +25,9 @@ public abstract class AbilityScript : MonoBehaviour
     [HideInInspector] public AudioPlayer audioPlayer;
     [HideInInspector] public Animator ANIM;
     [HideInInspector] public UIManager UM;
+
+    private PlayerAttachedUI PAUI = null;
+
     [HideInInspector] public StatTracker ST;
 
     // Start is called before the first frame update
@@ -39,6 +42,10 @@ public abstract class AbilityScript : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         ANIM = MC.GetAnimator();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        PAUI = GetComponentInChildren<PlayerAttachedUI>();
+        if (PAUI != null) Debug.Log("Dots can be read");
+
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         timer = cooldown;
@@ -75,12 +82,28 @@ public abstract class AbilityScript : MonoBehaviour
         switch (abilityNum) {
             case 0:
                 UM.UpdateMonsterAbility1Bar(1 - (timer / cooldown));
+                if (timer >= cooldown)
+                {
+                    PAUI.UpdateDot1(true);
+                }
+                else
+                {
+                    PAUI.UpdateDot1(false);
+                }
                 break;
             case 1:
                 UM.UpdateMonsterAbility2Bar(1 - (timer / cooldown));
                 break;
             case 2:
                 UM.UpdateMonsterAbility3Bar(1 - (timer / cooldown));
+                if (timer >= cooldown)
+                {
+                    PAUI.UpdateDot2(true);
+                }
+                else
+                {
+                    PAUI.UpdateDot2(false);
+                }
                 break;
             default:
                 return;
