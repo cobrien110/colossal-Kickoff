@@ -17,6 +17,7 @@ public abstract class AbilityScript : MonoBehaviour
     public GameObject attackVisualizerPrefab;
     public Transform attackVisHolder;
     public string activatedAnimationName = "none";
+    public Sprite icon;
 
     protected GameplayManager GM;
     protected BallProperties BP;

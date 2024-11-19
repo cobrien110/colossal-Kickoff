@@ -118,6 +118,7 @@ public class AbilitySquareAttack : AbilityChargeable
 
     private void OnDrawGizmos()
     {
+        if (attackVisualizer == null) return;
         Vector3 direction = transform.forward;
         Gizmos.color = Color.red;
         //Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
