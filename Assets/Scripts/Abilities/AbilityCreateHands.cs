@@ -116,8 +116,6 @@ public class AbilityCreateHands : PassiveAbility
 
         hand1.SetActive(hand1IsActive);
         hand2.SetActive(hand2IsActive);
-
-        
     }
 
     public void KillHand(int handNum)
