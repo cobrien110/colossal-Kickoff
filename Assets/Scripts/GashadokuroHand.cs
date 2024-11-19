@@ -42,6 +42,7 @@ public class GashadokuroHand : MonoBehaviour
     {
         if (BP == null) return;
         if (BP.ballOwner != null) return;
+        SoulOrb SO = collider.gameObject.GetComponent<SoulOrb>();
 
         // Check if it is a non-trigger collider and has BallProperties
         if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null)
@@ -76,14 +77,16 @@ public class GashadokuroHand : MonoBehaviour
             // Apply force to the ball
             collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
         }
-        else if (collider.gameObject.GetComponent<SoulOrb>() != null)
+        else if (SO != null)
         {
             Debug.Log("Hand hit orb: " + collider.name);
 
             Vector3 hitballDirection =
                 (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)
                 - new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z)).normalized;
-            collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
+            Vector3 force = hitballDirection * createHandsScript.hitballSpeed;
+            SO.RB.AddForce(force);
+            SO.SetTeam(true);
         }
     }
 

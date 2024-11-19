@@ -19,6 +19,7 @@ public class DeleteAfterDelay : MonoBehaviour
 
     public void NewTimer(float time)
     {
+        CancelInvoke();
         Invoke("Kill", time);
     }
 }
