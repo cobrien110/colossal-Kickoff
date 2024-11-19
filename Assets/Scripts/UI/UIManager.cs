@@ -130,9 +130,9 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (console.gameObject.activeInHierarchy)
+        if (console.gameObject.activeInHierarchy && !console.isFocused)
         {
-            if (Input.GetKeyDown(KeyCode.Tilde))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 console.gameObject.SetActive(false);
             } 
@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
         
         else if (!console.isFocused)
         {
-            if (Input.GetKeyDown(KeyCode.Tilde))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 console.gameObject.SetActive(true);
             }
