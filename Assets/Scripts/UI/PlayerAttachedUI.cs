@@ -24,6 +24,7 @@ public class PlayerAttachedUI : MonoBehaviour
     void Start()
     {
         ShowChargeBar(false);
+        target = transform.parent;
     }
 
     // Update is called once per frame

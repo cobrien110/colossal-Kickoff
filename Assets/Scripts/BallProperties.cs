@@ -41,6 +41,8 @@ public class BallProperties : MonoBehaviour
             WC.BP = this;
         }
 
+        Rigidbody RB = GetComponent<Rigidbody>();
+        RB.constraints = RigidbodyConstraints.None;
         Invoke("LockHeight", heightLockDelay);
 
         /*MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
