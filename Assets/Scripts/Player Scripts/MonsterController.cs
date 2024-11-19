@@ -14,7 +14,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public List<AbilityScript> abilities;
-    public PassiveAbility passiveAbility;
+    public PassiveAbility[] passiveAbilities;
     //public GameObject wallPrefab;
     //public GameObject shrapnelPrefab;
 
@@ -94,7 +94,7 @@ public class MonsterController : MonoBehaviour
         //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
         abilities = new List<AbilityScript> { null, null, null };
-        passiveAbility = GetComponent<PassiveAbility>();
+        passiveAbilities = GetComponents<PassiveAbility>();
 
         StartCoroutine(RemoveNullAbilities());
     }
@@ -612,9 +612,12 @@ public class MonsterController : MonoBehaviour
         {
             if (abilities[i] != null) abilities[i].Deactivate();
         }
-        if (passiveAbility != null)
+        if (passiveAbilities.Length > 0)
         {
-            passiveAbility.Deactivate();
+            for (int i = 0; i< passiveAbilities.Length; i++)
+            {
+                passiveAbilities[i].Deactivate();
+            }
         }
 
         // If playing Quetz, reset it's segments
