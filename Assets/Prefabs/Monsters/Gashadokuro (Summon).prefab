@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e95196769b6744bb69364e56386fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: NoName
+  abilityName: Summon Shrine
   abilityNum: 2
   cooldown: 1
   usableWhileIntangible: 0
@@ -578,8 +578,10 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  structure1Duration: 10
-  structure1: {fileID: 0}
+  structure1Duration: 20
+  structure1: {fileID: 8949798913232257075, guid: f40590157422acf49b92752a2cfed398, type: 3}
+  orbLaunchSpeed: 4
+  timeBetweenSpawns: 5
   structure2Duration: 12
   structure2: {fileID: 0}
 --- !u!114 &4341092847349457789
