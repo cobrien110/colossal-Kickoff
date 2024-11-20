@@ -289,4 +289,11 @@ public class GameplayManager : MonoBehaviour
             }
         }
     }
+
+    public void MenuReturn()
+    {
+        Time.timeScale = 1;
+        Debug.Log("Back to Menu");
+        SceneManager.LoadScene("MainMenus");
+    }
 }
