@@ -245,6 +245,7 @@ public class GameplayManager : MonoBehaviour
                 MC.monsterSpawner = GameObject.Find("MonsterSpawner");
                 MC.transform.position = MC.monsterSpawner.transform.position;
                 playerList.Add(MonsterAI);
+                UM.ShowMonsterUI(true);
             } else
             {
                 WarriorAI.name = i + "_WarriorAI";
