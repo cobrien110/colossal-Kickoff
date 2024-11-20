@@ -676,9 +676,17 @@ public class WarriorController : MonoBehaviour
 
     public void OnInvert(InputAction.CallbackContext context)
     {
+        /* Old Invert code if we still want it */
         //invertControls = !invertControls;
         //usingNewScheme = !usingNewScheme;
-        GM.PauseGame();
+
+        if (GM.isPlaying)
+        {
+            GM.PauseGame();
+        } else if (UM.GetTimeRemaining() < 0)
+        {
+            GM.MenuReturn();
+        }
     }
 
     /**

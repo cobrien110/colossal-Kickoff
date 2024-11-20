@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -25,13 +26,13 @@ public class InputManager : MonoBehaviour
 
     public void NewPlayer(GameObject cursorPrefab, int playerID, Gamepad gamepad)
     {
-            PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
-            GameObject newCursor;
-            GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
-            newCursor = cursors[cursors.Length - 1];
-            MC = newCursor.GetComponent<MenuCursor>();
-            MC.playerNumber = cursors.Length;
-            cursorList.Add(newCursor);
+        PlayerInput.Instantiate(cursorPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
+        GameObject newCursor;
+        GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
+        newCursor = cursors[cursors.Length - 1];
+        MC = newCursor.GetComponent<MenuCursor>();
+        MC.playerNumber = cursors.Length;
+        cursorList.Add(newCursor);
     }
 
     /*
