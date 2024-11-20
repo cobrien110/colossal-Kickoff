@@ -17,6 +17,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private WarriorController WC = null;
     [SerializeField] private MultipleTargetCamera MTC = null;
     [SerializeField] private GameObject WarriorAI = null;
+    [SerializeField] private GameObject MonsterAI = null;
     [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
     private GameObject BallSpawner = null;
@@ -234,15 +235,28 @@ public class GameplayManager : MonoBehaviour
         for (int i = playerList.Count; i < 4; i++)
         {
             Debug.Log("SpawnAI Method Call Reference: " + i);
-            WarriorAI.name = i + "_WarriorAI";
-            Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
-            WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
-            WC = WarriorAI.GetComponent<WarriorController>();
-            WC.WarriorSpawner = WarriorSpawners[spawnCount++];
-            WC.transform.position = WC.WarriorSpawner.transform.position;
-            WC.SetColor(playerList.Count);
-            playerList.Add(WarriorAI);
-            UM.ShowPlayerUI(true, i);
+
+            if (GameObject.FindGameObjectWithTag("Monster") == null)
+            {
+                MonsterAI.name = "MonsterAI";
+                Instantiate(MonsterAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+                MonsterAI = GameObject.Find("MonsterAI(Clone)");
+                MC = MonsterAI.GetComponent<MonsterController>();
+                MC.monsterSpawner = GameObject.Find("MonsterSpawner");
+                MC.transform.position = MC.monsterSpawner.transform.position;
+                playerList.Add(MonsterAI);
+            } else
+            {
+                WarriorAI.name = i + "_WarriorAI";
+                Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+                WarriorAI = GameObject.Find(i + "_WarriorAI(Clone)");
+                WC = WarriorAI.GetComponent<WarriorController>();
+                WC.WarriorSpawner = WarriorSpawners[spawnCount++];
+                WC.transform.position = WC.WarriorSpawner.transform.position;
+                WC.SetColor(playerList.Count);
+                playerList.Add(WarriorAI);
+                UM.ShowPlayerUI(true, i);
+            }
         }
 
         //WarriorAI.name = "2_WarriorAI";

@@ -67,7 +67,7 @@ public class MonsterController : MonoBehaviour
 
     public Animator ANIM;
     private AudioPlayer audioPlayer;
-    private GameObject monsterSpawner = null;
+    public GameObject monsterSpawner = null;
     public LayerMask layerMask;
     private CommentatorSoundManager CSM;
     public GameObject spriteObject;

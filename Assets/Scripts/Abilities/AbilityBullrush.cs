@@ -98,7 +98,7 @@ public class AbilityBullrush : AbilityChargeable
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (!this.enabled) return;
+        if (!this.enabled || MC == null) return;
         // Debug.Log("Monster Collision with: " + collider.gameObject.name);
         if (MC.isDashing)
         {

@@ -627,7 +627,15 @@ public class AiMinotaurController : AiMonsterController
     IEnumerator SphericalAttackNearestWarrior()
     {
         Debug.Log("SphericalAttackNearestWarrior");
-        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
+        WarriorController nearestWarrior = null;
+        try
+        {
+            nearestWarrior = GetNearestWarrior(transform.position);
+        }
+        catch
+        {
+            nearestWarrior = null;
+        }
         if (nearestWarrior == null)
         {
             Debug.Log("No warrior close enough to attack");
