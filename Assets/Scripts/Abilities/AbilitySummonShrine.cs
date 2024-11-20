@@ -15,8 +15,11 @@ public class AbilitySummonShrine : AbilityScript
     // Torii Goal
     public float structure2Duration = 12f;
     public GameObject structure2;
+    public float orbLaunchSpeed2 = 10;
 
     MonsterController monsterController;
+    private AbilityGashaPassive AGP;
+    public string soundName;
 
     public override void Activate()
     {
@@ -47,13 +50,30 @@ public class AbilitySummonShrine : AbilityScript
         }
 
         // 2. Create a structure
-        GashaShrine shrine = Instantiate(structure1, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaShrine>();
-        shrine.orbLaunchSpeed = orbLaunchSpeed;
-        shrine.timeBetweenSpawns = timeBetweenSpawns;
+        // If passive is full, create a gate
+        if (AGP.counterAmount == AGP.counterMax)
+        {
+            Debug.Log("Summoning Gate");
+            GashaGate gate = Instantiate(structure2, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaGate>();
+            gate.launchSpeed = orbLaunchSpeed2;
+            gate.duration = structure2Duration;
+            AGP.counterAmount = 0;
+        }
+        // Else create a shrine
+        else
+        {
+            Debug.Log("Summoning Shrine");
+            GashaShrine shrine = Instantiate(structure1, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaShrine>();
+            shrine.orbLaunchSpeed = orbLaunchSpeed;
+            shrine.timeBetweenSpawns = timeBetweenSpawns;
+            shrine.duration = structure1Duration;
+        }
 
         // 3. Deactivate the hand after swipe
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
-        
+
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.75f);
+
     }
 
     // Start is called before the first frame update
@@ -62,6 +82,7 @@ public class AbilitySummonShrine : AbilityScript
         Setup();
         abilityCreateHands = GetComponent<AbilityCreateHands>();
         monsterController = GetComponent<MonsterController>();
+        AGP = GetComponent<AbilityGashaPassive>();
     }
 
     // Update is called once per frame

@@ -10,7 +10,7 @@ public class PassiveAbility : MonoBehaviour
     public bool hasCooldown = false;
     public float cooldown;
     public float counterMax;
-    [SerializeField] protected float counterAmount;
+    public float counterAmount;
     protected bool isActive;
 
     [Header("Visuals")]

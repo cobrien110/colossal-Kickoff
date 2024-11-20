@@ -42,7 +42,7 @@ public class SoulOrb : MonoBehaviour
         Vector3 direction = (closestShrine.transform.position - transform.position).normalized;
 
         // Apply a force towards the target
-        RB.AddForce(direction * driftSpeed, ForceMode.Force);
+        if (launchable) RB.AddForce(direction * driftSpeed, ForceMode.Force);
 
         // if close enough to shrine, launch again
         float distance = Vector3.Distance(transform.position, closestShrine.transform.position);

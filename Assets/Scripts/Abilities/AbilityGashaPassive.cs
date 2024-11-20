@@ -15,4 +15,9 @@ public class AbilityGashaPassive : PassiveAbility
     {
         
     }
+
+    public override void Deactivate()
+    {
+        counterAmount = 0;
+    }
 }
