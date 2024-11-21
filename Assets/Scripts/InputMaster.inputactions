@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SuperKick",
+                    "type": "Button",
+                    "id": "f437a72e-aba7-4331-9d5e-a08f98f645d8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -124,6 +133,17 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme",
                     "action": "Kick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66db5ef7-3b1b-4688-9058-875e6cb83120",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "SuperKick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

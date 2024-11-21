@@ -80,6 +80,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SuperKick"",
+                    ""type"": ""Button"",
+                    ""id"": ""f437a72e-aba7-4331-9d5e-a08f98f645d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -146,6 +155,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
                     ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66db5ef7-3b1b-4688-9058-875e6cb83120"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""SuperKick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -430,6 +450,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_Invert = m_Player.FindAction("Invert", throwIfNotFound: true);
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
+        m_Player_SuperKick = m_Player.FindAction("SuperKick", throwIfNotFound: true);
         // Monster
         m_Monster = asset.FindActionMap("Monster", throwIfNotFound: true);
         m_Monster_Movement = m_Monster.FindAction("Movement", throwIfNotFound: true);
@@ -513,6 +534,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_Invert;
     private readonly InputAction m_Player_Kick;
+    private readonly InputAction m_Player_SuperKick;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -523,6 +545,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @Invert => m_Wrapper.m_Player_Invert;
         public InputAction @Kick => m_Wrapper.m_Player_Kick;
+        public InputAction @SuperKick => m_Wrapper.m_Player_SuperKick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -550,6 +573,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Kick.started += instance.OnKick;
             @Kick.performed += instance.OnKick;
             @Kick.canceled += instance.OnKick;
+            @SuperKick.started += instance.OnSuperKick;
+            @SuperKick.performed += instance.OnSuperKick;
+            @SuperKick.canceled += instance.OnSuperKick;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -572,6 +598,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Kick.started -= instance.OnKick;
             @Kick.performed -= instance.OnKick;
             @Kick.canceled -= instance.OnKick;
+            @SuperKick.started -= instance.OnSuperKick;
+            @SuperKick.performed -= instance.OnSuperKick;
+            @SuperKick.canceled -= instance.OnSuperKick;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -778,6 +807,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnSlide(InputAction.CallbackContext context);
         void OnInvert(InputAction.CallbackContext context);
         void OnKick(InputAction.CallbackContext context);
+        void OnSuperKick(InputAction.CallbackContext context);
     }
     public interface IMonsterActions
     {

@@ -37,6 +37,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] protected float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     protected bool isCharging;
+    public bool superKicking = false;
     
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
@@ -696,6 +697,18 @@ public class WarriorController : MonoBehaviour
         } else if (UM.GetTimeRemaining() < 0)
         {
             GM.MenuReturn();
+        }
+    }
+
+    public void OnSuperKick(InputAction.CallbackContext context)
+    {
+        if (context.action.IsInProgress())
+        {
+            superKicking = true;
+        }
+        else
+        {
+            superKicking = false;
         }
     }
 
