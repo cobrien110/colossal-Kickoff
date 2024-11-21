@@ -29,7 +29,6 @@ public class AbilitySummonShrine : AbilityScript
             //Debug.Log("Return");
             return;
         }
-        timer = 0;
 
         Debug.Log("Summoning structure");
 
@@ -49,6 +48,7 @@ public class AbilitySummonShrine : AbilityScript
             return;
         }
 
+        timer = 0;
         // 2. Create a structure
         // If passive is full, create a gate
         if (AGP.counterAmount == AGP.counterMax)
