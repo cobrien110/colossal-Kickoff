@@ -53,6 +53,7 @@ public class AIMummy : MonoBehaviour
     // Get all WarriorController components (including subclasses)
     ////[SerializeField]
     ////WarriorController[] warriors;
+    private Animator ANIM;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class AIMummy : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         audioPlayer.PlaySoundVolume(audioPlayer.Find("sphinxMummyGroan"), 0.75f);
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
+        ANIM = GetComponentInChildren<Animator>();
 
         //Debug.Log(": " + );
     }
@@ -207,11 +209,11 @@ public class AIMummy : MonoBehaviour
 
         if (movementDirection != Vector3.zero && GM.isPlaying)
         {
-            ////ANIM.SetBool("isWalking", true);
+            ANIM.SetBool("isWalking", true);
         }
         else
         {
-            ////ANIM.SetBool("isWalking", false);
+            ANIM.SetBool("isWalking", false);
         }
 
     }
@@ -226,6 +228,7 @@ public class AIMummy : MonoBehaviour
             //Debug.Log(transform.forward);
             mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
+            ANIM.Play("WarriorKick");
         }
     }
 
@@ -442,7 +445,7 @@ public class AIMummy : MonoBehaviour
 
                 // Update the last slide time
                 lastSlideTime = Time.time;
-                //ANIM.SetBool("isSliding", true);
+                ANIM.SetBool("isSliding", true);
             }
         }
     }
@@ -450,7 +453,7 @@ public class AIMummy : MonoBehaviour
     void StopSliding()
     {
         Debug.Log("No longer sliding");
-        //ANIM.SetBool("isSliding", false);
+        ANIM.SetBool("isSliding", false);
         isSliding = false;
         //isInvincible = false;
     }
