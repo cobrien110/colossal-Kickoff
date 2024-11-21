@@ -103,8 +103,10 @@ MonoBehaviour:
   ballSpawnPoint: {fileID: 0}
   lastKicker: {fileID: 0}
   previousKicker: {fileID: 0}
+  playerTest: {fileID: 0}
   passBonus: 25
   isSuperKick: 0
+  heightLockDelay: 3.5
   isInteractable: 1
 --- !u!82 &6538995323527539179
 AudioSource:
@@ -319,7 +321,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 94b7092c21a19cf48a0d5ff37d8db082, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.19607843}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

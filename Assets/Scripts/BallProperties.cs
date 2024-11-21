@@ -22,6 +22,7 @@ public class BallProperties : MonoBehaviour
     public bool isInteractable = true;
 
     CommentatorSoundManager CSM;
+    private SpriteRenderer SR;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class BallProperties : MonoBehaviour
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         audioPlayer = GetComponent<AudioPlayer>();
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        SR = GetComponentInChildren<SpriteRenderer>();
 
         GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
         for (int i = 0; i < warriors.Length; i++)
@@ -218,6 +220,7 @@ public class BallProperties : MonoBehaviour
         ballOwner = null;
         GM.Reset();
         isInteractable = false;
+        if (SR != null) SR.enabled = false;
         Invoke("DestroyDelay", 1f);
     }
 
