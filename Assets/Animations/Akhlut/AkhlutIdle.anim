@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AkhlutWalk
+  m_Name: AkhlutIdle
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: f4b7971249bef52408dad1dd54843d1d, type: 3}
+      value: {fileID: 21300000, guid: ba7982b7b0998ab4f9f33900378cd3c8, type: 3}
     - time: 0.125
-      value: {fileID: 21300000, guid: 3a402ebf65141024483ffe64ce656ed5, type: 3}
+      value: {fileID: 21300000, guid: 6ffb622035dca2a4099c16f3d0655744, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 2dced72fd580b9b408164087d2fada74, type: 3}
+    - time: 0.375
+      value: {fileID: 21300000, guid: 35019a196328d66499f35f38b4b601e8, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 32a0be7b298d7e04a84b4a7fc2ee8d01, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,14 +52,17 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: f4b7971249bef52408dad1dd54843d1d, type: 3}
-    - {fileID: 21300000, guid: 3a402ebf65141024483ffe64ce656ed5, type: 3}
+    - {fileID: 21300000, guid: ba7982b7b0998ab4f9f33900378cd3c8, type: 3}
+    - {fileID: 21300000, guid: 6ffb622035dca2a4099c16f3d0655744, type: 3}
+    - {fileID: 21300000, guid: 2dced72fd580b9b408164087d2fada74, type: 3}
+    - {fileID: 21300000, guid: 35019a196328d66499f35f38b4b601e8, type: 3}
+    - {fileID: 21300000, guid: 32a0be7b298d7e04a84b4a7fc2ee8d01, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.625
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

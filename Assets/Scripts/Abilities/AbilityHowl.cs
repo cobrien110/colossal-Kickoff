@@ -8,6 +8,7 @@ public class AbilityHowl : AbilityScript
     public float howlRadius = 1f;
     public float crystalRadius = 1f;
     public float stunTime = 1.5f;
+    public float delayBeforeActivate = 0.5f;
 
     public string soundName;
     public IceCrystal currentCrystal;
@@ -24,10 +25,15 @@ public class AbilityHowl : AbilityScript
     {
         if (timer < cooldown) return;
         timer = 0;
+        Invoke("DelayedActivate", delayBeforeActivate);
+        ANIM.Play(activatedAnimationName);
+    }
+
+    private void DelayedActivate()
+    {
         attackVisualizer.SetActive(true);
         // Schedule the deactivation after 1 second
         Invoke(nameof(DeactivateVisualizer), 1f);
-        ANIM.Play(activatedAnimationName);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), .6f);
 
         Debug.Log("Howl");
@@ -46,7 +52,8 @@ public class AbilityHowl : AbilityScript
                     MC.BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     MC.BP.GetComponent<Rigidbody>().rotation = Quaternion.identity;
                     // Debug.Log("Ball stopped by howl");
-                } catch
+                }
+                catch
                 {
                     Rigidbody ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallProperties>().GetComponent<Rigidbody>();
                     ball.velocity = Vector3.zero;
@@ -108,5 +115,10 @@ public class AbilityHowl : AbilityScript
 
         // Draw a wireframe sphere at the object's position with the radius of howlRadius
         Gizmos.DrawWireSphere(transform.position, howlRadius);
+    }
+
+    public override void Deactivate()
+    {
+        CancelInvoke();
     }
 }
