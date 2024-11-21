@@ -118,22 +118,31 @@ public class BallProperties : MonoBehaviour
                 GM.passMeter += passBonus;
             }
         }
+    }
 
+    private void OnTriggerStay(Collider other)
+    {
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
+            // prevent goal if it would be an own goal while the ball is still being held
+            if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null) return;
+
             if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
-            
+
             UM.MonsterPoint();
             ST.UpdateMGoals();
             UM.UpdateMonsterGoalsSB();
             ScoreBall(true);
 
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
-            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom(); 
+            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
 
         if (other.tag.Equals("MonsterGoal") && isInteractable)
         {
+            // prevent goal if it would be an own goal while the ball is still being held
+            if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
+
             if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
 
             UM.WarriorPoint();
