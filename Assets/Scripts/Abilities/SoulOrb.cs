@@ -78,10 +78,21 @@ public class SoulOrb : MonoBehaviour
         // if on warrior team and hit monster, convert it
         SoulOrb SO = other.GetComponent<SoulOrb>();
         if (SO == null) return;
+        Vector3 dir1 = (SO.transform.position - transform.position).normalized * RB.velocity.magnitude;
+        dir1.y = 0f;
+        Vector3 dir2 = (transform.position - SO.transform.position).normalized * SO.RB.velocity.magnitude;
+        dir2.y = 0f;
+        SO.Launch(dir1);
+        Launch(dir2);
+        /*
         if (!isMonsterTeam && SO.isMonsterTeam)
         {
-            SO.Launch(GetRandomLaunchForce());
+            SO.SetTeam(false);
+        } else if (isMonsterTeam && !SO.isMonsterTeam)
+        {
+            SO.SetTeam(true);
         }
+        */
     }
 
     public void Launch(Vector3 force)
@@ -98,11 +109,26 @@ public class SoulOrb : MonoBehaviour
         Invoke("SetLaunchable", timeBeforeCanBeLaunched);
     }
 
+    public void AddForce(Vector3 force)
+    {
+        if (RB == null) return;
+
+        //RB.velocity = Vector3.zero;
+
+        Debug.Log("Adding force: " + force);
+        RB.AddForce(force, ForceMode.Impulse);
+    }
+
     public Vector3 GetRandomLaunchForce()
     {
-        Vector3 dir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        Vector3 dir = GetRandomDir();
         Vector3 force = launchSpeed * dir;
         return force;
+    }
+
+    public Vector3 GetRandomDir()
+    {
+        return new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
     }
 
     private void CheckShrines()
