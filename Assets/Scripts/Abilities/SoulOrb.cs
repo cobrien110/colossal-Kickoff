@@ -84,6 +84,9 @@ public class SoulOrb : MonoBehaviour
     {
         Debug.Log("Rigidbody: " + RB);
         if (RB == null) return;
+
+        RB.velocity = Vector3.zero;
+
         Debug.Log("Adding force: " + force);
         RB.AddForce(force, ForceMode.Impulse);
 

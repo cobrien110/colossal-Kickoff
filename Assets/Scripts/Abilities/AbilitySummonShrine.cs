@@ -54,7 +54,7 @@ public class AbilitySummonShrine : AbilityScript
         if (AGP.counterAmount == AGP.counterMax)
         {
             Debug.Log("Summoning Gate");
-            GashaGate gate = Instantiate(structure2, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaGate>();
+            GashaGate gate = Instantiate(structure2, chosenHand.transform.position, Quaternion.identity).GetComponentInChildren<GashaGate>();
             gate.launchSpeed = orbLaunchSpeed2;
             gate.duration = structure2Duration;
             AGP.counterAmount = 0;

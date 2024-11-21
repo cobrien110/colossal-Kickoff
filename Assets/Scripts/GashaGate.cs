@@ -45,7 +45,9 @@ public class GashaGate : MonoBehaviour
                         closest = warriors[i];
                     }
                 }
-                dir = (closest.transform.position - transform.position).normalized;
+                dir = (closest.transform.position - SO.transform.position);
+                dir.y = 0;
+                dir = dir.normalized;
             }
 
             // launch orb toward closest warrior
@@ -54,7 +56,8 @@ public class GashaGate : MonoBehaviour
             SO.SetTeam(true);
 
             // add to gasha passive
-            if (AGP != null) AGP.counterAmount++;
+            Debug.Log("AGP: " + AGP);
+            if (AGP != null) AGP.Add(AGP.bonusOnOrb);
         }
     }
 }

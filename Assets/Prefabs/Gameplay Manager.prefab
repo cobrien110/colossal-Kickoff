@@ -45,12 +45,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlaying: 0
+  isPaused: 0
+  automaticAISpawn: 1
+  automaticStart: 1
   UM: {fileID: 0}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
   playerList: []
   MC: {fileID: 0}
   WC: {fileID: 0}
   MTC: {fileID: 0}
+  WarriorAI: {fileID: 9138569520651102005, guid: 7007251e3a9e1a2488a50d0913e3c584, type: 3}
+  MonsterAI: {fileID: 8382026178709740655, guid: 6efa445432d32f643bd9fe7c892f7c22, type: 3}
+  MonsterPlayer: {fileID: 3176374829716338387, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
+  WarriorSpawners: []
   warriorPrefab: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   passMeter: 0
   passMeterMax: 100

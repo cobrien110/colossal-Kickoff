@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class AbilityGashaPassive : PassiveAbility
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject soulOrbPrefab;
+    public string chargeSound;
+    public int bonusOnOrb = 1;
+    public int bonusOnKill = 4;
+    public float orbSpawnLaunchSpeed = 1f;
 
     public override void Deactivate()
     {
         counterAmount = 0;
+    }
+
+    public void Add(int amount)
+    {
+        if (counterAmount >= counterMax) return;
+        counterAmount += amount;
+        if (counterAmount > counterMax) counterAmount = counterMax;
+        if (counterAmount == counterMax) audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(chargeSound), 0.5f);
+    }
+
+    public void AddAndSpawnOrb(int amount, Vector3 pos)
+    {
+        Add(amount);
+        if (soulOrbPrefab == null) return;
+        SoulOrb SO = Instantiate(soulOrbPrefab, pos, Quaternion.identity).GetComponent<SoulOrb>();
+        SO.Launch(orbSpawnLaunchSpeed * SO.GetRandomLaunchForce());
     }
 }

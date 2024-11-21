@@ -487,6 +487,7 @@ MonoBehaviour:
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
+  monsterSpawner: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -540,13 +541,18 @@ MonoBehaviour:
   abilityName: SoulStorage
   hasCooldown: 0
   cooldown: 0
-  counterMax: 3
-  counterAmount: 0
+  counterMax: 12
+  counterAmount: 8
   visualizer: {fileID: 0}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  soulOrbPrefab: {fileID: 8715075995557748544, guid: 2ab5e814e4f85014884619537177fd77, type: 3}
+  chargeSound: gashaLaugh
+  bonusOnOrb: 1
+  bonusOnKill: 4
+  orbSpawnLaunchSpeed: 0.2
 --- !u!114 &935016637366541079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +649,7 @@ MonoBehaviour:
   orbLaunchSpeed: 4
   timeBetweenSpawns: 5
   structure2Duration: 25
-  structure2: {fileID: 329926161715964722, guid: 616c2cc896b3a96469dac6599c111d7e, type: 3}
+  structure2: {fileID: 126153728992482447, guid: 616c2cc896b3a96469dac6599c111d7e, type: 3}
   orbLaunchSpeed2: 10
   soundName: gashaSwipe
 --- !u!33 &4594944956692112125

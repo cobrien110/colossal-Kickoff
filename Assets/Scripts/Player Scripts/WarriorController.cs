@@ -542,6 +542,8 @@ public class WarriorController : MonoBehaviour
         {
             BP.ballOwner = null;
         }
+
+        // Gore
         int goreMode = PlayerPrefs.GetInt("goreMode", 0);
         if (goreParticleObj != null && goreMode == 0) {
             Instantiate(goreParticleObj, transform.position, Quaternion.identity);
@@ -549,6 +551,14 @@ public class WarriorController : MonoBehaviour
             Instantiate(pinataParticleObj, transform.position, Quaternion.identity);
         }
         //Instantiate(particleObj, transform.position, Quaternion.identity);
+
+        // soul orb spawn if fighting gasha
+        AbilityGashaPassive AGP = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityGashaPassive>();
+        if (AGP != null)
+        {
+            AGP.AddAndSpawnOrb(AGP.bonusOnKill, transform.position);
+        }
+
         transform.position = respawnBox.position;
         MTC.RemoveTarget(transform);
         health = healthMax;
