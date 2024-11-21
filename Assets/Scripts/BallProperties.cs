@@ -195,23 +195,30 @@ public class BallProperties : MonoBehaviour
                 ST.UpdateWGoals(3);
             }
         }*/
-        ballOwner = null;
+        
         if (CSM != null)
         {
             CSM.PlayGoalSound(!isWarriorGoal);
         }
         Debug.Log("RESET");
-        GM.Reset();
+        ResetBall();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
-        isInteractable = false;
-        Invoke("DestroyDelay", 1f);
+        
 
         // Reset mummies if applicable
         MonsterController mc = FindObjectOfType<MonsterController>();
         AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
         if (aiMummyManager != null) aiMummyManager.ResetMummies(); 
 
+    }
+
+    public void ResetBall()
+    {
+        ballOwner = null;
+        GM.Reset();
+        isInteractable = false;
+        Invoke("DestroyDelay", 1f);
     }
 
     private void OnCollisionEnter(Collision collision)

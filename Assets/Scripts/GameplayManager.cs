@@ -129,6 +129,7 @@ public class GameplayManager : MonoBehaviour
         BallProperties BP = Ball.GetComponent<BallProperties>();
         BP.isSuperKick = false;
         passMeter = 0;
+        UM.UpdatePassMeter(passMeter);
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].tag.Equals("Monster"))
@@ -168,8 +169,6 @@ public class GameplayManager : MonoBehaviour
         MTC.targets[0] = newBall.transform;
         FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
         FB.BP = Ball.GetComponent<BallProperties>();
-        
-        passMeter = 0;
     }
 
     //isPlaying getter and setter
