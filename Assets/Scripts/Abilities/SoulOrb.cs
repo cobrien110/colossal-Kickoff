@@ -16,8 +16,11 @@ public class SoulOrb : MonoBehaviour
     public float launchSpeed;
     public Material monMat;
     public Material warMat;
+    public Color monCol;
+    public Color warCol;
     public GameObject innerOrb;
     private MeshRenderer MR;
+    public SpriteRenderer SR;
     public bool isMonsterTeam = true;
 
     // Start is called before the first frame update
@@ -28,6 +31,7 @@ public class SoulOrb : MonoBehaviour
         Invoke("CheckShrines", timeBetweenChecks);
         Invoke("SetLaunchable", timeBeforeCanBeLaunched);
         MR = innerOrb.GetComponent<MeshRenderer>();
+        //SR = innerOrb.GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -134,9 +138,11 @@ public class SoulOrb : MonoBehaviour
         if (b)
         {
             MR.material = monMat;
+            SR.color = monCol;
         } else
         {
             MR.material = warMat;
+            SR.color = warCol;
         }
     }
 }
