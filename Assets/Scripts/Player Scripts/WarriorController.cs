@@ -114,7 +114,7 @@ public class WarriorController : MonoBehaviour
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
-        UM.ShowPassMeter(true);
+        //UM.ShowPassMeter(true);
     }
 
     // Temp Controller Scheme Swap
@@ -278,7 +278,7 @@ public class WarriorController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
-            UM.ShowChargeBar(true);
+            //UM.ShowChargeBar(true);
             PAUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
@@ -338,8 +338,8 @@ public class WarriorController : MonoBehaviour
                 ANIM.Play("WarriorKick");
 
                 //Outdated
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
 
                 PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
@@ -352,7 +352,7 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -361,7 +361,7 @@ public class WarriorController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
 
             }
@@ -405,8 +405,8 @@ public class WarriorController : MonoBehaviour
                 ANIM.Play("WarriorKick");
 
                 //Outdated
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
 
                 PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
@@ -419,7 +419,7 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -428,7 +428,7 @@ public class WarriorController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
 
             }
