@@ -213,7 +213,7 @@ public class GameplayManager : MonoBehaviour
             WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
-            //UM.ShowPlayerUI(true, warriors.Length);
+            UM.ShowPlayerUI(true, warriors.Length);
             //UM.ShowPassMeter(true);
             //if (warriors.Length == 1)
             //{

@@ -271,7 +271,7 @@ public class MonsterController : MonoBehaviour
         {
             PAUI.ShowChargeBar(true);           
             
-            UM.ShowChargeBar(true);
+            //UM.ShowChargeBar(true);
             UM.UpdateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         }
@@ -322,8 +322,8 @@ public class MonsterController : MonoBehaviour
                 PAUI.UpdateChargeBar(0f);
 
                 //Outdated
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
 
                 PlayKickSound(kickCharge);
                 StartCoroutine(KickDelay());
@@ -336,7 +336,7 @@ public class MonsterController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isWindingUp", true);
@@ -345,7 +345,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge > maxChargeSeconds)
                 {
                     PAUI.UpdateChargeBar(1f);
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
             }
             else
@@ -369,8 +369,8 @@ public class MonsterController : MonoBehaviour
                 PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
 
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
                 StartCoroutine(KickDelay());
                 ANIM.SetBool("isWindingUp", false);
@@ -382,7 +382,7 @@ public class MonsterController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isWindingUp", true);
@@ -391,7 +391,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge > maxChargeSeconds)
                 {
                     PAUI.UpdateChargeBar(1f);
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
             }
             else

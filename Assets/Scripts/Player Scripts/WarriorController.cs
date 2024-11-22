@@ -54,6 +54,7 @@ public class WarriorController : MonoBehaviour
     public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
+    private PlayerAttachedUI PAUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
     [SerializeField] private Transform respawnBox;
@@ -94,6 +95,7 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        PAUI = GetComponentInChildren<PlayerAttachedUI>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
@@ -112,7 +114,7 @@ public class WarriorController : MonoBehaviour
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
-        UM.ShowPassMeter(true);
+        //UM.ShowPassMeter(true);
     }
 
     // Temp Controller Scheme Swap
@@ -276,7 +278,8 @@ public class WarriorController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
-            UM.ShowChargeBar(true);
+            //UM.ShowChargeBar(true);
+            PAUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
@@ -334,8 +337,12 @@ public class WarriorController : MonoBehaviour
 
                 ANIM.Play("WarriorKick");
 
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //Outdated
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
+
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -345,7 +352,8 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -353,7 +361,7 @@ public class WarriorController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
 
             }
@@ -396,8 +404,12 @@ public class WarriorController : MonoBehaviour
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                 ANIM.Play("WarriorKick");
 
-                UM.ShowChargeBar(false);
-                UM.UpdateChargeBar(0f);
+                //Outdated
+                //UM.ShowChargeBar(false);
+                //UM.UpdateChargeBar(0f);
+
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -407,7 +419,8 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -415,7 +428,7 @@ public class WarriorController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    UM.UpdateChargeBar(1f);
+                    //UM.UpdateChargeBar(1f);
                 }
 
             }

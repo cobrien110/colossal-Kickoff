@@ -18,12 +18,22 @@ public class AbilityFirebreath : AbilityScript
     private GameObject monsterGoal;
     [SerializeField] private float distToStopAtX = 5f;
     [SerializeField] private GameObject magmaPool;
+    [SerializeField] private float fireBreathDelay = 0.5f;
+    private float fireBreathWidth = 1f;
+    [SerializeField] private float baseFireBreathWidth = 1f;
+    [SerializeField] private float hitBallPower = 5f;
+    [SerializeField] private float hitOrbPower = 5f;
+    private AbilityGashaPassive AGP;
+    [SerializeField] private GameObject orb;
+    [SerializeField] private int spawnOrbQty = 3;
 
     public void Start()
     {
         Setup();
 
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
+        attackVisualizer.transform.parent = null;
+        AGP = GetComponent<AbilityGashaPassive>();
     }
 
     public void Update()
@@ -42,20 +52,16 @@ public class AbilityFirebreath : AbilityScript
 
     public override void Activate()
     {
-        // Do a series of slightly delayed overlap boxes
-            // Starts at x pos of monster goal and z pos of monster
-            // Goes to warrior spawn
+        if (timer < cooldown) return;
+
+        timer = 0;
+
+        // Set up the attack visualizer
+        Vector3 startPosition = new Vector3(monsterGoal.transform.position.x, transform.position.y, transform.position.z);
+        Vector3 endPosition = new Vector3(distToStopAtX, transform.position.y, transform.position.z);
+
+        // Start the coroutine for the fire breath attack
         StartCoroutine(FireBreathCoroutine());
-
-        // Delay it
-
-        // Leave lava pools in path
-
-        // Show visual
-
-        // Balls and orbs get pushed forward
-
-
 
         /*if (!isFiring && timer >= cooldown)
         {
@@ -75,14 +81,49 @@ public class AbilityFirebreath : AbilityScript
 
     private IEnumerator FireBreathCoroutine()
     {
+        // Initial delay before the fire breath starts
+        yield return new WaitForSeconds(fireBreathDelay);
+
         Debug.Log("FireBreath ability activated");
 
-        // Define the start and end positions
+        // If ability is charged, then shoot out some orbs toward the warrior side
+        if (AGP.counterAmount == AGP.counterMax)
+        {
+            Debug.Log("Charged ability activated! Spawning orbs.");
+
+            fireBreathWidth *= 2f;
+
+            for (int i = 0; i < spawnOrbQty; i++)
+            {
+                // Randomize spawn position slightly
+                Vector3 randomOffset = new Vector3(0, Random.Range(-0.2f, 0.2f), Random.Range(-0.5f, 0.5f));
+                Vector3 spawnPosition = transform.position + new Vector3(1f, 0, 0) + randomOffset;
+
+                // Instantiate the orb
+                GameObject orbInstance = Instantiate(orb, spawnPosition, Quaternion.identity);
+
+                // Apply force to the orb in the positive x-direction with some randomness
+                Vector3 force = new Vector3(1f * hitOrbPower, 0, Random.Range(-0.2f, 0.2f));
+                //orbInstance.GetComponent<Rigidbody>().AddForce(forceDirection * hitOrbPower, ForceMode.Impulse);
+                orbInstance.GetComponent<SoulOrb>().Launch(force);
+            }
+
+            AGP.counterAmount = 0;
+        }
+
+        // Dynamically define the start and end positions based on the monster's current position
         Vector3 startPosition = new Vector3(monsterGoal.transform.position.x, transform.position.y, transform.position.z);
         Vector3 endPosition = new Vector3(distToStopAtX, transform.position.y, transform.position.z);
 
+        float attackLength = Mathf.Abs(endPosition.x - startPosition.x);
+
+        // Update the attack visualizer's position and scale
+        attackVisualizer.transform.position = startPosition + new Vector3(attackLength / 2, -0.3f, 0); // Center the visualizer
+        attackVisualizer.transform.localScale = new Vector3(attackLength, 0.1f, fireBreathWidth); // Adjust its size
+        attackVisualizer.SetActive(true);
+
         // Define the size of the overlap box and the step increment
-        Vector3 boxSize = new Vector3(1f, 1f, 1f); // Adjust the size as needed
+        Vector3 boxSize = new Vector3(1f, 1f, fireBreathWidth); // Adjust the size as needed
         float stepDistance = 1f; // Distance between each overlap box
         float delay = 0.05f; // Delay between each overlap box
         float currentX = startPosition.x;
@@ -102,12 +143,27 @@ public class AbilityFirebreath : AbilityScript
                     Debug.Log($"FireBreath hit: {warrior.name}");
                     warrior.Die();
                 }
+
+                BallProperties ball = collider.GetComponent<BallProperties>();
+                if (ball != null)
+                {
+
+                    ball.GetComponent<Rigidbody>().AddForce(new Vector3(1f, 0, 0) * hitBallPower, ForceMode.Impulse);
+                }
+
+                SoulOrb orb = collider.GetComponent<SoulOrb>();
+                if (orb != null)
+                {
+
+                    orb.GetComponent<Rigidbody>().AddForce(new Vector3(1f, 0, 0f) * hitOrbPower, ForceMode.Impulse);
+                }
             }
 
             // Spawn the magma pool at the current box position
             if (magmaPool != null)
             {
-                Instantiate(magmaPool, boxCenter, Quaternion.identity);
+                GameObject magmaPoolObj = Instantiate(magmaPool, boxCenter, Quaternion.identity);
+                magmaPoolObj.transform.position += new Vector3(0, -0.3f, 0);
             }
 
             // Move to the next position and wait briefly
@@ -115,6 +171,9 @@ public class AbilityFirebreath : AbilityScript
             yield return new WaitForSeconds(delay);
         }
 
+        // Deactivate the attack visualizer after the fire breath completes
+        attackVisualizer.SetActive(false);
+        fireBreathWidth = baseFireBreathWidth;
         Debug.Log("FireBreath ability completed");
     }
 
