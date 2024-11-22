@@ -25,7 +25,11 @@ public class PlayerAttachedUI : MonoBehaviour
     {
         ShowChargeBar(false);
         target = transform.parent;
-        if (gameObject.GetComponentInParent<WarriorController>() != null)
+        if (gameObject.GetComponentInParent<WarriorAiController>() != null)
+        {
+            allDots.SetActive(false);
+            chargeBar.SetActive(false);
+        } else if (gameObject.GetComponentInParent<WarriorController>() != null)
         {
             allDots.SetActive(false);
         }
