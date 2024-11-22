@@ -54,6 +54,7 @@ public class WarriorController : MonoBehaviour
     public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
+    private PlayerAttachedUI PAUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
     [SerializeField] private Transform respawnBox;
@@ -94,6 +95,7 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        PAUI = GetComponentInChildren<PlayerAttachedUI>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
@@ -277,6 +279,7 @@ public class WarriorController : MonoBehaviour
         if (BP.ballOwner == gameObject)
         {
             UM.ShowChargeBar(true);
+            PAUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
@@ -335,6 +338,7 @@ public class WarriorController : MonoBehaviour
                 ANIM.Play("WarriorKick");
 
                 UM.ShowChargeBar(false);
+                PAUI.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
@@ -397,6 +401,7 @@ public class WarriorController : MonoBehaviour
                 ANIM.Play("WarriorKick");
 
                 UM.ShowChargeBar(false);
+                PAUI.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 

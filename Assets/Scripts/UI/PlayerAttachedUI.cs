@@ -25,6 +25,10 @@ public class PlayerAttachedUI : MonoBehaviour
     {
         ShowChargeBar(false);
         target = transform.parent;
+        if (gameObject.GetComponentInParent<WarriorController>() != null)
+        {
+            allDots.SetActive(false);
+        }
     }
 
     // Update is called once per frame
