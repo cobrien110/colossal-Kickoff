@@ -337,9 +337,12 @@ public class WarriorController : MonoBehaviour
 
                 ANIM.Play("WarriorKick");
 
+                //Outdated
                 UM.ShowChargeBar(false);
-                PAUI.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
+
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -350,6 +353,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -400,9 +404,12 @@ public class WarriorController : MonoBehaviour
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                 ANIM.Play("WarriorKick");
 
+                //Outdated
                 UM.ShowChargeBar(false);
-                PAUI.ShowChargeBar(false);
                 UM.UpdateChargeBar(0f);
+
+                PAUI.ShowChargeBar(false);
+                PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -413,6 +420,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
