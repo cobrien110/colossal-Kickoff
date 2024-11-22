@@ -317,12 +317,14 @@ public class WarriorController : MonoBehaviour
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
                         GM.passMeter = 0f;
+                        UM.UpdateWarriorContestBar(0f);
                     }
                     else
                     {
                         kickForce = kickForce * (0.9f + GM.passMeter);
                         BP.isSuperKick = true;
                         GM.passMeter = 0f;
+                        UM.UpdateWarriorContestBar(0f);
                     }
                     
                 }
