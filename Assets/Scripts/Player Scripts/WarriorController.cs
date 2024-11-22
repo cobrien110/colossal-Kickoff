@@ -252,7 +252,7 @@ public class WarriorController : MonoBehaviour
         } 
         if (isCursed)
         {
-            movementDirection *= -1;
+            //movementDirection *= -1;
         }
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
@@ -682,6 +682,7 @@ public class WarriorController : MonoBehaviour
     {
         //Debug.Log("OnMove");
         if (!usingKeyboard) movementDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y).normalized;
+        if (isCursed) movementDirection *= -1;
         usingKeyboard = false;
     }
 

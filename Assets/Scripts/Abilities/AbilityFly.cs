@@ -8,8 +8,8 @@ public class AbilityFly : AbilityScript
     public bool isActive = false;
     [HideInInspector] public float activeDuration = 0f;
     public float duration = 1.5f;
-    public float speed = 5f;
-    private float baseSpeed;
+    public float speedBonus = 5f;
+    [HideInInspector] public float baseSpeed;
     public float slamRadius = 3f;
 
     private GameObject sprite;
@@ -29,18 +29,18 @@ public class AbilityFly : AbilityScript
         spritePositionY = sprite.transform.position.y;
         sY = spritePositionY + maxSpriteYOffset;
         spriteRotation = sprite.transform.rotation;
-        attackVisualizer.transform.localScale *= slamRadius * 1.7f;
         baseSpeed = MC.monsterSpeed;
     }
 
     void Update()
     {
         UpdateSetup();
+        attackVisualizer.transform.localScale = new Vector3(1, 0.05f, 1) * slamRadius * 2f;
 
         if (isActive)
         {
             MC.isIntangible = true;
-            MC.monsterSpeed = speed;
+            MC.monsterSpeed = baseSpeed + speedBonus;
             activeDuration += Time.deltaTime;
             timerPaused = true;
             sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime);
@@ -101,7 +101,7 @@ public class AbilityFly : AbilityScript
     }
 
     // Draw gizmo to visualize howl radius
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         // Set the color of the gizmo
         Gizmos.color = Color.red;

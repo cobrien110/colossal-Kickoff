@@ -18,6 +18,7 @@ public class AbilitySquareAttack : AbilityChargeable
     public int projectileDamage = 1;
     public float projectileSpeed = 450f;
     public Mesh M;
+    private AbilityQuetzPassive AQP;
 
     public override void Activate()
     {
@@ -65,6 +66,13 @@ public class AbilitySquareAttack : AbilityChargeable
                         Vector3 forceToAdd = dir * kickForce;
                         BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                     }
+                }
+                if (col.gameObject.CompareTag("Bomb"))
+                {
+                    Debug.Log("hitBomb");
+                    AQP.counterAmount++;
+                    SnakeBomb AB = col.GetComponent<SnakeBomb>();
+                    AB.PrimeExplosion();
                 }
                 DamagePlayer magmaPool = col.gameObject.GetComponent<DamagePlayer>();
                 if (magmaPool != null && canSpawnProjectile)
@@ -137,5 +145,6 @@ public class AbilitySquareAttack : AbilityChargeable
     {
         Setup();
         M = attackVisualizer.GetComponent<MeshFilter>().mesh;
+        AQP = GetComponent<AbilityQuetzPassive>();
     }
 }
