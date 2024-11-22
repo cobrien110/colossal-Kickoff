@@ -487,6 +487,7 @@ MonoBehaviour:
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
+  monsterSpawner: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -547,6 +548,11 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
+  soulOrbPrefab: {fileID: 0}
+  chargeSound: 
+  bonusOnOrb: 1
+  bonusOnKill: 4
+  orbSpawnLaunchSpeed: 1
 --- !u!114 &935016637366541079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +586,8 @@ MonoBehaviour:
   numToSpawn: 4
   delayBetweenShots: 0.45
   soundName: gashaFire
+  distToStopAtX: 5
+  magmaPool: {fileID: 1659247539086615764, guid: 888530a8288cf154883f81bfe873398b, type: 3}
 --- !u!114 &5683144866873222350
 MonoBehaviour:
   m_ObjectHideFlags: 0
