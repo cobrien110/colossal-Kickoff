@@ -47,7 +47,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text MonsterKillsText = null;  
     [SerializeField] private TMP_Text MonsterAbUsedText = null;
 
-
     // Dev Stats
     [SerializeField] private GameObject devStats = null;
     [SerializeField] private TMP_Text gameWinnerText = null;
@@ -61,6 +60,11 @@ public class UIManager : MonoBehaviour
     //[SerializeField] private TMP_Text passMeterText = null;
     [SerializeField] private GameObject passMeter = null;
     [SerializeField] private Image passMeterFill = null;
+
+    //ContestBar
+    [SerializeField] private Image warriorContestFill = null;
+    [SerializeField] private Image monsterContestFill = null;
+    [SerializeField] private Image middleContestFill = null;
 
     //Monster and Human UI
     [SerializeField] private GameObject monsterUI = null;
@@ -395,7 +399,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePassMeter(float passMeter)
     {
-        passMeterFill.fillAmount = passMeter / 100f;
+        passMeterFill.fillAmount = passMeter;
     }
 
     public void ShowPlayerUI(bool state, int player)
@@ -431,6 +435,41 @@ public class UIManager : MonoBehaviour
         {
             player3respawnfill.fillAmount = charge;
         }
+    }
+
+    public void UpdateWarriorContestBar(float charge)
+    {
+        warriorContestFill.fillAmount = charge;
+        
+        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        {
+            ShowMiddleContestBar(true);
+        }
+
+        else if (middleContestFill.gameObject.activeInHierarchy && (warriorContestFill.fillAmount < 1.0f || monsterContestFill.fillAmount < 1.0f))
+        {
+            ShowMiddleContestBar(false);
+        }
+    }
+
+    public void UpdateMonsterContestBar(float charge)
+    {
+        monsterContestFill.fillAmount = charge;
+        
+        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        {
+            ShowMiddleContestBar(true);
+        }
+
+        else if (middleContestFill.gameObject.activeInHierarchy && (warriorContestFill.fillAmount < 1.0f || monsterContestFill.fillAmount < 1.0f))
+        {
+            ShowMiddleContestBar(false);
+        }
+    }
+
+    public void ShowMiddleContestBar(bool state)
+    {
+        middleContestFill.gameObject.SetActive(state);
     }
 
     public void ShowTopScoreboard(bool state)

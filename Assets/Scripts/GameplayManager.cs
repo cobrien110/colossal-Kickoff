@@ -59,7 +59,7 @@ public class GameplayManager : MonoBehaviour
         {
             passMeter = passMeterMax;
         }
-        UM.UpdatePassMeter(passMeter);
+        //UM.UpdatePassMeter(passMeter);
 
 
         //Start Game for Expo
@@ -124,12 +124,16 @@ public class GameplayManager : MonoBehaviour
     {
         StopPlaying();
         StartCoroutine(Kickoff());
+
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
         Ball = newBall;
         BallProperties BP = Ball.GetComponent<BallProperties>();
+        
         BP.isSuperKick = false;
         passMeter = 0;
         UM.UpdatePassMeter(passMeter);
+        UM.UpdateWarriorContestBar(passMeter);
+
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].tag.Equals("Monster"))

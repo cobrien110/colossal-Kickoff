@@ -15,7 +15,7 @@ public class BallProperties : MonoBehaviour
     public GameObject lastKicker = null;
     public GameObject previousKicker = null;
     public GameObject playerTest = null;
-    public float passBonus = 25f;
+    public float passBonus = 0.25f;
     public bool isSuperKick = false;
     [SerializeField] private float heightLockDelay = 3.5f;
 
@@ -118,6 +118,8 @@ public class BallProperties : MonoBehaviour
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
             {
                 GM.passMeter += passBonus;
+                UM.UpdatePassMeter(GM.passMeter);
+                UM.UpdateWarriorContestBar(GM.passMeter);
             }
         }
     }
