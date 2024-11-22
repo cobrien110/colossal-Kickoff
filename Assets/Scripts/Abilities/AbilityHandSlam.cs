@@ -22,6 +22,7 @@ public class AbilityHandSlam : AbilityDelayed
     private Vector3 visualizerPos;
 
     [SerializeField] private float slamDelay = 0.5f;
+    [SerializeField] private float stunRadiusMult = 4.5f;
 
     public override void Activate()
     {
@@ -30,11 +31,9 @@ public class AbilityHandSlam : AbilityDelayed
         Debug.Log("Activate hand slam");
         timer = 0;
 
-        // Debug.Log("Chosen hand for slam: " + chosenHand.name);
-
-        // 2. Check for all WarriorControllers within the slam radius
+        // Perform the initial hand slam effect
         Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
-        Vector3 point2 = attackPosEnd; // End of the capsule (right sphere)
+        Vector3 point2 = attackPosEnd;   // End of the capsule (right sphere)
 
         bool ejectBall = false;
         Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, slamRadius);
@@ -49,10 +48,12 @@ public class AbilityHandSlam : AbilityDelayed
 
                 // Kill Warrior
                 warrior.Die(); // Destroys the warrior game object
-                // Debug.Log("Warrior killed by slam: " + warrior.name);
-            } 
-            // If its just the ball that is hit, make sure it gets ejected
-            else if (ball != null) ejectBall = true;
+            }
+            else if (ball != null)
+            {
+                // If the ball is hit, ensure it gets ejected
+                ejectBall = true;
+            }
         }
 
         if (ejectBall)
@@ -60,12 +61,27 @@ public class AbilityHandSlam : AbilityDelayed
             EjectBall();
         }
 
+        // Apply the stun effect in a larger capsule
+        float stunRadius = slamRadius * stunRadiusMult; // Adjust stun radius as needed
+        Vector3 stunPoint1 = point1 - new Vector3(1f, 0, 0); // Slightly offset points for the larger capsule
+        Vector3 stunPoint2 = point2 + new Vector3(1f, 0, 0);
+
+        Collider[] stunColliders = Physics.OverlapCapsule(stunPoint1, stunPoint2, stunRadius);
+        foreach (Collider obj in stunColliders)
+        {
+            WarriorController warrior = obj.GetComponent<WarriorController>();
+            if (warrior != null)
+            {
+                Debug.Log($"Stunned warrior: {warrior.name}");
+                warrior.Stun(1f); // Call the stun method on the warrior
+            }
+        }
+
+        // Finalize the hand slam
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
         Instantiate(visEffect, chosenHand.transform.position, Quaternion.identity);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.75f);
     }
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -108,8 +124,8 @@ public class AbilityHandSlam : AbilityDelayed
         if (!Application.isPlaying) return; // Only draw when in play mode
 
         // Define points and radius for the capsule
-        Vector3 point1 = transform.position;
-        Vector3 point2 = transform.position + Vector3.right * slamLength;
+        Vector3 point1 = transform.position; // - new Vector3(1f, 0, 0);
+        Vector3 point2 = transform.position + Vector3.right * slamLength; // + new Vector3(1f, 0, 0);
 
         // Draw spheres to represent the capsule endpoints
         Gizmos.color = Color.red;
@@ -118,7 +134,7 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Draw lines connecting the spheres to give the appearance of a capsule
         Vector3 direction = (point2 - point1).normalized;
-        Vector3 offset = Vector3.Cross(direction, Vector3.up).normalized * slamRadius;
+        Vector3 offset = Vector3.Cross(direction, Vector3.up).normalized * slamRadius * stunRadiusMult;
 
         Gizmos.DrawLine(point1 + offset, point2 + offset);
         Gizmos.DrawLine(point1 - offset, point2 - offset);
@@ -153,8 +169,8 @@ public class AbilityHandSlam : AbilityDelayed
         yield return new WaitForSeconds(slamDelay);
 
         // Activate
-        attackPosStart = transform.position;
-        attackPosEnd = transform.transform.position + Vector3.right * slamLength;
+        //attackPosStart = transform.position;
+        //attackPosEnd = transform.transform.position + Vector3.right * slamLength;
 
         Debug.Log("attackPosStart: " + attackPosStart);
         Debug.Log("attackPosEnd: " + attackPosEnd);
@@ -198,6 +214,10 @@ public class AbilityHandSlam : AbilityDelayed
         if (context.action.WasPressedThisFrame())
         {
             Debug.Log("Hand slam - Ability pressed");
+
+            attackPosStart = transform.position;
+            attackPosEnd = transform.transform.position + Vector3.right * slamLength;
+
             // Detach hand and visualizer, show visualizer
 
             // Show attack visual
