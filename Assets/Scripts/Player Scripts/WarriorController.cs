@@ -307,16 +307,29 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
+                
                 Debug.Log(kickCharge);
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-                if (GM.passMeter == GM.passMeterMax)
+                if (superKicking && GM.passMeter > 0f)
                 {
-                    kickForce = kickForce * 2;
-                    BP.isSuperKick = true;
-                    GM.passMeter = 0;
+                    if (GM.passMeter == GM.passMeterMax)
+                    {
+                        kickForce = kickForce * (2f);
+                        BP.isSuperKick = true;
+                        GM.passMeter = 0f;
+                    }
+                    else
+                    {
+                        kickForce = kickForce * (1.5f * GM.passMeter);
+                        BP.isSuperKick = true;
+                        GM.passMeter = 0f;
+                    }
+                    
                 }
+
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+
                 ANIM.Play("WarriorKick");
 
                 UM.ShowChargeBar(false);

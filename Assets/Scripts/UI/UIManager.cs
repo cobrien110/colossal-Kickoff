@@ -285,7 +285,6 @@ public class UIManager : MonoBehaviour
 
         // Pause Game
 
-
         //Could potentially stop player movement with isPlaying setter here (set isPlaying to false) after connecting GM to this file
         //Its probably better to keep that kind of function in the 'GameplayManager' though
         //GM.StopPlaying();
