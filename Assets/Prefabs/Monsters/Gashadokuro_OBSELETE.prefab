@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 6204409598234497509}
   - component: {fileID: 2228513988069930200}
   m_Layer: 10
-  m_Name: Gashadokuro
+  m_Name: Gashadokuro_OBSELETE
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,7 +416,7 @@ Transform:
   m_GameObject: {fileID: 3176374829716338387}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.34, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -571,7 +571,7 @@ MonoBehaviour:
   usableWhileIntangible: 0
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
-  attackVisualizerPrefab: {fileID: 0}
+  attackVisualizerPrefab: {fileID: 8730988836888390465, guid: 7211a9b8042dd394eb9678e5e9b5f67d, type: 3}
   attackVisHolder: {fileID: 0}
   activatedAnimationName: none
   icon: {fileID: 21300000, guid: e23d3493c9c1d974a9788894d65cad3d, type: 3}
@@ -588,6 +588,10 @@ MonoBehaviour:
   soundName: gashaFire
   distToStopAtX: 5
   magmaPool: {fileID: 1659247539086615764, guid: 888530a8288cf154883f81bfe873398b, type: 3}
+  fireBreathDelay: 0.5
+  fireBreathWidth: 1
+  hitBallPower: 5
+  hitOrbPower: 5
 --- !u!114 &5683144866873222350
 MonoBehaviour:
   m_ObjectHideFlags: 0
