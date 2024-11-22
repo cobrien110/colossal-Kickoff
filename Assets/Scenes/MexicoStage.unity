@@ -10394,6 +10394,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68b1b248aeb7835488ef341b29dfb0a0, type: 3}
+--- !u!1 &1130120516 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5540260757925753363, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+  m_PrefabInstance: {fileID: 3914395563813577798}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1130120520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130120516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fba763a4266b5d4d8651aee54df5cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {fileID: 1498227230}
+  orbitSpeed: 0.35
+  spinSpeed: 10
+  orbitRadius: 32.5
 --- !u!1 &1144635613
 GameObject:
   m_ObjectHideFlags: 0
@@ -10874,6 +10895,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6378074665732573863, guid: e65bf49fb442157489376336336f26b7, type: 3}
   m_PrefabInstance: {fileID: 7396341013818698304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1498227230 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3546511373662348345, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+  m_PrefabInstance: {fileID: 3914395563813577798}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1501136455
 PrefabInstance:
@@ -16512,6 +16538,10 @@ PrefabInstance:
       propertyPath: MonsterPlayer
       value: 
       objectReference: {fileID: 6936589732318928993, guid: 3a47584b1e852f549b1fac088159b34c, type: 3}
+    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: automaticAISpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -16834,6 +16864,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3608688696176248596, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 60.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958959905967591011, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 1498227230}
     - target: {fileID: 8747206437733054339, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
       propertyPath: m_Name
       value: MexicoStage
@@ -16844,7 +16882,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6209904409044710591, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1481011618}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5540260757925753363, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1130120520}
   m_SourcePrefab: {fileID: 100100000, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
 --- !u!4 &3914395563813577799 stripped
 Transform:

@@ -151,21 +151,25 @@ public class BallProperties : MonoBehaviour
 
             UM.WarriorPoint();
 
-            if (playerTest.name.StartsWith('1'))
+            if (playerTest != null)
             {
-                ST.UpdateWGoals(1);
-                UM.UpdateWarriorGoalsSB(1);
+                if (playerTest.name.StartsWith('1'))
+                {
+                    ST.UpdateWGoals(1);
+                    UM.UpdateWarriorGoalsSB(1);
+                }
+                if (playerTest.name.StartsWith('2'))
+                {
+                    ST.UpdateWGoals(2);
+                    UM.UpdateWarriorGoalsSB(2);
+                }
+                if (playerTest.name.StartsWith('3'))
+                {
+                    ST.UpdateWGoals(3);
+                    UM.UpdateWarriorGoalsSB(3);
+                }
             }
-            if (playerTest.name.StartsWith('2'))
-            {
-                ST.UpdateWGoals(2);
-                UM.UpdateWarriorGoalsSB(2);
-            }
-            if (playerTest.name.StartsWith('3'))
-            {
-                ST.UpdateWGoals(3);
-                UM.UpdateWarriorGoalsSB(3);
-            }
+            
             ScoreBall(false);
 
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
@@ -212,8 +216,11 @@ public class BallProperties : MonoBehaviour
 
         // Reset mummies if applicable
         MonsterController mc = FindObjectOfType<MonsterController>();
-        AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
-        if (aiMummyManager != null) aiMummyManager.ResetMummies(); 
+        if (mc != null)
+        {
+            AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
+            if (aiMummyManager != null) aiMummyManager.ResetMummies();
+        }
 
     }
 

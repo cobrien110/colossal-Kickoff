@@ -42,7 +42,7 @@ public class MinoWall : MonoBehaviour
         StartCoroutine("Swap", duration);
 
         if (Physics.Raycast(transform.position, Vector3.up, players)) {
-            BC.enabled = false;
+            //BC.enabled = false;
         }
     }
 
