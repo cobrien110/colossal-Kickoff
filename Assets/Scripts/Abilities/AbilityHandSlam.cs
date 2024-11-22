@@ -21,8 +21,11 @@ public class AbilityHandSlam : AbilityDelayed
     private Vector3 attackPosEnd;
     private Vector3 visualizerPos;
 
+    [SerializeField] private float slamDelay = 0.5f;
+
     public override void Activate()
     {
+        if (timer < cooldown) return;
 
         Debug.Log("Activate hand slam");
         timer = 0;
@@ -72,7 +75,7 @@ public class AbilityHandSlam : AbilityDelayed
         BP = FindObjectOfType<BallProperties>();
         monsterRB = gameObject.GetComponent<Rigidbody>();
 
-        attackVisualizer.transform.localScale *= slamRadius * 2;
+        attackVisualizer.transform.localScale *= slamRadius * 2.5f;
 
         // Unparent visualizer from monster
         attackVisualizer.transform.parent = null;
@@ -96,7 +99,7 @@ public class AbilityHandSlam : AbilityDelayed
         if (MC != null && MC.BP != null && MC.BP.ballOwner == gameObject
             && abilityCreateHands.AHandIsDetached())
         {
-            TriggerSlam();
+            StartCoroutine(TriggerSlam());
         }
     }
 
@@ -145,11 +148,17 @@ public class AbilityHandSlam : AbilityDelayed
         BP.gameObject.GetComponent<Rigidbody>().AddForce(randomDirection * ejectForce, ForceMode.Impulse);
     }
 
-    private void TriggerSlam()
+    IEnumerator TriggerSlam()
     {
+        yield return new WaitForSeconds(slamDelay);
+
         // Activate
-        attackPosStart = attackVisualizer.transform.position;
-        attackPosEnd = attackVisualizer.transform.position + Vector3.right * slamLength;
+        attackPosStart = transform.position;
+        attackPosEnd = transform.transform.position + Vector3.right * slamLength;
+
+        Debug.Log("attackPosStart: " + attackPosStart);
+        Debug.Log("attackPosEnd: " + attackPosEnd);
+
         Activate();
 
         // Reattach hand and visualizer, disable visualizer
@@ -215,7 +224,7 @@ public class AbilityHandSlam : AbilityDelayed
         {
             Debug.Log("Hand slam - Ability released");
 
-            TriggerSlam();
+            StartCoroutine(TriggerSlam());
 
         }
     }
