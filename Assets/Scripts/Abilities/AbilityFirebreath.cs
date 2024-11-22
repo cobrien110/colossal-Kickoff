@@ -19,7 +19,8 @@ public class AbilityFirebreath : AbilityScript
     [SerializeField] private float distToStopAtX = 5f;
     [SerializeField] private GameObject magmaPool;
     [SerializeField] private float fireBreathDelay = 0.5f;
-    [SerializeField] private float fireBreathWidth = 1f;
+    private float fireBreathWidth = 1f;
+    [SerializeField] private float baseFireBreathWidth = 1f;
     [SerializeField] private float hitBallPower = 5f;
     [SerializeField] private float hitOrbPower = 5f;
     private AbilityGashaPassive AGP;
@@ -89,6 +90,8 @@ public class AbilityFirebreath : AbilityScript
         if (AGP.counterAmount == AGP.counterMax)
         {
             Debug.Log("Charged ability activated! Spawning orbs.");
+
+            fireBreathWidth *= 2f;
 
             for (int i = 0; i < spawnOrbQty; i++)
             {
@@ -170,6 +173,7 @@ public class AbilityFirebreath : AbilityScript
 
         // Deactivate the attack visualizer after the fire breath completes
         attackVisualizer.SetActive(false);
+        fireBreathWidth = baseFireBreathWidth;
         Debug.Log("FireBreath ability completed");
     }
 
