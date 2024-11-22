@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,10 @@ public class AbilityHandSlam : AbilityDelayed
     private Vector3 attackPosStart;
     private Vector3 attackPosEnd;
     private Vector3 visualizerPos;
+    private AbilityGashaPassive AGP;
+    [SerializeField] private GameObject orb;
+    [SerializeField] private int spawnOrbQty = 3;
+    [SerializeField] private float hitOrbPower = 5f;
 
     [SerializeField] private float slamDelay = 0.5f;
     [SerializeField] private float stunRadiusMult = 4.5f;
@@ -77,6 +82,30 @@ public class AbilityHandSlam : AbilityDelayed
             }
         }
 
+
+        // If ability is charged, then shoot out some orbs toward the warrior side
+        if (AGP.counterAmount == AGP.counterMax)
+        {
+            Debug.Log("Charged ability activated! Spawning orbs.");
+
+            for (int i = 0; i < spawnOrbQty; i++)
+            {
+                // Randomize spawn position slightly
+                Vector3 randomOffset = new Vector3(0, Random.Range(-0.2f, 0.2f), Random.Range(-0.5f, 0.5f));
+                Vector3 spawnPosition = transform.position + new Vector3(1f, 0, 0) + randomOffset;
+
+                // Instantiate the orb
+                GameObject orbInstance = Instantiate(orb, spawnPosition, Quaternion.identity);
+
+                // Apply force to the orb in the positive x-direction with some randomness
+                Vector3 force = new Vector3(1f * hitOrbPower, 0, Random.Range(-0.2f, 0.2f));
+                //orbInstance.GetComponent<Rigidbody>().AddForce(forceDirection * hitOrbPower, ForceMode.Impulse);
+                orbInstance.GetComponent<SoulOrb>().Launch(force);
+            }
+
+            AGP.counterAmount = 0;
+        }
+
         // Finalize the hand slam
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
         Instantiate(visEffect, chosenHand.transform.position, Quaternion.identity);
@@ -95,6 +124,7 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Unparent visualizer from monster
         attackVisualizer.transform.parent = null;
+        AGP = GetComponent<AbilityGashaPassive>();
     }
 
     private void Update()
