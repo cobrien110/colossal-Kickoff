@@ -19,6 +19,7 @@ public class SnakeBomb : MonoBehaviour
     public float radius = 1f;
     public float delay = 0.05f;
     public Vector3 centerOffset = new Vector3(0f, -.25f, 0f);
+    [HideInInspector] public bool isExploding = false;
     void Start()
     {
         RB = GetComponent<Rigidbody>();
@@ -26,12 +27,14 @@ public class SnakeBomb : MonoBehaviour
         RB.AddForce(dir * burstSpeed, ForceMode.Impulse);
         timeOffset = Random.Range(0f, Mathf.PI * 2f);
         sprite = GetComponentInChildren<SpriteRenderer>().gameObject;
+        transform.rotation = new Quaternion(0f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
     }
 
     // Update is called once per frame
     void Update()
     {
         float newY = baseHeight + Mathf.Sin(Time.time * floatSpeed + timeOffset) * heightAmplitude;
+        transform.position = new Vector3(transform.position.x, baseHeight, transform.position.z);
         sprite.transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
@@ -39,6 +42,7 @@ public class SnakeBomb : MonoBehaviour
     {
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         transform.localScale = Vector3.zero;
+        isExploding = true;
         Invoke("Explode", delay);
     }
 
@@ -56,6 +60,11 @@ public class SnakeBomb : MonoBehaviour
                 // Damage warrior
                 obj.GetComponent<WarriorController>().Die();
                 // Debug.Log("Stunned Warrior: " + obj.name);
+            }
+            SnakeBomb snakeBomb = obj.GetComponent<SnakeBomb>();
+            if (snakeBomb != null && !snakeBomb.isExploding)
+            {
+                snakeBomb.PrimeExplosion();
             }
         }
         
