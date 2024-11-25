@@ -19,6 +19,14 @@ public class BallProperties : MonoBehaviour
     public bool isSuperKick = false;
     [SerializeField] private float heightLockDelay = 3.5f;
 
+    // Lighting Effects
+    private Material SoccerUVS = null;
+    private GameObject ChargeColorGO = null;
+    private Light SceneLight = null;
+    [SerializeField] private float sceneLightIntensity = 1.0f;
+    [SerializeField] private Color tier1Color = Color.yellow;
+    [SerializeField] private Color tier2Color = Color.red;
+
     public bool isInteractable = true;
 
     CommentatorSoundManager CSM;
@@ -33,6 +41,11 @@ public class BallProperties : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         SR = GetComponentInChildren<SpriteRenderer>();
+
+        SoccerUVS = gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material;
+        SoccerUVS.EnableKeyword("_EMISSION");
+        ChargeColorGO = gameObject.transform.GetChild(2).gameObject;
+        SceneLight = GameObject.Find("Directional Light").GetComponent<Light>();
 
         GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
         for (int i = 0; i < warriors.Length; i++)
@@ -267,5 +280,28 @@ public class BallProperties : MonoBehaviour
     {
         Rigidbody RB = GetComponent<Rigidbody>();
         RB.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+
+    public void StartBallGlow(int tier)
+    {
+        ChargeColorGO.SetActive(true);
+        if (tier == 1)
+        {
+            SceneLight.intensity = sceneLightIntensity / 1.5f;
+            SoccerUVS.SetColor("_EmissionColor", tier1Color);
+            ChargeColorGO.GetComponent<Light>().color = tier1Color;
+        } else if (tier == 2)
+        {
+            SceneLight.intensity = sceneLightIntensity / 2f;
+            SoccerUVS.SetColor("_EmissionColor", tier2Color);
+            ChargeColorGO.GetComponent<Light>().color = tier2Color;
+        }
+    }
+
+    public void StopBallGlow()
+    {
+        ChargeColorGO.SetActive(false);
+        SceneLight.intensity = 1.0f;
+        SoccerUVS.SetColor("_EmissionColor", Color.black);
     }
 }

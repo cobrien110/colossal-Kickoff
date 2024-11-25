@@ -115,6 +115,8 @@ public class WarriorController : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
         //UM.ShowPassMeter(true);
+        Debug.Log(maxChargeSeconds);
+        Debug.Log(maxChargeSeconds / 2);
     }
 
     // Temp Controller Scheme Swap
@@ -147,6 +149,17 @@ public class WarriorController : MonoBehaviour
             if ((isStunned) && BP.ballOwner == this.gameObject)
             {
                 BP.ballOwner = null;
+            }
+
+            if (kickCharge >= maxChargeSeconds)
+            {
+                BP.StartBallGlow(2);
+            } else if (kickCharge > (maxChargeSeconds / 2) + 0.5f)
+            {
+                BP.StartBallGlow(1);
+            } else
+            {
+                BP.StopBallGlow();
             }
         }
         Respawn();
