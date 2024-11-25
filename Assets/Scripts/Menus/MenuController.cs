@@ -36,6 +36,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
     private int numPlayersConfirmed = 0;
+    private bool amIConfirmed = false;
     public bool canMoveToGame = false;
 
     //tracks the stage the game will move to when it starts
@@ -176,13 +177,19 @@ public class MenuController : MonoBehaviour
         Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
         //todo: reverse that thing from the last comment
         playerOptions[playerSlot].SetActive(false);
-        unconfirmCharacter(playerSlot);
+        //if (confirm)
+        if (amIConfirmed) {
+            unconfirmCharacter(playerSlot);
+        }
     }
 
     public void confirmCharacter(int playerSlot) {
+        amIConfirmed = true;
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
         numPlayersConfirmed++;
+        Debug.Log("players confirmed: " + numPlayersConfirmed);
+        Debug.Log("players needed: " + cursors.Length);
         if (numPlayersConfirmed == cursors.Length) {
             canMoveToGame = true;
             readyText.SetActive(true);
@@ -190,6 +197,7 @@ public class MenuController : MonoBehaviour
     }
 
     public void unconfirmCharacter(int playerSlot) {
+        amIConfirmed = false;
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
         numPlayersConfirmed--;

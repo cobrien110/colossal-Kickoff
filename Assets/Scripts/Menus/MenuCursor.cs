@@ -18,6 +18,8 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private InputManager IM = null;
     //[SerializeField] private VolumeManager VM = null;
     [SerializeField] private MonsterName MN = null;
+    [SerializeField] private MonsterAbilityBlurb abilityBlurb = null;
+    [SerializeField] private MonsterAbilityViewController monsterAbilityViewController = null;
     [SerializeField] private WarriorDesc[] WDarr = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
     [SerializeField] private Sprite[] cursorSprites;
@@ -32,6 +34,7 @@ public class MenuCursor : MonoBehaviour
     private Vector3 savedPosition;
     private bool charConfirmed = false;
     private Vector3 screenMidpoint;
+    private bool selectedHighlightingAbilities = false;
 
     private void Start()
     {
@@ -47,6 +50,8 @@ public class MenuCursor : MonoBehaviour
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
         //VM = FindObjectOfType<VolumeManager>(true);
         MN = FindObjectOfType<MonsterName>(true);
+        abilityBlurb = FindObjectOfType<MonsterAbilityBlurb>(true);
+        monsterAbilityViewController = FindObjectOfType<MonsterAbilityViewController>(true);
         WDarr = FindObjectsOfType<WarriorDesc>(true);
         WarriorDesc holder = WDarr[1];
         WDarr[1] = WDarr[2];
@@ -287,28 +292,65 @@ public class MenuCursor : MonoBehaviour
         } else**/ if (MC.currentScreen == 2) { //CHARACTER SELECT
             if (hasSelected && action.started)
             {
-                float changeDir = action.ReadValue<Vector2>().x;
-                if (playerSlot == 0)
-                {
-                    if (changeDir > 0)
-                    {
-                        MN.pageRight();
+                //LEFT & RIGHT
+                float lrChangeDir = action.ReadValue<Vector2>().x;
+                //Debug.Log(lrChangeDir);
+                if (lrChangeDir > 0.2 || lrChangeDir < -0.2) {
+                    if (selectedHighlightingAbilities) {
+                        if (playerSlot == 0)
+                        {
+                            if (lrChangeDir > 0)
+                            {
+                                monsterAbilityViewController.scrollRight();
+                            }
+                            else if (lrChangeDir < 0)
+                            {
+                                monsterAbilityViewController.scrollLeft();
+                            }
+                        }
+                    } else {
+                        if (playerSlot == 0)
+                        {
+                            if (lrChangeDir > 0)
+                            {
+                                MN.pageRight();
+                                monsterAbilityViewController.pageRight();
+                            }
+                            else if (lrChangeDir < 0)
+                            {
+                                MN.pageLeft();
+                                monsterAbilityViewController.pageLeft();
+                            }
+                            PH.monsterIndex = MN.monsterIndex;
+                        } else
+                        {
+                            int i = playerSlot - 1;
+                            if (lrChangeDir > 0)
+                            {
+                                WDarr[i].pageRight();
+                            }
+                            else if (lrChangeDir < 0)
+                            {
+                                WDarr[i].pageLeft();
+                            }
+                        }
                     }
-                    else if (changeDir < 0)
-                    {
-                        MN.pageLeft();
-                    }
-                    PH.monsterIndex = MN.monsterIndex;
-                } else
-                {
-                    int i = playerSlot - 1;
-                    if (changeDir > 0)
-                    {
-                        WDarr[i].pageRight();
-                    }
-                    else if (changeDir < 0)
-                    {
-                        WDarr[i].pageLeft();
+                } else {
+                    //UP & DOWN
+                    float udChangeDir = action.ReadValue<Vector2>().y;
+                    //Debug.Log(udChangeDir);
+                    if (udChangeDir > 0.2 || udChangeDir < -0.2) {
+                        if (playerSlot == 0) {
+                            selectedHighlightingAbilities = !selectedHighlightingAbilities;
+                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                            if (selectedHighlightingAbilities) {
+                                abilityBlurb.selectBlurbs();
+                                MN.unselectName();
+                            } else {
+                                abilityBlurb.unselectBlurbs();
+                                MN.selectName();
+                            }
+                        }
                     }
                 }
             }   
