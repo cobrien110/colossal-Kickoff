@@ -20,6 +20,9 @@ public class MultipleTargetCamera : MonoBehaviour
 
     public Camera mainCamera;
 
+    [SerializeField] private float screenShakeDuration = 1.0f;
+    public bool isShaking = false;
+
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
@@ -146,5 +149,22 @@ public class MultipleTargetCamera : MonoBehaviour
     public void RemoveTarget(Transform targetTransform)
     {
         targets.Remove(targetTransform);
+    }
+
+    public IEnumerator ScreenShake(float intensity)
+    {
+        float elapsedTime = 0.0f;
+        Vector3 startPosition = transform.position;
+
+        while (elapsedTime < screenShakeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            Vector3 random = Random.insideUnitSphere;
+            random = new Vector3(Mathf.Clamp(random.x, -0.05f, 0.05f), Mathf.Clamp(random.y, -0.05f, 0.05f), Mathf.Clamp(random.z, -0.05f, 0.05f));
+            transform.position = startPosition + random * intensity;
+            yield return null;
+        }
+
+        transform.position = startPosition;
     }
 }

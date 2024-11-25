@@ -74,6 +74,10 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public GameObject goreParticleObj;
     [SerializeField] public GameObject pinataParticleObj;
 
+    private bool shouldShake1 = true;
+    private bool shouldShake2 = true;
+    [SerializeField] private float shakeIntensity = 1.0f;
+
     //Mummy Curse
     [HideInInspector] public bool isCursed = false;
     [SerializeField] private GameObject Mummy = null;
@@ -115,8 +119,6 @@ public class WarriorController : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
         //UM.ShowPassMeter(true);
-        Debug.Log(maxChargeSeconds);
-        Debug.Log(maxChargeSeconds / 2);
     }
 
     // Temp Controller Scheme Swap
@@ -154,12 +156,25 @@ public class WarriorController : MonoBehaviour
             if (kickCharge >= maxChargeSeconds)
             {
                 BP.StartBallGlow(2);
+                if (shouldShake2)
+                {
+                    shouldShake2 = false;
+                    StartCoroutine(MTC.ScreenShake(shakeIntensity * 2));
+                }
             } else if (kickCharge > (maxChargeSeconds / 2) + 0.5f)
             {
                 BP.StartBallGlow(1);
+                if (shouldShake1)
+                {
+                    shouldShake1 = false;
+                    StartCoroutine(MTC.ScreenShake(shakeIntensity));
+                }
             } else
             {
                 BP.StopBallGlow();
+                MTC.isShaking = false;
+                shouldShake1 = true;
+                shouldShake2 = true;
             }
         }
         Respawn();
