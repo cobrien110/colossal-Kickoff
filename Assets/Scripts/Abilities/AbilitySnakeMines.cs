@@ -43,6 +43,15 @@ public class AbilitySnakeMines : AbilityScript
         }
     }
 
+    public void ExplodeSpecificBomb(SnakeBomb SB)
+    {
+        ASS.cutSegments.Remove(SB.gameObject);
+        SB.radius = radius;
+        SB.delay = delayBeforeExplosion;
+        SB.centerOffset = centerOffset;
+        SB.PrimeExplosion();
+    }
+
     private void OnDrawGizmos()
     {
         // Set the color of the gizmo

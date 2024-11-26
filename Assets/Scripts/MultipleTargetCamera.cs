@@ -151,6 +151,18 @@ public class MultipleTargetCamera : MonoBehaviour
         targets.Remove(targetTransform);
     }
 
+    public bool CheckTarget(Transform targetTransform)
+    {
+        for (int i = 0; i < targets.Count; i++)
+        {
+            if (targetTransform.Equals(targets[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public IEnumerator ScreenShake(float intensity)
     {
         float elapsedTime = 0.0f;

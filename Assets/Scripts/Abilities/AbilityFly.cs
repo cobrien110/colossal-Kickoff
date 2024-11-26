@@ -20,11 +20,13 @@ public class AbilityFly : AbilityScript
 
     public string activatedSoundName;
     public string slamSoundName;
+    private MultipleTargetCamera MTC;
 
     void Start()
     {
         Setup();
 
+        MTC = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MultipleTargetCamera>();
         sprite = MC.spriteObject;
         spritePositionY = sprite.transform.position.y;
         sY = spritePositionY + maxSpriteYOffset;
@@ -43,7 +45,7 @@ public class AbilityFly : AbilityScript
             MC.monsterSpeed = baseSpeed + speedBonus;
             activeDuration += Time.deltaTime;
             timerPaused = true;
-            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime);
+            
             if (activeDuration >= duration)
             {
                 isActive = false;
@@ -55,9 +57,21 @@ public class AbilityFly : AbilityScript
             MC.monsterSpeed = baseSpeed;
             timerPaused = false;
             activeDuration = 0;
-            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
+            
             //sprite.transform.SetPositionAndRotation(new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), sprite.transform.rotation);
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isActive)
+        {
+            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime);
+        } else
+        {
+            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
+        }
+        
     }
 
     public override void Activate()
@@ -69,6 +83,12 @@ public class AbilityFly : AbilityScript
             isActive = true;
             //sprite.transform.SetPositionAndRotation(new Vector3(sprite.transform.position.x, 10, sprite.transform.position.z), sprite.transform.rotation);
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(activatedSoundName), 0.95f);
+
+            if (MTC.CheckTarget(transform))
+            {
+                MTC.AddTarget(sprite.transform);
+                MTC.RemoveTarget(transform);
+            }
         }
     }
 
@@ -92,6 +112,25 @@ public class AbilityFly : AbilityScript
             }
         }
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(slamSoundName), 0.75f);
+
+        if (MTC.CheckTarget(sprite.transform))
+        {
+            MTC.AddTarget(transform);
+            MTC.RemoveTarget(sprite.transform);
+        }
+    }
+
+    public override void Deactivate()
+    {
+        activeDuration = 0;
+        isActive = false;
+        sprite.transform.position = new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z);
+
+        if (MTC.CheckTarget(sprite.transform))
+        {
+            MTC.AddTarget(transform);
+            MTC.RemoveTarget(sprite.transform);
+        }
     }
 
     // Method to deactivate the visualizer
@@ -108,5 +147,10 @@ public class AbilityFly : AbilityScript
 
         // Draw a wireframe sphere at the object's position with the radius of howlRadius
         Gizmos.DrawWireSphere(transform.position, slamRadius);
+    }
+
+    public float GetMaxHeight()
+    {
+        return maxSpriteYOffset;
     }
 }

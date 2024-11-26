@@ -20,6 +20,7 @@ public class SnakeBomb : MonoBehaviour
     public float delay = 0.05f;
     public Vector3 centerOffset = new Vector3(0f, -.25f, 0f);
     [HideInInspector] public bool isExploding = false;
+    private AbilitySnakeMines ASM;
     void Start()
     {
         RB = GetComponent<Rigidbody>();
@@ -28,6 +29,7 @@ public class SnakeBomb : MonoBehaviour
         timeOffset = Random.Range(0f, Mathf.PI * 2f);
         sprite = GetComponentInChildren<SpriteRenderer>().gameObject;
         transform.rotation = new Quaternion(0f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+        ASM = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilitySnakeMines>();
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class SnakeBomb : MonoBehaviour
             SnakeBomb snakeBomb = obj.GetComponent<SnakeBomb>();
             if (snakeBomb != null && !snakeBomb.isExploding)
             {
-                snakeBomb.PrimeExplosion();
+                ASM.ExplodeSpecificBomb(snakeBomb);
             }
         }
         

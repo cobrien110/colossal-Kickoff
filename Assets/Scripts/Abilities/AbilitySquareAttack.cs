@@ -71,8 +71,9 @@ public class AbilitySquareAttack : AbilityChargeable
                 {
                     Debug.Log("hitBomb");
                     AQP.counterAmount++;
-                    SnakeBomb AB = col.GetComponent<SnakeBomb>();
-                    AB.PrimeExplosion();
+                    SnakeBomb SB = col.GetComponent<SnakeBomb>();
+                    AbilitySnakeMines ASM = GetComponent<AbilitySnakeMines>();
+                    ASM.ExplodeSpecificBomb(SB);
                 }
                 DamagePlayer magmaPool = col.gameObject.GetComponent<DamagePlayer>();
                 if (magmaPool != null && canSpawnProjectile)
