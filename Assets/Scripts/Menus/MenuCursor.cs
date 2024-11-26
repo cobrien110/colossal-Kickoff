@@ -255,6 +255,10 @@ public class MenuCursor : MonoBehaviour
 
     public void deselect() {
             //cursorMove.Enable();
+            if (selectedHighlightingAbilities) {
+                selectedHighlightingAbilities = false;
+                monsterAbilityViewController.pageUpDown(false);
+            }
             if (hasSelected) {
                 playerMarkerIcons[playerSlot].changeSprite(0);
                 MC.characterUnselected(playerNumber, playerSlot);
@@ -292,10 +296,10 @@ public class MenuCursor : MonoBehaviour
         } else**/ if (MC.currentScreen == 2) { //CHARACTER SELECT
             if (hasSelected && action.started)
             {
-                //LEFT & RIGHT
                 float lrChangeDir = action.ReadValue<Vector2>().x;
-                //Debug.Log(lrChangeDir);
-                if (lrChangeDir > 0.2 || lrChangeDir < -0.2) {
+                float udChangeDir = action.ReadValue<Vector2>().y;
+
+                if (Mathf.Abs(lrChangeDir) > Mathf.Abs(udChangeDir)) {
                     if (selectedHighlightingAbilities) {
                         if (playerSlot == 0)
                         {
@@ -337,21 +341,18 @@ public class MenuCursor : MonoBehaviour
                     }
                 } else {
                     //UP & DOWN
-                    float udChangeDir = action.ReadValue<Vector2>().y;
                     //Debug.Log(udChangeDir);
-                    if (udChangeDir > 0.2 || udChangeDir < -0.2) {
                         if (playerSlot == 0) {
                             selectedHighlightingAbilities = !selectedHighlightingAbilities;
                             monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
-                            if (selectedHighlightingAbilities) {
+                            /**if (selectedHighlightingAbilities) {
                                 abilityBlurb.selectBlurbs();
                                 MN.unselectName();
                             } else {
                                 abilityBlurb.unselectBlurbs();
                                 MN.selectName();
-                            }
+                            }**/
                         }
-                    }
                 }
             }   
         }

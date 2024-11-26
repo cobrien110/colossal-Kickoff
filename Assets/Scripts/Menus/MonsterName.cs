@@ -15,6 +15,7 @@ public class MonsterName : MonoBehaviour
     private int numMonsters;
     void Start()
     {
+        selectName();
         numMonsters = monsterNames.Length;
         monsterIndex = 0;
     }
@@ -61,11 +62,11 @@ public class MonsterName : MonoBehaviour
     }
 
     public void unselectName() {
-        displayedName.color = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+        displayedName.color = new Color(0.6981132f, 0.6981132f, 0.6981132f, 1.0f);
     }
 
     public void selectName() {
-        displayedName.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+        displayedName.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
 }

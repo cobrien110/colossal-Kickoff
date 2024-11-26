@@ -583,6 +583,7 @@ RectTransform:
   - {fileID: 1400965410}
   - {fileID: 459076898}
   - {fileID: 776393815}
+  - {fileID: 379322869}
   - {fileID: 1828370526}
   - {fileID: 1418174371}
   - {fileID: 1606779413}
@@ -708,7 +709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 188.8, y: -116.7}
+  m_AnchoredPosition: {x: 188.8, y: -32.72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &299924528
@@ -1312,6 +1313,146 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365356382}
+  m_CullTransparentMesh: 1
+--- !u!1 &379322868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 379322869}
+  - component: {fileID: 379322871}
+  - component: {fileID: 379322870}
+  m_Layer: 5
+  m_Name: HumanControlsText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &379322869
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379322868}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 204206672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 209.4, y: -102.51}
+  m_SizeDelta: {x: 377.4, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &379322870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379322868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'LB: Slide to steal the ball!
+
+    Pass the ball to charge a Super Kick
+    that stuns the Monster!
+
+    RB: Use Super Kick. Can be used with a full or partially
+    filled meter.'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20.1
+  m_fontSizeBase: 20.1
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &379322871
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379322868}
   m_CullTransparentMesh: 1
 --- !u!1 &434046183
 GameObject:
@@ -5004,7 +5145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 103.1, y: -116.7}
+  m_AnchoredPosition: {x: 103.1, y: -32.72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1113919358
@@ -6373,7 +6514,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181.4, y: -104.2}
+  m_AnchoredPosition: {x: 181.4, y: -21.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1418174372
@@ -7197,7 +7338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 356.8, y: -104.2}
+  m_AnchoredPosition: {x: 356.8, y: -21.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1581766646
@@ -7579,7 +7720,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 267.7, y: -104.2}
+  m_AnchoredPosition: {x: 267.7, y: -21.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606779414
@@ -8169,7 +8310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 275.9, y: -116.7}
+  m_AnchoredPosition: {x: 275.9, y: -32.72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1737048501
@@ -9260,7 +9401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: -99.7}
+  m_AnchoredPosition: {x: 2, y: -92.82}
   m_SizeDelta: {x: 372.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1868987598
@@ -9283,8 +9424,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'MINOTAUR: Strike with brute force and confound foes with the Labyrinth''s
-    power!'
+  m_text: Strike with brute force and confound foes with the Labyrinth's power! A
+    jack-of-all-trades axe-wielding powerhouse who can become enraged in an instant.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9293,8 +9434,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4289901234
+  m_fontColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9311,11 +9452,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 14.6
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 13.4
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -9394,36 +9535,87 @@ MonoBehaviour:
   - {fileID: 1379474241}
   name: {fileID: 1828370529}
   monsterBlurbs:
-  - 'MINOTAUR: Strike with brute force and confound foes with the Labyrinth''s power!'
-  - 'AKHLUT: Dive beneath the earth and strike with piercing howls!'
-  - 'GASHADOKURO: Tower over the pitch and fill the field with fiery Soul Orbs!'
-  - 'QUETZALCOATL: Devour enemies to grow and strike with thunder clouds!'
-  - 'SPHINX: Grow an army of Mummy minions and curse the pitiful humans!'
+  - Strike with brute force and confound foes with the Labyrinth's power! A jack-of-all-trades
+    axe-wielding powerhouse who can become enraged in an instant.
+  - Dive beneath the earth and dominate with piercing howls! A speedy beast that
+    can freeze humans in their tracks with powerful stunning abilities.
+  - Tower over the pitch and slay warriors to fill the field with fiery Soul Orbs!
+    A towering skeletal spirit with two colossal hands that can push the ball or
+    be spent on abilities.
+  - Devour enemies to grow and strike with thunder clouds! Use your growing tail
+    to block movement, or devour it to turn its segments into powerful Storm Mines.
+  - Grow an army of Mummy minions and curse the pitiful humans! Command your two
+    servants to do your dirty work, and afflict warriors to join your army.
   minotaurAbilityBlurbs:
-  - Minotaur Ability 1 Blurb
-  - Minotaur Ability 2 Blurb
-  - Minotaur Ability 3 Blurb
-  - Minotaur Passive Blurb
+  - 'LT: Labyrinth Walls. Summon two pieces of the Labyrinth as barriers to impede
+    opponents and block shots. One piece will be placed in the direction you are
+    moving and another will be placed in front of the goal. Touching a wall will
+    destroy it and fire out shrapnel in the direction you are moving.'
+  - 'RT: Power Strike. Strike with your axe to dispatch opponents in a circle in
+    front of you. This ability can be held down to increase its radius. When fully
+    charged, you will fire out shrapnel. Attacking a lava pool will destroy it and
+    fire extra shrapnel.'
+  - 'LB: Bull Rush. After a brief delay, you will dash quickly in the direction you
+    are moving, killing any humans in your way and leaving behind pools of burning
+    lava. Kills with this ability refund the cooldown.'
+  - 'Passive: Molten Ichor. After Bullrushing into a barrier or getting stunned,
+    you will become temporarily enraged! While enraged, you are immune to stuns,
+    move faster, and spawn extra shrapnel on certain attacks.'
   akhlutAbilityBlurbs:
-  - Akhlut Ability 1 Blurb
-  - Akhlut Ability 2 Blurb
-  - Akhlut Ability 3 Blurb
-  - Akhlut Passive Blurb
+  - 'LT: Howl. After a delay, you will let out an earth-shaking roar, stunning nearby
+    opponents and stopping the momentum of the ball completely.'
+  - 'RT: Crunch. Strike with a fearsome bite to dispatch opponents in a circle in
+    front of you. This ability can be held down to increase its radius.'
+  - "LB: Dive. Dive into the ground and swim through it as if it was water, gaining
+    a large speed boost which diminishes over time. While active, you become intangible
+    and charge your Winter\u2019s Wrath passive ability."
+  - 'Passive: Winter''s Wrath. Charges while Diving. While active, emerging from
+    the ground will place a resonating crystal, which will duplicate the effects
+    of your next Howl at its location. Additionally, the radius of your Crunch increases
+    proportional to the level of charge.'
   gashaAbilityBlurbs:
-  - Gasha Ability 1 Blurb
-  - Gasha Ability 2 Blurb
-  - Gasha Ability 3 Blurb
-  - Gasha Passive Blurb
+  - 'LT: Spiritfire. Exhale a fiery breath in a horizontal line across the entire
+    arena. This breath kills humans and leaves lava piles behind. When enhanced,
+    the width of the attack increases and some Soul Orbs are spawned from your goal.'
+  - 'RT: Slam. Strike with one of your hands to dispatch opponents in an area in
+    front of you. Near-misses will stun humans. This ability can be held to delay
+    the attack. When enhanced, this ability will blast out Soul Orbs from the point
+    of contact.'
+  - 'LB: Shrine. Consume a hand to place a shrine, which generates Soul Orbs. Orbs
+    are drawn towards a random shine, and fired out at a high speed when they reach
+    it. When enhanced, summon a gate instead. Pass an orb through a gate to fire
+    it at the nearest human at high speed.'
+  - 'Passive: Soul Collector. Human deaths and some of your abilities will spawn
+    Soul Orbs. Orbs can be pushed by your Skeletal Hands, will damage players that
+    they hit, and can bounce off each other. Additionally, killing humans will fill
+    your gauge. When full, your next ability used will be enhanced.'
   quetzalAbilityBlurbs:
-  - Quetzal Ability 1 Blurb
-  - Quetzal Ability 2 Blurb
-  - Quetzal Ability 3 Blurb
-  - Quetzal Passive Blurb
+  - 'LT: Mine Burst. Explode all storm mines currently on the field, killing any
+    nearby opponents.'
+  - 'RT: Lightning Lash. Strike with a quick electric blast to dispatch any opponents
+    in a line in front of you. Hitting a storm mine with this attack will eat it
+    and cause a chain reaction to any nearby mines.'
+  - 'LB: Fly. Soar into the air, becoming intangible and gaining a speed boost. After
+    a delay, slam back down, crushing any humans beneath you.'
+  - 'Passive: Thunderheart. Eating rain clouds and storm mines will add charges to
+    this ability. Each charge increases your speed and the radius of your Fly ability.
+    Charges will be consumed after a goal is scored and you will start the next rally
+    with additional segments equal to the charges consumed.'
   sphinxAbilityBlurbs:
-  - Sphinx Ability 1 Blurb
-  - Sphinx Ability 2 Blurb
-  - Sphinx Ability 3 Blurb
-  - Sphinx Passive Blurb
+  - 'LT: Ghoulsplosion. A currently active mummy will be commanded to run aggressively
+    towards the current ball-carrier. Upon reaching the ball-carrier, the mummy will
+    explode, leaving a slowing aura and killing any nearby players. Any players killed
+    this way will become mummies.'
+  - 'RT: Swipe. Strike with a stoney claw attack to dispatch any nearby opponents
+    in a circle in front of you. This ability can be held down to increase its radius.'
+  - 'LB: Pharaoh''s Curse. Fire a slow moving projectile in front of you. If a human
+    is hit by this projectile they become cursed. A cursed player has their movement
+    controls reversed, will explode after a few seconds, and will create a mummy
+    when they die.'
+  - 'Passive: Sandstorm. When mummies are created, die, or have the ball stolen from
+    them, this ability will be charged. You will gain a slowing aura around you with
+    a radius proportional to the charge level of this ability. If humans stay in
+    this aura for too long, they will be cursed.'
   selectedHighlightingAbilities: 0
 --- !u!1 &1895982712
 GameObject:
