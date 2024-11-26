@@ -308,7 +308,8 @@ public class UIManager : MonoBehaviour
     public void Overtime()
     {
         timeRemainingSeconds = 60;
-        GM.Reset();
+        BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
+        BP.ResetBall();
     }
 
     public int GetTimeRemaining()

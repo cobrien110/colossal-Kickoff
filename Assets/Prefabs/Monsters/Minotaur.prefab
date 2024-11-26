@@ -139,6 +139,7 @@ MonoBehaviour:
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
+  monsterSpawner: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d232143869d6eb8448d7e51aecdef80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: NoName
+  abilityName: MoltenIchor
   hasCooldown: 0
   cooldown: 0
   counterMax: 0
@@ -694,6 +695,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
     m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
+    m_ActionName: Player/SuperKick
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

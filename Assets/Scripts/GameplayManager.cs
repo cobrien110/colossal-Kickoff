@@ -26,6 +26,7 @@ public class GameplayManager : MonoBehaviour
     public float passMeter = 0;
     public float passMeterMax = 1.0f;
     private int spawnCount = 0;
+    private Transform lastGoalScoredIn;
 
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
@@ -34,6 +35,7 @@ public class GameplayManager : MonoBehaviour
     void Start()
     {
         BallSpawner = GameObject.Find("BallSpawner");
+        Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         Time.timeScale = 1;
@@ -108,11 +110,11 @@ public class GameplayManager : MonoBehaviour
     public void StopPlaying()
     {
         isPlaying = false;
-        UM.StopTimer();
     }
 
     private IEnumerator Kickoff()
     {
+        yield return new WaitForSeconds(0.75f);
         StartCoroutine(UM.Countdown());
         yield return new WaitForSeconds(2.4f);
         StartPlaying();
@@ -122,13 +124,21 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
-        StopPlaying();
-        StartCoroutine(Kickoff());
+        //StopPlaying();
+        UM.StopTimer();
+        Invoke("FinalizeReset", 3f);
 
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn; 
+    }
+
+    private void FinalizeReset()
+    {
+        StopPlaying();
         GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
         Ball = newBall;
         BallProperties BP = Ball.GetComponent<BallProperties>();
-        
+        StartCoroutine(Kickoff());
         BP.isSuperKick = false;
         passMeter = 0;
         UM.UpdatePassMeter(passMeter);
@@ -142,7 +152,8 @@ public class GameplayManager : MonoBehaviour
                 MC.Ball = newBall;
                 MC.BP = BP;
                 MC.ResetPlayer();
-            } else
+            }
+            else
             {
                 WC = playerList[i].GetComponent<WarriorController>();
                 WC.Ball = newBall;
@@ -150,6 +161,11 @@ public class GameplayManager : MonoBehaviour
                 WC.ResetPlayer();
             }
         }
+
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.targets[0] = newBall.transform;
+        FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
+        FB.BP = Ball.GetComponent<BallProperties>();
 
         // These lines of code should delete any objects in the scene that have the DELETEAFTERDELAY script attatched
         DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
@@ -168,11 +184,6 @@ public class GameplayManager : MonoBehaviour
 
             }
         }
-
-        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        MTC.targets[0] = newBall.transform;
-        FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
-        FB.BP = Ball.GetComponent<BallProperties>();
     }
 
     //isPlaying getter and setter
@@ -184,6 +195,11 @@ public class GameplayManager : MonoBehaviour
     public void IsPlayingSet(bool set)
     {
         isPlaying = set;
+    }
+
+    public GameObject GetBall()
+    {
+        return Ball;
     }
 
     public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
@@ -313,5 +329,10 @@ public class GameplayManager : MonoBehaviour
         Time.timeScale = 1;
         Debug.Log("Back to Menu");
         SceneManager.LoadScene("MainMenus");
+    }
+
+    public void SetLastScoredGoal(Transform t)
+    {
+        lastGoalScoredIn = t;
     }
 }

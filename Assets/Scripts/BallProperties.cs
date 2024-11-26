@@ -41,6 +41,8 @@ public class BallProperties : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         SR = GetComponentInChildren<SpriteRenderer>();
+        if (SR != null) SR.enabled = true;
+        isInteractable = true;
 
         SoccerUVS = gameObject.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material;
         SoccerUVS.EnableKeyword("_EMISSION");
@@ -149,7 +151,7 @@ public class BallProperties : MonoBehaviour
             UM.MonsterPoint();
             ST.UpdateMGoals();
             UM.UpdateMonsterGoalsSB();
-            ScoreBall(true);
+            ScoreBall(true, other.transform);
 
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
             if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
@@ -183,49 +185,25 @@ public class BallProperties : MonoBehaviour
                 }
             }
             
-            ScoreBall(false);
+            ScoreBall(false, other.transform);
 
             AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
             if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
     }
 
-    private void ScoreBall(bool isWarriorGoal)
+    private void ScoreBall(bool isWarriorGoal, Transform t)
     {
-        /*Debug.Log(ballOwner);
-        Debug.Log(player);
-        
-        if (isWarriorGoal)
-        {
-            UM.MonsterPoint();
-            ST.UpdateMGoals();
-        } else
-        {
-            UM.WarriorPoint();
-
-            if (ballOwner.name.StartsWith('1'))
-            {
-                ST.UpdateWGoals(1);
-            }
-            if (ballOwner.name.StartsWith('2'))
-            {
-                ST.UpdateWGoals(2);
-            }
-            if (ballOwner.name.StartsWith('3'))
-            {
-                ST.UpdateWGoals(3);
-            }
-        }*/
-        
         if (CSM != null)
         {
             CSM.PlayGoalSound(!isWarriorGoal);
         }
         Debug.Log("RESET");
+        // Update the last scored ball for the delayed start
+        GM.SetLastScoredGoal(t);
         ResetBall();
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
-        
 
         // Reset mummies if applicable
         MonsterController mc = FindObjectOfType<MonsterController>();
@@ -239,11 +217,20 @@ public class BallProperties : MonoBehaviour
 
     public void ResetBall()
     {
+        Debug.Log("Reset ball has been called");
         ballOwner = null;
-        GM.Reset();
         isInteractable = false;
+        //SR = GetComponentInChildren<SpriteRenderer>();
         if (SR != null) SR.enabled = false;
-        Invoke("DestroyDelay", 1f);
+        Invoke("DestroyDelay", 3.05f);
+
+        //GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        GM.Reset();
+    }
+
+    public void ResetForOvertime()
+    {
+
     }
 
     private void OnCollisionEnter(Collision collision)
