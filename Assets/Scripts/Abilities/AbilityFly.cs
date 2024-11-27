@@ -21,12 +21,14 @@ public class AbilityFly : AbilityScript
     public string activatedSoundName;
     public string slamSoundName;
     private MultipleTargetCamera MTC;
+    private CapsuleCollider col;
 
     void Start()
     {
         Setup();
 
         MTC = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<MultipleTargetCamera>();
+        col = GetComponent<CapsuleCollider>();
         sprite = MC.spriteObject;
         spritePositionY = sprite.transform.position.y;
         sY = spritePositionY + maxSpriteYOffset;
@@ -66,10 +68,14 @@ public class AbilityFly : AbilityScript
     {
         if (isActive)
         {
-            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime);
+            sprite.transform.position = Vector3.Lerp(sprite.transform.position, 
+                new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime * 1.2f);
+            col.center = new Vector3(0, sprite.transform.position.y, 0);
         } else
         {
-            sprite.transform.position = Vector3.Lerp(sprite.transform.position, new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
+            sprite.transform.position = Vector3.Lerp(sprite.transform.position, 
+                new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
+            col.center = new Vector3(0, 0.5f, 0);
         }
         
     }

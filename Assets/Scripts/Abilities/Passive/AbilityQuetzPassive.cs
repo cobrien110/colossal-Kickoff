@@ -19,6 +19,7 @@ public class AbilityQuetzPassive : PassiveAbility
     public float timeBetweenSpawns = 10f;
     private int cloudCount = 0;
     public float yOffset = -1;
+    private AbilitySnakeSegments ASS;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class AbilityQuetzPassive : PassiveAbility
         Setup();
         baseSpeed = MC.monsterSpeed;
         AF = GetComponent<AbilityFly>();
+        ASS = GetComponent<AbilitySnakeSegments>();
         if (AF != null) baseRange = AF.slamRadius;
 
         //spawn initial clouds
@@ -63,5 +65,17 @@ public class AbilityQuetzPassive : PassiveAbility
     {
         SpawnCloud();
         Invoke("SpawnCloudRepeating", timeBetweenSpawns);
+    }
+
+    public void EatCloud()
+    {
+        counterAmount++;
+        ASS.AddSegment();
+        cloudCount--;
+    }
+
+    public override void Deactivate()
+    {
+        counterAmount = 0;
     }
 }

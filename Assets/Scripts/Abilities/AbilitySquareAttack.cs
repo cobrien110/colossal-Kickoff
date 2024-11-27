@@ -31,8 +31,10 @@ public class AbilitySquareAttack : AbilityChargeable
             //Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
 
             Vector3 direction = transform.forward;
-            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize);
-            Vector3 origin = new Vector3(transform.position.x + direction.x * attackRange, transform.position.y + direction.y + attackVisualOffsetY, transform.position.z + direction.z * attackRange);
+            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize + chargeAmount * chargeRate);
+            Vector3 origin = new Vector3(transform.position.x + direction.x * (attackRange + (chargeAmount * chargeRate)),
+            transform.position.y + direction.y + attackVisualOffsetY,
+            (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
             Collider[] colliders = Physics.OverlapBox(origin, size / 2, transform.rotation * Quaternion.Euler(0, 90, 0), affectedLayers);
 
             foreach (Collider col in colliders)
@@ -116,9 +118,20 @@ public class AbilitySquareAttack : AbilityChargeable
         if (attackVisualizer == null) return;
         //attackVisualizer.transform.localScale = new Vector3(attackBaseRadius * 2f + chargeAmount * chargeRate * 2f,
         //    0.05f, attackBaseRadius * 2f + chargeAmount * chargeRate * 2f);
+        /*
+        Vector3 size = new Vector3(1f, 0.05f, attackBaseSize + chargeAmount * chargeRate * 2f);
+        attackVisualizer.transform.localScale = size;
+        Vector3 direction = transform.forward * attackRange;
+        Vector3 origin = new Vector3(transform.position.x + (chargeAmount * chargeRate * direction.x),
+            attackVisualizer.transform.position.y,
+            transform.position.z  + (chargeAmount * chargeRate * direction.z));
+        attackVisualizer.transform.position = origin;
+        */
+        
         attackVisualizer.transform.localScale = new Vector3(1f, 0.05f, attackBaseSize + chargeAmount * chargeRate * 2f);
         Vector3 dir = transform.forward * attackRange;
         attackVisualizer.transform.position = new Vector3(transform.position.x, attackVisualizer.transform.position.y, transform.position.z) + dir;
+        
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             attackVisualizer.transform.localScale = Vector3.zero;
@@ -133,13 +146,15 @@ public class AbilitySquareAttack : AbilityChargeable
         //Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
         //Gizmos.DrawWireSphere(origin + direction * attackRange, attackBaseRadius + chargeAmount * chargeRate);
 
-        Vector3 origin = new Vector3(transform.position.x + direction.x * attackRange, transform.position.y + direction.y + attackVisualOffsetY, transform.position.z + direction.z * attackRange);
+        Vector3 origin = new Vector3(transform.position.x + direction.x * (attackRange + (chargeAmount * chargeRate)), 
+            transform.position.y + direction.y + attackVisualOffsetY,
+            (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
         Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
         Quaternion rot = transform.rotation * Quaternion.Euler(0, 90, 0);
 
         Mesh boxMesh = attackVisualizer.GetComponent<MeshFilter>().GetComponent<Mesh>();
         Gizmos.DrawWireMesh(M, 0, origin, rot, size);
-        Gizmos.DrawWireCube(origin, size);
+        //Gizmos.DrawWireCube(origin, size);
     }
 
     private void Start()

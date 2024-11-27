@@ -17,4 +17,15 @@ public class RainCloud : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other);
+        AbilityQuetzPassive AQP = other.gameObject.GetComponent<AbilityQuetzPassive>();
+        if (AQP != null)
+        {
+            AQP.EatCloud();
+            Destroy(gameObject);
+        }
+    }
 }
