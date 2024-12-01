@@ -26,6 +26,7 @@ public class MultipleTargetCamera : MonoBehaviour
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
+        shouldShake = (PlayerPrefs.GetInt("screenshake", 1) != 0);
     }
 
     private void FixedUpdate()

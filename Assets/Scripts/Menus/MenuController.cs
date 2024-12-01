@@ -34,6 +34,7 @@ public class MenuController : MonoBehaviour
     //MENU INTERFACES
     [SerializeField] private Slider effectsSlider, musicSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
+    [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
     private int numPlayersConfirmed = 0;
     private bool amIConfirmed = false;
@@ -139,6 +140,7 @@ public class MenuController : MonoBehaviour
                 goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
                 musicSlider.value = PlayerPrefs.GetInt("musicVolume", 100);
                 effectsSlider.value = PlayerPrefs.GetInt("effectsVolume", 100);
+                screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
                 break;
 
             //QUIT GAME
@@ -258,6 +260,15 @@ public class MenuController : MonoBehaviour
     public void setEffectsVolume() {
         PlayerPrefs.SetInt("effectsVolume", (int) effectsSlider.value);
     }
+
+    public void setScreenshake() {
+        if (screenshakeToggle.isOn) {
+            PlayerPrefs.SetInt("screenshake", 1);
+        } else {
+            PlayerPrefs.SetInt("screenshake", 0);
+        }
+    }
+
 
     public void selectStage(int stageID) {
         stageSelection = stageID;
