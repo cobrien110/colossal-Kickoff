@@ -26,6 +26,7 @@ public class BallProperties : MonoBehaviour
     [SerializeField] private float sceneLightIntensity = 1.0f;
     [SerializeField] private Color tier1Color = Color.yellow;
     [SerializeField] private Color tier2Color = Color.red;
+    [SerializeField] private Gradient colorGradient;
 
     public bool isInteractable = true;
 
@@ -48,6 +49,21 @@ public class BallProperties : MonoBehaviour
         SoccerUVS.EnableKeyword("_EMISSION");
         ChargeColorGO = gameObject.transform.GetChild(2).gameObject;
         SceneLight = GameObject.Find("Directional Light").GetComponent<Light>();
+
+        // Gradient Set Up
+        GradientColorKey[] colorKey = new GradientColorKey[2];
+        colorKey[0].color = tier1Color;
+        colorKey[0].time = 0.0f;
+        colorKey[1].color = tier2Color;
+        colorKey[1].time = 2.0f;
+
+        GradientAlphaKey[] alphaKey = new GradientAlphaKey[2];
+        alphaKey[0].alpha = 1.0f;
+        alphaKey[0].time = 0.0f;
+        alphaKey[1].alpha = 1.0f;
+        alphaKey[1].time = 1.0f;
+
+        colorGradient.SetKeys(colorKey, alphaKey);
 
         GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
         for (int i = 0; i < warriors.Length; i++)
@@ -269,20 +285,27 @@ public class BallProperties : MonoBehaviour
         RB.constraints = RigidbodyConstraints.FreezePositionY;
     }
 
-    public void StartBallGlow(int tier)
+    public void StartBallGlow(float tier)
     {
         ChargeColorGO.SetActive(true);
-        if (tier == 1)
-        {
-            SceneLight.intensity = sceneLightIntensity / 1.5f;
-            SoccerUVS.SetColor("_EmissionColor", tier1Color);
-            ChargeColorGO.GetComponent<Light>().color = tier1Color;
-        } else if (tier == 2)
-        {
-            SceneLight.intensity = sceneLightIntensity / 2f;
-            SoccerUVS.SetColor("_EmissionColor", tier2Color);
-            ChargeColorGO.GetComponent<Light>().color = tier2Color;
-        }
+
+        //if (tier == 1)
+        //{
+        //    SceneLight.intensity = sceneLightIntensity / 1.5f;
+        //    SoccerUVS.SetColor("_EmissionColor", tier1Color);
+        //    ChargeColorGO.GetComponent<Light>().color = tier1Color;
+        //} else if (tier == 2)
+        //{
+        //    SceneLight.intensity = sceneLightIntensity / 2f;
+        //    SoccerUVS.SetColor("_EmissionColor", tier2Color);
+        //    ChargeColorGO.GetComponent<Light>().color = tier2Color;
+        //}
+        float intensity = sceneLightIntensity - (tier / 4);
+        Debug.Log("Light Intensity: " + intensity);
+        SceneLight.intensity = intensity;
+        Color glowColor = colorGradient.Evaluate(tier / 2);
+        SoccerUVS.SetColor("_EmissionColor", glowColor);
+        ChargeColorGO.GetComponent<Light>().color = glowColor;
     }
 
     public void StopBallGlow()
