@@ -76,6 +76,10 @@ public class MonsterController : MonoBehaviour
     //public GameObject attackVisual;
     //private float attackVisualOffsetY = -0.3f;
 
+    private bool shouldShake1 = true;
+    private bool shouldShake2 = true;
+    [SerializeField] private float shakeIntensity = 1.0f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -188,6 +192,33 @@ public class MonsterController : MonoBehaviour
         {
             usingNewScheme = !usingNewScheme;
             invertControls = !invertControls;
+        }
+
+
+        if (kickCharge >= maxChargeSeconds)
+        {
+            BP.StartBallGlow(2);
+            if (shouldShake2)
+            {
+                shouldShake2 = false;
+                StartCoroutine(MTC.ScreenShake(shakeIntensity * 2));
+            }
+        }
+        else if (kickCharge > (maxChargeSeconds / 2) + 0.5f)
+        {
+            BP.StartBallGlow(1);
+            if (shouldShake1)
+            {
+                shouldShake1 = false;
+                StartCoroutine(MTC.ScreenShake(shakeIntensity));
+            }
+        }
+        else
+        {
+            BP.StopBallGlow();
+            //MTC.isShaking = false;
+            shouldShake1 = true;
+            shouldShake2 = true;
         }
 
     }
