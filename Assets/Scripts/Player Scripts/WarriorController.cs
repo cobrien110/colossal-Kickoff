@@ -153,23 +153,22 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
             }
 
-            if (BP.isSuperKick && kickCharge >= maxChargeSeconds)
+            if (BP.isSuperKick && isCharging)
             {
-                BP.StartBallGlow(2);
-                if (shouldShake2)
+                float glowAmount = kickCharge - 1.0f;
+                BP.StartBallGlow(glowAmount);
+                if (kickCharge >= maxChargeSeconds && shouldShake2)
                 {
                     shouldShake2 = false;
                     StartCoroutine(MTC.ScreenShake(shakeIntensity * 2));
                 }
-            } else if (BP.isSuperKick && kickCharge > (maxChargeSeconds / 2) + 0.5f)
-            {
-                BP.StartBallGlow(1);
-                if (shouldShake1)
+                else if (kickCharge > (maxChargeSeconds / 2) + 0.5f && shouldShake1)
                 {
                     shouldShake1 = false;
                     StartCoroutine(MTC.ScreenShake(shakeIntensity));
                 }
-            } else
+            }
+            else
             {
                 BP.StopBallGlow();
                 //MTC.isShaking = false;
