@@ -16705,6 +16705,14 @@ PrefabInstance:
       propertyPath: passMeter
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: automaticStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: automaticAISpawn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -16892,7 +16900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5143236640738009594, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
       propertyPath: passBonus
-      value: 25
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5143236640738009594, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
       propertyPath: ballSpawnPoint
