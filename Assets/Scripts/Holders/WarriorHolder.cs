@@ -26,10 +26,11 @@ public class WarriorHolder : MonoBehaviour
 
     }
 
-    public void spawnWarrior(int playerID, Gamepad gamepad)
+    public void spawnWarrior(int playerID, Gamepad gamepad, Color color)
     {
         //Debug.Log(warriorCount);
         warriorCount++;
+        warriorPrefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial.color = color;
         GM.AddPlayer(warriorPrefab, playerID, gamepad);
     }
 }

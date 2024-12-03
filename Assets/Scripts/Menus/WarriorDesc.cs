@@ -5,13 +5,13 @@ using TMPro;
 
 public class WarriorDesc : MonoBehaviour
 {
-    [SerializeField] private string[] colorNames;
+    [SerializeField] public string[] colorNames;
     [SerializeField] private TextMeshProUGUI displayedName;
     [SerializeField] private WarriorCharSelectOption visual;
     [SerializeField] private CharacterInfo charInfo;
     [SerializeField] private MenuController MC;
     [SerializeField] private int playerSlot;
-    private int warriorColorIndex;
+    public int warriorColorIndex;
     private int numColors;
     void Start()
     {

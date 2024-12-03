@@ -11,6 +11,8 @@ public class PlayerHolder : MonoBehaviour
     public int monsterIndex = 0;
     public Gamepad thisGamepad;
 
+    public Color warriorColor;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,7 +39,7 @@ public class PlayerHolder : MonoBehaviour
                 GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID, thisGamepad);
             } else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
 
             }
         }
@@ -77,7 +79,7 @@ public class PlayerHolder : MonoBehaviour
             }
             else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
 
             }
         }

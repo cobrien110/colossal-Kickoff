@@ -21942,6 +21942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513515332}
   - component: {fileID: 1513515331}
+  - component: {fileID: 1513515333}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -22026,6 +22027,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1513515333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513515330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &1514753945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33066,7 +33090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: automaticAISpawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -43470,6 +43494,10 @@ PrefabInstance:
       propertyPath: GM
       value: 
       objectReference: {fileID: 1542430857}
+    - target: {fileID: 8490141248097116781, guid: a4512d9c30ba0664f843ee8cbd8bd103, type: 3}
+      propertyPath: playerMaterial
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: 1479804e7a233354d9b36eb97d80665d, type: 3}
     - target: {fileID: 8696282078270759667, guid: a4512d9c30ba0664f843ee8cbd8bd103, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.621212

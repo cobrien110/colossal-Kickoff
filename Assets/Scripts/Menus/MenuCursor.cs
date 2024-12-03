@@ -14,6 +14,7 @@ public class MenuCursor : MonoBehaviour
     public int playerNumber = -1;
     public int playerSlot = -1;
     [SerializeField] private int menuSlot = -1;
+    [SerializeField] private int warriorColor = -1;
     [SerializeField] private MenuController MC = null;
     [SerializeField] private InputManager IM = null;
     //[SerializeField] private VolumeManager VM = null;
@@ -26,6 +27,7 @@ public class MenuCursor : MonoBehaviour
 
     [SerializeField] private PlayerHolder PH;
     [SerializeField] private GameObject[] playerHolders;
+    [SerializeField] private int colorIndex = -1;
 
     public InputAction cursorMove;
     public string hoveringItem = "null";
@@ -194,6 +196,23 @@ public class MenuCursor : MonoBehaviour
                     else if (!charConfirmed) {
                         charConfirmed = true;
                         MC.confirmCharacter(playerSlot);
+                        //Temp Color code
+                        colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
+                        switch (colorIndex)
+                        {
+                            case 0:
+                                PH.warriorColor = Color.red;
+                                break;
+                            case 1:
+                                PH.warriorColor = Color.green;
+                                break;
+                            case 2:
+                                PH.warriorColor = Color.blue;
+                                break;
+                            default:
+                                PH.warriorColor = Color.black;
+                                break;
+                        }
                     }
                 } else if (playerNumber == 1) {
                     MC.loadGameplay(MC.stageSelection);
