@@ -209,6 +209,12 @@ public class MenuCursor : MonoBehaviour
                             case 2:
                                 PH.warriorColor = Color.blue;
                                 break;
+                            case 3:
+                                PH.warriorColor = Color.yellow;
+                                break;
+                            case 4:
+                                PH.warriorColor = Color.magenta;
+                                break;
                             default:
                                 PH.warriorColor = Color.black;
                                 break;

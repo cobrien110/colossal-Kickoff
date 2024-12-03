@@ -9,6 +9,8 @@ public class WarriorHolder : MonoBehaviour
     [SerializeField] private GameplayManager GM;
     [SerializeField] private UIManager UM;
     private int warriorCount = 1;
+
+    public List<Color> warriorColors;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +32,15 @@ public class WarriorHolder : MonoBehaviour
     {
         //Debug.Log(warriorCount);
         warriorCount++;
-        warriorPrefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial.color = color;
+
+        //warriorPrefab.GetComponentInChildren<SpriteRenderer>().sharedMaterial.color = color;
+
+        //MaterialPropertyBlock MPB = new MaterialPropertyBlock();
+        //MPB.SetColor("_Color", color);
+        //warriorPrefab.GetComponentInChildren<SpriteRenderer>().SetPropertyBlock(MPB);
+
+        warriorColors.Add(color);
+
         GM.AddPlayer(warriorPrefab, playerID, gamepad);
     }
 }

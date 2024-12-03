@@ -31,6 +31,8 @@ public class GameplayManager : MonoBehaviour
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
 
+    public WarriorHolder WH = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -204,6 +206,7 @@ public class GameplayManager : MonoBehaviour
 
     public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
     {
+        WH = GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>();
         //playerInputs.Add(player);
         // MTC.AddTarget(player.transform);
 
@@ -233,8 +236,12 @@ public class GameplayManager : MonoBehaviour
             //UM.ShowPassMeter(true);
             //if (warriors.Length == 1)
             //{
-               
+
             //}
+
+            MaterialPropertyBlock MPB = new MaterialPropertyBlock();
+            MPB.SetColor("_Color", WH.warriorColors[warriors.Length - 1]);
+            player.GetComponentInChildren<SpriteRenderer>().SetPropertyBlock(MPB);
 
             try
             {
