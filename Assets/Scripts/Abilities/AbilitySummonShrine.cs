@@ -6,6 +6,8 @@ public class AbilitySummonShrine : AbilityScript
 {
     AbilityCreateHands abilityCreateHands; // Reference to the AbilityCreateHands script
 
+    public float yOffset = 0.5f;
+
     // Soul Shrine
     public float structure1Duration = 20f;
     public GameObject structure1;
@@ -51,10 +53,13 @@ public class AbilitySummonShrine : AbilityScript
         timer = 0;
         // 2. Create a structure
         // If passive is full, create a gate
+        Vector3 pos = chosenHand.transform.position;
+        pos.y += yOffset;
+
         if (AGP.counterAmount == AGP.counterMax)
         {
             Debug.Log("Summoning Gate");
-            GashaGate gate = Instantiate(structure2, chosenHand.transform.position, Quaternion.identity).GetComponentInChildren<GashaGate>();
+            GashaGate gate = Instantiate(structure2, pos, Quaternion.identity).GetComponentInChildren<GashaGate>();
             gate.launchSpeed = orbLaunchSpeed2;
             gate.duration = structure2Duration;
             AGP.counterAmount = 0;
@@ -63,7 +68,7 @@ public class AbilitySummonShrine : AbilityScript
         else
         {
             Debug.Log("Summoning Shrine");
-            GashaShrine shrine = Instantiate(structure1, chosenHand.transform.position, Quaternion.identity).GetComponent<GashaShrine>();
+            GashaShrine shrine = Instantiate(structure1, pos, Quaternion.identity).GetComponent<GashaShrine>();
             shrine.orbLaunchSpeed = orbLaunchSpeed;
             shrine.timeBetweenSpawns = timeBetweenSpawns;
             shrine.duration = structure1Duration;

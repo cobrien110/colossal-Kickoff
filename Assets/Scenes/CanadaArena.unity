@@ -10567,7 +10567,7 @@ PrefabInstance:
       objectReference: {fileID: 1542430857}
     - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: monsterIndex
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2488476523441867446, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: m_Name
@@ -11173,6 +11173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513515332}
   - component: {fileID: 1513515331}
+  - component: {fileID: 1513515333}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -11257,6 +11258,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1513515333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513515330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!114 &1542430857 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
@@ -11426,7 +11450,7 @@ Transform:
   m_GameObject: {fileID: 1890957023}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.15, y: 0.5, z: 0}
+  m_LocalPosition: {x: -8.15, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 5.5, z: 4.85}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11711,7 +11735,7 @@ Transform:
   m_GameObject: {fileID: 2003920059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.15, y: 0.5, z: 0}
+  m_LocalPosition: {x: 8.15, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 5.5, z: 4.85}
   m_ConstrainProportionsScale: 0
   m_Children:
