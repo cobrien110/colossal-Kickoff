@@ -5,9 +5,16 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     [SerializeField] GameplayManager GM = null;
+    public bool isLeft = false;
+    [SerializeField] private float speed = -15.0f;
     // Start is called before the first frame update
     void Start()
     {
+        if (isLeft)
+        {
+            transform.Rotate(0, 180, 0);
+            speed = speed * -1;
+        }
         StartCoroutine(DelayedDestroy());
 
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
@@ -16,7 +23,7 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position += new Vector3(15.0f, 0.0f, 0.0f) * Time.deltaTime;
+        gameObject.transform.position += new Vector3(speed, 0.0f, 0.0f) * Time.deltaTime;
 
         if (!GM.IsPlayingGet())
         {
