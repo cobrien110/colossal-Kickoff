@@ -14,6 +14,8 @@ public class WindHazard : MonoBehaviour
     [SerializeField] private float activeTime = 0.0f;
     [SerializeField] private float timeLimit = 5.0f;
 
+    [SerializeField] private GameObject wind;
+
     // Temp Code to indicate Wind Direction
     [SerializeField] private GameObject RightArrow;
     [SerializeField] private GameObject LeftArrow;
@@ -33,9 +35,8 @@ public class WindHazard : MonoBehaviour
             BallBody = Ball.GetComponent<Rigidbody>();
             spawnTimer = 0.0f;
             activeTime = 0.0f;
-            goingRight = !goingRight;
-            RightArrow.SetActive(false);
-            LeftArrow.SetActive(false);
+            randomizeWindDirection();
+            wind.SetActive(false);
         }
 
         if (GM.IsPlayingGet())
@@ -46,28 +47,37 @@ public class WindHazard : MonoBehaviour
                 activeTime += Time.deltaTime;
                 if (activeTime <= timeLimit)
                 {
+                    wind.SetActive(true);
                     if (goingRight)
                     {
-                        RightArrow.SetActive(true);
-                        LeftArrow.SetActive(false);
                         BallBody.AddForce(new Vector3(windForce, 0.0f, 0.0f));
                     }
                     else
                     {
-                        RightArrow.SetActive(false);
-                        LeftArrow.SetActive(true);
                         BallBody.AddForce(new Vector3(-windForce, 0.0f, 0.0f));
                     }
                 }
                 else
                 {
-                    goingRight = !goingRight;
+                    randomizeWindDirection();
+                    wind.SetActive(false);
                     activeTime = 0.0f;
                     spawnTimer = 0.0f;
-                    RightArrow.SetActive(false);
-                    LeftArrow.SetActive(false);
                 }
             }
+        }
+    }
+
+    void randomizeWindDirection()
+    {
+        goingRight = Random.Range(0, 2) == 0;
+
+        if(goingRight)
+        {
+            wind.transform.rotation = Quaternion.Euler(0, 0, 0);
+        } else
+        {
+            wind.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
     }
 }
