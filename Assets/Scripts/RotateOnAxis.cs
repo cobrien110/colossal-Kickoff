@@ -8,6 +8,7 @@ public class RotateOnAxis : MonoBehaviour
     public float rotationSpeed = 100f;
     private GameObject followObject = null;
     public bool disconnectFromParent = false;
+    private float startingY;
 
     void LateUpdate()
     {
@@ -20,6 +21,7 @@ public class RotateOnAxis : MonoBehaviour
         if (followObject != null && disconnectFromParent)
         {
             transform.position = followObject.transform.position;
+            transform.position = new Vector3(transform.position.x, startingY, transform.position.z);
         }
     }
 
@@ -29,6 +31,7 @@ public class RotateOnAxis : MonoBehaviour
         {
             followObject = transform.parent.gameObject;
             transform.parent = null;
+            startingY = transform.position.y;
         }
     }
 }
