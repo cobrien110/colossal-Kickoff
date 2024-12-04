@@ -6,12 +6,13 @@ public class SlowAura : MonoBehaviour
 {
     [SerializeField] private float slowAmount = 0.4f;
     [SerializeField] private float auraLifespan = 3f;
+    [SerializeField] private bool hasLifespan = true;
 
     private List<WarriorController> warriorsInside = new List<WarriorController>();
 
     void Start()
     {
-        StartCoroutine(StartDespawnTimer());
+        if (hasLifespan) StartCoroutine(StartDespawnTimer());
     }
 
     private void OnTriggerEnter(Collider other)

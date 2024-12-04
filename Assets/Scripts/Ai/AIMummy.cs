@@ -47,6 +47,7 @@ public class AIMummy : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private GameplayManager GM = null;
     public AudioPlayer audioPlayer;
+    private AbilitySphinxPassive ASP;
 
     private bool isPursuing = false;
 
@@ -67,6 +68,7 @@ public class AIMummy : MonoBehaviour
         audioPlayer.PlaySoundVolume(audioPlayer.Find("sphinxMummyGroan"), 0.75f);
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
         ANIM = GetComponentInChildren<Animator>();
+        ASP = mc.GetComponent<AbilitySphinxPassive>();
 
         //Debug.Log(": " + );
     }
@@ -471,6 +473,10 @@ public class AIMummy : MonoBehaviour
         {
             // Start the respawn coroutine from AiMummyManager
             aiMummyManager.StartCoroutine(aiMummyManager.TriggerDelayedRespawn());
+        }
+        if (ASP != null)
+        {
+            ASP.AddCounter();
         }
 
         // Destroy this mummy

@@ -1237,6 +1237,7 @@ GameObject:
   - component: {fileID: 5182124356325014640}
   - component: {fileID: 2135929633283431826}
   - component: {fileID: 6021416794832217543}
+  - component: {fileID: 5732833065991513799}
   - component: {fileID: 1368558541276869668}
   - component: {fileID: 3059677831159847511}
   - component: {fileID: -4918385606014247282}
@@ -1276,6 +1277,7 @@ Transform:
   - {fileID: 1485981143869719325}
   - {fileID: 6263361043106672380}
   - {fileID: 2415646273159450878}
+  - {fileID: 3043120784152702375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2135929633283431826
@@ -1335,10 +1337,12 @@ MonoBehaviour:
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
+  monsterSpawner: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 129
   spriteObject: {fileID: 2871052085933946400}
+  shakeIntensity: 1
 --- !u!114 &6021416794832217543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,6 +1358,32 @@ MonoBehaviour:
   mummyPrefab: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
   respawnDelay: 2
   startingMummyAmount: 2
+--- !u!114 &5732833065991513799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936589732318928993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5b5db11c785464aa14614f59635e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: Sandstorm
+  hasCooldown: 0
+  cooldown: 0
+  counterMax: 3
+  counterAmount: 0
+  visualizer: {fileID: 0}
+  MC: {fileID: 0}
+  audioPlayer: {fileID: 0}
+  ANIM: {fileID: 0}
+  UM: {fileID: 0}
+  auraObject: {fileID: 8369059525387553625}
+  auraPrefab: {fileID: 8369059525387553625}
+  sizePerStack: 2.5
+  timeBeforeCounterLoss: 6
 --- !u!114 &1368558541276869668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1863,6 +1893,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e0ec9db5-f865-4f9d-9007-8948999c036b
     m_ActionName: Cursor/Change[/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
+    m_ActionName: Player/SuperKick[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster
@@ -1966,3 +2000,108 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1001 &7699365777053121397
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5182124356325014640}
+    m_Modifications:
+    - target: {fileID: 2233076425796087852, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_Name
+      value: SlowAura
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204989635331707945, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: hasLifespan
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.040000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.221
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2222227869336844650, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2233076425796087852, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9116144430232113359}
+  m_SourcePrefab: {fileID: 100100000, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+--- !u!4 &3043120784152702375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4675565837917837010, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+  m_PrefabInstance: {fileID: 7699365777053121397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8369059525387553625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2233076425796087852, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
+  m_PrefabInstance: {fileID: 7699365777053121397}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9116144430232113359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369059525387553625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98588e43fcec7a44f9637b7aa0430690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100
+  disconnectFromParent: 1
