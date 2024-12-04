@@ -120,7 +120,7 @@ public class AIMummy : MonoBehaviour
         if (timer < mummyLifeSpan)
         {
             timer += Time.deltaTime;
-        } else
+        } else if (mc.BP.ballOwner != gameObject)
         {
             Die(true);
         }
