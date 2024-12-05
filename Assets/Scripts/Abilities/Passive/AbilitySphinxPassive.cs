@@ -41,6 +41,7 @@ public class AbilitySphinxPassive : PassiveAbility
     public void AddCounter()
     {
         counterAmount++;
+        if (counterAmount > counterMax) counterAmount = counterMax;
         timer = 0;
     }
 }
