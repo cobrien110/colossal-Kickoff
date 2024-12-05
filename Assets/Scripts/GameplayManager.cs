@@ -143,7 +143,6 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(Kickoff());
         BP.isSuperKick = false;
         passMeter = 0;
-        UM.UpdatePassMeter(passMeter);
         UM.UpdateWarriorContestBar(passMeter);
 
         for (int i = 0; i < playerList.Count; i++)

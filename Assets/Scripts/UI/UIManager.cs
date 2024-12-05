@@ -58,8 +58,8 @@ public class UIManager : MonoBehaviour
 
     //PassMeter
     //[SerializeField] private TMP_Text passMeterText = null;
-    [SerializeField] private GameObject passMeter = null;
-    [SerializeField] private Image passMeterFill = null;
+    /*[SerializeField] private GameObject passMeter = null;
+    [SerializeField] private Image passMeterFill = null;*/
 
     //ContestBar
     [SerializeField] private Image warriorContestFill = null;
@@ -79,6 +79,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image player2respawnfill = null;
     [SerializeField] private Image player3respawnfill = null;
 
+    [SerializeField] private Image monsterAbility1Icon = null;
+    [SerializeField] private Image monsterAbility2Icon = null;
+    [SerializeField] private Image monsterAbility3Icon = null;
+    [SerializeField] private TMP_Text monsterAbility1Text = null;
+    [SerializeField] private TMP_Text monsterAbility2Text = null;
+    [SerializeField] private TMP_Text monsterAbility3Text = null;
+
     //Player Prefs
     [SerializeField] private int playerPortraitsPref;
     [SerializeField] private GameObject playerPortraitsHolder = null;
@@ -96,6 +103,9 @@ public class UIManager : MonoBehaviour
      */
 
     Coroutine timerCoroutine;
+    /*Coroutine ability1TimerCoroutine;
+    Coroutine ability2TimerCoroutine;
+    Coroutine ability3TimerCoroutine;*/
     GameplayManager GM;
     StatTracker ST;
     //TMP_InputField console;
@@ -103,6 +113,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        monsterAbility1Icon.color = new Color32(70, 70, 70, 255);
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
@@ -294,6 +305,96 @@ public class UIManager : MonoBehaviour
         //GM.StopPlaying();
     }
 
+
+    //New Monster Ability UI
+    /*private IEnumerator AbilityTimer(int ability, int cooldown)
+    {
+        if (ability == 1)
+        {
+            monsterAbility1Text.text = "" + cooldown;
+            yield return new WaitForSeconds(1f);
+            cooldown--;
+        }
+        else if (ability == 2)
+        {
+            monsterAbility1Text.text = "" + cooldown;
+            yield return new WaitForSeconds(1f);
+            cooldown--;
+        }
+        else if (ability == 3)
+        {
+            monsterAbility1Text.text = "" + cooldown;
+            yield return new WaitForSeconds(1f);
+            cooldown--;
+        }
+    }*/
+
+    public void UpdateAbilityTimerText(int ability, float cooldown) 
+    {
+        if (ability == 1)
+        {
+            monsterAbility1Text.text = "" + Mathf.Ceil(cooldown);
+        }
+        else if (ability == 2)
+        {
+            monsterAbility2Text.text = "" + Mathf.Ceil(cooldown);
+        }
+        else if (ability == 3)
+        {
+            monsterAbility3Text.text = "" + Mathf.Ceil(cooldown);
+        }
+    }
+
+    /*public void StartAbilityTimer(int ability, int cooldown)
+    {
+        if (ability == 1) ability1TimerCoroutine = StartCoroutine(AbilityTimer(ability, cooldown));
+
+        else if (ability == 2) ability2TimerCoroutine = StartCoroutine(AbilityTimer(ability, cooldown));
+
+        else if (ability == 3) ability3TimerCoroutine = StartCoroutine(AbilityTimer(ability, cooldown));
+    }
+
+    public void StopAbilityTimer(int ability)
+    {
+        if (ability == 1) StopCoroutine(ability1TimerCoroutine);
+
+        else if (ability == 2) StopCoroutine(ability2TimerCoroutine);
+
+        else if (ability == 3) StopCoroutine(ability3TimerCoroutine);
+    }*/
+
+
+    public void ShowAbilityText(bool state, int ability)
+    {
+        if (ability == 1) monsterAbility1Text.gameObject.SetActive(state);
+
+        else if (ability == 2) monsterAbility2Text.gameObject.SetActive(state);
+
+        else if (ability == 3) monsterAbility3Text.gameObject.SetActive(state);
+    }
+
+    public void MonsterIconGreyout(bool state, int ability)
+    {
+        if (ability == 1)
+        {
+            if (state) monsterAbility1Icon.color = new Color(0.3f, 0.3f, 0.3f);
+            else monsterAbility1Icon.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+
+        else if (ability == 2)
+        {
+                if (state) monsterAbility2Icon.color = new Color(0.3f, 0.3f, 0.3f);
+                else monsterAbility2Icon.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+        else if (ability == 3)
+        {
+            if (state) monsterAbility3Icon.color = new Color(0.3f, 0.3f, 0.3f);
+            else monsterAbility3Icon.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+    }
+
+    //End New Monster Ability UI
+
     public void StartTimer()
     {
         Debug.Log("Should be started");
@@ -393,7 +494,7 @@ public class UIManager : MonoBehaviour
         chargeBarText.text = text;
     }
 
-    public void ShowPassMeter(bool state)
+    /*public void ShowPassMeter(bool state)
     {
         passMeter.gameObject.SetActive(state);
     }
@@ -401,7 +502,7 @@ public class UIManager : MonoBehaviour
     public void UpdatePassMeter(float passMeter)
     {
         passMeterFill.fillAmount = passMeter;
-    }
+    }*/
 
     public void ShowPlayerUI(bool state, int player)
     {

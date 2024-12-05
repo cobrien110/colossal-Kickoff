@@ -149,7 +149,6 @@ public class BallProperties : MonoBehaviour
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
             {
                 GM.passMeter += passBonus;
-                UM.UpdatePassMeter(GM.passMeter);
                 UM.UpdateWarriorContestBar(GM.passMeter);
             }
         }

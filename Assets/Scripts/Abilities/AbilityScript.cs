@@ -82,28 +82,47 @@ public abstract class AbilityScript : MonoBehaviour
     {
         switch (abilityNum) {
             case 0:
-                UM.UpdateMonsterAbility1Bar(1 - (timer / cooldown));
+                //UM.UpdateMonsterAbility1Bar(1 - (timer / cooldown));
+                
                 if (timer >= cooldown)
                 {
                     PAUI.UpdateDot1(true);
+                    UM.MonsterIconGreyout(false, 1);
+                    UM.ShowAbilityText(false, 1);
                 }
                 else
                 {
                     PAUI.UpdateDot1(false);
+                    UM.MonsterIconGreyout(true, 1);
+                    UM.UpdateAbilityTimerText(1, cooldown - timer);
+                    UM.ShowAbilityText(true, 1);
                 }
                 break;
             case 1:
-                UM.UpdateMonsterAbility2Bar(1 - (timer / cooldown));
+                //UM.UpdateMonsterAbility2Bar(1 - (timer / cooldown));
+                if(timer >= cooldown)
+                {
+                    UM.MonsterIconGreyout(false, 2);
+                }
+                else
+                {
+                    UM.MonsterIconGreyout(true, 2);
+                }
                 break;
             case 2:
-                UM.UpdateMonsterAbility3Bar(1 - (timer / cooldown));
+                //UM.UpdateMonsterAbility3Bar(1 - (timer / cooldown));
                 if (timer >= cooldown)
                 {
                     PAUI.UpdateDot2(true);
+                    UM.MonsterIconGreyout(false, 3);
+                    UM.ShowAbilityText(false, 3);
                 }
                 else
                 {
                     PAUI.UpdateDot2(false);
+                    UM.MonsterIconGreyout(true, 3);
+                    UM.UpdateAbilityTimerText(3, cooldown - timer);
+                    UM.ShowAbilityText(true, 3);
                 }
                 break;
             default:
