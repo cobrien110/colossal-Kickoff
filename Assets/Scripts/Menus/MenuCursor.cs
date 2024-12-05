@@ -197,27 +197,30 @@ public class MenuCursor : MonoBehaviour
                         charConfirmed = true;
                         MC.confirmCharacter(playerSlot);
                         //Temp Color code
-                        colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
-                        switch (colorIndex)
+                        if (playerSlot != 0)
                         {
-                            case 0:
-                                PH.warriorColor = Color.red;
-                                break;
-                            case 1:
-                                PH.warriorColor = Color.green;
-                                break;
-                            case 2:
-                                PH.warriorColor = Color.blue;
-                                break;
-                            case 3:
-                                PH.warriorColor = Color.yellow;
-                                break;
-                            case 4:
-                                PH.warriorColor = Color.magenta;
-                                break;
-                            default:
-                                PH.warriorColor = Color.black;
-                                break;
+                            colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
+                            switch (colorIndex)
+                            {
+                                case 0:
+                                    PH.warriorColor = Color.red;
+                                    break;
+                                case 1:
+                                    PH.warriorColor = Color.green;
+                                    break;
+                                case 2:
+                                    PH.warriorColor = Color.blue;
+                                    break;
+                                case 3:
+                                    PH.warriorColor = Color.yellow;
+                                    break;
+                                case 4:
+                                    PH.warriorColor = Color.magenta;
+                                    break;
+                                default:
+                                    PH.warriorColor = Color.black;
+                                    break;
+                            }
                         }
                     }
                 } else if (playerNumber == 1) {
