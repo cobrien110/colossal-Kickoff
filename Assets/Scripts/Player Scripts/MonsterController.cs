@@ -861,7 +861,7 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator RemoveNullAbilities()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.025f);
 
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
