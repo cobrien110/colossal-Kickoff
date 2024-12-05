@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BallProperties : MonoBehaviour
 {
@@ -32,6 +31,7 @@ public class BallProperties : MonoBehaviour
 
     CommentatorSoundManager CSM;
     private SpriteRenderer SR;
+    private Rigidbody RB;
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +74,7 @@ public class BallProperties : MonoBehaviour
             WC.BP = this;
         }
 
-        Rigidbody RB = GetComponent<Rigidbody>();
+        RB = GetComponent<Rigidbody>();
         RB.constraints = RigidbodyConstraints.None;
         Invoke("LockHeight", heightLockDelay);
 
@@ -156,54 +156,85 @@ public class BallProperties : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        GoalWithBarrier GWB = other.GetComponent<GoalWithBarrier>();
         if (other.tag.Equals("WarriorGoal") && isInteractable)
         {
-            // prevent goal if it would be an own goal while the ball is still being held
-            if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null) return;
+            if (GWB != null && GWB.canBeScoredIn) // attempt to score if goal has no barrier
+            {
+                // prevent goal if it would be an own goal while the ball is still being held
+                if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null) return;
 
-            if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
+                if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
 
-            UM.MonsterPoint();
-            ST.UpdateMGoals();
-            UM.UpdateMonsterGoalsSB();
-            ScoreBall(true, other.transform);
+                UM.MonsterPoint();
+                ST.UpdateMGoals();
+                UM.UpdateMonsterGoalsSB();
+                ScoreBall(true, other.transform);
 
-            AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
-            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
+                AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
+                if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
+            }
+            else if (GWB != null && !GWB.canBeScoredIn)
+            {
+                // prevent goal if it would be an own goal while the ball is still being held
+                if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null) return;
+                else if (ballOwner != null) GWB.TakeBallDamage(1000);
+
+                GWB.TakeBallDamage(RB.velocity.magnitude);
+                if (GWB.health > 0)
+                {
+                    GWB.RejectBall(RB);
+                }
+            }
         }
 
         if (other.tag.Equals("MonsterGoal") && isInteractable)
         {
-            // prevent goal if it would be an own goal while the ball is still being held
-            if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
-
-            if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
-
-            UM.WarriorPoint();
-
-            if (playerTest != null)
+            if (GWB != null && GWB.canBeScoredIn) // attempt to score if goal has no barrier
             {
-                if (playerTest.name.StartsWith('1'))
+                // prevent goal if it would be an own goal while the ball is still being held
+                if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
+
+                if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
+
+                UM.WarriorPoint();
+
+                if (playerTest != null)
                 {
-                    ST.UpdateWGoals(1);
-                    UM.UpdateWarriorGoalsSB(1);
+                    if (playerTest.name.StartsWith('1'))
+                    {
+                        ST.UpdateWGoals(1);
+                        UM.UpdateWarriorGoalsSB(1);
+                    }
+                    if (playerTest.name.StartsWith('2'))
+                    {
+                        ST.UpdateWGoals(2);
+                        UM.UpdateWarriorGoalsSB(2);
+                    }
+                    if (playerTest.name.StartsWith('3'))
+                    {
+                        ST.UpdateWGoals(3);
+                        UM.UpdateWarriorGoalsSB(3);
+                    }
                 }
-                if (playerTest.name.StartsWith('2'))
+
+                ScoreBall(false, other.transform);
+
+                AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
+                if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
+            } else if (GWB != null && !GWB.canBeScoredIn)
+            {
+                // prevent goal if it would be an own goal while the ball is still being held
+                if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
+                else if (ballOwner != null) GWB.TakeBallDamage(1000);
+
+                GWB.TakeBallDamage(RB.velocity.magnitude);
+                if (GWB.health > 0)
                 {
-                    ST.UpdateWGoals(2);
-                    UM.UpdateWarriorGoalsSB(2);
-                }
-                if (playerTest.name.StartsWith('3'))
-                {
-                    ST.UpdateWGoals(3);
-                    UM.UpdateWarriorGoalsSB(3);
+                    GWB.RejectBall(RB);
                 }
             }
             
-            ScoreBall(false, other.transform);
-
-            AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
-            if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
         }
     }
 
@@ -252,9 +283,8 @@ public class BallProperties : MonoBehaviour
     {
         if ((collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("InvisWall")) && ballOwner == null && isInteractable)
         {
-            if (audioPlayer == null) return;
             string bouncePick = Random.Range(1, 3).ToString();
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("bounce" + bouncePick));
+            if (audioPlayer != null) audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("bounce" + bouncePick));
         }
 
         if (collision.gameObject.tag.Equals("MinoWall") || collision.gameObject.tag.Equals("InvisWall"))
@@ -300,7 +330,7 @@ public class BallProperties : MonoBehaviour
         //    ChargeColorGO.GetComponent<Light>().color = tier2Color;
         //}
         float intensity = sceneLightIntensity - (tier / 4);
-        Debug.Log("Light Intensity: " + intensity);
+        //Debug.Log("Light Intensity: " + intensity);
         SceneLight.intensity = intensity;
         Color glowColor = colorGradient.Evaluate(tier / 2);
         SoccerUVS.SetColor("_EmissionColor", glowColor);
