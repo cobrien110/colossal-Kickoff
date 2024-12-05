@@ -58,6 +58,7 @@ public abstract class AbilityScript : MonoBehaviour
         }
         //Debug.Log(attackVisualizer);
         MC.abilities.Insert(abilityNum, this);
+        //UM.UpdateAbilityIcons();
     }
 
     private void Update()

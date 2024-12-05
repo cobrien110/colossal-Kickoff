@@ -99,8 +99,8 @@ public class MonsterController : MonoBehaviour
         spriteScale = spriteObject.transform.localScale;
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
-
         StartCoroutine(RemoveNullAbilities());
+
     }
 
     void Start()
@@ -785,13 +785,12 @@ public class MonsterController : MonoBehaviour
             || (isIntangible && !abilities[0].usableWhileIntangible) || !GM.isPlaying || GM.isPaused) return; // ensure no dashing or dash charging when you have ball
         if (abilities[0] is AbilityChargeable) // Ability Chargeable
         {
-            //is this supposed to be a 0 or 1 (it was a 1 before)
             AbilityChargeable ab = (AbilityChargeable)abilities[0];
             ab.CheckInputs(context);
         }
         else if (abilities[0] is AbilityDelayed) // Ability Delayed
         {
-            AbilityDelayed ab = (AbilityDelayed)abilities[1];
+            AbilityDelayed ab = (AbilityDelayed)abilities[0];
             ab.CheckInputs(context);
         }
         else // Regular Ability
@@ -836,7 +835,7 @@ public class MonsterController : MonoBehaviour
         }
         else if (abilities[2] is AbilityDelayed) // Ability Delayed
         {
-            AbilityDelayed ab = (AbilityDelayed)abilities[1];
+            AbilityDelayed ab = (AbilityDelayed)abilities[2];
             ab.CheckInputs(context);
         }
         else // Regular Ability
@@ -862,7 +861,7 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator RemoveNullAbilities()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.05f);
 
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
@@ -872,6 +871,7 @@ public class MonsterController : MonoBehaviour
                 abilities.RemoveAt(i);
             }
         }
+        UM.UpdateAbilityIcons();
     }
 
 }

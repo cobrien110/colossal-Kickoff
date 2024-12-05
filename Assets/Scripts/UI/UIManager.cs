@@ -113,7 +113,6 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        monsterAbility1Icon.color = new Color32(70, 70, 70, 255);
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
@@ -391,6 +390,13 @@ public class UIManager : MonoBehaviour
             if (state) monsterAbility3Icon.color = new Color(0.3f, 0.3f, 0.3f);
             else monsterAbility3Icon.color = new Color(1.0f, 1.0f, 1.0f);
         }
+    }
+
+    public void UpdateAbilityIcons()
+    {
+        monsterAbility1Icon.sprite = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>().abilities[0].icon;
+        monsterAbility2Icon.sprite = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>().abilities[1].icon;
+        monsterAbility3Icon.sprite = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>().abilities[2].icon;
     }
 
     //End New Monster Ability UI
