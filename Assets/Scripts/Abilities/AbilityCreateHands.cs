@@ -16,6 +16,7 @@ public class AbilityCreateHands : PassiveAbility
     private GashadokuroHand gashaHand1;
     private GashadokuroHand gashaHand2;
     public GameObject head;
+    public Animator headAnimator;
     public Vector3 headSpawnPosition;
 
     [HideInInspector] public bool hand1IsActive = true;
@@ -37,10 +38,6 @@ public class AbilityCreateHands : PassiveAbility
         // Instantiate the hands without parenting them to the monster
         hand1 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
         hand2 = Instantiate(handPrefab, new Vector3(100f, 0f, 100f), Quaternion.identity);
-        if (secondHandSprite != null)
-        {
-            hand1.GetComponentInChildren<SpriteRenderer>().sprite = secondHandSprite;
-        }
 
         hand1IsActive = false;
         hand2IsActive = false;
@@ -48,9 +45,13 @@ public class AbilityCreateHands : PassiveAbility
         hand2Timer = handSpawnTime / 2f;
 
         head = Instantiate(headPrefab, headSpawnPosition, Quaternion.identity);
+        headAnimator = head.GetComponent<Animator>();
 
         gashaHand1 = hand1.GetComponent<GashadokuroHand>();
         gashaHand2 = hand2.GetComponent<GashadokuroHand>();
+        //Apply correct animations
+        gashaHand1.ANIM.runtimeAnimatorController = gashaHand1.animType1;
+        gashaHand2.ANIM.runtimeAnimatorController = gashaHand2.animType2;
 
         abilityHandSlam = GetComponent<AbilityHandSlam>();
     }

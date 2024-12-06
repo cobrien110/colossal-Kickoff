@@ -103,8 +103,8 @@ Transform:
   m_GameObject: {fileID: 2871052085933946400}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.47, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.818, z: 0}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6603731138186733055}
@@ -151,7 +151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4fb8aa586a362534eaddfd5882ce640b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2ae84c459dd57748ab9c20842eda5d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -183,9 +183,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2871052085933946400}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dbe8456537e77a64cb280fa84efb7f17, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6e844a9cea9e505449b4ebee081ca11d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -851,7 +851,7 @@ Transform:
   m_GameObject: {fileID: 6245648677962512036}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0.6}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0.869}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1382,7 +1382,7 @@ MonoBehaviour:
   UM: {fileID: 0}
   auraObject: {fileID: 8369059525387553625}
   auraPrefab: {fileID: 8369059525387553625}
-  sizePerStack: 2.5
+  sizePerStack: 1.5
   timeBeforeCounterLoss: 6
 --- !u!114 &1368558541276869668
 MonoBehaviour:
@@ -1404,7 +1404,7 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: none
+  activatedAnimationName: SphinxCharge
   icon: {fileID: 21300000, guid: c31af7b89a5dac14c82290106c8922d2, type: 3}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: b91f29c1d0e6d4a46a89f1936b9c098d, type: 3}
   attackVisHolder: {fileID: 6263361043106672380}
-  activatedAnimationName: AkhlutHowl
+  activatedAnimationName: SphinxAttack
   icon: {fileID: 21300000, guid: 0c43a7aa41ce7c94fbe6ba777297dfed, type: 3}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
@@ -1485,7 +1485,7 @@ MonoBehaviour:
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 0}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: none
+  activatedAnimationName: SphinxCurse
   icon: {fileID: 21300000, guid: 8f35240139e451448ac86267d3a92eea, type: 3}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}

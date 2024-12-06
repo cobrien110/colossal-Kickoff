@@ -6,8 +6,9 @@ public class CarSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject carPrefab;
     [SerializeField] private GameplayManager GM;
-    [SerializeField] private float spawnTimer = 0;
-    [SerializeField] private float thisSpawnTime = 10;
+    private float spawnTimer = 0;
+    [SerializeField] private float spawnTime = 10;
+    [SerializeField] private float spawnTimeDeviation;
     [SerializeField] private float carOffset = 2.0f;
     [SerializeField] private int flashNumber = 3;
     [SerializeField] private float timeBetweenFlashes = .5f;
@@ -22,7 +23,13 @@ public class CarSpawner : MonoBehaviour
 
     void Start()
     {
+        Setup();
+    }
+
+    public void Setup()
+    {
         spawnTimer = 0;
+        spawnTime += Random.Range(-spawnTimeDeviation, spawnTimeDeviation);
     }
 
     // Update is called once per frame
@@ -33,7 +40,7 @@ public class CarSpawner : MonoBehaviour
             if (!onCooldown)
             {
                 spawnTimer += Time.deltaTime;
-                if (spawnTimer >= thisSpawnTime)
+                if (spawnTimer >= spawnTime)
                 {
                     bool spawnLeft = Random.Range(0, 2) == 0;
 
@@ -46,7 +53,7 @@ public class CarSpawner : MonoBehaviour
                     }
                     else
                     {
-                        carPosition = rightField.transform.position - new Vector3(0, 0, carOffset);
+                        carPosition = rightField.transform.position - new Vector3(0, 0, Random.Range(-carOffset, carOffset));
                         warningLight = rightWarning;
                     }
                     StartCoroutine(FlashWarningAndSpawn(warningLight, carPosition, spawnLeft));

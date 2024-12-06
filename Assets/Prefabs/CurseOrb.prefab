@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7379222074561286859}
   - component: {fileID: 8579440882156192774}
   - component: {fileID: 3138724554430710974}
+  - component: {fileID: 702355066275440973}
   m_Layer: 9
   m_Name: CurseOrb
   m_TagString: Untagged
@@ -165,6 +166,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 300
+--- !u!114 &702355066275440973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3912831470668395494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98588e43fcec7a44f9637b7aa0430690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 400
+  disconnectFromParent: 0
 --- !u!1001 &2628515556079858545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,7 +247,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9e23e8a4c74583f419310fe0cb5c7112, type: 2}
+      objectReference: {fileID: 2100000, guid: 79e3f7fb4721e04458e991a0e0328524, type: 2}
     - target: {fileID: 919132149155446097, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Name
       value: RockShrapnel (2)
@@ -314,7 +329,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9e23e8a4c74583f419310fe0cb5c7112, type: 2}
+      objectReference: {fileID: 2100000, guid: 79e3f7fb4721e04458e991a0e0328524, type: 2}
     - target: {fileID: 919132149155446097, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Name
       value: RockShrapnel (3)
@@ -396,7 +411,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 86bdbd04b5dda474a9152c66b91d2b1e, type: 2}
+      objectReference: {fileID: 2100000, guid: b631a61a8864b0640ad8bd80009af5f1, type: 2}
     - target: {fileID: 919132149155446097, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Name
       value: RockShrapnel (1)
@@ -478,7 +493,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 86bdbd04b5dda474a9152c66b91d2b1e, type: 2}
+      objectReference: {fileID: 2100000, guid: b631a61a8864b0640ad8bd80009af5f1, type: 2}
     - target: {fileID: 919132149155446097, guid: 695ccdd175d8b6b45a4e766f13d5efd9, type: 3}
       propertyPath: m_Name
       value: RockShrapnel

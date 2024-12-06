@@ -10,6 +10,9 @@ public class GashadokuroHand : MonoBehaviour
     private GameObject monster; // Reference to the MonsterController GameObject
     private Vector3 previousMonsterPosition; // To track previous position of the monster
     private bool isDetached = false;
+    public RuntimeAnimatorController animType1;
+    public RuntimeAnimatorController animType2;
+    public Animator ANIM;
 
     void Start()
     {
