@@ -522,6 +522,7 @@ MonoBehaviour:
   hand1: {fileID: 0}
   hand2: {fileID: 0}
   head: {fileID: 0}
+  headAnimator: {fileID: 0}
   headSpawnPosition: {x: -6.85, y: 3.55, z: 0}
   hand1IsActive: 1
   hand2IsActive: 1
@@ -568,13 +569,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Firebreath
   abilityNum: 0
-  cooldown: 5
+  cooldown: 10
   usableWhileIntangible: 0
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
   attackVisualizerPrefab: {fileID: 8730988836888390465, guid: 7211a9b8042dd394eb9678e5e9b5f67d, type: 3}
   attackVisHolder: {fileID: 0}
-  activatedAnimationName: none
+  activatedAnimationName: GashaFire
   icon: {fileID: 21300000, guid: 4ac07b9f383c86c429420c8f6f5eb92d, type: 3}
   MC: {fileID: 0}
   audioPlayer: {fileID: 0}
