@@ -52,9 +52,15 @@ public abstract class AbilityScript : MonoBehaviour
         timer = cooldown;
         if (attackVisualizerPrefab != null)
         {
-            attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
-            attackVisualizer.transform.SetParent(gameObject.transform);
-            attackVisualizer.transform.localPosition = Vector3.zero;
+            try
+            {
+                attackVisualizer = Instantiate(attackVisualizerPrefab, attackVisHolder);
+                attackVisualizer.transform.SetParent(gameObject.transform);
+                attackVisualizer.transform.localPosition = Vector3.zero;
+            } catch
+            {
+                Debug.LogWarning("Attack visual prefab spawner had issues spawning in prefab");
+            }
         }
         //Debug.Log(attackVisualizer);
         MC.abilities.Insert(abilityNum, this);
