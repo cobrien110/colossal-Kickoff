@@ -867,4 +867,9 @@ public class WarriorController : MonoBehaviour
     {
         isBomb = true;
     }
+
+    public void SetPlayerNum(int num)
+    {
+        this.playerNum = num;
+    }
 }

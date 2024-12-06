@@ -261,6 +261,7 @@ public class GameplayManager : MonoBehaviour
 
     public void SpawnAI()
     {
+        int playerNumberInput;
         for (int i = playerList.Count; i < 4; i++)
         {
             Debug.Log("SpawnAI Method Call Reference: " + i);
@@ -279,17 +280,21 @@ public class GameplayManager : MonoBehaviour
             } else
             {
                 GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
-                Debug.Log("WarriorAI_"+ (warriors.Length + 1));
-                WarriorAI.name = "WarriorAI_" + (warriors.Length + 1);
+                playerNumberInput = warriors.Length + 1;
+                Debug.Log("WarriorAI_"+ (playerNumberInput));
+                WarriorAI.name = "WarriorAI_" + (playerNumberInput);
                 Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
                 //WarriorAI = GameObject.Find("WarriorAI_" + (warriors.Length + 1) + "(Clone)");
                 WC = WarriorAI.GetComponent<WarriorController>();
+                Debug.Log("My Spawner:" + spawnCount);
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;
-                WC.SetColor(warriors.Length + 1);
-                WC.playerNum = warriors.Length + 1;
+                WC.SetColor(playerNumberInput);
+                WC.SetPlayerNum(playerNumberInput);
                 playerList.Add(WarriorAI);
-                Debug.Log("player added successfully");
+                Debug.Log("My Player Num:"+ WC.playerNum);             
+                Debug.Log("My Name" + WarriorAI.name);
+                Debug.Log("PLAYER ADDED");
                 //UM.ShowPlayerUI(true, i);
 
             }
