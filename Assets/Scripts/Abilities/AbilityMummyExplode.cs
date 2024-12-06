@@ -20,7 +20,6 @@ public class AbilityMummyExplode : AbilityScript
             // Debug.Log("Not off cooldown - can't activate Mummy Explode");
             return; // Ability not off cooldown
         }
-        timer = 0;
 
         // Ensure there are mummies in scene
         AIMummy[] mummies = FindObjectsOfType<AIMummy>();
@@ -37,6 +36,7 @@ public class AbilityMummyExplode : AbilityScript
             return; // Ball owner is not a warrior
         }
 
+        timer = 0;
         // Find nearest mummy to warrior ball owner
 
         AIMummy nearestMummy = null;
@@ -58,6 +58,7 @@ public class AbilityMummyExplode : AbilityScript
 
         // Play sound
         audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
+        ANIM.Play(activatedAnimationName);
     }
 
     // Start is called before the first frame update
