@@ -24,8 +24,11 @@ public class AbilityFirebreath : AbilityScript
     [SerializeField] private float hitBallPower = 5f;
     [SerializeField] private float hitOrbPower = 5f;
     private AbilityGashaPassive AGP;
+    private AbilityCreateHands ACH;
     [SerializeField] private GameObject orb;
     [SerializeField] private int spawnOrbQty = 3;
+
+    
 
     public void Start()
     {
@@ -34,6 +37,7 @@ public class AbilityFirebreath : AbilityScript
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
         attackVisualizer.transform.parent = null;
         AGP = GetComponent<AbilityGashaPassive>();
+        ACH = GetComponent<AbilityCreateHands>();
     }
 
     public void Update()
@@ -62,6 +66,9 @@ public class AbilityFirebreath : AbilityScript
 
         // Start the coroutine for the fire breath attack
         StartCoroutine(FireBreathCoroutine());
+
+        // play animation
+        ACH.headAnimator.Play(activatedAnimationName);
 
         /*if (!isFiring && timer >= cooldown)
         {
