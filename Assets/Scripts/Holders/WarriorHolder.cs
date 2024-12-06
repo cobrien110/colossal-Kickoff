@@ -17,7 +17,7 @@ public class WarriorHolder : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         for (int i = 1; i < warriorCount; i++)
         {
-            UM.ShowPlayerUI(true, i);
+            //UM.ShowPlayerUI(true, i);
         }
     }
 
