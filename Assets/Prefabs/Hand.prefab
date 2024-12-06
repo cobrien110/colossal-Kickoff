@@ -433,6 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1421270219221338005}
   - component: {fileID: 7013026708081056504}
+  - component: {fileID: 5086755408192488962}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -508,6 +509,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5086755408192488962
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929351322037051158}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6449df32ce6e23344a94c602d45e7f4f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3424974181934809088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,6 +1291,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BP: {fileID: 0}
+  animType1: {fileID: 9100000, guid: 8b4bfcc7099b43e4888dcbe2aaea3c67, type: 2}
+  animType2: {fileID: 9100000, guid: 6449df32ce6e23344a94c602d45e7f4f, type: 2}
+  ANIM: {fileID: 5086755408192488962}
 --- !u!136 &8783505982665058509
 CapsuleCollider:
   m_ObjectHideFlags: 0
