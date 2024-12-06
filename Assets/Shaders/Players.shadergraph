@@ -46,9 +46,6 @@
             "m_Id": "8db77a2d4ad84553b1b64183d44b6b0a"
         },
         {
-            "m_Id": "5893e1e0efa14a8594bd643b1470ee41"
-        },
-        {
             "m_Id": "9046ec00509a49deb92372ca99e252bc"
         },
         {
@@ -391,9 +388,6 @@
             },
             {
                 "m_Id": "8db77a2d4ad84553b1b64183d44b6b0a"
-            },
-            {
-                "m_Id": "5893e1e0efa14a8594bd643b1470ee41"
             }
         ]
     },
@@ -405,7 +399,7 @@
         "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_GraphPrecision": 1,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -525,10 +519,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -491.1999816894531,
-            "y": 316.0,
+            "x": -382.0,
+            "y": 335.0,
             "width": 208.0,
-            "height": 432.00006103515627
+            "height": 435.0
         }
     },
     "m_Slots": [
@@ -568,7 +562,7 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0,
+    "m_NormalMapSpace": 1,
     "m_EnableGlobalMipBias": true,
     "m_MipSamplingMode": 0
 }
@@ -978,21 +972,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "443a3d2064384424abcaa4c1b5e4bc1b",
-    "m_Id": 0,
-    "m_DisplayName": "Alpha Clip Threshold",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "AlphaClipThreshold",
-    "m_StageCapability": 2,
-    "m_Value": 0.5,
-    "m_DefaultValue": 0.5,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "499239e5c77c40e0a76cb5bb19493dfe",
     "m_Group": {
@@ -1121,40 +1100,6 @@
         "b": 0.0,
         "a": 0.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "5893e1e0efa14a8594bd643b1470ee41",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.AlphaClipThreshold",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "443a3d2064384424abcaa4c1b5e4bc1b"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.AlphaClipThreshold"
 }
 
 {
@@ -1635,6 +1580,12 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
+    "m_ObjectId": "7cde7184e9dc4bbaaee3476b6a6a620b"
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "7f1d556e75644648b086e79dde339077",
     "m_Id": 0,
@@ -1750,7 +1701,7 @@
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",
     "m_DismissedVersion": 0,
-    "m_Precision": 0,
+    "m_Precision": 1,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 2,
     "m_Hidden": false,
@@ -2391,12 +2342,6 @@
 }
 
 {
-    "m_SGVersion": 2,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
-    "m_ObjectId": "c434dd1f73ed42d7b64aad79de072a36"
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "c4f578010e1a44589e30696a29fa22f7",
@@ -2545,7 +2490,7 @@
     "m_ObjectId": "d03b6bb14ca24fcbb4f4e88bb15e90bf",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "c434dd1f73ed42d7b64aad79de072a36"
+        "m_Id": "7cde7184e9dc4bbaaee3476b6a6a620b"
     },
     "m_AllowMaterialOverride": true,
     "m_SurfaceType": 1,
@@ -2850,7 +2795,7 @@
         }
     ],
     "synonyms": [],
-    "m_Precision": 0,
+    "m_Precision": 1,
     "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
