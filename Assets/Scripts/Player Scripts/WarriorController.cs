@@ -70,7 +70,7 @@ public class WarriorController : MonoBehaviour
     //public SpriteRenderer playerRend;
     //public Color curseColor;
     private CommentatorSoundManager CSM;
-    public int playerNum = 1;
+    public int playerNum;
     [SerializeField] public GameObject goreParticleObj;
     [SerializeField] public GameObject pinataParticleObj;
 
@@ -117,7 +117,7 @@ public class WarriorController : MonoBehaviour
     void Start()
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
+        //UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
         //UM.ShowPassMeter(true);
     }
 
@@ -538,7 +538,14 @@ public class WarriorController : MonoBehaviour
         if (respawnTimer < respawnTime && isDead)
         {
             respawnTimer += Time.deltaTime;
-            UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
+            if (respawnTimer >= respawnTime)
+            {
+                UM.PlayerIconGreyout(false, playerNum);
+            }
+
+            //UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
+
+
         } else if (isDead)
         {
             isDead = false;
@@ -580,19 +587,23 @@ public class WarriorController : MonoBehaviour
 
         Debug.Log("PLAYER THAT DIED: (" + this + ")");
         //ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
+        
 
-        if (this.name.StartsWith('1'))
+        if (playerNum == 1)
         {
+            UM.PlayerIconGreyout(true, 1);
             ST.UpdateWDeaths(1);
             UM.UpdateWarriorDeathsSB(1);
         }
-        if (this.name.StartsWith('2'))
+        if (playerNum == 2)
         {
+            UM.PlayerIconGreyout(true, 2);
             ST.UpdateWDeaths(2);
             UM.UpdateWarriorDeathsSB(2);
         }
-        if (this.name.StartsWith('3'))
+        if (playerNum == 3)
         {
+            UM.PlayerIconGreyout(true, 3);
             ST.UpdateWDeaths(3);
             UM.UpdateWarriorDeathsSB(3);
         }

@@ -72,12 +72,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image monsterAbility2Bar = null;
     [SerializeField] private Image monsterAbility3Bar = null;
 
-    [SerializeField] private GameObject player1UI = null;
-    [SerializeField] private GameObject player2UI = null;
-    [SerializeField] private GameObject player3UI = null;
-    [SerializeField] private Image player1respawnfill = null;
-    [SerializeField] private Image player2respawnfill = null;
-    [SerializeField] private Image player3respawnfill = null;
+    [SerializeField] private Image player1Icon = null;
+    [SerializeField] private Image player2Icon = null;
+    [SerializeField] private Image player3Icon = null;
+    [SerializeField] private Image player1Alive = null;
+    [SerializeField] private Image player2Alive = null;
+    [SerializeField] private Image player3Alive = null;
+    [SerializeField] private Image player1Dead = null;
+    [SerializeField] private Image player2Dead = null;
+    [SerializeField] private Image player3Dead = null;
+    //I might change how this looks to just change the image component and color instead of having different objects (I will at some point)
 
     [SerializeField] private Image monsterAbility1Icon = null;
     [SerializeField] private Image monsterAbility2Icon = null;
@@ -516,32 +520,60 @@ public class UIManager : MonoBehaviour
         if (player == 1)
         {
             Debug.Log("Calling UI player 1");
-            player1UI.gameObject.SetActive(state);
+            player1Icon.gameObject.SetActive(state);
         }
         else if (player == 2)
         {
             Debug.Log("Calling UI player 2");
-            player2UI.gameObject.SetActive(state);
+            player2Icon.gameObject.SetActive(state);
         }
         else if (player == 3)
         {
-            player3UI.gameObject.SetActive(state);
+            player3Icon.gameObject.SetActive(state);
         }
     }
 
-    public void UpdatePlayerRespawnBar(float charge, int player)
+    public void PlayerIconGreyout(bool state, int player)
     {
         if (player == 1)
         {
-            player1respawnfill.fillAmount = charge;
+            if (state)
+            {
+                player1Alive.gameObject.SetActive(false);
+                player1Dead.gameObject.SetActive(true);
+            }
+            else
+            {
+                player1Alive.gameObject.SetActive(true);
+                player1Dead.gameObject.SetActive(false);
+            }
         }
+
         else if (player == 2)
         {
-            player2respawnfill.fillAmount = charge;
+            if (state)
+            {
+                player2Alive.gameObject.SetActive(false);
+                player2Dead.gameObject.SetActive(true);
+            }
+            else
+            {
+                player2Alive.gameObject.SetActive(true);
+                player2Dead.gameObject.SetActive(false);
+            }
         }
         else if (player == 3)
         {
-            player3respawnfill.fillAmount = charge;
+            if (state)
+            {
+                player3Alive.gameObject.SetActive(false);
+                player3Dead.gameObject.SetActive(true);
+            }
+            else
+            {
+                player3Alive.gameObject.SetActive(true);
+                player3Dead.gameObject.SetActive(false);
+            }
         }
     }
 
