@@ -339,7 +339,7 @@ public class BallProperties : MonoBehaviour
 
     public void StopBallGlow()
     {
-        ChargeColorGO.SetActive(false);
+        if (ChargeColorGO != null) ChargeColorGO.SetActive(false);
         SceneLight.intensity = 1.0f;
         SoccerUVS.SetColor("_EmissionColor", Color.black);
     }

@@ -88,7 +88,7 @@ public class WarriorController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
@@ -112,13 +112,6 @@ public class WarriorController : MonoBehaviour
             
         }
         transform.position = WarriorSpawner.transform.position;
-    }
-
-    void Start()
-    {
-        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        //UM.ShowPlayerUI(true, GameObject.FindGameObjectsWithTag("Warrior").Length);
-        //UM.ShowPassMeter(true);
     }
 
     // Temp Controller Scheme Swap
@@ -519,7 +512,9 @@ public class WarriorController : MonoBehaviour
 
     public void ResetPlayer()
     {
+        //Debug.Log(WarriorSpawner);
         gameObject.transform.position = WarriorSpawner.transform.position;
+        rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
         health = healthMax;
         isStunned = false;
