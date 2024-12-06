@@ -145,7 +145,7 @@ public class GameplayManager : MonoBehaviour
         BP.isSuperKick = false;
         passMeter = 0;
         UM.UpdateWarriorContestBar(passMeter);
-
+        Debug.Log(playerList);
         for (int i = 0; i < playerList.Count; i++)
         {
             if (playerList[i].tag.Equals("Monster"))
@@ -270,12 +270,12 @@ public class GameplayManager : MonoBehaviour
             {
                 MonsterAI.name = "MonsterAI";
                 Debug.Log(i);
-                Instantiate(MonsterAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+                GameObject newMon = Instantiate(MonsterAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
                 //MonsterAI = GameObject.Find("MonsterAI(Clone)");
                 MC = MonsterAI.GetComponent<MonsterController>();
                 MC.monsterSpawner = GameObject.Find("MonsterSpawner");
                 MC.transform.position = MC.monsterSpawner.transform.position;
-                playerList.Add(MonsterAI);
+                playerList.Add(newMon);
                 UM.ShowMonsterUI(true);
             } else
             {
@@ -283,7 +283,7 @@ public class GameplayManager : MonoBehaviour
                 playerNumberInput = warriors.Length + 1;
                 Debug.Log("WarriorAI_"+ (playerNumberInput));
                 WarriorAI.name = "WarriorAI_" + (playerNumberInput);
-                Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
+                GameObject newWar = Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
                 //WarriorAI = GameObject.Find("WarriorAI_" + (warriors.Length + 1) + "(Clone)");
                 WC = WarriorAI.GetComponent<WarriorController>();
                 Debug.Log("My Spawner:" + spawnCount);
@@ -291,7 +291,7 @@ public class GameplayManager : MonoBehaviour
                 WC.transform.position = WC.WarriorSpawner.transform.position;
                 WC.SetColor(playerNumberInput);
                 WC.SetPlayerNum(playerNumberInput);
-                playerList.Add(WarriorAI);
+                playerList.Add(newWar);
                 Debug.Log("My Player Num:"+ WC.playerNum);             
                 Debug.Log("My Name" + WarriorAI.name);
                 Debug.Log("PLAYER ADDED");
