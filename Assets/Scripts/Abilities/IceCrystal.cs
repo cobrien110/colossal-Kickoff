@@ -19,7 +19,7 @@ public class IceCrystal : MonoBehaviour
 
     public void Echo()
     {
-        DAD.NewTimer(1.5f);
+        DAD.NewTimer(1f);
         attackVisualizer.SetActive(true);
         attackVisualizer.transform.localScale *= radius;
 

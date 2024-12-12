@@ -30,4 +30,9 @@ public class AbilityGashaPassive : PassiveAbility
         SoulOrb SO = Instantiate(soulOrbPrefab, pos, Quaternion.identity).GetComponent<SoulOrb>();
         SO.Launch(orbSpawnLaunchSpeed * SO.GetRandomLaunchForce());
     }
+
+    private void Update()
+    {
+        UpdateChargeBar();
+    }
 }

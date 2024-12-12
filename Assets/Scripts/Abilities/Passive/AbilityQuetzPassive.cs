@@ -52,6 +52,8 @@ public class AbilityQuetzPassive : PassiveAbility
         {
             SpawnCloud();
         }
+
+        UpdateChargeBar();
     }
 
     void SpawnCloud()
