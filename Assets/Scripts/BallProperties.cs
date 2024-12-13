@@ -33,6 +33,8 @@ public class BallProperties : MonoBehaviour
     private SpriteRenderer SR;
     private Rigidbody RB;
 
+    [SerializeField] private float maxSpeed = 15f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,9 +86,16 @@ public class BallProperties : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        // Check if the object's velocity exceeds the maximum speed
+        if (RB != null && RB.velocity.magnitude > maxSpeed)
+        {
+            Debug.Log("Ball reached max speed. Capping its speed.");
+
+            // Cap the velocity to the maximum speed, preserving direction
+            RB.velocity = RB.velocity.normalized * maxSpeed;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
