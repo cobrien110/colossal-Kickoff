@@ -116,27 +116,26 @@ public class AbilitySquareAttack : AbilityChargeable
     public override void ResizeAttackVisual()
     {
         if (attackVisualizer == null) return;
-        //attackVisualizer.transform.localScale = new Vector3(attackBaseRadius * 2f + chargeAmount * chargeRate * 2f,
-        //    0.05f, attackBaseRadius * 2f + chargeAmount * chargeRate * 2f);
-        /*
-        Vector3 size = new Vector3(1f, 0.05f, attackBaseSize + chargeAmount * chargeRate * 2f);
-        attackVisualizer.transform.localScale = size;
-        Vector3 direction = transform.forward * attackRange;
-        Vector3 origin = new Vector3(transform.position.x + (chargeAmount * chargeRate * direction.x),
-            attackVisualizer.transform.position.y,
-            transform.position.z  + (chargeAmount * chargeRate * direction.z));
+
+        // Calculate the new size of the visual
+        float newLength = attackBaseSize + chargeAmount * chargeRate * 2f;
+        attackVisualizer.transform.localScale = new Vector3(1f, 0.05f, newLength);
+
+        //Vector3 dir = transform.forward * attackRange;
+        Vector3 direction = transform.forward;
+        Vector3 origin = new Vector3(transform.position.x + direction.x * (attackRange + (chargeAmount * chargeRate)),
+            transform.position.y + direction.y + attackVisualOffsetY,
+            (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
         attackVisualizer.transform.position = origin;
-        */
-        
-        attackVisualizer.transform.localScale = new Vector3(1f, 0.05f, attackBaseSize + chargeAmount * chargeRate * 2f);
-        Vector3 dir = transform.forward * attackRange;
-        attackVisualizer.transform.position = new Vector3(transform.position.x, attackVisualizer.transform.position.y, transform.position.z) + dir;
-        
+
+        // Hide the visual if the monster owns the ball
         if (BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
             attackVisualizer.transform.localScale = Vector3.zero;
         }
     }
+
+
 
     private void OnDrawGizmos()
     {
