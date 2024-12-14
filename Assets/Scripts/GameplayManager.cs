@@ -275,7 +275,7 @@ public class GameplayManager : MonoBehaviour
                 MC = MonsterAI.GetComponent<MonsterController>();
                 MC.monsterSpawner = GameObject.Find("MonsterSpawner");
                 MC.transform.position = MC.monsterSpawner.transform.position;
-                playerList.Add(newMon);
+                if (!CheckPlayerList(true, newMon)) playerList.Add(newMon);
                 UM.ShowMonsterUI(true);
             } else
             {
@@ -304,6 +304,30 @@ public class GameplayManager : MonoBehaviour
         //Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
         /*WarriorAI.name = "3_WarriorAI";
         Instantiate(WarriorAI, new Vector3(5.25f, 0f, 2f), Quaternion.identity);*/
+    }
+
+    private bool CheckPlayerList(bool isAddingMonster, GameObject thingToAdd)
+    {
+        // if adding monster, check to see if there are any human warriors
+        if (isAddingMonster)
+        {
+            if (playerList.Count > 0)
+            {
+                // if there are human warriors add monster to front of list
+                List<GameObject> tempList = new List<GameObject>();
+                tempList.Add(thingToAdd);
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    WC = playerList[i].GetComponent<WarriorController>();
+                    WC.WarriorSpawner = WarriorSpawners[i];
+                    WC.transform.position = WC.WarriorSpawner.transform.position;
+                    tempList.Add(playerList[i]);
+                }
+                playerList = tempList;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ResetGame()
@@ -356,4 +380,6 @@ public class GameplayManager : MonoBehaviour
     {
         lastGoalScoredIn = t;
     }
+
+
 }

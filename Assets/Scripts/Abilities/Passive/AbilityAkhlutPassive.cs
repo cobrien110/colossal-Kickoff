@@ -51,5 +51,7 @@ public class AbilityAkhlutPassive : PassiveAbility
             ASA.attackBaseRadius = baseRadius;
             SR.color = Color.white;
         }
+
+        UpdateChargeBar();
     }
 }

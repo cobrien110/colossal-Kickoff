@@ -15,6 +15,7 @@ public class PassiveAbility : MonoBehaviour
 
     [Header("Visuals")]
     public GameObject visualizer;
+    public Color chargeBarCol;
 
     [HideInInspector] public MonsterController MC;
     [HideInInspector] public AudioPlayer audioPlayer;
@@ -56,5 +57,11 @@ public class PassiveAbility : MonoBehaviour
     public void SetCounter(float x)
     {
         counterAmount = x;
+    }
+
+    protected void UpdateChargeBar()
+    {
+        if (UM == null) return;
+        UM.UpdateMonsterContestBar(counterAmount / counterMax, chargeBarCol);
     }
 }

@@ -592,11 +592,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateMonsterContestBar(float charge)
+    public void UpdateMonsterContestBar(float charge, Color c)
     {
         monsterContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        if (warriorContestFill.fillAmount == 1 && (monsterContestFill.fillAmount >= 0.85f))
         {
             ShowMiddleContestBar(true);
         }
@@ -604,6 +604,11 @@ public class UIManager : MonoBehaviour
         else if (middleContestFill.gameObject.activeInHierarchy && (warriorContestFill.fillAmount < 1.0f || monsterContestFill.fillAmount < 1.0f))
         {
             ShowMiddleContestBar(false);
+        }
+
+        if (!monsterContestFill.color.Equals(c))
+        {
+            monsterContestFill.color = c;
         }
     }
 

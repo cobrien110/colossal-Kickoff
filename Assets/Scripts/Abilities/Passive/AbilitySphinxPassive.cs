@@ -36,6 +36,8 @@ public class AbilitySphinxPassive : PassiveAbility
             counterAmount--;
             timer = 0;
         }
+
+        UpdateChargeBar();
     }
 
     public void AddCounter()

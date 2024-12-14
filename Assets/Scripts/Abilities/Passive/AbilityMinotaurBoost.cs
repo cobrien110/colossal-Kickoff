@@ -25,6 +25,7 @@ public class AbilityMinotaurBoost : PassiveAbility
         {
             timer += Time.deltaTime;
         }
+        UpdateChargeBar();
     }
 
     public void Activate()
@@ -36,6 +37,7 @@ public class AbilityMinotaurBoost : PassiveAbility
             Invoke("Deactivate", duration);
             SR.color = onColor;
             timer = 0;
+            counterAmount = counterMax;
         }
     }
 
@@ -44,5 +46,6 @@ public class AbilityMinotaurBoost : PassiveAbility
         MC.canBeStunned = true;
         MC.monsterSpeed = baseSpeed;
         SR.color = Color.white;
+        counterAmount = 0;
     }
 }
