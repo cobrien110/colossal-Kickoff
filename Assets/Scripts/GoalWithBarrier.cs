@@ -5,6 +5,8 @@ using UnityEngine;
 public class GoalWithBarrier : MonoBehaviour
 {
     public bool startWithBariers = false;
+    [Range(0,2)]
+    public int respawnType = 0;
     public bool canBeScoredIn = false;
     public float maxHealth = 10;
     public float health;
@@ -151,5 +153,23 @@ public class GoalWithBarrier : MonoBehaviour
     {
         timer = delayAfterInteraction;
         timerDamage = delayAfterDamage;
+    }
+
+    public void Respawn()
+    {
+        if (!startWithBariers) return;
+        if (respawnType == 0)
+        {
+            return;
+        } else if (respawnType == 1)
+        {
+            if (health <= 0)
+            {
+                health = maxHealth;
+            }
+        } else
+        {
+            health = maxHealth;
+        }
     }
 }

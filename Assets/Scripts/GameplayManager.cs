@@ -186,6 +186,13 @@ public class GameplayManager : MonoBehaviour
 
             }
         }
+
+        // Reset Goal barriers
+        GoalWithBarrier[] goals = GameObject.FindObjectsOfType<GoalWithBarrier>();
+        foreach (GoalWithBarrier goal in goals)
+        {
+            goal.Respawn();
+        }
     }
 
     //isPlaying getter and setter
