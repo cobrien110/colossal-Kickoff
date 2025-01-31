@@ -16,6 +16,7 @@ public class GoalWithBarrier : MonoBehaviour
     private float timer;
     private float timerDamage;
     public GameObject[] barrierObjects;
+    public float xPos = 7f;
 
     AudioPlayer AP; 
     // Start is called before the first frame update
@@ -32,12 +33,18 @@ public class GoalWithBarrier : MonoBehaviour
         col = GetComponent<BoxCollider>();
         AP = GetComponent<AudioPlayer>();
         //col.isTrigger = false;
+
+        if (transform.position.x < 0)
+        {
+            xPos = -xPos;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (health <= 0 && !canBeScoredIn)
+        if (health <= 0 && !canBeScoredIn
+            && (timer >= delayAfterInteraction))
         {
             SetCanScore(true);
         }
@@ -69,6 +76,11 @@ public class GoalWithBarrier : MonoBehaviour
         // if ball is too slow, do not damage
         if (damage < 2) return;
         health -= damage;
+        /*
+        if (health <= 0) canBeScoredIn = true;
+        timer = 100f;
+        timerDamage = 100f;
+        */
     }
 
     public void RejectBall(Rigidbody rb)
@@ -98,6 +110,9 @@ public class GoalWithBarrier : MonoBehaviour
         // add force to the ball
         Vector3 force = dir * bounceForce;
         rb.AddForce(force);
+        // Fix ball position
+        Vector3 tempPos = rb.transform.position;
+        rb.transform.position = new Vector3(xPos,tempPos.y, tempPos.z);
     }
 
     public void Restart()
@@ -130,5 +145,11 @@ public class GoalWithBarrier : MonoBehaviour
                 barrierObjects[i].SetActive(true);
             }
         }
+    }
+
+    public void ResetTimers()
+    {
+        timer = delayAfterInteraction;
+        timerDamage = delayAfterDamage;
     }
 }

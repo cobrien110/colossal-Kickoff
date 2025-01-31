@@ -8897,6 +8897,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarriorGoal (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 854540153875415001, guid: ea733e8dff3b80642857be3646ce898e, type: 3}
+      propertyPath: startWithBariers
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7782918718433018484, guid: ea733e8dff3b80642857be3646ce898e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.15
@@ -12379,6 +12383,14 @@ PrefabInstance:
     - target: {fileID: 858922231469205584, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
       propertyPath: m_Name
       value: MonsterGoal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3093843775031348729, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
+      propertyPath: xPos
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3093843775031348729, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
+      propertyPath: startWithBariers
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4817416808694921628, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20464,7 +20476,7 @@ PrefabInstance:
       objectReference: {fileID: 1542430857}
     - target: {fileID: 2377275452467399358, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: monsterIndex
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2488476523441867446, guid: d2724fbf40acbbf4f8a7e848682035dc, type: 3}
       propertyPath: m_Name

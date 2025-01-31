@@ -187,9 +187,19 @@ public class BallProperties : MonoBehaviour
             {
                 // prevent goal if it would be an own goal while the ball is still being held
                 if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null) return;
-                else if (ballOwner != null) GWB.TakeBallDamage(1000);
+                //else if (ballOwner != null) GWB.TakeBallDamage(1000);
 
-                GWB.TakeBallDamage(RB.velocity.magnitude);
+                // If being shot, not dribbled, reduce goal health
+                if (ballOwner == null) GWB.TakeBallDamage(RB.velocity.magnitude);
+
+                // otherwise destroy goal and bounce ball away
+                else
+                {
+                    GWB.RejectBall(RB);
+                    GWB.TakeBallDamage(1000);
+                    ballOwner = null;
+                }
+
                 if (GWB.health > 0)
                 {
                     GWB.RejectBall(RB);
@@ -235,9 +245,19 @@ public class BallProperties : MonoBehaviour
             {
                 // prevent goal if it would be an own goal while the ball is still being held
                 if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
-                else if (ballOwner != null) GWB.TakeBallDamage(1000);
+                //else if (ballOwner != null) GWB.TakeBallDamage(1000);
 
-                GWB.TakeBallDamage(RB.velocity.magnitude);
+                // If being shot, not dribbled, reduce goal health
+                if (ballOwner == null) GWB.TakeBallDamage(RB.velocity.magnitude);
+
+                // otherwise destroy goal and bounce ball away
+                else
+                {
+                    GWB.RejectBall(RB);
+                    GWB.TakeBallDamage(1000);
+                    ballOwner = null;
+                }
+
                 if (GWB.health > 0)
                 {
                     GWB.RejectBall(RB);
@@ -310,6 +330,13 @@ public class BallProperties : MonoBehaviour
     private void SetOwner(GameObject player)
     {
         playerTest = player;
+
+        // reset goal timers to allow for immediate interaction
+        GoalWithBarrier[] goals = GameObject.FindObjectsOfType<GoalWithBarrier>();
+        foreach (GoalWithBarrier goal in goals)
+        {
+            goal.ResetTimers();
+        }
     }
 
     private GameObject GetOwner()
@@ -349,7 +376,7 @@ public class BallProperties : MonoBehaviour
     public void StopBallGlow()
     {
         if (ChargeColorGO != null) ChargeColorGO.SetActive(false);
-        SceneLight.intensity = 1.0f;
-        SoccerUVS.SetColor("_EmissionColor", Color.black);
+        if (SceneLight != null) SceneLight.intensity = 1.0f;
+        if (SoccerUVS != null) SoccerUVS.SetColor("_EmissionColor", Color.black);
     }
 }
