@@ -78,6 +78,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
 
         StartCoroutine(PerformActionChances());
+        // StartCoroutine(PrintWarriors());
     }
 
     public void SetIsPerformingAbility(bool isPerformingAbility)
@@ -95,12 +96,23 @@ public abstract class AiMonsterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Debug.Log("AiMonsterController start");
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Debug.Log("AiMonsterController update");
+    }
+
+    IEnumerator PrintWarriors()
+    {
+        Debug.Log("Print Warriors");
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            Debug.Log("Warriors: " + warriors.Count);
+        }
     }
 }

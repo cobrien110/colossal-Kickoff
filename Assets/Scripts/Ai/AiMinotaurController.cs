@@ -573,7 +573,7 @@ public class AiMinotaurController : AiMonsterController
     // SPEHRICAL ATTACK METHODS
     private void SphericalAttackHelper()
     {
-        Debug.Log("SphericalAttack");
+        // Debug.Log("SphericalAttack");
         // Make sure first ability is an AbilityChargable
         if (!(mc.abilities[1] is AbilitySphericalAttack)) return;
 
@@ -613,7 +613,7 @@ public class AiMinotaurController : AiMonsterController
         foreach (Collider col in colliders)
         {
             // Handle collision with each collider
-            Debug.Log("SphereCast hit " + col.gameObject.name);
+            // Debug.Log("SphereCast hit " + col.gameObject.name);
             if (col.gameObject.CompareTag("Warrior"))
             {
                 Debug.Log("Warrior in attack sphere radius");
@@ -956,7 +956,7 @@ public class AiMinotaurController : AiMonsterController
             if (Vector3.Dot(minoToBall, warriorToBall) < -0.5f)
             {
                 warriorsToBlock.Add(warrior.gameObject);
-                Debug.Log(warrior.name + " is on the opposite side of the ball");
+                // Debug.Log(warrior.name + " is on the opposite side of the ball");
             }
         }
 
@@ -1188,6 +1188,8 @@ public class AiMinotaurController : AiMonsterController
 
     private void EnsureBallOwnerValid()
     {
+        if (mc == null) GetComponent<MonsterController>();
+
         if (mc.BP == null)
         {
             mc.BP = FindObjectOfType<BallProperties>();
@@ -1225,6 +1227,8 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
             mc.BP.ballOwner = gameObject;
         }
+
+        // Debug.Log("AiMinoController update");
     }
     
     /*

@@ -111,7 +111,7 @@ public class WarriorAiController : MonoBehaviour
             Vector2 toBall = new Vector2(
                 wc.BP.gameObject.transform.position.x - transform.position.x,
                 wc.BP.gameObject.transform.position.z - transform.position.z).normalized;
-            BaseMovement(toBall);;
+            BaseMovement(toBall);
         }
         // If this warrior has the ball
         else if (wc.BP.ballOwner == gameObject)

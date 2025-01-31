@@ -25,7 +25,7 @@ public class AbilityHandSlam : AbilityDelayed
     [SerializeField] private int spawnOrbQty = 3;
     [SerializeField] private float hitOrbPower = 5f;
 
-    [SerializeField] private float slamDelay = 0.5f;
+    [SerializeField] private float slamDelay = 0.25f;
     [SerializeField] private float stunRadiusMult = 4.5f;
 
     public override void Activate()

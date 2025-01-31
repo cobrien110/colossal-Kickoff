@@ -135,6 +135,8 @@ public class AbilityFirebreath : AbilityScript
         float delay = 0.05f; // Delay between each overlap box
         float currentX = startPosition.x;
 
+        bool didHitBall = false;
+
         while (currentX <= endPosition.x)
         {
             Vector3 boxCenter = new Vector3(currentX, startPosition.y, startPosition.z);
@@ -151,11 +153,16 @@ public class AbilityFirebreath : AbilityScript
                     warrior.Die();
                 }
 
-                BallProperties ball = collider.GetComponent<BallProperties>();
-                if (ball != null)
+                // Add force to ball if firebreath has not yet done so
+                if (!didHitBall)
                 {
-
-                    ball.GetComponent<Rigidbody>().AddForce(new Vector3(1f, 0, 0) * hitBallPower, ForceMode.Impulse);
+                    BallProperties ball = collider.GetComponent<BallProperties>();
+                    if (ball != null)
+                    {
+                        didHitBall = true;
+                        ball.GetComponent<Rigidbody>().AddForce(new Vector3(1f, 0, 0) * hitBallPower, ForceMode.Impulse);
+                        Debug.Log("Firebreath hit ball");
+                    }
                 }
 
                 SoulOrb orb = collider.GetComponent<SoulOrb>();
