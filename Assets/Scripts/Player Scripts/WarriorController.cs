@@ -335,6 +335,12 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
+                GM.isPassing = true;
+
+                if (GM.passIndicator)
+                {
+                    BP.SetBallColor(Color.blue);
+                }
                 
                 Debug.Log(kickCharge);
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
@@ -405,6 +411,12 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
+                GM.isPassing = true;
+
+                if (GM.passIndicator)
+                {
+                    BP.SetBallColor(Color.blue);
+                }
 
                 Debug.Log(kickCharge);
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);

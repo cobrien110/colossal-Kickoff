@@ -6,10 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour
 {
-    public bool isPlaying = false;
-    public bool isPaused = false;
+    [Header("Debug Properties")]
     public bool automaticAISpawn = true;
     public bool automaticStart = true;
+    public bool passIndicator = true;
+
+    [Header("Other Properties")]
+    public bool isPlaying = false;
+    public bool isPaused = false;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
@@ -23,6 +27,7 @@ public class GameplayManager : MonoBehaviour
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
+    public bool isPassing = false;
     public float passMeter = 0;
     public float passMeterMax = 1.0f;
     private int spawnCount = 0;

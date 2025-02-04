@@ -109,6 +109,11 @@ public class BallProperties : MonoBehaviour
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster") || other.tag.Equals("Mummy"))
             && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()) )) && isInteractable)
         {
+            if (GM.passIndicator)
+            {
+                SetBallColor(Color.white);
+            }
+
             if (other.gameObject.Equals(lastKicker)) return;
             
             // If mummy tries to steal ball from sliding warrior, don't allow it
@@ -156,10 +161,11 @@ public class BallProperties : MonoBehaviour
 
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
             isSuperKick = false;
-            if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
+            if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior") && GM.isPassing)
             {
                 GM.passMeter += passBonus;
                 UM.UpdateWarriorContestBar(GM.passMeter);
+                GM.isPassing = false;
             }
         }
     }
@@ -379,5 +385,11 @@ public class BallProperties : MonoBehaviour
         if (ChargeColorGO != null) ChargeColorGO.SetActive(false);
         if (SceneLight != null) SceneLight.intensity = 1.0f;
         if (SoccerUVS != null) SoccerUVS.SetColor("_EmissionColor", Color.black);
+    }
+
+    public void SetBallColor(Color ballColor)
+    {
+        MeshRenderer MR = GetComponentInChildren<MeshRenderer>();
+        MR.material.SetColor("_BaseColor", ballColor);
     }
 }
