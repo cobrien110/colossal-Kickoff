@@ -194,8 +194,9 @@ public class WarriorAiController : MonoBehaviour
         {
             Debug.Log("Kick!");
             wc.BP.ballOwner = null;
-            Debug.Log(transform.forward);
-            wc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
+            Rigidbody ballRB = wc.BP.GetComponent<Rigidbody>();
+            Debug.Log("Ball speed: " + ballRB.velocity.magnitude);
+            ballRB.AddForce(transform.forward * aiKickSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
     }
@@ -276,6 +277,8 @@ public class WarriorAiController : MonoBehaviour
 
     void Pass(WarriorController target)
     {
+        Debug.Log("Pass");
+
         // Turn to teammate
 
         // Calculate the direction from this GameObject to the target

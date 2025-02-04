@@ -133,6 +133,7 @@ public class BallProperties : MonoBehaviour
             Debug.Log("Ball owner being set to: " + other.gameObject);
             ballOwner = other.gameObject;
             SetOwner(ballOwner);
+            RB.velocity = Vector3.zero;
 
             if (wc != null && wc.IsSliding())
             {
