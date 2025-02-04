@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MenuController : MonoBehaviour
 {
@@ -43,9 +44,13 @@ public class MenuController : MonoBehaviour
     //tracks the stage the game will move to when it starts
     public int stageSelection;
 
+    //sound
+    AudioPlayer AP;
+
     void Start() {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
+        AP = GetComponent<AudioPlayer>();
     }
 
     void Update()
@@ -127,6 +132,8 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
+                //sound
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
             //SETTINGS
@@ -138,9 +145,11 @@ public class MenuController : MonoBehaviour
                 settingsButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
-                musicSlider.value = PlayerPrefs.GetInt("musicVolume", 100);
-                effectsSlider.value = PlayerPrefs.GetInt("effectsVolume", 100);
+                musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 100) * 100;
+                effectsSlider.value = PlayerPrefs.GetFloat("effectsVolume", 100) * 100;
                 screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
+                //sound
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
             //QUIT GAME
@@ -163,6 +172,9 @@ public class MenuController : MonoBehaviour
         mainMenuButtons.SetActive(true);
         stageSelect.SetActive(false);
         settingsButtons.SetActive(false);
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
 
     public void findAllCursors() {
@@ -219,6 +231,9 @@ public class MenuController : MonoBehaviour
         }**/
         mainMenuButtons.SetActive(false);
         stageSelect.SetActive(true);
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
 
     /**public void backToCharSelect() {
@@ -247,18 +262,27 @@ public class MenuController : MonoBehaviour
         Debug.Log("going back to stage select");
         characterSelect.SetActive(false);
         stageSelect.SetActive(true);
+        
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClose"));
     }
 
     public void setGore() {
         PlayerPrefs.SetInt("goreMode", goreDropdown.value);
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
     public void setMusicVolume() {
-        PlayerPrefs.SetInt("musicVolume", (int) musicSlider.value);
+        PlayerPrefs.SetFloat("musicVolume", musicSlider.value / 100f);
     }
 
     public void setEffectsVolume() {
-        PlayerPrefs.SetInt("effectsVolume", (int) effectsSlider.value);
+        PlayerPrefs.SetFloat("effectsVolume", effectsSlider.value / 100f);
+
+        //sound
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
     public void setScreenshake() {
@@ -267,6 +291,9 @@ public class MenuController : MonoBehaviour
         } else {
             PlayerPrefs.SetInt("screenshake", 0);
         }
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
 
@@ -280,5 +307,8 @@ public class MenuController : MonoBehaviour
             cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
             cursors[i].GetComponent<MenuCursor>().showCursor();
         }
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
     }
 }

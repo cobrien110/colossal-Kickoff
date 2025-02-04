@@ -18,6 +18,7 @@ public class AudioPlayer : MonoBehaviour
         {
             source = GetComponent<AudioSource>();
         }
+        if (source != null) source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
     }
 
     private void Update()
@@ -33,7 +34,8 @@ public class AudioPlayer : MonoBehaviour
     {
         if (sound == null) return;
         source.clip = sound;
-        source.volume = volume * PlayerPrefs.GetInt("effectsVolume", 100);
+        Debug.Log("SFX PREFS: " + PlayerPrefs.GetFloat("effectsVolume", 1));
+        source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
         source.Play();
         //Debug.Log("Playing sound: " + sound.name);
     }
@@ -52,9 +54,12 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlaySoundVolume(AudioClip sound, float tempVolume)
     {
-        source.volume = volume * tempVolume;
+        if (sound == null) return;
+        source.clip = sound;
+        source.volume = volume * tempVolume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        source.Play();
         //Debug.Log(source.volume);
-        PlaySound(sound);
+        //PlaySound(sound);
     }
 
     public void PlaySoundVolumeRandomPitch(AudioClip sound, float tempVolume)

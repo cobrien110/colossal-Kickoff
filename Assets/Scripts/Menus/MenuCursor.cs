@@ -38,6 +38,10 @@ public class MenuCursor : MonoBehaviour
     private Vector3 screenMidpoint;
     private bool selectedHighlightingAbilities = false;
 
+    //sounds
+    [SerializeField] private AudioPlayer AP;
+    //private bool willPlaySelectSound = false;
+
     private void Start()
     {
         //Debug.Log("Height:" + Screen.height);
@@ -79,6 +83,10 @@ public class MenuCursor : MonoBehaviour
 
         Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
         transform.position = new Vector3 (325, 185, 0);
+
+        // play sound
+        AP = GetComponent<AudioPlayer>();
+        AP.PlaySoundRandomPitch(AP.Find("menuJoin"));
     }
 
     private void OnEnable()
@@ -173,6 +181,7 @@ public class MenuCursor : MonoBehaviour
 
     public void OnSelect(InputAction.CallbackContext action)
     {
+        bool justSelectedChar = false;
         if (action.started)
         {
             /**if (MC.currentScreen == 0) {
@@ -180,7 +189,8 @@ public class MenuCursor : MonoBehaviour
                 if (hoveringItem.Equals("menuSelect") && playerNumber == 1) {
                     MC.OptionSelect(hoveringID);
                 }
-            } else**/ if (MC.currentScreen == 2) {
+            } else**/ 
+            if (MC.currentScreen == 2) {
                 //Character Select
                 if (!MC.canMoveToGame) {
                     if (!hasSelected) {
@@ -196,6 +206,9 @@ public class MenuCursor : MonoBehaviour
                     else if (!charConfirmed) {
                         charConfirmed = true;
                         MC.confirmCharacter(playerSlot);
+                        // play sound
+                        AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
+                        justSelectedChar = true;
                         //Temp Color code
                         if (playerSlot != 0)
                         {
@@ -226,7 +239,15 @@ public class MenuCursor : MonoBehaviour
                 } else if (playerNumber == 1) {
                     MC.loadGameplay(MC.stageSelection);
                 }
-            } /**else if (MC.currentScreen == 3) {
+                // play sound
+                if (!justSelectedChar) AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
+            } else
+            {
+                // play sound
+                //AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+            }
+            
+            /**else if (MC.currentScreen == 3) {
                 //Stage Select
                 if (hoveringItem.Equals("stageSelect") && playerNumber == 1) {
                     //TODO: Loading Gameplay and grabbing controller info and all that junk
@@ -278,6 +299,9 @@ public class MenuCursor : MonoBehaviour
                     MC.returnToTop();
                 //}
             }
+
+            // play sound
+            if (MC.currentScreen == 2) AP.PlaySoundRandomPitch(AP.Find("menuCancel"));
         }
     }
 
@@ -354,6 +378,7 @@ public class MenuCursor : MonoBehaviour
                                 monsterAbilityViewController.pageLeft();
                             }
                             PH.monsterIndex = MN.monsterIndex;
+                            AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
                         } else
                         {
                             int i = playerSlot - 1;
@@ -365,6 +390,7 @@ public class MenuCursor : MonoBehaviour
                             {
                                 WDarr[i].pageLeft();
                             }
+                            AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
                         }
                     }
                 } else {
