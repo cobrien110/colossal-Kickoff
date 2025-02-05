@@ -86,6 +86,10 @@ public class WarriorController : MonoBehaviour
     private float bombTimer = 0f;
     [SerializeField] private GameObject BombVisual = null;
 
+    // If there is no ball owner yet a warrior or monster is on top of wall, OnTriggerStay will wait this long until making that character pick up ball
+    private float pickupBallCooldown = 0.5f;
+    private float pickupBallTimer = 0f;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -117,6 +121,7 @@ public class WarriorController : MonoBehaviour
     private void Start()
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        pickupBallTimer = pickupBallCooldown;
     }
 
     // Temp Controller Scheme Swap
@@ -148,6 +153,7 @@ public class WarriorController : MonoBehaviour
 
             if ((isStunned) && BP.ballOwner == this.gameObject)
             {
+                // Debug.Log("ballOwner set to null");
                 BP.ballOwner = null;
             }
 
@@ -318,6 +324,8 @@ public class WarriorController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P) && BP.ballOwner == gameObject)
         {
             Debug.Log("Pass!");
+
+            // Debug.Log("ballOwner set to null");
             BP.ballOwner = null;
             Debug.Log(transform.forward);
             BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
@@ -332,6 +340,8 @@ public class WarriorController : MonoBehaviour
             if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
+
+                // Debug.Log("ballOwner set to null");
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
@@ -408,6 +418,8 @@ public class WarriorController : MonoBehaviour
             if ((warriorControls.phase == InputActionPhase.Canceled || warriorControls.WasReleasedThisFrame()) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
+
+                // Debug.Log("ballOwner set to null");
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
@@ -500,7 +512,7 @@ public class WarriorController : MonoBehaviour
         {
             if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
             {
-                // Debug.Log("Sliding");
+                Debug.Log(gameObject.name + ": Sliding");
                 isSliding = true;
                 isInvincible = true;
 
@@ -633,6 +645,7 @@ public class WarriorController : MonoBehaviour
 
         if (BP != null && BP.ballOwner != null && BP.ballOwner.Equals(gameObject))
         {
+            // Debug.Log("ballOwner set to null");
             BP.ballOwner = null;
         }
 
@@ -890,5 +903,33 @@ public class WarriorController : MonoBehaviour
     public void SetPlayerNum(int num)
     {
         this.playerNum = num;
+    }
+
+    public bool GetIsDead()
+    {
+        return isDead;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        BallProperties BP = other.GetComponent<BallProperties>();
+        if (BP == null || BP.ballOwner != null) return;
+        // If ball hasn't been in warrior's colliders long enough
+        if (BP != null && pickupBallTimer > 0)
+        {
+            // Count down timer
+            Debug.Log("Waiting to pick up ball");
+            pickupBallTimer -= Time.deltaTime;
+        } 
+        // If has been in warrior's collider long enough
+        else if (BP != null && pickupBallTimer <= 0)
+        {
+            // Pick up ball
+            Debug.Log("Pick up ball");
+            pickupBallTimer = pickupBallCooldown;
+            BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            BP.ballOwner = gameObject;
+            BP.SetOwner(BP.ballOwner);
+        }
     }
 }

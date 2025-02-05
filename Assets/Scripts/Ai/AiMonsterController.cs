@@ -45,14 +45,14 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            if (GM.IsPlayingGet())
+            if (GM.IsPlayingGet() && mc != null && mc.BP != null && mc.BP.isInteractable)
             {
                 // Debug.Log("isPlaying");
                 if (!isPerformingAbility) PerformAbility1Chance();
                 if (!isPerformingAbility) PerformAbility2Chance();
                 if (!isPerformingAbility) PerformAbility3Chance();
                 PerformShootChance();
-            } else
+            } else if (mc != null)
             {
                 // Debug.Log("IsPlayingGet: " + GM.IsPlayingGet());
             }

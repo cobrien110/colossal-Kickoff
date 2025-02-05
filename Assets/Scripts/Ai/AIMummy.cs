@@ -226,6 +226,8 @@ public class AIMummy : MonoBehaviour
         if (mc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
+
+            // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
             //Debug.Log(transform.forward);
             mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);

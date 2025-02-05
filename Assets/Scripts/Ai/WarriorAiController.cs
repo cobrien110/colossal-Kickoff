@@ -35,7 +35,9 @@ public class WarriorAiController : MonoBehaviour
     private float slideRange = 3f;
     [SerializeField]
     private float dodgeChance = 0.3f;
-    
+    [SerializeField] private float kickCooldown = 0.75f;
+    private static float kickTimer = 0f;
+
     private bool checkToPass = false;
     private bool roamForward = true;
     private Coroutine roamCoroutine;
@@ -94,10 +96,19 @@ public class WarriorAiController : MonoBehaviour
     void Update()
     {
         AiBehavior();
+
+        if (kickTimer > 0) kickTimer -= Time.deltaTime;
     }
 
     public void AiBehavior()
     {
+        // If goal was scored, stop movement and behavior
+        if (wc != null && wc.BP != null && !wc.BP.isInteractable) 
+        {
+            wc.movementDirection = Vector3.zero;
+            return;
+        }
+
         if (wc.isStunned) return;
 
         // If no one has the ball
@@ -190,13 +201,21 @@ public class WarriorAiController : MonoBehaviour
     // The pass and shoot method for Ai Warriors
     void Kick()
     {
+        if (wc.isSliding) return;
+        if (kickTimer > 0) return;
+
+        kickTimer = kickCooldown;
+
         if (wc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
+
+            // Debug.Log("ballOwner set to null");
             wc.BP.ballOwner = null;
             Rigidbody ballRB = wc.BP.GetComponent<Rigidbody>();
-            Debug.Log("Ball speed: " + ballRB.velocity.magnitude);
+            Debug.Log("Ball speed before kick: " + ballRB.velocity.magnitude);
             ballRB.AddForce(transform.forward * aiKickSpeed);
+            // Debug.Log("Ball speed after kick: " + ballRB.velocity.magnitude);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
         }
     }
@@ -277,6 +296,11 @@ public class WarriorAiController : MonoBehaviour
 
     void Pass(WarriorController target)
     {
+        if (wc.isSliding) return;
+        if (kickTimer > 0) return;
+
+        kickTimer = kickCooldown;
+
         Debug.Log("Pass");
 
         // Turn to teammate

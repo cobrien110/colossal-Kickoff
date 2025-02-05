@@ -98,6 +98,11 @@ public class BallProperties : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Debug.Log("ballOwner - " + ballOwner);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
@@ -115,7 +120,12 @@ public class BallProperties : MonoBehaviour
             }
 
             if (other.gameObject.Equals(lastKicker)) return;
-            
+            if (ballOwner == other.gameObject)
+            {
+                Debug.Log("Collider is already ballOwner, ignore interaction");
+                return;
+            }
+
             // If mummy tries to steal ball from sliding warrior, don't allow it
             if (mummy != null && ballOwner != null && ballOwner.GetComponent<WarriorController>() != null
                 && ballOwner.GetComponent<WarriorController>().IsSliding())
@@ -135,10 +145,11 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
+            Debug.Log("ballOwner: " + ballOwner);
             Debug.Log("Ball owner being set to: " + other.gameObject);
+            RB.velocity = Vector3.zero;
             ballOwner = other.gameObject;
             SetOwner(ballOwner);
-            RB.velocity = Vector3.zero;
 
             if (wc != null && wc.IsSliding())
             {
@@ -204,6 +215,8 @@ public class BallProperties : MonoBehaviour
                 {
                     GWB.RejectBall(RB);
                     GWB.TakeBallDamage(1000);
+
+                    // Debug.Log("ballOwner set to null");
                     ballOwner = null;
                 }
 
@@ -262,6 +275,8 @@ public class BallProperties : MonoBehaviour
                 {
                     GWB.RejectBall(RB);
                     GWB.TakeBallDamage(1000);
+
+                    // Debug.Log("ballOwner set to null");
                     ballOwner = null;
                 }
 
@@ -300,6 +315,8 @@ public class BallProperties : MonoBehaviour
     public void ResetBall()
     {
         Debug.Log("Reset ball has been called");
+
+        // Debug.Log("ballOwner set to null");
         ballOwner = null;
         isInteractable = false;
         //SR = GetComponentInChildren<SpriteRenderer>();
@@ -334,7 +351,7 @@ public class BallProperties : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void SetOwner(GameObject player)
+    public void SetOwner(GameObject player)
     {
         playerTest = player;
 

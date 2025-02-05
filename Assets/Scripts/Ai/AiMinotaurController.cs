@@ -34,6 +34,7 @@ public class AiMinotaurController : AiMonsterController
     private bool isCharging = false;
     private bool canPickUpBall = true;
     // private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
+    private float smoothFactor = 5f; // Adjust this value as needed
 
    private enum SphericalAttackMode
    {
@@ -131,6 +132,13 @@ public class AiMinotaurController : AiMonsterController
      */
     protected override void MonsterBehaviour()
     {
+        // If goal was scored, stop movement and behavior
+        if (mc != null && mc.BP != null && !mc.BP.isInteractable)
+        {
+            mc.movementDirection = Vector3.zero;
+            return;
+        }
+
         // Debug.Log("MonsterBehaviour");
 
         // Make sure mc.BP is assigned a value
@@ -357,6 +365,7 @@ public class AiMinotaurController : AiMonsterController
                 Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);
             transform.rotation = newRotation;
 
+            // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
             canPickUpBall = false;
             StartCoroutine(SetPickUpBallTrue());
@@ -461,6 +470,7 @@ public class AiMinotaurController : AiMonsterController
             }
         }
 
+        if (nearestWarrior != null && nearestWarrior.GetComponent<WarriorController>().GetIsDead()) Debug.LogWarning("Targeting dead warrior!");
         return nearestWarrior.GetComponent<WarriorController>();
     }
 
@@ -658,7 +668,10 @@ public class AiMinotaurController : AiMonsterController
             }
 
             SphericalAttackHelper();
-            mc.movementDirection = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
+            Vector3 dir = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
+            // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+
             yield return null;
         }
 
@@ -702,7 +715,9 @@ public class AiMinotaurController : AiMonsterController
             if (ballController == null) ballController = GetNearestWarrior(transform.position).gameObject;
 
             SphericalAttackHelper();
-            mc.movementDirection = (ballController.transform.position - transform.position).normalized;
+            Vector3 dir = (ballController.transform.position - transform.position).normalized;
+            //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
             yield return null;
         }
     }
@@ -750,7 +765,7 @@ public class AiMinotaurController : AiMonsterController
                 {
                     // Calculate target direction
                     Vector3 targetDirection = (targetPosition - transform.position).normalized;
-                    Vector3 targetDirectionIgnoreY = new Vector3(targetDirection.x, transform.position.y, targetDirection.z);
+                    Vector3 targetDirectionIgnoreY = new Vector3(targetDirection.x, 0, targetDirection.z);
 
                     // Smoothly update the movement direction using linear interpolation
                     mc.movementDirection = targetDirectionIgnoreY;
@@ -812,7 +827,8 @@ public class AiMinotaurController : AiMonsterController
         }
 
         // Look toward ball
-        mc.movementDirection = (ball.transform.position - transform.position).normalized;
+        Vector3 dir = (ball.transform.position - transform.position).normalized;
+        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
 
         // Summon wall
         mc.abilities[0].Activate();
@@ -853,7 +869,8 @@ public class AiMinotaurController : AiMonsterController
         foreach (GameObject warrior in warriors)
         {
             Vector3 toWarrior = (warrior.transform.position - transform.position).normalized;
-            Vector3 wallPos = transform.position + (toWarrior * amw.wallSpawnDistance);
+            Vector3 toWarriorIgnoreY = new Vector3(toWarrior.x, 0, toWarrior.z);
+            Vector3 wallPos = transform.position + (toWarriorIgnoreY * amw.wallSpawnDistance);
 
             Vector3 warriorToWall = (wallPos - warrior.transform.position).normalized;
             Vector3 ballToWall = (wallPos - ball.transform.position).normalized;
@@ -865,7 +882,7 @@ public class AiMinotaurController : AiMonsterController
                 // Wall would be between warrior and ball, thus blocking warrior
 
                 // Look toward warrior
-                mc.movementDirection = toWarrior;
+                mc.movementDirection = toWarriorIgnoreY;
 
                 // Summon wall
                 mc.abilities[0].Activate();
@@ -893,7 +910,8 @@ public class AiMinotaurController : AiMonsterController
         AbilityMinotaurWall amw = (AbilityMinotaurWall)mc.abilities[0];
 
         // Look toward own goal
-        mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized;
+        Vector3 dir = (monsterGoal.transform.position - transform.position).normalized;
+        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
 
         // Summon wall
         mc.abilities[0].Activate();
@@ -1009,7 +1027,7 @@ public class AiMinotaurController : AiMonsterController
             if (mc.BP != null && mc.BP.ballOwner != null)
             {
                 Vector3 toBallOwner = (mc.BP.ballOwner.transform.position - transform.position).normalized;
-                toBallOwner = new Vector3(toBallOwner.x, transform.position.y, toBallOwner.z);
+                toBallOwner = new Vector3(toBallOwner.x, 0, toBallOwner.z);
                 mc.movementDirection = toBallOwner;
             }
 
@@ -1047,7 +1065,7 @@ public class AiMinotaurController : AiMonsterController
             if (nearestWarrior != null)
             {
                 Vector3 toNearestWarrior = (nearestWarrior.transform.position - transform.position).normalized;
-                toNearestWarrior = new Vector3(toNearestWarrior.x, transform.position.y, toNearestWarrior.z);
+                toNearestWarrior = new Vector3(toNearestWarrior.x, 0, toNearestWarrior.z);
                 mc.movementDirection = toNearestWarrior;
             }
 
@@ -1081,7 +1099,7 @@ public class AiMinotaurController : AiMonsterController
             if (mc.BP != null && mc.BP.gameObject != null)
             {
                 Vector3 toBall = (mc.BP.gameObject.transform.position - transform.position).normalized;
-                toBall = new Vector3(toBall.x, transform.position.y, toBall.z);
+                toBall = new Vector3(toBall.x, 0, toBall.z);
                 mc.movementDirection = toBall;
             }
 
@@ -1168,7 +1186,8 @@ public class AiMinotaurController : AiMonsterController
     IEnumerator DefendGoal()
     {
         yield return new WaitForSeconds(defendGoalDelay);
-        mc.movementDirection = (GetDefendGoalPosition() - transform.position).normalized; // Stand in between goal and ball owner
+        Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
+        mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
         defendGoalCoroutine = null;
     }
 
