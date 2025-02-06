@@ -297,7 +297,7 @@ public class GameplayManager : MonoBehaviour
                 WarriorAI.name = "WarriorAI_" + (playerNumberInput);
                 GameObject newWar = Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
                 //WarriorAI = GameObject.Find("WarriorAI_" + (warriors.Length + 1) + "(Clone)");
-                WC = WarriorAI.GetComponent<WarriorController>();
+                WC = newWar.GetComponent<WarriorController>();
                 Debug.Log("My Spawner:" + spawnCount);
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;

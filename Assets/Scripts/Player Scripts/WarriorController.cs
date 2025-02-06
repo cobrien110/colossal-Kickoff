@@ -110,12 +110,12 @@ public class WarriorController : MonoBehaviour
         spriteScale = spriteObject.transform.localScale;
         //playerRend = GetComponent<SpriteRenderer>();
 
-        if (WarriorSpawner == null)
-        {
-            WarriorSpawner = GameObject.FindGameObjectWithTag("WarriorSpawner");
-            
-        }
-        transform.position = WarriorSpawner.transform.position;
+        //if (WarriorSpawner == null)
+        //{
+        //    WarriorSpawner = GameObject.FindGameObjectWithTag("WarriorSpawner");
+
+        //}
+        //transform.position = WarriorSpawner.transform.position;
     }
 
     private void Start()
