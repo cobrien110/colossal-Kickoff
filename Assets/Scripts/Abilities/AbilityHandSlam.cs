@@ -213,7 +213,7 @@ public class AbilityHandSlam : AbilityDelayed
 
     public override void CheckInputs(InputAction.CallbackContext context)
     {
-        Debug.Log("Ability delayed input action: " + context);
+        // Debug.Log("Ability delayed input action: " + context);
 
         if (!GM.isPlaying || MC.isStunned)
         {
@@ -255,15 +255,29 @@ public class AbilityHandSlam : AbilityDelayed
             // Choose hand based on if monster movement direction, up or down
             float zDirection = monsterRB.velocity.z;
 
-            if (zDirection > 0)
+            // If hand1 is not available
+            if (!abilityCreateHands.hand1.activeSelf)
             {
-                chosenHand = abilityCreateHands.hand1;
-                chosenHandIndex = 1;
-            }
-            else
-            {
+                // Use hand2
                 chosenHand = abilityCreateHands.hand2;
                 chosenHandIndex = 2;
+            } else if (!abilityCreateHands.hand2.activeSelf) // If hand2 is not available
+            {
+                // Use hand1
+                chosenHand = abilityCreateHands.hand1;
+                chosenHandIndex = 1;
+            } else // Both hands are available, so choose based on zDirection
+            {
+                if (zDirection > 0)
+                {
+                    chosenHand = abilityCreateHands.hand1;
+                    chosenHandIndex = 1;
+                }
+                else
+                {
+                    chosenHand = abilityCreateHands.hand2;
+                    chosenHandIndex = 2;
+                }
             }
 
             // Detach hand
