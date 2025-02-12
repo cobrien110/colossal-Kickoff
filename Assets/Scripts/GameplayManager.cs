@@ -24,6 +24,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject MonsterAI = null;
     [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
+    private MusicPlayer MP = null;
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
@@ -45,6 +46,7 @@ public class GameplayManager : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
+        MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         Time.timeScale = 1;
 
         if (automaticAISpawn && playerList.Count < 4)
@@ -113,6 +115,7 @@ public class GameplayManager : MonoBehaviour
     {
         isPlaying = true;
         UM.StartTimer();
+        if (MP != null) MP.UnPauseMusic();
     }
 
     public void StopPlaying()
@@ -134,6 +137,7 @@ public class GameplayManager : MonoBehaviour
     {
         //StopPlaying();
         UM.StopTimer();
+        if (MP != null) MP.PauseMusic();
         Invoke("FinalizeReset", 3f);
 
         MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
