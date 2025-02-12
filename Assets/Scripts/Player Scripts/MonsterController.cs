@@ -372,6 +372,7 @@ public class MonsterController : MonoBehaviour
                 // 
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
+                BP.previousKicker = gameObject;
                 Debug.Log(kickCharge);
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
                 Vector3 forceToAdd = aimingDirection * kickForce;
@@ -422,6 +423,7 @@ public class MonsterController : MonoBehaviour
                 // Debug.Log("ballOwner set to null");
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
+                BP.previousKicker = gameObject;
                 Debug.Log(kickCharge);
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
                 Vector3 forceToAdd = aimingDirection * kickForce;

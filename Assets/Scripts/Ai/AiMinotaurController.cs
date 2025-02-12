@@ -367,6 +367,8 @@ public class AiMinotaurController : AiMonsterController
 
             // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
+            mc.BP.previousKicker = gameObject;
+            mc.BP.lastKicker = gameObject;
             canPickUpBall = false;
             StartCoroutine(SetPickUpBallTrue());
             // Debug.Log(transform.forward);

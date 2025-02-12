@@ -212,6 +212,8 @@ public class WarriorAiController : MonoBehaviour
 
             // Debug.Log("ballOwner set to null");
             wc.BP.ballOwner = null;
+            wc.BP.previousKicker = gameObject;
+            wc.BP.lastKicker = gameObject;
             Rigidbody ballRB = wc.BP.GetComponent<Rigidbody>();
             Debug.Log("Ball speed before kick: " + ballRB.velocity.magnitude);
             ballRB.AddForce(transform.forward * aiKickSpeed);

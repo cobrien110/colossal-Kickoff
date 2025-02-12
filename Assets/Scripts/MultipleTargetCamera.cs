@@ -5,6 +5,8 @@ using UnityEngine;
 public class MultipleTargetCamera : MonoBehaviour
 {
     public List<Transform> targets;
+    public Transform focusTarget;
+    private bool isFocusing = false;
     public Vector3 offset;
     public float maxZOffset;
     private Vector3 velocity;
@@ -14,6 +16,7 @@ public class MultipleTargetCamera : MonoBehaviour
     public float zoomLimiter = 50f;
     public float minFOV = 40f;
     public float maxFOV = 90f;
+    public float zoomFOV = 30f;
     public float maxGreatestDistance = 7f;
     public bool useJumpCutoff = true;
     public float zJumpCutoff = 1f;
@@ -39,6 +42,7 @@ public class MultipleTargetCamera : MonoBehaviour
     private void Move()
     {
         Vector3 centerPt = GetCenterPoint();
+        if (isFocusing && !CheckForDeadPlayer()) centerPt = focusTarget.position;
         Vector3 newPosition = centerPt + offset;
         if (newPosition.z < maxZOffset)
         {
@@ -55,6 +59,8 @@ public class MultipleTargetCamera : MonoBehaviour
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetGreatestDistanceX() / zoomLimiter);
+        //if (isFocusing) newZoom = Mathf.Lerp(zoomFOV, minZoom, GetGreatestDistanceX() / zoomLimiter);
+
         mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, newZoom, Time.deltaTime);
 
         //float mFOV = CheckActorsOutOfFrame() ? minZoom : maxFOV;
@@ -63,10 +69,10 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private bool CheckBigGap()
     {
-        if (GetGreatestDistanceZ() >= maxGreatestDistance)
+        if (GetGreatestDistanceZ() >= maxGreatestDistance && !isFocusing)
         {
             return true;
-        }
+        } 
         return false;
     }
 
@@ -125,9 +131,16 @@ public class MultipleTargetCamera : MonoBehaviour
     private float GetGreatestDistanceX()
     {
         var bounds = new Bounds(targets[0].position, Vector3.zero);
-        for (int i = 0; i < targets.Count; i++)
+        if (isFocusing && !CheckForDeadPlayer())
         {
-            bounds.Encapsulate(targets[i].position);
+            bounds.center = focusTarget.position;
+            bounds.Encapsulate(focusTarget.position);
+        } else
+        {
+            for (int i = 0; i < targets.Count; i++)
+            {
+                bounds.Encapsulate(targets[i].position);
+            }
         }
         return bounds.size.x;
     }
@@ -144,12 +157,30 @@ public class MultipleTargetCamera : MonoBehaviour
 
     public void AddTarget(Transform targetTransform)
     {
+        if (targetTransform == null) return;
         targets.Add(targetTransform);
     }
 
     public void RemoveTarget(Transform targetTransform)
     {
         targets.Remove(targetTransform);
+    }
+
+    public void FocusOn(Transform fTarget)
+    {
+        if (fTarget == null)
+        {
+            Debug.Log("No focus target found");
+            return;
+        }
+        isFocusing = true;
+        focusTarget = fTarget;
+        Invoke("EndFocus", 3f);
+    }
+
+    private void EndFocus()
+    {
+        isFocusing = false;
     }
 
     public bool CheckTarget(Transform targetTransform)
@@ -182,5 +213,15 @@ public class MultipleTargetCamera : MonoBehaviour
 
             transform.position = startPosition;
         }
+    }
+
+    private bool CheckForDeadPlayer()
+    {
+        WarriorController WC = focusTarget.GetComponent<WarriorController>();
+        if (WC != null && WC.GetIsDead())
+        {
+            return true;
+        }
+        return false;
     }
 }

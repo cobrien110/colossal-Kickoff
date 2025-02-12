@@ -20,7 +20,10 @@ public class GoalWithBarrier : MonoBehaviour
     public GameObject[] barrierObjects;
     public float xPos = 7f;
 
-    AudioPlayer AP; 
+    AudioPlayer AP;
+    public ParticleSystem GoalParticles;
+    private AudioPlayer ParticleAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -171,5 +174,13 @@ public class GoalWithBarrier : MonoBehaviour
         {
             health = maxHealth;
         }
+    }
+
+    public void PerformGoalEffects()
+    {
+        //yield return new WaitForSeconds(effectDelay);
+        GoalParticles.Play();
+        ParticleAudio = GoalParticles.GetComponent<AudioPlayer>();
+        ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
     }
 }

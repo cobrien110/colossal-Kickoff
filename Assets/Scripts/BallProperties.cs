@@ -9,6 +9,7 @@ public class BallProperties : MonoBehaviour
     private UIManager UM = null;
     private GameplayManager GM = null;
     private StatTracker ST = null;
+    private MultipleTargetCamera MTC = null;
     private AudioPlayer audioPlayer;
     public Transform ballSpawnPoint;
     public GameObject lastKicker = null;
@@ -41,6 +42,7 @@ public class BallProperties : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
+        MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         audioPlayer = GetComponent<AudioPlayer>();
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
         SR = GetComponentInChildren<SpriteRenderer>();
@@ -310,6 +312,17 @@ public class BallProperties : MonoBehaviour
             if (aiMummyManager != null) aiMummyManager.ResetMummies();
         }
 
+        // Play goal effects
+        try
+        {
+            GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+            goal.PerformGoalEffects();
+            //Debug.Log("Previous kicker");
+            MTC.FocusOn(previousKicker.transform);
+        } catch
+        {
+            Debug.LogWarning("Something went wrong trying to play fancy goal effects." + previousKicker.name);
+        }
     }
 
     public void ResetBall()

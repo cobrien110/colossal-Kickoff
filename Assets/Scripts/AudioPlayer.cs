@@ -34,7 +34,7 @@ public class AudioPlayer : MonoBehaviour
     {
         if (sound == null) return;
         source.clip = sound;
-        Debug.Log("SFX PREFS: " + PlayerPrefs.GetFloat("effectsVolume", 1));
+        //Debug.Log("SFX PREFS: " + PlayerPrefs.GetFloat("effectsVolume", 1));
         source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
         source.Play();
         //Debug.Log("Playing sound: " + sound.name);
