@@ -326,6 +326,10 @@ public class MonsterController : MonoBehaviour
             UM.UpdateChargeBarText("Monster");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         }
+        else
+        {
+            PAUI.ShowChargeBar(false);
+        }
     }
 
     void Passing()
@@ -373,7 +377,7 @@ public class MonsterController : MonoBehaviour
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
-                PAUI.ShowChargeBar(false);
+                //PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
 
                 //Outdated
@@ -423,7 +427,7 @@ public class MonsterController : MonoBehaviour
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
-                PAUI.ShowChargeBar(false);
+                //PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
 
                 //UM.ShowChargeBar(false);

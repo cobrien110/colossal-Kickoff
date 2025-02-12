@@ -46,7 +46,7 @@ public class GameplayManager : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
-        MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
+        //MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         Time.timeScale = 1;
 
         if (automaticAISpawn && playerList.Count < 4)

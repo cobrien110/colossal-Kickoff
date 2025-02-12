@@ -316,6 +316,7 @@ public class WarriorController : MonoBehaviour
         } else
         {
             // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
+            PAUI.ShowChargeBar(false);
         }
     }
 
@@ -382,7 +383,7 @@ public class WarriorController : MonoBehaviour
                 //UM.ShowChargeBar(false);
                 //UM.UpdateChargeBar(0f);
 
-                PAUI.ShowChargeBar(false);
+                //PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
@@ -457,7 +458,7 @@ public class WarriorController : MonoBehaviour
                 //UM.ShowChargeBar(false);
                 //UM.UpdateChargeBar(0f);
 
-                PAUI.ShowChargeBar(false);
+                //PAUI.ShowChargeBar(false);
                 PAUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
