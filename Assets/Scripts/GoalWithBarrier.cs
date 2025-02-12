@@ -21,12 +21,16 @@ public class GoalWithBarrier : MonoBehaviour
     public float xPos = 7f;
 
     AudioPlayer AP;
+    GameplayManager GM;
     public ParticleSystem GoalParticles;
     private AudioPlayer ParticleAudio;
 
     // Start is called before the first frame update
     void Start()
     {
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        SetStats();
+
         if (startWithBariers)
         {
             health = maxHealth;
@@ -37,6 +41,7 @@ public class GoalWithBarrier : MonoBehaviour
         
         col = GetComponent<BoxCollider>();
         AP = GetComponent<AudioPlayer>();
+        
         //col.isTrigger = false;
 
         if (transform.position.x < 0)
@@ -161,16 +166,16 @@ public class GoalWithBarrier : MonoBehaviour
     public void Respawn()
     {
         if (!startWithBariers) return;
-        if (respawnType == 0)
+        if (respawnType == 0) // don't respawn
         {
             return;
-        } else if (respawnType == 1)
+        } else if (respawnType == 1) // respawn if fully gone
         {
             if (health <= 0)
             {
                 health = maxHealth;
             }
-        } else
+        } else // completely respawn
         {
             health = maxHealth;
         }
@@ -182,5 +187,15 @@ public class GoalWithBarrier : MonoBehaviour
         GoalParticles.Play();
         ParticleAudio = GoalParticles.GetComponent<AudioPlayer>();
         ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
+    }
+
+    public void SetStats()
+    {
+        if (GM == null) return;
+        maxHealth = GM.barrierMaxHealth;
+        startWithBariers = GM.barriersAreOn;
+        respawnType = GM.barrierRespawnStyle;
+        maxBounceAngle = GM.barrierBounceAngle;
+        bounceForce = GM.barrierBounceForce;
     }
 }

@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8d113e9ea829844936ceed8c1d2c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlaying: 0
-  isPaused: 0
   automaticAISpawn: 1
   automaticStart: 1
+  passIndicator: 1
+  isPlaying: 0
+  isPaused: 0
   UM: {fileID: 0}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
   playerList: []
@@ -62,3 +63,8 @@ MonoBehaviour:
   passMeter: 0
   passMeterMax: 1
   WH: {fileID: 0}
+  barriersAreOn: 0
+  barrierRespawnStyle: 0
+  barrierMaxHealth: 10
+  barrierBounceForce: 150
+  barrierBounceAngle: 45

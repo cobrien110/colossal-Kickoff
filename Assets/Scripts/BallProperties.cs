@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallProperties : MonoBehaviour
 {
-    [HideInInspector] public GameObject ballOwner = null;
+    public GameObject ballOwner = null;
 
     private UIManager UM = null;
     private GameplayManager GM = null;
@@ -17,6 +17,8 @@ public class BallProperties : MonoBehaviour
     public GameObject playerTest = null;
     public float passBonus = 0.25f;
     public bool isSuperKick = false;
+    public float passTimeFrame = .5f;
+    private float passTimer = 0f;
     [SerializeField] private float heightLockDelay = 3.5f;
 
     // Lighting Effects
@@ -102,7 +104,27 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log("ballOwner - " + ballOwner);
+        if (isSuperKick && GM.passIndicator)
+        {
+            SetBallColor(Color.yellow);
+        }
+        else if (previousKicker != null && previousKicker.tag.Equals("Warrior") && ballOwner == null && GM.isPlaying
+            && GM.passIndicator && passTimer <= passTimeFrame)
+        {
+            SetBallColor(Color.blue);
+        }
+        else
+        {
+            SetBallColor(Color.white);
+        }
+        
+        if (ballOwner == null)
+        {
+            passTimer += Time.deltaTime;
+        } else
+        {
+            passTimer = 0f;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -114,11 +136,12 @@ public class BallProperties : MonoBehaviour
 
         AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster") || other.tag.Equals("Mummy"))
-            && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()) )) && isInteractable)
+            && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()))))
         {
+            if (!isInteractable) return;
             if (GM.passIndicator)
             {
-                SetBallColor(Color.white);
+                //SetBallColor(Color.white);
             }
 
             if (other.gameObject.Equals(lastKicker)) return;
@@ -174,11 +197,20 @@ public class BallProperties : MonoBehaviour
 
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
             isSuperKick = false;
-            if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior") && GM.isPassing)
+
+            // GET SUCCESSFUL PASS
+            if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
             {
-                GM.passMeter += passBonus;
-                UM.UpdateWarriorContestBar(GM.passMeter);
-                GM.isPassing = false;
+                if (isSuperKick)
+                {
+                    isSuperKick = false;
+                }
+                if (passTimer <= passTimeFrame)
+                {
+                    GM.passMeter += passBonus;
+                    UM.UpdateWarriorContestBar(GM.passMeter);
+                    //GM.isPassing = false;
+                }
             }
         }
     }
@@ -293,14 +325,32 @@ public class BallProperties : MonoBehaviour
 
     private void ScoreBall(bool isWarriorGoal, Transform t)
     {
+        GameObject scorer = previousKicker;
+        if (ballOwner != null) scorer = ballOwner;
+        // Play goal effects
+        try
+        {
+            GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+            goal.PerformGoalEffects();
+            //Debug.Log("Previous kicker");
+            MTC.FocusOn(scorer.transform);
+            //ballOwner = null;
+        }
+        catch
+        {
+            Debug.LogWarning("Something went wrong trying to play fancy goal effects." + scorer.name);
+        }
         if (CSM != null)
         {
             CSM.PlayGoalSound(!isWarriorGoal);
         }
+        
+
         Debug.Log("RESET");
         // Update the last scored ball for the delayed start
         GM.SetLastScoredGoal(t);
         ResetBall();
+
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
         globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
 
@@ -311,18 +361,6 @@ public class BallProperties : MonoBehaviour
             AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
             if (aiMummyManager != null) aiMummyManager.ResetMummies();
         }
-
-        // Play goal effects
-        try
-        {
-            GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
-            goal.PerformGoalEffects();
-            //Debug.Log("Previous kicker");
-            MTC.FocusOn(previousKicker.transform);
-        } catch
-        {
-            Debug.LogWarning("Something went wrong trying to play fancy goal effects." + previousKicker.name);
-        }
     }
 
     public void ResetBall()
@@ -332,6 +370,7 @@ public class BallProperties : MonoBehaviour
         // Debug.Log("ballOwner set to null");
         ballOwner = null;
         isInteractable = false;
+        previousKicker = null;
         //SR = GetComponentInChildren<SpriteRenderer>();
         if (SR != null) SR.enabled = false;
         Invoke("DestroyDelay", 3.05f);
@@ -340,9 +379,9 @@ public class BallProperties : MonoBehaviour
         GM.Reset();
     }
 
-    public void ResetForOvertime()
+    public void ResetPreviousKicker()
     {
-
+        previousKicker = null;
     }
 
     private void OnCollisionEnter(Collision collision)

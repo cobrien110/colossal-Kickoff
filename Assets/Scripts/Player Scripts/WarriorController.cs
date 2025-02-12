@@ -88,7 +88,7 @@ public class WarriorController : MonoBehaviour
 
     // If there is no ball owner yet a warrior or monster is on top of wall, OnTriggerStay will wait this long until making that character pick up ball
     private float pickupBallCooldown = 0.5f;
-    private float pickupBallTimer = 0f;
+    [SerializeField] private float pickupBallTimer = 0f;
 
 
     // Start is called before the first frame update
@@ -346,7 +346,7 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
-                GM.isPassing = true;
+                //GM.isPassing = true;
 
                 if (GM.passIndicator)
                 {
@@ -424,7 +424,7 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
-                GM.isPassing = true;
+                //GM.isPassing = true;
 
                 if (GM.passIndicator)
                 {
@@ -914,7 +914,12 @@ public class WarriorController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         BallProperties BP = other.GetComponent<BallProperties>();
-        if (BP == null || BP.ballOwner != null) return;
+
+        if (BP == null || BP.ballOwner != null)
+        {
+            pickupBallTimer = pickupBallCooldown;
+            return;
+        }
         // If ball hasn't been in warrior's colliders long enough
         if (BP != null && pickupBallTimer > 0)
         {
@@ -923,7 +928,7 @@ public class WarriorController : MonoBehaviour
             pickupBallTimer -= Time.deltaTime;
         } 
         // If has been in warrior's collider long enough
-        else if (BP != null && pickupBallTimer <= 0)
+        else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
             // Pick up ball
             Debug.Log("Pick up ball");

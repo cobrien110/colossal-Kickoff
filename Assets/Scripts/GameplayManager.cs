@@ -28,16 +28,23 @@ public class GameplayManager : MonoBehaviour
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
-    public bool isPassing = false;
+    //public bool isPassing = false;
     public float passMeter = 0;
     public float passMeterMax = 1.0f;
     private int spawnCount = 0;
     private Transform lastGoalScoredIn;
-
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
 
     public WarriorHolder WH = null;
+
+    [Header("Goal Barrier Settings")]
+    public bool barriersAreOn = false;
+    [Range(0, 2)] public int barrierRespawnStyle = 0;
+    public float barrierMaxHealth = 10;
+    public float barrierBounceForce = 150f;
+    public float barrierBounceAngle = 45f;
+    
 
     // Start is called before the first frame update
     void Start()

@@ -897,8 +897,11 @@ public class MonsterController : MonoBehaviour
         BallProperties BP = other.GetComponent<BallProperties>();
         // Debug.Log("Other: " + other);
 
-        if (BP != null) Debug.Log("BP.ballOwner: " + BP.ballOwner);
-        if (BP == null || BP.ballOwner != null) return;
+        if (BP == null || BP.ballOwner != null)
+        {
+            pickupBallTimer = pickupBallCooldown;
+            return;
+        }
         // If ball hasn't been in warrior's colliders long enough
         if (BP != null && pickupBallTimer > 0)
         {
