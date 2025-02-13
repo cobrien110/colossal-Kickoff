@@ -67,6 +67,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private ParticleSystem PS;
     public Sprite[] ringColors;
     public SpriteRenderer ring;
+    public SpriteRenderer transparentRing;
     //public SpriteRenderer playerRend;
     //public Color curseColor;
     private CommentatorSoundManager CSM;
@@ -828,10 +829,12 @@ public class WarriorController : MonoBehaviour
         try
         {
             ring.sprite = ringColors[i];
+            transparentRing.sprite = ringColors[i];
         }
         catch
         {
             ring.sprite = ring.sprite;
+            transparentRing.sprite = transparentRing.sprite;
         }
 
     }
