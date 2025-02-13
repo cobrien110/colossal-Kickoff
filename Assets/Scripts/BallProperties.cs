@@ -144,7 +144,7 @@ public class BallProperties : MonoBehaviour
                 //SetBallColor(Color.white);
             }
 
-            if (other.gameObject.Equals(lastKicker)) return;
+            //if (other.gameObject.Equals(lastKicker)) return;
             if (ballOwner == other.gameObject)
             {
                 Debug.Log("Collider is already ballOwner, ignore interaction");
