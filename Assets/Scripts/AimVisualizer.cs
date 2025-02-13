@@ -8,6 +8,8 @@ public class AimVisualizer : MonoBehaviour
     MonsterController mc;
     private Vector3 aimDir;
     [SerializeField] private GameObject arrow;
+    [SerializeField] private SpriteRenderer SR;
+    [SerializeField] private Color arrowColor;
     //[SerializeField] private MeshRenderer mr;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
@@ -20,6 +22,9 @@ public class AimVisualizer : MonoBehaviour
         wc = transform.parent.gameObject.GetComponent<WarriorController>();
         mc = transform.parent.gameObject.GetComponent<MonsterController>();
         //mr = GetComponent<MeshRenderer>();
+        SR = arrow.GetComponent<SpriteRenderer>();
+        arrowColor = SR.color;
+
         NewBall();
     }
 
@@ -67,6 +72,22 @@ public class AimVisualizer : MonoBehaviour
     {
         Ball = GameObject.FindGameObjectWithTag("Ball");
         BP = (BallProperties)Ball.GetComponent("BallProperties");
+    }
+
+    public void SuperKickColor(Color newColor)
+    {
+        if (SR.color.Equals(newColor))
+        {
+            return;
+        }
+        SR.color = newColor;
+        Debug.Log("Changing Color");
+    }
+
+    public void RevertColor()
+    {
+        SR.color = arrowColor;
+        Debug.Log("Reverting Color");
     }
 
 }

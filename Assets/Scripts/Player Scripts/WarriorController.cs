@@ -10,6 +10,7 @@ public class WarriorController : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
+    [SerializeField] private AimVisualizer AV = null;
 
     public const float baseMovementSpeed = 2.85f;
     [SerializeField] public float warriorSpeed = baseMovementSpeed;
@@ -100,6 +101,7 @@ public class WarriorController : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
+        AV = GetComponentInChildren<AimVisualizer>();
         BP = (BallProperties)Ball.GetComponent("BallProperties");
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.AddTarget(transform);
@@ -810,13 +812,15 @@ public class WarriorController : MonoBehaviour
 
     public void OnSuperKick(InputAction.CallbackContext context)
     {
-        if (context.action.IsInProgress())
+        if (context.action.IsInProgress() && GM.passMeter > 0)
         {
             superKicking = true;
+            AV.SuperKickColor(Color.red);
         }
         else
         {
             superKicking = false;
+            AV.RevertColor();
         }
     }
 
