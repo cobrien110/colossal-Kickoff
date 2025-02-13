@@ -74,6 +74,7 @@ public class SpriteBurst : MonoBehaviour
             AS.maxDistance = 100;
             AS.minDistance = 0;
             AS.playOnAwake = false;
+            AudioPlayerUncalled APU = spriteObj.AddComponent<AudioPlayerUncalled>();
 
             GoreBounceSound GBS = spriteObj.AddComponent<GoreBounceSound>();
             GBS.AS = AS;

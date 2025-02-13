@@ -10,8 +10,8 @@ public class lighningscript : MonoBehaviour
     public float minInterval = 10f; //Minimum time between flashes
     public float maxInterval = 30f; //Maximum time between flashes
 
-    public AudioSource audioSource; 
-    public AudioClip lightningSound; 
+    public AudioPlayer AP; 
+    //public AudioClip lightningSound; 
 
     private void Start()
     {
@@ -21,9 +21,9 @@ public class lighningscript : MonoBehaviour
     //This function will be called by the animation event
     public void PlayLightningSound()
     {
-        if (audioSource != null && lightningSound != null)
+        if (AP != null)
         {
-            audioSource.PlayOneShot(lightningSound);
+            AP.PlaySoundRandomPitch(AP.Find("Lightening"));
         }
     }
 

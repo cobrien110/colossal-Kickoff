@@ -2218,6 +2218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378675729}
   - component: {fileID: 1378675728}
+  - component: {fileID: 1378675730}
   m_Layer: 0
   m_Name: CrowdAmbience
   m_TagString: Untagged
@@ -2336,6 +2337,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1018444582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378675730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378675727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe064fc33eaef8a4c9313a16ccb8307f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1412701117 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1505253126057819337, guid: 703c3a51f74a62342af4d533deac197c, type: 3}

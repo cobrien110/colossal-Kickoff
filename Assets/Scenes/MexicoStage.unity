@@ -874,6 +874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378675729}
   - component: {fileID: 1378675728}
+  - component: {fileID: 1378675730}
   m_Layer: 0
   m_Name: CrowdAmbience
   m_TagString: Untagged
@@ -992,6 +993,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378675730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378675727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe064fc33eaef8a4c9313a16ccb8307f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1412701117 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1505253126057819337, guid: 703c3a51f74a62342af4d533deac197c, type: 3}
@@ -1688,8 +1701,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3308424394119605393, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3914395563813577800}
   m_SourcePrefab: {fileID: 100100000, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+--- !u!1 &3914395563813577799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3308424394119605393, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+  m_PrefabInstance: {fileID: 3914395563813577798}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3914395563813577800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3914395563813577799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a2efc67ae1f4749b7766d3a2371cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: cc2c06d91ec1e5644ba58b88b6815e5a, type: 3}
+  volume: 0.75
+  pitchRangeLow: 0.85
+  pitchRangeHigh: 1.15
 --- !u!1001 &4067862408232743441
 PrefabInstance:
   m_ObjectHideFlags: 0
