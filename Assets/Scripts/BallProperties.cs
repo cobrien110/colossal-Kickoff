@@ -333,12 +333,12 @@ public class BallProperties : MonoBehaviour
             GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
             goal.PerformGoalEffects();
             //Debug.Log("Previous kicker");
-            MTC.FocusOn(scorer.transform);
+            if (scorer != null) MTC.FocusOn(scorer.transform);
             //ballOwner = null;
         }
         catch
         {
-            Debug.LogWarning("Something went wrong trying to play fancy goal effects." + scorer.name);
+            Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
         }
         if (CSM != null)
         {

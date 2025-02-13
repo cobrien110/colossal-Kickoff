@@ -229,6 +229,7 @@ public class AIMummy : MonoBehaviour
 
             // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
+            mc.BP.previousKicker = gameObject;
             //Debug.Log(transform.forward);
             mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));

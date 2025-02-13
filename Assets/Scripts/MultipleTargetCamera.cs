@@ -42,7 +42,7 @@ public class MultipleTargetCamera : MonoBehaviour
     private void Move()
     {
         Vector3 centerPt = GetCenterPoint();
-        if (isFocusing && !CheckForDeadPlayer()) centerPt = focusTarget.position;
+        if (isFocusing && !CheckForDeadPlayer() && focusTarget != null) centerPt = focusTarget.position;
         Vector3 newPosition = centerPt + offset;
         if (newPosition.z < maxZOffset)
         {
@@ -217,8 +217,10 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private bool CheckForDeadPlayer()
     {
+        if (focusTarget == null) return true;
         WarriorController WC = focusTarget.GetComponent<WarriorController>();
-        if (WC != null && WC.GetIsDead())
+        AIMummy Mum = focusTarget.GetComponent<AIMummy>();
+        if ((WC != null && WC.GetIsDead()) || Mum != null)
         {
             return true;
         }
