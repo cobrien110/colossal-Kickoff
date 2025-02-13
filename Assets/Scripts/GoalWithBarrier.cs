@@ -24,6 +24,7 @@ public class GoalWithBarrier : MonoBehaviour
     GameplayManager GM;
     public ParticleSystem GoalParticles;
     private AudioPlayer ParticleAudio;
+    public AudioPlayer BarrierAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -86,11 +87,14 @@ public class GoalWithBarrier : MonoBehaviour
         // if ball is too slow, do not damage
         if (damage < 2) return;
         health -= damage;
-        /*
-        if (health <= 0) canBeScoredIn = true;
-        timer = 100f;
-        timerDamage = 100f;
-        */
+        
+        if (health <= 0)
+        {
+            BarrierAudio.PlaySoundRandomPitch(BarrierAudio.Find("goalBarrierBreak"));
+        } else
+        {
+            BarrierAudio.PlaySoundRandomPitch(BarrierAudio.Find("goalBarrierHit"));
+        }
     }
 
     public void RejectBall(Rigidbody rb)
