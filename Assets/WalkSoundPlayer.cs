@@ -21,7 +21,8 @@ public class WalkSoundPlayer : MonoBehaviour
 
     public void PlayWalkSound()
     {
-        if (AP == null || !AN.GetBool("isWalking")) return;
+        if (AP == null
+            || (!AN.GetBool("isWalking") && !AN.GetBool("isSliding") && !AN.GetBool("isCharging") && !AN.GetBool("isChargingUp"))) return;
         AP.PlaySoundRandom();
     }
 }
