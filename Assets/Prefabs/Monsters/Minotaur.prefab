@@ -260,9 +260,9 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: e65e4019b2f6ff34db2641ee0c0ae0cc, type: 3}
   - {fileID: 8300000, guid: 8f1aa71e0471b2840ae393c94083feac, type: 3}
-  volume: 1
-  pitchRangeLow: 0.9
-  pitchRangeHigh: 1.1
+  volume: 0.05
+  pitchRangeLow: 0.45
+  pitchRangeHigh: 0.55
 --- !u!1 &3176374829716338387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,6 +1123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrow: {fileID: 6961869170833132711}
+  SR: {fileID: 0}
+  arrowColor: {r: 0, g: 0, b: 0, a: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
 --- !u!1 &4584636217070398189
