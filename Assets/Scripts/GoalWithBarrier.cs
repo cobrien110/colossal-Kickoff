@@ -15,6 +15,8 @@ public class GoalWithBarrier : MonoBehaviour
     public float bounceForce = 4f;
     private float delayAfterInteraction = 0.25f;
     private float delayAfterDamage = 0.25f;
+    [SerializeField] private float delayBeforeCanBeScored = 0.35f;
+    private float canScoreTimer = 0f;
     private float timer;
     private float timerDamage;
     public GameObject[] barrierObjects;
@@ -54,8 +56,13 @@ public class GoalWithBarrier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health <= 0 && canScoreTimer < delayBeforeCanBeScored)
+        {
+            canScoreTimer += Time.deltaTime;
+        }
+
         if (health <= 0 && !canBeScoredIn
-            && (timer >= delayAfterInteraction))
+            && (timer >= delayAfterInteraction) && (canScoreTimer >= delayBeforeCanBeScored))
         {
             SetCanScore(true);
         }

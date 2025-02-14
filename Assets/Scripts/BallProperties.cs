@@ -247,17 +247,16 @@ public class BallProperties : MonoBehaviour
                 // otherwise destroy goal and bounce ball away
                 else
                 {
-                    GWB.RejectBall(RB);
+                    //GWB.RejectBall(RB);
                     GWB.TakeBallDamage(1000);
 
                     // Debug.Log("ballOwner set to null");
                     ballOwner = null;
                 }
 
-                if (GWB.health > 0)
-                {
-                    GWB.RejectBall(RB);
-                }
+
+                GWB.RejectBall(RB);
+                
             }
         }
 
@@ -307,17 +306,16 @@ public class BallProperties : MonoBehaviour
                 // otherwise destroy goal and bounce ball away
                 else
                 {
-                    GWB.RejectBall(RB);
+                    //GWB.RejectBall(RB);
                     GWB.TakeBallDamage(1000);
 
                     // Debug.Log("ballOwner set to null");
                     ballOwner = null;
                 }
 
-                if (GWB.health > 0)
-                {
-                    GWB.RejectBall(RB);
-                }
+                
+                GWB.RejectBall(RB);
+                
             }
             
         }
