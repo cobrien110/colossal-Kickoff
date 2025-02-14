@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
     //selected is updated by buttons when they become selected
     //public int selected;
     //camera that this can move around
+    [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
@@ -94,27 +95,27 @@ public class MenuController : MonoBehaviour
             switch (targetScene) {
                 case 0:
                     //Greece
-                    SceneManager.LoadScene("GreeceArena");
+                    ALM.BeginLoad("GreeceArena");
                     break;
                 case 1:
                     //Canada
-                    SceneManager.LoadScene("CanadaArena");
+                    ALM.BeginLoad("CanadaArena");
                     break;
                 case 2:
                     //Japan
-                    SceneManager.LoadScene("JapanArena");
+                    ALM.BeginLoad("JapanArena");
                     break;
                 case 3:
                     //Mexico
-                    SceneManager.LoadScene("MexicoStage");
+                    ALM.BeginLoad("MexicoStage");
                     break;
                 case 4:
                     //Egypt
-                    SceneManager.LoadScene("EgyptArena");
+                    ALM.BeginLoad("EgyptArena");
                     break;
                 default:
                    //Scene that hasn't been made yet
-                    SceneManager.LoadScene("GreeceArena");
+                    ALM.BeginLoad("GreeceArena");
                     break; 
             }
     }

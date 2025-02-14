@@ -92,6 +92,7 @@ public class AbilityFirebreath : AbilityScript
         yield return new WaitForSeconds(fireBreathDelay);
 
         Debug.Log("FireBreath ability activated");
+        audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
 
         // If ability is charged, then shoot out some orbs toward the warrior side
         if (AGP.counterAmount == AGP.counterMax)
