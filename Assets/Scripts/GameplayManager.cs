@@ -53,7 +53,7 @@ public class GameplayManager : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
-        //MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
+        MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         Time.timeScale = 1;
 
         if (automaticAISpawn && playerList.Count < 4)
@@ -120,9 +120,14 @@ public class GameplayManager : MonoBehaviour
 
     public void StartPlaying()
     {
+        Debug.Log("Starting play");
         isPlaying = true;
         UM.StartTimer();
-        if (MP != null) MP.UnPauseMusic();
+        if (MP != null)
+        {
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+        }
     }
 
     public void StopPlaying()
