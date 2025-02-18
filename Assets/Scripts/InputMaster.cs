@@ -98,7 +98,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -109,7 +109,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": ""InvertVector2,StickDeadzone(min=0.1)"",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -120,7 +120,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -138,11 +138,22 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""dc06e5de-42bb-480e-808b-4ae25d8d95eb"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""28a5687b-acb7-419a-85cd-e881a952add1"",
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Invert"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -160,11 +171,33 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a35fd7b1-b3a0-45fd-9635-f26aae22ff28"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""66db5ef7-3b1b-4688-9058-875e6cb83120"",
                     ""path"": ""<XInputController>/rightShoulder"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""SuperKick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""184d5123-3daf-4103-a458-46202abc51d7"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
                     ""action"": ""SuperKick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -246,7 +279,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -257,7 +290,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
                     ""processors"": ""InvertVector2,StickDeadzone"",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -268,7 +301,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -286,11 +319,33 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1057a78a-5d1b-4b2d-85d0-57e24b9c2b95"",
+                    ""path"": ""<DualShockGamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Wall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0a5be2d2-b233-464c-94de-4f4342561158"",
                     ""path"": ""<XInputController>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""baeccc4b-8820-459b-950b-ad712546bb69"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -308,11 +363,22 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""24ee5d30-6a31-47de-8a5b-53f6b07692bf"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Charge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b823dad2-d65b-45ab-845e-aa13852b9da9"",
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Invert"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -376,7 +442,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -394,6 +460,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b3b3e526-a5fb-471e-afb1-332cad1c12d9"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""485fc08c-b965-488c-b8e8-c6678e19f722"",
                     ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
@@ -405,11 +482,22 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3ed8d714-1e48-4b0e-a5bc-f09a4dbaae84"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""114c8384-5304-49c5-9cae-68e0fb90b346"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -420,7 +508,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Xbox Control Scheme"",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Change"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -435,6 +523,17 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Playstation Control Scheme"",
+            ""bindingGroup"": ""Playstation Control Scheme"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<DualShockGamepad>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -797,6 +896,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         {
             if (m_XboxControlSchemeSchemeIndex == -1) m_XboxControlSchemeSchemeIndex = asset.FindControlSchemeIndex("Xbox Control Scheme");
             return asset.controlSchemes[m_XboxControlSchemeSchemeIndex];
+        }
+    }
+    private int m_PlaystationControlSchemeSchemeIndex = -1;
+    public InputControlScheme PlaystationControlSchemeScheme
+    {
+        get
+        {
+            if (m_PlaystationControlSchemeSchemeIndex == -1) m_PlaystationControlSchemeSchemeIndex = asset.FindControlSchemeIndex("Playstation Control Scheme");
+            return asset.controlSchemes[m_PlaystationControlSchemeSchemeIndex];
         }
     }
     public interface IPlayerActions
