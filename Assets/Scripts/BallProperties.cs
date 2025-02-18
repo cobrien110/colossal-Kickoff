@@ -350,7 +350,7 @@ public class BallProperties : MonoBehaviour
         ResetBall();
 
         AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
-        globalAudioPlayer.PlaySound(globalAudioPlayer.Find("goal"));
+        globalAudioPlayer.PlaySoundRandomPitch(globalAudioPlayer.Find("goal"));
 
         // Reset mummies if applicable
         MonsterController mc = FindObjectOfType<MonsterController>();
