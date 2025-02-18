@@ -137,7 +137,7 @@ public class GameplayManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.75f);
         StartCoroutine(UM.Countdown());
-        yield return new WaitForSeconds(2.4f);
+        yield return new WaitForSeconds(3f);
         StartPlaying();
     }
 

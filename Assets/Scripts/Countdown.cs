@@ -5,6 +5,7 @@ using UnityEngine;
 public class Countdown : MonoBehaviour
 {
     Animator animator;
+    AudioPlayer AP;
     
     // Use this for initialization
     public void Reset() {
@@ -12,8 +13,16 @@ public class Countdown : MonoBehaviour
             animator = GetComponent<Animator>();
         }
         animator.SetBool("toReset", true);
+
+        if (AP == null)
+        {
+            AP = GetComponent<AudioPlayer>();
+        }
     }
+
+
     public void Play() {
         animator.SetBool("toReset", false);
+        AP.PlaySound(AP.Find("countdown"));
     }
 }

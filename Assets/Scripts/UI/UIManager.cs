@@ -220,7 +220,7 @@ public class UIManager : MonoBehaviour
         countdown.Reset();
         countdown.gameObject.SetActive(true);
         countdown.Play();
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(3.5f);
         countdown.gameObject.SetActive(false);
     }
 
