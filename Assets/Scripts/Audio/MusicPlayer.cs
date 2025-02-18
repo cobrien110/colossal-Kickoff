@@ -11,6 +11,9 @@ public class MusicPlayer : MonoBehaviour
 
     private float elapsedTime = 0f;
     public bool testMusic = false;
+    private float curVol = 0f;
+    private float volGainRate = 1.5f;
+    private bool isPaused = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,36 +23,45 @@ public class MusicPlayer : MonoBehaviour
         }
         if (source != null)
         {
+            curVol = source.volume;
             source.volume = volume * PlayerPrefs.GetFloat("musicVolume", 1);
             if (testMusic) source.volume = 1f;
             // If this is a level, pause the music before the round starts
-            if (isStageTheme) PauseMusic();
+            if (isStageTheme) {
+                source.Play();
+                PauseMusic();
+            };
         }
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (source != null) source.volume = volume * PlayerPrefs.GetFloat("musicVolume", 1);
         if (testMusic) source.volume = 1f;
+        else if (source != null && !isStageTheme) source.volume = volume * PlayerPrefs.GetFloat("musicVolume", 1);
+        else if (curVol < volume && source != null && isStageTheme)
+        {
+            if (!isPaused) curVol += Time.deltaTime * volGainRate;
+            Mathf.Clamp(curVol, 0f, volume);
+            source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
+        }
     }
 
     public void PauseMusic()
     {
         Debug.Log("Pausing music");
         elapsedTime = source.time;
+        curVol = 0f;
         source.Pause();
+        isPaused = true;
     }
 
     public void UnPauseMusic()
     {
-        Debug.Log("Resuming music at:" + source.time);
-        if (source.time.Equals(0f))
-        {
-            source.Play();
-            return;
-        }
+        //float reverseTime = elapsedTime - 3f;
+        Debug.Log("Resuming music at:" + elapsedTime);
+
         source.UnPause();
+        isPaused = false;
     }
 }

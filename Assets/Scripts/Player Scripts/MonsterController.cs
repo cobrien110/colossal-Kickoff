@@ -910,7 +910,7 @@ public class MonsterController : MonoBehaviour
             pickupBallTimer -= Time.deltaTime;
         }
         // If has been in warrior's collider long enough
-        else if (BP != null && pickupBallTimer <= 0)
+        else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
             // Pick up ball
             Debug.Log("Pick up ball");

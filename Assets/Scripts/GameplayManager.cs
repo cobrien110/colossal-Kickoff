@@ -120,14 +120,12 @@ public class GameplayManager : MonoBehaviour
 
     public void StartPlaying()
     {
-        Debug.Log("Starting play");
+        //Debug.Log("Starting play");
         isPlaying = true;
         UM.StartTimer();
-        if (MP != null)
-        {
-            Debug.Log("Calling Unpause music");
-            MP.UnPauseMusic();
-        }
+
+        //Debug.Log("Calling Unpause music");
+        MP.UnPauseMusic();
     }
 
     public void StopPlaying()
