@@ -32,9 +32,9 @@ public class MenuController : MonoBehaviour
     3: Stage Select
     **/
     public int currentScreen = 0;
-    int effectsVolume, musicVolume;
+    int effectsVolume, musicVolume, commentaryVolume, commentaryFrequency;
     //MENU INTERFACES
-    [SerializeField] private Slider effectsSlider, musicSlider;
+    [SerializeField] private Slider effectsSlider, musicSlider, comVolumeSlider, comFreqSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
@@ -148,6 +148,8 @@ public class MenuController : MonoBehaviour
                 goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
                 musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 100) * 100;
                 effectsSlider.value = PlayerPrefs.GetFloat("effectsVolume", 100) * 100;
+                comVolumeSlider.value = PlayerPrefs.GetFloat("commentaryVolume", 100) * 100;
+                comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
                 screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
@@ -281,6 +283,20 @@ public class MenuController : MonoBehaviour
 
     public void setEffectsVolume() {
         PlayerPrefs.SetFloat("effectsVolume", effectsSlider.value / 100f);
+
+        //sound
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void setCommentaryVolume() {
+        PlayerPrefs.SetFloat("commentaryVolume", comVolumeSlider.value / 100f);
+
+        //sound
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void setCommentaryFrequency() {
+        PlayerPrefs.SetFloat("commentaryFrequency", comFreqSlider.value / 100f);
 
         //sound
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
