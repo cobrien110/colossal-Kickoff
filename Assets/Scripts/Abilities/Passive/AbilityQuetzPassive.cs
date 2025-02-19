@@ -17,6 +17,7 @@ public class AbilityQuetzPassive : PassiveAbility
     public float xSpawnRange = 3;
     public float zSpawnRange = 2;
     public float timeBetweenSpawns = 10f;
+    public int maxClouds = 20;
     private int cloudCount = 0;
     public float yOffset = -1;
     private AbilitySnakeSegments ASS;
@@ -58,6 +59,7 @@ public class AbilityQuetzPassive : PassiveAbility
 
     void SpawnCloud()
     {
+        if (cloudCount >= maxClouds) return;
         Vector3 pos = new Vector3(Random.Range(-xSpawnRange, xSpawnRange), AF.GetMaxHeight() + yOffset, Random.Range(-zSpawnRange, zSpawnRange));
         Instantiate(rainCloudPrefab, pos, Quaternion.identity);
         cloudCount++;
@@ -71,7 +73,7 @@ public class AbilityQuetzPassive : PassiveAbility
 
     public void EatCloud()
     {
-        counterAmount++;
+        if (counterAmount < counterMax) counterAmount++;
         ASS.AddSegment();
         cloudCount--;
     }

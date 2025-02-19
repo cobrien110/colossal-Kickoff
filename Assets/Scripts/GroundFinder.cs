@@ -5,10 +5,10 @@ using UnityEngine;
 public class GroundFinder : MonoBehaviour
 {
     public LayerMask groundLayer;
+
     // Start is called before the first frame update
     void Start()
     {
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, groundLayer))
         {
@@ -16,9 +16,4 @@ public class GroundFinder : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
