@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BallProperties : MonoBehaviour
@@ -169,26 +170,34 @@ public class BallProperties : MonoBehaviour
             {
                 return;
             }
-
+            
             Debug.Log("ballOwner: " + ballOwner);
+            
+            bool isASteal = false;
+            if (ballOwner != null)
+            {
+                isASteal = true;
+            }
+
             Debug.Log("Ball owner being set to: " + other.gameObject);
             RB.velocity = Vector3.zero;
             ballOwner = other.gameObject;
             SetOwner(ballOwner);
 
-            if (wc != null && wc.IsSliding())
+            if (wc != null && wc.IsSliding() && isASteal)
             {
-                if (GetOwner().name.StartsWith('1'))
+                if (wc.playerNum == 1)
                 {
                     ST.UpdateWSteals(1);
                     UM.UpdateWarriorStealsSB(1);
+                    Debug.Log("Stole your ball haha");
                 }
-                if (GetOwner().name.StartsWith('2'))
+                if (wc.playerNum == 2)
                 {
                     ST.UpdateWSteals(2);
                     UM.UpdateWarriorStealsSB(2);
                 }
-                if (GetOwner().name.StartsWith('3'))
+                if (wc.playerNum == 3)
                 {
                     ST.UpdateWSteals(3);
                     UM.UpdateWarriorStealsSB(3);
@@ -227,6 +236,7 @@ public class BallProperties : MonoBehaviour
 
                 if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
 
+                //stat tracking monster points
                 UM.MonsterPoint();
                 ST.UpdateMGoals();
                 UM.UpdateMonsterGoalsSB();
@@ -271,19 +281,20 @@ public class BallProperties : MonoBehaviour
 
                 UM.WarriorPoint();
 
-                if (playerTest != null)
+                //Stat tracking warrior points
+                if (playerTest.GetComponent<WarriorController>() != null)
                 {
-                    if (playerTest.name.StartsWith('1'))
+                    if (playerTest.GetComponent<WarriorController>().playerNum == 1)
                     {
                         ST.UpdateWGoals(1);
                         UM.UpdateWarriorGoalsSB(1);
                     }
-                    if (playerTest.name.StartsWith('2'))
+                    if (playerTest.GetComponent<WarriorController>().playerNum == 2)
                     {
                         ST.UpdateWGoals(2);
                         UM.UpdateWarriorGoalsSB(2);
                     }
-                    if (playerTest.name.StartsWith('3'))
+                    if (playerTest.GetComponent<WarriorController>().playerNum == 3)
                     {
                         ST.UpdateWGoals(3);
                         UM.UpdateWarriorGoalsSB(3);

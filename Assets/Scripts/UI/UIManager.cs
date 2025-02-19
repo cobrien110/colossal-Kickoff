@@ -8,6 +8,9 @@ using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
+    //InGameUI
+    [SerializeField] private GameObject allInGameUI = null;
+
     //CenterScreenMessages
     //[SerializeField] private TMP_Text countdown = null;
     [SerializeField] private Countdown countdown;
@@ -159,33 +162,42 @@ public class UIManager : MonoBehaviour
                 console.gameObject.SetActive(true);
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                if (statsScoreboard.activeInHierarchy)
-                {
-                    ShowStatsScoreboard(false);
-                }
-                else if (!devStats.activeInHierarchy)
-                {
-                    ShowStatsScoreboard(true);
-                }
-                else if (devStats.activeInHierarchy)
-                {
-                    ShowDevStats(false);
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.Tab))
+            //{
+            //    if (statsScoreboard.activeInHierarchy)
+            //    {
+            //        ShowStatsScoreboard(false);
+            //    }
+            //    else if (!devStats.activeInHierarchy)
+            //    {
+            //        ShowStatsScoreboard(true);
+            //    }
+            //    else if (devStats.activeInHierarchy)
+            //    {
+            //        ShowDevStats(false);
+            //    }
+            //}
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                if (statsScoreboard.activeInHierarchy)
+                //if (statsScoreboard.activeInHierarchy)
+                //{
+                //    ShowStatsScoreboard(false);
+                //    ShowDevStats(true);
+                //}
+                //else if (devStats.activeInHierarchy)
+                //{
+                //    ShowDevStats(false);
+                //    ShowStatsScoreboard(true);
+                //}
+
+                if (!statsScoreboard.activeInHierarchy)
+                {
+                    ShowStatsScoreboard(true);
+                } 
+                else
                 {
                     ShowStatsScoreboard(false);
-                    ShowDevStats(true);
-                }
-                else if (devStats.activeInHierarchy)
-                {
-                    ShowDevStats(false);
-                    ShowStatsScoreboard(true);
                 }
             }
 
@@ -285,11 +297,14 @@ public class UIManager : MonoBehaviour
         scoreTextTimer.text = "0:00";
         timeRemainingSeconds = -1;
 
+        //Check winner
         if (warriorScore != monsterScore)
         {
             ShowGameOverText(true, CheckWinner());
             ST.UpdateGameWinner(CheckWinner());
-            ShowTopScoreboard(false);
+            
+            //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
+            ShowInGameUI(false);
             ShowStatsScoreboard(true);
         }
 
@@ -625,6 +640,11 @@ public class UIManager : MonoBehaviour
     public void ShowStatsScoreboard(bool state)
     {
         statsScoreboard.gameObject.SetActive(state);
+    }
+
+    public void ShowInGameUI(bool state)
+    {
+        allInGameUI.gameObject.SetActive(state);
     }
 
     public void ShowDevStats(bool state)
