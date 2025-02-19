@@ -48,6 +48,12 @@ public class MenuController : MonoBehaviour
     //sound
     AudioPlayer AP;
 
+    //connected player images
+    [SerializeField] private GameObject p1Connected;
+    [SerializeField] private GameObject p2Connected;
+    [SerializeField] private GameObject p3Connected;
+    [SerializeField] private GameObject p4Connected;
+
     void Start() {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
@@ -327,5 +333,27 @@ public class MenuController : MonoBehaviour
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
+    }
+
+    public void showConnected(int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                p1Connected.SetActive(true);
+                break;
+            case 2:
+                p2Connected.SetActive(true);
+                break;
+            case 3:
+                p3Connected.SetActive(true);
+                break;
+            case 4:
+                p4Connected.SetActive(true);
+                break;
+            default:
+                Debug.Log("Player Num Error");
+                break;
+        }
     }
 }

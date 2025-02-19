@@ -87,6 +87,9 @@ public class MenuCursor : MonoBehaviour
         // play sound
         AP = GetComponent<AudioPlayer>();
         AP.PlaySoundRandomPitch(AP.Find("menuJoin"));
+
+        // show connected
+        MC.showConnected(playerNumber);
     }
 
     private void OnEnable()
