@@ -12,6 +12,8 @@ public class CommentatorSoundManager : MonoBehaviour
     public float goalSoundFreq = 1f;
     public float deathSoundFreq = 0.35f;
     public float stunSoundFreq = 1f;
+    public float freqMod;
+    public float totalFreq;
     public float goalSoundDelay = 1f;
     public float killSoundDelay = 0.75f;
     public bool canPlaySounds = true;
@@ -33,10 +35,10 @@ public class CommentatorSoundManager : MonoBehaviour
     public List<AudioClip> comSoundsC_MonsterDeath;
 
     private AudioPlayer AP;
-
     private void Start()
     {
         AP = GetComponent<AudioPlayer>();
+        AP.setUseComVol(true);
 
         comSoundsA.Add(comSoundsA_WarriorGoal);
         comSoundsA.Add(comSoundsA_MonsterGoal);
@@ -56,6 +58,8 @@ public class CommentatorSoundManager : MonoBehaviour
         allSounds.Add(comSoundsA);
         allSounds.Add(comSoundsB);
         allSounds.Add(comSoundsAB);
+
+        freqMod = PlayerPrefs.GetFloat("commentaryFrequency", 1f);
     }
 
     public void PlayGoalSound(bool isWarriorGoal)
@@ -63,7 +67,8 @@ public class CommentatorSoundManager : MonoBehaviour
         bool willPlay = true;
         if (!canPlaySounds) willPlay = false;
         float r = Random.Range(0.0f, 1.0f);
-        if (r >= goalSoundFreq) willPlay = false;
+        totalFreq = goalSoundFreq * freqMod;
+        if (r >= goalSoundFreq * freqMod) willPlay = false;
 
         if (willPlay)
         {
@@ -91,7 +96,8 @@ public class CommentatorSoundManager : MonoBehaviour
         if (!canPlaySounds) willPlay = false;
         float r = Random.Range(0.0f, 1.0f);
         float freq = isWarriorDeath ? deathSoundFreq : stunSoundFreq;
-        if (r >= freq) willPlay = false;
+        totalFreq = freq * freqMod;
+        if (r >= freq * freqMod) willPlay = false;
 
         if (willPlay)
         {

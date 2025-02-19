@@ -11,14 +11,15 @@ public class AudioPlayer : MonoBehaviour
     public float volume = 1f;
     public float pitchRangeLow = .85f;
     public float pitchRangeHigh = 1.15f;
-
+    private bool useComVol = false;
     private void Start()
     {
         if (source == null)
         {
             source = GetComponent<AudioSource>();
         }
-        if (source != null) source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        if (source != null && !useComVol) source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        else if (source != null) source.volume = volume * PlayerPrefs.GetFloat("commentatorVolume", 1);
     }
 
     private void Update()
@@ -35,7 +36,8 @@ public class AudioPlayer : MonoBehaviour
         if (sound == null) return;
         source.clip = sound;
         //Debug.Log("SFX PREFS: " + PlayerPrefs.GetFloat("effectsVolume", 1));
-        source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        if (!useComVol) source.volume = volume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        else source.volume = volume * PlayerPrefs.GetFloat("commentaryVolume", 1);
         source.Play();
         //Debug.Log("Playing sound: " + sound.name);
     }
@@ -56,7 +58,8 @@ public class AudioPlayer : MonoBehaviour
     {
         if (sound == null) return;
         source.clip = sound;
-        source.volume = volume * tempVolume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        if (!useComVol) source.volume = volume * tempVolume * PlayerPrefs.GetFloat("effectsVolume", 1);
+        else source.volume = volume * tempVolume * PlayerPrefs.GetFloat("commentaryVolume", 1);
         source.Play();
         //Debug.Log(source.volume);
         //PlaySound(sound);
@@ -94,5 +97,10 @@ public class AudioPlayer : MonoBehaviour
     public bool isPlaying()
     {
         return source.isPlaying;
+    }
+
+    public void setUseComVol(bool b)
+    {
+        useComVol = b;
     }
 }
