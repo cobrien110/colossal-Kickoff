@@ -218,8 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23488c5b811d9d34c958e65366216308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shadow: {fileID: 8092786441646523174}
-  shadowHeight: -0.2
 --- !u!1 &8092786441646523174
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7285535094513251582}
   - component: {fileID: 6993069338899929591}
+  - component: {fileID: 456188374135840433}
   m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
@@ -246,7 +245,7 @@ Transform:
   m_GameObject: {fileID: 8092786441646523174}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.11, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -304,3 +303,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &456188374135840433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092786441646523174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd3b9eb3b32b2e449f82ce2977509b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
