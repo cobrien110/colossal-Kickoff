@@ -43,12 +43,25 @@ public class GashadokuroHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (BP == null) return;
-        if (BP.ballOwner != null) return;
+        Debug.Log("GashaHand OnTriggerEnter");
+        if (BP == null)
+        {
+            // Ensure BP is assigned a valid value
+            MonsterController mc = monster.GetComponent<MonsterController>();
+            if (mc == null)
+            {
+                mc = FindObjectOfType<MonsterController>();
+            }
+            BP = mc.BP;
+        }
+
+        Debug.Log("BP: " + BP);
+
         SoulOrb SO = collider.gameObject.GetComponent<SoulOrb>();
 
-        // Check if it is a non-trigger collider and has BallProperties
-        if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null)
+        // Check if it is a non-trigger collider, has BallProperties, and that no character is possessing ball
+        if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null
+            && BP.ballOwner == null)
         {
             Debug.Log("Hand hit ball: " + collider.name);
 
@@ -102,5 +115,7 @@ public class GashadokuroHand : MonoBehaviour
     public void SetIsDetached(bool isDetached)
     {
         this.isDetached = isDetached;
+        string name = createHandsScript.hand1.Equals(this.gameObject) ? "hand1" : "hand2";
+        Debug.Log(name +  " - SetIsDetached: " + isDetached);
     }
 }

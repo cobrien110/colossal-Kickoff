@@ -921,4 +921,12 @@ public class MonsterController : MonoBehaviour
         }
     }
 
+    public void ResetAbilities()
+    {
+        foreach (AbilityScript ab in abilities)
+        {
+            ab.AbilityReset();
+        }
+    }
+
 }

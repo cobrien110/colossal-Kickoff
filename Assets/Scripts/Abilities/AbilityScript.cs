@@ -157,4 +157,6 @@ public abstract class AbilityScript : MonoBehaviour
     {
         return timer >= cooldown;
     }
+
+    public virtual void AbilityReset() { }
 }

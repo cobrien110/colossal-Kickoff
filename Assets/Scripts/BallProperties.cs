@@ -386,6 +386,8 @@ public class BallProperties : MonoBehaviour
             AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
             if (aiMummyManager != null) aiMummyManager.ResetMummies();
         }
+
+        mc.ResetAbilities();
     }
 
     public void ResetBall()
