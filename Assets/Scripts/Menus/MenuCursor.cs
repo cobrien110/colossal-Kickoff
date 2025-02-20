@@ -415,6 +415,17 @@ public class MenuCursor : MonoBehaviour
         }
     }
 
+    public void OnLeave(InputAction.CallbackContext action)
+    {
+        if (!hasSelected && !charConfirmed)
+        {
+            MC.hideConnected(playerNumber);
+            IM.cursorList.Remove(this.gameObject);
+            Destroy(PH.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
+
     /**public void enterAudio(int optionSelected) {
         hasSelected = true;
         this.GetComponent<Image>().enabled = false;

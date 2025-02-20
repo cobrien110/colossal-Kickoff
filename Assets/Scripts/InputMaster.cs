@@ -417,7 +417,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Join"",
+                    ""name"": ""Leave"",
                     ""type"": ""Button"",
                     ""id"": ""c34c1313-aef7-4cbd-90cf-a57ecee41e60"",
                     ""expectedControlType"": ""Button"",
@@ -509,7 +509,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
-                    ""action"": ""Join"",
+                    ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -586,7 +586,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Cursor_Move = m_Cursor.FindAction("Move", throwIfNotFound: true);
         m_Cursor_Select = m_Cursor.FindAction("Select", throwIfNotFound: true);
         m_Cursor_Back = m_Cursor.FindAction("Back", throwIfNotFound: true);
-        m_Cursor_Join = m_Cursor.FindAction("Join", throwIfNotFound: true);
+        m_Cursor_Leave = m_Cursor.FindAction("Leave", throwIfNotFound: true);
         m_Cursor_Change = m_Cursor.FindAction("Change", throwIfNotFound: true);
     }
 
@@ -840,7 +840,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Cursor_Move;
     private readonly InputAction m_Cursor_Select;
     private readonly InputAction m_Cursor_Back;
-    private readonly InputAction m_Cursor_Join;
+    private readonly InputAction m_Cursor_Leave;
     private readonly InputAction m_Cursor_Change;
     public struct CursorActions
     {
@@ -849,7 +849,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Cursor_Move;
         public InputAction @Select => m_Wrapper.m_Cursor_Select;
         public InputAction @Back => m_Wrapper.m_Cursor_Back;
-        public InputAction @Join => m_Wrapper.m_Cursor_Join;
+        public InputAction @Leave => m_Wrapper.m_Cursor_Leave;
         public InputAction @Change => m_Wrapper.m_Cursor_Change;
         public InputActionMap Get() { return m_Wrapper.m_Cursor; }
         public void Enable() { Get().Enable(); }
@@ -869,9 +869,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
-            @Join.started += instance.OnJoin;
-            @Join.performed += instance.OnJoin;
-            @Join.canceled += instance.OnJoin;
+            @Leave.started += instance.OnLeave;
+            @Leave.performed += instance.OnLeave;
+            @Leave.canceled += instance.OnLeave;
             @Change.started += instance.OnChange;
             @Change.performed += instance.OnChange;
             @Change.canceled += instance.OnChange;
@@ -888,9 +888,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
-            @Join.started -= instance.OnJoin;
-            @Join.performed -= instance.OnJoin;
-            @Join.canceled -= instance.OnJoin;
+            @Leave.started -= instance.OnLeave;
+            @Leave.performed -= instance.OnLeave;
+            @Leave.canceled -= instance.OnLeave;
             @Change.started -= instance.OnChange;
             @Change.performed -= instance.OnChange;
             @Change.canceled -= instance.OnChange;
@@ -954,7 +954,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
-        void OnJoin(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
         void OnChange(InputAction.CallbackContext context);
     }
 }

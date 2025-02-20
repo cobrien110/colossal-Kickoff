@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerHolder : MonoBehaviour
 {
     public int playerID = -1;
+    public List<int> availableIDs = new List<int> { 0, 1, 2, 3 };
+
     public string teamName = "";
     public int monsterIndex = 0;
     public Gamepad thisGamepad;
@@ -18,7 +20,8 @@ public class PlayerHolder : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
-        playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
+        //playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
+        SetPlayerID();
 
         for (int i = 0; i < Gamepad.all.Count; i++)
         {
@@ -82,6 +85,27 @@ public class PlayerHolder : MonoBehaviour
                 GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
 
             }
+        }
+    }
+
+    void SetPlayerID()
+    {
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        if (playerHolders.Length == 1)
+        {
+            playerID = 0;
+        } else
+        {
+            for (int i = 0; i < playerHolders.Length; i++)
+            {
+                PlayerHolder PH = playerHolders[i].GetComponent<PlayerHolder>();
+                if (playerHolders[i] != this.gameObject)
+                {
+                    availableIDs.Remove(PH.playerID);
+                }
+            }
+
+            playerID = availableIDs[0];
         }
     }
 }

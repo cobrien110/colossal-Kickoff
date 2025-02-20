@@ -211,7 +211,7 @@ public class MenuController : MonoBehaviour
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
         numPlayersConfirmed++;
-        Debug.Log("players confirmed: " + numPlayersConfirmed);
+        Debug.Log("players confirmed: " + numPlayersConfirmed + " - Time: " + Time.fixedTime);
         Debug.Log("players needed: " + cursors.Length);
         if (numPlayersConfirmed == cursors.Length) {
             canMoveToGame = true;
@@ -224,6 +224,7 @@ public class MenuController : MonoBehaviour
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
         numPlayersConfirmed--;
+        Debug.Log("players confirmed: " + numPlayersConfirmed + "Time: " + Time.fixedTime);
         if (canMoveToGame) {
             canMoveToGame = false;
             readyText.SetActive(false);
@@ -350,6 +351,28 @@ public class MenuController : MonoBehaviour
                 break;
             case 4:
                 p4Connected.SetActive(true);
+                break;
+            default:
+                Debug.Log("Player Num Error");
+                break;
+        }
+    }
+
+    public void hideConnected(int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                p1Connected.SetActive(false);
+                break;
+            case 2:
+                p2Connected.SetActive(false);
+                break;
+            case 3:
+                p3Connected.SetActive(false);
+                break;
+            case 4:
+                p4Connected.SetActive(false);
                 break;
             default:
                 Debug.Log("Player Num Error");

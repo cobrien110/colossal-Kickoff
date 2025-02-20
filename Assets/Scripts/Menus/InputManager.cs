@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
 {
 
     [SerializeField] private List<PlayerInput> playerInputs = new List<PlayerInput>();
-    [SerializeField] private List<GameObject> cursorList = new List<GameObject>();
+    [SerializeField] public List<GameObject> cursorList = new List<GameObject>();
     [SerializeField] private MenuCursor MC = null;
     //[SerializeField] private MenuController menuController;
 
@@ -31,7 +31,8 @@ public class InputManager : MonoBehaviour
         GameObject[] cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
         newCursor = cursors[cursors.Length - 1];
         MC = newCursor.GetComponent<MenuCursor>();
-        MC.playerNumber = cursors.Length;
+        //MC.playerNumber = cursors.Length;
+        MC.playerNumber = playerID + 1;
         cursorList.Add(newCursor);
     }
 
