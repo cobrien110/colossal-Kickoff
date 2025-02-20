@@ -20,16 +20,20 @@ public class StatTracker : MonoBehaviour
     private int w2Steals = 0;
     private int w3Steals = 0;
 
+    private int w1Assists = 0;
+    private int w2Assists = 0;
+    private int w3Assists = 0;
+
     //Inactive:
-    private int wAssists = 0;
     private int wSaves = 0;
 
     // Monster:
     //Active:
     private int mGoals = 0;
-    private int mAbUsed = 0;
     private int mKills = 0;
+
     //Inactive:
+    private int mAbUsed = 0;
     private int mSaves = 0;
 
     // Dev:
@@ -73,9 +77,19 @@ public class StatTracker : MonoBehaviour
         return -1;
     }
 
-    public void UpdateWAssists()
+    public void UpdateWAssists(int player)
     {
-        wAssists++;
+        if (player == 1) w1Assists++;
+        if (player == 2) w2Assists++;
+        if (player == 3) w3Assists++;
+    }
+
+    public int GetWAssists(int player)
+    {
+        if (player == 1) return w1Assists;
+        if (player == 2) return w2Assists;
+        if (player == 3) return w3Assists;
+        return -1;
     }
 
     public void UpdateWDeaths(int player)

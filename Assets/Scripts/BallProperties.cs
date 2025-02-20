@@ -39,6 +39,9 @@ public class BallProperties : MonoBehaviour
 
     [SerializeField] private float maxSpeed = 15f;
 
+    private GameObject assistingPlayer;
+    private bool isAssisting;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -219,6 +222,12 @@ public class BallProperties : MonoBehaviour
                     GM.passMeter += passBonus;
                     UM.UpdateWarriorContestBar(GM.passMeter);
                     //GM.isPassing = false;
+
+                    //Assist stat code
+                    assistingPlayer = previousKicker;
+                    Debug.Log("" + assistingPlayer.GetComponent<WarriorController>().playerNum + 
+                        " is assisting " + ballOwner.GetComponent<WarriorController>().playerNum);
+                    StartCoroutine(Assisting());
                 }
             }
         }
@@ -299,6 +308,13 @@ public class BallProperties : MonoBehaviour
                         ST.UpdateWGoals(3);
                         UM.UpdateWarriorGoalsSB(3);
                     }
+                }
+
+                if (isAssisting && assistingPlayer.GetComponent<WarriorController>() != null)
+                {
+                    int playerNum = assistingPlayer.GetComponent<WarriorController>().playerNum;
+                    ST.UpdateWAssists(playerNum);
+                    UM.UpdateWarriorAssistsSB(playerNum);
                 }
 
                 ScoreBall(false, other.transform);
@@ -469,5 +485,15 @@ public class BallProperties : MonoBehaviour
     {
         MeshRenderer MR = GetComponentInChildren<MeshRenderer>();
         MR.material.SetColor("_BaseColor", ballColor);
+    }
+
+    private IEnumerator Assisting()
+    {
+        Debug.Log("Assist ready");
+        isAssisting = true;
+        yield return new WaitForSeconds(3.0f);
+        Debug.Log("Assist no longer ready");
+        isAssisting = false;
+        assistingPlayer = null;
     }
 }

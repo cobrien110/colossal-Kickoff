@@ -38,6 +38,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text Warrior2GoalsText = null;
     [SerializeField] private TMP_Text Warrior3GoalsText = null;
 
+    [SerializeField] private TMP_Text Warrior1AssistsText = null;
+    [SerializeField] private TMP_Text Warrior2AssistsText = null;
+    [SerializeField] private TMP_Text Warrior3AssistsText = null;
+
     [SerializeField] private TMP_Text Warrior1DeathsText = null;
     [SerializeField] private TMP_Text Warrior2DeathsText = null;
     [SerializeField] private TMP_Text Warrior3DeathsText = null;
@@ -657,6 +661,13 @@ public class UIManager : MonoBehaviour
         if (player == 1) Warrior1GoalsText.text = "" + ST.GetWGoals(1);
         if (player == 2) Warrior2GoalsText.text = "" + ST.GetWGoals(2);
         if (player == 3) Warrior3GoalsText.text = "" + ST.GetWGoals(3);
+    }
+
+    public void UpdateWarriorAssistsSB(int player)
+    {
+        if (player == 1) Warrior1AssistsText.text = "" + ST.GetWAssists(1);
+        if (player == 2) Warrior2AssistsText.text = "" + ST.GetWAssists(2);
+        if (player == 3) Warrior3AssistsText.text = "" + ST.GetWAssists(3);
     }
 
     public void UpdateWarriorDeathsSB(int player)
