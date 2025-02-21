@@ -78,7 +78,7 @@ public class AbilityCreateHands : PassiveAbility
         else if (hand1 != null && gashaHand1 && gashaHand1.GetIsDetached())
         {
             hand1.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
-                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
+                hand1.transform.position.y, abilityHandSlam.attackVisualizer.transform.position.z);
         }
 
         if (hand2 != null && gashaHand2 != null && !gashaHand2.GetIsDetached()) // Ignore if hand is detached
@@ -89,7 +89,7 @@ public class AbilityCreateHands : PassiveAbility
         else if (hand2 != null && gashaHand2 && gashaHand2.GetIsDetached())
         {
             hand2.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
-                abilityHandSlam.attackVisualizer.transform.position.y + 0f, abilityHandSlam.attackVisualizer.transform.position.z);
+                hand2.transform.position.y, abilityHandSlam.attackVisualizer.transform.position.z);
         }
 
         // Count up timers if hand is dead

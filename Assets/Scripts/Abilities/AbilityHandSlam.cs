@@ -30,6 +30,8 @@ public class AbilityHandSlam : AbilityDelayed
     private bool slamWasPressed = false; // Prevents a release of the trigger from activating a slam that was not pressed while off cooldown
     private bool canSlam = true; // Prevents a slam from happeing while a current one is still in progress
 
+    private const float visualOffsetY = -0.3f;
+
     public override void Activate()
     {
         if (timer < cooldown) return;
@@ -124,7 +126,13 @@ public class AbilityHandSlam : AbilityDelayed
         BP = FindObjectOfType<BallProperties>();
         monsterRB = gameObject.GetComponent<Rigidbody>();
 
-        attackVisualizer.transform.localScale *= slamRadius * 2.5f;
+        //attackVisualizer.transform.localScale *= slamRadius * 2.5f;
+        //attackVisualizer.transform.localScale = new Vector3(
+        //    slamRadius * 2,   // Width (X)
+        //    slamLength * 2,   // Height (Y) (Unity capsules use half-height scaling)
+        //    slamRadius * 2    // Depth (Z)
+        //);
+
 
         // Unparent visualizer from monster
         attackVisualizer.transform.parent = null;
@@ -142,7 +150,7 @@ public class AbilityHandSlam : AbilityDelayed
         if (!abilityCreateHands.AHandIsDetached())
         {
             attackVisualizer.transform.position =
-            new Vector3(transform.position.x + slamLength / 2, transform.position.y, transform.position.z);
+            new Vector3(transform.position.x + slamLength / 2, visualOffsetY, transform.position.z);
         }
 
         // Activate ability if monster picks up ball while hand is detached
