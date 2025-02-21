@@ -416,6 +416,8 @@ public class BallProperties : MonoBehaviour
         }
 
         mc.ResetAbilities();
+
+        AbilityScript.canActivate = false;
     }
 
     public void ResetBall()

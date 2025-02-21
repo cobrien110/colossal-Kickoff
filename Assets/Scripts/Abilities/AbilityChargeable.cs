@@ -89,6 +89,7 @@ public abstract class AbilityChargeable : AbilityScript
     public virtual void ChargeAbility()
     {
         if (MC.isStunned) return;
+        if (!canActivate) ChargeDown();
         if (chargeAmount < maxChargeSeconds)
         {
             // Debug.Log("Charging Ability: " + abilityName);
@@ -102,6 +103,7 @@ public abstract class AbilityChargeable : AbilityScript
 
     public virtual void ChargeUp()
     {
+        if (!canActivate) return;
         // Debug.Log("Is Charging Attack");
         isCharging = true;
         if (slowsDownCharacterWhileCharging) MC.isChargingAbility = true;

@@ -31,6 +31,8 @@ public abstract class AbilityScript : MonoBehaviour
 
     [HideInInspector] public StatTracker ST;
 
+    public static bool canActivate = true;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -162,4 +164,5 @@ public abstract class AbilityScript : MonoBehaviour
         Debug.Log(abilityName + " ability reset");
         timer = cooldown;
     }
+
 }

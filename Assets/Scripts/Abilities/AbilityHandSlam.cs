@@ -116,6 +116,11 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Enable new slams to occur
         canSlam = true;
+
+
+        // Reattach hand and visualizer, disable visualizer
+        chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(false);
+        attackVisualizer.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -219,9 +224,7 @@ public class AbilityHandSlam : AbilityDelayed
 
         Activate();
 
-        // Reattach hand and visualizer, disable visualizer
-        chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(false);
-        attackVisualizer.SetActive(false);
+        
     }
 
     public override void CheckInputs(InputAction.CallbackContext context)
