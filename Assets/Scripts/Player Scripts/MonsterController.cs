@@ -81,8 +81,8 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float shakeIntensity = 1.0f;
 
     // If there is no ball owner yet a warrior or monster is on top of wall, OnTriggerStay will wait this long until making that character pick up ball
-    private float pickupBallCooldown = 0.5f;
-    private float pickupBallTimer = 0f;
+    private float pickupBallCooldown = 0.25f;
+    [SerializeField] private float pickupBallTimer = 0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -923,13 +923,18 @@ public class MonsterController : MonoBehaviour
         BallProperties BP = other.GetComponent<BallProperties>();
         // Debug.Log("Other: " + other);
 
-        if (BP == null || BP.ballOwner != null)
+        if (BP == null)
         {
+            Debug.Log("No Ball found");
+            //pickupBallTimer = pickupBallCooldown;
+        }
+        else if (BP.ballOwner != null)
+        {
+            Debug.Log("Already have ball OR someone else has ball");
             pickupBallTimer = pickupBallCooldown;
-            return;
         }
         // If ball hasn't been in warrior's colliders long enough
-        if (BP != null && pickupBallTimer > 0)
+        else if (BP != null && pickupBallTimer > 0 && !isIntangible)
         {
             // Count down timer
             Debug.Log("Waiting to pick up ball");

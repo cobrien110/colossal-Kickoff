@@ -88,8 +88,8 @@ public class WarriorController : MonoBehaviour
     private float bombTimer = 0f;
     [SerializeField] private GameObject BombVisual = null;
 
-    // If there is no ball owner yet a warrior or monster is on top of wall, OnTriggerStay will wait this long until making that character pick up ball
-    private float pickupBallCooldown = 0.5f;
+    // If there is no ball owner yet a warrior or monster is on top of ball, OnTriggerStay will wait this long until making that character pick up ball
+    private float pickupBallCooldown = 0.25f;
     [SerializeField] private float pickupBallTimer = 0f;
 
 
@@ -946,19 +946,25 @@ public class WarriorController : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         BallProperties BP = other.GetComponent<BallProperties>();
+        // Debug.Log("Other: " + other);
 
-        if (BP == null || BP.ballOwner != null)
+        if (BP == null)
         {
+            Debug.Log("No Ball found");
+            //pickupBallTimer = pickupBallCooldown;
+        }
+        else if (BP.ballOwner != null)
+        {
+            Debug.Log("Already have ball OR someone else has ball");
             pickupBallTimer = pickupBallCooldown;
-            return;
         }
         // If ball hasn't been in warrior's colliders long enough
-        if (BP != null && pickupBallTimer > 0)
+        else if (BP != null && pickupBallTimer > 0)
         {
             // Count down timer
             Debug.Log("Waiting to pick up ball");
             pickupBallTimer -= Time.deltaTime;
-        } 
+        }
         // If has been in warrior's collider long enough
         else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
