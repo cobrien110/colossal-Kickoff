@@ -360,6 +360,14 @@ public class AiMinotaurController : AiMonsterController
         {
             Debug.Log("Shoot!");
 
+            // Prevent ball from getting kicked "through" walls
+            if (mc != null && mc.BP != null && mc.IsWallBetweenBallAndPlayer())
+            {
+                Debug.Log("Correcting ball position before kick");
+                mc.BP.gameObject.transform.position =
+                    new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+            }
+
             // Make minotaur look at goal
             Quaternion newRotation = 
                 Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);

@@ -210,6 +210,14 @@ public class WarriorAiController : MonoBehaviour
         {
             Debug.Log("Kick!");
 
+            // Prevent ball from getting kicked "through" walls
+            if (wc != null && wc.BP != null && wc.IsWallBetweenBallAndPlayer())
+            {
+                Debug.Log("Correcting ball position before kick");
+                wc.BP.gameObject.transform.position =
+                    new Vector3(transform.position.x, wc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+            }
+
             // Debug.Log("ballOwner set to null");
             wc.BP.ballOwner = null;
             wc.BP.previousKicker = gameObject;

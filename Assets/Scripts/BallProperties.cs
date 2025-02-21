@@ -42,6 +42,10 @@ public class BallProperties : MonoBehaviour
     private GameObject assistingPlayer;
     private bool isAssisting;
 
+    private const float ballRadius = 0.15f;
+    private Vector3 previousPosition;
+    private Vector3 calculatedVelocity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +108,30 @@ public class BallProperties : MonoBehaviour
             // Cap the velocity to the maximum speed, preserving direction
             RB.velocity = RB.velocity.normalized * maxSpeed;
         }
+
+        // Set ball rolling speed and direction based on velocity
+        if (ballOwner != null)
+        {
+            // Calculate velocity manually
+            calculatedVelocity = (transform.position - previousPosition) / Time.fixedDeltaTime;
+        }
+        else
+        {
+            // Use Rigidbody velocity when physics is applied
+            calculatedVelocity = RB.velocity;
+        }
+
+        // Apply rotation based on calculated velocity
+        if (calculatedVelocity.sqrMagnitude > 0.001f)
+        {
+            Vector3 rotationAxis = Vector3.Cross(Vector3.up, calculatedVelocity.normalized);
+            float rotationSpeed = calculatedVelocity.magnitude / ballRadius;
+
+            RB.angularVelocity = rotationAxis * rotationSpeed;
+        }
+
+        // Store the current position for the next frame's calculation
+        previousPosition = transform.position;
     }
 
     private void Update()

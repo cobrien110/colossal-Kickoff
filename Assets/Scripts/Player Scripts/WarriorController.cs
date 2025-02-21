@@ -337,6 +337,23 @@ public class WarriorController : MonoBehaviour
         }
     }
 
+    public bool IsWallBetweenBallAndPlayer()
+    {
+        Vector3 direction = (BP.transform.position - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, BP.transform.position);
+
+        // Define the layers to check using a LayerMask
+        int layerMask = LayerMask.GetMask("InvisibleWall", "Ground");
+
+        // Perform the raycast
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, layerMask))
+        {
+            return true; // Something is blocking the path
+        }
+
+        return false; // No obstacles in the way
+    }
+
     void Kicking()
     {
         if (!usingNewScheme)
@@ -344,6 +361,14 @@ public class WarriorController : MonoBehaviour
             if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
+
+                // Prevent ball from getting kicked "through" walls
+                if (BP != null && IsWallBetweenBallAndPlayer())
+                {
+                    Debug.Log("Correcting ball position before kick");
+                    BP.gameObject.transform.position =
+                        new Vector3(transform.position.x, BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+                }
 
                 // Debug.Log("ballOwner set to null");
                 BP.ballOwner = null;
