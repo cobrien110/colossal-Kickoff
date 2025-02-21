@@ -135,6 +135,7 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator Kickoff()
     {
+        if (MC != null) MC.ResetAbilities();
         yield return new WaitForSeconds(0.75f);
         StartCoroutine(UM.Countdown());
         yield return new WaitForSeconds(3f);
