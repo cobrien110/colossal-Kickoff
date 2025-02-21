@@ -220,7 +220,7 @@ public class AbilityHandSlam : AbilityDelayed
     {
         // Debug.Log("Ability delayed input action: " + context);
 
-        if (!GM.isPlaying || MC.isStunned)
+        if (!GM.isPlaying || MC.isStunned || !BP.isInteractable)
         {
             return;
         }
