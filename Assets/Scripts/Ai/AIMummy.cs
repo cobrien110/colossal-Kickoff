@@ -56,6 +56,10 @@ public class AIMummy : MonoBehaviour
     ////WarriorController[] warriors;
     private Animator ANIM;
 
+    // If there is no ball owner yet a warrior or monster is on top of ball, OnTriggerStay will wait this long until making that character pick up ball
+    private float pickupBallCooldown = 0.25f;
+    [SerializeField] private float pickupBallTimer = 0f;
+
     private void Awake()
     {
         mc = FindObjectOfType<MonsterController>();
@@ -220,12 +224,37 @@ public class AIMummy : MonoBehaviour
 
     }
 
+    private bool IsWallBetweenBallAndPlayer()
+    {
+        Vector3 direction = (mc.BP.transform.position - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, mc.BP.transform.position);
+
+        // Define the layers to check using a LayerMask
+        int layerMask = LayerMask.GetMask("InvisibleWall", "Ground");
+
+        // Perform the raycast
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance, layerMask))
+        {
+            return true; // Something is blocking the path
+        }
+
+        return false; // No obstacles in the way
+    }
+
     // The pass and shoot method for Ai Warriors
     void Kick()
     {
         if (mc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
+
+            // Prevent ball from getting kicked "through" walls
+            if (mc != null && mc.BP != null && IsWallBetweenBallAndPlayer())
+            {
+                Debug.Log("Correcting ball position before kick");
+                mc.BP.gameObject.transform.position =
+                    new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+            }
 
             // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
@@ -510,5 +539,39 @@ public class AIMummy : MonoBehaviour
     public void SetIsPursuing(bool isPursuing)
     {
         this.isPursuing = isPursuing;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        BallProperties BP = other.GetComponent<BallProperties>();
+        // Debug.Log("Other: " + other);
+
+        if (BP == null)
+        {
+            Debug.Log("No Ball found");
+            //pickupBallTimer = pickupBallCooldown;
+        }
+        else if (BP.ballOwner != null)
+        {
+            Debug.Log("Already have ball OR someone else has ball");
+            pickupBallTimer = pickupBallCooldown;
+        }
+        // If ball hasn't been in warrior's colliders long enough
+        else if (BP != null && pickupBallTimer > 0)
+        {
+            // Count down timer
+            Debug.Log("Waiting to pick up ball");
+            pickupBallTimer -= Time.deltaTime;
+        }
+        // If has been in warrior's collider long enough
+        else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
+        {
+            // Pick up ball
+            Debug.Log("Pick up ball");
+            pickupBallTimer = pickupBallCooldown;
+            BP.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            BP.ballOwner = gameObject;
+            BP.SetOwner(BP.ballOwner);
+        }
     }
 }
