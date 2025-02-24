@@ -136,17 +136,6 @@ public class GoalWithBarrier : MonoBehaviour
         rb.transform.position = new Vector3(xPos,tempPos.y, tempPos.z);
     }
 
-    public void Restart()
-    {
-        if (startWithBariers)
-        {
-            health = maxHealth;
-            timer = 0f;
-            timerDamage = 0f;
-        }
-        
-    }
-
     private void UpdateBars()
     {
         int num = barrierObjects.Length;
@@ -185,11 +174,16 @@ public class GoalWithBarrier : MonoBehaviour
             if (health <= 0)
             {
                 health = maxHealth;
+                canBeScoredIn = false;
             }
         } else // completely respawn
         {
             health = maxHealth;
+            canBeScoredIn = false;
         }
+        timer = 0f;
+        timerDamage = 0f;
+        canScoreTimer = 0f;
     }
 
     public void PerformGoalEffects()
