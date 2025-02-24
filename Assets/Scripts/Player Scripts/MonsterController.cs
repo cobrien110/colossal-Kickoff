@@ -956,6 +956,8 @@ public class MonsterController : MonoBehaviour
     {
         foreach (AbilityScript ab in abilities)
         {
+            if (ab == null) continue; // Ignore the null abilities
+            // Debug.Log("Reseting ability");
             ab.AbilityReset();
         }
     }

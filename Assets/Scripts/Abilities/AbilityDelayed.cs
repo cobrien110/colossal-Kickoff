@@ -17,5 +17,10 @@ public abstract class AbilityDelayed : AbilityScript
         // UpdateSetup();
     }
 
-    public abstract void CheckInputs(InputAction.CallbackContext context);
+    public void CheckInputs(InputAction.CallbackContext context)
+    {
+        if (!canActivate) return;
+        CheckInputsDelayed(context);
+    }
+    public abstract void CheckInputsDelayed(InputAction.CallbackContext context);
 }

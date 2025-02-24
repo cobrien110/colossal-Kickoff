@@ -22,6 +22,8 @@ public class AbilitySquareAttack : AbilityChargeable
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         Debug.Log("Attack!");
         if (BP != null && BP.ballOwner != gameObject && GM.isPlaying)
         {

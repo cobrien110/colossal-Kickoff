@@ -22,6 +22,8 @@ public class AbilitySphinxCurse : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         if (timer >= cooldown)
         {
             timer = 0;

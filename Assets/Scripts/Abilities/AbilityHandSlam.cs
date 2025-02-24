@@ -34,6 +34,7 @@ public class AbilityHandSlam : AbilityDelayed
 
     public override void Activate()
     {
+
         if (timer < cooldown) return;
 
         Debug.Log("Activate hand slam");
@@ -227,11 +228,11 @@ public class AbilityHandSlam : AbilityDelayed
         
     }
 
-    public override void CheckInputs(InputAction.CallbackContext context)
+    public override void CheckInputsDelayed(InputAction.CallbackContext context)
     {
         // Debug.Log("Ability delayed input action: " + context);
 
-        if (!GM.isPlaying || MC.isStunned || !BP.isInteractable)
+        if (!GM.isPlaying || MC.isStunned)
         {
             return;
         }

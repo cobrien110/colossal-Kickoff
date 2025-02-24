@@ -56,6 +56,8 @@ public class AbilityFirebreath : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         if (timer < cooldown) return;
 
         timer = 0;

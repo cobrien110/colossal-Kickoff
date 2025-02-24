@@ -82,6 +82,7 @@ public class AbilityFly : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
         if (timer < cooldown) return;
         if (!isActive)
         {

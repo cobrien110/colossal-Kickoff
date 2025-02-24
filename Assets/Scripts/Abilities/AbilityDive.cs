@@ -82,6 +82,8 @@ public class AbilityDive : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         if (isActive && inputBuffer >= inputBufferTime)
         {
             isActive = false;

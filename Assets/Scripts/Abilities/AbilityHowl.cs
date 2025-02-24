@@ -17,12 +17,14 @@ public class AbilityHowl : AbilityScript
     
     1. Stop momentum of ball if in radius
     
-    2. Stun all warrior in radius
+    2. Stun all warriors in radius
 
     */
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         if (timer < cooldown) return;
         timer = 0;
         Invoke("DelayedActivate", delayBeforeActivate);

@@ -20,13 +20,13 @@ public class AbilitySphericalAttack : AbilityChargeable
 
     public override void Activate()
     {
-        Debug.Log("Attack!");
-
         if (!canActivate)
         {
             Debug.Log("canActivate: " + canActivate);
             return;
         }
+
+        Debug.Log("Attack!");
 
         if (BP != null && BP.ballOwner != gameObject && GM.isPlaying)
         {

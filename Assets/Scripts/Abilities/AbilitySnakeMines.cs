@@ -26,6 +26,8 @@ public class AbilitySnakeMines : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         if (timer >= cooldown && ASS.cutSegments.Count >= 1)
         {
             timer = 0;

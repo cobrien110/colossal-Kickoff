@@ -25,6 +25,8 @@ public class AbilitySummonShrine : AbilityScript
 
     public override void Activate()
     {
+        if (!canActivate) return;
+
         //Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
         if (timer < cooldown)
         {

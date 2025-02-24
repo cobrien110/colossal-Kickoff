@@ -26,6 +26,7 @@ public class AbilityBullrush : AbilityChargeable
 
     public override void Activate()
     {
+        if (!canActivate) return;
         //if (BP.ballOwner == gameObject || MC.isStunned) return; // ensure no dashing or dash charging when you have ball
         if (!GM.isPlaying)
         {
