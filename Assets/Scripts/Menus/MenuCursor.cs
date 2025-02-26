@@ -13,6 +13,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private float speed = 500.0f;
     public int playerNumber = -1;
     public int playerSlot = -1;
+    public WarriorDesc WD = null;
     [SerializeField] private int menuSlot = -1;
     [SerializeField] private int warriorColor = -1;
     [SerializeField] private MenuController MC = null;
@@ -21,7 +22,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private MonsterName MN = null;
     [SerializeField] private MonsterAbilityBlurb abilityBlurb = null;
     [SerializeField] private MonsterAbilityViewController monsterAbilityViewController = null;
-    [SerializeField] private WarriorDesc[] WDarr = null;
+    //[SerializeField] private WarriorDesc[] WDarr = null;
     [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
     [SerializeField] private Sprite[] cursorSprites;
 
@@ -58,10 +59,12 @@ public class MenuCursor : MonoBehaviour
         MN = FindObjectOfType<MonsterName>(true);
         abilityBlurb = FindObjectOfType<MonsterAbilityBlurb>(true);
         monsterAbilityViewController = FindObjectOfType<MonsterAbilityViewController>(true);
-        WDarr = FindObjectsOfType<WarriorDesc>(true);
-        WarriorDesc holder = WDarr[1];
-        WDarr[1] = WDarr[2];
-        WDarr[2] = holder;
+
+        //WDarr = FindObjectsOfType<WarriorDesc>(true);
+        //WarriorDesc holder = WDarr[1];
+        //WDarr[1] = WDarr[2];
+        //WDarr[2] = holder;
+
         if (MC.currentScreen == 2) {
             showCursor();
             findCharSelectItems();
@@ -162,6 +165,17 @@ public class MenuCursor : MonoBehaviour
         hideCursor();
         //cursorMove.Disable();
         MC.characterSelected(playerNumber, playerSlot);
+
+        if (playerSlot == 1)
+        {
+            WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
+        } else if (playerSlot == 2)
+        {
+            WD = GameObject.Find("Warrior2Color").GetComponent<WarriorDesc>();
+        } else if (playerSlot == 3)
+        {
+            WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
+        }
     }
 
     public void StartHovering(string item, int ID)
@@ -215,28 +229,29 @@ public class MenuCursor : MonoBehaviour
                         //Temp Color code
                         if (playerSlot != 0)
                         {
-                            colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
-                            switch (colorIndex)
-                            {
-                                case 0:
-                                    PH.warriorColor = Color.red;
-                                    break;
-                                case 1:
-                                    PH.warriorColor = Color.green;
-                                    break;
-                                case 2:
-                                    PH.warriorColor = Color.blue;
-                                    break;
-                                case 3:
-                                    PH.warriorColor = Color.yellow;
-                                    break;
-                                case 4:
-                                    PH.warriorColor = Color.magenta;
-                                    break;
-                                default:
-                                    PH.warriorColor = Color.black;
-                                    break;
-                            }
+                            //colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
+                            //switch (colorIndex)
+                            //{
+                            //    case 0:
+                            //        PH.warriorColor = Color.red;
+                            //        break;
+                            //    case 1:
+                            //        PH.warriorColor = Color.green;
+                            //        break;
+                            //    case 2:
+                            //        PH.warriorColor = Color.blue;
+                            //        break;
+                            //    case 3:
+                            //        PH.warriorColor = Color.yellow;
+                            //        break;
+                            //    case 4:
+                            //        PH.warriorColor = Color.magenta;
+                            //        break;
+                            //    default:
+                            //        PH.warriorColor = Color.black;
+                            //        break;
+                            //}
+                            PH.warriorColor = WD.getCurrentColor();
                         }
                     }
                 } else if (playerNumber == 1) {
@@ -323,6 +338,7 @@ public class MenuCursor : MonoBehaviour
             hasSelected = false;
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
+            WD = null;
     }
 
     //find the icons that display who's selected which characters on screen
@@ -355,7 +371,8 @@ public class MenuCursor : MonoBehaviour
                 float udChangeDir = action.ReadValue<Vector2>().y;
 
                 if (Mathf.Abs(lrChangeDir) > Mathf.Abs(udChangeDir)) {
-                    if (selectedHighlightingAbilities) {
+                    if (selectedHighlightingAbilities)
+                    {
                         if (playerSlot == 0)
                         {
                             if (lrChangeDir > 0)
@@ -367,7 +384,8 @@ public class MenuCursor : MonoBehaviour
                                 monsterAbilityViewController.scrollLeft();
                             }
                         }
-                    } else {
+                    } else
+                    {
                         if (playerSlot == 0)
                         {
                             if (lrChangeDir > 0)
@@ -382,16 +400,17 @@ public class MenuCursor : MonoBehaviour
                             }
                             PH.monsterIndex = MN.monsterIndex;
                             AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
-                        } else
+                        }
+                        else
                         {
                             int i = playerSlot - 1;
                             if (lrChangeDir > 0)
                             {
-                                WDarr[i].pageRight();
+                                //WDarr[i].pageRight();
                             }
                             else if (lrChangeDir < 0)
                             {
-                                WDarr[i].pageLeft();
+                                //WDarr[i].pageLeft();
                             }
                             AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
                         }
@@ -399,17 +418,18 @@ public class MenuCursor : MonoBehaviour
                 } else {
                     //UP & DOWN
                     //Debug.Log(udChangeDir);
-                        if (playerSlot == 0) {
-                            selectedHighlightingAbilities = !selectedHighlightingAbilities;
-                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
-                            /**if (selectedHighlightingAbilities) {
-                                abilityBlurb.selectBlurbs();
-                                MN.unselectName();
-                            } else {
-                                abilityBlurb.unselectBlurbs();
-                                MN.selectName();
-                            }**/
-                        }
+                    if (playerSlot == 0)
+                    {
+                        selectedHighlightingAbilities = !selectedHighlightingAbilities;
+                        monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                        /**if (selectedHighlightingAbilities) {
+                            abilityBlurb.selectBlurbs();
+                            MN.unselectName();
+                        } else {
+                            abilityBlurb.unselectBlurbs();
+                            MN.selectName();
+                        }**/
+                    }
                 }
             }   
         }
