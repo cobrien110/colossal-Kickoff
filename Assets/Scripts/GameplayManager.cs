@@ -144,6 +144,11 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("GM calling start of podium sequence");
         PS.StartPodiumSequence(PS.GetUI().CheckWinner());
+        GameObject[] hazards = GameObject.FindGameObjectsWithTag("Hazard");
+        foreach (GameObject g in hazards)
+        {
+            g.SetActive(false);
+        }
     }
 
     private IEnumerator Kickoff()

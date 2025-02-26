@@ -1338,6 +1338,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PodiumSequencer
       objectReference: {fileID: 0}
+    - target: {fileID: 3915343590606168733, guid: c19a9194a8ad7fa4e9e83f3a276e59fa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1428,6 +1432,10 @@ PrefabInstance:
       propertyPath: MonsterPlayer
       value: 
       objectReference: {fileID: 6936589732318928993, guid: 3a47584b1e852f549b1fac088159b34c, type: 3}
+    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: automaticAISpawn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1670,6 +1678,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: gameSeconds
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: warriorScore
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1778,6 +1794,10 @@ PrefabInstance:
     - target: {fileID: 6505924267969734248, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717505443243934975, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
+      propertyPath: m_TagString
+      value: Hazard
       objectReference: {fileID: 0}
     - target: {fileID: 8747206437733054339, guid: 1792660e268980146b46f1ac4ed1e017, type: 3}
       propertyPath: m_Name
