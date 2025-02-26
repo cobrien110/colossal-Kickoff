@@ -925,19 +925,19 @@ public class MonsterController : MonoBehaviour
 
         if (BP == null)
         {
-            Debug.Log("No Ball found");
+            // Debug.Log("No Ball found");
             //pickupBallTimer = pickupBallCooldown;
         }
         else if (BP.ballOwner != null)
         {
-            Debug.Log("Already have ball OR someone else has ball");
+            // Debug.Log("Already have ball OR someone else has ball");
             pickupBallTimer = pickupBallCooldown;
         }
         // If ball hasn't been in warrior's colliders long enough
         else if (BP != null && pickupBallTimer > 0 && !isIntangible)
         {
             // Count down timer
-            Debug.Log("Waiting to pick up ball");
+            // Debug.Log("Waiting to pick up ball");
             pickupBallTimer -= Time.deltaTime;
         }
         // If has been in warrior's collider long enough

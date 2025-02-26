@@ -89,6 +89,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CallForPass"",
+                    ""type"": ""Button"",
+                    ""id"": ""343f0bfb-ced6-49b5-ae1b-a09638e87e0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -199,6 +208,28 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Playstation Control Scheme"",
                     ""action"": ""SuperKick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ab8ed44-82f3-4726-9f5f-dc8ea50e7bad"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""CallForPass"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d076d4e8-d388-4acc-85a6-6e7988edada4"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""CallForPass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -572,6 +603,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Player_Invert = m_Player.FindAction("Invert", throwIfNotFound: true);
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_SuperKick = m_Player.FindAction("SuperKick", throwIfNotFound: true);
+        m_Player_CallForPass = m_Player.FindAction("CallForPass", throwIfNotFound: true);
         // Monster
         m_Monster = asset.FindActionMap("Monster", throwIfNotFound: true);
         m_Monster_Movement = m_Monster.FindAction("Movement", throwIfNotFound: true);
@@ -656,6 +688,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Invert;
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_SuperKick;
+    private readonly InputAction m_Player_CallForPass;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -667,6 +700,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Invert => m_Wrapper.m_Player_Invert;
         public InputAction @Kick => m_Wrapper.m_Player_Kick;
         public InputAction @SuperKick => m_Wrapper.m_Player_SuperKick;
+        public InputAction @CallForPass => m_Wrapper.m_Player_CallForPass;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -697,6 +731,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @SuperKick.started += instance.OnSuperKick;
             @SuperKick.performed += instance.OnSuperKick;
             @SuperKick.canceled += instance.OnSuperKick;
+            @CallForPass.started += instance.OnCallForPass;
+            @CallForPass.performed += instance.OnCallForPass;
+            @CallForPass.canceled += instance.OnCallForPass;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -722,6 +759,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @SuperKick.started -= instance.OnSuperKick;
             @SuperKick.performed -= instance.OnSuperKick;
             @SuperKick.canceled -= instance.OnSuperKick;
+            @CallForPass.started -= instance.OnCallForPass;
+            @CallForPass.performed -= instance.OnCallForPass;
+            @CallForPass.canceled -= instance.OnCallForPass;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -938,6 +978,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnInvert(InputAction.CallbackContext context);
         void OnKick(InputAction.CallbackContext context);
         void OnSuperKick(InputAction.CallbackContext context);
+        void OnCallForPass(InputAction.CallbackContext context);
     }
     public interface IMonsterActions
     {

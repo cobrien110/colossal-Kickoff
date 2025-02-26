@@ -466,6 +466,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
     m_ActionName: Player/SuperKick[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1063518855127335618}
+        m_TargetAssemblyTypeName: WarriorController, Assembly-CSharp
+        m_MethodName: OnCallForPass
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 343f0bfb-ced6-49b5-ae1b-a09638e87e0c
+    m_ActionName: Player/CallForPass[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
