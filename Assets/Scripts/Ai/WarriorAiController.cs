@@ -55,6 +55,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]    
     WarriorController[] warriors;
 
+    private bool disableBehavior = false;
+
     private void Awake()
     {
         wc = GetComponent<WarriorController>();
@@ -103,7 +105,8 @@ public class WarriorAiController : MonoBehaviour
     public void AiBehavior()
     {
         // If goal was scored, stop movement and behavior
-        if (wc != null && wc.BP != null && !wc.BP.isInteractable) 
+        if (wc != null && wc.BP != null && !wc.BP.isInteractable
+            || disableBehavior) 
         {
             wc.movementDirection = Vector3.zero;
             return;
@@ -254,6 +257,7 @@ public class WarriorAiController : MonoBehaviour
             {
                 Pass(teammates[1]);
             }
+            return;
         }
 
         // Move toward goal until close enough
@@ -268,7 +272,8 @@ public class WarriorAiController : MonoBehaviour
         } // When close enough, shoot 
         else
         {
-            Kick();
+            Shoot();
+            // Kick();
         }
 
     }
@@ -309,25 +314,24 @@ public class WarriorAiController : MonoBehaviour
         return false;
     }
 
-    void Pass(WarriorController target)
+    private void Shoot()
     {
         if (wc.isSliding) return;
         if (kickTimer > 0) return;
 
-        kickTimer = kickCooldown;
+        Debug.Log("Shoot");
 
-        Debug.Log("Pass");
-
-        // Turn to teammate
+        // Turn to monster goal
 
         // Calculate the direction from this GameObject to the target
-        Vector3 directionToTarget = target.transform.position - transform.position;
+        Vector3 directionToTarget = monsterGoal.transform.position - transform.position;
+        Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
 
         // Ensure the direction vector is not zero (to avoid errors)
-        if (directionToTarget != Vector3.zero)
+        if (directionToTargetIgnoreY != Vector3.zero)
         {
             // Calculate the rotation needed to face the target
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTargetIgnoreY);
 
             // Apply the rotation to this GameObject
             transform.rotation = targetRotation;
@@ -335,6 +339,43 @@ public class WarriorAiController : MonoBehaviour
 
         // Kick in their direction
         Kick();
+    }
+
+    private void Pass(WarriorController target)
+    {
+        if (wc.isSliding) return;
+        if (kickTimer > 0) return;
+
+        // kickTimer = kickCooldown;
+
+        Debug.Log("Pass");
+
+        // Turn to teammate
+
+        // Calculate the direction from this GameObject to the target
+        Vector3 directionToTarget = target.transform.position - transform.position;
+        Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
+
+        // Ensure the direction vector is not zero (to avoid errors)
+        if (directionToTargetIgnoreY != Vector3.zero)
+        {
+            // Calculate the rotation needed to face the target
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTargetIgnoreY);
+
+            // Apply the rotation to this GameObject
+            transform.rotation = targetRotation;
+        }
+
+        // Kick in their direction
+        Kick();
+    }
+
+    // Used to pass to a player who is calling for a pass
+    public void CallForPassing(WarriorController target)
+    {
+        disableBehavior = true;
+        Pass(target);
+        StartCoroutine(EnableBehaviorDelayed());
     }
 
     IEnumerator Roam()
@@ -385,12 +426,19 @@ public class WarriorAiController : MonoBehaviour
         {
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
+            roamForward = true;
         }
     }
 
     public float GetDodgeChance()
     {
         return dodgeChance;
+    }
+
+    private IEnumerator EnableBehaviorDelayed()
+    {
+        yield return new WaitForSeconds(0.25f);
+        disableBehavior = false;
     }
 }
 
