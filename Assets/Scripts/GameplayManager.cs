@@ -14,6 +14,7 @@ public class GameplayManager : MonoBehaviour
     [Header("Other Properties")]
     public bool isPlaying = false;
     public bool isPaused = false;
+    private bool podiumSequenceStarted = false;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
@@ -25,6 +26,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
     private MusicPlayer MP = null;
+    private PodiumSequencer PS;
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
     public GameObject warriorPrefab;
@@ -54,6 +56,7 @@ public class GameplayManager : MonoBehaviour
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
+        PS = GameObject.Find("PodiumSequencer").GetComponent<PodiumSequencer>();
         Time.timeScale = 1;
 
         if (automaticAISpawn && playerList.Count < 4)
@@ -111,10 +114,14 @@ public class GameplayManager : MonoBehaviour
             ResetGame();
         }
 
-        if (UM.GetTimeRemaining() <= 0 && isPlaying)
+        if (UM.GetTimeRemaining() <= 0 && !podiumSequenceStarted)
         {
-            Time.timeScale = 0;
-            StopPlaying();
+            // Before ending game, trigger Podium Sequence
+            //StopPlaying();
+            podiumSequenceStarted = true;
+            if (PS == null) Time.timeScale = 0;
+            else StartPodiumSequence();
+            //EndMatch();
         }
     }
 
@@ -131,6 +138,12 @@ public class GameplayManager : MonoBehaviour
     public void StopPlaying()
     {
         isPlaying = false;
+    }
+
+    void StartPodiumSequence()
+    {
+        Debug.Log("GM calling start of podium sequence");
+        PS.StartPodiumSequence(PS.GetUI().CheckWinner());
     }
 
     private IEnumerator Kickoff()

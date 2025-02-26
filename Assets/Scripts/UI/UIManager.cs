@@ -27,8 +27,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreTextMonsterBG = null;
     [SerializeField] private TMP_Text scoreTextTimer = null;
     [SerializeField] private int gameSeconds;
-    private int warriorScore = 0;
-    private int monsterScore = 0;
+    [SerializeField] private int warriorScore = 0;
+    [SerializeField] private int monsterScore = 0;
     private int timeRemainingSeconds;
 
     //(Stats) ScoreboardUI
@@ -309,7 +309,7 @@ public class UIManager : MonoBehaviour
             
             //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
             ShowInGameUI(false);
-            ShowStatsScoreboard(true);
+            //ShowStatsScoreboard(true);
         }
 
         //OT
