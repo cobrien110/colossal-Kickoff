@@ -91,6 +91,8 @@ public class WarriorController : MonoBehaviour
     // If there is no ball owner yet a warrior or monster is on top of ball, OnTriggerStay will wait this long until making that character pick up ball
     private float pickupBallCooldown = 0.25f;
     [SerializeField] private float pickupBallTimer = 0f;
+    private float lastCallForPassTime;
+    [SerializeField] private float callForPassCooldown = 1f;
 
 
     // Start is called before the first frame update
@@ -631,9 +633,10 @@ public class WarriorController : MonoBehaviour
         if (isInvincible) return;
         
         // Chance for AiWarrior to dodge if slide is off cooldown
-        if (GetComponent<WarriorAiController>() != null
-            && Random.value < GetComponent<WarriorAiController>().GetDodgeChance()
-            && Time.time - lastSlideTime >= slideCooldown)
+        if (GetComponent<WarriorAiController>() != null // Ensure this is an AI Warrior
+            && Random.value < GetComponent<WarriorAiController>().GetDodgeChance() // Get chance to dodge
+            && Time.time - lastSlideTime >= slideCooldown // Ensure dodge is off cooldown
+            && (BP != null && (BP.ballOwner == null || !BP.ballOwner.Equals(gameObject)))) // Ensure dodge can't happen if this warrior has ball
         {
             Debug.Log("Dodge!");
             Sliding();
@@ -820,6 +823,31 @@ public class WarriorController : MonoBehaviour
         if (GM.isPlaying && !isDead && !GM.isPaused) Sliding();
     }
 
+    public void OnCallForPass(InputAction.CallbackContext context)
+    {
+        if (!GM.isPlaying || isDead || GM.isPaused // Ensure game is playing
+            || ((Time.time - lastCallForPassTime) < callForPassCooldown) // Ensure call for pass is off cooldown
+            || BP == null || BP.ballOwner == null|| BP.ballOwner.GetComponent<WarriorController>() == null // Ensure a warrior has the ball
+            || BP.ballOwner.Equals(gameObject)) // and ballowner isn't itself
+            return;
+
+        Debug.Log("OnCallForPass");
+        lastCallForPassTime = Time.time;
+
+        // Queue some kind of UI element to indicate calling for pass
+
+        // Create a temporary "gravity" effect around this player
+
+        // For AI teammates...
+        // If ball owner is an AI teammate, have them pass me the ball
+        if (BP != null && BP.ballOwner != null
+            && BP.ballOwner.GetComponent<WarriorAiController>() != null)
+        {
+            BP.ballOwner.GetComponent<WarriorAiController>().CallForPassing(GetComponent<WarriorController>());
+        }
+        
+    }
+
     public void OnInvert(InputAction.CallbackContext context)
     {
         /* Old Invert code if we still want it */
@@ -950,19 +978,19 @@ public class WarriorController : MonoBehaviour
 
         if (BP == null)
         {
-            Debug.Log("No Ball found");
+            // Debug.Log("No Ball found");
             //pickupBallTimer = pickupBallCooldown;
         }
         else if (BP.ballOwner != null)
         {
-            Debug.Log("Already have ball OR someone else has ball");
+            // Debug.Log("Already have ball OR someone else has ball");
             pickupBallTimer = pickupBallCooldown;
         }
         // If ball hasn't been in warrior's colliders long enough
         else if (BP != null && pickupBallTimer > 0)
         {
             // Count down timer
-            Debug.Log("Waiting to pick up ball");
+            // Debug.Log("Waiting to pick up ball");
             pickupBallTimer -= Time.deltaTime;
         }
         // If has been in warrior's collider long enough

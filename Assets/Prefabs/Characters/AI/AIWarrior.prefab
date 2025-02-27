@@ -5794,6 +5794,7 @@ MonoBehaviour:
   Mummy: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
   BombVisual: {fileID: 4736369756069298207, guid: 0fe55980735e3784586ce98acab6ea02, type: 3}
   pickupBallTimer: 0
+  callForPassCooldown: 1
 --- !u!33 &3924342594603646706
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6125,6 +6126,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
     m_ActionName: Player/SuperKick[/XInputControllerWindows/rightShoulder,/XInputControllerWindows1/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 343f0bfb-ced6-49b5-ae1b-a09638e87e0c
+    m_ActionName: Player/CallForPass[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -6168,6 +6173,7 @@ MonoBehaviour:
   aiKickSpeed: 300
   aiShootRange: 7
   aiPassRange: 8
+  aiPassRangeMin: 1
   passChance: 0.1
   stoppingDistanceFromGoal: 5
   waitInPlaceTime: 2
@@ -6176,6 +6182,7 @@ MonoBehaviour:
   slideRange: 1
   dodgeChance: 0.3
   kickCooldown: 0.75
+  actionDelay: 0.25
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
   warriors: []
@@ -6318,6 +6325,14 @@ PrefabInstance:
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_ConstrainProportionsScale

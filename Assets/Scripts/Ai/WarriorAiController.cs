@@ -22,6 +22,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]
     private float aiPassRange = 6f;
     [SerializeField]
+    private float aiPassRangeMin = 1f;
+    [SerializeField]
     private float passChance = 0.1f; // 10% chance to pass
     [SerializeField]
     private float stoppingDistanceFromGoal = 5f;
@@ -37,6 +39,11 @@ public class WarriorAiController : MonoBehaviour
     private float dodgeChance = 0.3f;
     [SerializeField] private float kickCooldown = 0.75f;
     private static float kickTimer = 0f;
+    [SerializeField] private float actionDelay = 0.25f;
+
+
+    private Coroutine aiCoroutine;
+    private bool canUpdateAI = true; // Controls AI decision-making
 
     private bool checkToPass = false;
     private bool roamForward = true;
@@ -55,6 +62,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]    
     WarriorController[] warriors;
 
+    private bool disableBehavior = false;
+
     private void Awake()
     {
         wc = GetComponent<WarriorController>();
@@ -70,6 +79,7 @@ public class WarriorAiController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        aiCoroutine = StartCoroutine(AiBehaviorCoroutine());
         StartCoroutine(CheckForPass());
         //warriors = FindObjectsOfType<WarriorController>();
         int index = 0;
@@ -87,29 +97,56 @@ public class WarriorAiController : MonoBehaviour
         // Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
     }
 
-    public void test()
-    {
-        Debug.Log("test");
-    }
-
     // Update is called once per frame
     void Update()
     {
-        AiBehavior();
+        if (canUpdateAI)
+        {
+            AiBehavior();
+            canUpdateAI = false; // Prevent AI from making instant consecutive decisions
+        }
+        PerformMovement();
 
         if (kickTimer > 0) kickTimer -= Time.deltaTime;
+    }
+
+    private IEnumerator AiBehaviorCoroutine()
+    {
+        while (true)
+        {
+            canUpdateAI = true; // Allow AI to make a new decision
+            yield return new WaitForSeconds(actionDelay); // Delay next decision update
+        }
+    }
+
+    private void PerformMovement()
+    {
+        if (!wc.IsSliding()) rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
+
+        if (rb.velocity != Vector3.zero && !wc.IsSliding())
+        {
+            Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
+            transform.rotation = newRotation;
+        }
+
+        if (rb.velocity.magnitude < 1)
+        {
+            wc.movementDirection = Vector3.zero;
+        }
     }
 
     public void AiBehavior()
     {
         // If goal was scored, stop movement and behavior
-        if (wc != null && wc.BP != null && !wc.BP.isInteractable) 
+        if (wc != null && wc.BP != null && !wc.BP.isInteractable
+            || disableBehavior) 
         {
             wc.movementDirection = Vector3.zero;
             return;
         }
 
         if (wc.isStunned) return;
+
 
         // If no one has the ball
         if (wc.BP.ballOwner == null)
@@ -163,8 +200,6 @@ public class WarriorAiController : MonoBehaviour
             }
         }
 
-        // Stop movement if velocity is very low
-        if (rb.velocity.magnitude < 1) wc.movementDirection = Vector3.zero;
     }
 
     void BaseMovement(Vector2 targetPos)
@@ -176,16 +211,17 @@ public class WarriorAiController : MonoBehaviour
             //usingKeyboard = true;
             wc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
             wc.aimingDirection = wc.movementDirection;
+            //Debug.Log("MovementDirection: " +  wc.movementDirection);
         }
         
 
-        rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
+        //rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
         //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
-        }
+        //if (rb.velocity != Vector3.zero)
+        //{
+        //    Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
+        //    transform.rotation = newRotation;
+        //}
 
         if (wc.movementDirection != Vector3.zero && GM.isPlaying)
         {
@@ -254,6 +290,7 @@ public class WarriorAiController : MonoBehaviour
             {
                 Pass(teammates[1]);
             }
+            return;
         }
 
         // Move toward goal until close enough
@@ -268,7 +305,8 @@ public class WarriorAiController : MonoBehaviour
         } // When close enough, shoot 
         else
         {
-            Kick();
+            Shoot();
+            // Kick();
         }
 
     }
@@ -301,7 +339,8 @@ public class WarriorAiController : MonoBehaviour
         if (teammates[0] != null) { distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude; }
         if (teammates[1] != null) { distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude; }
 
-        if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange)
+        if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange // Ensure range is less than max
+            && Mathf.Min(distanceToWarrior1, distanceToWarrior2) > aiPassRangeMin) // and greater than min
         {
             return true;
         }
@@ -309,25 +348,24 @@ public class WarriorAiController : MonoBehaviour
         return false;
     }
 
-    void Pass(WarriorController target)
+    private void Shoot()
     {
         if (wc.isSliding) return;
         if (kickTimer > 0) return;
 
-        kickTimer = kickCooldown;
+        Debug.Log("Shoot");
 
-        Debug.Log("Pass");
-
-        // Turn to teammate
+        // Turn to monster goal
 
         // Calculate the direction from this GameObject to the target
-        Vector3 directionToTarget = target.transform.position - transform.position;
+        Vector3 directionToTarget = monsterGoal.transform.position - transform.position;
+        Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
 
         // Ensure the direction vector is not zero (to avoid errors)
-        if (directionToTarget != Vector3.zero)
+        if (directionToTargetIgnoreY != Vector3.zero)
         {
             // Calculate the rotation needed to face the target
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTargetIgnoreY);
 
             // Apply the rotation to this GameObject
             transform.rotation = targetRotation;
@@ -335,6 +373,43 @@ public class WarriorAiController : MonoBehaviour
 
         // Kick in their direction
         Kick();
+    }
+
+    private void Pass(WarriorController target)
+    {
+        if (wc.isSliding) return;
+        if (kickTimer > 0) return;
+
+        // kickTimer = kickCooldown;
+
+        Debug.Log("Pass");
+
+        // Turn to teammate
+
+        // Calculate the direction from this GameObject to the target
+        Vector3 directionToTarget = target.transform.position - transform.position;
+        Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
+
+        // Ensure the direction vector is not zero (to avoid errors)
+        if (directionToTargetIgnoreY != Vector3.zero)
+        {
+            // Calculate the rotation needed to face the target
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTargetIgnoreY);
+
+            // Apply the rotation to this GameObject
+            transform.rotation = targetRotation;
+        }
+
+        // Kick in their direction
+        Kick();
+    }
+
+    // Used to pass to a player who is calling for a pass
+    public void CallForPassing(WarriorController target)
+    {
+        disableBehavior = true;
+        Pass(target);
+        StartCoroutine(EnableBehaviorDelayed());
     }
 
     IEnumerator Roam()
@@ -385,12 +460,19 @@ public class WarriorAiController : MonoBehaviour
         {
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
+            roamForward = true;
         }
     }
 
     public float GetDodgeChance()
     {
         return dodgeChance;
+    }
+
+    private IEnumerator EnableBehaviorDelayed()
+    {
+        yield return new WaitForSeconds(0.25f);
+        disableBehavior = false;
     }
 }
 

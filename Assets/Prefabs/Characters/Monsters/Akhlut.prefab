@@ -425,6 +425,7 @@ MonoBehaviour:
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
   shakeIntensity: 1
+  pickupBallTimer: 0
 --- !u!114 &5376546492087455979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -971,6 +972,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
     m_ActionName: Player/SuperKick[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 343f0bfb-ced6-49b5-ae1b-a09638e87e0c
+    m_ActionName: Player/CallForPass[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster
@@ -1563,6 +1568,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4859991559016430420, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859991559016430420, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859991559016430420, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874115837610547216, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874115837610547216, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874115837610547216, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1643,6 +1672,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7158519457980556975, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0a8af7a2881fe044a67d6f503268bf3, type: 3}
+    - target: {fileID: 7276712136730322043, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0a8af7a2881fe044a67d6f503268bf3, type: 3}
     - target: {fileID: 7276712136730322043, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Color.b
       value: 1

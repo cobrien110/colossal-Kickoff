@@ -436,6 +436,11 @@ public class BallProperties : MonoBehaviour
         GM.Reset();
     }
 
+    public void SetSR(bool b)
+    {
+        SR.enabled = b;
+    }
+
     public void ResetPreviousKicker()
     {
         previousKicker = null;

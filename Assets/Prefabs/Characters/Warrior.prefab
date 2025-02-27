@@ -123,6 +123,7 @@ MonoBehaviour:
   Mummy: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
   BombVisual: {fileID: 4736369756069298207, guid: 0fe55980735e3784586ce98acab6ea02, type: 3}
   pickupBallTimer: 0
+  callForPassCooldown: 1
 --- !u!33 &4256115640164463705
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -466,6 +467,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f437a72e-aba7-4331-9d5e-a08f98f645d8
     m_ActionName: Player/SuperKick[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1063518855127335618}
+        m_TargetAssemblyTypeName: WarriorController, Assembly-CSharp
+        m_MethodName: OnCallForPass
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 343f0bfb-ced6-49b5-ae1b-a09638e87e0c
+    m_ActionName: Player/CallForPass[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Player
@@ -6311,6 +6328,14 @@ PrefabInstance:
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_ConstrainProportionsScale

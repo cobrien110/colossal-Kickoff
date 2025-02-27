@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GoalWithBarrier : MonoBehaviour
 {
+    public bool isHumanGoal = false;
     public bool startWithBariers = false;
     [Range(0,2)]
     public int respawnType = 0;
@@ -27,11 +28,13 @@ public class GoalWithBarrier : MonoBehaviour
     public ParticleSystem GoalParticles;
     private AudioPlayer ParticleAudio;
     public AudioPlayer BarrierAudio;
+    private AudioPlayer ScoreJingle;
 
     // Start is called before the first frame update
     void Start()
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
         SetStats();
 
         if (startWithBariers)
@@ -192,6 +195,8 @@ public class GoalWithBarrier : MonoBehaviour
         GoalParticles.Play();
         ParticleAudio = GoalParticles.GetComponent<AudioPlayer>();
         ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
+        string songName = isHumanGoal ? "humanScore" : "monsterScore";
+        ScoreJingle.PlaySound(ScoreJingle.Find(songName));
     }
 
     public void SetStats()

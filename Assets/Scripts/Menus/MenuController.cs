@@ -16,7 +16,13 @@ public class MenuController : MonoBehaviour
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons;
+    
+    [SerializeField] private TMP_Text settingsHeader;
     [SerializeField] private GameObject settingsButtons;
+    [SerializeField] private GameObject gameplaySettings;
+    [SerializeField] private GameObject audioSettings;
+    [SerializeField] private GameObject controlSettings;
+
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
     [SerializeField] private GameObject[] cursors;
@@ -38,6 +44,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
+    [SerializeField] private Button settingsHeaderButton, settingsBackButton;
+    Navigation backNavi = new Navigation();
+    Navigation headerNavi = new Navigation();
+
     private int numPlayersConfirmed = 0;
     private bool amIConfirmed = false;
     public bool canMoveToGame = false;
@@ -58,6 +68,15 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
         AP = GetComponent<AudioPlayer>();
+
+        //Settings Navigation
+        backNavi = settingsBackButton.navigation;
+        backNavi.mode = Navigation.Mode.Explicit;
+        headerNavi = settingsBackButton.navigation;
+        headerNavi.mode = Navigation.Mode.Explicit;
+
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     void Update()
@@ -88,6 +107,7 @@ public class MenuController : MonoBehaviour
         //        break;
         //    }
         //}
+
 
     }
 
@@ -149,7 +169,10 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(settingsFirstButton);
                 menuCamera.goToSettings();
+                
+                // Swapping Between Settings Here?
                 settingsButtons.SetActive(true);
+
                 mainMenuButtons.SetActive(false);
                 goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
                 musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 100) * 100;
@@ -157,6 +180,7 @@ public class MenuController : MonoBehaviour
                 comVolumeSlider.value = PlayerPrefs.GetFloat("commentaryVolume", 100) * 100;
                 comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
                 screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
+
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
@@ -171,6 +195,58 @@ public class MenuController : MonoBehaviour
                 Debug.Log("Error: unknown menu option");
                 break;
         }
+    }
+
+    //Change this to flip between screens with Dpad at some point
+    public void SettingsSwap()
+    {
+        //Add controller menu nav
+
+        //if (settingsBackButton != null && settingsHeaderButton != null)
+
+        //backNavi = settingsBackButton.navigation;
+        //headerNavi = settingsHeaderButton.navigation;
+        //Navigation navigation = new Navigation();
+        
+        //weird bug where if this isnt present, header on select up gets set to toggle screen shake???
+        headerNavi.selectOnUp = settingsBackButton;
+        backNavi.selectOnDown = settingsHeaderButton;
+
+        if (gameplaySettings.activeInHierarchy)
+        {
+            gameplaySettings.SetActive(false);
+            audioSettings.SetActive(true);
+            settingsHeader.text = "AUDIO";
+            
+            headerNavi.selectOnDown = effectsSlider; 
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = comFreqSlider;
+            settingsBackButton.navigation = backNavi;
+            Debug.Log("What");
+        }
+        else if (audioSettings.activeInHierarchy)
+        {
+            audioSettings.SetActive(false);
+            controlSettings.SetActive(true);
+            settingsHeader.text = "CONTROLS";
+            
+            headerNavi.selectOnDown = settingsBackButton;
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = settingsHeaderButton;
+            settingsBackButton.navigation = backNavi;
+        }
+        else if (controlSettings.activeInHierarchy)
+        {
+            controlSettings.SetActive(false);
+            gameplaySettings.SetActive(true);
+            settingsHeader.text = "GAMEPLAY";
+            
+            headerNavi.selectOnDown = goreDropdown;
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = screenshakeToggle;
+            settingsBackButton.navigation = backNavi;
+        }
+        
     }
 
     public void returnToTop() {
@@ -267,10 +343,21 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(stageFirstButton);
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
-            cursors[i].GetComponent<MenuCursor>().hideCursor();
+            MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
+            currentCursor.hideCursor();
+            currentCursor.charConfirmed = false;
+            currentCursor.deselect();
+            currentCursor.Leave();
         }
         Debug.Log("going back to stage select");
         characterSelect.SetActive(false);
+
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        for (int i = 0; i < playerHolders.Length; i++)
+        {
+            Destroy(playerHolders[i].gameObject);
+        }
+
         stageSelect.SetActive(true);
         
         //sound

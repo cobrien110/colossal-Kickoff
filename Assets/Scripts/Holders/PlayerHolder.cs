@@ -33,7 +33,13 @@ public class PlayerHolder : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name.Equals("MainMenus"))
         {
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            if (GameObject.Find("CharacterSelect") != null)
+            {
+                GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            } else
+            {
+                Destroy(this.gameObject);
+            }
         }
         else
         {

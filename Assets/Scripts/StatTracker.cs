@@ -41,6 +41,13 @@ public class StatTracker : MonoBehaviour
     private float ballTimeWarrior = 0;
     private string gameWinner = "";
 
+    //MVP Stats
+    [Header("MVP Values")]
+    [SerializeField] private int goalValue;
+    [SerializeField] private int assistValue;
+    [SerializeField] private int stealValue;
+    [SerializeField] private int deathValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +58,30 @@ public class StatTracker : MonoBehaviour
     void Update()
     {
         
+    }
+
+    //MVP Score Totaling
+    public int GetMVP()
+    {
+        int p1Score;
+        int p2Score;
+        int p3Score;
+
+        p1Score = (w1Goals * goalValue) + (w1Assists * assistValue) + (w1Steals * stealValue) - (w1Deaths * deathValue);
+        p2Score = (w2Goals * goalValue) + (w2Assists * assistValue) + (w2Steals * stealValue) - (w2Deaths * deathValue);
+        p3Score = (w3Goals * goalValue) + (w3Assists * assistValue) + (w3Steals * stealValue) - (w3Deaths * deathValue);
+
+        Debug.Log("" + p1Score + " " + p2Score + " " + p3Score);
+
+        if (p1Score > p2Score && p1Score > p3Score) return 1;
+        if (p2Score > p1Score && p2Score > p3Score) return 2;
+        if (p3Score > p1Score && p3Score > p2Score) return 3;
+
+        if (w1Goals > w2Goals && w1Goals > w3Goals) return 1;
+        if (w2Goals > w1Goals && w2Goals > w3Goals) return 2;
+        if (w3Goals > w1Goals && w3Goals > w2Goals) return 3;
+
+        else return -1;
     }
 
     public void UpdateGameWinner(int winner)
@@ -94,7 +125,7 @@ public class StatTracker : MonoBehaviour
 
     public void UpdateWDeaths(int player)
     {
-        Debug.Log("PLAYER THAT DIED: " + player);
+        //Debug.Log("PLAYER THAT DIED: " + player);
         if (player == 1) w1Deaths++;
         if (player == 2) w2Deaths++;
         if (player == 3) w3Deaths++;

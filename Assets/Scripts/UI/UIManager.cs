@@ -25,10 +25,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreTextMonster = null;
     [SerializeField] private TMP_Text scoreTextHumanBG = null;
     [SerializeField] private TMP_Text scoreTextMonsterBG = null;
-    [SerializeField] private TMP_Text scoreTextTimer = null;
-    [SerializeField] private int gameSeconds;
-    private int warriorScore = 0;
-    private int monsterScore = 0;
+    [SerializeField] private TMP_Text scoreTextTimer = null; 
+    [SerializeField] private int warriorScore = 0;
+    [SerializeField] private int monsterScore = 0;
     private int timeRemainingSeconds;
 
     //(Stats) ScoreboardUI
@@ -53,6 +52,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text MonsterGoalsText = null;
     [SerializeField] private TMP_Text MonsterKillsText = null;  
     [SerializeField] private TMP_Text MonsterAbUsedText = null;
+
+    [SerializeField] private GameObject P1MVP = null;
+    [SerializeField] private GameObject P2MVP = null;
+    [SerializeField] private GameObject P3MVP = null;
 
     // Dev Stats
     [SerializeField] private GameObject devStats = null;
@@ -127,7 +130,7 @@ public class UIManager : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
-        timeRemainingSeconds = gameSeconds;
+        timeRemainingSeconds = GM.gameSeconds;
         ShowChargeBar(false);
         ShowMonsterUI(false);
         //ShowPlayerUI(false, 1);
@@ -161,7 +164,7 @@ public class UIManager : MonoBehaviour
         
         else if (!console.isFocused)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GM.debugMode)
             {
                 console.gameObject.SetActive(true);
             }
@@ -203,30 +206,6 @@ public class UIManager : MonoBehaviour
                 {
                     ShowStatsScoreboard(false);
                 }
-            }
-
-            // Copy game stats to Clipboard
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                string textToCopy = "";
-
-                if (timeRemainingSeconds <= 0)
-                {
-                    textToCopy = "Stats from Game:\n";
-
-                }
-                else
-                {
-                    textToCopy = "Stats from " + timeRemainingSeconds + " seconds:\n";
-                }
-
-                textToCopy += "\nWinner: " + gameWinnerText.text;
-
-                textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
-
-                textToCopy += "\nKills: " + MonsterKillsText.text;
-
-                CopyToClipboard(textToCopy);
             }
         }
     }
@@ -309,7 +288,7 @@ public class UIManager : MonoBehaviour
             
             //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
             ShowInGameUI(false);
-            ShowStatsScoreboard(true);
+            //ShowStatsScoreboard(true);
         }
 
         //OT
@@ -447,6 +426,11 @@ public class UIManager : MonoBehaviour
         return timeRemainingSeconds;
     }
 
+    public void SetTimeRemaining(int set)
+    {
+        timeRemainingSeconds = set;
+    }
+
     public void WarriorPoint()
     {
         warriorScore++;
@@ -465,7 +449,7 @@ public class UIManager : MonoBehaviour
         UpdateScoreMonster();
         warriorScore = 0;
         UpdateScoreHuman();
-        timeRemainingSeconds = gameSeconds;
+        timeRemainingSeconds = GM.gameSeconds;
     }
 
     private void UpdateScoreHuman()
@@ -695,8 +679,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateMonsterGoalsSB()
     {
-        Debug.Log(ST);
-        Debug.Log(MonsterGoalsText);
         MonsterGoalsText.text = "" + ST.GetMGoals();
     }
 
@@ -705,16 +687,16 @@ public class UIManager : MonoBehaviour
         gameWinnerText.text = winner;
     }
 
-    void CopyToClipboard(string s)
-    {
-        TextEditor te = new TextEditor();
-        te.text = s;
-        te.SelectAll();
-        te.Copy();
-    }
 
     public void PauseScreen(bool isPaused)
     {
         pauseScreen.SetActive(isPaused);
+    }
+
+    public void ShowMVP(bool state, int player)
+    {
+        if (player == 1) P1MVP.SetActive(state);
+        if (player == 2) P2MVP.SetActive(state);
+        if (player == 3) P3MVP.SetActive(state);
     }
 }
