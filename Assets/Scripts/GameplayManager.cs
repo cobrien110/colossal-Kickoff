@@ -15,6 +15,7 @@ public class GameplayManager : MonoBehaviour
     public bool isPlaying = false;
     public bool isPaused = false;
     private bool podiumSequenceStarted = false;
+    public int gameSeconds;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;

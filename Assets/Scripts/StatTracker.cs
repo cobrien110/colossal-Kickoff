@@ -53,6 +53,30 @@ public class StatTracker : MonoBehaviour
         
     }
 
+    //MVP Score Totaling
+    public int GetMVP()
+    {
+        int p1Score;
+        int p2Score;
+        int p3Score;
+
+        p1Score = (w1Goals * 100) + (w1Assists * 50) + (w1Steals * 10) - (w1Deaths * 2);
+        p2Score = (w2Goals * 100) + (w2Assists * 50) + (w2Steals * 10) - (w2Deaths * 2);
+        p3Score = (w3Goals * 100) + (w3Assists * 50) + (w3Steals * 10) - (w3Deaths * 2);
+
+        Debug.Log("" + p1Score + " " + p2Score + " " + p3Score);
+
+        if (p1Score > p2Score && p1Score > p3Score) return 1;
+        if (p2Score > p1Score && p2Score > p3Score) return 2;
+        if (p3Score > p1Score && p3Score > p2Score) return 3;
+
+        if (w1Goals > w2Goals && w1Goals > w3Goals) return 1;
+        if (w2Goals > w1Goals && w2Goals > w3Goals) return 2;
+        if (w3Goals > w1Goals && w3Goals > w2Goals) return 3;
+
+        else return -1;
+    }
+
     public void UpdateGameWinner(int winner)
     {
         if (winner == 0) gameWinner = "Warriors";

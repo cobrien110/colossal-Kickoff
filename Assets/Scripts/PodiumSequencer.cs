@@ -11,6 +11,7 @@ public class PodiumSequencer : MonoBehaviour
 
     private GameplayManager GM;
     private UIManager UI;
+    private StatTracker ST;
     private BallProperties BP;
     private MultipleTargetCamera MTC;
     private GameObject monster;
@@ -23,6 +24,7 @@ public class PodiumSequencer : MonoBehaviour
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
     }
@@ -108,6 +110,8 @@ public class PodiumSequencer : MonoBehaviour
         Time.timeScale = 0;
         // show scoreboard
         UI.ShowStatsScoreboard(true);
+
+        if (ST != null) UI.ShowMVP(true, ST.GetMVP());
     }
 
     public UIManager GetUI()
