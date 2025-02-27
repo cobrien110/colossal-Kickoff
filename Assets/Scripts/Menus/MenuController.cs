@@ -267,10 +267,21 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(stageFirstButton);
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
-            cursors[i].GetComponent<MenuCursor>().hideCursor();
+            MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
+            currentCursor.hideCursor();
+            currentCursor.charConfirmed = false;
+            currentCursor.deselect();
+            currentCursor.Leave();
         }
         Debug.Log("going back to stage select");
         characterSelect.SetActive(false);
+
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        for (int i = 0; i < playerHolders.Length; i++)
+        {
+            Destroy(playerHolders[i].gameObject);
+        }
+
         stageSelect.SetActive(true);
         
         //sound

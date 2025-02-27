@@ -34,8 +34,8 @@ public class MenuCursor : MonoBehaviour
     public string hoveringItem = "null";
     public int hoveringID = -1;
     public bool hasSelected = false;
+    public bool charConfirmed = false;
     private Vector3 savedPosition;
-    private bool charConfirmed = false;
     private Vector3 screenMidpoint;
     private bool selectedHighlightingAbilities = false;
 
@@ -435,7 +435,7 @@ public class MenuCursor : MonoBehaviour
         }
     }
 
-    public void OnLeave(InputAction.CallbackContext action)
+    public void Leave()
     {
         if (!hasSelected && !charConfirmed)
         {
@@ -444,6 +444,11 @@ public class MenuCursor : MonoBehaviour
             Destroy(PH.gameObject);
             Destroy(this.gameObject);
         }
+    }
+
+    public void OnLeave(InputAction.CallbackContext action)
+    {
+        Leave();
     }
 
     /**public void enterAudio(int optionSelected) {
