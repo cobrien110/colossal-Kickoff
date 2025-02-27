@@ -125,7 +125,7 @@ public class StatTracker : MonoBehaviour
 
     public void UpdateWDeaths(int player)
     {
-        Debug.Log("PLAYER THAT DIED: " + player);
+        //Debug.Log("PLAYER THAT DIED: " + player);
         if (player == 1) w1Deaths++;
         if (player == 2) w2Deaths++;
         if (player == 3) w3Deaths++;

@@ -51,10 +51,10 @@ public class ConsoleCommands : MonoBehaviour
             }
         }
 
-        // This does not work rn :sob:
+        // Ends game (sets time to 3 seconds)
         if (subs[0].Equals("endgame"))
         {
-            if (GM != null) GM.gameSeconds = 0;
+            if (UM != null) UM.SetTimeRemaining(3);
         }
 
         // Copies stats from game to clipboard

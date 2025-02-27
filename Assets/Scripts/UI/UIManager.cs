@@ -426,6 +426,11 @@ public class UIManager : MonoBehaviour
         return timeRemainingSeconds;
     }
 
+    public void SetTimeRemaining(int set)
+    {
+        timeRemainingSeconds = set;
+    }
+
     public void WarriorPoint()
     {
         warriorScore++;
@@ -674,8 +679,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateMonsterGoalsSB()
     {
-        Debug.Log(ST);
-        Debug.Log(MonsterGoalsText);
         MonsterGoalsText.text = "" + ST.GetMGoals();
     }
 
@@ -684,7 +687,6 @@ public class UIManager : MonoBehaviour
         gameWinnerText.text = winner;
     }
 
-    
 
     public void PauseScreen(bool isPaused)
     {
