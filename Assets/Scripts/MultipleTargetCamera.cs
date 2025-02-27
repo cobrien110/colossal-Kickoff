@@ -123,7 +123,7 @@ public class MultipleTargetCamera : MonoBehaviour
                 bounds.Encapsulate(targets[i].position);
             }
             */
-            bounds.Encapsulate(targets[i].position);
+            if (targets[i] != null) bounds.Encapsulate(targets[i].position);
         }
         return bounds.center;
     }

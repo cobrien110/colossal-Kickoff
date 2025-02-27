@@ -14,4 +14,9 @@ public class WarriorCharSelectOption: MonoBehaviour
     public void updateSprite(int index) {
         GetComponent<Image>().sprite = warriorSprites[index];
     }
+
+    public void updateColor(float red, float green, float blue)
+    {
+        gameObject.GetComponent<Image>().material.color = new Color(red, green, blue);
+    }
 }
