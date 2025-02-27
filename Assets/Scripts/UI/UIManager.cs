@@ -684,13 +684,7 @@ public class UIManager : MonoBehaviour
         gameWinnerText.text = winner;
     }
 
-    void CopyToClipboard(string s)
-    {
-        TextEditor te = new TextEditor();
-        te.text = s;
-        te.SelectAll();
-        te.Copy();
-    }
+    
 
     public void PauseScreen(bool isPaused)
     {
