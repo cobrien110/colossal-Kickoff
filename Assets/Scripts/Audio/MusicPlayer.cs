@@ -50,7 +50,12 @@ public class MusicPlayer : MonoBehaviour
             source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
         }
         timeDEBUG = source.time;
-        timeDEBUG2 = UI.GetTimeRemaining();
+
+        if (UI != null)
+        {
+            timeDEBUG2 = UI.GetTimeRemaining();
+        }
+        
     }
 
     public void PauseMusic()
