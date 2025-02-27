@@ -15,12 +15,16 @@ public class PodiumSequencer : MonoBehaviour
     private MultipleTargetCamera MTC;
     private GameObject monster;
     private GameObject[] warriors;
+    public ParticleSystem monPart;
+    public ParticleSystem warPart;
+    private AudioPlayer ScoreJingle;
     // Start is called before the first frame update
     void Start()
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         UI = GameObject.Find("Canvas").GetComponent<UIManager>();
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
     }
 
     public void StartPodiumSequence(int winner)
@@ -75,7 +79,22 @@ public class PodiumSequencer : MonoBehaviour
         // make humans invuln
         // move ball far away
         // rain down confetti
-        // show win text
+        AudioPlayer ParticleAudio;
+        if (winner == 0)
+        {
+            warPart.Play();
+            ParticleAudio = warPart.GetComponent<AudioPlayer>();
+            ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
+        } else
+        {
+            monPart.Play();
+            ParticleAudio = monPart.GetComponent<AudioPlayer>();
+            ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
+        }
+
+        // play sound effect
+        string songName = winner == 0 ? "humanScore" : "monsterScore";
+        //ScoreJingle.PlaySoundSpecificPitch(ScoreJingle.Find(songName), 1.41421f);
 
         StartCoroutine(EndPodiumSequence());
     }

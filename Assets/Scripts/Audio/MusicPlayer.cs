@@ -8,12 +8,15 @@ public class MusicPlayer : MonoBehaviour
     public AudioClip[] sounds;
     public float volume = 1f;
     public bool isStageTheme = true;
+    public float timeDEBUG;
+    public float timeDEBUG2;
 
     private float elapsedTime = 0f;
     public bool testMusic = false;
     private float curVol = 0f;
     private float volGainRate = 1.5f;
     private bool isPaused = false;
+    private UIManager UI;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,7 @@ public class MusicPlayer : MonoBehaviour
                 PauseMusic();
             };
         }
+        UI = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
@@ -45,12 +49,15 @@ public class MusicPlayer : MonoBehaviour
             Mathf.Clamp(curVol, 0f, volume);
             source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
         }
+        timeDEBUG = source.time;
+        timeDEBUG2 = UI.GetTimeRemaining();
     }
 
     public void PauseMusic()
     {
         Debug.Log("Pausing music");
-        elapsedTime = source.time;
+        elapsedTime = Mathf.Floor(source.time);
+        source.time = elapsedTime;
         curVol = 0f;
         source.Pause();
         isPaused = true;

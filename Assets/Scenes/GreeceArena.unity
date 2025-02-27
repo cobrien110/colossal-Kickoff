@@ -18335,36 +18335,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9138569520651102005, guid: 7007251e3a9e1a2488a50d0913e3c584, type: 3}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: passMeter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: barriersAreOn
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: passIndicator
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: automaticStart
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: monsterAISpawn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: warriorAISpawn
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: automaticAISpawn
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: barrierRespawnStyle
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19661,6 +19637,10 @@ PrefabInstance:
     - target: {fileID: 2529909992509541054, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: gameSeconds
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23901,33 +23881,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2855651342002802277, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
-      propertyPath: volume
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 2855651342002802277, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
-      propertyPath: testMusic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7386122243375959851, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
-      propertyPath: m_Volume
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7386122243375959851, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: a5c19af377ab0b64abc52f9fcf9d5ccb, type: 3}
-    - target: {fileID: 7386122243375959851, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 56ae5007811890343bb50c502db26f6f, type: 3}
     - target: {fileID: 7944897939472487236, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
       propertyPath: m_Name
       value: Jukebox
-      objectReference: {fileID: 0}
-    - target: {fileID: 7944897939472487236, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
