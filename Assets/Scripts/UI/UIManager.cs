@@ -164,7 +164,7 @@ public class UIManager : MonoBehaviour
         
         else if (!console.isFocused)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GM.debugMode)
             {
                 console.gameObject.SetActive(true);
             }
@@ -206,30 +206,6 @@ public class UIManager : MonoBehaviour
                 {
                     ShowStatsScoreboard(false);
                 }
-            }
-
-            // Copy game stats to Clipboard
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                string textToCopy = "";
-
-                if (timeRemainingSeconds <= 0)
-                {
-                    textToCopy = "Stats from Game:\n";
-
-                }
-                else
-                {
-                    textToCopy = "Stats from " + timeRemainingSeconds + " seconds:\n";
-                }
-
-                textToCopy += "\nWinner: " + gameWinnerText.text;
-
-                textToCopy += "\nScore: " + warriorScore + " - " + monsterScore;
-
-                textToCopy += "\nKills: " + MonsterKillsText.text;
-
-                CopyToClipboard(textToCopy);
             }
         }
     }

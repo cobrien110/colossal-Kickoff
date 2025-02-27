@@ -7,11 +7,14 @@ using UnityEngine.Windows;
 public class ConsoleCommands : MonoBehaviour
 {
     private int test = 0;
+    private GameplayManager GM;
+    private UIManager UM;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
@@ -22,15 +25,20 @@ public class ConsoleCommands : MonoBehaviour
 
     public void ExecuteCommand(string command)
     {
-        Debug.Log(command);
-        
-        if (command.Substring(0, 8).Equals("settest "))
+        string[] subs = null;
+        //Debug.Log(command);
+        //Debug.Log(command.Split(' ', 2));
+        if (command != null) {
+            subs = command.Split(' ', 2);
+        }
+
+        if (subs[0].Equals("settest"))
         {
             int start = command.IndexOf("<") + 1;
             int end = command.IndexOf(">");
 
             String result = command.Substring(start, end - start);
-            Debug.Log(result);
+            //Debug.Log(result);
 
             try
             {
@@ -42,9 +50,49 @@ public class ConsoleCommands : MonoBehaviour
                 Debug.Log("Bad");
             }
         }
+
+        // This does not work rn :sob:
+        if (subs[0].Equals("endgame"))
+        {
+            if (GM != null) GM.gameSeconds = 0;
+        }
+
+        // Copies stats from game to clipboard
+        if (subs[0].Equals("copystats"))
+        {
+            string textToCopy = "";
+
+            if (UM.GetTimeRemaining() <= 0)
+            {
+                textToCopy = "Stats from Game:\n";
+            }
+            else
+            {
+                textToCopy = "Stats from " + UM.GetTimeRemaining() + " seconds:\n";
+            }
+
+            textToCopy += "\nWinner: ";
+
+            textToCopy += "\nScore: ";
+
+            textToCopy += "\nKills: ";
+
+            textToCopy += "\nAdd More Here";
+
+            CopyToClipboard(textToCopy); 
+        }
+
         else
         {
             Debug.Log("INVALID COMMAND");
         }
+    }
+
+    void CopyToClipboard(string s)
+    {
+        TextEditor te = new TextEditor();
+        te.text = s;
+        te.SelectAll();
+        te.Copy();
     }
 }

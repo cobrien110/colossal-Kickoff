@@ -25,6 +25,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject WarriorAI = null;
     [SerializeField] private GameObject MonsterAI = null;
     [SerializeField] private GameObject MonsterPlayer = null;
+    public bool debugMode;
     private PlayerInputManager PIM = null;
     private MusicPlayer MP = null;
     private PodiumSequencer PS;
