@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ba5b5c90fd4ec46a143b2f8a1478db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHumanGoal: 1
   startWithBariers: 0
   respawnType: 0
   canBeScoredIn: 0
@@ -111,6 +112,7 @@ MonoBehaviour:
   col: {fileID: 0}
   maxBounceAngle: 45
   bounceForce: 150
+  delayBeforeCanBeScored: 0.35
   barrierObjects:
   - {fileID: 3580004138005428457}
   - {fileID: 3402189289700341707}
