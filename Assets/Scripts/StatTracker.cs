@@ -41,6 +41,13 @@ public class StatTracker : MonoBehaviour
     private float ballTimeWarrior = 0;
     private string gameWinner = "";
 
+    //MVP Stats
+    [Header("MVP Values")]
+    [SerializeField] private int goalValue;
+    [SerializeField] private int assistValue;
+    [SerializeField] private int stealValue;
+    [SerializeField] private int deathValue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,9 +67,9 @@ public class StatTracker : MonoBehaviour
         int p2Score;
         int p3Score;
 
-        p1Score = (w1Goals * 100) + (w1Assists * 50) + (w1Steals * 10) - (w1Deaths * 2);
-        p2Score = (w2Goals * 100) + (w2Assists * 50) + (w2Steals * 10) - (w2Deaths * 2);
-        p3Score = (w3Goals * 100) + (w3Assists * 50) + (w3Steals * 10) - (w3Deaths * 2);
+        p1Score = (w1Goals * goalValue) + (w1Assists * assistValue) + (w1Steals * stealValue) - (w1Deaths * deathValue);
+        p2Score = (w2Goals * goalValue) + (w2Assists * assistValue) + (w2Steals * stealValue) - (w2Deaths * deathValue);
+        p3Score = (w3Goals * goalValue) + (w3Assists * assistValue) + (w3Steals * stealValue) - (w3Deaths * deathValue);
 
         Debug.Log("" + p1Score + " " + p2Score + " " + p3Score);
 
