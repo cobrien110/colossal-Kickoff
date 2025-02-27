@@ -28,15 +28,16 @@ public class AiMinotaurController : AiMonsterController
     [SerializeField] private float minPursueDistance = 2f;
     private float pursuitSmoothingFactor = 1f;
     [SerializeField] private float defendGoalDelay = 0.5f;
+    [SerializeField] private float smoothFactor = 3f; // Controls how smoothly the movement direction adjusts. Try values between 3 - 7 for best results
+    [SerializeField] private float redirectionSmoothness = 0.2f; // Adjust how quickly the wiggle offset transitions to the next offset. A value between 0.1 - 0.5 should work well
     //private float pursueDelayFrequency;
 
     // private bool shouldPerformAbility1 = false;
     private bool isCharging = false;
     private bool canPickUpBall = true;
     // private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
-    private float smoothFactor = 5f; // Adjust this value as needed
 
-   private enum SphericalAttackMode
+    private enum SphericalAttackMode
    {
        BallOwner,
        NearestWarrior
@@ -290,7 +291,7 @@ public class AiMinotaurController : AiMonsterController
             // float pathToGoalFactor = 0.0f;
 
             // Calculate shootChance based on these factors
-            shootChance = Mathf.Pow((distToGoalFactor + proximityToWarriorFactor) / 2f, 2);
+            shootChance = Mathf.Pow((distToGoalFactor/* + proximityToWarriorFactor*/) / 2f, 2);
 
             // If shooting, chargeAmount depends on distance to goal
         }
@@ -418,6 +419,7 @@ public class AiMinotaurController : AiMonsterController
 
     private void WiggleTowardGoal()
     {
+        // Debug.Log("WiggleTowardGoal");
         Vector3 goalPosition = warriorGoal.transform.position;
 
         // Update the timer
@@ -426,30 +428,32 @@ public class AiMinotaurController : AiMonsterController
         // Check if it's time to update the random offset
         if (redirectionTimer >= redirectionInterval)
         {
+            // Debug.Log("new offset");
             // Reset the timer
             redirectionTimer = 0f;
 
             // Generate a new random offset for "wiggle" effect
-            currentRandomOffset = new Vector3(
+            Vector3 newRandomOffset = new Vector3(
                 UnityEngine.Random.Range(-wiggleOffset, wiggleOffset),  // Random x offset
                 0,                          // Keep y as zero for ground-based movement
                 UnityEngine.Random.Range(-wiggleOffset, wiggleOffset)   // Random z offset
             );
+
+            // Smooth transition to the new offset
+            currentRandomOffset = Vector3.Lerp(currentRandomOffset, newRandomOffset, redirectionSmoothness);
         }
 
         // Calculate the base direction toward the goal
         Vector3 toGoal = (goalPosition - transform.position).normalized;
-        Vector3 toGoalIgnoreY = new Vector3 ( toGoal.x, transform.position.y, toGoal.z);
+        Vector3 toGoalIgnoreY = new Vector3(toGoal.x, 0, toGoal.z);
 
-        // Apply the current random offset to the direction vector
-        mc.movementDirection = (toGoalIgnoreY + currentRandomOffset).normalized;
-
-        // Set the minotaur’s movement based on the calculated `movementDirection`
-        // rb.velocity = mc.movementDirection * mc.monsterSpeed;
+        // Apply smoothed offset to movement direction
+        mc.movementDirection = Vector3.Lerp(mc.movementDirection, (toGoalIgnoreY + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
 
         // Update walking animation if applicable
         mc.ANIM.SetBool("isWalking", rb.velocity != Vector3.zero);
     }
+
 
     private float GetDistanceToNearestWarrior()
     {

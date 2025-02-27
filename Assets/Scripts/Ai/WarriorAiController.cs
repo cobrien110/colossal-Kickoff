@@ -22,6 +22,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]
     private float aiPassRange = 6f;
     [SerializeField]
+    private float aiPassRangeMin = 1f;
+    [SerializeField]
     private float passChance = 0.1f; // 10% chance to pass
     [SerializeField]
     private float stoppingDistanceFromGoal = 5f;
@@ -37,6 +39,7 @@ public class WarriorAiController : MonoBehaviour
     private float dodgeChance = 0.3f;
     [SerializeField] private float kickCooldown = 0.75f;
     private static float kickTimer = 0f;
+    [SerializeField] private float actionDelay = 0.25f;
 
     private bool checkToPass = false;
     private bool roamForward = true;
@@ -306,7 +309,8 @@ public class WarriorAiController : MonoBehaviour
         if (teammates[0] != null) { distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude; }
         if (teammates[1] != null) { distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude; }
 
-        if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange)
+        if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange // Ensure range is less than max
+            && Mathf.Min(distanceToWarrior1, distanceToWarrior2) > aiPassRangeMin) // and greater than min
         {
             return true;
         }
