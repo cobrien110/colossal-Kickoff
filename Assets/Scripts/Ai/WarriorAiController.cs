@@ -41,6 +41,10 @@ public class WarriorAiController : MonoBehaviour
     private static float kickTimer = 0f;
     [SerializeField] private float actionDelay = 0.25f;
 
+
+    private Coroutine aiCoroutine;
+    private bool canUpdateAI = true; // Controls AI decision-making
+
     private bool checkToPass = false;
     private bool roamForward = true;
     private Coroutine roamCoroutine;
@@ -75,6 +79,7 @@ public class WarriorAiController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        aiCoroutine = StartCoroutine(AiBehaviorCoroutine());
         StartCoroutine(CheckForPass());
         //warriors = FindObjectsOfType<WarriorController>();
         int index = 0;
@@ -92,17 +97,42 @@ public class WarriorAiController : MonoBehaviour
         // Debug.Log("Teammate 2: " + teammates[1].gameObject.name);
     }
 
-    public void test()
-    {
-        Debug.Log("test");
-    }
-
     // Update is called once per frame
     void Update()
     {
-        AiBehavior();
+        if (canUpdateAI)
+        {
+            AiBehavior();
+            canUpdateAI = false; // Prevent AI from making instant consecutive decisions
+        }
+        PerformMovement();
 
         if (kickTimer > 0) kickTimer -= Time.deltaTime;
+    }
+
+    private IEnumerator AiBehaviorCoroutine()
+    {
+        while (true)
+        {
+            canUpdateAI = true; // Allow AI to make a new decision
+            yield return new WaitForSeconds(actionDelay); // Delay next decision update
+        }
+    }
+
+    private void PerformMovement()
+    {
+        if (!wc.IsSliding()) rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
+
+        if (rb.velocity != Vector3.zero && !wc.IsSliding())
+        {
+            Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
+            transform.rotation = newRotation;
+        }
+
+        if (rb.velocity.magnitude < 1)
+        {
+            wc.movementDirection = Vector3.zero;
+        }
     }
 
     public void AiBehavior()
@@ -116,6 +146,7 @@ public class WarriorAiController : MonoBehaviour
         }
 
         if (wc.isStunned) return;
+
 
         // If no one has the ball
         if (wc.BP.ballOwner == null)
@@ -169,8 +200,6 @@ public class WarriorAiController : MonoBehaviour
             }
         }
 
-        // Stop movement if velocity is very low
-        if (rb.velocity.magnitude < 1) wc.movementDirection = Vector3.zero;
     }
 
     void BaseMovement(Vector2 targetPos)
@@ -182,16 +211,17 @@ public class WarriorAiController : MonoBehaviour
             //usingKeyboard = true;
             wc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
             wc.aimingDirection = wc.movementDirection;
+            //Debug.Log("MovementDirection: " +  wc.movementDirection);
         }
         
 
-        rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
+        //rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
         //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
-        }
+        //if (rb.velocity != Vector3.zero)
+        //{
+        //    Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
+        //    transform.rotation = newRotation;
+        //}
 
         if (wc.movementDirection != Vector3.zero && GM.isPlaying)
         {
