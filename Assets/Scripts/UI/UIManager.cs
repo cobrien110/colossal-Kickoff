@@ -687,7 +687,6 @@ public class UIManager : MonoBehaviour
         gameWinnerText.text = winner;
     }
 
-
     public void PauseScreen(bool isPaused)
     {
         pauseScreen.SetActive(isPaused);
@@ -698,5 +697,81 @@ public class UIManager : MonoBehaviour
         if (player == 1) P1MVP.SetActive(state);
         if (player == 2) P2MVP.SetActive(state);
         if (player == 3) P3MVP.SetActive(state);
+    }
+
+    private void GoldGoals(int player)
+    {
+        if (player == 1) Warrior1GoalsText.color = new Color(50, 255, 0);
+        if (player == 2) Warrior2GoalsText.color = new Color(50, 255, 0);
+        if (player == 3) Warrior3GoalsText.color = new Color(50, 255, 0);
+    }
+
+    private void GoldAssists(int player)
+    {
+        if (player == 1) Warrior1AssistsText.color = new Color(50, 255, 0);
+        if (player == 2) Warrior2AssistsText.color = new Color(50, 255, 0);
+        if (player == 3) Warrior3AssistsText.color = new Color(50, 255, 0);
+    }
+
+    private void GoldDeaths(int player)
+    {
+        if (player == 1) Warrior1DeathsText.color = new Color(50, 255, 0);
+        if (player == 2) Warrior2DeathsText.color = new Color(50, 255, 0);
+        if (player == 3) Warrior3DeathsText.color = new Color(50, 255, 0);
+    }
+
+    private void GoldSteals(int player)
+    {
+        if (player == 1) Warrior1StealsText.color = new Color(50, 255, 0);
+        if (player == 2) Warrior2StealsText.color = new Color(50, 255, 0);
+        if (player == 3) Warrior3StealsText.color = new Color(50, 255, 0);
+    }
+
+    public void GoldenWarriorStats()
+    {
+        int goals = 0;
+        int assists = 0;
+        int steals = 0;
+        int deaths = 0;
+
+        int goalsIndex = 1;
+        int assistsIndex = 1;
+        int stealsIndex = 1;
+        int deathsIndex = 1;
+
+        int player = -1;
+
+        GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
+
+        foreach (GameObject warrior in warriors)
+        {
+            if (warrior.GetComponent<WarriorController>() != null) {
+                player = warrior.GetComponent<WarriorController>().playerNum;
+            }
+            //Goals
+            if (ST.GetWGoals(player) > goals)
+            {
+                goalsIndex = player;
+            }
+
+            if (ST.GetWAssists(player) > assists)
+            {
+                assistsIndex = player;
+            }
+
+            if (ST.GetWDeaths(player) < deaths)
+            {
+                deathsIndex = player;
+            }
+
+            if (ST.GetWSteals(player) > steals)
+            {
+                stealsIndex = player;
+            }
+        }
+        GoldGoals(goalsIndex);
+        GoldAssists(assistsIndex);
+        GoldDeaths(deathsIndex);
+        GoldSteals(stealsIndex);
     }
 }
