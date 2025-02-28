@@ -431,12 +431,14 @@ public class GameplayManager : MonoBehaviour
                 Time.timeScale = 1;
                 isPaused = false;
                 UM.PauseScreen(isPaused);
+                MP.UnPauseMusic();
             }
             else
             {
                 Time.timeScale = 0;
                 isPaused = true;
                 UM.PauseScreen(isPaused);
+                MP.PauseMusicNoFloor();
             }
         }
     }

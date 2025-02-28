@@ -94,6 +94,12 @@ public class WarriorController : MonoBehaviour
     private float lastCallForPassTime;
     [SerializeField] private float callForPassCooldown = 1f;
 
+    // fancy respawn animation
+    private Transform jumpInLocation;
+    private float jumpInTime = 2f;
+    private float elapsedJumpTime = 0f;
+    private float arcHeight = 3f;
+    private bool fancySpawnStarted = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -113,14 +119,10 @@ public class WarriorController : MonoBehaviour
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
-        //playerRend = GetComponent<SpriteRenderer>();
 
-        //if (WarriorSpawner == null)
-        //{
-        //    WarriorSpawner = GameObject.FindGameObjectWithTag("WarriorSpawner");
-
-        //}
-        //transform.position = WarriorSpawner.transform.position;
+        // fancy respawn
+        jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
+        jumpInTime = respawnTime - 1;
     }
 
     private void Start()
@@ -186,7 +188,7 @@ public class WarriorController : MonoBehaviour
             }
         }
         Respawn();
-
+        FancyRespawnAnimation();
         //Particles
         if ((health < healthMax || isCursed) && !isDead && PS != null)
         {
@@ -227,7 +229,6 @@ public class WarriorController : MonoBehaviour
                 isBomb = false;
             }
         }
-
     }
 
     private void FixedUpdate()
@@ -609,6 +610,8 @@ public class WarriorController : MonoBehaviour
             respawnTimer = 0;
             MTC.AddTarget(transform);
             ResetPlayer();
+            fancySpawnStarted = false;
+            elapsedJumpTime = 0;
 
             // Update list of warriors in AiMonsterController if appropriate
             AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
@@ -619,6 +622,40 @@ public class WarriorController : MonoBehaviour
                 aiMonsterController.warriors.Add(gameObject);
                 // Debug.Log("After: " + aiMonsterController.warriors.Count);
             }
+        }
+    }
+
+    void FancyRespawnAnimation()
+    {
+        if (jumpInLocation == null) return;
+
+        if (respawnTimer >= 1 && isDead)
+        {
+            ANIM.Play("WarriorJump");
+            ANIM.SetBool("isDead", true);
+            if (!fancySpawnStarted)
+            {
+                transform.position = jumpInLocation.position;
+                fancySpawnStarted = true;
+            }
+
+            if (elapsedJumpTime < jumpInTime)
+            {
+                elapsedJumpTime += Time.deltaTime;
+            }
+            float t = elapsedJumpTime / jumpInTime;
+
+            // Linear interpolation between start and end
+            Vector3 horizontalPosition = Vector3.Lerp(jumpInLocation.position, WarriorSpawner.transform.position, t);
+
+            // Parabolic height calculation
+            float arc = arcHeight * Mathf.Sin(t * Mathf.PI);
+
+            // Apply the arc to the Y-axis
+            transform.position = new Vector3(horizontalPosition.x, horizontalPosition.y + arc, horizontalPosition.z);
+        } else
+        {
+            ANIM.SetBool("isDead", false);
         }
     }
 
