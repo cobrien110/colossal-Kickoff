@@ -29,13 +29,18 @@ public class MenuController : MonoBehaviour
     //Stage Images
     [SerializeField] private Image stageFade;
     [SerializeField] private GameObject allImages;
-    [SerializeField] private GameObject greeceImage;
-    [SerializeField] private GameObject canadaImage;
-    [SerializeField] private GameObject egyptImage;
-    [SerializeField] private GameObject mexicoImage;
-    [SerializeField] private GameObject japanImage;
+    //[SerializeField] private GameObject greeceImage;
+    //[SerializeField] private GameObject canadaImage;
+    //[SerializeField] private GameObject egyptImage;
+    //[SerializeField] private GameObject mexicoImage;
+    //[SerializeField] private GameObject japanImage;
 
     [SerializeField] private GameObject[] stageImages;
+    [SerializeField] private Button[] stageButtons;
+    [SerializeField] private GameObject stageSettings;
+    [SerializeField] private Button stageSettingsButton;
+    private Button lastStageButton;
+    Navigation lastStageNavi = new Navigation();
 
     [SerializeField] private GameObject[] cursors;
     [SerializeField] private GameObject[] playerOptions;
@@ -54,9 +59,9 @@ public class MenuController : MonoBehaviour
     //MENU INTERFACES
     [SerializeField] private Slider effectsSlider, musicSlider, comVolumeSlider, comFreqSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
-     [SerializeField] private TMP_Dropdown goalDropdown;
+    [SerializeField] private TMP_Dropdown goalDropdown;
     [SerializeField] private Toggle screenshakeToggle;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton;
     [SerializeField] private Button settingsHeaderButton, settingsBackButton;
     Navigation backNavi = new Navigation();
     Navigation headerNavi = new Navigation();
@@ -86,6 +91,10 @@ public class MenuController : MonoBehaviour
         backNavi.mode = Navigation.Mode.Explicit;
         headerNavi = settingsBackButton.navigation;
         headerNavi.mode = Navigation.Mode.Explicit;
+
+        //Match Settings Navigation
+        lastStageNavi = settingsBackButton.navigation;
+        lastStageNavi.mode = Navigation.Mode.Explicit;
 
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
@@ -360,7 +369,7 @@ public class MenuController : MonoBehaviour
             cursors[i].SetActive(true);
         }**/
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(stageFirstButton);
+        EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
             MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
@@ -472,6 +481,30 @@ public class MenuController : MonoBehaviour
             }
 
         }
+    }
+
+    public void SetLastStageButton(int stageID)
+    {
+        lastStageButton = stageButtons[stageID];
+        lastStageNavi.selectOnLeft = lastStageButton;
+        lastStageNavi.selectOnRight = lastStageButton;
+        stageSettingsButton.navigation = lastStageNavi;
+    }
+
+    public void ShowStageSettings(bool state)
+    {
+        if (state)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(stageSettingsFirstButton);
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
+        }
+        stageSettings.SetActive(state);
+        stageSelect.SetActive(!state);
     }
 
     //private IEnumerator StageImage(int stageID)
