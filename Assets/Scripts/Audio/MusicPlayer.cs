@@ -56,12 +56,30 @@ public class MusicPlayer : MonoBehaviour
             timeDEBUG2 = UI.GetTimeRemaining();
         }
         
+        if (Time.timeScale == 0 && source.isPlaying)
+        {
+            PauseMusicNoFloor();
+        } 
+        if (Time.timeScale == 1 && !source.isPlaying)
+        {
+            UnPauseMusic();
+        }
     }
 
     public void PauseMusic()
     {
         Debug.Log("Pausing music");
         elapsedTime = Mathf.Floor(source.time);
+        source.time = elapsedTime;
+        curVol = 0f;
+        source.Pause();
+        isPaused = true;
+    }
+
+    private void PauseMusicNoFloor()
+    {
+        Debug.Log("Pausing music");
+        //elapsedTime = Mathf.Floor(source.time);
         source.time = elapsedTime;
         curVol = 0f;
         source.Pause();
