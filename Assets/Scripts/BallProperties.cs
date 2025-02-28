@@ -46,6 +46,8 @@ public class BallProperties : MonoBehaviour
     private Vector3 previousPosition;
     private Vector3 calculatedVelocity;
 
+    [SerializeField] private float intangibleTime = 0.35f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -138,7 +140,7 @@ public class BallProperties : MonoBehaviour
     {
         if (isSuperKick && GM.passIndicator)
         {
-            SetBallColor(Color.yellow);
+            SetBallColor(Color.red);
         }
         else if (previousKicker != null && previousKicker.tag.Equals("Warrior") && ballOwner == null && GM.isPlaying
             && GM.passIndicator && passTimer <= passTimeFrame)
@@ -148,6 +150,11 @@ public class BallProperties : MonoBehaviour
         else
         {
             SetBallColor(Color.white);
+        }
+
+        if (!isInteractable && GM.isPlaying)
+        {
+            SetBallColor(Color.black);
         }
         
         if (ballOwner == null)
@@ -305,7 +312,8 @@ public class BallProperties : MonoBehaviour
 
 
                 GWB.RejectBall(RB);
-                
+                isInteractable = false;
+                Invoke("EndIntangibility", intangibleTime);
             }
         }
 
@@ -374,10 +382,16 @@ public class BallProperties : MonoBehaviour
 
                 
                 GWB.RejectBall(RB);
-                
+                isInteractable = false;
+                Invoke("EndIntangibility", intangibleTime);
             }
             
         }
+    }
+
+    private void EndIntangibility()
+    {
+        if (GM.isPlaying) isInteractable = true;
     }
 
     private void ScoreBall(bool isWarriorGoal, Transform t)
