@@ -229,7 +229,7 @@ public class UIManager : MonoBehaviour
             }
             else if (winner == 1)
             {
-                gameoverText.text = "MONSTERS WIN!";
+                gameoverText.text = "MONSTER WINS!";
                 gameWinnerText.text = "Monster";
             }
             else if (winner == 2)
