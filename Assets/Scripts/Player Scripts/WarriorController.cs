@@ -100,6 +100,7 @@ public class WarriorController : MonoBehaviour
     private float elapsedJumpTime = 0f;
     private float arcHeight = 3f;
     private bool fancySpawnStarted = false;
+    private float jumpRandomMod = 5f;
 
     // Start is called before the first frame update
     void Awake()
@@ -635,7 +636,12 @@ public class WarriorController : MonoBehaviour
             ANIM.SetBool("isDead", true);
             if (!fancySpawnStarted)
             {
-                transform.position = jumpInLocation.position;
+                /*
+                Vector3 randomizedPoint = Random.onUnitSphere * jumpRandomMod;
+                randomizedPoint.z = 0f;
+                Debug.Log("random point:" + randomizedPoint);
+                */
+                transform.position = jumpInLocation.position;// + randomizedPoint;
                 fancySpawnStarted = true;
             }
 
