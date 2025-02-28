@@ -54,6 +54,13 @@ public abstract class AbilityChargeable : AbilityScript
         // activate ability if max charge is reached on auto-charge
         if (autoCharge)
         {
+            if (BP.ballOwner == gameObject) // If ball is picked up while charging, deactivate
+            {
+                ChargeDown();
+                chargeAmount = 0;
+                isAutoCharging = false;
+            }
+
             if (inputBufferTimer < inputBuffer && isAutoCharging) inputBufferTimer += Time.deltaTime;
             if (chargeAmount >= maxChargeSeconds)
             {
