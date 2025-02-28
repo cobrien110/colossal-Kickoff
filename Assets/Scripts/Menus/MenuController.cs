@@ -25,6 +25,18 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
+
+    //Stage Images
+    [SerializeField] private Image stageFade;
+    [SerializeField] private GameObject allImages;
+    [SerializeField] private GameObject greeceImage;
+    [SerializeField] private GameObject canadaImage;
+    [SerializeField] private GameObject egyptImage;
+    [SerializeField] private GameObject mexicoImage;
+    [SerializeField] private GameObject japanImage;
+
+    [SerializeField] private GameObject[] stageImages;
+
     [SerializeField] private GameObject[] cursors;
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
@@ -441,6 +453,31 @@ public class MenuController : MonoBehaviour
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
     }
+
+    //Stage Image Handling
+    public void StageImageSwap(int stageID)
+    {
+        Debug.Log("Swapped");
+        //stageFade.CrossFadeAlpha(1, 1.0f, false);
+        //stageFade.CrossFadeAlpha(0, 1.0f, false);
+        for (int i = 0; i < stageImages.Length; i++)
+        {
+            if (i == stageID)
+            {
+                stageImages[i].SetActive(true);
+            }
+            else
+            {
+                stageImages[i].SetActive(false);
+            }
+
+        }
+    }
+
+    //private IEnumerator StageImage(int stageID)
+    //{
+    //    stageFade.CrossFadeAlpha
+    //}
 
     public void showConnected(int playerNumber)
     {
