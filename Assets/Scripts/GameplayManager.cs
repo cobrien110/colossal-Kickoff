@@ -179,7 +179,8 @@ public class GameplayManager : MonoBehaviour
     private void FinalizeReset()
     {
         StopPlaying();
-        GameObject newBall = Instantiate(Ball, BallSpawner.transform.position, Quaternion.identity);
+        Vector3 spawnPosition = BallSpawner.transform.position;
+        GameObject newBall = Instantiate(Ball, spawnPosition, Quaternion.identity);
         Ball = newBall;
         BallProperties BP = Ball.GetComponent<BallProperties>();
         StartCoroutine(Kickoff());
