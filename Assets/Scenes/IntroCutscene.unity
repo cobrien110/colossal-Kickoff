@@ -794,7 +794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1205829937}
   - component: {fileID: 1205829936}
-  - component: {fileID: 1205829935}
+  - component: {fileID: 1205829938}
   m_Layer: 0
   m_Name: CutsceneVoice
   m_TagString: Untagged
@@ -802,18 +802,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1205829935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1205829934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe064fc33eaef8a4c9313a16ccb8307f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &1205829936
 AudioSource:
   m_ObjectHideFlags: 0
@@ -825,7 +813,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 96328b85d1073644b929d2c9cf4102ae, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -925,6 +913,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1205829938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205829934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a2efc67ae1f4749b7766d3a2371cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: 96328b85d1073644b929d2c9cf4102ae, type: 3}
+  volume: 1
+  pitchRangeLow: 0.85
+  pitchRangeHigh: 1.15
 --- !u!1 &1390770110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,9 +1320,10 @@ MonoBehaviour:
   showLineNum: 1
   subtitles: {fileID: 708702572}
   menuSceneName: MainMenus
+  sound: {fileID: 1205829938}
   voiceLines:
   - text: Good evening. This is Colossal News.
-    time: 4
+    time: 2.85
   - text: I'm your host, John Orcman.
     time: 2.3
   - text: 'Our main story tonight:'
