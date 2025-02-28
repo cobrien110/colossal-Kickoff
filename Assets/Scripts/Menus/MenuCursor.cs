@@ -53,7 +53,7 @@ public class MenuCursor : MonoBehaviour
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.position = new Vector3(0, 0, 0);
         MC = GameObject.Find("MenuController").GetComponent<MenuController>();
-        MC.findAllCursors();
+        MC.newCursor();
         IM = GameObject.Find("InputManager").GetComponent<InputManager>();
         //VM = FindObjectOfType<VolumeManager>(true);
         MN = FindObjectOfType<MonsterName>(true);

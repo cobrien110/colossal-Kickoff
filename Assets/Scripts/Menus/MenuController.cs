@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
     //parent object containing all buttons from the main menu
-    [SerializeField] private GameObject mainMenuButtons;
+    [SerializeField] private GameObject mainMenuButtons, quitGameButtons;
     
     [SerializeField] private TMP_Text settingsHeader;
     [SerializeField] private GameObject settingsButtons;
@@ -42,14 +42,14 @@ public class MenuController : MonoBehaviour
     //MENU INTERFACES
     [SerializeField] private Slider effectsSlider, musicSlider, comVolumeSlider, comFreqSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
+     [SerializeField] private TMP_Dropdown goalDropdown;
     [SerializeField] private Toggle screenshakeToggle;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton;
     [SerializeField] private Button settingsHeaderButton, settingsBackButton;
     Navigation backNavi = new Navigation();
     Navigation headerNavi = new Navigation();
 
     private int numPlayersConfirmed = 0;
-    private bool amIConfirmed = false;
     public bool canMoveToGame = false;
 
     //tracks the stage the game will move to when it starts
@@ -159,6 +159,7 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
+                goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
@@ -187,8 +188,10 @@ public class MenuController : MonoBehaviour
 
             //QUIT GAME
             case 2:
-                Debug.Log("Quitting game. Goodbye!");
-                Application.Quit();
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(quitFirstButton);
+                quitGameButtons.SetActive(true);
+                mainMenuButtons.SetActive(false);
                 break;
 
             default:
@@ -256,6 +259,7 @@ public class MenuController : MonoBehaviour
         currentScreen = 0;
         mainMenuButtons.SetActive(true);
         stageSelect.SetActive(false);
+        quitGameButtons.SetActive(false);
         settingsButtons.SetActive(false);
 
         //sound
@@ -277,13 +281,12 @@ public class MenuController : MonoBehaviour
         //todo: reverse that thing from the last comment
         playerOptions[playerSlot].SetActive(false);
         //if (confirm)
-        if (amIConfirmed) {
+        if (confirmedInfos.Contains(characterInfos[playerSlot])) {
             unconfirmCharacter(playerSlot);
         }
     }
 
     public void confirmCharacter(int playerSlot) {
-        amIConfirmed = true;
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
         numPlayersConfirmed++;
@@ -296,7 +299,6 @@ public class MenuController : MonoBehaviour
     }
 
     public void unconfirmCharacter(int playerSlot) {
-        amIConfirmed = false;
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
         numPlayersConfirmed--;
@@ -305,6 +307,12 @@ public class MenuController : MonoBehaviour
             canMoveToGame = false;
             readyText.SetActive(false);
         }
+    }
+
+    public void newCursor() {
+        findAllCursors();
+        canMoveToGame = false;
+        readyText.SetActive(false);
     }
 
     public void moveToStageSelect() {
@@ -371,6 +379,13 @@ public class MenuController : MonoBehaviour
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
+    public void setGoalBarriers() {
+        PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
     public void setMusicVolume() {
         PlayerPrefs.SetFloat("musicVolume", musicSlider.value / 100f);
     }
@@ -419,6 +434,10 @@ public class MenuController : MonoBehaviour
             cursors[i].GetComponent<MenuCursor>().showCursor();
         }
 
+        //set these just in case
+        numPlayersConfirmed = 0;
+        canMoveToGame = false;
+
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
     }
@@ -466,4 +485,10 @@ public class MenuController : MonoBehaviour
                 break;
         }
     }
+
+    public void exitGame() {
+        Debug.Log("Quitting game. Goodbye!");
+        Application.Quit();
+    }
+
 }
