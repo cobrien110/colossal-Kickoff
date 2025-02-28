@@ -35,15 +35,7 @@ public class GoalWithBarrier : MonoBehaviour
     {
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
-        SetStats();
-
-        if (startWithBariers)
-        {
-            health = maxHealth;
-        } else
-        {
-            health = 0;
-        }
+        Invoke("SetStats",0.05f);
         
         col = GetComponent<BoxCollider>();
         AP = GetComponent<AudioPlayer>();
@@ -207,5 +199,14 @@ public class GoalWithBarrier : MonoBehaviour
         respawnType = GM.barrierRespawnStyle;
         maxBounceAngle = GM.barrierBounceAngle;
         bounceForce = GM.barrierBounceForce;
+
+        if (startWithBariers)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health = 0;
+        }
     }
 }

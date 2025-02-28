@@ -43,6 +43,7 @@ public class GameplayManager : MonoBehaviour
     public WarriorHolder WH = null;
 
     [Header("Goal Barrier Settings")]
+    public bool usePlayerPrefs = true;
     public bool barriersAreOn = false;
     [Range(0, 2)] public int barrierRespawnStyle = 0;
     public float barrierMaxHealth = 10;
@@ -73,7 +74,8 @@ public class GameplayManager : MonoBehaviour
             Debug.Log(count + " Player Selected: " + PlayerPrefs.GetInt(currentPlayer));
             count++;
         }
-        
+
+        if (usePlayerPrefs) GetBarrierPrefs();
     }
 
     // Update is called once per frame
@@ -163,8 +165,6 @@ public class GameplayManager : MonoBehaviour
         StartPlaying();
     }
 
-    
-
     public void Reset()
     {
         //StopPlaying();
@@ -250,6 +250,29 @@ public class GameplayManager : MonoBehaviour
     public GameObject GetBall()
     {
         return Ball;
+    }
+
+    private void GetBarrierPrefs()
+    {
+        int goalSetting = PlayerPrefs.GetInt("goalBarriers");
+        if (goalSetting == 0)
+        {
+            //barriersAreOn = true;
+            // DEFAULT
+        } else if (goalSetting == 1)
+        {
+            //barriersAreOn = true;
+            barrierMaxHealth *= 1.5f;
+            // HIGH HEALTH
+        } else if (goalSetting == 2)
+        {
+            //barriersAreOn = true;
+            barrierMaxHealth = 1;
+            // SINGLE HIT
+        } else
+        {
+            barriersAreOn = false;
+        }
     }
 
     public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
