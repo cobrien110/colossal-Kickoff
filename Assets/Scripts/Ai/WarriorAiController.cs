@@ -121,6 +121,12 @@ public class WarriorAiController : MonoBehaviour
 
     private void PerformMovement()
     {
+        if (wc.isStunned)
+        {
+            wc.movementDirection = Vector3.zero;
+            return;
+        }
+
         if (!wc.IsSliding()) rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
 
         if (rb.velocity != Vector3.zero && !wc.IsSliding())
