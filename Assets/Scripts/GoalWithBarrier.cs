@@ -16,7 +16,7 @@ public class GoalWithBarrier : MonoBehaviour
     public float bounceForce = 4f;
     private float delayAfterInteraction = 0.25f;
     private float delayAfterDamage = 0.25f;
-    [SerializeField] private float delayBeforeCanBeScored = 0.35f;
+    [SerializeField] private float delayBeforeCanBeScored = 0.25f;
     private float canScoreTimer = 0f;
     private float timer;
     private float timerDamage;
@@ -84,10 +84,14 @@ public class GoalWithBarrier : MonoBehaviour
         if (timerDamage < delayAfterDamage) return;
         timerDamage = 0f;
 
-        Debug.Log(gameObject.name + " hit by ball with " + damage + " velocity");
-
         // if ball is too slow, do not damage
-        if (damage < 2) return;
+        if (damage < 1)
+        {
+            Debug.Log("Ball moving too slowly to deal damage to " + gameObject.name);
+        }
+
+        Debug.Log(gameObject.name + " hit, taking " + damage + "damage");
+        
         health -= damage;
         
         if (health <= 0)

@@ -295,7 +295,9 @@ public class BallProperties : MonoBehaviour
                 else
                 {
                     //GWB.RejectBall(RB);
-                    GWB.TakeBallDamage(1000);
+                    float damageToDeal = GWB.maxHealth / 2f;
+                    if (damageToDeal < 1) damageToDeal = 1;
+                    GWB.TakeBallDamage(damageToDeal);
 
                     // Debug.Log("ballOwner set to null");
                     ballOwner = null;
@@ -358,11 +360,13 @@ public class BallProperties : MonoBehaviour
                 // If being shot, not dribbled, reduce goal health
                 if (ballOwner == null) GWB.TakeBallDamage(RB.velocity.magnitude);
 
-                // otherwise destroy goal and bounce ball away
+                // otherwise hurt goal and bounce ball away
                 else
                 {
                     //GWB.RejectBall(RB);
-                    GWB.TakeBallDamage(1000);
+                    float damageToDeal = GWB.maxHealth / 2f;
+                    if (damageToDeal < 1) damageToDeal = 1;
+                    GWB.TakeBallDamage(damageToDeal);
 
                     // Debug.Log("ballOwner set to null");
                     ballOwner = null;
