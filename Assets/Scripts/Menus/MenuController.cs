@@ -225,7 +225,7 @@ public class MenuController : MonoBehaviour
             settingsHeaderButton.navigation = headerNavi;
             backNavi.selectOnUp = comFreqSlider;
             settingsBackButton.navigation = backNavi;
-            Debug.Log("What");
+            //Debug.Log("What");
         }
         else if (audioSettings.activeInHierarchy)
         {
