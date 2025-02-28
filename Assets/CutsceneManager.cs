@@ -14,6 +14,7 @@ public class CutsceneManager : MonoBehaviour
     public bool showLineNum;
     public GameObject subtitles;
     public String menuSceneName;
+    public AudioPlayer sound;
 
     [Serializable]
     public struct VoiceLine
@@ -34,6 +35,7 @@ public class CutsceneManager : MonoBehaviour
     void StartSubtitles()
     {
         StartCoroutine(SubtitlesCoroutine());
+        sound.PlaySound(sound.Find("John Orcman finalV1"));
     }
 
     IEnumerator SubtitlesCoroutine()
