@@ -632,8 +632,6 @@ public class WarriorController : MonoBehaviour
 
         if (respawnTimer >= 1 && isDead)
         {
-            ANIM.Play("WarriorJump");
-            ANIM.SetBool("isDead", true);
             if (!fancySpawnStarted)
             {
                 /*
@@ -643,6 +641,8 @@ public class WarriorController : MonoBehaviour
                 */
                 transform.position = jumpInLocation.position;// + randomizedPoint;
                 fancySpawnStarted = true;
+                ANIM.Play("WarriorJump");
+                ANIM.SetBool("isDead", true);
             }
 
             if (elapsedJumpTime < jumpInTime)

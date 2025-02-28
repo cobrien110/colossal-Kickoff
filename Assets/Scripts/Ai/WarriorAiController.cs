@@ -229,7 +229,7 @@ public class WarriorAiController : MonoBehaviour
         //    transform.rotation = newRotation;
         //}
 
-        if (wc.movementDirection != Vector3.zero && GM.isPlaying)
+        if (wc.movementDirection != Vector3.zero && GM.isPlaying && !wc.GetIsDead())
         {
             wc.ANIM.SetBool("isWalking", true);
         }
