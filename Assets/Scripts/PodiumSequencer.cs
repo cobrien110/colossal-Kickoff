@@ -110,6 +110,7 @@ public class PodiumSequencer : MonoBehaviour
         Time.timeScale = 0;
         // show scoreboard
         UI.ShowStatsScoreboard(true);
+        UI.GoldenWarriorStats();
 
         if (ST != null) UI.ShowMVP(true, ST.GetMVP());
     }
