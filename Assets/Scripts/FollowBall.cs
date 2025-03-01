@@ -47,13 +47,15 @@ public class FollowBall : MonoBehaviour
         if (followTarget.GetComponent<WarriorController>())
         {
             SR.color = team2Col;
-            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
+            //SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, 0);
             y = yOffsetWarrior;
             noOwnerAlpha = -1;
         } else if (followTarget.GetComponent<MonsterController>())
         {
             SR.color = team1Col;
-            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
+            //SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha);
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, 0);
             y = yOffsetMonster;
             noOwnerAlpha = -1;
         } else
@@ -63,9 +65,13 @@ public class FollowBall : MonoBehaviour
             SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, alpha * noOwnerAlpha);
             y = yOffsetBall;
         }
-        
 
         Vector3 newPosition = followTarget.transform.position + new Vector3(0f, y, 0f);
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
+
+        if (!BP.isInteractable)
+        {
+            SR.color = new Color(0, 0, 0, 0);
+        }
     }
 }
