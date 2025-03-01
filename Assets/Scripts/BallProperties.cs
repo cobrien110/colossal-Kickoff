@@ -47,7 +47,7 @@ public class BallProperties : MonoBehaviour
     private Vector3 previousPosition;
     private Vector3 calculatedVelocity;
 
-    private float intangibleTime = 0.35f;
+    private float intangibleTime = 0.3f;
 
     // Start is called before the first frame update
     void Start()
@@ -301,6 +301,7 @@ public class BallProperties : MonoBehaviour
                 else
                 {
                     //GWB.RejectBall(RB);
+                    previousKicker = ballOwner;
                     float damageToDeal = GWB.maxHealth / 2f;
                     if (damageToDeal < 1) damageToDeal = 1;
                     GWB.TakeBallDamage(damageToDeal);
@@ -372,6 +373,7 @@ public class BallProperties : MonoBehaviour
                 else
                 {
                     //GWB.RejectBall(RB);
+                    previousKicker = ballOwner;
                     float damageToDeal = GWB.maxHealth / 2f;
                     if (damageToDeal < 1) damageToDeal = 1;
                     GWB.TakeBallDamage(damageToDeal);

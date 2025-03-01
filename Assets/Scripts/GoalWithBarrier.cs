@@ -22,6 +22,7 @@ public class GoalWithBarrier : MonoBehaviour
     private float timerDamage;
     public GameObject[] barrierObjects;
     public float xPos = 7f;
+    private bool wasJustScored = false;
 
     AudioPlayer AP;
     GameplayManager GM;
@@ -170,10 +171,11 @@ public class GoalWithBarrier : MonoBehaviour
             return;
         } else if (respawnType == 1) // respawn if fully gone
         {
-            if (health <= 0)
+            if (health <= 0 && wasJustScored)
             {
                 health = maxHealth;
                 canBeScoredIn = false;
+                wasJustScored = false;
             }
         } else // completely respawn
         {
@@ -193,6 +195,7 @@ public class GoalWithBarrier : MonoBehaviour
         ParticleAudio.PlaySoundRandomPitch(ParticleAudio.Find("goalConfetti"));
         string songName = isHumanGoal ? "humanScore" : "monsterScore";
         ScoreJingle.PlaySound(ScoreJingle.Find(songName));
+        wasJustScored = true;
     }
 
     public void SetStats()

@@ -26,7 +26,7 @@ public class AbilitySphinxPassive : PassiveAbility
     {
         if (auraObject == null) return;
         Vector3 newScale = new Vector3(baseScale.x + sizePerStack * counterAmount, baseScale.y, baseScale.z + sizePerStack * counterAmount);
-        auraObject.transform.localScale = newScale;
+        auraObject.transform.localScale = Vector3.Lerp(auraObject.transform.localScale, newScale, Time.deltaTime * 1.25f);
         if (counterAmount > 0)
         {
             timer += Time.deltaTime;
