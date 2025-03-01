@@ -382,7 +382,7 @@ public class WarriorController : MonoBehaviour
 
                 if (GM.passIndicator)
                 {
-                    BP.SetBallColor(Color.blue);
+                    //BP.SetBallColor(Color.blue);
                 }
                 
                 Debug.Log(kickCharge);
@@ -1039,6 +1039,8 @@ public class WarriorController : MonoBehaviour
         // If has been in warrior's collider long enough
         else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
+            // if you were last kicker and ball is in singleMode, return
+            if (BP.isInSingleOutMode && BP.previousKicker == gameObject) return;
             // Pick up ball
             Debug.Log("Pick up ball");
             pickupBallTimer = pickupBallCooldown;

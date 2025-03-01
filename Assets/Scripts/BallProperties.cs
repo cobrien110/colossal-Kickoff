@@ -18,6 +18,7 @@ public class BallProperties : MonoBehaviour
     public GameObject playerTest = null;
     public float passBonus = 0.25f;
     public bool isSuperKick = false;
+    public bool isInSingleOutMode = false;
     public float passTimeFrame = .5f;
     private float passTimer = 0f;
     [SerializeField] private float heightLockDelay = 3.5f;
@@ -46,7 +47,7 @@ public class BallProperties : MonoBehaviour
     private Vector3 previousPosition;
     private Vector3 calculatedVelocity;
 
-    [SerializeField] private float intangibleTime = 0.35f;
+    private float intangibleTime = 0.35f;
 
     // Start is called before the first frame update
     void Start()
@@ -152,7 +153,7 @@ public class BallProperties : MonoBehaviour
             SetBallColor(Color.white);
         }
 
-        if (!isInteractable && GM.isPlaying)
+        if (isInSingleOutMode && GM.isPlaying)
         {
             SetBallColor(Color.black);
         }
@@ -178,10 +179,8 @@ public class BallProperties : MonoBehaviour
             && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()))))
         {
             if (!isInteractable) return;
-            if (GM.passIndicator)
-            {
-                //SetBallColor(Color.white);
-            }
+            // if the ball just hit the goal, prevent that person from touching the ball
+            if (isInSingleOutMode && previousKicker == other.gameObject) return;
 
             //if (other.gameObject.Equals(lastKicker)) return;
             if (ballOwner == other.gameObject)
@@ -312,7 +311,8 @@ public class BallProperties : MonoBehaviour
 
 
                 GWB.RejectBall(RB);
-                isInteractable = false;
+                //isInteractable = false;
+                isInSingleOutMode = true;
                 Invoke("EndIntangibility", intangibleTime);
             }
         }
@@ -382,7 +382,8 @@ public class BallProperties : MonoBehaviour
 
                 
                 GWB.RejectBall(RB);
-                isInteractable = false;
+                //isInteractable = false;
+                isInSingleOutMode = true;
                 Invoke("EndIntangibility", intangibleTime);
             }
             
@@ -391,7 +392,7 @@ public class BallProperties : MonoBehaviour
 
     private void EndIntangibility()
     {
-        if (GM.isPlaying) isInteractable = true;
+        isInSingleOutMode = false;
     }
 
     private void ScoreBall(bool isWarriorGoal, Transform t)

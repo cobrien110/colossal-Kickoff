@@ -272,7 +272,7 @@ public class WarriorAiController : MonoBehaviour
 
             if (GM.passIndicator)
             {
-                wc.BP.SetBallColor(Color.blue);
+                //wc.BP.SetBallColor(Color.blue);
             }
         }
     }
