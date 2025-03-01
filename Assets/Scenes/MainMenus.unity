@@ -2119,7 +2119,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -41.2}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 240, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &260222347
 MonoBehaviour:
@@ -2173,9 +2173,15 @@ MonoBehaviour:
     m_Options:
     - m_Text: Standard
       m_Image: {fileID: 0}
-    - m_Text: High Health
+    - m_Text: Standard - Strong
       m_Image: {fileID: 0}
-    - m_Text: Single Hit
+    - m_Text: Standard - Weak
+      m_Image: {fileID: 0}
+    - m_Text: Persistant
+      m_Image: {fileID: 0}
+    - m_Text: Persitant - Strong
+      m_Image: {fileID: 0}
+    - m_Text: Persistant - Weak
       m_Image: {fileID: 0}
     - m_Text: No Barriers
       m_Image: {fileID: 0}
@@ -18285,7 +18291,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

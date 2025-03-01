@@ -258,20 +258,35 @@ public class GameplayManager : MonoBehaviour
         int goalSetting = PlayerPrefs.GetInt("goalBarriers");
         if (goalSetting == 0)
         {
-            //barriersAreOn = true;
             // DEFAULT
+            barrierRespawnStyle = 2;
         } else if (goalSetting == 1)
         {
-            //barriersAreOn = true;
-            barrierMaxHealth *= 1.5f;
             // HIGH HEALTH
+            barrierMaxHealth *= 1.5f;
+            barrierRespawnStyle = 2;
         } else if (goalSetting == 2)
         {
-            //barriersAreOn = true;
-            barrierMaxHealth = 1;
             // SINGLE HIT
+            barrierMaxHealth = 1;
+            barrierRespawnStyle = 2;
+        } else if (goalSetting == 3) {
+            // PERSISTANT
+            barrierRespawnStyle = 1;
+        } else if (goalSetting == 4)
+        {
+            // PERSISTANT HIGH HEALTH
+            barrierMaxHealth *= 1.5f;
+            barrierRespawnStyle = 1;
+        } else if (goalSetting == 5)
+        {
+            // PERSISTANT SINGLE HIT
+            // SINGLE HIT
+            barrierMaxHealth = 1;
+            barrierRespawnStyle = 1;
         } else
         {
+            // NO BARRIERS
             barriersAreOn = false;
         }
     }
