@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AbilityFly : AbilityScript
@@ -22,6 +23,7 @@ public class AbilityFly : AbilityScript
     public string slamSoundName;
     private MultipleTargetCamera MTC;
     private CapsuleCollider col;
+    private float visualizerOffsetY = -0.3f;
 
     void Start()
     {
@@ -34,6 +36,8 @@ public class AbilityFly : AbilityScript
         sY = spritePositionY + maxSpriteYOffset;
         spriteRotation = sprite.transform.rotation;
         baseSpeed = MC.monsterSpeed;
+        attackVisualizer.transform.position =
+            new Vector3(attackVisualizer.transform.position.x, attackVisualizer.transform.position.y + visualizerOffsetY, attackVisualizer.transform.position.z);
     }
 
     void Update()
