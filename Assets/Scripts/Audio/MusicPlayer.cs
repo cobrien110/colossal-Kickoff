@@ -8,6 +8,7 @@ public class MusicPlayer : MonoBehaviour
     public AudioClip[] sounds;
     public float volume = 1f;
     public bool isStageTheme = true;
+    public bool isPersistent = false;
     public float timeDEBUG;
     public float timeDEBUG2;
 
@@ -36,6 +37,20 @@ public class MusicPlayer : MonoBehaviour
             };
         }
         UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (isPersistent) DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if (level != 1)
+        {
+            gameObject.SetActive(false);
+        } else
+        {
+            gameObject.SetActive(true);
+            source.time = 0f;
+            UnPauseMusic();
+        }
     }
 
     // Update is called once per frame
