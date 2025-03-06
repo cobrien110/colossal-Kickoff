@@ -180,8 +180,9 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
             }
 
-            if (BP.isSuperKick && isCharging)
+            if (superKicking && isCharging && GM.passMeter == GM.passMeterMax)
             {
+                Debug.Log("Should start glowing");
                 float glowAmount = kickCharge - 1.0f;
                 BP.StartBallGlow(glowAmount);
                 if (kickCharge >= maxChargeSeconds && shouldShake2)
