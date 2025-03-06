@@ -51,6 +51,7 @@ public class GameplayManager : MonoBehaviour
     public float barrierMaxHealth = 10;
     public float barrierBounceForce = 150f;
     public float barrierBounceAngle = 45f;
+    private AiMummyManager aiMummymanager;
     
 
     // Start is called before the first frame update
@@ -62,6 +63,7 @@ public class GameplayManager : MonoBehaviour
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         PS = GameObject.Find("PodiumSequencer").GetComponent<PodiumSequencer>();
+        aiMummymanager = FindObjectOfType<AiMummyManager>();
         Time.timeScale = 1;
 
         if (automaticAISpawn && playerList.Count < 4)
@@ -160,6 +162,9 @@ public class GameplayManager : MonoBehaviour
         {
             g.SetActive(false);
         }
+
+        // Remove all mummies
+        if (aiMummymanager != null) aiMummymanager.ResetMummies();
     }
 
     private IEnumerator Kickoff()
