@@ -300,7 +300,7 @@ public class MenuCursor : MonoBehaviour
             //Back to stage select
             else if (!hasSelected && (playerNumber == 1) && (MC.currentScreen == 2))
             {
-                MC.backToStageSelect();
+                //MC.backToStageSelect();
             }
             //Back to top menu
             else if ((playerNumber == 1) && (MC.currentScreen == 3))
