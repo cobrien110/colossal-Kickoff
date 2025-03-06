@@ -14,6 +14,8 @@ public class GameplayManager : MonoBehaviour
     [Header("Other Properties")]
     public bool isPlaying = false;
     public bool isPaused = false;
+    private float pauseDelay = .5f;
+    private float pauseTimer = 0f;
     private bool podiumSequenceStarted = false;
     public int gameSeconds;
     [SerializeField] private UIManager UM = null;
@@ -126,6 +128,11 @@ public class GameplayManager : MonoBehaviour
             if (PS == null) Time.timeScale = 0;
             else StartPodiumSequence();
             //EndMatch();
+        }
+
+        if (pauseTimer < pauseDelay)
+        {
+            pauseTimer += Time.unscaledDeltaTime;
         }
     }
 
@@ -441,6 +448,8 @@ public class GameplayManager : MonoBehaviour
     {
         if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
         {
+            if (pauseTimer < pauseDelay) return;
+            pauseTimer = 0f;
             if (isPaused)
             {
                 Time.timeScale = 1;

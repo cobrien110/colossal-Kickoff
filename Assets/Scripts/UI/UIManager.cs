@@ -100,6 +100,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text monsterAbility2Text = null;
     [SerializeField] private TMP_Text monsterAbility3Text = null;
 
+    [SerializeField] private AudioPlayer AP;
+
     //Player Prefs
     [SerializeField] private int playerPortraitsPref;
     [SerializeField] private GameObject playerPortraitsHolder = null;
@@ -690,6 +692,13 @@ public class UIManager : MonoBehaviour
     public void PauseScreen(bool isPaused)
     {
         pauseScreen.SetActive(isPaused);
+        if (isPaused)
+        {
+            AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
+        } else
+        {
+            AP.PlaySoundRandomPitch(AP.Find("pauseWhistle2"));
+        }
     }
 
     public void ShowMVP(bool state, int player)

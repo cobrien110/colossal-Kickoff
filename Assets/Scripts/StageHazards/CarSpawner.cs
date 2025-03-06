@@ -18,12 +18,14 @@ public class CarSpawner : MonoBehaviour
     [SerializeField] private GameObject rightField;
     [SerializeField] private GameObject leftWarning;
     [SerializeField] private GameObject rightWarning;
+    private AudioPlayer AP;
 
     private bool onCooldown = false;
 
     void Start()
     {
         Setup();
+        AP = GetComponent<AudioPlayer>();
     }
 
     public void Setup()
@@ -78,6 +80,8 @@ public class CarSpawner : MonoBehaviour
         }
         GameObject tuk = Instantiate(carPrefab, carPosition, Quaternion.identity);
         tuk.GetComponent<Car>().isLeft = spawnLeft;
+
+        AP.PlaySoundRandomPitch(AP.Find("horn"));
         yield return new WaitForSeconds(5); //5 seconds is arbiturary for the destruction time.
         onCooldown = false;
     }
