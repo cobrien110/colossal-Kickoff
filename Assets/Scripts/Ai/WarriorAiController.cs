@@ -390,6 +390,8 @@ public class WarriorAiController : MonoBehaviour
 
         Debug.Log("Pass");
 
+        if (wc != null) wc.SetKickHappened(true);
+
         // Turn to teammate
 
         // Calculate the direction from this GameObject to the target
