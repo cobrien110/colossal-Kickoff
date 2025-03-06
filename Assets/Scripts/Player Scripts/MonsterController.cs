@@ -941,7 +941,7 @@ public class MonsterController : MonoBehaviour
             pickupBallTimer = pickupBallCooldown;
         }
         // If ball hasn't been in warrior's colliders long enough
-        else if (BP != null && pickupBallTimer > 0 && !isIntangible)
+        else if (BP != null && pickupBallTimer > 0 && !isIntangible && !isStunned)
         {
             // Count down timer
             // Debug.Log("Waiting to pick up ball");
