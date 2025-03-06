@@ -63,7 +63,7 @@ public class MonsterController : MonoBehaviour
     public GameplayManager GM = null;
     
     private UIManager UM = null;
-    private PlayerAttachedUI PAUI = null;
+    private MonsterUI MUI = null;
     private StatTracker ST = null;
 
     public Animator ANIM;
@@ -111,7 +111,7 @@ public class MonsterController : MonoBehaviour
     void Start()
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        PAUI = GetComponentInChildren<PlayerAttachedUI>();
+        MUI = GetComponentInChildren<MonsterUI>();
         UM.ShowMonsterUI(true);
         pickupBallTimer = pickupBallCooldown;
     }
@@ -321,7 +321,7 @@ public class MonsterController : MonoBehaviour
     {
         if (BP.ballOwner == gameObject)
         {
-            PAUI.ShowChargeBar(true);           
+            MUI.ShowChargeBar(true);           
             
             //UM.ShowChargeBar(true);
             UM.UpdateChargeBarText("Monster");
@@ -329,7 +329,7 @@ public class MonsterController : MonoBehaviour
         }
         else
         {
-            PAUI.ShowChargeBar(false);
+            MUI.ShowChargeBar(false);
         }
     }
 
@@ -406,7 +406,7 @@ public class MonsterController : MonoBehaviour
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                MUI.UpdateChargeBar(0f);
 
                 //Outdated
                 //UM.ShowChargeBar(false);
@@ -422,7 +422,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    MUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -431,7 +431,7 @@ public class MonsterController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    PAUI.UpdateChargeBar(1f);
+                    MUI.UpdateChargeBar(1f);
                     //UM.UpdateChargeBar(1f);
                 }
             }
@@ -457,7 +457,7 @@ public class MonsterController : MonoBehaviour
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                MUI.UpdateChargeBar(0f);
 
                 //UM.ShowChargeBar(false);
                 //UM.UpdateChargeBar(0f);
@@ -471,7 +471,7 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    MUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
@@ -480,7 +480,7 @@ public class MonsterController : MonoBehaviour
 
                 if (kickCharge > maxChargeSeconds)
                 {
-                    PAUI.UpdateChargeBar(1f);
+                    MUI.UpdateChargeBar(1f);
                     //UM.UpdateChargeBar(1f);
                 }
             }
