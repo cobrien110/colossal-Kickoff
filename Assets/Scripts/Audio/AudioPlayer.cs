@@ -28,6 +28,7 @@ public class AudioPlayer : MonoBehaviour
         {
             source.volume = volume;
             source.pitch = 1;
+            if (useComVol) useComVol = false;
         }
     }
 

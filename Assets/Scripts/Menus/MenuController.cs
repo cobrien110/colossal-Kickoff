@@ -422,7 +422,11 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetFloat("commentaryVolume", comVolumeSlider.value / 100f);
 
         //sound
-        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        if (AP != null && !AP.isPlaying())
+        {
+            AP.setUseComVol(true);
+            AP.PlaySound(AP.Find("a_death_warrior3"));
+        }
     }
 
     public void setCommentaryFrequency() {
