@@ -14,6 +14,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     public List<AbilityScript> abilities;
+    [HideInInspector] public bool canUseAbilities = true;
     public PassiveAbility[] passiveAbilities;
     //public GameObject wallPrefab;
     //public GameObject shrapnelPrefab;
@@ -822,6 +823,8 @@ public class MonsterController : MonoBehaviour
 
     public void OnWall(InputAction.CallbackContext context)
     {
+        if (!canUseAbilities) return;
+
         // Ignore input if monster is ai
         if (GetComponent<AiMonsterController>() != null) return;
 
@@ -845,6 +848,8 @@ public class MonsterController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (!canUseAbilities) return; 
+
         // Ignore input if monster is ai
         if (GetComponent<AiMonsterController>() != null) return;
 
@@ -867,6 +872,8 @@ public class MonsterController : MonoBehaviour
 
     public void OnCharge(InputAction.CallbackContext context)
     {
+        if (!canUseAbilities) return;
+
         // Ignore input if monster is ai
         if (GetComponent<AiMonsterController>() != null) return;
 

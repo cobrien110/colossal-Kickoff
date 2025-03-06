@@ -94,6 +94,24 @@ public class PodiumSequencer : MonoBehaviour
         //ScoreJingle.PlaySoundSpecificPitch(ScoreJingle.Find(songName), 1.41421f);
 
         StartCoroutine(EndPodiumSequence());
+
+        // remove deletable objects
+        DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
+        if (ObjectsToDelete.Length != 0)
+        {
+            for (int i = 0; i < ObjectsToDelete.Length; i++)
+            {
+                try
+                {
+                    ObjectsToDelete[i].Kill();
+                }
+                catch
+                {
+                    // NOTHING HAHA
+                }
+
+            }
+        }
     }
 
     private IEnumerator WarriorWin()
@@ -113,10 +131,17 @@ public class PodiumSequencer : MonoBehaviour
         monster.transform.position = spawnPoints[6].transform.position;
         monster.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
+        //stop Monster abilities
+        MonsterController MC = monster.GetComponent<MonsterController>();
+        MC.canUseAbilities = false;
+        //quetz check
+        AbilitySnakeSegments ASS = MC.GetComponent<AbilitySnakeSegments>();
+
         yield return new WaitForSeconds(3f);
         // start throwing tomatoes
         JT.isSpawning = true;
         JT.monster = monster;
+        
             // play respective theme
     }
 
@@ -125,28 +150,44 @@ public class PodiumSequencer : MonoBehaviour
         // move monster to podium
         monster.transform.position = spawnPoints[0].transform.position;
         monster.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //quetz check
+        MonsterController MC = monster.GetComponent<MonsterController>();
+        AbilitySnakeSegments ASS = MC.GetComponent<AbilitySnakeSegments>();
+        if (ASS != null) ASS.ResetSegments();
+
         // move warriors to ground
         for (int i = 0; i < warriors.Length; i++)
         {
             WarriorController WC = warriors[i].GetComponent<WarriorController>();
             WC.canRespawn = false;
             WC.RespawnEarly();
+            //WC.isWinner = true;
 
             warriors[i].transform.position = spawnPoints[3 + i].transform.position;
             warriors[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
 
-            // make warriors scared(?)
-
-            // stop warriors from respawning
+        //stop Monster abilitie
+        MC.canUseAbilities = false;
 
         yield return new WaitForSeconds(3f);
+        // make warriors vulnerable
+        for (int i = 0; i < warriors.Length; i++)
+        {
+            WarriorController WC = warriors[i].GetComponent<WarriorController>();
+            WC.isWinner = false;
+
+        }
+
         // Move the podium down
         isMoving = true;
+        MC.canUseAbilities = true;
         // parent monster to podium to simulate movement
         monster.transform.parent = podium.transform;
 
-            // play respective theme
+        // make warriors scared(?)
+
+        // play respective theme
     }
 
     private void MovePodium()

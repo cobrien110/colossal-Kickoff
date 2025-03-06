@@ -75,7 +75,7 @@ public class AbilityFly : AbilityScript
             sprite.transform.position = Vector3.Lerp(sprite.transform.position, 
                 new Vector3(sprite.transform.position.x, sY, sprite.transform.position.z), Time.deltaTime * 1.2f);
             col.center = new Vector3(0, sprite.transform.position.y, 0);
-        } else
+        } else if (MC.canUseAbilities)
         {
             sprite.transform.position = Vector3.Lerp(sprite.transform.position, 
                 new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z), Time.deltaTime * 10);
