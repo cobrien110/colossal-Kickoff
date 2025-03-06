@@ -11,6 +11,7 @@ public class AbilityMummyExplode : AbilityScript
     [SerializeField] private GameObject slowAura;
     [SerializeField] private string soundName;
     [SerializeField] private string explodeSoundName;
+    private const float slowAuraOffSetY = -0.3f;
 
     public override void Activate()
     {
@@ -86,9 +87,18 @@ public class AbilityMummyExplode : AbilityScript
         Rigidbody pursuerRB = pursuer.gameObject.GetComponent<Rigidbody>();
         pursuer.SetIsPursuing(true);
         // While not in range to explode
-        while (pursuer != null & target != null
+        while (pursuer != null && target != null
             && Vector3.Distance(pursuer.transform.position, target.gameObject.transform.position) > distanceUntilExplode)
         {
+            if (target.GetIsDead())
+            {
+                Debug.Log("Mummy explode - Chasing a dead warrior");
+
+                target = GetNearestWarrior(pursuer);
+                
+                // If no warrior is alive, break
+                if (target == null) break;
+            }
             // Go toward warrior
             pursuerRB.velocity = (target.transform.position - pursuer.transform.position).normalized * pursueSpeed;
 
@@ -100,10 +110,39 @@ public class AbilityMummyExplode : AbilityScript
         // Debug.Log("PursueBallOwner end");
 
         ExplodeMummy(pursuer);
+        yield return null;
+    }
+
+    private WarriorController GetNearestWarrior(AIMummy mummy)
+    {
+        List<WarriorController> warriors = FindObjectsOfType<WarriorController>().ToList();
+
+        // Set arbitrarily large value
+        float closestDist = 100f;
+
+        WarriorController closestWarrior = null;
+        foreach (WarriorController warrior in warriors)
+        {
+            if (!warrior.GetIsDead()) // Ensure this warrior is alive
+            {
+                // Get dist between this warrior and pursuer (mummy)
+                float dist = Vector3.Distance(mummy.transform.position, warrior.transform.position);
+
+                // See if this warrior is closest yet
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestWarrior = warrior;
+                }
+            }
+        }
+
+        return closestWarrior;
     }
 
     private void ExplodeMummy(AIMummy pursuer)
     {
+        // Debug.Log("Mummy explode - pursuer: " + pursuer);
         if (pursuer == null) return;
 
         Debug.Log("Explode Mummy!");
@@ -131,8 +170,10 @@ public class AbilityMummyExplode : AbilityScript
             }
         }
 
+        Vector3 slowAuraPos = new Vector3(pursuer.gameObject.transform.position.x, slowAuraOffSetY, pursuer.transform.position.z);
+
         // Create slow aura at point of explosion
-        Instantiate(slowAura, pursuer.gameObject.transform.position, Quaternion.identity);
+        Instantiate(slowAura, slowAuraPos, Quaternion.identity);
 
         // Destroy the mummy after exploding
         pursuer.Die(true);
