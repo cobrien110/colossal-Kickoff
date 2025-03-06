@@ -412,7 +412,7 @@ public class MenuCursor : MonoBehaviour
                             {
                                 //WDarr[i].pageLeft();
                             }
-                            AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
+                            //AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
                         }
                     }
                 } else {
