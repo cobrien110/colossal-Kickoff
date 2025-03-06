@@ -12,6 +12,7 @@ public class PlayerHolder : MonoBehaviour
     public string teamName = "";
     public int monsterIndex = 0;
     public Gamepad thisGamepad;
+    public string gamepadName;
 
     public Color warriorColor;
 
@@ -28,6 +29,7 @@ public class PlayerHolder : MonoBehaviour
             if (Gamepad.all[i].startButton.wasPressedThisFrame)
             {
                 thisGamepad = Gamepad.all[i];
+                gamepadName = thisGamepad.name;
             }
         }
 
