@@ -28,12 +28,15 @@ public class CutsceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        subtitlesText.text = "";
+        lineNumText.text = "";
         //subtitlesText.text = "TEST TEST";
-        StartSubtitles();
+        StartCoroutine(StartSubtitles());
     }
 
-    void StartSubtitles()
+    IEnumerator StartSubtitles()
     {
+        yield return new WaitForSeconds(1f);
         StartCoroutine(SubtitlesCoroutine());
         sound.PlaySound(sound.Find("John Orcman finalV1"));
     }
@@ -68,7 +71,7 @@ public class CutsceneManager : MonoBehaviour
     {
         if (eventNum == 3)
         {
-            subtitlesText.color = Color.red;
+            //subtitlesText.color = Color.red;
         } else
         {
             subtitlesText.color = Color.green;
