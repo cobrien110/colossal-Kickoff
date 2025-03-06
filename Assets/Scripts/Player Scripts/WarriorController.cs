@@ -195,7 +195,7 @@ public class WarriorController : MonoBehaviour
                     StartCoroutine(MTC.ScreenShake(shakeIntensity));
                 }
             }
-            else
+            else if (BP.ballOwner == gameObject)
             {
                 BP.StopBallGlow();
                 //MTC.isShaking = false;
