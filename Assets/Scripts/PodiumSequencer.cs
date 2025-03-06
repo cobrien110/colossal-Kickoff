@@ -56,6 +56,7 @@ public class PodiumSequencer : MonoBehaviour
         BP = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallProperties>();
         if (BP != null)
         {
+            BP.ballOwner = null;
             BP.isInteractable = false;
             BP.SetSR(false);
             MTC.RemoveTarget(BP.gameObject.transform);
@@ -100,9 +101,12 @@ public class PodiumSequencer : MonoBehaviour
         // move warriors to podium and make them unkillable
         for (int i = 0; i < warriors.Length; i++)
         {
+            WarriorController WC = warriors[i].GetComponent<WarriorController>();
+            WC.canRespawn = false;
+            WC.RespawnEarly();
+
             warriors[i].transform.position = spawnPoints[i].transform.position;
             warriors[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
-            WarriorController WC = warriors[i].GetComponent<WarriorController>();
             WC.isWinner = true;
         }
         // move monster to ground
@@ -124,6 +128,10 @@ public class PodiumSequencer : MonoBehaviour
         // move warriors to ground
         for (int i = 0; i < warriors.Length; i++)
         {
+            WarriorController WC = warriors[i].GetComponent<WarriorController>();
+            WC.canRespawn = false;
+            WC.RespawnEarly();
+
             warriors[i].transform.position = spawnPoints[3 + i].transform.position;
             warriors[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
         }

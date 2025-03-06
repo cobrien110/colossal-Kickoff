@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  isPlayerSprite: 1
 --- !u!95 &5095810101261427975
 Animator:
   serializedVersion: 5
@@ -5751,6 +5750,8 @@ MonoBehaviour:
   damageInvincibilityTime: 0.35
   willBeStunnedOnHit: 0
   isInvincible: 0
+  isWinner: 0
+  canRespawn: 1
   passSpeed: 250
   kickSpeed: 375
   slideSpeed: 230

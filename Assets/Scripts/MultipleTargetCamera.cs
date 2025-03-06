@@ -157,7 +157,7 @@ public class MultipleTargetCamera : MonoBehaviour
 
     public void AddTarget(Transform targetTransform)
     {
-        if (targetTransform == null) return;
+        if (targetTransform == null || targets.Contains(targetTransform)) return;
         targets.Add(targetTransform);
     }
 

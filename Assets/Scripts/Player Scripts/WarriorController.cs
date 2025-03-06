@@ -31,6 +31,7 @@ public class WarriorController : MonoBehaviour
     private bool isDead = false;
     public bool isInvincible = false;
     [HideInInspector] public bool isWinner = false;
+    [HideInInspector] public bool canRespawn = true;
     [SerializeField] protected float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
@@ -625,7 +626,7 @@ public class WarriorController : MonoBehaviour
             //UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
 
 
-        } else if (isDead)
+        } else if (isDead && canRespawn)
         {
             isDead = false;
             respawnTimer = 0;
@@ -646,9 +647,32 @@ public class WarriorController : MonoBehaviour
         }
     }
 
+    public void RespawnEarly()
+    {
+        Debug.Log("Respawning Early");
+        isDead = false;
+        isInvincible = false;
+        respawnTimer = 0;
+        MTC.AddTarget(transform);
+        //ResetPlayer();
+        fancySpawnStarted = false;
+        elapsedJumpTime = 0;
+        health = healthMax;
+
+        // Update list of warriors in AiMonsterController if appropriate
+        AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
+        if (aiMonsterController != null)
+        {
+            // Debug.Log("respawn");
+            // Debug.Log("Before: " + aiMonsterController.warriors.Count);
+            aiMonsterController.warriors.Add(gameObject);
+            // Debug.Log("After: " + aiMonsterController.warriors.Count);
+        }
+    }
+
     void FancyRespawnAnimation()
     {
-        if (jumpInLocation == null) return;
+        if (jumpInLocation == null || !canRespawn) return;
 
         if (respawnTimer >= 1 && isDead)
         {
@@ -1052,7 +1076,7 @@ public class WarriorController : MonoBehaviour
         {
             spriteObject.transform.localScale = Vector3.zero;
         }
-        else if (isInvincible && Time.frameCount % 4 == 0 && !isSliding)
+        else if (isInvincible && Time.frameCount % 4 == 0 && !isSliding && canRespawn)
         {
             spriteObject.transform.localScale = Vector3.zero;
         } else 
