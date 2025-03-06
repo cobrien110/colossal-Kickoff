@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &361826117585791944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6511202388083546632}
+  - component: {fileID: 6087100493087206985}
+  m_Layer: 0
+  m_Name: JunkThrower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6511202388083546632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361826117585791944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1620667198478811053}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6087100493087206985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361826117585791944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e6120545e44f2498162a254c49529d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  junkPrefab: {fileID: 7044572448749920038, guid: aad20d2d1c065154aaf2d7eafed6e85c, type: 3}
+  range: 11
+  minHeight: 5
+  coolDown: 0.4
+  isSpawning: 0
+  monster: {fileID: 0}
+  arcTime: 0.5
+  arcHeight: 0.5
 --- !u!1 &3268106180807173304
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,6 +117,7 @@ Transform:
   - {fileID: 3915343590606168733}
   - {fileID: 753600316997229728}
   - {fileID: 733374538621540721}
+  - {fileID: 6511202388083546632}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5600886356246604098
@@ -10283,7 +10336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6706819144812479232, guid: 5a55b02e73cd1ea45b4846ee81f74d69, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8289610722164890564, guid: 5a55b02e73cd1ea45b4846ee81f74d69, type: 3}
       propertyPath: m_Enabled

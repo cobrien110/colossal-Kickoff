@@ -6,7 +6,7 @@ public class LookAtCamera : MonoBehaviour
 {
     // Start is called before the first frame update
     public Camera cam;
-    [SerializeField] private bool isPlayerSprite = false;
+    //[SerializeField] private bool isPlayerSprite = false;
     void Start()
     {
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();

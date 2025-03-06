@@ -30,6 +30,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private bool willBeStunnedOnHit = false;
     private bool isDead = false;
     public bool isInvincible = false;
+    [HideInInspector] public bool isWinner = false;
     [SerializeField] protected float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
@@ -692,7 +693,7 @@ public class WarriorController : MonoBehaviour
     public void Die()
     {
         Vector3 deathPosition = this.transform.position;
-        if (isInvincible) return;
+        if (isInvincible || isWinner) return;
         
         // Chance for AiWarrior to dodge if slide is off cooldown
         if (GetComponent<WarriorAiController>() != null // Ensure this is an AI Warrior
@@ -794,7 +795,7 @@ public class WarriorController : MonoBehaviour
 
     public void Damage(int amount)
     {
-        if (isInvincible) return;
+        if (isInvincible || isWinner) return;
         health -= amount;
         if (health <= 0)
         {

@@ -22,6 +22,7 @@ public class PodiumSequencer : MonoBehaviour
     public ParticleSystem monPart;
     public ParticleSystem warPart;
     private AudioPlayer ScoreJingle;
+    private JunkThrower JT;
     private bool isMoving = false;
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class PodiumSequencer : MonoBehaviour
         UI = GameObject.Find("Canvas").GetComponent<UIManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        JT = GetComponentInChildren<JunkThrower>();
         ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
     }
 
@@ -62,7 +64,7 @@ public class PodiumSequencer : MonoBehaviour
         // move players
         if (winner == 0)
         {
-            WarriorWin();
+            StartCoroutine(WarriorWin());
         } else
         {
             StartCoroutine(MonsterWin());
@@ -93,7 +95,7 @@ public class PodiumSequencer : MonoBehaviour
         StartCoroutine(EndPodiumSequence());
     }
 
-    private void WarriorWin()
+    private IEnumerator WarriorWin()
     {
         // move warriors to podium and make them unkillable
         for (int i = 0; i < warriors.Length; i++)
@@ -101,14 +103,16 @@ public class PodiumSequencer : MonoBehaviour
             warriors[i].transform.position = spawnPoints[i].transform.position;
             warriors[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
             WarriorController WC = warriors[i].GetComponent<WarriorController>();
-            WC.isInvincible = true;
+            WC.isWinner = true;
         }
         // move monster to ground
         monster.transform.position = spawnPoints[6].transform.position;
         monster.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-            // start throwing tomatoes
-
+        yield return new WaitForSeconds(3f);
+        // start throwing tomatoes
+        JT.isSpawning = true;
+        JT.monster = monster;
             // play respective theme
     }
 
@@ -128,7 +132,7 @@ public class PodiumSequencer : MonoBehaviour
 
             // stop warriors from respawning
 
-        yield return new WaitForSeconds(podiumShowTime - 3f);
+        yield return new WaitForSeconds(3f);
         // Move the podium down
         isMoving = true;
         // parent monster to podium to simulate movement
