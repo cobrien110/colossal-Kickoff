@@ -120,6 +120,7 @@ public class WarriorController : MonoBehaviour
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
+        transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
 
         // fancy respawn
         jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
@@ -576,6 +577,8 @@ public class WarriorController : MonoBehaviour
     {
         Debug.Log("Resetting player to " + WarriorSpawner);
         transform.position = this.WarriorSpawner.transform.position;
+        transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
+
         Debug.Log(transform.position + "    " + this.WarriorSpawner.transform.position);
         rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
