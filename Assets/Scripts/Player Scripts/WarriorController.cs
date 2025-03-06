@@ -102,6 +102,18 @@ public class WarriorController : MonoBehaviour
     private bool fancySpawnStarted = false;
     private float jumpRandomMod = 5f;
 
+    // Call For Pass
+    private float passWindowTimer;
+    [SerializeField] private float passWindowDuration = 1f;
+    private static bool kickHappened;
+
+    // Call For Pass - Gravity
+    [SerializeField] private float gravityFieldDuration = 0.5f; // How long the field lasts
+    [SerializeField] private float gravityForce = 20f; // Strength of pull
+    [SerializeField] private float gravityRadius = 5f; // Radius of effect
+    private Coroutine gravityCoroutine;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -379,6 +391,10 @@ public class WarriorController : MonoBehaviour
                 BP.lastKicker = gameObject;
                 BP.previousKicker = gameObject;
                 //GM.isPassing = true;
+
+                // For CallForPass gravity field
+                kickHappened = true;
+                StartCoroutine(ResetKickHappened());
 
                 if (GM.passIndicator)
                 {
@@ -882,14 +898,88 @@ public class WarriorController : MonoBehaviour
         // Create a temporary "gravity" effect around this player
 
         // For AI teammates...
-        // If ball owner is an AI teammate, have them pass me the ball
+        // If ball owner is a teammate, have them pass me the ball
         if (BP != null && BP.ballOwner != null
-            && BP.ballOwner.GetComponent<WarriorAiController>() != null)
+            && BP.ballOwner.GetComponent<WarriorController>() != null)
         {
-            BP.ballOwner.GetComponent<WarriorAiController>().CallForPassing(GetComponent<WarriorController>());
+            Debug.Log("Ball owner is a warrior teammate");
+
+            StartCoroutine(PassWindowCheck());
+
+            // For AI teammates...
+            if (BP.ballOwner.GetComponent<WarriorAiController>() != null)
+            {
+                BP.ballOwner.GetComponent<WarriorAiController>().CallForPassing(GetComponent<WarriorController>());
+            }
+
         }
         
     }
+
+    private IEnumerator PassWindowCheck()
+    {
+        Debug.Log("Start PassWindowCheck");
+        while (passWindowTimer < passWindowDuration)
+        {
+            Debug.Log("Tick");
+            // Check if kick happened
+            if (kickHappened)
+            {
+                // Enable gravity field
+                Debug.Log("Enable gravity field");
+                EnableGravityField();
+                break;
+            }
+
+            passWindowTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        passWindowTimer = 0f;
+    }
+
+    private IEnumerator ResetKickHappened()
+    {
+        yield return new WaitForSeconds(0.4f); // however long to allow kickHappened to be true, before reseting back to false
+        kickHappened = false;
+    }
+
+    private void EnableGravityField()
+    {
+        if (gravityCoroutine != null) StopCoroutine(gravityCoroutine); // Prevent overlapping
+        gravityCoroutine = StartCoroutine(GravityFieldCoroutine());
+    }
+
+    private IEnumerator GravityFieldCoroutine()
+    {
+        if (BP == null) yield break; // Safety check
+
+        float timer = 0f;
+        Rigidbody ballRb = BP.GetComponent<Rigidbody>();
+
+        if (ballRb == null) yield break; // Safety check
+
+        while (timer < gravityFieldDuration)
+        {
+            Vector3 toWarrior = transform.position - ballRb.position; // Direction to warrior
+            float distance = toWarrior.magnitude;
+
+            if (distance < gravityRadius) // Only pull if within range
+            {
+                Vector3 pullForce = toWarrior.normalized * gravityForce;
+                ballRb.AddForce(pullForce, ForceMode.Acceleration);
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public void SetKickHappened(bool kickHappened)
+    {
+        WarriorController.kickHappened = kickHappened;
+    }
+
 
     public void OnInvert(InputAction.CallbackContext context)
     {
