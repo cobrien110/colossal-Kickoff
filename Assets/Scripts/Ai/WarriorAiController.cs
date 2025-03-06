@@ -392,10 +392,11 @@ public class WarriorAiController : MonoBehaviour
 
         if (wc != null) wc.SetKickHappened(true);
 
-        // Turn to teammate
+        // Estimate where the target will be
+        Vector3 predictedPosition = PredictFuturePosition(target);
 
-        // Calculate the direction from this GameObject to the target
-        Vector3 directionToTarget = target.transform.position - transform.position;
+        // Turn to predicted position
+        Vector3 directionToTarget = predictedPosition - transform.position;
         Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
 
         // Ensure the direction vector is not zero (to avoid errors)
@@ -410,6 +411,20 @@ public class WarriorAiController : MonoBehaviour
 
         // Kick in their direction
         Kick();
+    }
+
+    // Predicts where the target will be after a short duration
+    private Vector3 PredictFuturePosition(WarriorController target)
+    {
+        float leadTime = 0.5f; // Adjust this value for more or less leading
+        Rigidbody targetRb = target.GetComponent<Rigidbody>();
+
+        if (targetRb != null)
+        {
+            return target.transform.position + targetRb.velocity * leadTime;
+        }
+
+        return target.transform.position; // Default to current position if no Rigidbody
     }
 
     // Used to pass to a player who is calling for a pass
