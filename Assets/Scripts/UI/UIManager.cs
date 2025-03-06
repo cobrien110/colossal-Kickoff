@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject allInGameUI = null;
 
     //CenterScreenMessages
+    [Header("CenterScreenMessages")]
     //[SerializeField] private TMP_Text countdown = null;
     [SerializeField] private Countdown countdown;
     [SerializeField] private TMP_Text gameoverText = null;
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
 
 
     //UpperScoreboardUI
+    [Header("UpperScoreboardUI")]
     [SerializeField] private GameObject topScoreboard = null;
     [SerializeField] private TMP_Text scoreTextHuman = null;
     [SerializeField] private TMP_Text scoreTextMonster = null;
@@ -31,7 +33,13 @@ public class UIManager : MonoBehaviour
     private int timeRemainingSeconds;
 
     //(Stats) ScoreboardUI
+    [Header("ScoreboardUI")]
     [SerializeField] private GameObject statsScoreboard = null;
+
+    [SerializeField] private TMP_Text Warrior1Label = null;
+    [SerializeField] private TMP_Text Warrior2Label = null;
+    [SerializeField] private TMP_Text Warrior3Label = null;
+    [SerializeField] private TMP_Text MonsterLabel = null;
 
     [SerializeField] private TMP_Text Warrior1GoalsText = null;
     [SerializeField] private TMP_Text Warrior2GoalsText = null;
@@ -62,6 +70,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text gameWinnerText = null;
 
     //ChargeMeter
+    [Header("ChargeMeter")]
     [SerializeField] private GameObject chargeBar = null;
     [SerializeField] private Image chargeBarFill = null;
     [SerializeField] private TMP_Text chargeBarText = null;
@@ -72,11 +81,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image passMeterFill = null;*/
 
     //ContestBar
+    [Header("ContestBar")]
     [SerializeField] private Image warriorContestFill = null;
     [SerializeField] private Image monsterContestFill = null;
     [SerializeField] private Image middleContestFill = null;
 
     //Monster and Human UI
+    [Header("Monster and Human UI")]
     [SerializeField] private GameObject monsterUI = null;
     [SerializeField] private Image monsterAbility1Bar = null;
     [SerializeField] private Image monsterAbility2Bar = null;
@@ -782,5 +793,10 @@ public class UIManager : MonoBehaviour
         GoldAssists(assistsIndex);
         GoldDeaths(deathsIndex);
         GoldSteals(stealsIndex);
+    }
+
+    public void UpdatePlayerLabels()
+    {
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
     }
 }
