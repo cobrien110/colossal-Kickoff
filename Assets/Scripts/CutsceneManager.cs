@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -32,6 +33,18 @@ public class CutsceneManager : MonoBehaviour
         lineNumText.text = "";
         //subtitlesText.text = "TEST TEST";
         StartCoroutine(StartSubtitles());
+    }
+
+    void Update()
+    {
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            if (gamepad.startButton.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene(menuSceneName);
+            }
+        }
     }
 
     IEnumerator StartSubtitles()
