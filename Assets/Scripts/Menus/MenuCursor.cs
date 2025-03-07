@@ -339,6 +339,7 @@ public class MenuCursor : MonoBehaviour
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
             WD = null;
+            MC.deselectOccured = true;
     }
 
     //find the icons that display who's selected which characters on screen
@@ -449,6 +450,11 @@ public class MenuCursor : MonoBehaviour
     public void OnLeave(InputAction.CallbackContext action)
     {
         Leave();
+    }
+
+    public string GetGamepadName()
+    {
+        return PH.gamepadName;
     }
 
     /**public void enterAudio(int optionSelected) {
