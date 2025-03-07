@@ -5,12 +5,14 @@ using UnityEngine;
 public class MenuCamera : MonoBehaviour
 {
     //camera positions for each part of the menu are saved here
-    [SerializeField] private Vector3 mainMenuPosition;
-    [SerializeField] private Vector3 mainMenuRotation;
-    [SerializeField] private Vector3 versusSetupPosition;
-    [SerializeField] private Vector3 versusSetupRotation;
-    [SerializeField] private Vector3 settingsPosition;
-    [SerializeField] private Vector3 settingsRotation;
+    [Header("Camera Positions")]
+    public Transform titleTransform;
+    public Transform versusSetupTransform;
+    public Transform settingsTransform;
+    public Transform creditsTransform;
+    public Transform quittingTransform;
+
+    [Header("Variables")]
     //camera movement speed
     private float speed = 120.0f;
     //camera rotation speed
@@ -21,37 +23,62 @@ public class MenuCamera : MonoBehaviour
     private Quaternion targetAngle;
     //whether we're moving or not
     [SerializeField] private bool isMoving = false;
+
     void Start()
     {
-        transform.position = mainMenuPosition;
-        transform.rotation = Quaternion.Euler(mainMenuRotation);
+        if (titleTransform != null)
+        {
+            transform.position = titleTransform.position;
+            transform.rotation = titleTransform.rotation;
+        }
     }
 
-    //if camera is set to be moving, move us closer to our target
-    void Update() {
-        if (isMoving) {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, (speed * Time.deltaTime));
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, (angleSpeed * Time.deltaTime));
-            if ((Vector3.Distance(transform.position, targetPos) < 0.001f) && (transform.rotation == targetAngle))
+    void Update()
+    {
+        if (isMoving)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, angleSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, targetPos) < 0.001f && transform.rotation == targetAngle)
             {
                 isMoving = false;
             }
         }
     }
 
-    public void goToMainMenu() {
-        targetPos = mainMenuPosition;
-        targetAngle = Quaternion.Euler(mainMenuRotation);
-        isMoving = true;
+    public void goToTitle()
+    {
+        SetTarget(titleTransform);
     }
-    public void goToVersusSetup() {
-        targetPos = versusSetupPosition;
-        targetAngle = Quaternion.Euler(versusSetupRotation);
-        isMoving = true;
+
+    public void goToVersusSetup()
+    {
+        SetTarget(versusSetupTransform);
     }
-    public void goToSettings() {
-        targetPos = settingsPosition;
-        targetAngle = Quaternion.Euler(settingsRotation);
-        isMoving = true;
+
+    public void goToSettings()
+    {
+        SetTarget(settingsTransform);
+    }
+
+    public void goToCredits()
+    {
+        SetTarget(creditsTransform);
+    }
+
+    public void goToQuitting()
+    {
+        SetTarget(quittingTransform);
+    }
+
+    private void SetTarget(Transform targetTransform)
+    {
+        if (targetTransform != null)
+        {
+            targetPos = targetTransform.position;
+            targetAngle = targetTransform.rotation;
+            isMoving = true;
+        }
     }
 }
