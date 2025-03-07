@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 
 public class MenuController : MonoBehaviour
 {
+    #region Variables
     //selected is updated by buttons when they become selected
     //public int selected;
     //camera that this can move around
@@ -82,6 +83,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject p2Connected;
     [SerializeField] private GameObject p3Connected;
     [SerializeField] private GameObject p4Connected;
+    #endregion
+
+    #region Initialization
 
     void Start() {
         EventSystem.current.SetSelectedGameObject(null);
@@ -157,6 +161,10 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region SceneLoading
+
     public void loadGameplay(int targetScene) {
         for (int i = 0; i < cursors.Length; i++)
             {
@@ -192,6 +200,10 @@ public class MenuController : MonoBehaviour
             }
     }
 
+    #endregion
+
+    #region Menu Navigation
+
     public void OptionSelect(int optionID)
     {
         //findAllCursors();
@@ -200,7 +212,7 @@ public class MenuController : MonoBehaviour
             //VERSUS MATCH
             case 0:
                 currentScreen = 3;
-                //menuCamera.goToVersusSetup();
+                menuCamera.goToVersusSetup();
                 stageSelect.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 EventSystem.current.SetSelectedGameObject(null);
@@ -247,62 +259,11 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    //Change this to flip between screens with Dpad at some point
-    public void SettingsSwap()
+    public void returnToTop()
     {
-        //Add controller menu nav
-
-        //if (settingsBackButton != null && settingsHeaderButton != null)
-
-        //backNavi = settingsBackButton.navigation;
-        //headerNavi = settingsHeaderButton.navigation;
-        //Navigation navigation = new Navigation();
-        
-        //weird bug where if this isnt present, header on select up gets set to toggle screen shake???
-        headerNavi.selectOnUp = settingsBackButton;
-        backNavi.selectOnDown = settingsHeaderButton;
-
-        if (gameplaySettings.activeInHierarchy)
-        {
-            gameplaySettings.SetActive(false);
-            audioSettings.SetActive(true);
-            settingsHeader.text = "AUDIO";
-            
-            headerNavi.selectOnDown = effectsSlider; 
-            settingsHeaderButton.navigation = headerNavi;
-            backNavi.selectOnUp = comFreqSlider;
-            settingsBackButton.navigation = backNavi;
-            //Debug.Log("What");
-        }
-        else if (audioSettings.activeInHierarchy)
-        {
-            audioSettings.SetActive(false);
-            controlSettings.SetActive(true);
-            settingsHeader.text = "CONTROLS";
-            
-            headerNavi.selectOnDown = settingsBackButton;
-            settingsHeaderButton.navigation = headerNavi;
-            backNavi.selectOnUp = settingsHeaderButton;
-            settingsBackButton.navigation = backNavi;
-        }
-        else if (controlSettings.activeInHierarchy)
-        {
-            controlSettings.SetActive(false);
-            gameplaySettings.SetActive(true);
-            settingsHeader.text = "GAMEPLAY";
-            
-            headerNavi.selectOnDown = goreDropdown;
-            settingsHeaderButton.navigation = headerNavi;
-            backNavi.selectOnUp = screenshakeToggle;
-            settingsBackButton.navigation = backNavi;
-        }
-        
-    }
-
-    public void returnToTop() {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
-        menuCamera.goToMainMenu();
+        menuCamera.goToTitle();
         currentScreen = 0;
         mainMenuButtons.SetActive(true);
         stageSelect.SetActive(false);
@@ -313,56 +274,8 @@ public class MenuController : MonoBehaviour
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
 
-    public void findAllCursors() {
-        cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
-    }
-
-    public void characterSelected(int playerNumber, int playerSlot) {
-        Debug.Log("Player " + playerNumber + " selected Character " + playerSlot);
-        //todo: set it so playerNumber can control playerSlot's character options
-        playerOptions[playerSlot].SetActive(true);
-    }
-
-    public void characterUnselected(int playerNumber, int playerSlot) {
-        Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
-        //todo: reverse that thing from the last comment
-        playerOptions[playerSlot].SetActive(false);
-        //if (confirm)
-        if (confirmedInfos.Contains(characterInfos[playerSlot])) {
-            unconfirmCharacter(playerSlot);
-        }
-    }
-
-    public void confirmCharacter(int playerSlot) {
-        confirmedInfos.Add(characterInfos[playerSlot]);
-        characterInfos[playerSlot].confirm();
-        numPlayersConfirmed++;
-        Debug.Log("players confirmed: " + numPlayersConfirmed + " - Time: " + Time.fixedTime);
-        Debug.Log("players needed: " + cursors.Length);
-        if (numPlayersConfirmed == cursors.Length) {
-            canMoveToGame = true;
-            readyText.SetActive(true);
-        }
-    }
-
-    public void unconfirmCharacter(int playerSlot) {
-        confirmedInfos.Remove(characterInfos[playerSlot]);
-        characterInfos[playerSlot].unconfirm();
-        numPlayersConfirmed--;
-        Debug.Log("players confirmed: " + numPlayersConfirmed + "Time: " + Time.fixedTime);
-        if (canMoveToGame) {
-            canMoveToGame = false;
-            readyText.SetActive(false);
-        }
-    }
-
-    public void newCursor() {
-        findAllCursors();
-        canMoveToGame = false;
-        readyText.SetActive(false);
-    }
-
-    public void moveToStageSelect() {
+    public void moveToStageSelect()
+    {
         currentScreen = 3;
         //findAllCursors();
         /**for (int i = 0; i < cursors.Length; i++) {
@@ -389,7 +302,8 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(false);
     }**/
 
-    public void backToStageSelect() {
+    public void backToStageSelect()
+    {
         currentScreen = 3;
         /**findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
@@ -398,7 +312,8 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
         findAllCursors();
-        for (int i = 0; i < cursors.Length; i++) {
+        for (int i = 0; i < cursors.Length; i++)
+        {
             MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
             currentCursor.hideCursor();
             currentCursor.charConfirmed = false;
@@ -415,37 +330,170 @@ public class MenuController : MonoBehaviour
         }
 
         stageSelect.SetActive(true);
-        
+
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClose"));
     }
 
-    public void setGore() {
+    //Change this to flip between screens with Dpad at some point
+    public void SettingsSwap()
+    {
+        //Add controller menu nav
+
+        //if (settingsBackButton != null && settingsHeaderButton != null)
+
+        //backNavi = settingsBackButton.navigation;
+        //headerNavi = settingsHeaderButton.navigation;
+        //Navigation navigation = new Navigation();
+
+        //weird bug where if this isnt present, header on select up gets set to toggle screen shake???
+        headerNavi.selectOnUp = settingsBackButton;
+        backNavi.selectOnDown = settingsHeaderButton;
+
+        if (gameplaySettings.activeInHierarchy)
+        {
+            gameplaySettings.SetActive(false);
+            audioSettings.SetActive(true);
+            settingsHeader.text = "AUDIO";
+
+            headerNavi.selectOnDown = effectsSlider;
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = comFreqSlider;
+            settingsBackButton.navigation = backNavi;
+            //Debug.Log("What");
+        }
+        else if (audioSettings.activeInHierarchy)
+        {
+            audioSettings.SetActive(false);
+            controlSettings.SetActive(true);
+            settingsHeader.text = "CONTROLS";
+
+            headerNavi.selectOnDown = settingsBackButton;
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = settingsHeaderButton;
+            settingsBackButton.navigation = backNavi;
+        }
+        else if (controlSettings.activeInHierarchy)
+        {
+            controlSettings.SetActive(false);
+            gameplaySettings.SetActive(true);
+            settingsHeader.text = "GAMEPLAY";
+
+            headerNavi.selectOnDown = goreDropdown;
+            settingsHeaderButton.navigation = headerNavi;
+            backNavi.selectOnUp = screenshakeToggle;
+            settingsBackButton.navigation = backNavi;
+        }
+
+    }
+
+    public void exitGame()
+    {
+        Debug.Log("Quitting game. Goodbye!");
+        Application.Quit();
+    }
+
+    #endregion
+
+    #region Character Selection
+
+    public void characterSelected(int playerNumber, int playerSlot)
+    {
+        Debug.Log("Player " + playerNumber + " selected Character " + playerSlot);
+        //todo: set it so playerNumber can control playerSlot's character options
+        playerOptions[playerSlot].SetActive(true);
+    }
+
+    public void characterUnselected(int playerNumber, int playerSlot)
+    {
+        Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
+        //todo: reverse that thing from the last comment
+        playerOptions[playerSlot].SetActive(false);
+        //if (confirm)
+        if (confirmedInfos.Contains(characterInfos[playerSlot]))
+        {
+            unconfirmCharacter(playerSlot);
+        }
+    }
+
+    public void confirmCharacter(int playerSlot)
+    {
+        confirmedInfos.Add(characterInfos[playerSlot]);
+        characterInfos[playerSlot].confirm();
+        numPlayersConfirmed++;
+        Debug.Log("players confirmed: " + numPlayersConfirmed + " - Time: " + Time.fixedTime);
+        Debug.Log("players needed: " + cursors.Length);
+        if (numPlayersConfirmed == cursors.Length)
+        {
+            canMoveToGame = true;
+            readyText.SetActive(true);
+        }
+    }
+
+    public void unconfirmCharacter(int playerSlot)
+    {
+        confirmedInfos.Remove(characterInfos[playerSlot]);
+        characterInfos[playerSlot].unconfirm();
+        numPlayersConfirmed--;
+        Debug.Log("players confirmed: " + numPlayersConfirmed + "Time: " + Time.fixedTime);
+        if (canMoveToGame)
+        {
+            canMoveToGame = false;
+            readyText.SetActive(false);
+        }
+    }
+
+    #endregion
+
+    #region Player Cursors
+
+    public void findAllCursors()
+    {
+        cursors = GameObject.FindGameObjectsWithTag("MenuCursor");
+    }
+
+    public void newCursor()
+    {
+        findAllCursors();
+        canMoveToGame = false;
+        readyText.SetActive(false);
+    }
+
+    #endregion
+
+    #region Settings Management
+
+    public void setGore()
+    {
         PlayerPrefs.SetInt("goreMode", goreDropdown.value);
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setGoalBarriers() {
+    public void setGoalBarriers()
+    {
         PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setMusicVolume() {
+    public void setMusicVolume()
+    {
         PlayerPrefs.SetFloat("musicVolume", musicSlider.value / 100f);
     }
 
-    public void setEffectsVolume() {
+    public void setEffectsVolume()
+    {
         PlayerPrefs.SetFloat("effectsVolume", effectsSlider.value / 100f);
 
         //sound
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setCommentaryVolume() {
+    public void setCommentaryVolume()
+    {
         PlayerPrefs.SetFloat("commentaryVolume", comVolumeSlider.value / 100f);
 
         //sound
@@ -456,24 +504,79 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void setCommentaryFrequency() {
+    public void setCommentaryFrequency()
+    {
         PlayerPrefs.SetFloat("commentaryFrequency", comFreqSlider.value / 100f);
 
         //sound
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setScreenshake() {
-        if (screenshakeToggle.isOn) {
+    public void setScreenshake()
+    {
+        if (screenshakeToggle.isOn)
+        {
             PlayerPrefs.SetInt("screenshake", 1);
-        } else {
+        }
+        else
+        {
             PlayerPrefs.SetInt("screenshake", 0);
         }
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
+    #endregion
 
+    #region Controler Connection
+
+    public void showConnected(int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                p1Connected.SetActive(true);
+                break;
+            case 2:
+                p2Connected.SetActive(true);
+                break;
+            case 3:
+                p3Connected.SetActive(true);
+                break;
+            case 4:
+                p4Connected.SetActive(true);
+                break;
+            default:
+                Debug.Log("Player Num Error");
+                break;
+        }
+    }
+
+    public void hideConnected(int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                p1Connected.SetActive(false);
+                break;
+            case 2:
+                p2Connected.SetActive(false);
+                break;
+            case 3:
+                p3Connected.SetActive(false);
+                break;
+            case 4:
+                p4Connected.SetActive(false);
+                break;
+            default:
+                Debug.Log("Player Num Error");
+                break;
+        }
+    }
+
+    #endregion
+
+    #region Stage Selection
 
     public void selectStage(int stageID) {
         stageSelection = stageID;
@@ -543,53 +646,6 @@ public class MenuController : MonoBehaviour
     //    stageFade.CrossFadeAlpha
     //}
 
-    public void showConnected(int playerNumber)
-    {
-        switch (playerNumber)
-        {
-            case 1:
-                p1Connected.SetActive(true);
-                break;
-            case 2:
-                p2Connected.SetActive(true);
-                break;
-            case 3:
-                p3Connected.SetActive(true);
-                break;
-            case 4:
-                p4Connected.SetActive(true);
-                break;
-            default:
-                Debug.Log("Player Num Error");
-                break;
-        }
-    }
-
-    public void hideConnected(int playerNumber)
-    {
-        switch (playerNumber)
-        {
-            case 1:
-                p1Connected.SetActive(false);
-                break;
-            case 2:
-                p2Connected.SetActive(false);
-                break;
-            case 3:
-                p3Connected.SetActive(false);
-                break;
-            case 4:
-                p4Connected.SetActive(false);
-                break;
-            default:
-                Debug.Log("Player Num Error");
-                break;
-        }
-    }
-
-    public void exitGame() {
-        Debug.Log("Quitting game. Goodbye!");
-        Application.Quit();
-    }
+    #endregion
 
 }
