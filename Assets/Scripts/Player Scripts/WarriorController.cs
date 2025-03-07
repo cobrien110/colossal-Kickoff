@@ -36,7 +36,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float kickSpeed = 5.0f;
     [SerializeField] private float slideSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
-    [SerializeField] private float maxChargeSeconds = 2f;
+    [SerializeField] private float maxCharge = 2f;
     [SerializeField] protected float chargeMoveSpeedMult = 0.2f;
     private float kickCharge = 1f;
     protected bool isCharging;
@@ -187,12 +187,12 @@ public class WarriorController : MonoBehaviour
                 Debug.Log("Should start glowing");
                 float glowAmount = kickCharge - 1.0f;
                 BP.StartBallGlow(glowAmount);
-                if (kickCharge >= maxChargeSeconds && shouldShake2)
+                if (kickCharge >= maxCharge && shouldShake2)
                 {
                     shouldShake2 = false;
                     StartCoroutine(MTC.ScreenShake(shakeIntensity * 2));
                 }
-                else if (kickCharge > (maxChargeSeconds / 2) + 0.5f && shouldShake1)
+                else if (kickCharge > (maxCharge / 2) + 0.5f && shouldShake1)
                 {
                     shouldShake1 = false;
                     StartCoroutine(MTC.ScreenShake(shakeIntensity));
@@ -440,10 +440,10 @@ public class WarriorController : MonoBehaviour
             }
             if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
             {
-                if (kickCharge <= maxChargeSeconds)
+                if (kickCharge <= maxCharge)
                 {
                     //Debug.Log(kickCharge);
-                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
                     
                     //Charge Speed
                     kickCharge += Time.deltaTime * chargeSpeed;
@@ -451,7 +451,7 @@ public class WarriorController : MonoBehaviour
                     ANIM.SetBool("isChargingKick", true);
                 }
 
-                if (kickCharge > maxChargeSeconds)
+                if (kickCharge > maxCharge)
                 {
                     //UM.UpdateChargeBar(1f);
                 }
@@ -511,10 +511,10 @@ public class WarriorController : MonoBehaviour
             }
             if (warriorControls.IsInProgress() && BP.ballOwner == gameObject)
             {
-                if (kickCharge <= maxChargeSeconds)
+                if (kickCharge <= maxCharge)
                 {
                     //Debug.Log(kickCharge);
-                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
                     
                     //Charge Speed
                     kickCharge += Time.deltaTime * chargeSpeed;
@@ -522,7 +522,7 @@ public class WarriorController : MonoBehaviour
                     ANIM.SetBool("isChargingKick", true);
                 }
 
-                if (kickCharge > maxChargeSeconds)
+                if (kickCharge > maxCharge)
                 {
                     //UM.UpdateChargeBar(1f);
                 }
@@ -1097,11 +1097,11 @@ public class WarriorController : MonoBehaviour
 
     void PlayKickSound(float charge)
     {
-        if (charge >= maxChargeSeconds)
+        if (charge >= maxCharge)
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick3"));
         }
-        else if (charge >= maxChargeSeconds / 2f)
+        else if (charge >= maxCharge / 2f)
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("kick2"));
         }
