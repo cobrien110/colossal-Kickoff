@@ -57,7 +57,7 @@ public class WarriorController : MonoBehaviour
     public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
-    private PlayerAttachedUI PAUI = null;
+    private WarriorUI WUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
     [SerializeField] private Transform respawnBox;
@@ -68,7 +68,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
-    public Sprite[] ringColors;
+    //public Sprite[] ringColors;
     public SpriteRenderer ring;
     public SpriteRenderer transparentRing;
     //public SpriteRenderer playerRend;
@@ -129,7 +129,7 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
-        PAUI = GetComponentInChildren<PlayerAttachedUI>();
+        WUI = GetComponentInChildren<WarriorUI>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
@@ -180,8 +180,9 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
             }
 
-            if (BP.isSuperKick && isCharging)
+            if (superKicking && isCharging && GM.passMeter == GM.passMeterMax)
             {
+                Debug.Log("Should start glowing");
                 float glowAmount = kickCharge - 1.0f;
                 BP.StartBallGlow(glowAmount);
                 if (kickCharge >= maxChargeSeconds && shouldShake2)
@@ -195,7 +196,7 @@ public class WarriorController : MonoBehaviour
                     StartCoroutine(MTC.ScreenShake(shakeIntensity));
                 }
             }
-            else
+            else if (BP.ballOwner == gameObject)
             {
                 BP.StopBallGlow();
                 //MTC.isShaking = false;
@@ -332,13 +333,13 @@ public class WarriorController : MonoBehaviour
         if (BP.ballOwner == gameObject)
         {
             //UM.ShowChargeBar(true);
-            PAUI.ShowChargeBar(true);
+            WUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
         {
             // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
-            PAUI.ShowChargeBar(false);
+            WUI.ShowChargeBar(false);
         }
     }
 
@@ -435,7 +436,7 @@ public class WarriorController : MonoBehaviour
                 //UM.UpdateChargeBar(0f);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -446,7 +447,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -510,7 +511,7 @@ public class WarriorController : MonoBehaviour
                 //UM.UpdateChargeBar(0f);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -521,7 +522,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -1041,18 +1042,21 @@ public class WarriorController : MonoBehaviour
     /**
      *  The Following Code Is For Helper Methods
      **/
-    public void SetColor(int i)
+    public void SetColor(Color color)
     {
         //Debug.Log("Set color called with i = " + i);
         try
         {
-            ring.sprite = ringColors[i];
-            transparentRing.sprite = ringColors[i];
+            Debug.Log("SETTING COLOR");
+            Debug.Log(color);
+            ring.color = color;
+            Debug.Log(ring.color);
+            transparentRing.color = color;
         }
         catch
         {
-            ring.sprite = ring.sprite;
-            transparentRing.sprite = transparentRing.sprite;
+            ring.color = color;
+            transparentRing.color = color;
         }
 
     }

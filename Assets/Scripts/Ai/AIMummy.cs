@@ -317,9 +317,21 @@ public class AIMummy : MonoBehaviour
         } // When close enough, shoot 
         else
         {
-            Kick();
+            Shoot();
         }
 
+    }
+
+    private void Shoot()
+    {
+        Vector3 toGoal = (warriorGoal.transform.position - transform.position).normalized;
+        movementDirection = toGoal;
+
+        // Set rotation
+        Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
+        transform.rotation = newRotation;
+
+        Kick();
     }
 
     IEnumerator CheckForPass()
@@ -566,6 +578,9 @@ public class AIMummy : MonoBehaviour
         // If has been in warrior's collider long enough
         else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
+            // if you were last kicker and ball is in singleMode, return
+            if (BP.isInSingleOutMode && BP.previousKicker == gameObject) return;
+
             // Pick up ball
             Debug.Log("Pick up ball");
             pickupBallTimer = pickupBallCooldown;

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 
 public class MenuController : MonoBehaviour
@@ -53,6 +54,7 @@ public class MenuController : MonoBehaviour
     1: Settings
     2: Character Select
     3: Stage Select
+    4: Quit Screen
     **/
     public int currentScreen = 0;
     int effectsVolume, musicVolume, commentaryVolume, commentaryFrequency;
@@ -129,7 +131,30 @@ public class MenuController : MonoBehaviour
         //    }
         //}
 
-
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            if (gamepad.buttonEast.wasPressedThisFrame)
+            {
+                switch (currentScreen)
+                {
+                    case (1):
+                        returnToTop();
+                        break;
+                    case (2):
+                        backToStageSelect();
+                        break;
+                    case (3):
+                        returnToTop();
+                        break;
+                    case (4):
+                        returnToTop();
+                        break;
+                    default:
+                        break;
+                }    
+            }
+        }
     }
 
     public void loadGameplay(int targetScene) {
@@ -209,6 +234,7 @@ public class MenuController : MonoBehaviour
 
             //QUIT GAME
             case 2:
+                currentScreen = 4;
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(quitFirstButton);
                 quitGameButtons.SetActive(true);
@@ -345,6 +371,7 @@ public class MenuController : MonoBehaviour
             }
         }**/
         mainMenuButtons.SetActive(false);
+        characterSelect.SetActive(false);
         stageSelect.SetActive(true);
 
         //sound
@@ -422,7 +449,11 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetFloat("commentaryVolume", comVolumeSlider.value / 100f);
 
         //sound
-        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        if (AP != null && !AP.isPlaying())
+        {
+            AP.setUseComVol(true);
+            AP.PlaySound(AP.Find("a_death_warrior3"));
+        }
     }
 
     public void setCommentaryFrequency() {

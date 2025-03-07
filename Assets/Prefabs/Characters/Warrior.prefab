@@ -71,6 +71,8 @@ MonoBehaviour:
   damageInvincibilityTime: 0.35
   willBeStunnedOnHit: 0
   isInvincible: 0
+  isWinner: 0
+  canRespawn: 1
   passSpeed: 250
   kickSpeed: 375
   slideSpeed: 230
@@ -108,11 +110,6 @@ MonoBehaviour:
   spriteObject: {fileID: 4913074640812958036}
   ANIM: {fileID: 7200901245418876538}
   PS: {fileID: 8640153958670802855}
-  ringColors:
-  - {fileID: 21300000, guid: 4090ca3c3628f944c884f8be00ca7d23, type: 3}
-  - {fileID: 21300000, guid: 32b2c8284797dc44bb4cc8464d932fa0, type: 3}
-  - {fileID: 21300000, guid: bb3aa04ad1afb4b4db209989ab7fe75d, type: 3}
-  - {fileID: 21300000, guid: 11ee1455fa531de43a0c2600e7e98696, type: 3}
   ring: {fileID: 5541382916214441110}
   transparentRing: {fileID: 1769564852655765584}
   playerNum: 1
@@ -124,6 +121,10 @@ MonoBehaviour:
   BombVisual: {fileID: 4736369756069298207, guid: 0fe55980735e3784586ce98acab6ea02, type: 3}
   pickupBallTimer: 0
   callForPassCooldown: 1
+  passWindowDuration: 1
+  gravityFieldDuration: 0.5
+  gravityForce: 20
+  gravityRadius: 5
 --- !u!33 &4256115640164463705
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5655,7 +5656,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  isPlayerSprite: 0
 --- !u!95 &7200901245418876538
 Animator:
   serializedVersion: 5
@@ -5718,7 +5718,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2336023225702641437}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -5763,7 +5763,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 32b2c8284797dc44bb4cc8464d932fa0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4bdd1d979b30a7b4f97631a6a373cebe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_FlipX: 0
   m_FlipY: 0
@@ -5851,7 +5851,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1732808799359414154}
@@ -5898,7 +5898,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 32b2c8284797dc44bb4cc8464d932fa0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4bdd1d979b30a7b4f97631a6a373cebe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6202,54 +6202,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarriorCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6330,21 +6282,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
+    - target: {fileID: 8814084124810448629, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+      propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7247280717374484765, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: offset.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

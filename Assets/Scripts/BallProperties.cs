@@ -31,6 +31,7 @@ public class BallProperties : MonoBehaviour
     [SerializeField] private Color tier1Color = Color.yellow;
     [SerializeField] private Color tier2Color = Color.red;
     [SerializeField] private Gradient colorGradient;
+    private bool isGlowing = false;
 
     public bool isInteractable = true;
 
@@ -161,6 +162,10 @@ public class BallProperties : MonoBehaviour
         if (ballOwner == null)
         {
             passTimer += Time.deltaTime;
+            if (isGlowing)
+            {
+                StopBallGlow();
+            }
         } else
         {
             passTimer = 0f;
@@ -408,6 +413,7 @@ public class BallProperties : MonoBehaviour
             goal.PerformGoalEffects();
             //Debug.Log("Previous kicker");
             if (scorer != null) MTC.FocusOn(scorer.transform);
+            StartCoroutine(MTC.ScreenShake(2.0f));
             //ballOwner = null;
         }
         catch
@@ -512,7 +518,7 @@ public class BallProperties : MonoBehaviour
     public void StartBallGlow(float tier)
     {
         ChargeColorGO.SetActive(true);
-
+        isGlowing = true;
         //if (tier == 1)
         //{
         //    SceneLight.intensity = sceneLightIntensity / 1.5f;
@@ -534,6 +540,7 @@ public class BallProperties : MonoBehaviour
 
     public void StopBallGlow()
     {
+        isGlowing = false;
         if (ChargeColorGO != null) ChargeColorGO.SetActive(false);
         if (SceneLight != null) SceneLight.intensity = 1.0f;
         if (SoccerUVS != null) SoccerUVS.SetColor("_EmissionColor", Color.black);

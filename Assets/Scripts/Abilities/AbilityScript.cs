@@ -27,7 +27,7 @@ public abstract class AbilityScript : MonoBehaviour
     [HideInInspector] public Animator ANIM;
     [HideInInspector] public UIManager UM;
 
-    private PlayerAttachedUI PAUI = null;
+    private MonsterUI MUI = null;
 
     [HideInInspector] public StatTracker ST;
 
@@ -46,8 +46,8 @@ public abstract class AbilityScript : MonoBehaviour
         ANIM = MC.GetAnimator();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-        PAUI = GetComponentInChildren<PlayerAttachedUI>();
-        if (PAUI != null) Debug.Log("Dots can be read");
+        MUI = GetComponentInChildren<MonsterUI>();
+        if (MUI != null) Debug.Log("Dots can be read");
 
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
@@ -95,13 +95,13 @@ public abstract class AbilityScript : MonoBehaviour
                 
                 if (timer >= cooldown)
                 {
-                    PAUI.UpdateDot1(true);
+                    MUI.UpdateDot1(true);
                     UM.MonsterIconGreyout(false, 1);
                     UM.ShowAbilityText(false, 1);
                 }
                 else
                 {
-                    PAUI.UpdateDot1(false);
+                    MUI.UpdateDot1(false);
                     UM.MonsterIconGreyout(true, 1);
                     UM.UpdateAbilityTimerText(1, cooldown - timer);
                     UM.ShowAbilityText(true, 1);
@@ -122,13 +122,13 @@ public abstract class AbilityScript : MonoBehaviour
                 //UM.UpdateMonsterAbility3Bar(1 - (timer / cooldown));
                 if (timer >= cooldown)
                 {
-                    PAUI.UpdateDot2(true);
+                    MUI.UpdateDot2(true);
                     UM.MonsterIconGreyout(false, 3);
                     UM.ShowAbilityText(false, 3);
                 }
                 else
                 {
-                    PAUI.UpdateDot2(false);
+                    MUI.UpdateDot2(false);
                     UM.MonsterIconGreyout(true, 3);
                     UM.UpdateAbilityTimerText(3, cooldown - timer);
                     UM.ShowAbilityText(true, 3);

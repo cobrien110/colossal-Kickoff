@@ -14,6 +14,7 @@ public class AiMummyManager : MonoBehaviour
     [SerializeField] private GameObject mummyPrefab;
     [SerializeField] private float respawnDelay;
     [SerializeField] private int startingMummyAmount = 2;
+    UIManager UM;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +26,7 @@ public class AiMummyManager : MonoBehaviour
 
     void Start()
     {
+        UM = FindObjectOfType<UIManager>();
         ResetMummies();
     }
 
@@ -59,6 +61,12 @@ public class AiMummyManager : MonoBehaviour
 
     private void Respawn()
     {
+        if (UM != null && UM.GetTimeRemaining() <= 0)
+        {
+            Debug.Log("Game over - Don't respawn mummies");
+            return;
+        }
+
         Debug.Log("Respawn mummy");
 
         // Determine the location to spawn based on alternating positions
