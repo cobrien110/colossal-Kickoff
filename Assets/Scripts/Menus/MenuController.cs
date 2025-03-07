@@ -71,6 +71,7 @@ public class MenuController : MonoBehaviour
 
     private int numPlayersConfirmed = 0;
     public bool canMoveToGame = false;
+    public bool deselectOccured = false;
 
     //tracks the stage the game will move to when it starts
     public int stageSelection;
@@ -135,7 +136,7 @@ public class MenuController : MonoBehaviour
         //    }
         //}
 
-        var gamepad = Gamepad.current;
+        Gamepad gamepad = Gamepad.current;
         if (gamepad != null)
         {
             if (gamepad.buttonEast.wasPressedThisFrame)
@@ -146,17 +147,28 @@ public class MenuController : MonoBehaviour
                         returnToTop();
                         break;
                     case (2):
-                        backToStageSelect();
+                        if (!deselectOccured)
+                        {
+                            backToStageSelect();
+                        }
                         break;
                     case (3):
-                        returnToTop();
+                        if (stageSettings.activeSelf)
+                        {
+                            ShowStageSettings(false);
+                        }
+                        else
+                        {
+                            returnToTop();
+                        }
                         break;
                     case (4):
                         returnToTop();
                         break;
                     default:
                         break;
-                }    
+                }
+                deselectOccured = false;
             }
         }
     }

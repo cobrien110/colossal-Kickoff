@@ -226,6 +226,7 @@ public class MenuCursor : MonoBehaviour
                         // play sound
                         AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
                         justSelectedChar = true;
+                        AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
                         //Temp Color code
                         if (playerSlot != 0)
                         {
@@ -258,7 +259,7 @@ public class MenuCursor : MonoBehaviour
                     MC.loadGameplay(MC.stageSelection);
                 }
                 // play sound
-                if (!justSelectedChar) AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
+                //if (!justSelectedChar) AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
             } else
             {
                 // play sound
@@ -339,6 +340,7 @@ public class MenuCursor : MonoBehaviour
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
             WD = null;
+            MC.deselectOccured = true;
     }
 
     //find the icons that display who's selected which characters on screen
@@ -449,6 +451,11 @@ public class MenuCursor : MonoBehaviour
     public void OnLeave(InputAction.CallbackContext action)
     {
         Leave();
+    }
+
+    public string GetGamepadName()
+    {
+        return PH.gamepadName;
     }
 
     /**public void enterAudio(int optionSelected) {
