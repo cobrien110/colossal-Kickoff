@@ -44,12 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8d113e9ea829844936ceed8c1d2c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  automaticAISpawn: 1
+  automaticAISpawn: 0
   automaticStart: 1
   passIndicator: 1
   isPlaying: 0
   isPaused: 0
   gameSeconds: 180
+  warriorKickChargeSpeed: 2
+  monsterKickChargeSpeed: 2
   UM: {fileID: 0}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
   playerList: []
@@ -59,14 +61,19 @@ MonoBehaviour:
   WarriorAI: {fileID: 9138569520651102005, guid: 7007251e3a9e1a2488a50d0913e3c584, type: 3}
   MonsterAI: {fileID: 8382026178709740655, guid: 6efa445432d32f643bd9fe7c892f7c22, type: 3}
   MonsterPlayer: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
-  debugMode: 0
+  debugMode: 1
   WarriorSpawners: []
   warriorPrefab: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   passMeter: 0
   passMeterMax: 1
+  playerColors:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
   WH: {fileID: 0}
   usePlayerPrefs: 1
-  barriersAreOn: 1
+  barriersAreOn: 0
   barrierRespawnStyle: 2
   barrierMaxHealth: 10
   barrierBounceForce: 270

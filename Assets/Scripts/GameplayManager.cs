@@ -18,6 +18,8 @@ public class GameplayManager : MonoBehaviour
     private float pauseTimer = 0f;
     private bool podiumSequenceStarted = false;
     public int gameSeconds;
+    public float warriorKickChargeSpeed = 1;
+    public float monsterKickChargeSpeed = 1;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
