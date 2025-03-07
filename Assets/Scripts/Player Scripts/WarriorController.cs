@@ -947,6 +947,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator PassWindowCheck()
     {
+        WUI.ShowCallForPass(true);
         Debug.Log("Start PassWindowCheck");
         while (passWindowTimer < passWindowDuration)
         {
@@ -965,6 +966,7 @@ public class WarriorController : MonoBehaviour
         }
 
         passWindowTimer = 0f;
+        WUI.ShowCallForPass(false);
     }
 
     private IEnumerator ResetKickHappened()
@@ -1050,8 +1052,8 @@ public class WarriorController : MonoBehaviour
             Debug.Log("SETTING COLOR");
             Debug.Log(color);
             ring.color = color;
-            Debug.Log(ring.color);
-            transparentRing.color = color;
+            //Debug.Log(ring.color);
+            transparentRing.color = new Color(color.r, color.g, color.b, 0.3f);
         }
         catch
         {
