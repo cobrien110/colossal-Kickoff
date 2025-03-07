@@ -44,6 +44,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float stunTime = 3f;
     [SerializeField] private float stunSpeed = 0.2f;
     private float kickCharge = 1f;
+    private float chargeSpeed;
     public bool isCharging;
     public bool isChargingAbility;
     [Header("Ability Stats")]
@@ -105,7 +106,7 @@ public class MonsterController : MonoBehaviour
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
         StartCoroutine(RemoveNullAbilities());
-
+        chargeSpeed = GM.monsterKickChargeSpeed;
     }
 
     void Start()
@@ -423,8 +424,9 @@ public class MonsterController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     MUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    kickCharge += Time.deltaTime;
+
+                    //Charge Speed
+                    kickCharge += Time.deltaTime * chargeSpeed;
                     isCharging = true;
                     ANIM.SetBool("isWindingUp", true);
                 }
@@ -432,7 +434,6 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge > maxChargeSeconds)
                 {
                     MUI.UpdateChargeBar(1f);
-                    //UM.UpdateChargeBar(1f);
                 }
             }
             else
@@ -456,11 +457,8 @@ public class MonsterController : MonoBehaviour
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
-                //PAUI.ShowChargeBar(false);
                 MUI.UpdateChargeBar(0f);
 
-                //UM.ShowChargeBar(false);
-                //UM.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
                 StartCoroutine(KickDelay());
                 ANIM.SetBool("isWindingUp", false);
@@ -472,8 +470,9 @@ public class MonsterController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     MUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    kickCharge += Time.deltaTime;
+
+                    //Charge Speed
+                    kickCharge += Time.deltaTime * chargeSpeed;
                     isCharging = true;
                     ANIM.SetBool("isWindingUp", true);
                 }
@@ -481,7 +480,6 @@ public class MonsterController : MonoBehaviour
                 if (kickCharge > maxChargeSeconds)
                 {
                     MUI.UpdateChargeBar(1f);
-                    //UM.UpdateChargeBar(1f);
                 }
             }
             else

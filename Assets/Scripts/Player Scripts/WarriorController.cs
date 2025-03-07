@@ -41,6 +41,7 @@ public class WarriorController : MonoBehaviour
     private float kickCharge = 1f;
     protected bool isCharging;
     public bool superKicking = false;
+    private float chargeSpeed;
     
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
@@ -133,6 +134,7 @@ public class WarriorController : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
+        chargeSpeed = GM.warriorKickChargeSpeed;
         spriteScale = spriteObject.transform.localScale;
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
 
@@ -431,11 +433,6 @@ public class WarriorController : MonoBehaviour
 
                 ANIM.Play("WarriorKick");
 
-                //Outdated
-                //UM.ShowChargeBar(false);
-                //UM.UpdateChargeBar(0f);
-
-                //PAUI.ShowChargeBar(false);
                 WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
@@ -446,9 +443,10 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    kickCharge += Time.deltaTime;
+                    
+                    //Charge Speed
+                    kickCharge += Time.deltaTime * chargeSpeed;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
                 }
@@ -506,11 +504,6 @@ public class WarriorController : MonoBehaviour
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                 ANIM.Play("WarriorKick");
 
-                //Outdated
-                //UM.ShowChargeBar(false);
-                //UM.UpdateChargeBar(0f);
-
-                //PAUI.ShowChargeBar(false);
                 WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
@@ -521,9 +514,10 @@ public class WarriorController : MonoBehaviour
                 if (kickCharge <= maxChargeSeconds)
                 {
                     //Debug.Log(kickCharge);
-                    //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    kickCharge += Time.deltaTime;
+                    
+                    //Charge Speed
+                    kickCharge += Time.deltaTime * chargeSpeed;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
                 }
