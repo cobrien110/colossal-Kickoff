@@ -68,7 +68,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
-    public Sprite[] ringColors;
+    //public Sprite[] ringColors;
     public SpriteRenderer ring;
     public SpriteRenderer transparentRing;
     //public SpriteRenderer playerRend;
@@ -1042,18 +1042,21 @@ public class WarriorController : MonoBehaviour
     /**
      *  The Following Code Is For Helper Methods
      **/
-    public void SetColor(int i)
+    public void SetColor(Color color)
     {
         //Debug.Log("Set color called with i = " + i);
         try
         {
-            ring.sprite = ringColors[i];
-            transparentRing.sprite = ringColors[i];
+            Debug.Log("SETTING COLOR");
+            Debug.Log(color);
+            ring.color = color;
+            Debug.Log(ring.color);
+            transparentRing.color = color;
         }
         catch
         {
-            ring.sprite = ring.sprite;
-            transparentRing.sprite = transparentRing.sprite;
+            ring.color = color;
+            transparentRing.color = color;
         }
 
     }

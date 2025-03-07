@@ -41,6 +41,7 @@ public class GameplayManager : MonoBehaviour
     private Transform lastGoalScoredIn;
     Vector3 WarSpawnPos;
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
+    public Color[] playerColors = new Color[4];
 
     public WarriorHolder WH = null;
 
@@ -80,6 +81,7 @@ public class GameplayManager : MonoBehaviour
         }
 
         if (usePlayerPrefs) GetBarrierPrefs();
+        SetPlayerColors();
     }
 
     // Update is called once per frame
@@ -328,7 +330,7 @@ public class GameplayManager : MonoBehaviour
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             WC = player.GetComponent<WarriorController>();
-            WC.SetColor(warriors.Length);
+            //WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
             
@@ -388,7 +390,7 @@ public class GameplayManager : MonoBehaviour
                 Debug.Log("My Spawner:" + spawnCount);
                 WC.WarriorSpawner = WarriorSpawners[spawnCount++];
                 WC.transform.position = WC.WarriorSpawner.transform.position;
-                WC.SetColor(playerNumberInput);
+                //WC.SetColor(playerNumberInput);
                 WC.SetPlayerNum(playerNumberInput);
                 playerList.Add(newWar);
                 Debug.Log("My Player Num:"+ WC.playerNum);             
@@ -482,6 +484,43 @@ public class GameplayManager : MonoBehaviour
     public void SetLastScoredGoal(Transform t)
     {
         lastGoalScoredIn = t;
+    }
+
+    private void SetPlayerColors()
+    {
+        Debug.Log("FINDING COLOR");
+        int count = 1;
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
+        PlayerHolder PH = null;
+
+        foreach (GameObject holder in playerHolders)
+        {
+            PH = holder.GetComponent<PlayerHolder>();
+            if (PH != null)
+            {
+                if (PH.teamName.Equals("Monster"))
+                {
+                    //do nothing atm
+                }
+                else
+                {
+                    playerColors[count] = PH.warriorColor;
+                    count++;
+                }
+            }
+        }
+
+        count = 1;
+        foreach (GameObject warrior in warriors)
+        {
+            WC = warrior.GetComponent<WarriorController>();
+            if (WC != null)
+            {
+                WC.SetColor(playerColors[count]);
+                count++;
+            }
+        }
     }
 
 
