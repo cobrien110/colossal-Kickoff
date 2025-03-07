@@ -149,7 +149,14 @@ public class MenuController : MonoBehaviour
                         }
                         break;
                     case (3):
-                        returnToTop();
+                        if (stageSettings.activeSelf)
+                        {
+                            ShowStageSettings(false);
+                        }
+                        else
+                        {
+                            returnToTop();
+                        }
                         break;
                     case (4):
                         returnToTop();
