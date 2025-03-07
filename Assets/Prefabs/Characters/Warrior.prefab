@@ -71,6 +71,8 @@ MonoBehaviour:
   damageInvincibilityTime: 0.35
   willBeStunnedOnHit: 0
   isInvincible: 0
+  isWinner: 0
+  canRespawn: 1
   passSpeed: 250
   kickSpeed: 375
   slideSpeed: 230
@@ -124,6 +126,10 @@ MonoBehaviour:
   BombVisual: {fileID: 4736369756069298207, guid: 0fe55980735e3784586ce98acab6ea02, type: 3}
   pickupBallTimer: 0
   callForPassCooldown: 1
+  passWindowDuration: 1
+  gravityFieldDuration: 0.5
+  gravityForce: 20
+  gravityRadius: 5
 --- !u!33 &4256115640164463705
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5655,7 +5661,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  isPlayerSprite: 0
 --- !u!95 &7200901245418876538
 Animator:
   serializedVersion: 5
@@ -6202,54 +6207,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarriorCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2688309700024975930, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742301805920892959, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 174.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4820808538738797381, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6329,22 +6286,6 @@ PrefabInstance:
     - target: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5748176190393753441, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7247280717374484765, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
-      propertyPath: offset.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

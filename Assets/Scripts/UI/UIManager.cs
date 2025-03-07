@@ -36,9 +36,7 @@ public class UIManager : MonoBehaviour
     [Header("ScoreboardUI")]
     [SerializeField] private GameObject statsScoreboard = null;
 
-    [SerializeField] private TMP_Text Warrior1Label = null;
-    [SerializeField] private TMP_Text Warrior2Label = null;
-    [SerializeField] private TMP_Text Warrior3Label = null;
+    [SerializeField] private TMP_Text[] WarriorLabels = null;
     [SerializeField] private TMP_Text MonsterLabel = null;
 
     [SerializeField] private TMP_Text Warrior1GoalsText = null;
@@ -161,12 +159,13 @@ public class UIManager : MonoBehaviour
         {
             playerPortraitsHolder.SetActive(true);
         }
-
+        UpdatePlayerLabels();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (console.gameObject.activeInHierarchy && !console.isFocused)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -719,45 +718,47 @@ public class UIManager : MonoBehaviour
         if (player == 3) P3MVP.SetActive(state);
     }
 
-    private void GoldGoals(int player)
+    private void GoldGoals(List<int> player)
     {
-        if (player == 1) Warrior1GoalsText.color = new Color(50, 255, 0);
-        if (player == 2) Warrior2GoalsText.color = new Color(50, 255, 0);
-        if (player == 3) Warrior3GoalsText.color = new Color(50, 255, 0);
+        if (player.Contains(1)) Warrior1GoalsText.color = new Color(50, 255, 0);
+        if (player.Contains(2)) Warrior2GoalsText.color = new Color(50, 255, 0);
+        if (player.Contains(3)) Warrior3GoalsText.color = new Color(50, 255, 0);
     }
 
-    private void GoldAssists(int player)
+    private void GoldAssists(List<int> player)
     {
-        if (player == 1) Warrior1AssistsText.color = new Color(50, 255, 0);
-        if (player == 2) Warrior2AssistsText.color = new Color(50, 255, 0);
-        if (player == 3) Warrior3AssistsText.color = new Color(50, 255, 0);
+        if (player.Contains(1)) Warrior1AssistsText.color = new Color(50, 255, 0);
+        if (player.Contains(2)) Warrior2AssistsText.color = new Color(50, 255, 0);
+        if (player.Contains(3)) Warrior3AssistsText.color = new Color(50, 255, 0);
     }
 
-    private void GoldDeaths(int player)
+    private void GoldDeaths(List<int> player)
     {
-        if (player == 1) Warrior1DeathsText.color = new Color(50, 255, 0);
-        if (player == 2) Warrior2DeathsText.color = new Color(50, 255, 0);
-        if (player == 3) Warrior3DeathsText.color = new Color(50, 255, 0);
+        if (player.Contains(1)) Warrior1DeathsText.color = new Color(50, 255, 0);
+        if (player.Contains(2)) Warrior2DeathsText.color = new Color(50, 255, 0);
+        if (player.Contains(3)) Warrior3DeathsText.color = new Color(50, 255, 0);
     }
 
-    private void GoldSteals(int player)
+    private void GoldSteals(List<int> player)
     {
-        if (player == 1) Warrior1StealsText.color = new Color(50, 255, 0);
-        if (player == 2) Warrior2StealsText.color = new Color(50, 255, 0);
-        if (player == 3) Warrior3StealsText.color = new Color(50, 255, 0);
+        if (player.Contains(1)) Warrior1StealsText.color = new Color(50, 255, 0);
+        if (player.Contains(2)) Warrior2StealsText.color = new Color(50, 255, 0);
+        if (player.Contains(3)) Warrior3StealsText.color = new Color(50, 255, 0);
     }
 
     public void GoldenWarriorStats()
     {
-        int goals = 0;
-        int assists = 0;
-        int steals = 0;
-        int deaths = 0;
+        List<int> goalsL = new List<int>();
+        List<int> goalsIndexL = new List<int>();
 
-        int goalsIndex = 1;
-        int assistsIndex = 1;
-        int stealsIndex = 1;
-        int deathsIndex = 1;
+        List<int> assistsL = new List<int>();
+        List<int> assistsIndexL = new List<int>();
+
+        List<int> deathsL = new List<int>();
+        List<int> deathsIndexL = new List<int>();
+
+        List<int> stealsL = new List<int>();
+        List<int> stealsIndexL = new List<int>();
 
         int player = -1;
 
@@ -768,35 +769,122 @@ public class UIManager : MonoBehaviour
             if (warrior.GetComponent<WarriorController>() != null) {
                 player = warrior.GetComponent<WarriorController>().playerNum;
             }
-            //Goals
-            if (ST.GetWGoals(player) > goals)
+
+            int currentGoals = ST.GetWGoals(player);
+            int currentAssists = ST.GetWAssists(player);
+            int currentDeaths = ST.GetWDeaths(player);
+            int currentSteals = ST.GetWSteals(player);
+
+            if ((currentGoals >= 0 && goalsL.Count == 0) || currentGoals >= goalsL[0])
             {
-                goalsIndex = player;
+                if (goalsL.Count == 0 || goalsL.Contains(currentGoals))
+                {
+                    goalsL.Add(currentGoals);
+                    goalsIndexL.Add(player);
+                }
+                else
+                {
+                    goalsL.Clear();
+                    goalsIndexL.Clear();
+                    goalsL.Add(currentGoals);
+                    goalsIndexL.Add(player);
+                }
             }
 
-            if (ST.GetWAssists(player) > assists)
+            if ((currentAssists >= 0 && assistsL.Count == 0) || currentAssists >= assistsL[0])
             {
-                assistsIndex = player;
+                if (assistsL.Count == 0 || assistsL.Contains(currentAssists))
+                {
+                    assistsL.Add(currentAssists);
+                    assistsIndexL.Add(player);
+                }
+                else
+                {
+                    assistsL.Clear();
+                    assistsIndexL.Clear();
+                    assistsL.Add(currentAssists);
+                    assistsIndexL.Add(player);
+                }
             }
 
-            if (ST.GetWDeaths(player) < deaths)
+            if ((currentDeaths >= 0 && deathsL.Count == 0) || currentDeaths >= goalsL[0])
             {
-                deathsIndex = player;
+                if (deathsL.Count == 0 || deathsL.Contains(currentDeaths))
+                {
+                    deathsL.Add(currentDeaths);
+                    deathsIndexL.Add(player);
+                }
+                else
+                {
+                    deathsL.Clear();
+                    deathsIndexL.Clear();
+                    deathsL.Add(currentDeaths);
+                    deathsIndexL.Add(player);
+                }
             }
 
-            if (ST.GetWSteals(player) > steals)
+            if ((currentSteals >= 0 && stealsL.Count == 0) || currentSteals >= stealsL[0])
             {
-                stealsIndex = player;
+                if (stealsL.Count == 0 || stealsL.Contains(currentSteals))
+                {
+                    stealsL.Add(currentSteals);
+                    stealsIndexL.Add(player);
+                }
+                else
+                {
+                    stealsL.Clear();
+                    stealsIndexL.Clear();
+                    stealsL.Add(currentSteals);
+                    stealsIndexL.Add(player);
+                }
             }
+
+            //if (ST.GetWAssists(player) > assists)
+            //{
+            //    assists = ST.GetWAssists(player);
+            //    assistsIndex = player;
+            //}
+
+            //if (ST.GetWDeaths(player) < deaths)
+            //{
+            //    deaths = ST.GetWDeaths(player);
+            //    deathsIndex = player;
+            //}
+
+            //if (ST.GetWSteals(player) > steals)
+            //{
+            //    steals = ST.GetWSteals(player);
+            //    stealsIndex = player;
+            //}
         }
-        GoldGoals(goalsIndex);
-        GoldAssists(assistsIndex);
-        GoldDeaths(deathsIndex);
-        GoldSteals(stealsIndex);
+        GoldGoals(goalsIndexL);
+        GoldAssists(assistsIndexL);
+        GoldDeaths(deathsIndexL);
+        GoldSteals(stealsIndexL);
     }
 
-    public void UpdatePlayerLabels()
+    private void UpdatePlayerLabels()
     {
+        int count = 0;
         GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        PlayerHolder PH = null;
+
+        foreach (GameObject holder in playerHolders)
+        { 
+            PH = holder.GetComponent<PlayerHolder>();
+            if (PH != null)
+            {
+                if (PH.teamName.Equals("Monster"))
+                {
+                    MonsterLabel.text = "Player " + (PH.playerID + 1);
+                }
+                else
+                {
+                    WarriorLabels[count].text = "Player " + (PH.playerID + 1);
+                    count++;
+                }
+            }
+            
+        }
     }
 }

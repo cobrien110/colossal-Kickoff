@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAttachedUI : MonoBehaviour
+public class MonsterUI : MonoBehaviour
 {
     //Charge Meter
     [SerializeField] private GameObject chargeBar = null;
@@ -25,14 +25,7 @@ public class PlayerAttachedUI : MonoBehaviour
     {
         ShowChargeBar(false);
         target = transform.parent;
-        if (gameObject.GetComponentInParent<WarriorAiController>() != null)
-        {
-            allDots.SetActive(false);
-            chargeBar.SetActive(false);
-        } else if (gameObject.GetComponentInParent<WarriorController>() != null)
-        {
-            allDots.SetActive(false);
-        }
+        chargeBar.SetActive(false);
     }
 
     // Update is called once per frame
@@ -66,7 +59,4 @@ public class PlayerAttachedUI : MonoBehaviour
     {
         allDots.SetActive(state);
     }
-
-
-
 }

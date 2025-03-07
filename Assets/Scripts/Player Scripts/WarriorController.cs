@@ -57,7 +57,7 @@ public class WarriorController : MonoBehaviour
     public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
-    private PlayerAttachedUI PAUI = null;
+    private WarriorUI WUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
     [SerializeField] private Transform respawnBox;
@@ -129,7 +129,7 @@ public class WarriorController : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         MTC.AddTarget(transform);
         CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
-        PAUI = GetComponentInChildren<PlayerAttachedUI>();
+        WUI = GetComponentInChildren<WarriorUI>();
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
@@ -333,13 +333,13 @@ public class WarriorController : MonoBehaviour
         if (BP.ballOwner == gameObject)
         {
             //UM.ShowChargeBar(true);
-            PAUI.ShowChargeBar(true);
+            WUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
         } else
         {
             // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
-            PAUI.ShowChargeBar(false);
+            WUI.ShowChargeBar(false);
         }
     }
 
@@ -436,7 +436,7 @@ public class WarriorController : MonoBehaviour
                 //UM.UpdateChargeBar(0f);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -447,7 +447,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
@@ -511,7 +511,7 @@ public class WarriorController : MonoBehaviour
                 //UM.UpdateChargeBar(0f);
 
                 //PAUI.ShowChargeBar(false);
-                PAUI.UpdateChargeBar(0f);
+                WUI.UpdateChargeBar(0f);
                 PlayKickSound(kickCharge);
 
                 StartCoroutine(KickDelay());
@@ -522,7 +522,7 @@ public class WarriorController : MonoBehaviour
                 {
                     //Debug.Log(kickCharge);
                     //UM.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
-                    PAUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
+                    WUI.UpdateChargeBar((kickCharge - 1) / (maxChargeSeconds - 1));
                     kickCharge += Time.deltaTime;
                     isCharging = true;
                     ANIM.SetBool("isChargingKick", true);
