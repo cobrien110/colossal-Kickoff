@@ -55,5 +55,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -5952637443645324820, guid: 9ad48a76fc78e0f4987965fcd42632a7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3059176533095906669}
   m_SourcePrefab: {fileID: 100100000, guid: 9ad48a76fc78e0f4987965fcd42632a7, type: 3}
+--- !u!23 &5599443954969187440 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8884065290564568403, guid: 9ad48a76fc78e0f4987965fcd42632a7, type: 3}
+  m_PrefabInstance: {fileID: 5260289216161574621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7233826519271092017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5952637443645324820, guid: 9ad48a76fc78e0f4987965fcd42632a7, type: 3}
+  m_PrefabInstance: {fileID: 5260289216161574621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3059176533095906669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233826519271092017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c05dab9ee3ed93478e7d1a531b72031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tvScreenRenderer: {fileID: 5599443954969187440}
+  tvMaterials:
+  - {fileID: 2100000, guid: 1a3b0f4aede3e75459c99f93d52b468a, type: 2}
+  - {fileID: 2100000, guid: 951208cc81a40a44ca99e60004b0f7b5, type: 2}
+  - {fileID: 2100000, guid: 218822f5d4541194bbd19aeca3c94cb4, type: 2}
+  - {fileID: 2100000, guid: 645a3ccfdd2b9c046afd190ec6c6b943, type: 2}
+  - {fileID: 2100000, guid: 4a2bb9bf5707ae24e99e00be819c4e88, type: 2}
