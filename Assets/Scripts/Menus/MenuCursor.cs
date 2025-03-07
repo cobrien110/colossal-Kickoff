@@ -226,6 +226,7 @@ public class MenuCursor : MonoBehaviour
                         // play sound
                         AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
                         justSelectedChar = true;
+                        AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
                         //Temp Color code
                         if (playerSlot != 0)
                         {
@@ -258,7 +259,7 @@ public class MenuCursor : MonoBehaviour
                     MC.loadGameplay(MC.stageSelection);
                 }
                 // play sound
-                if (!justSelectedChar) AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
+                //if (!justSelectedChar) AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
             } else
             {
                 // play sound
