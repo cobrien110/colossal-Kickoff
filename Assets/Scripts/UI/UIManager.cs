@@ -36,9 +36,7 @@ public class UIManager : MonoBehaviour
     [Header("ScoreboardUI")]
     [SerializeField] private GameObject statsScoreboard = null;
 
-    [SerializeField] private TMP_Text Warrior1Label = null;
-    [SerializeField] private TMP_Text Warrior2Label = null;
-    [SerializeField] private TMP_Text Warrior3Label = null;
+    [SerializeField] private TMP_Text[] WarriorLabels = null;
     [SerializeField] private TMP_Text MonsterLabel = null;
 
     [SerializeField] private TMP_Text Warrior1GoalsText = null;
@@ -161,12 +159,13 @@ public class UIManager : MonoBehaviour
         {
             playerPortraitsHolder.SetActive(true);
         }
-
+        UpdatePlayerLabels();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (console.gameObject.activeInHierarchy && !console.isFocused)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -795,8 +794,28 @@ public class UIManager : MonoBehaviour
         GoldSteals(stealsIndex);
     }
 
-    public void UpdatePlayerLabels()
+    private void UpdatePlayerLabels()
     {
+        int count = 0;
         GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+        PlayerHolder PH = null;
+
+        foreach (GameObject holder in playerHolders)
+        { 
+            PH = holder.GetComponent<PlayerHolder>();
+            if (PH != null)
+            {
+                if (PH.teamName.Equals("Monster"))
+                {
+                    MonsterLabel.text = "Player " + (PH.playerID + 1);
+                }
+                else
+                {
+                    WarriorLabels[count].text = "Player " + (PH.playerID + 1);
+                    count++;
+                }
+            }
+            
+        }
     }
 }
