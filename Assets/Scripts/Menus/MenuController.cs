@@ -29,6 +29,7 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
+    [SerializeField] private GameObject sceneEventSystem;
 
     //Stage Images
     [SerializeField] private Image stageFade;
@@ -320,6 +321,7 @@ public class MenuController : MonoBehaviour
 
     public void backToStageSelect()
     {
+        sceneEventSystem.SetActive(true);
         currentScreen = 3;
         /**findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
@@ -608,6 +610,8 @@ public class MenuController : MonoBehaviour
             cursors[i].GetComponent<MenuCursor>().findCharSelectItems();
             cursors[i].GetComponent<MenuCursor>().showCursor();
         }
+
+        sceneEventSystem.SetActive(false);
 
         //set these just in case
         numPlayersConfirmed = 0;

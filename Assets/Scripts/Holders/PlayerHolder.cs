@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerHolder : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerHolder : MonoBehaviour
     public string gamepadName;
 
     public Color warriorColor;
+
+    public InputActionAsset InputMaster;
 
     // Start is called before the first frame update
     void Awake()
@@ -37,6 +40,9 @@ public class PlayerHolder : MonoBehaviour
         {
             if (GameObject.Find("CharacterSelect") != null)
             {
+                //GetComponentInChildren<MultiplayerEventSystem>().playerRoot = GameObject.Find("Canvas");
+                //GetComponentInChildren<InputSystemUIInputModule>().actionsAsset = InputMaster;
+
                 GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
             } else
             {
@@ -115,5 +121,17 @@ public class PlayerHolder : MonoBehaviour
 
             playerID = availableIDs[0];
         }
+    }
+
+    public void SetEvents(WarriorDesc WD)
+    {
+        GetComponentInChildren<MultiplayerEventSystem>().playerRoot = WD.getRedSlider().gameObject.transform.parent.gameObject;
+        GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(WD.getRedSlider().gameObject);
+    }
+
+    public void RemoveEvents()
+    {
+        GetComponentInChildren<MultiplayerEventSystem>().playerRoot = null;
+        GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(null);
     }
 }
