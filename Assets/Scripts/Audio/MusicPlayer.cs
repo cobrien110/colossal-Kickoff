@@ -5,9 +5,12 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour
 {
     public AudioSource source;
-    public AudioClip[] sounds;
+    public MusicPlayerResults MPR;
+
+    //public AudioClip[] sounds;
     public float volume = 1f;
     public bool isStageTheme = true;
+    public bool isResultsTheme = false;
     //public bool isCutsceneTheme = false;
     //public bool isPersistent = false;
     public float timeDEBUG;
@@ -18,7 +21,7 @@ public class MusicPlayer : MonoBehaviour
     private float curVol = 0f;
     private float volGainRate = 1.5f;
     private bool isPaused = false;
-    private UIManager UI;
+    //private UIManager UI;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +38,14 @@ public class MusicPlayer : MonoBehaviour
             if (isStageTheme) {
                 source.Play();
                 PauseMusic();
-            };
+            }
         }
-        UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+        //UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        if (MPR == null)
+        {
+            MPR = GetComponentInChildren<MusicPlayerResults>();
+        }
         //if (isPersistent && isCutsceneTheme) DontDestroyOnLoad(this.gameObject);
     }
 
@@ -69,12 +77,14 @@ public class MusicPlayer : MonoBehaviour
             Mathf.Clamp(curVol, 0f, volume);
             source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
         }
-        timeDEBUG = source.time;
 
+        //timeDEBUG = source.time;
+        /*
         if (UI != null)
         {
             timeDEBUG2 = UI.GetTimeRemaining();
         }
+        */
     }
 
     public void PauseMusic()
@@ -103,5 +113,11 @@ public class MusicPlayer : MonoBehaviour
 
         source.UnPause();
         isPaused = false;
+    }
+
+    public void PlayResults()
+    {
+        PauseMusicNoFloor();
+        MPR.UnPauseMusic();
     }
 }

@@ -12368,6 +12368,10 @@ PrefabInstance:
       propertyPath: isStageTheme
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3659234905476794485, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7386122243375959851, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
       propertyPath: Loop
       value: 1
@@ -12389,7 +12393,8 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3659234905476794485, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
@@ -21015,6 +21020,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuCanvas: {fileID: 687958854}
   loadingCanvas: {fileID: 2039731512}
+  hasLoadingBar: 0
+  autoSwitchOnLoad: 1
   loadBar: {fileID: 1036963579}
 --- !u!224 &1956075201
 RectTransform:

@@ -13,6 +13,7 @@ public class GameplayManager : MonoBehaviour
 
     [Header("Other Properties")]
     public bool isPlaying = false;
+    public bool isGameOver = false;
     public bool isPaused = false;
     private float pauseDelay = .5f;
     private float pauseTimer = 0f;
@@ -32,6 +33,7 @@ public class GameplayManager : MonoBehaviour
     public bool debugMode;
     private PlayerInputManager PIM = null;
     private MusicPlayer MP = null;
+    //private MusicPlayerResults MPr = null;
     private PodiumSequencer PS;
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
@@ -65,6 +67,7 @@ public class GameplayManager : MonoBehaviour
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
         MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
+        //MPr = MP.GetComponentInChildren<MusicPlayerResults>();
         PS = GameObject.Find("PodiumSequencer").GetComponent<PodiumSequencer>();
         aiMummymanager = FindObjectOfType<AiMummyManager>();
         Time.timeScale = 1;
@@ -132,7 +135,10 @@ public class GameplayManager : MonoBehaviour
             //StopPlaying();
             podiumSequenceStarted = true;
             if (PS == null) Time.timeScale = 0;
-            else StartPodiumSequence();
+            else
+            {
+                StartPodiumSequence();
+            }
             //EndMatch();
         }
 
@@ -160,6 +166,8 @@ public class GameplayManager : MonoBehaviour
     void StartPodiumSequence()
     {
         Debug.Log("GM calling start of podium sequence");
+        isGameOver = true;
+        MP.PlayResults();
         PS.StartPodiumSequence(PS.GetUI().CheckWinner());
         GameObject[] hazards = GameObject.FindGameObjectsWithTag("Hazard");
         foreach (GameObject g in hazards)

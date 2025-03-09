@@ -62,10 +62,12 @@ public class AbilitySnakeSegments : PassiveAbility
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.O))
         {
             AddSegment();
         }
+        */
     }
 
     public void AddSegment()
