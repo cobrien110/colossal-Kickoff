@@ -71,19 +71,34 @@ public class WarriorDesc : MonoBehaviour
     //    }
     //}
 
+    public Slider getRedSlider()
+    {
+        return redSlider;
+    }
+
+    public Slider getGreenSlider()
+    {
+        return greenSlider;
+    }
+
+    public Slider getBlueSlider()
+    {
+        return blueSlider;
+    }
+
     public void changeRed()
     {
-        redValue = redSlider.value;
+        redValue = redSlider.value / 25;
     }
 
     public void changeGreen()
     {
-        greenValue = greenSlider.value;
+        greenValue = greenSlider.value / 25;
     }
 
     public void changeBlue()
     {
-        blueValue = blueSlider.value;
+        blueValue = blueSlider.value / 25;
     }
 
     public void UpdateColor()

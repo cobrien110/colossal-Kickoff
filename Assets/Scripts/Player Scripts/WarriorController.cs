@@ -103,7 +103,7 @@ public class WarriorController : MonoBehaviour
     private float elapsedJumpTime = 0f;
     private float arcHeight = 3f;
     private bool fancySpawnStarted = false;
-    private float jumpRandomMod = 5f;
+    //private float jumpRandomMod = 5f;
 
     // Call For Pass
     private float passWindowTimer;
