@@ -178,7 +178,10 @@ public class MenuCursor : MonoBehaviour
             WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
         }
 
-        EventSystem.current.SetSelectedGameObject(WD.getRedSlider().gameObject);
+        if (playerSlot != 0)
+        {
+            PH.SetEvents(WD);
+        }
     }
 
     public void StartHovering(string item, int ID)
@@ -338,6 +341,7 @@ public class MenuCursor : MonoBehaviour
                 MC.characterUnselected(playerNumber, playerSlot);
             }
 
+            PH.RemoveEvents();
             PH.teamName = "";
             hasSelected = false;
             this.GetComponent<Image>().enabled = true;

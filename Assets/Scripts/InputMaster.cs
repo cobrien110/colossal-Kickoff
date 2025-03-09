@@ -567,6 +567,158 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Cursor1"",
+            ""id"": ""f6a249e4-5d7b-4fda-af24-925f4df916d3"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""cbe2fcd7-c290-4ea6-b8fc-8723a4ab781a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""050122b8-a66f-4775-92cb-3a5c92527aa2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Button"",
+                    ""id"": ""2467dbd8-5a24-4a24-b090-8b15170281ed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""e13baa5b-03b1-476f-9617-790157507e86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Change"",
+                    ""type"": ""Value"",
+                    ""id"": ""fb85c2f7-1143-4c11-a0f8-d8a3d1066765"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f00af703-875b-4039-aeba-17eaad0e0d0f"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d39e56a-817e-48a0-8ed8-1e3e67546ee0"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0e3f44f-9408-4770-9c3f-6d77448fd074"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d61d6a37-ee88-474b-9c0d-95ec0623c60e"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efa77587-b986-457d-b6a3-37cd78e431e0"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""148df2c6-01ce-4272-ae50-6e943f0aae20"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe3bb6c5-b068-48f1-90ba-b1c9890b0c7a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c328cb9c-16eb-4843-9c83-3e3e1efe9661"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""994985c8-50e5-4338-a36a-80937037a6b1"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -620,6 +772,13 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Cursor_Back = m_Cursor.FindAction("Back", throwIfNotFound: true);
         m_Cursor_Leave = m_Cursor.FindAction("Leave", throwIfNotFound: true);
         m_Cursor_Change = m_Cursor.FindAction("Change", throwIfNotFound: true);
+        // Cursor1
+        m_Cursor1 = asset.FindActionMap("Cursor1", throwIfNotFound: true);
+        m_Cursor1_Move = m_Cursor1.FindAction("Move", throwIfNotFound: true);
+        m_Cursor1_Select = m_Cursor1.FindAction("Select", throwIfNotFound: true);
+        m_Cursor1_Back = m_Cursor1.FindAction("Back", throwIfNotFound: true);
+        m_Cursor1_Leave = m_Cursor1.FindAction("Leave", throwIfNotFound: true);
+        m_Cursor1_Change = m_Cursor1.FindAction("Change", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -951,6 +1110,84 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         }
     }
     public CursorActions @Cursor => new CursorActions(this);
+
+    // Cursor1
+    private readonly InputActionMap m_Cursor1;
+    private List<ICursor1Actions> m_Cursor1ActionsCallbackInterfaces = new List<ICursor1Actions>();
+    private readonly InputAction m_Cursor1_Move;
+    private readonly InputAction m_Cursor1_Select;
+    private readonly InputAction m_Cursor1_Back;
+    private readonly InputAction m_Cursor1_Leave;
+    private readonly InputAction m_Cursor1_Change;
+    public struct Cursor1Actions
+    {
+        private @InputMaster m_Wrapper;
+        public Cursor1Actions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Cursor1_Move;
+        public InputAction @Select => m_Wrapper.m_Cursor1_Select;
+        public InputAction @Back => m_Wrapper.m_Cursor1_Back;
+        public InputAction @Leave => m_Wrapper.m_Cursor1_Leave;
+        public InputAction @Change => m_Wrapper.m_Cursor1_Change;
+        public InputActionMap Get() { return m_Wrapper.m_Cursor1; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Cursor1Actions set) { return set.Get(); }
+        public void AddCallbacks(ICursor1Actions instance)
+        {
+            if (instance == null || m_Wrapper.m_Cursor1ActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Cursor1ActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
+            @Leave.started += instance.OnLeave;
+            @Leave.performed += instance.OnLeave;
+            @Leave.canceled += instance.OnLeave;
+            @Change.started += instance.OnChange;
+            @Change.performed += instance.OnChange;
+            @Change.canceled += instance.OnChange;
+        }
+
+        private void UnregisterCallbacks(ICursor1Actions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
+            @Leave.started -= instance.OnLeave;
+            @Leave.performed -= instance.OnLeave;
+            @Leave.canceled -= instance.OnLeave;
+            @Change.started -= instance.OnChange;
+            @Change.performed -= instance.OnChange;
+            @Change.canceled -= instance.OnChange;
+        }
+
+        public void RemoveCallbacks(ICursor1Actions instance)
+        {
+            if (m_Wrapper.m_Cursor1ActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICursor1Actions instance)
+        {
+            foreach (var item in m_Wrapper.m_Cursor1ActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Cursor1ActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Cursor1Actions @Cursor1 => new Cursor1Actions(this);
     private int m_XboxControlSchemeSchemeIndex = -1;
     public InputControlScheme XboxControlSchemeScheme
     {
@@ -991,6 +1228,14 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnInvert(InputAction.CallbackContext context);
     }
     public interface ICursorActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
+        void OnChange(InputAction.CallbackContext context);
+    }
+    public interface ICursor1Actions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
