@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class MenuCursor : MonoBehaviour
 {
@@ -176,6 +177,8 @@ public class MenuCursor : MonoBehaviour
         {
             WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
         }
+
+        EventSystem.current.SetSelectedGameObject(WD.getRedSlider().gameObject);
     }
 
     public void StartHovering(string item, int ID)
