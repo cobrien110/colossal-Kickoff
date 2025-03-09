@@ -23,7 +23,7 @@ public class CutsceneManager : MonoBehaviour
 
     // sound management
     private float[] samples = new float[1024]; // Buffer for sample data
-    private float silenceThreshold = 0.01f; // Adjust this threshold as needed
+    private float silenceThreshold = 0.005f; // Adjust this threshold as needed
 
     [Serializable]
     public struct VoiceLine
@@ -121,9 +121,9 @@ public class CutsceneManager : MonoBehaviour
         {
             ANIM.SetBool("isTalking", true);
         }
-        if (eventNum == 13)
+        if (eventNum == 16 || eventNum == 29 || eventNum == 30 || eventNum == 31 || eventNum == 35 || eventNum == 37)
         {
-            //ANIM.Play("OrcmanSmash");
+            ANIM.Play("OrcmanSmash");
         }
         if (eventNum == 37)
         {
