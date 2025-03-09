@@ -15,7 +15,7 @@ public class JunkThrower : MonoBehaviour
 
     public float arcTime = 2f;
     public float arcHeight = 3f;
-    private float elapsedArcTime = 0f;
+    //private float elapsedArcTime = 0f;
 
     private void Start()
     {

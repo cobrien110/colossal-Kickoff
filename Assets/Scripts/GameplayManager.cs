@@ -25,7 +25,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private List<GameObject> playerList;
     [SerializeField] private MonsterController MC = null;
     [SerializeField] private WarriorController WC = null;
-    [SerializeField] private MultipleTargetCamera MTC = null;
+    //[SerializeField] private MultipleTargetCamera MTC = null;
     [SerializeField] private GameObject WarriorAI = null;
     [SerializeField] private GameObject MonsterAI = null;
     [SerializeField] private GameObject MonsterPlayer = null;
