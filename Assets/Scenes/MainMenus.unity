@@ -4776,7 +4776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &434046184
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54259,7 +54259,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -778736849924637560, guid: f12a533de7ddf50489d8d6fca59ee4e0, type: 3}
+  - {fileID: 2100000, guid: b21441115fc5e0141a271317239541b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -58262,6 +58262,7 @@ GameObject:
   - component: {fileID: 4958665729325493387}
   - component: {fileID: 8322480175960187694}
   - component: {fileID: 6096630252250240996}
+  - component: {fileID: 8322480175960187695}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -58841,7 +58842,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -778736849924637560, guid: f12a533de7ddf50489d8d6fca59ee4e0, type: 3}
+  - {fileID: 2100000, guid: b21441115fc5e0141a271317239541b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65100,7 +65101,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -778736849924637560, guid: f12a533de7ddf50489d8d6fca59ee4e0, type: 3}
+  - {fileID: 2100000, guid: b21441115fc5e0141a271317239541b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65949,7 +65950,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -778736849924637560, guid: f12a533de7ddf50489d8d6fca59ee4e0, type: 3}
+  - {fileID: 2100000, guid: b21441115fc5e0141a271317239541b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74610,6 +74611,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5736293560868222513}
   m_Mesh: {fileID: -425171608731709130, guid: 324e0f0220db1c9418cffabe7d8e6c16, type: 3}
+--- !u!114 &8322480175960187695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5736293560868222513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb1a69c0d62ec743877196dcdc9ea03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8323587449870673604
 Transform:
   m_ObjectHideFlags: 0
