@@ -103,6 +103,8 @@ public class MonsterController : MonoBehaviour
         transform.position = monsterSpawner.transform.position;
         //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
+        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
         StartCoroutine(RemoveNullAbilities());
@@ -695,6 +697,8 @@ public class MonsterController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = monsterSpawner.transform.position;
+        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+
         isIntangible = false;
         for (int i = 0; i < abilities.Count; i++)
         {
