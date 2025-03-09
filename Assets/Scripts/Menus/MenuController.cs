@@ -16,6 +16,8 @@ public class MenuController : MonoBehaviour
     //camera that this can move around
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
+    [SerializeField] private EarthController EC;
+
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons;
     
