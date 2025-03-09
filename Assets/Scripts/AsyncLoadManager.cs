@@ -8,13 +8,18 @@ public class AsyncLoadManager : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject loadingCanvas;
+    [SerializeField] private bool hasLoadingBar;
+    [SerializeField] private bool autoSwitchOnLoad = true;
 
     [SerializeField] private Image loadBar;
 
     public void BeginLoad(string levelName)
     {
-        mainMenuCanvas.SetActive(false);
-        loadingCanvas.SetActive(true);
+        if (hasLoadingBar)
+        {
+            if (mainMenuCanvas != null) mainMenuCanvas.SetActive(false);
+            if (loadingCanvas != null) loadingCanvas.SetActive(true);
+        }
 
         StartCoroutine(LoadLevelAsync(levelName));
     }
@@ -22,12 +27,18 @@ public class AsyncLoadManager : MonoBehaviour
     private IEnumerator LoadLevelAsync(string levelName)
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelName);
+        if (!autoSwitchOnLoad) loadOperation.allowSceneActivation = false; // Prevent auto-switching
 
         while (!loadOperation.isDone)
         {
             float progressValue = Mathf.Clamp01(loadOperation.progress / .9f);
-            loadBar.fillAmount = progressValue;
+            if (loadBar != null) loadBar.fillAmount = progressValue;
             yield return null;
         }
+    }
+
+    public void LoadScene(string levelName)
+    {
+        SceneManager.LoadScene(levelName);
     }
 }

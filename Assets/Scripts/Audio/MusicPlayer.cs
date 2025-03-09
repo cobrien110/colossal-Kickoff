@@ -41,9 +41,10 @@ public class MusicPlayer : MonoBehaviour
         //if (isPersistent && isCutsceneTheme) DontDestroyOnLoad(this.gameObject);
     }
 
+    /*
     private void OnLevelWasLoaded(int level)
     {
-        /*
+        
         if (level != 1)
         {
             gameObject.SetActive(false);
@@ -53,8 +54,9 @@ public class MusicPlayer : MonoBehaviour
             source.time = 0f;
             UnPauseMusic();
         }
-        */
+        
     }
+    */
 
     // Update is called once per frame
     void Update()

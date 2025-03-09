@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -20,6 +19,7 @@ public class CutsceneManager : MonoBehaviour
     public Image fadeIn;
     public float fadeSpeed = 1f;
     bool isFadingIn = false;
+    public AsyncLoadManager ALM;
 
     // sound management
     private float[] samples = new float[1024]; // Buffer for sample data
@@ -42,6 +42,7 @@ public class CutsceneManager : MonoBehaviour
         subtitlesText.color = Color.green;
 
         ANIM.SetBool("isTalking", false);
+        ALM.BeginLoad(menuSceneName);
 
         //subtitlesText.text = "TEST TEST";
         StartCoroutine(StartSubtitles());
@@ -77,7 +78,7 @@ public class CutsceneManager : MonoBehaviour
         {
             if (gamepad.startButton.wasPressedThisFrame)
             {
-                SceneManager.LoadScene(menuSceneName);
+                ALM.LoadScene(menuSceneName);
             }
         }
     }
@@ -112,7 +113,7 @@ public class CutsceneManager : MonoBehaviour
 
         subtitles.SetActive(false);
         yield return new WaitForSecondsRealtime(1f);
-        SceneManager.LoadScene(menuSceneName);
+        ALM.LoadScene(menuSceneName);
     }
 
     void DoEvent(int eventNum)

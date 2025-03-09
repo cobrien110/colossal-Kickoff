@@ -1324,6 +1324,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445847677}
   m_CullTransparentMesh: 1
+--- !u!1 &1747158434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1747158436}
+  - component: {fileID: 1747158435}
+  m_Layer: 5
+  m_Name: AsychLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1747158435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747158434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45204b6e34320cd4e8bbc4b845d06613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuCanvas: {fileID: 0}
+  loadingCanvas: {fileID: 0}
+  hasLoadingBar: 0
+  autoSwitchOnLoad: 0
+  loadBar: {fileID: 0}
+--- !u!224 &1747158436
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747158434}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1789552601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1587,7 @@ MonoBehaviour:
   sound: {fileID: 1205829938}
   fadeIn: {fileID: 830388852}
   fadeSpeed: 1
+  ALM: {fileID: 1747158435}
   voiceLines:
   - text: Good evening. This is Colossal News.
     time: 2.85
@@ -1856,3 +1910,4 @@ SceneRoots:
   - {fileID: 1390770111}
   - {fileID: 938721114}
   - {fileID: 1957958096}
+  - {fileID: 1747158436}
