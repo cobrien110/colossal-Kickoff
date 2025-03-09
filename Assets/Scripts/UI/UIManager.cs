@@ -807,7 +807,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            if ((currentDeaths >= 0 && deathsL.Count == 0) || currentDeaths >= goalsL[0])
+            if ((deathsL.Count == 0) || currentDeaths <= deathsL[0])
             {
                 if (deathsL.Count == 0 || deathsL.Contains(currentDeaths))
                 {

@@ -750,6 +750,7 @@ public class WarriorController : MonoBehaviour
 
         ST.UpdateMKills();
         UM.UpdateMonsterKillsSB();
+        WUI.ShowCallForPass(false);
 
         isDead = true;
         isInvincible = true;

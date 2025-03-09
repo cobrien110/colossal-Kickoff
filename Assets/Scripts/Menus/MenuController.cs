@@ -48,6 +48,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
     [SerializeField] private GameObject readyText;
+    [SerializeField] private GameObject hideWhenReady;
+    [SerializeField] private GameObject showWhenReady;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
     private SceneManager SM;
     /**
@@ -439,6 +441,8 @@ public class MenuController : MonoBehaviour
         {
             canMoveToGame = true;
             readyText.SetActive(true);
+            hideWhenReady.SetActive(false);
+            showWhenReady.SetActive(true);
         }
     }
 
@@ -452,6 +456,8 @@ public class MenuController : MonoBehaviour
         {
             canMoveToGame = false;
             readyText.SetActive(false);
+            hideWhenReady.SetActive(true);
+            showWhenReady.SetActive(false);
         }
     }
 
@@ -540,7 +546,7 @@ public class MenuController : MonoBehaviour
     }
     #endregion
 
-    #region Controler Connection
+    #region Controller Connection
 
     public void showConnected(int playerNumber)
     {
