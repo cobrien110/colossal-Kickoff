@@ -289,8 +289,10 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(quitFirstButton);
                 quitGameButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
+                //sound
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
-
+                
             //CREDITS
             case 3:
                 currentScreen = 5;
