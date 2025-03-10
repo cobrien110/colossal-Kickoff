@@ -321,7 +321,8 @@ public class MenuController : MonoBehaviour
 
     public void backToStageSelect()
     {
-        sceneEventSystem.SetActive(true);
+        sceneEventSystem.GetComponent<EventSystem>().enabled = true;
+
         currentScreen = 3;
         /**findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {
@@ -611,7 +612,8 @@ public class MenuController : MonoBehaviour
             cursors[i].GetComponent<MenuCursor>().showCursor();
         }
 
-        sceneEventSystem.SetActive(false);
+        //sceneEventSystem.SetActive(false);
+        sceneEventSystem.GetComponent<EventSystem>().enabled = false;
 
         //set these just in case
         numPlayersConfirmed = 0;

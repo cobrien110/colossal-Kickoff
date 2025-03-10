@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerHolder : MonoBehaviour
 {
@@ -18,12 +19,14 @@ public class PlayerHolder : MonoBehaviour
     public Color warriorColor;
 
     public InputActionAsset InputMaster;
+    public GameObject sceneES;
 
     // Start is called before the first frame update
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
 
+        sceneES = GameObject.Find("EventSystem");
         //playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
         SetPlayerID();
 
@@ -70,6 +73,15 @@ public class PlayerHolder : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        if (sceneES != null)
+        {
+            sceneES.SetActive(false);
+            sceneES.SetActive(true);
+        }
     }
 
     // Update is called once per frame
