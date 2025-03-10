@@ -454,16 +454,6 @@ public class UIManager : MonoBehaviour
             BP.ResetBall();
             GM.OvertimeMusic();
         }
-
-        if (pref == 2)
-        {
-            overtime = false;
-            ShowGameOverText(true, 2);
-            ST.UpdateGameWinner(CheckWinner());
-
-            //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
-            ShowInGameUI(false);
-        }
     }
 
     public IEnumerator SuddenDeath()
