@@ -136,11 +136,12 @@ public class MusicPlayer : MonoBehaviour
     public void PlayResults()
     {
         isFadingOut = true;
-        MPR.UnPauseMusic();
+        if (MPR != null) MPR.UnPauseMusic();
     }
 
     public void SwitchToOvertime()
     {
+        if (MPO == null) return;
         Debug.Log("MP switching to overtime music");
         //PauseMusicNoFloor();
         isFadingOut = true;
