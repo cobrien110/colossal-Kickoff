@@ -135,6 +135,8 @@ public class UIManager : MonoBehaviour
     StatTracker ST;
     //TMP_InputField console;
 
+    public bool overtime = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -295,6 +297,7 @@ public class UIManager : MonoBehaviour
         //Check winner
         if (warriorScore != monsterScore)
         {
+            overtime = false;
             ShowGameOverText(true, CheckWinner());
             ST.UpdateGameWinner(CheckWinner());
             
@@ -306,7 +309,7 @@ public class UIManager : MonoBehaviour
         //OT
         else if (warriorScore == monsterScore)
         {
-            Overtime();
+            Overtime(PlayerPrefs.GetInt("overtime"));
         }
 
         //Debug.Log("End Coroutine");
@@ -426,12 +429,68 @@ public class UIManager : MonoBehaviour
         StopCoroutine(timerCoroutine);
     }
 
-    public void Overtime()
+    public void Overtime(int pref)
     {
-        timeRemainingSeconds = 60;
-        BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
-        BP.ResetBall();
-        GM.OvertimeMusic();
+        overtime = true;
+        //Standard
+        if (pref == 0)
+        {
+            timeRemainingSeconds = 60;
+            BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
+            BP.ResetBall();
+            GM.OvertimeMusic();
+        }
+
+        //Sudden Death
+        if (pref == 1)
+        {
+            timeRemainingSeconds = 60;
+            BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
+            BP.ResetBall();
+            
+            //StopTimer();
+            //StartCoroutine(SuddenDeath());
+        }
+
+        if (pref == 2)
+        {
+            overtime = false;
+            ShowGameOverText(true, 2);
+            ST.UpdateGameWinner(CheckWinner());
+
+            //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
+            ShowInGameUI(false);
+        }
+    }
+
+    public IEnumerator SuddenDeath()
+    {
+        int minutes;
+        int seconds;
+        float timeAdded = 0f;
+        timeRemainingSeconds = 0;
+        while (warriorScore == monsterScore)
+        {
+            minutes = (int)timeAdded / 60;
+            seconds = (int)timeAdded % 60;
+
+            if (seconds < 10)
+            {
+                scoreTextTimer.text = "" + minutes + ":0" + seconds;
+            }
+            else
+            {
+                scoreTextTimer.text = "" + minutes + ":" + seconds;
+            }
+            timeAdded += Time.deltaTime;
+        }
+        overtime = false;
+        ShowGameOverText(true, CheckWinner());
+        ST.UpdateGameWinner(CheckWinner());
+
+        //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
+        ShowInGameUI(false);
+        yield break;
     }
 
     public int GetTimeRemaining()

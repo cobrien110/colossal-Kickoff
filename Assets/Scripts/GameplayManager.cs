@@ -130,7 +130,7 @@ public class GameplayManager : MonoBehaviour
             ResetGame();
         }
 
-        if (UM.GetTimeRemaining() <= 0 && !podiumSequenceStarted)
+        if (UM.GetTimeRemaining() <= 0 && !podiumSequenceStarted && UM.overtime == false)
         {
             // Before ending game, trigger Podium Sequence
             //StopPlaying();
@@ -192,6 +192,12 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
+        //If Sudden Death, do not continue function
+        if (UM.overtime && PlayerPrefs.GetInt("overtime") == 1)
+        {
+            return;
+        }
+
         //StopPlaying();
         UM.StopTimer();
         if (MP != null) MP.PauseMusic();

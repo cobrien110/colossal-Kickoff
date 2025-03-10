@@ -424,7 +424,6 @@ public class BallProperties : MonoBehaviour
         {
             CSM.PlayGoalSound(!isWarriorGoal);
         }
-        
 
         Debug.Log("RESET");
         // Update the last scored ball for the delayed start

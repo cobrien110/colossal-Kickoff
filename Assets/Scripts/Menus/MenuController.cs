@@ -68,6 +68,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider effectsSlider, musicSlider, comVolumeSlider, comFreqSlider;
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private TMP_Dropdown goalDropdown;
+    [SerializeField] private TMP_Dropdown overtimeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton;
     [SerializeField] private Button settingsHeaderButton, settingsBackButton;
@@ -486,6 +487,7 @@ public class MenuController : MonoBehaviour
 
     #region Settings Management
 
+    //Gameplay Settings
     public void setGore()
     {
         PlayerPrefs.SetInt("goreMode", goreDropdown.value);
@@ -494,14 +496,22 @@ public class MenuController : MonoBehaviour
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setGoalBarriers()
+    public void setScreenshake()
     {
-        PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
+        if (screenshakeToggle.isOn)
+        {
+            PlayerPrefs.SetInt("screenshake", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("screenshake", 0);
+        }
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
+    //Audio Settings
     public void setMusicVolume()
     {
         PlayerPrefs.SetFloat("musicVolume", musicSlider.value / 100f);
@@ -535,17 +545,19 @@ public class MenuController : MonoBehaviour
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void setScreenshake()
-    {
-        if (screenshakeToggle.isOn)
-        {
-            PlayerPrefs.SetInt("screenshake", 1);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("screenshake", 0);
-        }
 
+    //Match Settings
+    public void setGoalBarriers()
+    {
+        PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public  void SetOvertime()
+    {
+        PlayerPrefs.SetInt("overtime", overtimeDropdown.value);
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
