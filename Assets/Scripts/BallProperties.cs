@@ -404,46 +404,81 @@ public class BallProperties : MonoBehaviour
 
     private void ScoreBall(bool isWarriorGoal, Transform t)
     {
-        GameObject scorer = previousKicker;
-        if (ballOwner != null) scorer = ballOwner;
-        // Play goal effects
-        try
+        //Sudden Death Goal
+        if (GM.overtimeStyle == 1 && UM.overtime)
         {
-            GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
-            goal.PerformGoalEffects();
-            //Debug.Log("Previous kicker");
-            if (scorer != null) MTC.FocusOn(scorer.transform);
-            StartCoroutine(MTC.ScreenShake(2.0f));
-            //ballOwner = null;
+            Debug.Log("I am in the right place for OT");
+            GameObject scorer = previousKicker;
+            if (ballOwner != null) scorer = ballOwner;
+            // Play goal effects
+            try
+            {
+                GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+                goal.PerformGoalEffects();
+                //Debug.Log("Previous kicker");
+                if (scorer != null) MTC.FocusOn(scorer.transform);
+                StartCoroutine(MTC.ScreenShake(2.0f));
+                //ballOwner = null;
+            }
+            catch
+            {
+                Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
+            }
+            if (CSM != null)
+            {
+                CSM.PlayGoalSound(!isWarriorGoal);
+            }
+            GM.SetLastScoredGoal(t);
+            ballOwner = null;
+            isInteractable = false;
+            previousKicker = null;
         }
-        catch
+        //Regulation Goal
+        else
         {
-            Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
-        }
-        if (CSM != null)
-        {
-            CSM.PlayGoalSound(!isWarriorGoal);
-        }
+            Debug.Log("I am in the wrong place for OT");
+            GameObject scorer = previousKicker;
+            if (ballOwner != null) scorer = ballOwner;
+            // Play goal effects
+            try
+            {
+                GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+                goal.PerformGoalEffects();
+                //Debug.Log("Previous kicker");
+                if (scorer != null) MTC.FocusOn(scorer.transform);
+                StartCoroutine(MTC.ScreenShake(2.0f));
+                //ballOwner = null;
+            }
+            catch
+            {
+                Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
+            }
+            if (CSM != null)
+            {
+                CSM.PlayGoalSound(!isWarriorGoal);
+            }
 
-        Debug.Log("RESET");
-        // Update the last scored ball for the delayed start
-        GM.SetLastScoredGoal(t);
-        ResetBall();
 
-        AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
-        globalAudioPlayer.PlaySoundRandomPitch(globalAudioPlayer.Find("goal"));
+            Debug.Log("RESET");
+            // Update the last scored ball for the delayed start
+            GM.SetLastScoredGoal(t);
+            ResetBall();
 
-        // Reset mummies if applicable
-        MonsterController mc = FindObjectOfType<MonsterController>();
-        if (mc != null)
-        {
-            AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
-            if (aiMummyManager != null) aiMummyManager.ResetMummies();
-        }
+            AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
+            globalAudioPlayer.PlaySoundRandomPitch(globalAudioPlayer.Find("goal"));
 
-        mc.ResetAbilities();
+            // Reset mummies if applicable
+            MonsterController mc = FindObjectOfType<MonsterController>();
+            if (mc != null)
+            {
+                AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
+                if (aiMummyManager != null) aiMummyManager.ResetMummies();
+            }
 
-        AbilityScript.canActivate = false;
+            mc.ResetAbilities();
+
+            AbilityScript.canActivate = false;
+        } 
     }
 
     public void ResetBall()
