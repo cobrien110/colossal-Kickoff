@@ -71,9 +71,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown overtimeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton;
-    [SerializeField] private Button settingsHeaderButton, settingsBackButton;
+    [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
     Navigation backNavi = new Navigation();
-    Navigation headerNavi = new Navigation();
+    Navigation controlsNavi = new Navigation();
+    Navigation audioNavi = new Navigation();
+    Navigation gameplayNavi = new Navigation();
 
     private int numPlayersConfirmed = 0;
     public bool canMoveToGame = false;
@@ -102,8 +104,12 @@ public class MenuController : MonoBehaviour
         //Settings Navigation
         backNavi = settingsBackButton.navigation;
         backNavi.mode = Navigation.Mode.Explicit;
-        headerNavi = settingsBackButton.navigation;
-        headerNavi.mode = Navigation.Mode.Explicit;
+        controlsNavi = settingsControlsButton.navigation;
+        controlsNavi.mode = Navigation.Mode.Explicit;
+        audioNavi = settingsAudioButton.navigation;
+        audioNavi.mode = Navigation.Mode.Explicit;
+        gameplayNavi = settingsGameplayButton.navigation;
+        gameplayNavi.mode = Navigation.Mode.Explicit;
 
         //Match Settings Navigation
         lastStageNavi = settingsBackButton.navigation;
@@ -356,7 +362,7 @@ public class MenuController : MonoBehaviour
     }
 
     //Change this to flip between screens with Dpad at some point
-    public void SettingsSwap()
+    public void SettingsSwap(int type)
     {
         //Add controller menu nav
 
@@ -367,41 +373,66 @@ public class MenuController : MonoBehaviour
         //Navigation navigation = new Navigation();
 
         //weird bug where if this isnt present, header on select up gets set to toggle screen shake???
-        headerNavi.selectOnUp = settingsBackButton;
-        backNavi.selectOnDown = settingsHeaderButton;
+        controlsNavi.selectOnUp = settingsBackButton;
+        audioNavi.selectOnUp = settingsBackButton;
+        gameplayNavi.selectOnUp = settingsBackButton;
+        backNavi.selectOnDown = settingsGameplayButton;
 
-        if (gameplaySettings.activeInHierarchy)
+        //Audio
+        if (type == 0)
         {
             gameplaySettings.SetActive(false);
+            controlSettings.SetActive(false);
             audioSettings.SetActive(true);
-            settingsHeader.text = "AUDIO";
+            //settingsHeader.text = "AUDIO";
 
-            headerNavi.selectOnDown = effectsSlider;
-            settingsHeaderButton.navigation = headerNavi;
+            controlsNavi.selectOnDown = effectsSlider;
+            settingsControlsButton.navigation = controlsNavi;
+            audioNavi.selectOnDown = effectsSlider;
+            settingsAudioButton.navigation = audioNavi;
+            gameplayNavi.selectOnDown = effectsSlider;
+            settingsGameplayButton.navigation = gameplayNavi;
+
             backNavi.selectOnUp = comFreqSlider;
+            backNavi.selectOnDown = settingsAudioButton;
             settingsBackButton.navigation = backNavi;
-            //Debug.Log("What");
         }
-        else if (audioSettings.activeInHierarchy)
+        //Controls
+        else if (type == 1)
         {
             audioSettings.SetActive(false);
+            gameplaySettings.SetActive(false);
             controlSettings.SetActive(true);
-            settingsHeader.text = "CONTROLS";
+            //settingsHeader.text = "CONTROLS";
 
-            headerNavi.selectOnDown = settingsBackButton;
-            settingsHeaderButton.navigation = headerNavi;
-            backNavi.selectOnUp = settingsHeaderButton;
+            controlsNavi.selectOnDown = settingsBackButton;
+            settingsControlsButton.navigation = controlsNavi;
+            audioNavi.selectOnDown = settingsBackButton;
+            settingsAudioButton.navigation = audioNavi;
+            gameplayNavi.selectOnDown = settingsBackButton;
+            settingsGameplayButton.navigation = gameplayNavi;
+
+            backNavi.selectOnUp = settingsControlsButton;
+            backNavi.selectOnDown = settingsControlsButton;
             settingsBackButton.navigation = backNavi;
         }
-        else if (controlSettings.activeInHierarchy)
+        //Gameplay
+        else if (type == 2)
         {
             controlSettings.SetActive(false);
+            audioSettings.SetActive(false);
             gameplaySettings.SetActive(true);
-            settingsHeader.text = "GAMEPLAY";
+            //settingsHeader.text = "GAMEPLAY";
 
-            headerNavi.selectOnDown = goreDropdown;
-            settingsHeaderButton.navigation = headerNavi;
+            controlsNavi.selectOnDown = goreDropdown;
+            settingsControlsButton.navigation = controlsNavi;
+            audioNavi.selectOnDown = goreDropdown;
+            settingsAudioButton.navigation = audioNavi;
+            gameplayNavi.selectOnDown = goreDropdown;
+            settingsGameplayButton.navigation = gameplayNavi;
+
             backNavi.selectOnUp = screenshakeToggle;
+            backNavi.selectOnDown = settingsGameplayButton;
             settingsBackButton.navigation = backNavi;
         }
 
