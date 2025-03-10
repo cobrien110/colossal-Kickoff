@@ -5784,6 +5784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 275178417392239571}
   - component: {fileID: 3247079744594809931}
+  - component: {fileID: 5240525659784545030}
   m_Layer: 7
   m_Name: AimerParent
   m_TagString: Untagged
@@ -5800,7 +5801,7 @@ Transform:
   m_GameObject: {fileID: 5388751732399795378}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.95, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5824,6 +5825,21 @@ MonoBehaviour:
   arrowColor: {r: 0, g: 0, b: 0, a: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
+--- !u!114 &5240525659784545030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5388751732399795378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd3b9eb3b32b2e449f82ce2977509b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &6004576494202542484
 GameObject:
   m_ObjectHideFlags: 0
@@ -6083,7 +6099,7 @@ Transform:
   m_GameObject: {fileID: 8021528492215596497}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

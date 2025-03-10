@@ -197,6 +197,7 @@ public class AbilityFirebreath : AbilityScript
     private void OnDrawGizmos()
     {
         // Define the start and end positions for the firebreath
+        if (monsterGoal == null) return;
         Vector3 startPosition = new Vector3(monsterGoal.transform.position.x, transform.position.y, transform.position.z);
         Vector3 endPosition = new Vector3(distToStopAtX, transform.position.y, transform.position.z);
 
