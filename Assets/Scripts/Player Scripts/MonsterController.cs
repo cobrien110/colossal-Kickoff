@@ -108,7 +108,7 @@ public class MonsterController : MonoBehaviour
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
         StartCoroutine(RemoveNullAbilities());
-        chargeSpeed = GM.monsterKickChargeSpeed;
+        
     }
 
     void Start()
@@ -117,6 +117,8 @@ public class MonsterController : MonoBehaviour
         MUI = GetComponentInChildren<MonsterUI>();
         UM.ShowMonsterUI(true);
         pickupBallTimer = pickupBallCooldown;
+        chargeSpeed = GM.monsterKickChargeSpeed;
+        Debug.Log("CHARGE SPEED" + chargeSpeed);
     }
 
     // Temp Controller Scheme Swap

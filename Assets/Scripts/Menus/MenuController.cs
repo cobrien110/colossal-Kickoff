@@ -69,6 +69,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private TMP_Dropdown goalDropdown;
     [SerializeField] private TMP_Dropdown overtimeDropdown;
+    [SerializeField] private TMP_Dropdown kickchargeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton;
     [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
@@ -586,9 +587,16 @@ public class MenuController : MonoBehaviour
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public  void SetOvertime()
+    public void SetOvertime()
     {
         PlayerPrefs.SetInt("overtime", overtimeDropdown.value);
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetKickCharge()
+    {
+        PlayerPrefs.SetInt("kickcharge", kickchargeDropdown.value);
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }

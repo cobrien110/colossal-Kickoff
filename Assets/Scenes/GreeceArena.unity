@@ -11344,17 +11344,6 @@ CapsuleCollider:
   m_Height: 15.627906
   m_Direction: 1
   m_Center: {x: 0.010231498, y: -0.11238431, z: 0.004807473}
---- !u!114 &1412701117 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1505253126057819337, guid: 703c3a51f74a62342af4d533deac197c, type: 3}
-  m_PrefabInstance: {fileID: 9145875424138501202}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9145875424138501203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 326fe6f8646876344b2dc0694c461de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1414284935 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5508468846492758630, guid: 74d338244021286438a58a5bba4e55d3, type: 3}
@@ -18355,12 +18344,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 115017663}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: MTC
-      value: 
-      objectReference: {fileID: 1412701117}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: gameSeconds
-      value: 180
+      propertyPath: automaticAISpawn
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x

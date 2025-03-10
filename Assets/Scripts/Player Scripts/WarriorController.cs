@@ -134,7 +134,6 @@ public class WarriorController : MonoBehaviour
         audioPlayer = GetComponent<AudioPlayer>();
         respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
         health = healthMax;
-        chargeSpeed = GM.warriorKickChargeSpeed;
         spriteScale = spriteObject.transform.localScale;
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
 
@@ -147,6 +146,7 @@ public class WarriorController : MonoBehaviour
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         pickupBallTimer = pickupBallCooldown;
+        chargeSpeed = GM.warriorKickChargeSpeed;
     }
 
     // Temp Controller Scheme Swap

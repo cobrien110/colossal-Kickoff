@@ -20,8 +20,8 @@ public class GameplayManager : MonoBehaviour
     private float pauseTimer = 0f;
     private bool podiumSequenceStarted = false;
     public int gameSeconds;
-    public float warriorKickChargeSpeed = 1;
-    public float monsterKickChargeSpeed = 1;
+    public float warriorKickChargeSpeed;
+    public float monsterKickChargeSpeed;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private List<GameObject> playerList;
@@ -58,7 +58,11 @@ public class GameplayManager : MonoBehaviour
     public float barrierBounceForce = 150f;
     public float barrierBounceAngle = 45f;
     private AiMummyManager aiMummymanager;
-    
+
+    [Header("Player Settings")]
+    public int overtimeStyle = 0;
+    public int chargeStyle = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -86,7 +90,12 @@ public class GameplayManager : MonoBehaviour
             count++;
         }
 
-        if (usePlayerPrefs) GetBarrierPrefs();
+        if (usePlayerPrefs)
+        {
+            GetBarrierPrefs();
+            GetOvertimePrefs();
+            GetChargePrefs();
+        }
         SetPlayerColors();
     }
 
@@ -326,6 +335,35 @@ public class GameplayManager : MonoBehaviour
             // NO BARRIERS
             barriersAreOn = false;
         }
+    }
+
+    private void GetOvertimePrefs()
+    {
+        overtimeStyle = PlayerPrefs.GetInt("overtime");
+    }
+
+    private void GetChargePrefs()
+    {
+        chargeStyle = PlayerPrefs.GetInt("kickcharge");
+        if (chargeStyle == 0)
+        {
+            //STANDARD
+            monsterKickChargeSpeed = 1.0f;
+            warriorKickChargeSpeed = 1.0f;
+        }
+        else if (chargeStyle == 1)
+        {
+            //FAST
+            monsterKickChargeSpeed = 1.5f;
+            warriorKickChargeSpeed = 1.5f;
+        }
+        else
+        {
+            //SLOW
+            monsterKickChargeSpeed = 0.5f;
+            warriorKickChargeSpeed = 0.5f;
+        }
+
     }
 
     public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
