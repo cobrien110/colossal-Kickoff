@@ -8289,10 +8289,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2855651342002802277, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
+      propertyPath: volume
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 7386122243375959851, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: 89a02fa4e5d048b40830e5e5e876b48f, type: 3}
     - target: {fileID: 7944897939472487236, guid: 3d899f4274b0abd47b23de4850f71fe1, type: 3}
       propertyPath: m_Name
       value: Jukebox
@@ -24050,6 +24054,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1412701117}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: gameSeconds
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: barriersAreOn
       value: 1
       objectReference: {fileID: 0}
@@ -24277,63 +24285,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2401d58fcb2aeb4c8f5f50fb77199fa, type: 3}
---- !u!1001 &1795823940105552305
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634055326129823748, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5264593554761257965, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
-      propertyPath: m_Name
-      value: FlameSurface
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
 --- !u!1001 &4067862408232743441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25149,4 +25100,3 @@ SceneRoots:
   - {fileID: 648130826}
   - {fileID: 793771380}
   - {fileID: 206080698}
-  - {fileID: 1795823940105552305}

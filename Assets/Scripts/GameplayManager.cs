@@ -15,6 +15,7 @@ public class GameplayManager : MonoBehaviour
     public bool isPlaying = false;
     public bool isGameOver = false;
     public bool isPaused = false;
+    public bool overtimeStarted = false;
     private float pauseDelay = .5f;
     private float pauseTimer = 0f;
     private bool podiumSequenceStarted = false;
@@ -32,7 +33,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject MonsterPlayer = null;
     public bool debugMode;
     private PlayerInputManager PIM = null;
-    private MusicPlayer MP = null;
+    [SerializeField] private MusicPlayer MP = null;
     //private MusicPlayerResults MPr = null;
     private PodiumSequencer PS;
     private GameObject BallSpawner = null;
@@ -150,11 +151,11 @@ public class GameplayManager : MonoBehaviour
 
     public void StartPlaying()
     {
-        //Debug.Log("Starting play");
+        Debug.Log("Starting play");
         isPlaying = true;
         UM.StartTimer();
 
-        //Debug.Log("Calling Unpause music");
+        Debug.Log("Calling Unpause music");
         MP.UnPauseMusic();
     }
 
@@ -539,5 +540,17 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    public void OvertimeMusic()
+    {
+        if (!overtimeStarted)
+        {
+            MP.SwitchToOvertime();
+            overtimeStarted = true;
+        }
+    }
 
+    public void SetMP(MusicPlayer m)
+    {
+        MP = m;
+    }
 }
