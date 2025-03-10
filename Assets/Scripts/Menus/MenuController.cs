@@ -30,6 +30,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
     [SerializeField] private GameObject sceneEventSystem;
+    [SerializeField] private GameObject splashScreen;
 
     //Stage Images
     [SerializeField] private Image stageFade;
@@ -148,11 +149,20 @@ public class MenuController : MonoBehaviour
         //        break;
         //    }
         //}
-
         Gamepad gamepad = Gamepad.current;
+        if (splashScreen.activeInHierarchy && gamepad != null)
+        {
+            if (gamepad.buttonSouth.wasPressedThisFrame)
+            {
+                splashScreen.SetActive(false);
+                mainMenuButtons.SetActive(true);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+            }
+        }
+
         if (gamepad != null)
         {
-            if (gamepad.buttonEast.wasPressedThisFrame)
+            if (gamepad.buttonEast.wasPressedThisFrame && !splashScreen.activeInHierarchy)
             {
                 switch (currentScreen)
                 {
