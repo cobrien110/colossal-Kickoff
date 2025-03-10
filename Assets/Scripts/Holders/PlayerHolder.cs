@@ -43,9 +43,6 @@ public class PlayerHolder : MonoBehaviour
         {
             if (GameObject.Find("CharacterSelect") != null)
             {
-                //GetComponentInChildren<MultiplayerEventSystem>().playerRoot = GameObject.Find("Canvas");
-                //GetComponentInChildren<InputSystemUIInputModule>().actionsAsset = InputMaster;
-
                 GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
             } else
             {
@@ -94,9 +91,10 @@ public class PlayerHolder : MonoBehaviour
     {
         if (scene.name.Equals("MainMenus"))
         {
-            teamName = "";
-            monsterIndex = -1;
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            //teamName = "";
+            //monsterIndex = -1;
+            //GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            Destroy(this.gameObject);
         }
         else
         {

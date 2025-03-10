@@ -99,6 +99,10 @@ public class MenuController : MonoBehaviour
     #region Initialization
 
     void Start() {
+        GameObject currentES = EventSystem.current.gameObject;
+        currentES.SetActive(false);
+        currentES.SetActive(true);
+
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
         AP = GetComponent<AudioPlayer>();
