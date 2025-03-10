@@ -12,12 +12,25 @@ public class GashaShrine : MonoBehaviour
     private float timer;
     public Transform launchSpot;
 
+    public GameObject visual;
+    public Transform startPt;
+    public Transform endPt;
+    private float startTime;
+    private float journeyLength;
+    private bool movingBack = false;
+    public float speed = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
         DAD = GetComponent<DeleteAfterDelay>();
         DAD.NewTimer(duration);
         timer = timeBetweenSpawns / 2f;
+
+        startTime = Time.time;
+        visual.transform.position = startPt.transform.position;
+        journeyLength = Vector3.Distance(startPt.position, endPt.position);
+        StartCoroutine(Swap());
     }
 
     // Update is called once per frame
@@ -29,6 +42,10 @@ public class GashaShrine : MonoBehaviour
             CreateNewOrb();
             timer = 0;
         }
+
+        float distCovered = (Time.time - startTime) * speed;
+        float fractionOfJourney = distCovered / journeyLength;
+        visual.transform.position = Vector3.Lerp(visual.transform.position, endPt.position, fractionOfJourney);
     }
 
     void CreateNewOrb()
@@ -38,5 +55,20 @@ public class GashaShrine : MonoBehaviour
         Vector3 force = orbLaunchSpeed * dir;
         Debug.Log(force);
         o.Launch(force);
+    }
+
+    IEnumerator Swap()
+    {
+        yield return new WaitForSeconds(duration - 1);
+        MoveBackToGround();
+    }
+
+    public void MoveBackToGround()
+    {
+        startTime = Time.time;
+        Transform temp = endPt;
+        endPt = startPt;
+        startPt = temp;
+        movingBack = true;
     }
 }
