@@ -447,7 +447,7 @@ public class UIManager : MonoBehaviour
             timeRemainingSeconds = 60;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
             BP.ResetBall();
-            
+            GM.OvertimeMusic();
             //StopTimer();
             //StartCoroutine(SuddenDeath());
         }
