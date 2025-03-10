@@ -130,7 +130,8 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private float GetGreatestDistanceX()
     {
-        var bounds = new Bounds(targets[0].position, Vector3.zero);
+        var bounds = new Bounds(Vector3.zero, Vector3.zero);
+        if (targets[0] != null) bounds = new Bounds(targets[0].position, Vector3.zero);
         if (isFocusing && !CheckForDeadPlayer())
         {
             bounds.center = focusTarget.position;
@@ -139,7 +140,7 @@ public class MultipleTargetCamera : MonoBehaviour
         {
             for (int i = 0; i < targets.Count; i++)
             {
-                bounds.Encapsulate(targets[i].position);
+                if(targets[i] != null) bounds.Encapsulate(targets[i].position);
             }
         }
         return bounds.size.x;
@@ -147,10 +148,11 @@ public class MultipleTargetCamera : MonoBehaviour
 
     private float GetGreatestDistanceZ()
     {
-        var bounds = new Bounds(targets[0].position, Vector3.zero);
+        var bounds = new Bounds(Vector3.zero, Vector3.zero);
+        if (targets[0] != null) bounds = new Bounds(targets[0].position, Vector3.zero);
         for (int i = 0; i < targets.Count; i++)
         {
-            bounds.Encapsulate(targets[i].position);
+            if (targets[i] != null) bounds.Encapsulate(targets[i].position);
         }
         return bounds.size.z;
     }

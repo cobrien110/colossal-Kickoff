@@ -431,10 +431,13 @@ public class UIManager : MonoBehaviour
 
     public void Overtime(int pref)
     {
+        //if (overtime == true) return;
         overtime = true;
+        Debug.Log("UI ENTERING OT STYLE " + pref);
         //Standard
         if (pref == 0)
         {
+            //Debug.Log("UI ENTERING OT STYLE " + pref);
             scoreTextTimer.text = "OT";
             timeRemainingSeconds = 60;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();

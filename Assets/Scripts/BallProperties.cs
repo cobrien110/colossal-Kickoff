@@ -432,6 +432,10 @@ public class BallProperties : MonoBehaviour
             ballOwner = null;
             isInteractable = false;
             previousKicker = null;
+            if (SR != null) SR.enabled = false;
+            Invoke("DestroyDelay", 3.05f);
+
+            GM.ResetOvertime();
         }
         //Regulation Goal
         else

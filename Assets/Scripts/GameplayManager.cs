@@ -166,6 +166,15 @@ public class GameplayManager : MonoBehaviour
         {
             UM.SuddenDeathStart();
             OvertimeMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+        } else if (overtimeStyle == 0 && UM.overtime)
+        {
+            //UM.SuddenDeathStart();
+            OvertimeMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+            UM.StartTimer();
         }
         else
         {
@@ -185,6 +194,7 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("GM calling start of podium sequence");
         isGameOver = true;
+        overtimeStarted = false;
         MP.PlayResults();
         PS.StartPodiumSequence(PS.GetUI().CheckWinner());
         GameObject[] hazards = GameObject.FindGameObjectsWithTag("Hazard");
@@ -211,11 +221,24 @@ public class GameplayManager : MonoBehaviour
     {
         //StopPlaying();
         UM.StopTimer();
-        if (MP != null) MP.PauseMusic();
+        if ((MP != null && !overtimeStarted) || (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null)) MP.PauseMusic();
+        else Debug.Log("Failed to pause music");
         Invoke("FinalizeReset", 3f);
 
         MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn; 
+    }
+
+    public void ResetOvertime()
+    {
+        //StopPlaying();
+        UM.StopTimer();
+        if (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null) MP.PauseMusic();
+        else Debug.Log("Failed to pause music");
+        Invoke("FinalizeResetOvertime", 3f);
+
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn;
     }
 
     private void FinalizeReset()
@@ -276,6 +299,62 @@ public class GameplayManager : MonoBehaviour
         foreach (GoalWithBarrier goal in goals)
         {
             goal.Respawn();
+        }
+    }
+
+    private void FinalizeResetOvertime()
+    {
+        //StopPlaying();
+        
+        Vector3 spawnPosition = BallSpawner.transform.position;
+        GameObject newBall = Instantiate(Ball, spawnPosition, Quaternion.identity);
+        Ball = newBall;
+        BallProperties BP = Ball.GetComponent<BallProperties>();
+
+        BP.isSuperKick = false;
+        passMeter = 0;
+        UM.UpdateWarriorContestBar(passMeter);
+        Debug.Log(playerList);
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            if (playerList[i].tag.Equals("Monster"))
+            {
+                MC = playerList[i].GetComponent<MonsterController>();
+                MC.Ball = newBall;
+                MC.BP = BP;
+                MC.ResetPlayer();
+            }
+            else
+            {
+                WC = playerList[i].GetComponent<WarriorController>();
+                WC.Ball = newBall;
+                WC.BP = BP;
+                WC.ResetPlayer();
+            }
+        }
+        
+
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.targets[0] = null;
+        //FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
+        //FB.BP = Ball.GetComponent<BallProperties>();
+
+        // These lines of code should delete any objects in the scene that have the DELETEAFTERDELAY script attatched
+        DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
+        if (ObjectsToDelete.Length != 0)
+        {
+            for (int i = 0; i < ObjectsToDelete.Length; i++)
+            {
+                try
+                {
+                    ObjectsToDelete[i].Kill();
+                }
+                catch
+                {
+                    // NOTHING HAHA
+                }
+
+            }
         }
     }
 

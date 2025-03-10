@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MusicPlayerOvertime : MusicPlayer
 {
-    private GameplayManager GM;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +45,13 @@ public class MusicPlayerOvertime : MusicPlayer
     void Update()
     {
         //if (source != null) source.volume = volume * PlayerPrefs.GetFloat("musicVolume", 1);
-        if (curVol < volume && source != null)
+        if (GM != null && !GM.overtimeStarted && source.isPlaying)
+        {
+            curVol -= Time.deltaTime * volGainRate / 2f;
+            Mathf.Clamp(curVol, 0f, volume);
+            source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
+        }
+        else if (curVol < volume && source != null)
         {
             if (!isPaused) curVol += Time.deltaTime * volGainRate;
             Mathf.Clamp(curVol, 0f, volume);
