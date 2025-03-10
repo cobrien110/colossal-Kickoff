@@ -140,7 +140,7 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
-        if (isSuperKick && GM.passIndicator)
+        if (isSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
         {
             SetBallColor(Color.red);
         }
@@ -202,7 +202,7 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
-            if (mc != null && !mc.isStunned && isSuperKick)
+            if (mc != null && !mc.isStunned && isSuperKick && passTimer <= passTimeFrame)
             {
                 if (mc.isIntangible) return;
                 mc.Stun();
