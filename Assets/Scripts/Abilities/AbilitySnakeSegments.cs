@@ -9,6 +9,7 @@ public class AbilitySnakeSegments : PassiveAbility
     public GameObject tailPrefab;
     public GameObject cutSegmentPrefab;
     public float followDistance = 0.5f;
+    private float headSpace = 0.25f;
     public float speed = 1f;
     public float movementThreshold = 0.001f;
 
@@ -38,7 +39,8 @@ public class AbilitySnakeSegments : PassiveAbility
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Vector3.Distance(head.position, lastHeadPosition) > movementThreshold)
+        if ((Vector3.Distance(head.position, lastHeadPosition) > movementThreshold)
+            || Vector3.Distance(segments[0].transform.position, head.position) > headSpace)
         {
             // Move segments
             for (int i = segments.Count - 1; i > 0; i--)
@@ -53,7 +55,7 @@ public class AbilitySnakeSegments : PassiveAbility
 
             // Make the first segment follow the head
             segments[0].transform.LookAt(head, Vector3.up);
-            segments[0].transform.position = Vector3.Lerp(segments[0].transform.position, head.position - head.forward * followDistance, Time.deltaTime * speed);
+            segments[0].transform.position = Vector3.Lerp(segments[0].transform.position, head.position - head.parent.forward * (followDistance + headSpace), Time.deltaTime * speed);
         }
 
         // Update the previous head position
