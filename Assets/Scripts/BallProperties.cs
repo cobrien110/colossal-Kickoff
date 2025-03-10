@@ -212,6 +212,11 @@ public class BallProperties : MonoBehaviour
             {
                 return;
             }
+
+            if (wc != null)
+            {
+                wc.StopSuperKick();
+            }
             
             Debug.Log("ballOwner: " + ballOwner);
             

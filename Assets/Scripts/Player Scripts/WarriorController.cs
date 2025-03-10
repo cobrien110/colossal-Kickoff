@@ -425,7 +425,7 @@ public class WarriorController : MonoBehaviour
                         GM.passMeter = 0f;
                         UM.UpdateWarriorContestBar(0f);
                     }
-                    
+                    StopSuperKick();
                 }
 
                 Vector3 forceToAdd = aimingDirection * kickForce;
@@ -497,7 +497,7 @@ public class WarriorController : MonoBehaviour
                         BP.isSuperKick = true;
                         GM.passMeter = 0f;
                     }
-
+                    StopSuperKick();
                 }
 
                 Vector3 forceToAdd = aimingDirection * kickForce;
@@ -752,6 +752,7 @@ public class WarriorController : MonoBehaviour
         UM.UpdateMonsterKillsSB();
         WUI.ShowCallForPass(false);
 
+        superKicking = false;
         isDead = true;
         isInvincible = true;
         isBomb = false;
@@ -1024,16 +1025,17 @@ public class WarriorController : MonoBehaviour
 
     public void OnSuperKick(InputAction.CallbackContext context)
     {
-        if (context.action.IsInProgress() && GM.passMeter > 0)
+        if (!superKicking && GM.passMeter > 0 && isCharging)
         {
             superKicking = true;
             AV.SuperKickColor(Color.red);
         }
-        else
-        {
-            superKicking = false;
-            AV.RevertColor();
-        }
+    }
+
+    public void StopSuperKick()
+    {
+        superKicking = false;
+        AV.RevertColor();
     }
 
     /**
