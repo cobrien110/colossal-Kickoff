@@ -19,7 +19,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private EarthController EC;
 
     //parent object containing all buttons from the main menu
-    [SerializeField] private GameObject mainMenuButtons, quitGameButtons;
+    [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
     
     [SerializeField] private TMP_Text settingsHeader;
     [SerializeField] private GameObject settingsButtons;
@@ -71,7 +71,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown overtimeDropdown;
     [SerializeField] private TMP_Dropdown kickchargeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton;
+    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton, creditsBackButton;
     [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
     Navigation backNavi = new Navigation();
     Navigation controlsNavi = new Navigation();
@@ -178,6 +178,9 @@ public class MenuController : MonoBehaviour
                     case (4):
                         returnToTop();
                         break;
+                    case (5):
+                        returnToTop();
+                        break;
                     default:
                         break;
                 }
@@ -278,6 +281,18 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 break;
 
+            //CREDITS
+            case 3:
+                currentScreen = 5;
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(creditsBackButton);
+                //menuCamera.goToSettings(); make this move to a credits zone 
+                creditsContent.SetActive(true);
+                mainMenuButtons.SetActive(false);
+                //sound
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+                break;
+
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
@@ -294,6 +309,7 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(false);
         quitGameButtons.SetActive(false);
         settingsButtons.SetActive(false);
+        creditsContent.SetActive(false);
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));

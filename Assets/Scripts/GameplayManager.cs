@@ -162,10 +162,18 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("Starting play");
         isPlaying = true;
-        UM.StartTimer();
+        if (overtimeStyle == 1 && UM.overtime)
+        {
+            UM.SuddenDeathStart();
+            OvertimeMusic();
+        }
+        else
+        {
+            UM.StartTimer();
 
-        Debug.Log("Calling Unpause music");
-        MP.UnPauseMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+        }
     }
 
     public void StopPlaying()
@@ -173,7 +181,7 @@ public class GameplayManager : MonoBehaviour
         isPlaying = false;
     }
 
-    void StartPodiumSequence()
+    public void StartPodiumSequence()
     {
         Debug.Log("GM calling start of podium sequence");
         isGameOver = true;
@@ -201,12 +209,6 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
-        //If Sudden Death, do not continue function
-        if (UM.overtime && PlayerPrefs.GetInt("overtime") == 1)
-        {
-            return;
-        }
-
         //StopPlaying();
         UM.StopTimer();
         if (MP != null) MP.PauseMusic();
