@@ -15,8 +15,8 @@ public class Junk : MonoBehaviour
     {
         startingPos = transform.position;
         monsterPos = GameObject.FindGameObjectWithTag("Monster").transform.position;
-        float rX = Random.Range(-.1f, .1f);
-        float rZ = Random.Range(-.1f, .1f);
+        float rX = Random.Range(-.025f, .025f);
+        float rZ = Random.Range(-.025f, .025f);
         monsterPos = new Vector3(monsterPos.x + rX, monsterPos.y - 0.45f, monsterPos.z + rZ);
     }
 
