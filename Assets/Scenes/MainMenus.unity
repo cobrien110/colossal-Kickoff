@@ -4949,6 +4949,7 @@ MonoBehaviour:
   ALM: {fileID: 1956075200}
   menuCamera: {fileID: 1742651602}
   EC: {fileID: 8322480175960187695}
+  CSU: {fileID: 0}
   mainMenuButtons: {fileID: 1804231207}
   quitGameButtons: {fileID: 1709912220}
   creditsContent: {fileID: 222268221}
@@ -7049,7 +7050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &394604615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7475,7 +7476,7 @@ Canvas:
   m_GameObject: {fileID: 447144915}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 921539320}
   m_PlaneDistance: 1.1
   m_PixelPerfect: 0
@@ -10231,7 +10232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &687958855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16006,7 +16007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8bd5ddccea89f04499ca7f1604ba768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creditElements: []
+  creditElements: {fileID: 1074182941}
   spawnPoint: {fileID: 1583037377}
   borderPoint: {fileID: 1226728733}
   speed: 100

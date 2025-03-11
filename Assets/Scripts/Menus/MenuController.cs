@@ -307,7 +307,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(creditsBackButton);
                 menuCamera.goToCredits();
                 CSU.CreditsStart();
-                creditsContent.SetActive(true);
+                //creditsContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
