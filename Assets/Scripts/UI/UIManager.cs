@@ -431,10 +431,14 @@ public class UIManager : MonoBehaviour
 
     public void Overtime(int pref)
     {
+        //if (overtime == true) return;
         overtime = true;
+        Debug.Log("UI ENTERING OT STYLE " + pref);
         //Standard
         if (pref == 0)
         {
+            //Debug.Log("UI ENTERING OT STYLE " + pref);
+            scoreTextTimer.text = "OT";
             timeRemainingSeconds = 60;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
             BP.ResetBall();
@@ -444,46 +448,21 @@ public class UIManager : MonoBehaviour
         //Sudden Death
         if (pref == 1)
         {
-            timeRemainingSeconds = 60;
+            scoreTextTimer.text = "OT";
+            timeRemainingSeconds = 0;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
             BP.ResetBall();
             GM.OvertimeMusic();
-            //StopTimer();
-            //StartCoroutine(SuddenDeath());
-        }
-
-        if (pref == 2)
-        {
-            overtime = false;
-            ShowGameOverText(true, 2);
-            ST.UpdateGameWinner(CheckWinner());
-
-            //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
-            ShowInGameUI(false);
         }
     }
 
     public IEnumerator SuddenDeath()
     {
-        int minutes;
-        int seconds;
-        float timeAdded = 0f;
-        timeRemainingSeconds = 0;
         while (warriorScore == monsterScore)
         {
-            minutes = (int)timeAdded / 60;
-            seconds = (int)timeAdded % 60;
-
-            if (seconds < 10)
-            {
-                scoreTextTimer.text = "" + minutes + ":0" + seconds;
-            }
-            else
-            {
-                scoreTextTimer.text = "" + minutes + ":" + seconds;
-            }
-            timeAdded += Time.deltaTime;
+            yield return null;
         }
+        yield return new WaitForSeconds(3.05f);
         overtime = false;
         ShowGameOverText(true, CheckWinner());
         ST.UpdateGameWinner(CheckWinner());
@@ -491,6 +470,11 @@ public class UIManager : MonoBehaviour
         //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
         ShowInGameUI(false);
         yield break;
+    }
+
+    public void SuddenDeathStart()
+    {
+        StartCoroutine(SuddenDeath());
     }
 
     public int GetTimeRemaining()

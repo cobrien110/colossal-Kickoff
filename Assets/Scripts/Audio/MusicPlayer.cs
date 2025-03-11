@@ -14,8 +14,8 @@ public class MusicPlayer : MonoBehaviour
     public bool isResultsTheme = false;
     //public bool isCutsceneTheme = false;
     //public bool isPersistent = false;
-    private float timeDEBUG;
-    private float timeDEBUG2;
+    [SerializeField] private float timeDEBUG;
+    [SerializeField] private float timeDEBUG2;
 
     protected float elapsedTime = 0f;
     public bool testMusic = false;
@@ -23,7 +23,9 @@ public class MusicPlayer : MonoBehaviour
     protected float volGainRate = 1.5f;
     protected bool isPaused = false;
     protected bool isFadingOut = false;
-    //private UIManager UI;
+    protected bool overtimeSwitch = false;
+    private UIManager UI;
+    protected GameplayManager GM;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +44,8 @@ public class MusicPlayer : MonoBehaviour
                 PauseMusic();
             }
         }
-        //UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UI = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (isStageTheme) GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
 
         if (MPR == null)
         {
@@ -80,13 +83,13 @@ public class MusicPlayer : MonoBehaviour
         else if (!isStageTheme) source.volume = volume * PlayerPrefs.GetFloat("musicVolume", 1);
         else if (isFadingOut)
         {
-            curVol -= Time.deltaTime * volGainRate;
+            curVol -= Time.deltaTime * volGainRate / 2f;
             Mathf.Clamp(curVol, 0f, volume);
             source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
-            if (curVol <= 0)
+            if (curVol <= 0 && !MPR.source.isPlaying && GM != null && GM.isGameOver)
             {
-                isFadingOut = false;
-                MPR.PauseMusic();
+                //isFadingOut = false;
+                MPR.UnPauseMusic();
             }
         }
         else if (curVol < volume && isStageTheme)
@@ -96,13 +99,11 @@ public class MusicPlayer : MonoBehaviour
             source.volume = curVol * PlayerPrefs.GetFloat("musicVolume", 1);
         }
 
-        //timeDEBUG = source.time;
-        /*
         if (UI != null)
         {
-            timeDEBUG2 = UI.GetTimeRemaining();
+            //timeDEBUG2 = UI.GetTimeRemaining();
+            //timeDEBUG = 180 - elapsedTime;
         }
-        */
     }
 
     public void PauseMusic()
@@ -135,6 +136,7 @@ public class MusicPlayer : MonoBehaviour
 
     public void PlayResults()
     {
+        Debug.Log("MP switching to results music");
         isFadingOut = true;
         if (MPR != null) MPR.UnPauseMusic();
     }
@@ -145,6 +147,7 @@ public class MusicPlayer : MonoBehaviour
         Debug.Log("MP switching to overtime music");
         //PauseMusicNoFloor();
         isFadingOut = true;
+        overtimeSwitch = true;
         MPO.SetJukeboxGM();
     }
 }

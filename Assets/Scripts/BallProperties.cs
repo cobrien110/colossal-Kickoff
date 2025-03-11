@@ -140,7 +140,7 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
-        if (isSuperKick && GM.passIndicator)
+        if (isSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
         {
             SetBallColor(Color.red);
         }
@@ -202,7 +202,7 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
-            if (mc != null && !mc.isStunned && isSuperKick)
+            if (mc != null && !mc.isStunned && isSuperKick && passTimer <= passTimeFrame)
             {
                 if (mc.isIntangible) return;
                 mc.Stun();
@@ -211,6 +211,11 @@ public class BallProperties : MonoBehaviour
             } else if (mc != null && (mc.isStunned || mc.isIntangible))
             {
                 return;
+            }
+
+            if (wc != null)
+            {
+                wc.StopSuperKick();
             }
             
             Debug.Log("ballOwner: " + ballOwner);
@@ -404,46 +409,85 @@ public class BallProperties : MonoBehaviour
 
     private void ScoreBall(bool isWarriorGoal, Transform t)
     {
-        GameObject scorer = previousKicker;
-        if (ballOwner != null) scorer = ballOwner;
-        // Play goal effects
-        try
+        //Sudden Death Goal
+        if (GM.overtimeStyle == 1 && UM.overtime)
         {
-            GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
-            goal.PerformGoalEffects();
-            //Debug.Log("Previous kicker");
-            if (scorer != null) MTC.FocusOn(scorer.transform);
-            StartCoroutine(MTC.ScreenShake(2.0f));
-            //ballOwner = null;
+            Debug.Log("I am in the right place for OT");
+            GameObject scorer = previousKicker;
+            if (ballOwner != null) scorer = ballOwner;
+            // Play goal effects
+            try
+            {
+                GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+                goal.PerformGoalEffects();
+                //Debug.Log("Previous kicker");
+                if (scorer != null) MTC.FocusOn(scorer.transform);
+                StartCoroutine(MTC.ScreenShake(2.0f));
+                //ballOwner = null;
+            }
+            catch
+            {
+                Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
+            }
+            if (CSM != null)
+            {
+                CSM.PlayGoalSound(!isWarriorGoal);
+            }
+            GM.SetLastScoredGoal(t);
+            ballOwner = null;
+            isInteractable = false;
+            previousKicker = null;
+            if (SR != null) SR.enabled = false;
+            Invoke("DestroyDelay", 3.05f);
+
+            GM.ResetOvertime();
         }
-        catch
+        //Regulation Goal
+        else
         {
-            Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
-        }
-        if (CSM != null)
-        {
-            CSM.PlayGoalSound(!isWarriorGoal);
-        }
+            Debug.Log("I am in the wrong place for OT");
+            GameObject scorer = previousKicker;
+            if (ballOwner != null) scorer = ballOwner;
+            // Play goal effects
+            try
+            {
+                GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
+                goal.PerformGoalEffects();
+                //Debug.Log("Previous kicker");
+                if (scorer != null) MTC.FocusOn(scorer.transform);
+                StartCoroutine(MTC.ScreenShake(2.0f));
+                //ballOwner = null;
+            }
+            catch
+            {
+                Debug.LogWarning("Something went wrong trying to play fancy goal effects.");
+            }
+            if (CSM != null)
+            {
+                CSM.PlayGoalSound(!isWarriorGoal);
+            }
 
-        Debug.Log("RESET");
-        // Update the last scored ball for the delayed start
-        GM.SetLastScoredGoal(t);
-        ResetBall();
 
-        AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
-        globalAudioPlayer.PlaySoundRandomPitch(globalAudioPlayer.Find("goal"));
+            Debug.Log("RESET");
+            // Update the last scored ball for the delayed start
+            GM.SetLastScoredGoal(t);
+            ResetBall();
 
-        // Reset mummies if applicable
-        MonsterController mc = FindObjectOfType<MonsterController>();
-        if (mc != null)
-        {
-            AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
-            if (aiMummyManager != null) aiMummyManager.ResetMummies();
-        }
+            AudioPlayer globalAudioPlayer = GameObject.Find("GlobalSoundPlayer").GetComponent<AudioPlayer>();
+            globalAudioPlayer.PlaySoundRandomPitch(globalAudioPlayer.Find("goal"));
 
-        mc.ResetAbilities();
+            // Reset mummies if applicable
+            MonsterController mc = FindObjectOfType<MonsterController>();
+            if (mc != null)
+            {
+                AiMummyManager aiMummyManager = mc.GetComponent<AiMummyManager>();
+                if (aiMummyManager != null) aiMummyManager.ResetMummies();
+            }
 
-        AbilityScript.canActivate = false;
+            mc.ResetAbilities();
+
+            AbilityScript.canActivate = false;
+        } 
     }
 
     public void ResetBall()

@@ -9,18 +9,33 @@ public class GashaGate : MonoBehaviour
     public float launchSpeed;
     private AbilityGashaPassive AGP;
 
+    public GameObject visual;
+    public Transform startPt;
+    public Transform endPt;
+    private float startTime;
+    private float journeyLength;
+    private bool movingBack = false;
+    public float speed = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
         DAD = GetComponent<DeleteAfterDelay>();
         DAD.NewTimer(duration);
         AGP = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityGashaPassive>();
+
+        startTime = Time.time;
+        visual.transform.position = startPt.transform.position;
+        journeyLength = Vector3.Distance(startPt.position, endPt.position);
+        StartCoroutine(Swap());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        float distCovered = (Time.time - startTime) * speed;
+        float fractionOfJourney = distCovered / journeyLength;
+        visual.transform.position = Vector3.Lerp(visual.transform.position, endPt.position, fractionOfJourney);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,5 +74,20 @@ public class GashaGate : MonoBehaviour
             Debug.Log("AGP: " + AGP);
             if (AGP != null) AGP.Add(AGP.bonusOnOrb);
         }
+    }
+
+    IEnumerator Swap()
+    {
+        yield return new WaitForSeconds(duration - 1);
+        MoveBackToGround();
+    }
+
+    public void MoveBackToGround()
+    {
+        startTime = Time.time;
+        Transform temp = endPt;
+        endPt = startPt;
+        startPt = temp;
+        movingBack = true;
     }
 }

@@ -20,6 +20,7 @@ public class PlayerHolder : MonoBehaviour
 
     public InputActionAsset InputMaster;
     public GameObject sceneES;
+    public GameObject thisES;
 
     // Start is called before the first frame update
     void Awake()
@@ -27,6 +28,7 @@ public class PlayerHolder : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         sceneES = GameObject.Find("EventSystem");
+        thisES = gameObject.GetComponentInChildren<EventSystem>().gameObject;
         //playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
         SetPlayerID();
 
@@ -43,9 +45,6 @@ public class PlayerHolder : MonoBehaviour
         {
             if (GameObject.Find("CharacterSelect") != null)
             {
-                //GetComponentInChildren<MultiplayerEventSystem>().playerRoot = GameObject.Find("Canvas");
-                //GetComponentInChildren<InputSystemUIInputModule>().actionsAsset = InputMaster;
-
                 GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
             } else
             {
@@ -54,11 +53,17 @@ public class PlayerHolder : MonoBehaviour
         }
         else
         {
+            if (thisES != null)
+            {
+                thisES.SetActive(false);
+            }
             if (playerID == 0)
             {
+                teamName = "Monster";
                 GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID, thisGamepad);
             } else
             {
+                teamName = "Warrior";
                 GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
 
             }
@@ -94,12 +99,17 @@ public class PlayerHolder : MonoBehaviour
     {
         if (scene.name.Equals("MainMenus"))
         {
-            teamName = "";
-            monsterIndex = -1;
-            GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            //teamName = "";
+            //monsterIndex = -1;
+            //GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            Destroy(this.gameObject);
         }
         else
         {
+            if (thisES != null)
+            {
+                thisES.SetActive(false);
+            }
             if (teamName.Equals("Monster"))
             {
                 MonsterHolder MH = GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>();

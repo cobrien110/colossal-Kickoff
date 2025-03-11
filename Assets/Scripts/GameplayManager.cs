@@ -24,6 +24,7 @@ public class GameplayManager : MonoBehaviour
     public float monsterKickChargeSpeed;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
+    [SerializeField] private AsyncLoadManager ALM = null;
     [SerializeField] private List<GameObject> playerList;
     [SerializeField] private MonsterController MC = null;
     [SerializeField] private WarriorController WC = null;
@@ -71,6 +72,7 @@ public class GameplayManager : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
+        ALM = GameObject.Find("AsychLoader").GetComponent<AsyncLoadManager>();
         MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         //MPr = MP.GetComponentInChildren<MusicPlayerResults>();
         PS = GameObject.Find("PodiumSequencer").GetComponent<PodiumSequencer>();
@@ -162,10 +164,27 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("Starting play");
         isPlaying = true;
-        UM.StartTimer();
+        if (overtimeStyle == 1 && UM.overtime)
+        {
+            UM.SuddenDeathStart();
+            OvertimeMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+        } else if (overtimeStyle == 0 && UM.overtime)
+        {
+            //UM.SuddenDeathStart();
+            OvertimeMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+            UM.StartTimer();
+        }
+        else
+        {
+            UM.StartTimer();
 
-        Debug.Log("Calling Unpause music");
-        MP.UnPauseMusic();
+            Debug.Log("Calling Unpause music");
+            MP.UnPauseMusic();
+        }
     }
 
     public void StopPlaying()
@@ -173,10 +192,11 @@ public class GameplayManager : MonoBehaviour
         isPlaying = false;
     }
 
-    void StartPodiumSequence()
+    public void StartPodiumSequence()
     {
         Debug.Log("GM calling start of podium sequence");
         isGameOver = true;
+        overtimeStarted = false;
         MP.PlayResults();
         PS.StartPodiumSequence(PS.GetUI().CheckWinner());
         GameObject[] hazards = GameObject.FindGameObjectsWithTag("Hazard");
@@ -201,19 +221,26 @@ public class GameplayManager : MonoBehaviour
 
     public void Reset()
     {
-        //If Sudden Death, do not continue function
-        if (UM.overtime && PlayerPrefs.GetInt("overtime") == 1)
-        {
-            return;
-        }
-
         //StopPlaying();
         UM.StopTimer();
-        if (MP != null) MP.PauseMusic();
+        if ((MP != null && !overtimeStarted) || (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null)) MP.PauseMusic();
+        else Debug.Log("Failed to pause music");
         Invoke("FinalizeReset", 3f);
 
         MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn; 
+    }
+
+    public void ResetOvertime()
+    {
+        //StopPlaying();
+        UM.StopTimer();
+        if (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null) MP.PauseMusic();
+        else Debug.Log("Failed to pause music");
+        Invoke("FinalizeResetOvertime", 3f);
+
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn;
     }
 
     private void FinalizeReset()
@@ -274,6 +301,62 @@ public class GameplayManager : MonoBehaviour
         foreach (GoalWithBarrier goal in goals)
         {
             goal.Respawn();
+        }
+    }
+
+    private void FinalizeResetOvertime()
+    {
+        //StopPlaying();
+        
+        Vector3 spawnPosition = BallSpawner.transform.position;
+        GameObject newBall = Instantiate(Ball, spawnPosition, Quaternion.identity);
+        Ball = newBall;
+        BallProperties BP = Ball.GetComponent<BallProperties>();
+
+        BP.isSuperKick = false;
+        passMeter = 0;
+        UM.UpdateWarriorContestBar(passMeter);
+        Debug.Log(playerList);
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            if (playerList[i].tag.Equals("Monster"))
+            {
+                MC = playerList[i].GetComponent<MonsterController>();
+                MC.Ball = newBall;
+                MC.BP = BP;
+                MC.ResetPlayer();
+            }
+            else
+            {
+                WC = playerList[i].GetComponent<WarriorController>();
+                WC.Ball = newBall;
+                WC.BP = BP;
+                WC.ResetPlayer();
+            }
+        }
+        
+
+        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
+        MTC.targets[0] = null;
+        //FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
+        //FB.BP = Ball.GetComponent<BallProperties>();
+
+        // These lines of code should delete any objects in the scene that have the DELETEAFTERDELAY script attatched
+        DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
+        if (ObjectsToDelete.Length != 0)
+        {
+            for (int i = 0; i < ObjectsToDelete.Length; i++)
+            {
+                try
+                {
+                    ObjectsToDelete[i].Kill();
+                }
+                catch
+                {
+                    // NOTHING HAHA
+                }
+
+            }
         }
     }
 
@@ -496,7 +579,7 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("Resetting Game");
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ALM.BeginLoad(SceneManager.GetActiveScene().name);
         return;
         
         /*
@@ -539,7 +622,7 @@ public class GameplayManager : MonoBehaviour
     {
         Time.timeScale = 1;
         Debug.Log("Back to Menu");
-        SceneManager.LoadScene("MainMenus");
+        ALM.BeginLoad("MainMenus");
     }
 
     public void SetLastScoredGoal(Transform t)
