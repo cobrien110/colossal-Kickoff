@@ -1339,8 +1339,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96792939}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.215, y: 2.403, z: -4.734}
+  m_LocalRotation: {x: -0.05741061, y: -0, z: -0, w: 0.9983507}
+  m_LocalPosition: {x: -26.41, y: 2.86, z: 1.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4949,7 +4949,7 @@ MonoBehaviour:
   ALM: {fileID: 1956075200}
   menuCamera: {fileID: 1742651602}
   EC: {fileID: 8322480175960187695}
-  CSU: {fileID: 0}
+  CSU: {fileID: 1074182942}
   mainMenuButtons: {fileID: 1804231207}
   quitGameButtons: {fileID: 1709912220}
   creditsContent: {fileID: 222268221}
@@ -13587,7 +13587,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: ab8de350e5e1442488fee64174f60de6, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 56c3bbf086a33684c811f65ba1b99139, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -15973,8 +15973,8 @@ RectTransform:
   m_GameObject: {fileID: 1074182940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 876876871}
   - {fileID: 2817370029480238451}
@@ -16010,8 +16010,7 @@ MonoBehaviour:
   creditElements: {fileID: 1074182941}
   spawnPoint: {fileID: 1583037377}
   borderPoint: {fileID: 1226728733}
-  speed: 100
-  offset: 20
+  speed: 0.2
 --- !u!1 &1083743969
 GameObject:
   m_ObjectHideFlags: 0
@@ -18220,7 +18219,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 370}
+  m_AnchoredPosition: {x: 0, y: 2204.57}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1229398493
@@ -22997,7 +22996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -357}
+  m_AnchoredPosition: {x: 0, y: -1127.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1592612897
@@ -75637,7 +75636,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b21441115fc5e0141a271317239541b3, type: 2}
+  - {fileID: 2100000, guid: 68dcf7f92553d7b4d913eab7fb1006b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
