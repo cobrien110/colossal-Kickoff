@@ -144,6 +144,10 @@ public class WarriorController : MonoBehaviour
 
     private void Start()
     {
+        if (this.gameObject.GetComponent<WarriorAiController>() != null)
+        {
+            WUI.SetAI();
+        }
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         pickupBallTimer = pickupBallCooldown;
         chargeSpeed = GM.warriorKickChargeSpeed;
@@ -919,6 +923,7 @@ public class WarriorController : MonoBehaviour
         lastCallForPassTime = Time.time;
 
         // Queue some kind of UI element to indicate calling for pass
+        if (audioPlayer != null) audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("callForPass1"));
 
         // Create a temporary "gravity" effect around this player
 
