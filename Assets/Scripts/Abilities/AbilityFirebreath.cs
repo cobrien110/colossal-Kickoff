@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AbilityFirebreath : AbilityScript
 {
-    public GameObject fireballPrefab;
+    public GameObject fireballPrefab; 
+    public GameObject head;
     public Transform spawnPoint;
     public float speedOfFireball = 10f;
     public int numToSpawn = 5;
@@ -71,6 +72,9 @@ public class AbilityFirebreath : AbilityScript
 
         // play animation
         ACH.headAnimator.Play(activatedAnimationName);
+
+        //Spawn particle effect
+        head.GetComponentInChildren<ParticleSystem>().Play();
 
         /*if (!isFiring && timer >= cooldown)
         {
