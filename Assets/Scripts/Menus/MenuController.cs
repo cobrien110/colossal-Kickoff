@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
     [SerializeField] private EarthController EC;
+    [SerializeField] private CreditsScrollingUI CSU; 
 
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
@@ -292,6 +293,7 @@ public class MenuController : MonoBehaviour
                 currentScreen = 4;
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(quitFirstButton);
+                menuCamera.goToQuitting();
                 quitGameButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 //sound
@@ -303,7 +305,8 @@ public class MenuController : MonoBehaviour
                 currentScreen = 5;
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(creditsBackButton);
-                //menuCamera.goToSettings(); make this move to a credits zone 
+                menuCamera.goToCredits();
+                CSU.CreditsStart();
                 creditsContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 //sound
@@ -327,6 +330,7 @@ public class MenuController : MonoBehaviour
         quitGameButtons.SetActive(false);
         settingsButtons.SetActive(false);
         creditsContent.SetActive(false);
+        CSU.CreditsEnd();
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));

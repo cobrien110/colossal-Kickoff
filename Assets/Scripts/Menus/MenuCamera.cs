@@ -14,9 +14,9 @@ public class MenuCamera : MonoBehaviour
 
     [Header("Variables")]
     //camera movement speed
-    private float speed = 120.0f;
+    public float speed = 30.0f;
     //camera rotation speed
-    private float angleSpeed = 4.0f;
+    public float angleSpeed = 4.0f;
     //position we're moving towards, if any
     private Vector3 targetPos;
     //angle we're rotating towards, if any
@@ -37,7 +37,7 @@ public class MenuCamera : MonoBehaviour
     {
         if (isMoving)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, angleSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, targetPos) < 0.001f && transform.rotation == targetAngle)
