@@ -20,6 +20,7 @@ public class PlayerHolder : MonoBehaviour
 
     public InputActionAsset InputMaster;
     public GameObject sceneES;
+    public GameObject thisES;
 
     // Start is called before the first frame update
     void Awake()
@@ -27,6 +28,7 @@ public class PlayerHolder : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         sceneES = GameObject.Find("EventSystem");
+        thisES = gameObject.GetComponentInChildren<EventSystem>().gameObject;
         //playerID = GameObject.FindGameObjectsWithTag("PlayerHolder").Length - 1;
         SetPlayerID();
 
@@ -51,11 +53,17 @@ public class PlayerHolder : MonoBehaviour
         }
         else
         {
+            if (thisES != null)
+            {
+                thisES.SetActive(false);
+            }
             if (playerID == 0)
             {
+                teamName = "Monster";
                 GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>().spawnMonster(playerID, thisGamepad);
             } else
             {
+                teamName = "Warrior";
                 GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
 
             }
@@ -98,6 +106,10 @@ public class PlayerHolder : MonoBehaviour
         }
         else
         {
+            if (thisES != null)
+            {
+                thisES.SetActive(false);
+            }
             if (teamName.Equals("Monster"))
             {
                 MonsterHolder MH = GameObject.Find("MonsterHolder").GetComponent<MonsterHolder>();
