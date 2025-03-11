@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class FlameSurfaceSpawner : MonoBehaviour
 {
-    public GameObject prefabToSpawn; 
+    public GameObject prefabToSpawn;
     public Transform planeTransform;
-    public int numberOfSpawns = 5; 
+    public int numberOfSpawns = 5;
+    public float speedOffset = 0.1f;
+
+    //This Gameobject has the animator.
+    public string animatorChildName = "Bone.001"; 
 
     void Start()
     {
@@ -15,8 +19,6 @@ public class FlameSurfaceSpawner : MonoBehaviour
 
     void SpawnObjects()
     {
-        if (prefabToSpawn == null || planeTransform == null) return;
-
         Vector3 planeSize = planeTransform.localScale * 10f;
 
         for (int i = 0; i < numberOfSpawns; i++)
@@ -28,6 +30,13 @@ public class FlameSurfaceSpawner : MonoBehaviour
 
             GameObject spawnedObject = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
             spawnedObject.transform.SetParent(planeTransform);
+
+            Animator animator = spawnedObject.GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                animator.speed += Random.Range(-speedOffset, speedOffset);
+                Debug.Log("Set animator speed to: " + animator.speed);
+            }
         }
     }
 }

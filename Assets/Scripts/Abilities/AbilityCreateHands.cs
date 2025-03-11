@@ -18,6 +18,7 @@ public class AbilityCreateHands : PassiveAbility
     public GameObject head;
     public Animator headAnimator;
     public Vector3 headSpawnPosition;
+    public AbilityFirebreath AF;
 
     [HideInInspector] public bool hand1IsActive = true;
     [HideInInspector] public bool hand2IsActive = true;
@@ -46,6 +47,7 @@ public class AbilityCreateHands : PassiveAbility
 
         head = Instantiate(headPrefab, headSpawnPosition, Quaternion.identity);
         headAnimator = head.GetComponent<Animator>();
+        AF.head = head;
 
         gashaHand1 = hand1.GetComponent<GashadokuroHand>();
         gashaHand2 = hand2.GetComponent<GashadokuroHand>();
