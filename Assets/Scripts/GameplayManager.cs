@@ -24,6 +24,7 @@ public class GameplayManager : MonoBehaviour
     public float monsterKickChargeSpeed;
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
+    [SerializeField] private AsyncLoadManager ALM = null;
     [SerializeField] private List<GameObject> playerList;
     [SerializeField] private MonsterController MC = null;
     [SerializeField] private WarriorController WC = null;
@@ -71,6 +72,7 @@ public class GameplayManager : MonoBehaviour
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
         PIM = GameObject.Find("Player Spawn Manager").GetComponent<PlayerInputManager>();
+        ALM = GameObject.Find("AsychLoader").GetComponent<AsyncLoadManager>();
         MP = GameObject.FindGameObjectWithTag("Jukebox").GetComponent<MusicPlayer>();
         //MPr = MP.GetComponentInChildren<MusicPlayerResults>();
         PS = GameObject.Find("PodiumSequencer").GetComponent<PodiumSequencer>();
@@ -577,7 +579,7 @@ public class GameplayManager : MonoBehaviour
     {
         Debug.Log("Resetting Game");
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ALM.BeginLoad(SceneManager.GetActiveScene().name);
         return;
         
         /*
@@ -620,7 +622,7 @@ public class GameplayManager : MonoBehaviour
     {
         Time.timeScale = 1;
         Debug.Log("Back to Menu");
-        SceneManager.LoadScene("MainMenus");
+        ALM.BeginLoad("MainMenus");
     }
 
     public void SetLastScoredGoal(Transform t)
