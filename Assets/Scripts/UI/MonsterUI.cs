@@ -20,6 +20,8 @@ public class MonsterUI : MonoBehaviour
     [SerializeField] private Transform target = null;
     [SerializeField] private Vector3 offset;
 
+    private bool isAI = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,12 +39,12 @@ public class MonsterUI : MonoBehaviour
 
     public void UpdateChargeBar(float charge)
     {
-        chargeBarFill.fillAmount = charge;
+        if (!isAI) chargeBarFill.fillAmount = charge;
     }
 
     public void ShowChargeBar(bool state)
     {
-        chargeBar.SetActive(state);
+        if (!isAI) chargeBar.SetActive(state);
     }
 
     public void UpdateDot1(bool state)
@@ -58,5 +60,9 @@ public class MonsterUI : MonoBehaviour
     public void ShowDots(bool state)
     {
         allDots.SetActive(state);
+    }
+    public void SetAI()
+    {
+        isAI = true;
     }
 }
