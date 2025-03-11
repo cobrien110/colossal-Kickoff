@@ -7005,7 +7005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &387577262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7022,7 +7022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -7.300003}
+  m_AnchoredPosition: {x: 0, y: -50.9}
   m_SizeDelta: {x: 668.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &387577263
@@ -7045,11 +7045,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "**INFO**\n\nStandard Goal Barriers will reset to full health after each
-    score, regardless of team.\n\nPersistent Barriers will only reset their health
-    if their goal is scored in. \n\nThe Strong version of each type can take an extra
-    hit or two. The Weak version will deplete in a single hit.\n\nChoose whichever
-    style you prefer to play with!"
+  m_text: "--- GOAL BARRIER INFO ---\n\nStandard Goal Barriers will reset to full
+    health after each score, regardless of team.\n\nPersistent Barriers will only
+    reset their health if their goal is scored in. \n\nThe Strong version of each
+    type can take an extra hit or two. The Weak version will deplete in a single
+    hit.\n\nChoose whichever style you prefer to play with!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e9b2378a20089cd4094fd4411abb7727, type: 2}
   m_sharedMaterial: {fileID: 5515727767731673892, guid: e9b2378a20089cd4094fd4411abb7727, type: 2}
@@ -7076,8 +7076,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7088,7 +7088,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -59.8
+  m_lineSpacing: -78.1
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -22997,7 +22997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1581027665
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23007,7 +23007,7 @@ RectTransform:
   m_GameObject: {fileID: 1581027664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 8.2434, y: 4.8342, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1941968620}
