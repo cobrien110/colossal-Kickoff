@@ -20,7 +20,7 @@ public class MenuController : MonoBehaviour
 
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
-    
+
     [SerializeField] private TMP_Text settingsHeader;
     [SerializeField] private GameObject settingsButtons;
     [SerializeField] private GameObject gameplaySettings;
@@ -74,6 +74,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton, creditsBackButton;
     [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
+    [SerializeField] private TMP_Text FXVolNum, MusicVolNum, CommVolNum, CommFreqNum;
     Navigation backNavi = new Navigation();
     Navigation controlsNavi = new Navigation();
     Navigation audioNavi = new Navigation();
