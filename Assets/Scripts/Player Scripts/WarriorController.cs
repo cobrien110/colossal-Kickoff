@@ -924,6 +924,7 @@ public class WarriorController : MonoBehaviour
 
         // Queue some kind of UI element to indicate calling for pass
         if (audioPlayer != null) audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("callForPass1"));
+        WUI.ShowCallForPass(true);
 
         // Create a temporary "gravity" effect around this player
 
@@ -948,7 +949,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator PassWindowCheck()
     {
-        WUI.ShowCallForPass(true);
+        //WUI.ShowCallForPass(true);
         Debug.Log("Start PassWindowCheck");
         while (passWindowTimer < passWindowDuration)
         {
