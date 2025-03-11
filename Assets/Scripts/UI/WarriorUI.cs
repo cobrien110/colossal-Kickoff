@@ -16,6 +16,7 @@ public class WarriorUI : MonoBehaviour
     [SerializeField] private Vector3 offset;
 
     [SerializeField] private GameObject callForPass = null;
+    private bool isAI = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,16 +35,22 @@ public class WarriorUI : MonoBehaviour
 
     public void UpdateChargeBar(float charge)
     {
-        chargeBarFill.fillAmount = charge;
+        if (!isAI) chargeBarFill.fillAmount = charge;
     }
 
     public void ShowChargeBar(bool state)
     {
-        chargeBar.SetActive(state);
+        if (!isAI) chargeBar.SetActive(state);
     }
 
     public void ShowCallForPass(bool state)
     {
-        callForPass.SetActive(state);
+        if (!isAI) callForPass.SetActive(state);
     }
+
+    public void SetAI()
+    {
+        isAI = true;
+    }
+
 }

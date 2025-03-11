@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6519554593557965874}
   - component: {fileID: 6522359536853190588}
   - component: {fileID: 1731491770511919571}
+  - component: {fileID: 1321713612820807000}
+  - component: {fileID: 2577003117346172155}
   m_Layer: 0
   m_Name: GashaHead
   m_TagString: Untagged
@@ -107,6 +109,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1321713612820807000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378480094369760963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1f15cb1ebe13c46bdf6e5b0195f1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMonster: {fileID: 0}
+  startingPos: {x: 0, y: 0, z: 0}
+  xDif: 0
+--- !u!114 &2577003117346172155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378480094369760963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5620f4c7584e34197e4b2921fbb123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
 --- !u!1001 &8111915447430043768
 PrefabInstance:
   m_ObjectHideFlags: 0
