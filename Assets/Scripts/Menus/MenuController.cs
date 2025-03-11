@@ -580,11 +580,13 @@ public class MenuController : MonoBehaviour
     public void setMusicVolume()
     {
         PlayerPrefs.SetFloat("musicVolume", musicSlider.value / 100f);
+        MusicVolNum.text = Mathf.Round(musicSlider.value).ToString();
     }
 
     public void setEffectsVolume()
     {
         PlayerPrefs.SetFloat("effectsVolume", effectsSlider.value / 100f);
+        FXVolNum.text = Mathf.Round(effectsSlider.value).ToString();
 
         //sound
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
@@ -593,6 +595,7 @@ public class MenuController : MonoBehaviour
     public void setCommentaryVolume()
     {
         PlayerPrefs.SetFloat("commentaryVolume", comVolumeSlider.value / 100f);
+        CommVolNum.text = Mathf.Round(comVolumeSlider.value).ToString();
 
         //sound
         if (AP != null && !AP.isPlaying())
@@ -605,11 +608,11 @@ public class MenuController : MonoBehaviour
     public void setCommentaryFrequency()
     {
         PlayerPrefs.SetFloat("commentaryFrequency", comFreqSlider.value / 100f);
+        CommFreqNum.text = Mathf.Round(comFreqSlider.value).ToString();
 
         //sound
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
-
 
     //Match Settings
     public void setGoalBarriers()
