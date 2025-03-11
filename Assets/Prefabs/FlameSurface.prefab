@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7838520388517279436}
   - component: {fileID: 2796358504858218595}
   - component: {fileID: 4500662738153299262}
-  - component: {fileID: 1953855056337908482}
   - component: {fileID: 8480037691964571246}
+  - component: {fileID: 6162928794620920490}
+  - component: {fileID: 1953855056337908482}
   m_Layer: 0
   m_Name: FlameSurface
   m_TagString: Untagged
@@ -103,6 +104,33 @@ MonoBehaviour:
   numberOfSpawns: 8
   speedOffset: 0.5
   animatorChildName: FlameChild
+--- !u!114 &8480037691964571246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5264593554761257965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d04f0b6062d3c49bbfdfab8de71ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTimer: 6
+--- !u!114 &6162928794620920490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5264593554761257965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4982ab150119484c9e32f48057e0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  spawnProtectionRadius: 0.75
 --- !u!65 &1953855056337908482
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118,22 +146,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8480037691964571246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5264593554761257965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9d04f0b6062d3c49bbfdfab8de71ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathTimer: 6
