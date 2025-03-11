@@ -115,6 +115,10 @@ public class MonsterController : MonoBehaviour
     {
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         MUI = GetComponentInChildren<MonsterUI>();
+        if (this.gameObject.GetComponent<AiMinotaurController>() != null)
+        {
+            MUI.SetAI();
+        }
         UM.ShowMonsterUI(true);
         pickupBallTimer = pickupBallCooldown;
         chargeSpeed = GM.monsterKickChargeSpeed;
