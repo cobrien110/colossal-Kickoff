@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -68,6 +69,11 @@ public class GameplayManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < Gamepad.all.Count; i++)
+        {
+            InputSystem.EnableDevice(Gamepad.all[i]);
+        }
+
         BallSpawner = GameObject.Find("BallSpawner");
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
@@ -458,22 +464,24 @@ public class GameplayManager : MonoBehaviour
         PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
         //MTC.AddTarget(p.transform);
 
-        NewPlayer(p);
+        NewPlayer(p, playerID);
         //if (PIM != null) PIM.playerPrefab = warriorPrefab;
     }
 
-    public void NewPlayer(PlayerInput p)
+    public void NewPlayer(PlayerInput p, int playerID)
     {
         GameObject player = p.gameObject;
         if (player.tag.Equals("Monster"))
         {
             MC = player.GetComponent<MonsterController>();
+            MC.playerID = playerID;
             playerList.Add(player);
             //UM.ShowMonsterUI(true);
         } else if (player.tag.Equals("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             WC = player.GetComponent<WarriorController>();
+            WC.playerID = playerID;
             //WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
@@ -595,25 +603,44 @@ public class GameplayManager : MonoBehaviour
         */
     }
 
-    public void PauseGame()
+    public void PauseGame(int playerID)
     {
         if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
         {
             if (pauseTimer < pauseDelay) return;
             pauseTimer = 0f;
+            GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
             if (isPaused)
             {
                 Time.timeScale = 1;
                 isPaused = false;
-                UM.PauseScreen(isPaused);
+                UM.PauseScreen(isPaused, playerID);
                 MP.UnPauseMusic();
+
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    InputSystem.EnableDevice(playerHolders[i].GetComponent<PlayerHolder>().thisGamepad);
+                }
             }
             else
             {
                 Time.timeScale = 0;
                 isPaused = true;
-                UM.PauseScreen(isPaused);
+                UM.PauseScreen(isPaused, playerID);
                 MP.PauseMusicNoFloor();
+                
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    PlayerHolder currentPH = playerHolders[i].GetComponent<PlayerHolder>();
+                    if (currentPH.playerID == playerID)
+                    {
+                        EventSystem.current.SetSelectedGameObject(GameObject.Find("ButtonResume"));
+                    }
+                    else
+                    {
+                        InputSystem.DisableDevice(currentPH.thisGamepad);
+                    }
+                }
             }
         }
     }

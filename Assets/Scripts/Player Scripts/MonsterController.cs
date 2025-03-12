@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 
 public class MonsterController : MonoBehaviour
 {
+    public int playerID;
+
     [HideInInspector] public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
@@ -911,10 +913,7 @@ public class MonsterController : MonoBehaviour
 
         if (GM.isPlaying)
         {
-            GM.PauseGame();
-        } else if (UM.GetTimeRemaining() < 0)
-        {
-            GM.MenuReturn();
+            GM.PauseGame(playerID);
         }
     }
 

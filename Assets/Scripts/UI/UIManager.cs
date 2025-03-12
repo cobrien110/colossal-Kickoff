@@ -743,12 +743,13 @@ public class UIManager : MonoBehaviour
         gameWinnerText.text = winner;
     }
 
-    public void PauseScreen(bool isPaused)
+    public void PauseScreen(bool isPaused, int playerID)
     {
         pauseScreen.SetActive(isPaused);
         if (isPaused)
         {
             AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
+            GameObject.Find("WhoPaused").GetComponent<TMP_Text>().text = "Player " + (playerID + 1) + " Paused";
         } else
         {
             AP.PlaySoundRandomPitch(AP.Find("pauseWhistle2"));

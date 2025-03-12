@@ -101,6 +101,11 @@ public class MenuController : MonoBehaviour
     #region Initialization
 
     void Start() {
+        for (int i = 0; i < Gamepad.all.Count; i++)
+        {
+            InputSystem.EnableDevice(Gamepad.all[i]);
+        }
+
         GameObject currentES = EventSystem.current.gameObject;
         currentES.SetActive(false);
         currentES.SetActive(true);

@@ -6,7 +6,9 @@ using UnityEngine;
 using Unity.VisualScripting;
 
 public class WarriorController : MonoBehaviour
-{  
+{
+    public int playerID;
+
     private Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
@@ -1022,7 +1024,7 @@ public class WarriorController : MonoBehaviour
 
         if (GM.isPlaying)
         {
-            GM.PauseGame();
+            GM.PauseGame(playerID);
         } else if (UM.GetTimeRemaining() < 0)
         {
             GM.MenuReturn();
