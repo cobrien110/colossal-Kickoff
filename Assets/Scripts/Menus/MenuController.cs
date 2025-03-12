@@ -19,6 +19,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private EarthController EC;
     [SerializeField] private CreditsScrollingUI CSU;
     [SerializeField] private TVTextScroll TVT;
+    [SerializeField] private ChangeChannel CC;
 
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
@@ -269,6 +270,7 @@ public class MenuController : MonoBehaviour
             case 0:
                 currentScreen = 3;
                 menuCamera.goToVersusSetup();
+                CC.SwitchToEarth();
                 stageSelect.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 TVT.WarningEnd();
@@ -322,6 +324,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(creditsBackButton);
                 menuCamera.goToCredits();
+                CC.SwitchToCredits();
                 CSU.CreditsStart();
                 TVT.WarningEnd();
                 //creditsContent.SetActive(true);
@@ -341,6 +344,7 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
         menuCamera.goToTitle();
+        CC.SwitchToNews();
         currentScreen = 0;
         mainMenuButtons.SetActive(true);
         stageSelect.SetActive(false);

@@ -13,7 +13,7 @@ public class ChangeChannel : MonoBehaviour
     public Material staticMat;
 
     //Time delay for static effect
-    [SerializeField] private float timeToChange = 0.5f; 
+    [SerializeField] private float timeToChange = 0.2f; 
 
     private Renderer creditsRenderer;
     private Renderer earthRenderer;
