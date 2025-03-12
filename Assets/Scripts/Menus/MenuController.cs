@@ -17,7 +17,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
     [SerializeField] private EarthController EC;
-    [SerializeField] private CreditsScrollingUI CSU; 
+    [SerializeField] private CreditsScrollingUI CSU;
+    [SerializeField] private TVTextScroll TVT;
 
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
@@ -130,6 +131,7 @@ public class MenuController : MonoBehaviour
 
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
+        TVT.WarningStart();
     }
 
     void Update()
@@ -264,6 +266,7 @@ public class MenuController : MonoBehaviour
                 menuCamera.goToVersusSetup();
                 stageSelect.SetActive(true);
                 mainMenuButtons.SetActive(false);
+                TVT.WarningEnd();
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
                 goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
@@ -277,7 +280,8 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(settingsFirstButton);
                 menuCamera.goToSettings();
-                
+                TVT.WarningEnd();
+
                 // Swapping Between Settings Here?
                 settingsButtons.SetActive(true);
 
@@ -301,6 +305,7 @@ public class MenuController : MonoBehaviour
                 menuCamera.goToQuitting();
                 quitGameButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
+                TVT.WarningEnd();
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
@@ -312,6 +317,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(creditsBackButton);
                 menuCamera.goToCredits();
                 CSU.CreditsStart();
+                TVT.WarningEnd();
                 //creditsContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 //sound
@@ -336,6 +342,7 @@ public class MenuController : MonoBehaviour
         settingsButtons.SetActive(false);
         creditsContent.SetActive(false);
         CSU.CreditsEnd();
+        TVT.WarningStart();
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
