@@ -13,6 +13,7 @@ public class AbilityHowl : AbilityScript
     public string soundName;
     public IceCrystal currentCrystal;
     private AbilityAkhlutPassive AAP;
+    private const float visualizerOffSetY = -0.3f;
     /*
     
     1. Stop momentum of ball if in radius
@@ -66,10 +67,11 @@ public class AbilityHowl : AbilityScript
             }
 
             // Check for warriors
-            if (obj.GetComponent<WarriorController>() != null)
+            WarriorController wc = obj.GetComponent<WarriorController>();
+            if (wc != null)
             {
                 // Stun warrior
-                obj.GetComponent<WarriorController>().Stun(stunTime);
+                wc.Stun(stunTime);
                 // Debug.Log("Stunned Warrior: " + obj.name);
             }
         }
@@ -87,6 +89,8 @@ public class AbilityHowl : AbilityScript
     {
         Setup();
         attackVisualizer.transform.localScale *= howlRadius * 1.7f;
+        attackVisualizer.transform.position =
+            new Vector3(transform.position.x, transform.position.y + visualizerOffSetY, transform.position.z);
         AAP = GetComponent<AbilityAkhlutPassive>();
     }
 

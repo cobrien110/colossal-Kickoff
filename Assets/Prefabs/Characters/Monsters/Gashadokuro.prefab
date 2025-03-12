@@ -607,6 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265edbb104cd4284f82789864241e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -802,7 +803,7 @@ MonoBehaviour:
   spawnOrbQty: 3
   hitOrbPower: 5
   slamDelay: 0.25
-  stunRadiusMult: 2
+  stunRadiusMult: 1.5
 --- !u!114 &-1964907915182127016
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -861,6 +861,7 @@ public class WarriorController : MonoBehaviour
     public void Stun(float stunTime)
     {
         if (isStunned) return;
+        if (isSliding) return;
         isStunned = true;
         rb.velocity = Vector3.zero;
         //audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
@@ -994,7 +995,8 @@ public class WarriorController : MonoBehaviour
 
         if (ballRb == null) yield break; // Safety check
 
-        while (timer < gravityFieldDuration)
+        while (timer < gravityFieldDuration
+            && BP != null && BP.ballOwner != gameObject) // Ensure gravity field ends early if this warrior gets the ball
         {
             Vector3 toWarrior = transform.position - ballRb.position; // Direction to warrior
             float distance = toWarrior.magnitude;
