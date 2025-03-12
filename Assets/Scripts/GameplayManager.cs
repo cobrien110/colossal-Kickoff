@@ -607,7 +607,7 @@ public class GameplayManager : MonoBehaviour
     {
         if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
         {
-            if (pauseTimer < pauseDelay) return;
+            if (pauseTimer < pauseDelay || isGameOver) return;
             pauseTimer = 0f;
             GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
             if (isPaused)
