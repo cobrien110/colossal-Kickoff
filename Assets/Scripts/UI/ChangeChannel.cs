@@ -20,8 +20,10 @@ public class ChangeChannel : MonoBehaviour
 
     private void Start()
     {
-        if (creditsTV != null) creditsRenderer = creditsTV.GetComponent<Renderer>();
-        if (earthTV != null) earthRenderer = earthTV.GetComponent<Renderer>();
+        if (creditsTV != null) 
+            creditsRenderer = creditsTV.GetComponent<Renderer>();
+        if (earthTV != null) 
+            earthRenderer = earthTV.GetComponent<Renderer>();
     }
 
     public void SwitchToNews()
