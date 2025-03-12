@@ -18,18 +18,18 @@ public class TVTextScroll : MonoBehaviour
 
     public void WarningStart()
     {
-        Debug.Log("Start Called");
+        //Debug.Log("Start Called");
         if (!isScrolling)
         {
             isScrolling = true;
-            Debug.Log("Should Be scrolling");
+            //Debug.Log("Should Be scrolling");
             StartCoroutine(ScrollWarning());
         }
     }
 
     public void WarningEnd()
     {
-        Debug.Log("End Called");
+        //Debug.Log("End Called");
         isScrolling = false;
         StopAllCoroutines();
         ResetWarning();
@@ -44,7 +44,7 @@ public class TVTextScroll : MonoBehaviour
     {
         while (isScrolling)
         {
-            Debug.Log("Scrolling");
+            //Debug.Log("Scrolling");
             warningTextTransform.transform.position += Vector3.right * speed * Time.deltaTime;
             if (warningTextTransform.transform.position.x > borderPoint.position.x)
             {
