@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text gameoverText = null;
     [SerializeField] private TMP_Text playerScoredText = null;
     [SerializeField] private GameObject pauseScreen = null;
+    [SerializeField] private GameObject hideWhenPaused = null;
 
 
     //UpperScoreboardUI
@@ -746,7 +747,9 @@ public class UIManager : MonoBehaviour
 
     public void PauseScreen(bool isPaused, int playerID)
     {
+        statsScoreboard.SetActive(isPaused);
         pauseScreen.SetActive(isPaused);
+        HideWhenPaused(!isPaused);
         if (isPaused)
         {
             if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
@@ -755,6 +758,11 @@ public class UIManager : MonoBehaviour
         {
             if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle2"));
         }
+    }
+
+    private void HideWhenPaused(bool state)
+    {
+        hideWhenPaused.SetActive(state);
     }
 
     public void ShowMVP(bool state, int player)
