@@ -74,6 +74,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown overtimeDropdown;
     [SerializeField] private TMP_Dropdown kickchargeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
+    [SerializeField] private Toggle controlsToggle;
     [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton, creditsBackButton;
     [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
     [SerializeField] private TMP_Text FXVolNum, MusicVolNum, CommVolNum, CommFreqNum;
@@ -129,8 +130,8 @@ public class MenuController : MonoBehaviour
         lastStageNavi = settingsBackButton.navigation;
         lastStageNavi.mode = Navigation.Mode.Explicit;
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         TVT.WarningStart();
     }
 
@@ -292,6 +293,7 @@ public class MenuController : MonoBehaviour
                 comVolumeSlider.value = PlayerPrefs.GetFloat("commentaryVolume", 100) * 100;
                 comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
                 screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
+                controlsToggle.isOn = (PlayerPrefs.GetInt("showControls", 1) != 0);
 
                 //sound
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
@@ -481,7 +483,7 @@ public class MenuController : MonoBehaviour
             gameplayNavi.selectOnDown = goreDropdown;
             settingsGameplayButton.navigation = gameplayNavi;
 
-            backNavi.selectOnUp = screenshakeToggle;
+            backNavi.selectOnUp = controlsToggle;
             backNavi.selectOnDown = settingsGameplayButton;
             settingsBackButton.navigation = backNavi;
         }
@@ -586,6 +588,21 @@ public class MenuController : MonoBehaviour
         else
         {
             PlayerPrefs.SetInt("screenshake", 0);
+        }
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetShowControls()
+    {
+        if (controlsToggle.isOn)
+        {
+            PlayerPrefs.SetInt("showControls", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("showControls", 0);
         }
 
         //sound

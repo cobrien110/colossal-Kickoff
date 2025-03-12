@@ -65,4 +65,5 @@ public class MonsterUI : MonoBehaviour
     {
         isAI = true;
     }
+
 }

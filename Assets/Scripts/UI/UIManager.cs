@@ -109,11 +109,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text monsterAbility2Text = null;
     [SerializeField] private TMP_Text monsterAbility3Text = null;
 
-    [SerializeField] private AudioPlayer AP;
+    [SerializeField] private GameObject controlsHolder = null;
 
-    //Player Prefs
-    [SerializeField] private int playerPortraitsPref;
-    [SerializeField] private GameObject playerPortraitsHolder = null;
+    [SerializeField] private AudioPlayer AP;
 
     [SerializeField] private TMP_InputField console = null;
 
@@ -152,16 +150,13 @@ public class UIManager : MonoBehaviour
         //ShowPassMeter(false);
         UpdateChargeBarText("");
 
-        //UI Toggling, Player Prefs
-        if (playerPortraitsPref == 0)
-        {
-            playerPortraitsHolder.SetActive(false);
-        }
-        else
-        {
-            playerPortraitsHolder.SetActive(true);
-        }
         UpdatePlayerLabels();
+
+        //PlayerPrefs Show Control
+        if (PlayerPrefs.GetInt("showControls") == 0)
+        {
+            controlsHolder.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -199,28 +194,28 @@ public class UIManager : MonoBehaviour
             //    }
             //}
 
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                //if (statsScoreboard.activeInHierarchy)
-                //{
-                //    ShowStatsScoreboard(false);
-                //    ShowDevStats(true);
-                //}
-                //else if (devStats.activeInHierarchy)
-                //{
-                //    ShowDevStats(false);
-                //    ShowStatsScoreboard(true);
-                //}
+            //if (Input.GetKeyDown(KeyCode.F))
+            //{
+            //    //if (statsScoreboard.activeInHierarchy)
+            //    //{
+            //    //    ShowStatsScoreboard(false);
+            //    //    ShowDevStats(true);
+            //    //}
+            //    //else if (devStats.activeInHierarchy)
+            //    //{
+            //    //    ShowDevStats(false);
+            //    //    ShowStatsScoreboard(true);
+            //    //}
 
-                if (!statsScoreboard.activeInHierarchy)
-                {
-                    ShowStatsScoreboard(true);
-                } 
-                else
-                {
-                    ShowStatsScoreboard(false);
-                }
-            }
+            //    if (!statsScoreboard.activeInHierarchy)
+            //    {
+            //        ShowStatsScoreboard(true);
+            //    } 
+            //    else
+            //    {
+            //        ShowStatsScoreboard(false);
+            //    }
+            //}
         }
     }
 
@@ -433,6 +428,7 @@ public class UIManager : MonoBehaviour
     {
         //if (overtime == true) return;
         overtime = true;
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
         Debug.Log("UI ENTERING OT STYLE " + pref);
         //Standard
         if (pref == 0)
@@ -748,11 +744,11 @@ public class UIManager : MonoBehaviour
         pauseScreen.SetActive(isPaused);
         if (isPaused)
         {
-            AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
+            if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
             GameObject.Find("WhoPaused").GetComponent<TMP_Text>().text = "Player " + (playerID + 1) + " Paused";
         } else
         {
-            AP.PlaySoundRandomPitch(AP.Find("pauseWhistle2"));
+            if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle2"));
         }
     }
 

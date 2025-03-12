@@ -16,6 +16,7 @@ public class PodiumSequencer : MonoBehaviour
     private UIManager UI;
     private StatTracker ST;
     private BallProperties BP;
+    private MonsterUI MUI;
     private MultipleTargetCamera MTC;
     private GameObject monster;
     private GameObject[] warriors;
@@ -33,6 +34,7 @@ public class PodiumSequencer : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         JT = GetComponentInChildren<JunkThrower>();
         ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
+        MUI = GameObject.FindWithTag("Monster").GetComponentInChildren<MonsterUI>();
     }
 
     private void LateUpdate()
@@ -43,6 +45,11 @@ public class PodiumSequencer : MonoBehaviour
     public void StartPodiumSequence(int winner)
     {
         Debug.Log("Podium Sequence Starting");
+        if (MUI != null)
+        {
+            MUI.ShowChargeBar(false);
+            MUI.ShowDots(false);
+        }
         // spawn podium object
         podium.SetActive(true);
 
@@ -205,6 +212,7 @@ public class PodiumSequencer : MonoBehaviour
         Time.timeScale = 0;
         // show scoreboard
         UI.ShowStatsScoreboard(true);
+        UI.ShowGameOverText(false, -1);
         UI.GoldenWarriorStats();
 
         if (ST != null) UI.ShowMVP(true, ST.GetMVP());
