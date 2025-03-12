@@ -43,7 +43,10 @@ public class AbilityBullrush : AbilityChargeable
                 MC.movementDirection = MC.transform.forward;
             }
 
+            
             //Debug.Log("Dashing");
+            ST.UpdateMAbUsed();
+            UM.UpdateMonsterAbilitiesSB();
             MC.isDashing = true;
             ANIM.SetBool("isWindingUp", false);
             ANIM.Play(activatedAnimationName);

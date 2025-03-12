@@ -29,12 +29,9 @@ public class AbilityFirebreath : AbilityScript
     [SerializeField] private GameObject orb;
     [SerializeField] private int spawnOrbQty = 3;
 
-    
-
     public void Start()
     {
         Setup();
-
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
         attackVisualizer.transform.parent = null;
         AGP = GetComponent<AbilityGashaPassive>();
@@ -62,7 +59,8 @@ public class AbilityFirebreath : AbilityScript
         if (timer < cooldown) return;
 
         timer = 0;
-
+        ST.UpdateMAbUsed();
+        UM.UpdateMonsterAbilitiesSB();
         // Set up the attack visualizer
         Vector3 startPosition = new Vector3(monsterGoal.transform.position.x, transform.position.y, transform.position.z);
         Vector3 endPosition = new Vector3(distToStopAtX, transform.position.y, transform.position.z);

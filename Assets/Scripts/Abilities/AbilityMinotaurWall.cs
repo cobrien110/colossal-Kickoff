@@ -50,6 +50,8 @@ public class AbilityMinotaurWall : AbilityScript
             }
 
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(wallSoundEffect), 0.2f);
+            ST.UpdateMAbUsed();
+            UM.UpdateMonsterAbilitiesSB();
             ANIM.Play(activatedAnimationName);
             StartCoroutine(MC.MoveDelay());
         }

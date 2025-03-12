@@ -61,6 +61,8 @@ public class AbilityMummyExplode : AbilityScript
 
         // Play sound
         audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
+        ST.UpdateMAbUsed();
+        UM.UpdateMonsterAbilitiesSB();
         ANIM.Play(activatedAnimationName);
     }
 

@@ -31,6 +31,8 @@ public class AbilitySphinxCurse : AbilityScript
             c.speed = projectileSpeed;
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
             ANIM.Play(activatedAnimationName);
+            ST.UpdateMAbUsed();
+            UM.UpdateMonsterAbilitiesSB();
         }
     }
 }

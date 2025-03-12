@@ -32,12 +32,15 @@ public class AbilityHandSlam : AbilityDelayed
 
     private const float visualOffsetY = -0.3f;
 
+    private StatTracker ST;
+
     public override void Activate()
     {
 
         if (timer < cooldown) return;
 
         Debug.Log("Activate hand slam");
+        //ST.UpdateMAbUsed();
         timer = 0;
 
         // Perform the initial hand slam effect
@@ -128,6 +131,7 @@ public class AbilityHandSlam : AbilityDelayed
     void Start()
     {
         Setup();
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         abilityCreateHands = GetComponent<AbilityCreateHands>();
         BP = FindObjectOfType<BallProperties>();
         monsterRB = gameObject.GetComponent<Rigidbody>();
