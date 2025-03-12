@@ -994,7 +994,8 @@ public class WarriorController : MonoBehaviour
 
         if (ballRb == null) yield break; // Safety check
 
-        while (timer < gravityFieldDuration)
+        while (timer < gravityFieldDuration
+            && BP != null && BP.ballOwner != gameObject) // Ensure gravity field ends early if this warrior gets the ball
         {
             Vector3 toWarrior = transform.position - ballRb.position; // Direction to warrior
             float distance = toWarrior.magnitude;
