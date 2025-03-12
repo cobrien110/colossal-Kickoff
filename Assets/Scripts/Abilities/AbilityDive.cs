@@ -98,6 +98,8 @@ public class AbilityDive : AbilityScript
                 timer = 0;
                 inputBuffer = 0f;
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(diveSound), 0.7f);
+                ST.UpdateMAbUsed();
+                UM.UpdateMonsterAbilitiesSB();
             }
         }
     }

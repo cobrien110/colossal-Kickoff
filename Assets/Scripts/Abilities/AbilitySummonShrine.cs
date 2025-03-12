@@ -80,7 +80,8 @@ public class AbilitySummonShrine : AbilityScript
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
 
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.75f);
-
+        ST.UpdateMAbUsed();
+        UM.UpdateMonsterAbilitiesSB();
     }
 
     // Start is called before the first frame update

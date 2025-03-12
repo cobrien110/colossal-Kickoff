@@ -42,6 +42,8 @@ public class AbilitySnakeMines : AbilityScript
                 bombToDestroy.PrimeExplosion();
             }
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
+            ST.UpdateMAbUsed();
+            UM.UpdateMonsterAbilitiesSB();
         }
     }
 

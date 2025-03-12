@@ -38,6 +38,8 @@ public class AbilityHowl : AbilityScript
         // Schedule the deactivation after 1 second
         Invoke(nameof(DeactivateVisualizer), 1f);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), .6f);
+        ST.UpdateMAbUsed();
+        UM.UpdateMonsterAbilitiesSB();
 
         Debug.Log("Howl");
 

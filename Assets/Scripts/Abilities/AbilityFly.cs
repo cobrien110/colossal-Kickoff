@@ -92,6 +92,8 @@ public class AbilityFly : AbilityScript
         {
             timer = 0;
             isActive = true;
+            ST.UpdateMAbUsed();
+            UM.UpdateMonsterAbilitiesSB();
             //sprite.transform.SetPositionAndRotation(new Vector3(sprite.transform.position.x, 10, sprite.transform.position.z), sprite.transform.rotation);
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(activatedSoundName), 0.95f);
 
