@@ -86,9 +86,9 @@ public class StatTracker : MonoBehaviour
 
     public void UpdateGameWinner(int winner)
     {
-        if (winner == 0) gameWinner = "Warriors";
-        else if (winner == 1) gameWinner = "Monster";
-        else gameWinner = "Tie";
+        if (winner == 0) gameWinner = "WARRIORS WIN!";
+        else if (winner == 1) gameWinner = "MONSTER WINS!";
+        else gameWinner = "TIE GAME!";
     }
 
     public string GetGameWinner() {  return gameWinner; }

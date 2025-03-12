@@ -50,6 +50,9 @@ public class PodiumSequencer : MonoBehaviour
             MUI.ShowChargeBar(false);
             MUI.ShowDots(false);
         }
+
+        UI.ShowPlayerScoredText(false);
+        UI.ShowInGameUI(false);
         // spawn podium object
         podium.SetActive(true);
 
@@ -213,6 +216,7 @@ public class PodiumSequencer : MonoBehaviour
         // show scoreboard
         UI.ShowStatsScoreboard(true);
         UI.ShowGameOverText(false, -1);
+        UI.UpdateWinnerTextSB(ST.GetGameWinner());
         UI.GoldenWarriorStats();
 
         if (ST != null) UI.ShowMVP(true, ST.GetMVP());

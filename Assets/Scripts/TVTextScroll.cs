@@ -61,14 +61,18 @@ public class TVTextScroll : MonoBehaviour
     //Add your text here and remember to increase the random range :)
     private void TextRandom()
     {
-        int x = Random.Range(0, 4);
-        if (x < 3)
+        int x = Random.Range(0, 100);
+        if (x < 75)
         {
             scrollingText.text = "WARNING! MONSTERS ARE INVADING EARTH! SEEK SHELTER IMMEDIATELY!";
         }
-        else if (x == 3)
+        else if (x < 98)
         {
             scrollingText.text = "REMEMBER TO JOIN THE DISCORD :)";
+        }
+        else if (x == 99)
+        {
+            scrollingText.text = "THIS MESSAGE IS REALLY RARE";
         }
     }
 }
