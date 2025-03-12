@@ -861,6 +861,7 @@ public class WarriorController : MonoBehaviour
     public void Stun(float stunTime)
     {
         if (isStunned) return;
+        if (isSliding) return;
         isStunned = true;
         rb.velocity = Vector3.zero;
         //audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
