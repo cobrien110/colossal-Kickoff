@@ -293,6 +293,37 @@ public class BallProperties : MonoBehaviour
                 UM.MonsterPoint();
                 ST.UpdateMGoals();
                 UM.UpdateMonsterGoalsSB();
+
+                //Monster Scores
+                if (playerTest.GetComponent<MonsterController>() != null)
+                {
+                    int i = playerTest.GetComponent<MonsterController>().playerID;
+                    if (playerTest.GetComponent<AiMonsterController>() != null)
+                    {
+                        UM.UpdatePlayerScoredText(0);
+                    }
+                    else
+                    {
+                        UM.UpdatePlayerScoredText(i + 1);
+                    }
+                    UM.ShowPlayerScoredText(true);
+                }
+                //Warrior OwnGoals
+                else if (playerTest.GetComponent<WarriorController>() != null)
+                {
+                    int i = playerTest.GetComponent<WarriorController>().playerID;
+                    if (playerTest.GetComponent<WarriorAiController>() != null)
+                    {
+                        UM.UpdatePlayerScoredText(0);
+                    }
+                    else
+                    {
+                        i = i * -1;
+                        UM.UpdatePlayerScoredText(i - 1);
+                    }
+                    UM.ShowPlayerScoredText(true);
+                }
+                
                 ScoreBall(true, other.transform);
 
                 AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
@@ -338,6 +369,36 @@ public class BallProperties : MonoBehaviour
                 if (playerTest != null) Debug.Log("PLAYER (" + playerTest.name + ") SCORED");
 
                 UM.WarriorPoint();
+
+                //Warrior Scores
+                if (playerTest.GetComponent<WarriorController>() != null)
+                {
+                    int i = playerTest.GetComponent<WarriorController>().playerID;
+                    if (playerTest.GetComponent<WarriorAiController>() != null)
+                    {
+                        UM.UpdatePlayerScoredText(0);
+                    }
+                    else
+                    {
+                        UM.UpdatePlayerScoredText(i + 1);
+                    }
+                    UM.ShowPlayerScoredText(true);
+                }
+                //Monster OwnGoals
+                else if (playerTest.GetComponent<MonsterController>() != null)
+                {
+                    int i = playerTest.GetComponent<MonsterController>().playerID;
+                    if (playerTest.GetComponent<AiMonsterController>() != null)
+                    {
+                        UM.UpdatePlayerScoredText(0);
+                    }
+                    else
+                    {
+                        i = i * -1;
+                        UM.UpdatePlayerScoredText(i - 1);
+                    }
+                    UM.ShowPlayerScoredText(true);
+                }
 
                 //Stat tracking warrior points
                 if (playerTest.GetComponent<WarriorController>() != null)
