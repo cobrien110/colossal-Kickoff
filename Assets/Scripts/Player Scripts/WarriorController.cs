@@ -559,29 +559,23 @@ public class WarriorController : MonoBehaviour
 
     public void Sliding()
     {
-        if (isStunned) return;
-        // Check if enough time has passed since the last slide
-        if (Time.time - lastSlideTime >= slideCooldown)
-        {
-            if (movementDirection != Vector3.zero && BP.ballOwner != gameObject)
-            {
-                Debug.Log(gameObject.name + ": Sliding");
-                isSliding = true;
-                isInvincible = true;
+        if (!CanSlide()) return;
+  
+        Debug.Log(gameObject.name + ": Sliding");
+        isSliding = true;
+        isInvincible = true;
 
-                // Add force in direction of the player input for this warrior (movementDirection)
-                Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
-                rb.AddForce(slideVelocity);
-                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
+        // Add force in direction of the player input for this warrior (movementDirection)
+        Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
+        rb.AddForce(slideVelocity);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
 
-                // Set isSliding to false after a delay
-                Invoke("StopSliding", slideDuration);
+        // Set isSliding to false after a delay
+        Invoke("StopSliding", slideDuration);
 
-                // Update the last slide time
-                lastSlideTime = Time.time;
-                ANIM.SetBool("isSliding", true);
-            }
-        }
+        // Update the last slide time
+        lastSlideTime = Time.time;
+        ANIM.SetBool("isSliding", true);
     }
 
     void StopSliding()
@@ -717,14 +711,14 @@ public class WarriorController : MonoBehaviour
 
     public void Die()
     {
+        Debug.Log("Die");
         Vector3 deathPosition = this.transform.position;
         if (isInvincible || isWinner) return;
         
         // Chance for AiWarrior to dodge if slide is off cooldown
         if (GetComponent<WarriorAiController>() != null // Ensure this is an AI Warrior
             && Random.value < GetComponent<WarriorAiController>().GetDodgeChance() // Get chance to dodge
-            && Time.time - lastSlideTime >= slideCooldown // Ensure dodge is off cooldown
-            && (BP != null && (BP.ballOwner == null || !BP.ballOwner.Equals(gameObject)))) // Ensure dodge can't happen if this warrior has ball
+            && CanSlide()) // ensure warrior can slide
         {
             Debug.Log("Dodge!");
             Sliding();
@@ -929,10 +923,7 @@ public class WarriorController : MonoBehaviour
         if (audioPlayer != null) audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("callForPass1"));
         WUI.ShowCallForPass(true);
 
-        // Create a temporary "gravity" effect around this player
-
-        // For AI teammates...
-        // If ball owner is a teammate, have them pass me the ball
+        // Create a temporary "gravity" effect around this player  
         if (BP != null && BP.ballOwner != null
             && BP.ballOwner.GetComponent<WarriorController>() != null)
         {
@@ -941,6 +932,7 @@ public class WarriorController : MonoBehaviour
             StartCoroutine(PassWindowCheck());
 
             // For AI teammates...
+            // If ball owner is a teammate, have them pass me the ball
             if (BP.ballOwner.GetComponent<WarriorAiController>() != null)
             {
                 BP.ballOwner.GetComponent<WarriorAiController>().CallForPassing(GetComponent<WarriorController>());
@@ -952,11 +944,10 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator PassWindowCheck()
     {
-        //WUI.ShowCallForPass(true);
-        Debug.Log("Start PassWindowCheck");
+        // Debug.Log("Start PassWindowCheck");
         while (passWindowTimer < passWindowDuration)
         {
-            Debug.Log("Tick");
+            // Debug.Log("Tick");
             // Check if kick happened
             if (kickHappened)
             {
@@ -1143,6 +1134,13 @@ public class WarriorController : MonoBehaviour
     public bool GetIsDead()
     {
         return isDead;
+    }
+
+    private bool CanSlide()
+    {
+        return !isStunned && !isCursed
+            && (Time.time - lastSlideTime >= slideCooldown)
+            && (movementDirection != Vector3.zero && BP.ballOwner != gameObject);
     }
 
     private void OnTriggerStay(Collider other)
