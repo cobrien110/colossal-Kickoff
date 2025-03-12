@@ -98,6 +98,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject p2Connected;
     [SerializeField] private GameObject p3Connected;
     [SerializeField] private GameObject p4Connected;
+    [SerializeField] private GameObject p1Disconnected;
+    [SerializeField] private GameObject p2Disconnected;
+    [SerializeField] private GameObject p3Disconnected;
+    [SerializeField] private GameObject p4Disconnected;
     #endregion
 
     #region Initialization
@@ -679,15 +683,19 @@ public class MenuController : MonoBehaviour
         {
             case 1:
                 p1Connected.SetActive(true);
+                p1Disconnected.SetActive(false);
                 break;
             case 2:
                 p2Connected.SetActive(true);
+                p2Disconnected.SetActive(false);
                 break;
             case 3:
                 p3Connected.SetActive(true);
+                p3Disconnected.SetActive(false);
                 break;
             case 4:
                 p4Connected.SetActive(true);
+                p4Disconnected.SetActive(false);
                 break;
             default:
                 Debug.Log("Player Num Error");
@@ -701,15 +709,19 @@ public class MenuController : MonoBehaviour
         {
             case 1:
                 p1Connected.SetActive(false);
+                p1Disconnected.SetActive(true);
                 break;
             case 2:
                 p2Connected.SetActive(false);
+                p2Disconnected.SetActive(true);
                 break;
             case 3:
                 p3Connected.SetActive(false);
+                p3Disconnected.SetActive(true);
                 break;
             case 4:
                 p4Connected.SetActive(false);
+                p4Disconnected.SetActive(true);
                 break;
             default:
                 Debug.Log("Player Num Error");
