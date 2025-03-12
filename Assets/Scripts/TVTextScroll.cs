@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TVTextScroll : MonoBehaviour
@@ -8,6 +9,7 @@ public class TVTextScroll : MonoBehaviour
     public Transform spawnPoint; //Transform where elements spawn
     public Transform borderPoint; //Transform where elements are considered out of bounds
     public float speed = 1f; //Scrolling speed
+    public TMP_Text scrollingText; //Text
 
     private bool isScrolling = false;
 
@@ -37,6 +39,7 @@ public class TVTextScroll : MonoBehaviour
 
     public void ResetWarning()
     {
+        TextRandom();
         warningTextTransform.transform.position = spawnPoint.transform.position;
     }
 
@@ -52,6 +55,20 @@ public class TVTextScroll : MonoBehaviour
             }
             yield return null;
 
+        }
+    }
+
+    //Add your text here and remember to increase the random range :)
+    private void TextRandom()
+    {
+        int x = Random.Range(0, 4);
+        if (x < 3)
+        {
+            scrollingText.text = "WARNING! MONSTERS ARE INVADING EARTH! SEEK SHELTER IMMEDIATELY!";
+        }
+        else if (x == 3)
+        {
+            scrollingText.text = "REMEMBER TO JOIN THE DISCORD :)";
         }
     }
 }
