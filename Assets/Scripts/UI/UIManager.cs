@@ -63,6 +63,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject P2MVP = null;
     [SerializeField] private GameObject P3MVP = null;
 
+    [SerializeField] private TMP_Text winnerTextSB = null;
+
     // Dev Stats
     [SerializeField] private GameObject devStats = null;
     [SerializeField] private TMP_Text gameWinnerText = null;
@@ -110,6 +112,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text monsterAbility3Text = null;
 
     [SerializeField] private GameObject controlsHolder = null;
+    //private int[] playerIds = new int[4];
 
     [SerializeField] private AudioPlayer AP;
 
@@ -233,18 +236,18 @@ public class UIManager : MonoBehaviour
         if (state) {
             if (winner == 0)
             {
-                gameoverText.text = "HUMANS WIN!";
-                gameWinnerText.text = "Humans";
+                gameoverText.text = "WARRIORS WIN!";
+                gameWinnerText.text = "WARRIORS";
             }
             else if (winner == 1)
             {
                 gameoverText.text = "MONSTER WINS!";
-                gameWinnerText.text = "Monster";
+                gameWinnerText.text = "MONSTER";
             }
             else if (winner == 2)
             {
                 gameoverText.text = "TIE GAME!";
-                gameWinnerText.text = "Tie";
+                gameWinnerText.text = "TIE";
             }
         }
         gameoverText.gameObject.SetActive(state);
@@ -255,9 +258,11 @@ public class UIManager : MonoBehaviour
         playerScoredText.gameObject.SetActive(state);
     }
 
-    public void UpdatePlayerScoredText(string player)
+    public void UpdatePlayerScoredText(int player)
     {
-        playerScoredText.text = "" + player + " SCORED!";
+        if (player == 0) playerScoredText.text = "CPU SCORED!";
+        else if (player > 0) playerScoredText.text = "PLAYER " + (player) + " SCORED!";
+        else playerScoredText.text = "PLAYER " + (player * -1) + " OWN GOALED!";
     }
 
     public IEnumerator ScoreTimer()
@@ -297,7 +302,7 @@ public class UIManager : MonoBehaviour
             ST.UpdateGameWinner(CheckWinner());
             
             //Hides everything under 'in game ui holder' on canvas and pops up scoreboard
-            ShowInGameUI(false);
+            //ShowInGameUI(false);
             //ShowStatsScoreboard(true);
         }
 
@@ -734,9 +739,9 @@ public class UIManager : MonoBehaviour
         MonsterGoalsText.text = "" + ST.GetMGoals();
     }
 
-    public void UpdateGameWinner(string winner)
+    public void UpdateWinnerTextSB(string winner)
     {
-        gameWinnerText.text = winner;
+        winnerTextSB.text = winner;
     }
 
     public void PauseScreen(bool isPaused, int playerID)
@@ -907,8 +912,8 @@ public class UIManager : MonoBehaviour
     private void UpdatePlayerLabels()
     {
         int count = 0;
-        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
         PlayerHolder PH = null;
+        GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
 
         foreach (GameObject holder in playerHolders)
         { 
@@ -918,14 +923,15 @@ public class UIManager : MonoBehaviour
                 if (PH.teamName.Equals("Monster"))
                 {
                     MonsterLabel.text = "Player " + (PH.playerID + 1);
+                    //playerIds[0] = PH.playerID;
                 }
                 else
                 {
                     WarriorLabels[count].text = "Player " + (PH.playerID + 1);
+                    //playerIds[count + 1] = PH.playerID;
                     count++;
                 }
-            }
-            
+            } 
         }
     }
 }

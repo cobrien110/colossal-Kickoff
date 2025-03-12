@@ -260,6 +260,7 @@ public class GameplayManager : MonoBehaviour
         BP.isSuperKick = false;
         passMeter = 0;
         UM.UpdateWarriorContestBar(passMeter);
+        UM.ShowPlayerScoredText(false);
         Debug.Log(playerList);
         for (int i = 0; i < playerList.Count; i++)
         {
