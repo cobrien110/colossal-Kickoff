@@ -12869,17 +12869,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4817416808694921628, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
   m_PrefabInstance: {fileID: 1525060788}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1527678116 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
-  m_PrefabInstance: {fileID: 2641558596161924499}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &1528511937
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -20107,20 +20096,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8912268599612340, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
-      propertyPath: m_Navigation.m_SelectOnRight
-      value: 
-      objectReference: {fileID: 1527678116}
-    - target: {fileID: 8912268599612340, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1542430857}
     - target: {fileID: 936849419113456813, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1921743462187787651, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2529909992509541054, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_Pivot.x
@@ -20210,14 +20191,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1542430857}
-    - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
-      propertyPath: monsterScore
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
-      propertyPath: warriorScore
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
