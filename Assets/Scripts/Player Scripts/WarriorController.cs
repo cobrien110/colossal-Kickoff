@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class WarriorController : MonoBehaviour
 {
@@ -74,6 +75,7 @@ public class WarriorController : MonoBehaviour
     //public Sprite[] ringColors;
     public SpriteRenderer ring;
     public SpriteRenderer transparentRing;
+    public Image callForPass;
     //public SpriteRenderer playerRend;
     //public Color curseColor;
     private CommentatorSoundManager CSM;
@@ -1047,16 +1049,15 @@ public class WarriorController : MonoBehaviour
         //Debug.Log("Set color called with i = " + i);
         try
         {
-            Debug.Log("SETTING COLOR");
-            Debug.Log(color);
             ring.color = color;
-            //Debug.Log(ring.color);
             transparentRing.color = new Color(color.r, color.g, color.b, 0.3f);
+            callForPass.color = color;
         }
         catch
         {
             ring.color = color;
-            transparentRing.color = color;
+            transparentRing.color = new Color(color.r, color.g, color.b, 0.3f);
+            callForPass.color = color;
         }
 
     }

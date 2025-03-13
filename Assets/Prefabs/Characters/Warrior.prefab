@@ -113,6 +113,7 @@ MonoBehaviour:
   PS: {fileID: 8640153958670802855}
   ring: {fileID: 5541382916214441110}
   transparentRing: {fileID: 1769564852655765584}
+  callForPass: {fileID: 5836625512663820800}
   playerNum: 1
   goreParticleObj: {fileID: 4709248696784352767, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
   pinataParticleObj: {fileID: 4146442508470930318, guid: 71220862bbd1b764db97fa185bc56537, type: 3}
@@ -6223,7 +6224,7 @@ PrefabInstance:
     - target: {fileID: 2305689342559410795, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3c96251571bee6749b23fa06382e0001, type: 3}
+      objectReference: {fileID: 21300000, guid: 2101892cffd84044887a7a1e011ab071, type: 3}
     - target: {fileID: 2591046191362492896, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -6354,3 +6355,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5140548975766644809, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
   m_PrefabInstance: {fileID: 5692743199587004523}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5836625512663820800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2305689342559410795, guid: 7888edf1d160d714689abea0fd5e23a0, type: 3}
+  m_PrefabInstance: {fileID: 5692743199587004523}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
