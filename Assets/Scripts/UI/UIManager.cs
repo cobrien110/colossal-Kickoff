@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
@@ -686,6 +687,7 @@ public class UIManager : MonoBehaviour
     public void ShowStatsScoreboard(bool state)
     {
         statsScoreboard.gameObject.SetActive(state);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("ButtonRematch"));
     }
 
     public void ShowInGameUI(bool state)
