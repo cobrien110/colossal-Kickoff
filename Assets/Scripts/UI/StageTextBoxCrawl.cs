@@ -23,7 +23,7 @@ public class StageTextBoxCrawl : MonoBehaviour
 
     private void Start()
     {
-        transform.localScale = hiddenScale; //start hidden
+
     }
 
     public void DisplayText(int index)
@@ -44,6 +44,7 @@ public class StageTextBoxCrawl : MonoBehaviour
 
         headerCoroutine = StartCoroutine(TypeText(headerBox, headers[index], headerSpeed));
         bodyCoroutine = StartCoroutine(TypeText(bodyBox, bodies[index], bodySpeed));
+        Debug.Log("Displaying: " + index);
     }
 
     private IEnumerator TypeText(TextMeshProUGUI textBox, string text, float speed)
@@ -66,6 +67,20 @@ public class StageTextBoxCrawl : MonoBehaviour
 
         if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
         scaleCoroutine = StartCoroutine(ScaleOverTime(hiddenScale));
+    }
+
+    public void TurnOff()
+    {
+        if (headerCoroutine != null) StopCoroutine(headerCoroutine);
+        if (bodyCoroutine != null) StopCoroutine(bodyCoroutine);
+
+        headerBox.text = "";
+        bodyBox.text = "";
+
+        if (scaleCoroutine != null) StopCoroutine(scaleCoroutine);
+
+        transform.localScale = Vector3.zero;
+        Debug.Log("Turned Off Text Box");
     }
 
     private IEnumerator ScaleOverTime(Vector3 targetScale)

@@ -20,6 +20,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private CreditsScrollingUI CSU;
     [SerializeField] private TVTextScroll TVT;
     [SerializeField] private ChangeChannel CC;
+    [SerializeField] private StageTextBoxCrawl STBC;
 
     //parent object containing all buttons from the main menu
     [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
@@ -268,6 +269,7 @@ public class MenuController : MonoBehaviour
         {
             //VERSUS MATCH
             case 0:
+                Debug.Log("OptionSelectVersus");
                 currentScreen = 3;
                 menuCamera.goToVersusSetup();
                 CC.SwitchToEarth();
@@ -341,8 +343,10 @@ public class MenuController : MonoBehaviour
 
     public void returnToTop()
     {
+        Debug.Log("ReturnToTop");
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
+        STBC.TurnOff();
         menuCamera.goToTitle();
         CC.SwitchToNews();
         currentScreen = 0;
@@ -360,6 +364,7 @@ public class MenuController : MonoBehaviour
 
     public void moveToStageSelect()
     {
+        Debug.Log("moveToStageSelect");
         currentScreen = 3;
         //findAllCursors();
         /**for (int i = 0; i < cursors.Length; i++) {
@@ -370,7 +375,7 @@ public class MenuController : MonoBehaviour
         mainMenuButtons.SetActive(false);
         characterSelect.SetActive(false);
         stageSelect.SetActive(true);
-
+        stageFirstButton.gameObject.GetComponent<Selectable>().Select();
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
@@ -395,8 +400,6 @@ public class MenuController : MonoBehaviour
         for (int i = 0; i < cursors.Length; i++) {
             cursors[i].SetActive(true);
         }**/
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++)
         {
@@ -416,6 +419,9 @@ public class MenuController : MonoBehaviour
         }
 
         stageSelect.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
+        lastStageButton.GetComponent<Selectable>().Select();
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClose"));
@@ -740,6 +746,7 @@ public class MenuController : MonoBehaviour
     public void selectStage(int stageID) {
         stageSelection = stageID;
         currentScreen = 2;
+        STBC.TurnOff();
         stageSelect.SetActive(false);
         characterSelect.SetActive(true);
         findAllCursors();
@@ -757,26 +764,6 @@ public class MenuController : MonoBehaviour
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
-    }
-
-    //Stage Image Handling
-    public void StageImageSwap(int stageID)
-    {
-        Debug.Log("Swapped");
-        //stageFade.CrossFadeAlpha(1, 1.0f, false);
-        //stageFade.CrossFadeAlpha(0, 1.0f, false);
-        for (int i = 0; i < stageImages.Length; i++)
-        {
-            if (i == stageID)
-            {
-                stageImages[i].SetActive(true);
-            }
-            else
-            {
-                stageImages[i].SetActive(false);
-            }
-
-        }
     }
 
     public void SetLastStageButton(int stageID)
