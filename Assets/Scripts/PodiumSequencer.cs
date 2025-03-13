@@ -34,7 +34,6 @@ public class PodiumSequencer : MonoBehaviour
         MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
         JT = GetComponentInChildren<JunkThrower>();
         ScoreJingle = GameObject.FindGameObjectWithTag("Jukebox2").GetComponent<AudioPlayer>();
-        MUI = GameObject.FindWithTag("Monster").GetComponentInChildren<MonsterUI>();
     }
 
     private void LateUpdate()
@@ -45,6 +44,7 @@ public class PodiumSequencer : MonoBehaviour
     public void StartPodiumSequence(int winner)
     {
         Debug.Log("Podium Sequence Starting");
+        MUI = GameObject.FindWithTag("Monster").GetComponentInChildren<MonsterUI>();
         if (MUI != null)
         {
             MUI.ShowChargeBar(false);

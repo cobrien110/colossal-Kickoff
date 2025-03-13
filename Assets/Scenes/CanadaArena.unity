@@ -1461,10 +1461,22 @@ PrefabInstance:
     - target: {fileID: 5834789582512642526, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1860502086}
+    - target: {fileID: 5834789582512642526, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1860502086}
+    - target: {fileID: 5834789582512642526, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
       objectReference: {fileID: 1542430857}
     - target: {fileID: 5834789582512642526, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: MenuReturn
+      value: UpdateSaveData
+      objectReference: {fileID: 0}
+    - target: {fileID: 5834789582512642526, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: StatTracker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6614040425193241741, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1493,10 +1505,34 @@ PrefabInstance:
     - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1860502086}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1860502086}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
       objectReference: {fileID: 1542430857}
     - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateSaveData
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SaveToJson
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: MenuReturn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StatTracker, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: StatTracker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9135121045210233382, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_IsActive
@@ -2187,6 +2223,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69131cb9692921d4c869974562f062d3, type: 3}
+--- !u!114 &1860502086 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9047170611342773322, guid: 69131cb9692921d4c869974562f062d3, type: 3}
+  m_PrefabInstance: {fileID: 1860502085}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee4a44e69fa05741b073f128dfe423d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1975616912
 GameObject:
   m_ObjectHideFlags: 0

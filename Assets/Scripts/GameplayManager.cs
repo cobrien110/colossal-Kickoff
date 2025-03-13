@@ -689,8 +689,15 @@ public class GameplayManager : MonoBehaviour
             WC = warrior.GetComponent<WarriorController>();
             if (WC != null)
             {
-                WC.SetColor(playerColors[count]);
-                count++;
+                if (warrior.GetComponent<WarriorAiController>() != null)
+                {
+                    //do nothing
+                }
+                else
+                {
+                    WC.SetColor(playerColors[count]);
+                    count++;
+                }
             }
         }
     }

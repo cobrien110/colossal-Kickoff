@@ -2,9 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+public class Stats
+{
+    //Monster Stats
+    public int kills;
+    public int mGoals;
+    public int abilities;
+    public int mWins;
+
+    //Warrior Stats
+    public int wGoals;
+    public int assists;
+    public int deaths;
+    public int steals;
+    public int wWins;
+}
 
 public class StatTracker : MonoBehaviour
 {
+    public Stats saveData = new Stats();
 
     // Warriors:
     //Active:
@@ -51,7 +68,8 @@ public class StatTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        LoadFromJson();
+        Debug.Log("Test - Monster Kills: " + saveData.kills);
     }
 
     // Update is called once per frame
@@ -193,5 +211,46 @@ public class StatTracker : MonoBehaviour
     {
         mSaves++;
     }
-   
+    
+    public void SaveToJson()
+    {
+        string data = JsonUtility.ToJson(saveData);
+        string filePath = Application.persistentDataPath + "/SaveData.json";
+        Debug.Log(filePath);
+        System.IO.File.WriteAllText(filePath, data);
+        Debug.Log("Data Saved");
+    }
+
+    public void LoadFromJson()
+    {
+        try
+        {
+            string filePath = Application.persistentDataPath + "/SaveData.json";
+            string data = System.IO.File.ReadAllText(filePath);
+
+            saveData = JsonUtility.FromJson<Stats>(data);
+            Debug.Log("Data Loaded");
+        }
+        catch
+        {
+            Debug.Log("FILE COULD NOT BE FOUND");
+        }
+    }
+
+    public void UpdateSaveData()
+    {
+        //Monster Stats
+        saveData.kills += mKills;
+        saveData.mGoals += mGoals;
+        saveData.abilities += mAbUsed;
+        if (GetGameWinner().Equals("WARRIORS WIN!")) saveData.mWins += 1;
+
+        //Warrior Stats
+        saveData.wGoals += (w1Goals + w2Goals + w3Goals);
+        saveData.assists += (w1Assists + w2Assists + w3Assists);
+        saveData.deaths += (w1Deaths + w2Deaths + w3Deaths);
+        saveData.steals += (w1Steals + w2Steals + w3Steals);
+        if (!GetGameWinner().Equals("WARRIORS WIN!")) saveData.wWins += 1;
+    }
+
 }
