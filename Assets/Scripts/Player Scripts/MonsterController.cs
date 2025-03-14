@@ -161,15 +161,15 @@ public class MonsterController : MonoBehaviour
             //ResizeAttackVisual();
             
 
-            if (Input.GetKey(KeyCode.Z))
-            {
-                abilities[1].Activate();
-            }
+            //if (Input.GetKey(KeyCode.Z))
+            //{
+            //    abilities[1].Activate();
+            //}
 
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                BuildWall();
-            }
+            //if (Input.GetKeyDown(KeyCode.J))
+            //{
+            //    BuildWall();
+            //}
             
             /*
             if (isChargingDash)

@@ -32,7 +32,7 @@ public class AbilityHandSlam : AbilityDelayed
 
     private const float visualOffsetY = -0.3f;
 
-    private StatTracker ST;
+    // private StatTracker ST;
 
     public override void Activate()
     {

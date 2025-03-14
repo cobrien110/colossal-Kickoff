@@ -45,6 +45,8 @@ public class WarriorController : MonoBehaviour
     protected bool isCharging;
     public bool superKicking = false;
     private float chargeSpeed;
+    [SerializeField] private float slideHitboxRadius = 2f;
+    private float baseHitboxRadius;
     
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
@@ -82,6 +84,7 @@ public class WarriorController : MonoBehaviour
     public int playerNum;
     [SerializeField] public GameObject goreParticleObj;
     [SerializeField] public GameObject pinataParticleObj;
+    [SerializeField] private CapsuleCollider capsuleCollider;
 
     private bool shouldShake1 = true;
     private bool shouldShake2 = true;
@@ -140,6 +143,7 @@ public class WarriorController : MonoBehaviour
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
+        baseHitboxRadius = capsuleCollider.radius;
 
         // fancy respawn
         jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
@@ -179,9 +183,9 @@ public class WarriorController : MonoBehaviour
             Passing();
             Kicking();
             RotateWhileCharging();
-            if (Input.GetKey(KeyCode.E)) {
-                Sliding();
-            }
+            //if (Input.GetKey(KeyCode.E)) {
+            //    Sliding();
+            //}
             InvincibilityFlash();
 
             if ((isStunned) && BP.ballOwner == this.gameObject)
@@ -227,11 +231,11 @@ public class WarriorController : MonoBehaviour
         }
 
         //Temp Controller Scheme Swap
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            usingNewScheme = !usingNewScheme;
-            invertControls = !invertControls;
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftAlt))
+        //{
+        //    usingNewScheme = !usingNewScheme;
+        //    invertControls = !invertControls;
+        //}
 
         //Bomb Curse
         if (isBomb)
@@ -567,6 +571,10 @@ public class WarriorController : MonoBehaviour
         isSliding = true;
         isInvincible = true;
 
+        Debug.Log("Capsule collider radius before: " + capsuleCollider.radius);
+        capsuleCollider.radius *= slideHitboxRadius;
+        Debug.Log("Capsule collider radius after: " + capsuleCollider.radius);
+
         // Add force in direction of the player input for this warrior (movementDirection)
         Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
         rb.AddForce(slideVelocity);
@@ -578,6 +586,7 @@ public class WarriorController : MonoBehaviour
         // Update the last slide time
         lastSlideTime = Time.time;
         ANIM.SetBool("isSliding", true);
+
     }
 
     void StopSliding()
@@ -586,6 +595,7 @@ public class WarriorController : MonoBehaviour
         ANIM.SetBool("isSliding", false);
         isSliding = false;
         isInvincible = false;
+        capsuleCollider.radius = baseHitboxRadius;
     }
 
     public void ResetPlayer()
