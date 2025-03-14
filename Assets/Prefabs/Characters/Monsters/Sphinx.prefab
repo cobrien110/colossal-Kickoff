@@ -1409,6 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265edbb104cd4284f82789864241e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -1533,7 +1534,7 @@ MonoBehaviour:
   ST: {fileID: 0}
   distanceUntilExplode: 0.5
   pursueSpeed: 3
-  explosionRadius: 2
+  explosionRadius: 1.2
   slowAura: {fileID: 2233076425796087852, guid: dc79eb4dfb317c1468b43581ec7173fd, type: 3}
   soundName: sphinxMummyOrder
   explodeSoundName: sphinxMummyExplode
