@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 1241657185859599173}
   m_Layer: 0
   m_Name: WindHazard
-  m_TagString: Untagged
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1246,6 +1246,60 @@ MonoBehaviour:
   wind: {fileID: 2359440308108403545}
   RightArrow: {fileID: 3234759827741484190}
   LeftArrow: {fileID: 7207288642751860488}
+--- !u!1 &8716041992651882528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7959814584448451442}
+  - component: {fileID: 4969624279620032525}
+  m_Layer: 0
+  m_Name: Debris
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7959814584448451442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716041992651882528}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3546511373662348345}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4969624279620032525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716041992651882528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce64c3515322e6f42b8494d34d24ed89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debrisMesh: {fileID: 4300000, guid: 9578d074807809a4ea1f5a809867ff6d, type: 2}
+  debrisMaterial: {fileID: 2100000, guid: d605e8225839e7f4ab4a18c3a1ed74a2, type: 2}
+  debrisCount: 1000
+  bottomRadius: 83.9
+  topRadius: 106.2
+  height: 95.8
+  thickness: 44.8
+  globalRotationSpeed: 20
+  minSpinSpeed: -60
+  maxSpinSpeed: 60
 --- !u!1 &8747206437733054339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,6 +1336,7 @@ Transform:
   - {fileID: 5163699554310367401}
   - {fileID: 5310949500723434453}
   - {fileID: 6209904409044710591}
+  - {fileID: 7959814584448451442}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8961373790881048940
@@ -1570,6 +1625,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4824531025846162084, guid: 97da73599b21e584980bf5b615f513b5, type: 3}
+      propertyPath: m_RenderMode
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5495267620467942345, guid: 97da73599b21e584980bf5b615f513b5, type: 3}
       propertyPath: m_Name
       value: Wind Particles
@@ -1731,6 +1790,10 @@ PrefabInstance:
     - target: {fileID: 3591154859376270595, guid: cd6a88da9f5e45d488b0c28a66939094, type: 3}
       propertyPath: EmissionModule.rateOverTime.minScalar
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320111660596486777, guid: cd6a88da9f5e45d488b0c28a66939094, type: 3}
+      propertyPath: m_RenderMode
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7744478920731390040, guid: cd6a88da9f5e45d488b0c28a66939094, type: 3}
       propertyPath: m_Name
@@ -1974,6 +2037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier Block
       objectReference: {fileID: 0}
+    - target: {fileID: 7142801925892794130, guid: d5e914541190c664fb30481b60f1db07, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2047,6 +2114,10 @@ PrefabInstance:
     - target: {fileID: 7142801925892794130, guid: d5e914541190c664fb30481b60f1db07, type: 3}
       propertyPath: m_Name
       value: Barrier Block (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7142801925892794130, guid: d5e914541190c664fb30481b60f1db07, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2553,6 +2624,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier Block (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7142801925892794130, guid: d5e914541190c664fb30481b60f1db07, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2891,17 +2966,49 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 6.817621
       objectReference: {fileID: 0}
+    - target: {fileID: -3756473180518285571, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -2271502847731017999, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.69
       objectReference: {fileID: 0}
     - target: {fileID: -1025663018108745142, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1025663018108745142, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -817925072480010518, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 388898627462296512, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
       propertyPath: m_Name
       value: MexicoStageMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415245832358960123, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5233112405309087440, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861249998713257148, guid: 820f690879e47104f9d8580f53010cf6, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3192,6 +3299,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrier Block (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7142801925892794130, guid: d5e914541190c664fb30481b60f1db07, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3268,6 +3379,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6036305459992768447, guid: b85e21dcbf2455b4e87071294303361c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4630343738668565215}
+    - targetCorrespondingSourceObject: {fileID: 6036305459992768447, guid: b85e21dcbf2455b4e87071294303361c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1411814131526337004}
   m_SourcePrefab: {fileID: 100100000, guid: b85e21dcbf2455b4e87071294303361c, type: 3}
 --- !u!1 &3308424394119605393 stripped
 GameObject:
@@ -3393,6 +3507,24 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1411814131526337004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308424394119605393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a2efc67ae1f4749b7766d3a2371cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  sounds:
+  - {fileID: 8300000, guid: cc2c06d91ec1e5644ba58b88b6815e5a, type: 3}
+  volume: 0.75
+  pitchRangeLow: 0.85
+  pitchRangeHigh: 1.15
 --- !u!4 &7695683081395598890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1504254354464683268, guid: b85e21dcbf2455b4e87071294303361c, type: 3}
