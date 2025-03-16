@@ -14,8 +14,10 @@ public class AbilitySphericalAttack : AbilityChargeable
     public LayerMask affectedLayers;
     public bool canSpawnProjectile = true;
     public GameObject projectilePrefab;
+    public GameObject attackParticles;
     public int projectileDamage = 1;
     public float projectileSpeed = 450f;
+
     [SerializeField] private float sphericalAttackPosY = -0.3f;
 
     public override void Activate()
@@ -33,6 +35,7 @@ public class AbilitySphericalAttack : AbilityChargeable
             Debug.Log("Performing Attack");
             Debug.Log(chargeAmount);
             Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
+            Instantiate(attackParticles,  new Vector3(0, 0.216f, 0) + origin + transform.forward * attackRange, Quaternion.identity);
             Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
 
             foreach (Collider col in colliders)

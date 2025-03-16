@@ -599,6 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 265edbb104cd4284f82789864241e54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -762,6 +763,7 @@ MonoBehaviour:
     m_Bits: 129
   canSpawnProjectile: 1
   projectilePrefab: {fileID: 3912831470668395494, guid: bdcffb3544476bc49b4b66d8f78d9221, type: 3}
+  attackParticles: {fileID: 898531435147855845, guid: 260d0ac017a605547b6159e16268401f, type: 3}
   projectileDamage: 1
   projectileSpeed: 450
   sphericalAttackPosY: -0.3
