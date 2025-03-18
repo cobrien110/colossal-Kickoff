@@ -52,13 +52,15 @@ public class GoalWithBarrier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log("health: " + health);
+        // Debug.Log(gameObject.name + " - canBeScoredIn: " + canBeScoredIn);
         if (health <= 0 && canScoreTimer < delayBeforeCanBeScored)
         {
             canScoreTimer += Time.deltaTime;
         }
 
         if (health <= 0 && !canBeScoredIn
-            && (timer >= delayAfterInteraction) && (canScoreTimer >= delayBeforeCanBeScored))
+            /*&& (timer >= delayAfterInteraction) */&& (canScoreTimer >= delayBeforeCanBeScored))
         {
             SetCanScore(true);
         }
