@@ -39,7 +39,7 @@ public class BallProperties : MonoBehaviour
     private SpriteRenderer SR;
     private Rigidbody RB;
 
-    [SerializeField] private float maxSpeed = 15f;
+    public float maxSpeed = 15f;
 
     private GameObject assistingPlayer;
     private bool isAssisting;

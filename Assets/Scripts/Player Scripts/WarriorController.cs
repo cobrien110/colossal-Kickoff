@@ -260,6 +260,13 @@ public class WarriorController : MonoBehaviour
                 isBomb = false;
             }
         }
+
+        // If warrior from getting pushed up by wall
+        if (!isDead && transform.position.y != 0 && !GM.isGameOver)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            //Debug.Log("Fixed warrior y position");
+        }
     }
 
     private void FixedUpdate()
