@@ -36,6 +36,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]
     private float slideRange = 3f;
     [SerializeField]
+    private float slideRangeMin = 0.35f;
+    [SerializeField]
     private float dodgeChance = 0.3f;
     [SerializeField] private float kickCooldown = 0.75f;
     private static float kickTimer = 0f;
@@ -58,11 +60,14 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField] private GameplayManager GM = null;
     private AudioPlayer audioPlayer;
 
-    // Get all WarriorController components (including subclasses)
+    // Get all WarriorController components
     [SerializeField]    
     WarriorController[] warriors;
 
     private bool disableBehavior = false;
+
+    // Backing up
+    private float isBackingUpTimer = 0;
 
     private void Awake()
     {
@@ -143,6 +148,8 @@ public class WarriorAiController : MonoBehaviour
 
     public void AiBehavior()
     {
+        if (wc == null || wc.BP == null) return; // Safety check
+
         // If goal was scored, stop movement and behavior
         if (wc != null && wc.BP != null && !wc.BP.isInteractable
             || disableBehavior) 
@@ -152,6 +159,7 @@ public class WarriorAiController : MonoBehaviour
         }
 
         if (wc.isStunned) return;
+        if (wc.IsSliding()) return;
 
 
         // If no one has the ball
@@ -194,18 +202,51 @@ public class WarriorAiController : MonoBehaviour
             // Run to monster and slide tackle
             if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRange)
             {
+                isBackingUpTimer = 0;
+
+                Vector3 anticipatedBallPos = wc.BP.GetAnticipatedPosition(0.5f);
                 // Chase down monster
                 Vector2 toBall = new Vector2(
-                    wc.BP.gameObject.transform.position.x - transform.position.x,
-                    wc.BP.gameObject.transform.position.z - transform.position.z).normalized;
+                    anticipatedBallPos.x - transform.position.x,
+                    anticipatedBallPos.z - transform.position.z).normalized;
                 BaseMovement(toBall);
-            } else
+            } else if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRangeMin // Ensure not too close too slide
+                && Vector3.Dot(wc.movementDirection, (wc.BP.transform.position - transform.position).normalized) > 0.75f) // Ensure warrior is actually moving toward ball
             {
-                // Close enough to slide
-                wc.Sliding();
+                isBackingUpTimer = 0;
+
+                // Close enough to slide, but not too close
+                AnticipateSlide();
+            } else // if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) <= slideRangeMin)
+            {
+                if (isBackingUpTimer >= 1f)
+                {
+                    Debug.Log("Has been backing up for too long. Slide");
+
+                    AnticipateSlide();
+                    isBackingUpTimer = 0;
+                    return;
+                }
+
+                isBackingUpTimer += actionDelay == 0 ? Time.deltaTime : actionDelay;
+                Debug.Log(name + " too close to slide, backing up");
+
+                // Too close, back up toward own goal
+                Vector2 toOwnGoal = new Vector2(warriorGoal.transform.position.x - transform.position.x,
+                    warriorGoal.transform.position.z - transform.position.z).normalized;
+                BaseMovement(toOwnGoal);
             }
+
         }
 
+    }
+
+    private void AnticipateSlide()
+    {
+        Vector3 toBall = (wc.BP.GetAnticipatedPosition(0.5f) - transform.position).normalized;
+        wc.movementDirection = toBall;
+        wc.rb.velocity = toBall * wc.warriorSpeed;
+        wc.Sliding();
     }
 
     void BaseMovement(Vector2 targetPos)
@@ -265,7 +306,7 @@ public class WarriorAiController : MonoBehaviour
             wc.BP.previousKicker = gameObject;
             wc.BP.lastKicker = gameObject;
             Rigidbody ballRB = wc.BP.GetComponent<Rigidbody>();
-            Debug.Log("Ball speed before kick: " + ballRB.velocity.magnitude);
+            // Debug.Log("Ball speed before kick: " + ballRB.velocity.magnitude);
             ballRB.AddForce(transform.forward * aiKickSpeed);
             // Debug.Log("Ball speed after kick: " + ballRB.velocity.magnitude);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));

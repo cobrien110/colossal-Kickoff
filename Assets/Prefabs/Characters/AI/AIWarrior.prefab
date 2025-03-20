@@ -6213,6 +6213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
   AV: {fileID: 0}
@@ -6660,10 +6661,11 @@ MonoBehaviour:
   waitInPlaceTime: 2
   randomZRange: 10
   distanceToTravelMultiplierFloor: 0.4
-  slideRange: 1.5
+  slideRange: 1.2
+  slideRangeMin: 0.35
   dodgeChance: 0.3
   kickCooldown: 0.75
-  actionDelay: 0.25
+  actionDelay: 0.2
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
   warriors: []

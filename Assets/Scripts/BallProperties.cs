@@ -50,6 +50,7 @@ public class BallProperties : MonoBehaviour
 
     private float intangibleTime = 0.3f;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -351,7 +352,6 @@ public class BallProperties : MonoBehaviour
                     ballOwner = null;
                 }
 
-
                 GWB.RejectBall(RB);
                 //isInteractable = false;
                 isInSingleOutMode = true;
@@ -453,7 +453,7 @@ public class BallProperties : MonoBehaviour
                     ballOwner = null;
                 }
 
-                
+                Debug.Log("Reject ball - Monster goal");
                 GWB.RejectBall(RB);
                 //isInteractable = false;
                 isInSingleOutMode = true;
@@ -665,4 +665,25 @@ public class BallProperties : MonoBehaviour
         isAssisting = false;
         assistingPlayer = null;
     }
+
+    public Vector3 GetAnticipatedPosition(float inSeconds)
+    {
+        // Get the object's Rigidbody component
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        // If no Rigidbody is found, return the current position as a fallback
+        if (rb == null) return transform.position;
+
+        if (ballOwner == null)
+        {
+            // Predict the future position based on rb velocity
+            return transform.position + (rb.velocity * inSeconds);
+        } else
+        {
+            // There is a ballOwner, so can't use rb velocity
+            // Predict the future position based on calculated velocity
+            return transform.position + (calculatedVelocity * inSeconds);
+        }
+    }
+
 }

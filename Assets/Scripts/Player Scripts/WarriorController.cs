@@ -10,7 +10,7 @@ public class WarriorController : MonoBehaviour
 {
     public int playerID;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     [SerializeField] private AimVisualizer AV = null;
@@ -572,15 +572,20 @@ public class WarriorController : MonoBehaviour
 
     public void Sliding()
     {
-        if (!CanSlide()) return;
+        if (!CanSlide())
+        {
+            Debug.Log("Cannot Slide");
+            return;
+        }
   
         Debug.Log(gameObject.name + ": Sliding");
         isSliding = true;
         isInvincible = true;
 
-        Debug.Log("Capsule collider radius before: " + capsuleCollider.radius);
+        // Increase hitbox for sliding
+        // Debug.Log("Capsule collider radius before: " + capsuleCollider.radius);
         capsuleCollider.radius *= slideHitboxRadius;
-        Debug.Log("Capsule collider radius after: " + capsuleCollider.radius);
+        // Debug.Log("Capsule collider radius after: " + capsuleCollider.radius);
 
         // Add force in direction of the player input for this warrior (movementDirection)
         Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
@@ -1154,7 +1159,7 @@ public class WarriorController : MonoBehaviour
         return isDead;
     }
 
-    private bool CanSlide()
+    public bool CanSlide()
     {
         return !isStunned && !isCursed
             && (Time.time - lastSlideTime >= slideCooldown)
