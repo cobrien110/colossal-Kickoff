@@ -301,6 +301,15 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CallForPass"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb816d07-ad6f-48c2-889e-d3130ba10562"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -411,6 +420,28 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Invert"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d305003f-8dfb-4047-a38c-b1146b3dcf0a"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme"",
+                    ""action"": ""CallForPass"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcf68162-7eb2-4d3e-83f0-9783056a34d6"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Control Scheme"",
+                    ""action"": ""CallForPass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -591,6 +622,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Monster_Attack = m_Monster.FindAction("Attack", throwIfNotFound: true);
         m_Monster_Charge = m_Monster.FindAction("Charge", throwIfNotFound: true);
         m_Monster_Invert = m_Monster.FindAction("Invert", throwIfNotFound: true);
+        m_Monster_CallForPass = m_Monster.FindAction("CallForPass", throwIfNotFound: true);
         // Cursor
         m_Cursor = asset.FindActionMap("Cursor", throwIfNotFound: true);
         m_Cursor_Move = m_Cursor.FindAction("Move", throwIfNotFound: true);
@@ -768,6 +800,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Monster_Attack;
     private readonly InputAction m_Monster_Charge;
     private readonly InputAction m_Monster_Invert;
+    private readonly InputAction m_Monster_CallForPass;
     public struct MonsterActions
     {
         private @InputMaster m_Wrapper;
@@ -779,6 +812,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Monster_Attack;
         public InputAction @Charge => m_Wrapper.m_Monster_Charge;
         public InputAction @Invert => m_Wrapper.m_Monster_Invert;
+        public InputAction @CallForPass => m_Wrapper.m_Monster_CallForPass;
         public InputActionMap Get() { return m_Wrapper.m_Monster; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -809,6 +843,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Invert.started += instance.OnInvert;
             @Invert.performed += instance.OnInvert;
             @Invert.canceled += instance.OnInvert;
+            @CallForPass.started += instance.OnCallForPass;
+            @CallForPass.performed += instance.OnCallForPass;
+            @CallForPass.canceled += instance.OnCallForPass;
         }
 
         private void UnregisterCallbacks(IMonsterActions instance)
@@ -834,6 +871,9 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @Invert.started -= instance.OnInvert;
             @Invert.performed -= instance.OnInvert;
             @Invert.canceled -= instance.OnInvert;
+            @CallForPass.started -= instance.OnCallForPass;
+            @CallForPass.performed -= instance.OnCallForPass;
+            @CallForPass.canceled -= instance.OnCallForPass;
         }
 
         public void RemoveCallbacks(IMonsterActions instance)
@@ -967,6 +1007,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnCharge(InputAction.CallbackContext context);
         void OnInvert(InputAction.CallbackContext context);
+        void OnCallForPass(InputAction.CallbackContext context);
     }
     public interface ICursorActions
     {

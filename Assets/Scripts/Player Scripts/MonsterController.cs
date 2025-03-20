@@ -18,6 +18,15 @@ public class MonsterController : MonoBehaviour
     public List<AbilityScript> abilities;
     [HideInInspector] public bool canUseAbilities = true;
     public PassiveAbility[] passiveAbilities;
+    public enum MonsterType
+    {
+        Minotaur,
+        Akhlut,
+        Gashadokuro,
+        Quetzalcaotl,
+        Sphinx
+    }
+    public MonsterType monsterType;
     //public GameObject wallPrefab;
     //public GameObject shrapnelPrefab;
 
@@ -61,6 +70,18 @@ public class MonsterController : MonoBehaviour
     [HideInInspector] public bool isStunned = false;
     [HideInInspector] public bool canBeStunned = true;
     public bool isIntangible = false;
+
+    // Call For Pass
+    private float lastCallForPassTime;
+    [SerializeField] private float callForPassCooldown = 1f;
+    private float passWindowTimer;
+    [SerializeField] private float passWindowDuration = 1f;
+
+    // Call For Pass - Gravity
+    [SerializeField] private float gravityFieldDuration = 0.5f; // How long the field lasts
+    [SerializeField] private float gravityForce = 20f; // Strength of pull
+    [SerializeField] private float gravityRadius = 5f; // Radius of effect
+    private Coroutine gravityCoroutine;
 
     [SerializeField] private bool canMove = true;
     public GameplayManager GM = null;
@@ -916,6 +937,91 @@ public class MonsterController : MonoBehaviour
             GM.PauseGame(playerID);
         }
     }
+
+    public void OnCallForPass(InputAction.CallbackContext context)
+    {
+        Debug.Log("Monster Call for pass");
+        if (!GM.isPlaying || monsterType != MonsterType.Sphinx || GM.isPaused // Ensure game is playing
+            || ((Time.time - lastCallForPassTime) < callForPassCooldown) // Ensure call for pass is off cooldown
+            || BP == null || BP.ballOwner == null || BP.ballOwner.GetComponent<AIMummy>() == null // Ensure a mummy has the ball
+            || BP.ballOwner.Equals(gameObject)) // and ballowner isn't itself
+            return;
+
+        Debug.Log("OnCallForPass");
+        lastCallForPassTime = Time.time;
+
+        // Queue some kind of UI element to indicate calling for pass
+        //if (audioPlayer != null) audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("callForPass1"));
+        //WUI.ShowCallForPass(true);
+
+        // Create a temporary "gravity" effect around this player  
+        if (BP != null && BP.ballOwner != null
+            && BP.ballOwner.GetComponent<AIMummy>() != null)
+        {
+            Debug.Log("Ball owner is a mummy teammate");
+
+            BP.ballOwner.GetComponent<AIMummy>().Pass(gameObject); // Make mummy pass
+
+            StartCoroutine(PassWindowCheck()); // Check to enable gravity field
+        }
+
+    }
+
+    private IEnumerator PassWindowCheck()
+    {
+        // Debug.Log("Start PassWindowCheck");
+        while (passWindowTimer < passWindowDuration)
+        {
+            // Debug.Log("Tick");
+            // Check if kick happened
+            if (AIMummy.GetKickHappened())
+            {
+                // Enable gravity field
+                Debug.Log("Enable gravity field");
+                EnableGravityField();
+                break;
+            }
+
+            passWindowTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        passWindowTimer = 0f;
+        // WUI.ShowCallForPass(false);
+    }
+
+    private void EnableGravityField()
+    {
+        if (gravityCoroutine != null) StopCoroutine(gravityCoroutine); // Prevent overlapping
+        gravityCoroutine = StartCoroutine(GravityFieldCoroutine());
+    }
+
+    private IEnumerator GravityFieldCoroutine()
+    {
+        if (BP == null) yield break; // Safety check
+
+        float timer = 0f;
+        Rigidbody ballRb = BP.GetComponent<Rigidbody>();
+
+        if (ballRb == null) yield break; // Safety check
+
+        while (timer < gravityFieldDuration
+            && BP != null && BP.ballOwner != gameObject) // Ensure gravity field ends early if this warrior gets the ball
+        {
+            Vector3 toWarrior = transform.position - ballRb.position; // Direction to warrior
+            float distance = toWarrior.magnitude;
+
+            if (distance < gravityRadius) // Only pull if within range
+            {
+                Vector3 pullForce = toWarrior.normalized * gravityForce;
+                ballRb.AddForce(pullForce, ForceMode.Acceleration);
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
 
     IEnumerator RemoveNullAbilities()
     {

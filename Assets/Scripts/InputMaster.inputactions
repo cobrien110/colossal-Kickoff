@@ -279,6 +279,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CallForPass",
+                    "type": "Button",
+                    "id": "eb816d07-ad6f-48c2-889e-d3130ba10562",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -389,6 +398,28 @@
                     "processors": "",
                     "groups": "Xbox Control Scheme;Playstation Control Scheme",
                     "action": "Invert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d305003f-8dfb-4047-a38c-b1146b3dcf0a",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme",
+                    "action": "CallForPass",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcf68162-7eb2-4d3e-83f0-9783056a34d6",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Playstation Control Scheme",
+                    "action": "CallForPass",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

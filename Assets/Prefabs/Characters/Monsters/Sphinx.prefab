@@ -1416,6 +1416,7 @@ MonoBehaviour:
   abilities: []
   canUseAbilities: 1
   passiveAbilities: []
+  monsterType: 4
   monsterSpeed: 2.2
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
@@ -1453,6 +1454,11 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  callForPassCooldown: 1
+  passWindowDuration: 1
+  gravityFieldDuration: 0.5
+  gravityForce: 20
+  gravityRadius: 5
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
@@ -2023,6 +2029,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 343f0bfb-ced6-49b5-ae1b-a09638e87e0c
     m_ActionName: Player/CallForPass[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2135929633283431826}
+        m_TargetAssemblyTypeName: MonsterController, Assembly-CSharp
+        m_MethodName: OnCallForPass
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eb816d07-ad6f-48c2-889e-d3130ba10562
+    m_ActionName: Monster/CallForPass[/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Monster

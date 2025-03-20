@@ -28,7 +28,9 @@ public class AIMummy : MonoBehaviour
     private float timer = 0f;
     private bool isSliding = false;
     private float lastSlideTime = -1f;
-    
+
+    private static bool kickHappened;
+
 
     [SerializeField]
     private GameObject ballPosition;
@@ -248,6 +250,10 @@ public class AIMummy : MonoBehaviour
         {
             Debug.Log("Kick!");
 
+            // For CallForPass gravity field
+            kickHappened = true;
+            StartCoroutine(ResetKickHappened());
+
             // Prevent ball from getting kicked "through" walls
             if (mc != null && mc.BP != null && IsWallBetweenBallAndPlayer())
             {
@@ -290,7 +296,7 @@ public class AIMummy : MonoBehaviour
 
             if (clostestMummy == null) return;
 
-            Pass(clostestMummy);
+            Pass(clostestMummy.gameObject);
             // Determine target
             ////float distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
             ////float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
@@ -381,7 +387,7 @@ public class AIMummy : MonoBehaviour
         return false;
     }
 
-    void Pass(AIMummy target)
+    public void Pass(GameObject target)
     {
         // Turn to teammate
 
@@ -588,5 +594,21 @@ public class AIMummy : MonoBehaviour
             BP.ballOwner = gameObject;
             BP.SetOwner(BP.ballOwner);
         }
+    }
+
+    public static void SetKickHappened(bool kickHappened)
+    {
+        AIMummy.kickHappened = kickHappened;
+    }
+
+    public static bool GetKickHappened()
+    {
+        return AIMummy.kickHappened;
+    }
+
+    private IEnumerator ResetKickHappened()
+    {
+        yield return new WaitForSeconds(0.4f); // however long to allow kickHappened to be true, before reseting back to false
+        kickHappened = false;
     }
 }
