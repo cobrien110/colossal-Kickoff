@@ -11,18 +11,49 @@ public class GameplayManager : MonoBehaviour
     public bool automaticAISpawn = true;
     public bool automaticStart = true;
     public bool passIndicator = true;
+    public bool debugMode;
 
-    [Header("Other Properties")]
+    [Header("Game State")]
     public bool isPlaying = false;
     public bool isGameOver = false;
     public bool isPaused = false;
     public bool overtimeStarted = false;
-    private float pauseDelay = .5f;
-    private float pauseTimer = 0f;
     private bool podiumSequenceStarted = false;
+    private int spawnCount = 0;
+
+    [Header("Timers and Delays")]
+    private float pauseDelay = 0.5f;
+    private float pauseTimer = 0f;
+
+    [Header("Game Time and Mechanics")]
     public int gameSeconds;
     public float warriorKickChargeSpeed;
     public float monsterKickChargeSpeed;
+
+    [Header("Player Settings")]
+    public int overtimeStyle = 0;
+    public int chargeStyle = 0;
+    public Color[] playerColors = new Color[4];
+    private List<PlayerInput> playerInputs = new List<PlayerInput>();
+
+    [Header("Passing System")]
+    public float passMeter = 0;
+    public float passMeterMax = 1.0f;
+
+    [Header("Goal Barrier Settings")]
+    public bool usePlayerPrefs = true;
+    public bool barriersAreOn = false;
+    [Range(0, 2)] public int barrierRespawnStyle = 0;
+    public float barrierMaxHealth = 10;
+    public float barrierBounceForce = 150f;
+    public float barrierBounceAngle = 45f;
+
+    [Header("Spawning System")]
+    public GameObject warriorPrefab;
+    private Transform lastGoalScoredIn;
+    Vector3 WarSpawnPos;
+
+    [Header("References")]
     [SerializeField] private UIManager UM = null;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private AsyncLoadManager ALM = null;
@@ -33,37 +64,14 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject WarriorAI = null;
     [SerializeField] private GameObject MonsterAI = null;
     [SerializeField] private GameObject MonsterPlayer = null;
-    public bool debugMode;
     private PlayerInputManager PIM = null;
     [SerializeField] private MusicPlayer MP = null;
     //private MusicPlayerResults MPr = null;
     private PodiumSequencer PS;
     private GameObject BallSpawner = null;
     [SerializeField] private GameObject[] WarriorSpawners = null;
-    public GameObject warriorPrefab;
-    //public bool isPassing = false;
-    public float passMeter = 0;
-    public float passMeterMax = 1.0f;
-    private int spawnCount = 0;
-    private Transform lastGoalScoredIn;
-    Vector3 WarSpawnPos;
-    private List<PlayerInput> playerInputs = new List<PlayerInput>();
-    public Color[] playerColors = new Color[4];
-
-    public WarriorHolder WH = null;
-
-    [Header("Goal Barrier Settings")]
-    public bool usePlayerPrefs = true;
-    public bool barriersAreOn = false;
-    [Range(0, 2)] public int barrierRespawnStyle = 0;
-    public float barrierMaxHealth = 10;
-    public float barrierBounceForce = 150f;
-    public float barrierBounceAngle = 45f;
     private AiMummyManager aiMummymanager;
-
-    [Header("Player Settings")]
-    public int overtimeStyle = 0;
-    public int chargeStyle = 0;
+    public WarriorHolder WH = null;
 
 
     // Start is called before the first frame update
