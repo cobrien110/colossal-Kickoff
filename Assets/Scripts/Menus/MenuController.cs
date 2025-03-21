@@ -13,7 +13,8 @@ public class MenuController : MonoBehaviour
     #region Variables
     //selected is updated by buttons when they become selected
     //public int selected;
-    //camera that this can move around
+
+    [Header("Managers and Controllers")]
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
     [SerializeField] private EarthController EC;
@@ -21,81 +22,93 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TVTextScroll TVT;
     [SerializeField] private ChangeChannel CC;
     [SerializeField] private StageTextBoxCrawl STBC;
+    private SceneManager SM;
+    private AudioPlayer AP;
 
-    //parent object containing all buttons from the main menu
-    [SerializeField] private GameObject mainMenuButtons, quitGameButtons, creditsContent;
+    [Header("Main Menu Elements")]
+    // Parent object containing all buttons from the main menu
+    [SerializeField] private GameObject mainMenuButtons;
+    [SerializeField] private GameObject quitGameButtons;
+    [SerializeField] private GameObject creditsContent;
 
+    [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
     [SerializeField] private GameObject settingsButtons;
     [SerializeField] private GameObject gameplaySettings;
     [SerializeField] private GameObject audioSettings;
     [SerializeField] private GameObject controlSettings;
 
+    [Header("Character and Stage Selection")]
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
+    [SerializeField] private GameObject stageSettings;
+    [SerializeField] private Button stageSettingsButton;
+    private Button lastStageButton;
+    Navigation lastStageNavi = new Navigation();
+
+    [Header("UI Navigation & Buttons")]
     [SerializeField] private GameObject sceneEventSystem;
     [SerializeField] private GameObject splashScreen;
+    [SerializeField] private GameObject readyText;
+    [SerializeField] private GameObject hideWhenReady;
+    [SerializeField] private GameObject showWhenReady;
 
-    //Stage Images
+    [Header("Stage Images & Buttons")]
     [SerializeField] private Image stageFade;
     [SerializeField] private GameObject allImages;
+    [SerializeField] private GameObject[] stageImages;
+    [SerializeField] private Button[] stageButtons;
+
     //[SerializeField] private GameObject greeceImage;
     //[SerializeField] private GameObject canadaImage;
     //[SerializeField] private GameObject egyptImage;
     //[SerializeField] private GameObject mexicoImage;
     //[SerializeField] private GameObject japanImage;
 
-    [SerializeField] private GameObject[] stageImages;
-    [SerializeField] private Button[] stageButtons;
-    [SerializeField] private GameObject stageSettings;
-    [SerializeField] private Button stageSettingsButton;
-    private Button lastStageButton;
-    Navigation lastStageNavi = new Navigation();
-
+    [Header("Character Selection")]
     [SerializeField] private GameObject[] cursors;
     [SerializeField] private GameObject[] playerOptions;
     [SerializeField] private CharacterInfo[] characterInfos;
-    [SerializeField] private GameObject readyText;
-    [SerializeField] private GameObject hideWhenReady;
-    [SerializeField] private GameObject showWhenReady;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
-    private SceneManager SM;
-    /**
-    0: Top Menu
-    1: Settings
-    2: Character Select
-    3: Stage Select
-    4: Quit Screen
-    **/
-    public int currentScreen = 0;
+
+    [Header("Menu Navigation Controls")]
+    [SerializeField] private GameObject topFirstButton;
+    [SerializeField] private GameObject settingsFirstButton;
+    [SerializeField] private GameObject stageFirstButton;
+    [SerializeField] private GameObject quitFirstButton;
+    [SerializeField] private GameObject stageSettingsFirstButton;
+    [SerializeField] private GameObject creditsBackButton;
+
+    [SerializeField] private Button settingsControlsButton;
+    [SerializeField] private Button settingsAudioButton;
+    [SerializeField] private Button settingsGameplayButton;
+    [SerializeField] private Button settingsBackButton;
+
+    Navigation backNavi = new Navigation();
+    Navigation controlsNavi = new Navigation();
+    Navigation audioNavi = new Navigation();
+    Navigation gameplayNavi = new Navigation();
+
+    [Header("Audio & Volume Controls")]
     int effectsVolume, musicVolume, commentaryVolume, commentaryFrequency;
-    //MENU INTERFACES
-    [SerializeField] private Slider effectsSlider, musicSlider, comVolumeSlider, comFreqSlider;
+    [SerializeField] private Slider effectsSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider comVolumeSlider;
+    [SerializeField] private Slider comFreqSlider;
+    [SerializeField] private TMP_Text FXVolNum;
+    [SerializeField] private TMP_Text MusicVolNum;
+    [SerializeField] private TMP_Text CommVolNum;
+    [SerializeField] private TMP_Text CommFreqNum;
+
+    [Header("Gameplay Settings")]
     [SerializeField] private TMP_Dropdown goreDropdown;
     [SerializeField] private TMP_Dropdown goalDropdown;
     [SerializeField] private TMP_Dropdown overtimeDropdown;
     [SerializeField] private TMP_Dropdown kickchargeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private Toggle controlsToggle;
-    [SerializeField] private GameObject topFirstButton, settingsFirstButton, stageFirstButton, quitFirstButton, stageSettingsFirstButton, creditsBackButton;
-    [SerializeField] private Button settingsControlsButton, settingsAudioButton, settingsGameplayButton, settingsBackButton;
-    [SerializeField] private TMP_Text FXVolNum, MusicVolNum, CommVolNum, CommFreqNum;
-    Navigation backNavi = new Navigation();
-    Navigation controlsNavi = new Navigation();
-    Navigation audioNavi = new Navigation();
-    Navigation gameplayNavi = new Navigation();
 
-    private int numPlayersConfirmed = 0;
-    public bool canMoveToGame = false;
-    public bool deselectOccured = false;
-
-    //tracks the stage the game will move to when it starts
-    public int stageSelection;
-
-    //sound
-    AudioPlayer AP;
-
-    //connected player images
+    [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
     [SerializeField] private GameObject p2Connected;
     [SerializeField] private GameObject p3Connected;
@@ -104,6 +117,15 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject p2Disconnected;
     [SerializeField] private GameObject p3Disconnected;
     [SerializeField] private GameObject p4Disconnected;
+
+    [Header("Game State Tracking")]
+    public int currentScreen = 0;
+    private int numPlayersConfirmed = 0;
+    public bool canMoveToGame = false;
+    public bool deselectOccured = false;
+
+    // Tracks the stage the game will move to when it starts
+    public int stageSelection;
     #endregion
 
     #region Initialization
