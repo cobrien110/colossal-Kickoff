@@ -43,7 +43,30 @@ public class AbilityHandSlam : AbilityDelayed
         //ST.UpdateMAbUsed();
         timer = 0;
 
-        // Perform the initial hand slam effect
+        // If ability is charged, then shoot out some orbs toward the warrior side
+        if (AGP.counterAmount == AGP.counterMax)
+        {
+            Debug.Log("Charged ability activated! Spawning orbs.");
+
+            for (int i = 0; i < spawnOrbQty; i++)
+            {
+                // Randomize spawn position slightly
+                Vector3 randomOffset = new Vector3(0, Random.Range(-0.2f, 0.2f), Random.Range(-0.5f, 0.5f));
+                Vector3 spawnPosition = transform.position + new Vector3(1f, 0, 0) + randomOffset;
+
+                // Instantiate the orb
+                GameObject orbInstance = Instantiate(orb, spawnPosition, Quaternion.identity);
+
+                // Apply force to the orb in the positive x-direction with some randomness
+                Vector3 force = new Vector3(1f * hitOrbPower, 0, Random.Range(-0.2f, 0.2f));
+                //orbInstance.GetComponent<Rigidbody>().AddForce(forceDirection * hitOrbPower, ForceMode.Impulse);
+                orbInstance.GetComponent<SoulOrb>().Launch(force);
+            }
+
+            AGP.counterAmount = 0;
+        }
+
+        // Perform the hand slam effect
         Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
         Vector3 point2 = attackPosEnd;   // End of the capsule (right sphere)
 
@@ -89,30 +112,6 @@ public class AbilityHandSlam : AbilityDelayed
             }
         }
 
-
-        // If ability is charged, then shoot out some orbs toward the warrior side
-        if (AGP.counterAmount == AGP.counterMax)
-        {
-            Debug.Log("Charged ability activated! Spawning orbs.");
-
-            for (int i = 0; i < spawnOrbQty; i++)
-            {
-                // Randomize spawn position slightly
-                Vector3 randomOffset = new Vector3(0, Random.Range(-0.2f, 0.2f), Random.Range(-0.5f, 0.5f));
-                Vector3 spawnPosition = transform.position + new Vector3(1f, 0, 0) + randomOffset;
-
-                // Instantiate the orb
-                GameObject orbInstance = Instantiate(orb, spawnPosition, Quaternion.identity);
-
-                // Apply force to the orb in the positive x-direction with some randomness
-                Vector3 force = new Vector3(1f * hitOrbPower, 0, Random.Range(-0.2f, 0.2f));
-                //orbInstance.GetComponent<Rigidbody>().AddForce(forceDirection * hitOrbPower, ForceMode.Impulse);
-                orbInstance.GetComponent<SoulOrb>().Launch(force);
-            }
-
-            AGP.counterAmount = 0;
-        }
-
         // Finalize the hand slam
         gameObject.GetComponent<AbilityCreateHands>().SetHandActive(chosenHandIndex, false);
         Instantiate(visEffect, chosenHand.transform.position, Quaternion.identity);
@@ -120,7 +119,6 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Enable new slams to occur
         canSlam = true;
-
 
         // Reattach hand and visualizer, disable visualizer
         chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(false);
