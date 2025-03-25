@@ -19930,7 +19930,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
   m_PrefabInstance: {fileID: 879831169142929371}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879831169142929372}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e8d113e9ea829844936ceed8c1d2c66, type: 3}
@@ -27866,7 +27866,7 @@ PrefabInstance:
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: SceneIM
       value: 
-      objectReference: {fileID: 879831169142929373}
+      objectReference: {fileID: 879831169142929372}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: gameSeconds
       value: 180
@@ -27927,34 +27927,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gameplay Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8763404523313503605, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+      propertyPath: stageID
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6225772698362234942, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 879831169142929373}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
---- !u!1 &879831169142929372 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6225772698362234942, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
+--- !u!114 &879831169142929372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8763404523313503605, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
   m_PrefabInstance: {fileID: 879831169142929371}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &879831169142929373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879831169142929372}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d031b5185d51504186701fe4b195841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageID: 0
-  SlamParticles: []
-  DiveParticles: []
 --- !u!1 &919132148575764665
 GameObject:
   m_ObjectHideFlags: 0
