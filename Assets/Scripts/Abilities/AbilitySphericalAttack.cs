@@ -20,9 +20,10 @@ public class AbilitySphericalAttack : AbilityChargeable
 
     [SerializeField] private float sphericalAttackPosY = -0.3f;
 
-    private void Start()
+    new void Start()
     {
-        //projectilePrefab = GM.SceneIM.GetSlamParticles();    
+        base.Start();
+        attackParticles = GM.SceneIM.GetSlamParticles();
     }
 
     public override void Activate()

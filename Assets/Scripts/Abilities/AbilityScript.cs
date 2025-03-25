@@ -34,7 +34,7 @@ public abstract class AbilityScript : MonoBehaviour
     public static bool canActivate = true;
 
     // Start is called before the first frame update
-    private void Start()
+    protected void Start()
     {
         Setup();
     }
@@ -50,6 +50,8 @@ public abstract class AbilityScript : MonoBehaviour
         if (MUI != null) Debug.Log("Dots can be read");
 
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+
+
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         timer = cooldown;
         if (attackVisualizerPrefab != null)
