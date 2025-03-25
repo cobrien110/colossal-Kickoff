@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4101971329782768537}
   - component: {fileID: 1373776158349978951}
+  - component: {fileID: 8763404523313503605}
   m_Layer: 0
   m_Name: Gameplay Manager
   m_TagString: Untagged
@@ -72,6 +73,7 @@ MonoBehaviour:
   barrierBounceAngle: 45
   warriorPrefab: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   UM: {fileID: 0}
+  SceneIM: {fileID: 8763404523313503605}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
   ALM: {fileID: 0}
   playerList: []
@@ -83,3 +85,18 @@ MonoBehaviour:
   MP: {fileID: 0}
   WarriorSpawners: []
   WH: {fileID: 0}
+--- !u!114 &8763404523313503605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6225772698362234942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d031b5185d51504186701fe4b195841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageID: 0
+  SlamParticles: []
+  DiveParticles: []

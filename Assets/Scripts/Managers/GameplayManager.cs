@@ -55,6 +55,7 @@ public class GameplayManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private UIManager UM = null;
+    public SceneInfoManager SceneIM;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private AsyncLoadManager ALM = null;
     [SerializeField] private List<GameObject> playerList;
