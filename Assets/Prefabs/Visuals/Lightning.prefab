@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6946187347820352521}
   - component: {fileID: 4602127193136820060}
   - component: {fileID: 5246184468374199500}
+  - component: {fileID: -8553604303239821681}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -133,5 +134,27 @@ MonoBehaviour:
   lightningTriggerName: Flash
   minInterval: 5
   maxInterval: 15
-  audioSource: {fileID: 0}
-  lightningSound: {fileID: 8300000, guid: cc2c06d91ec1e5644ba58b88b6815e5a, type: 3}
+  AP: {fileID: 0}
+--- !u!114 &-8553604303239821681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036305459992768447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
