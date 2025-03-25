@@ -1233,6 +1233,7 @@ MonoBehaviour:
   abilities: []
   canUseAbilities: 1
   passiveAbilities: []
+  monsterType: 0
   monsterSpeed: 3.1
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
@@ -1270,6 +1271,11 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  callForPassCooldown: 1
+  passWindowDuration: 1
+  gravityFieldDuration: 0.5
+  gravityForce: 20
+  gravityRadius: 5
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}

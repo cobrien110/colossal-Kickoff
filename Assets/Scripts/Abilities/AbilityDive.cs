@@ -26,10 +26,12 @@ public class AbilityDive : AbilityScript
     private AbilityAkhlutPassive AAP;
     private AbilityHowl AH;
     public GameObject crystalPrefab;
+    private GameObject diveParticles;
 
     private void Start()
     {
         Setup();
+        diveParticles = GM.SceneIM.GetDiveParticle();
         baseMonsterSpeed = MC.monsterSpeed;
         inputBuffer = inputBufferTime;
         AAP = GetComponent<AbilityAkhlutPassive>();
@@ -98,6 +100,7 @@ public class AbilityDive : AbilityScript
                 timer = 0;
                 inputBuffer = 0f;
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(diveSound), 0.7f);
+                Instantiate(diveParticles, transform.position, Quaternion.identity);
                 ST.UpdateMAbUsed();
                 UM.UpdateMonsterAbilitiesSB();
             }
