@@ -1001,6 +1001,11 @@ public class WarriorController : MonoBehaviour
         gravityCoroutine = StartCoroutine(GravityFieldCoroutine());
     }
 
+    public float GetRespawnTime()
+    {
+        return respawnTime;
+    }
+
     private IEnumerator GravityFieldCoroutine()
     {
         if (BP == null) yield break; // Safety check
