@@ -117,7 +117,7 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""id"": ""b1bdbbf3-c476-470b-9558-ea998be3f14f"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""InvertVector2,StickDeadzone(min=0.1)"",
+                    ""processors"": ""InvertVector2,StickDeadzone(min=0.3)"",
                     ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
                     ""action"": ""Aim"",
                     ""isComposite"": false,
