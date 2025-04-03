@@ -246,6 +246,36 @@ public class MenuController : MonoBehaviour
                 }
                 deselectOccured = false;
             }
+
+            if (settingsButtons.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame)
+            {
+                if (gameplaySettings.activeInHierarchy)
+                {
+                    SettingsSwap(0);
+                } else if (audioSettings.activeInHierarchy)
+                {
+                    SettingsSwap(1);
+                } else
+                {
+                    SettingsSwap(2);
+                }
+            }
+
+            if (settingsButtons.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame)
+            {
+                if (gameplaySettings.activeInHierarchy)
+                {
+                    SettingsSwap(1);
+                }
+                else if (audioSettings.activeInHierarchy)
+                {
+                    SettingsSwap(2);
+                }
+                else
+                {
+                    SettingsSwap(0);
+                }
+            }
         }
     }
 
@@ -480,6 +510,8 @@ public class MenuController : MonoBehaviour
             gameplaySettings.SetActive(false);
             controlSettings.SetActive(false);
             audioSettings.SetActive(true);
+
+            EventSystem.current.SetSelectedGameObject(settingsAudioButton.gameObject);
             //settingsHeader.text = "AUDIO";
 
             controlsNavi.selectOnDown = effectsSlider;
@@ -499,6 +531,8 @@ public class MenuController : MonoBehaviour
             audioSettings.SetActive(false);
             gameplaySettings.SetActive(false);
             controlSettings.SetActive(true);
+
+            EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
             //settingsHeader.text = "CONTROLS";
 
             controlsNavi.selectOnDown = settingsBackButton;
@@ -518,6 +552,8 @@ public class MenuController : MonoBehaviour
             controlSettings.SetActive(false);
             audioSettings.SetActive(false);
             gameplaySettings.SetActive(true);
+
+            EventSystem.current.SetSelectedGameObject(settingsGameplayButton.gameObject);
             //settingsHeader.text = "GAMEPLAY";
 
             controlsNavi.selectOnDown = goreDropdown;
