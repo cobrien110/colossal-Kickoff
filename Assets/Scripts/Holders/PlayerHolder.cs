@@ -18,6 +18,8 @@ public class PlayerHolder : MonoBehaviour
 
     public Color warriorColor;
 
+    public string gameplaySceneName = null;
+
     public InputActionAsset InputMaster;
     public GameObject sceneES;
     public GameObject thisES;
@@ -102,10 +104,12 @@ public class PlayerHolder : MonoBehaviour
             //teamName = "";
             //monsterIndex = -1;
             //GameObject.Find("CursorHolder").GetComponent<CursorHolder>().spawnCursor(playerID, thisGamepad);
+            GameObject.Find("MenuController").GetComponent<MenuController>().skipMain = true;
             Destroy(this.gameObject);
         }
         else
         {
+            gameplaySceneName = scene.name;
             if (thisES != null)
             {
                 thisES.SetActive(false);

@@ -83,6 +83,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button settingsAudioButton;
     [SerializeField] private Button settingsGameplayButton;
     [SerializeField] private Button settingsBackButton;
+    public bool skipMain = false;
 
     Navigation backNavi = new Navigation();
     Navigation controlsNavi = new Navigation();
@@ -161,6 +162,13 @@ public class MenuController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         TVT.WarningStart();
+
+        if (skipMain)
+        {
+            splashScreen.SetActive(false);
+            OptionSelect(0);
+            skipMain = false;
+        }
     }
 
     void Update()
