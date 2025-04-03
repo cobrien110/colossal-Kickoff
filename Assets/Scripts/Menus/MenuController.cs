@@ -766,7 +766,15 @@ public class MenuController : MonoBehaviour
     #region Stage Selection
 
     public void selectStage(int stageID) {
-        stageSelection = stageID;
+
+        if (stageID == -1)
+        {
+            stageSelection = Random.Range(0, 5);
+        } else
+        {
+            stageSelection = stageID;
+        }
+
         currentScreen = 2;
         STBC.TurnOff();
         stageSelect.SetActive(false);
