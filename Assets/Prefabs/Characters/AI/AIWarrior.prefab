@@ -6350,14 +6350,17 @@ MonoBehaviour:
   canRespawn: 1
   passSpeed: 250
   kickSpeed: 375
-  slideSpeed: 230
   chargeMultiplier: 0.5
   maxCharge: 2
   chargeMoveSpeedMult: 0.2
   superKicking: 0
   slideHitboxRadius: 2
-  slideCooldown: 2
-  slideDuration: 1
+  slideSpeedRegular: 230
+  slideCooldownRegular: 2
+  slideDurationRegular: 1
+  slideSpeedDodge: 100
+  slideCooldownDodge: 3
+  slideDurationDodge: 0.5
   isSliding: 0
   isStunned: 0
   usingNewScheme: 0

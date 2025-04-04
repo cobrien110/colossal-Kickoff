@@ -37,7 +37,6 @@ public class WarriorController : MonoBehaviour
     [HideInInspector] public bool canRespawn = true;
     [SerializeField] protected float passSpeed = 5.0f;
     [SerializeField] private float kickSpeed = 5.0f;
-    [SerializeField] private float slideSpeed = 5.0f;
     [SerializeField] private float chargeMultiplier = 0.5f;
     [SerializeField] private float maxCharge = 2f;
     [SerializeField] protected float chargeMoveSpeedMult = 0.2f;
@@ -47,9 +46,14 @@ public class WarriorController : MonoBehaviour
     private float chargeSpeed;
     [SerializeField] private float slideHitboxRadius = 2f;
     private float baseHitboxRadius;
-    
-    [SerializeField] private float slideCooldown = 1f;
-    [SerializeField] private float slideDuration = 0.35f;
+
+    private float slideCooldown = 2f;
+    [SerializeField] private float slideSpeedRegular = 230f;
+    [SerializeField] private float slideCooldownRegular = 2f;
+    [SerializeField] private float slideDurationRegular = 1f;
+    [SerializeField] private float slideSpeedDodge = 100f;
+    [SerializeField] private float slideCooldownDodge = 3f;
+    [SerializeField] private float slideDurationDodge = 0.5f;
     public bool isSliding = false;
     private float lastSlideTime = -1f;
     [HideInInspector] public bool isStunned = false;
@@ -583,21 +587,48 @@ public class WarriorController : MonoBehaviour
         isInvincible = true;
 
         // Increase hitbox for sliding
-        // Debug.Log("Capsule collider radius before: " + capsuleCollider.radius);
         capsuleCollider.radius *= slideHitboxRadius;
-        // Debug.Log("Capsule collider radius after: " + capsuleCollider.radius);
+
+        // Check if this is a dodge slide or a regular slide
+        float slideDuration;
+        float slideSpeed;
+        // AudioClip audioClip;
+        // String anim;
+        if (BP.ballOwner == gameObject)
+        {
+            Debug.Log("Dodge slide");
+            // Dodge slide
+            slideDuration = slideDurationDodge;
+            slideSpeed = slideSpeedDodge;
+            slideCooldown = slideCooldownDodge;
+
+            // audioClip = ???
+            // anim = ???
+        } else
+        {
+            Debug.Log("Regular slide");
+            // Regular slide
+            slideDuration = slideDurationRegular;
+            slideSpeed = slideSpeedRegular;
+            slideCooldown = slideCooldownRegular;
+
+            // audioClip = ???
+            // anim = ???
+        }
+
+        Debug.Log("slideSpeed: " + slideSpeed);
 
         // Add force in direction of the player input for this warrior (movementDirection)
         Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
         rb.AddForce(slideVelocity);
-        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); // Maybe replace argument with "audioClip" variable
 
         // Set isSliding to false after a delay
         Invoke("StopSliding", slideDuration);
 
         // Update the last slide time
         lastSlideTime = Time.time;
-        ANIM.SetBool("isSliding", true);
+        ANIM.SetBool("isSliding", true); // Maybe replace argument with "anim" variable
 
     }
 
@@ -605,6 +636,7 @@ public class WarriorController : MonoBehaviour
     {
         // Debug.Log("No longer sliding");
         ANIM.SetBool("isSliding", false);
+        // ANIM.SetBool("isDodging", false);
         isSliding = false;
         isInvincible = false;
         capsuleCollider.radius = baseHitboxRadius;
@@ -1168,7 +1200,7 @@ public class WarriorController : MonoBehaviour
     {
         return !isStunned && !isCursed
             && (Time.time - lastSlideTime >= slideCooldown)
-            && (movementDirection != Vector3.zero && BP.ballOwner != gameObject);
+            && (movementDirection != Vector3.zero);
     }
 
     private void OnTriggerStay(Collider other)
