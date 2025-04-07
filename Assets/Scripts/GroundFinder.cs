@@ -12,7 +12,7 @@ public class GroundFinder : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, groundLayer))
         {
-            transform.position = new Vector3(transform.position.x, hit.point.y + 0.01f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 0.02f, transform.position.z);
         }
     }
 
