@@ -310,7 +310,7 @@ public class WarriorAiController : MonoBehaviour
             ballRB.AddForce(transform.forward * aiKickSpeed);
             // Debug.Log("Ball speed after kick: " + ballRB.velocity.magnitude);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
-
+            wc.ANIM.Play("WarriorKick");
             if (GM.passIndicator)
             {
                 //wc.BP.SetBallColor(Color.blue);
