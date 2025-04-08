@@ -10,13 +10,11 @@ public class GraveHazard : MonoBehaviour
     [SerializeField] private MeshRenderer Body;
     [SerializeField] private MeshRenderer[] pieces;
 
-    private Coroutine Waiting;
-
-    [SerializeField] private float secondsTillReform = 15f;
     [SerializeField] private AnimationClip clip;
-    [SerializeField] private float clipLength;
-    public float scale;
 
+    public float secondsTillReform = 15f;
+    private float clipLength;
+    private Coroutine Waiting;
 
     private void Start()
     {
