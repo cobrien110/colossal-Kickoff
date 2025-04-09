@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.345
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.060221728, g: 0.044843398, b: 0.12092113, a: 0.345}
+  m_IndirectSpecularColor: {r: 0.060221173, g: 0.04484414, b: 0.12092019, a: 0.345}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1249,6 +1249,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 730803771}
     m_Modifications:
+    - target: {fileID: 320167824886919372, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1807
+      objectReference: {fileID: 0}
     - target: {fileID: 858922231469205584, guid: 48bdd4cff735e2b41a0ae07bd7ba0c46, type: 3}
       propertyPath: m_Name
       value: MonsterGoal
@@ -4514,10 +4518,6 @@ PrefabInstance:
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: automaticStart
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
-      propertyPath: automaticAISpawn
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x

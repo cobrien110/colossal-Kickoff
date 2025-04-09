@@ -7,7 +7,7 @@ public class GashaGate : MonoBehaviour
     public float duration = 10f;
     private DeleteAfterDelay DAD;
     public float launchSpeed;
-    private AbilityGashaPassive AGP;
+    //private AbilityGashaPassive AGP;
 
     public GameObject visual;
     public Transform startPt;
@@ -16,13 +16,16 @@ public class GashaGate : MonoBehaviour
     private float journeyLength;
     private bool movingBack = false;
     public float speed = 3f;
+    private GoalWithBarrier GOAL;
+    private bool hasTriggeredBonusHealth = false;
 
     // Start is called before the first frame update
     void Start()
     {
         DAD = GetComponent<DeleteAfterDelay>();
         DAD.NewTimer(duration);
-        AGP = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityGashaPassive>();
+        GOAL = GameObject.FindGameObjectWithTag("MonsterGoal").GetComponent<GoalWithBarrier>();
+        //AGP = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityGashaPassive>();
 
         startTime = Time.time;
         visual.transform.position = startPt.transform.position;
@@ -71,8 +74,15 @@ public class GashaGate : MonoBehaviour
             SO.SetTeam(true);
 
             // add to gasha passive
-            Debug.Log("AGP: " + AGP);
-            if (AGP != null) AGP.Add(AGP.bonusOnOrb);
+            //Debug.Log("AGP: " + AGP);
+            //if (AGP != null) AGP.Add(AGP.bonusOnOrb);
+
+            // ADD BONUS GOAL BARRIER
+            if (!hasTriggeredBonusHealth)
+            {
+                GOAL.AddBonusHealth(GOAL.maxBonusHealth);
+                hasTriggeredBonusHealth = true;
+            }
         }
     }
 

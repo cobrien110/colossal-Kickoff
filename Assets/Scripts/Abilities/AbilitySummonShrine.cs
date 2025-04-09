@@ -21,6 +21,7 @@ public class AbilitySummonShrine : AbilityScript
 
     MonsterController monsterController;
     private AbilityGashaPassive AGP;
+    private GoalWithBarrier GOAL;
     public string soundName;
 
     public override void Activate()
@@ -91,6 +92,8 @@ public class AbilitySummonShrine : AbilityScript
         abilityCreateHands = GetComponent<AbilityCreateHands>();
         monsterController = GetComponent<MonsterController>();
         AGP = GetComponent<AbilityGashaPassive>();
+        GOAL = GameObject.FindGameObjectWithTag("MonsterGoal").GetComponent<GoalWithBarrier>();
+        GOAL.SetBonusBars(true);
     }
 
     // Update is called once per frame

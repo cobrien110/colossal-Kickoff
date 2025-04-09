@@ -11,6 +11,8 @@ public class GoalWithBarrier : MonoBehaviour
     public bool canBeScoredIn = false;
     public float maxHealth = 10;
     public float health;
+    public float maxBonusHealth = 5;
+    public float bonusHealth = 0;
     public BoxCollider col;
     public float maxBounceAngle = 45f;
     public float bounceForce = 4f;
@@ -21,6 +23,9 @@ public class GoalWithBarrier : MonoBehaviour
     private float timer;
     private float timerDamage;
     public GameObject[] barrierObjects;
+    public GameObject[] bonusBarrierObjects;
+    private bool usingBonusBars = false;
+    public float bonusHealthLossPerSecond = 0.33f;
     public float xPos = 7f;
     private bool wasJustScored = false;
 
@@ -46,6 +51,12 @@ public class GoalWithBarrier : MonoBehaviour
         if (transform.position.x < 0)
         {
             xPos = -xPos;
+        }
+
+        // turn off extra barriers
+        foreach (GameObject barrier in bonusBarrierObjects)
+        {
+            barrier.SetActive(false);
         }
     }
 
@@ -74,6 +85,7 @@ public class GoalWithBarrier : MonoBehaviour
         }
 
         UpdateBars();
+        if (usingBonusBars && bonusHealth >= 0) UpdateBarsBonus();
     }
 
     void SetCanScore(bool b)
@@ -94,8 +106,20 @@ public class GoalWithBarrier : MonoBehaviour
         }
 
         Debug.Log(gameObject.name + " hit, taking " + damage + "damage");
-        
-        health -= damage;
+
+        float remainder = 0f;
+        if (usingBonusBars && bonusHealth > 0)
+        {
+            bonusHealth -= damage;
+            if (bonusHealth < 0)
+            {
+                remainder = bonusHealth * -1;
+                health -= remainder;
+            }
+        } else
+        {
+            health -= damage;
+        }
         
         if (health <= 0)
         {
@@ -159,6 +183,30 @@ public class GoalWithBarrier : MonoBehaviour
         }
     }
 
+    private void UpdateBarsBonus()
+    {
+        int num = bonusBarrierObjects.Length;
+        if (num == 0) return;
+
+        float threshold = (1f / num) * maxBonusHealth;
+        //Debug.Log("threshold: " + threshold);
+
+        for (int i = num - 1; i >= 0; i--)
+        {
+            //Debug.Log("Health: " + health + "    Threshold: " + i * threshold);
+            if (bonusHealth <= i * threshold)
+            {
+                bonusBarrierObjects[i].SetActive(false);
+            }
+            else
+            {
+                bonusBarrierObjects[i].SetActive(true);
+            }
+        }
+
+        bonusHealth -= Time.deltaTime * bonusHealthLossPerSecond;
+    }
+
     public void ResetTimers()
     {
         timer = delayAfterInteraction;
@@ -167,6 +215,7 @@ public class GoalWithBarrier : MonoBehaviour
 
     public void Respawn()
     {
+        bonusHealth = 0;
         if (!startWithBariers) return;
         if (respawnType == 0) // don't respawn
         {
@@ -217,5 +266,17 @@ public class GoalWithBarrier : MonoBehaviour
         {
             health = 0;
         }
+    }
+
+    public void AddBonusHealth(float amountToAdd)
+    {
+        bonusHealth = amountToAdd;
+        if (bonusHealth >= maxBonusHealth) bonusHealth = maxBonusHealth;
+        BarrierAudio.PlaySoundRandomPitch(BarrierAudio.Find("goalBarrierCharge"));
+    }
+
+    public void SetBonusBars(bool isOn)
+    {
+        usingBonusBars = isOn;
     }
 }
