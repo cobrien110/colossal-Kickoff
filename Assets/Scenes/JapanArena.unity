@@ -24455,8 +24455,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa052b960a79d1248b23107de0c9849c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  group1: []
-  gravePrefabs: []
+  group1:
+  - {fileID: 690063850}
+  - {fileID: 2003152363}
+  - {fileID: 408841831}
+  - {fileID: 316405721}
+  - {fileID: 945604832}
+  - {fileID: 1328811028}
+  gravePrefabs:
+  - {fileID: 2212050454349982590, guid: c497db7baafdf7e47911cd606e71ad3e, type: 3}
+  - {fileID: 5332607557896508506, guid: fe6fe4c9cae947b47bd426c7674bf515, type: 3}
+  - {fileID: 8602359462388826367, guid: a2f3618df34fcc340bb50cb4239cab25, type: 3}
+  GM: {fileID: 1542430857}
 --- !u!4 &1852607587
 Transform:
   m_ObjectHideFlags: 0
@@ -28473,7 +28483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1373776158349978951, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: automaticAISpawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4101971329782768537, guid: dd8240249f9597a47a0327a95d61d24d, type: 3}
       propertyPath: m_LocalPosition.x
