@@ -38,6 +38,7 @@ public class BallProperties : MonoBehaviour
     CommentatorSoundManager CSM;
     private SpriteRenderer SR;
     private Rigidbody RB;
+    private Vector3 previousVelocity;
 
     public float maxSpeed = 15f;
 
@@ -171,6 +172,16 @@ public class BallProperties : MonoBehaviour
         {
             passTimer = 0f;
         }
+    }
+
+    private void LateUpdate()
+    {
+        previousVelocity = RB.velocity;
+    }
+
+    public void ReapplyLastVelocity()
+    {
+        RB.velocity = previousVelocity;
     }
 
     private void OnTriggerEnter(Collider other)
