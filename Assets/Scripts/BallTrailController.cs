@@ -10,9 +10,9 @@ public class BallTrailController : MonoBehaviour
     [SerializeField] private float maxRateOverDistance = 50f;
     [SerializeField] private float minRateOverDistance = 10f;
 
-    public Color normalColor;
-    public Color superKickColor = Color.red;
-    public float colorLerpSpeed = 2f;
+    private Color normalColor;
+    [SerializeField] private Color superKickColor = Color.red;
+    [SerializeField] private float colorLerpSpeed = 2f;
 
     private Color currentColor;
     private bool wasSuperKicked = false;

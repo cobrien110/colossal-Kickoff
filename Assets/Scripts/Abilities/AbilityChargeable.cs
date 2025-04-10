@@ -39,11 +39,15 @@ public abstract class AbilityChargeable : AbilityScript
             StopWhenDribbling();
         }
         ResizeAttackVisual();
-        if (isCharging)
+        if (!MC.isStunned && isCharging)
         {
             ChargeAbility();
             if (attackVisualizer != null && !attackVisualizer.activeSelf) attackVisualizer.SetActive(true);
-            if (hasChargeUpAnimation) ANIM.SetBool("isWindingUp", true);
+            if (hasChargeUpAnimation)
+            {
+                // Debug.Log("mc.isStunned: " + MC.isStunned + ", isCharging: " + isCharging);
+                ANIM.SetBool("isWindingUp", true);
+            }
         }
         else
         {
