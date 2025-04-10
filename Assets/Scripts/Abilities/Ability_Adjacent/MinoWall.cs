@@ -121,4 +121,9 @@ public class MinoWall : MonoBehaviour
             shrap.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up) * shrap.transform.rotation;
         }
     }
+
+    public void EndEarly()
+    {
+        Destroy(this.gameObject);
+    }
 }

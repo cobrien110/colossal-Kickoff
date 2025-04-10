@@ -472,6 +472,18 @@ public class BallProperties : MonoBehaviour
             }
             
         }
+
+        if (other.gameObject.tag.Equals("MinoWall"))
+        {
+            isSuperKick = false;
+
+            MinoWall wall = other.gameObject.GetComponent<MinoWall>();
+            if (wall != null && isInSingleOutMode)
+            {
+                wall.EndEarly();
+                ReapplyLastVelocity();
+            }
+        }
     }
 
     private void EndIntangibility()
@@ -599,6 +611,13 @@ public class BallProperties : MonoBehaviour
         if (collision.gameObject.tag.Equals("MinoWall") || collision.gameObject.tag.Equals("InvisWall"))
         {
             isSuperKick = false;
+
+            MinoWall wall = collision.gameObject.GetComponent<MinoWall>();
+            if (wall != null && isInSingleOutMode)
+            {
+                Destroy(wall);
+                ReapplyLastVelocity();
+            }
         }
     }
 
