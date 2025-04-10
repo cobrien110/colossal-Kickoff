@@ -305,22 +305,22 @@ public class WarriorController : MonoBehaviour
         float verticalInput = 0f;
 
         // Check for WASD keys
-        if (Input.GetKey(KeyCode.W))
-        {
-            verticalInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            verticalInput = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            horizontalInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            horizontalInput = -1f;
-        }
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    verticalInput = 1f;
+        //}
+        //else if (Input.GetKey(KeyCode.S))
+        //{
+        //    verticalInput = -1f;
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    horizontalInput = 1f;
+        //}
+        //else if (Input.GetKey(KeyCode.A))
+        //{
+        //    horizontalInput = -1f;
+        //}
         Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
         if (keyBoardInputs != Vector2.zero)
         {

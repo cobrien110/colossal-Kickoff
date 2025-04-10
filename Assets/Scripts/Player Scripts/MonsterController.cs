@@ -227,11 +227,11 @@ public class MonsterController : MonoBehaviour
         }
 
         //Temp Controller Scheme Swap
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            usingNewScheme = !usingNewScheme;
-            invertControls = !invertControls;
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftAlt))
+        //{
+        //    usingNewScheme = !usingNewScheme;
+        //    invertControls = !invertControls;
+        //}
 
 
         //if (kickCharge >= maxChargeSeconds)
@@ -299,23 +299,23 @@ public class MonsterController : MonoBehaviour
             float verticalInput = 0f;
 
             // Check for WASD keys
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                verticalInput = 1f;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                verticalInput = -1f;
-            }
+            //if (Input.GetKey(KeyCode.UpArrow))
+            //{
+            //    verticalInput = 1f;
+            //}
+            //else if (Input.GetKey(KeyCode.DownArrow))
+            //{
+            //    verticalInput = -1f;
+            //}
 
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                horizontalInput = 1f;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                horizontalInput = -1f;
-            }
+            //if (Input.GetKey(KeyCode.RightArrow))
+            //{
+            //    horizontalInput = 1f;
+            //}
+            //else if (Input.GetKey(KeyCode.LeftArrow))
+            //{
+            //    horizontalInput = -1f;
+            //}
             Vector2 keyBoardInputs = new Vector2(horizontalInput, verticalInput);
             if (keyBoardInputs != Vector2.zero)
             {
@@ -373,19 +373,19 @@ public class MonsterController : MonoBehaviour
             return;
         }
 
-        if(Input.GetKeyDown(KeyCode.RightShift) && BP.ballOwner == gameObject)
-        {
-            Debug.Log("Pass!");
+        //if(Input.GetKeyDown(KeyCode.RightShift) && BP.ballOwner == gameObject)
+        //{
+        //    Debug.Log("Pass!");
 
-            // 
-            BP.ballOwner = null;
-            Debug.Log(transform.forward);
-            BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
-            audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
-        } else if (Input.GetKeyDown(KeyCode.RightShift))
-        {
-            Debug.Log("Attempt to pass failed, ballOwner: " + BP.ballOwner);
-        }
+        //    // 
+        //    BP.ballOwner = null;
+        //    Debug.Log(transform.forward);
+        //    BP.GetComponent<Rigidbody>().AddForce(transform.forward * passSpeed);
+        //    audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
+        //} else if (Input.GetKeyDown(KeyCode.RightShift))
+        //{
+        //    Debug.Log("Attempt to pass failed, ballOwner: " + BP.ballOwner);
+        //}
     }
 
     public bool IsWallBetweenBallAndPlayer()
@@ -416,7 +416,7 @@ public class MonsterController : MonoBehaviour
 
         if (!usingNewScheme)
         {
-            if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (((rightStickInput == Vector3.zero && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
 
@@ -449,7 +449,7 @@ public class MonsterController : MonoBehaviour
                 ANIM.SetBool("isWindingUp", false);
                 ANIM.Play("MinotaurAttack");
             }
-            if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
+            if (((rightStickInput != Vector3.zero && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
             {
                 if (kickCharge <= maxCharge)
                 {
@@ -475,7 +475,7 @@ public class MonsterController : MonoBehaviour
             }
         } else
         {
-            if (((monsterControls.phase == InputActionPhase.Canceled || monsterControls.WasReleasedThisFrame()) || Input.GetKeyUp(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (((monsterControls.phase == InputActionPhase.Canceled || monsterControls.WasReleasedThisFrame()) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
 
@@ -495,7 +495,7 @@ public class MonsterController : MonoBehaviour
                 ANIM.SetBool("isWindingUp", false);
                 ANIM.Play("MinotaurAttack");
             }
-            if ((monsterControls.IsInProgress() || Input.GetKey(KeyCode.KeypadEnter)) && BP.ballOwner == gameObject)
+            if ((monsterControls.IsInProgress() || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
             {
                 if (kickCharge <= maxCharge)
                 {

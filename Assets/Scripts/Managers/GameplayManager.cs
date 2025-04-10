@@ -140,21 +140,21 @@ public class GameplayManager : MonoBehaviour
 
         //Add inputfield.isfocused here when adding console
         
-        if (Input.GetKeyDown(KeyCode.Slash))
-        {
-            Instantiate(MonsterPlayer, new Vector3(-5.25f, 0f, 0f), Quaternion.identity);
-        }
+        //if (Input.GetKeyDown(KeyCode.Slash))
+        //{
+        //    Instantiate(MonsterPlayer, new Vector3(-5.25f, 0f, 0f), Quaternion.identity);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Dollar) && !isPlaying)
-        {
-            SpawnAI();
-            Debug.Log("Birthed");
-        }
+        //if (Input.GetKeyDown(KeyCode.Dollar) && !isPlaying)
+        //{
+        //    SpawnAI();
+        //    Debug.Log("Birthed");
+        //}
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
-        {
-            ResetGame();
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftControl) && !isPlaying)
+        //{
+        //    ResetGame();
+        //}
 
         if (UM.GetTimeRemaining() <= 0 && !podiumSequenceStarted && UM.overtime == false)
         {
