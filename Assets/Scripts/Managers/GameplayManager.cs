@@ -17,6 +17,7 @@ public class GameplayManager : MonoBehaviour
     public bool isPlaying = false;
     public bool isGameOver = false;
     public bool isPaused = false;
+    public bool hasScored = false;
     public bool overtimeStarted = false;
     private bool podiumSequenceStarted = false;
     private int spawnCount = 0;
@@ -232,12 +233,14 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(UM.Countdown());
         yield return new WaitForSeconds(3f);
         StartPlaying();
+        hasScored = false;
     }
 
     public void Reset()
     {
         //StopPlaying();
         UM.StopTimer();
+        hasScored = true;
         if ((MP != null && !overtimeStarted) || (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null)) MP.PauseMusic();
         else Debug.Log("Failed to pause music");
         Invoke("FinalizeReset", 3f);
@@ -250,6 +253,7 @@ public class GameplayManager : MonoBehaviour
     {
         //StopPlaying();
         UM.StopTimer();
+        hasScored = true;
         if (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null) MP.PauseMusic();
         else Debug.Log("Failed to pause music");
         Invoke("FinalizeResetOvertime", 3f);
@@ -615,7 +619,7 @@ public class GameplayManager : MonoBehaviour
 
     public void PauseGame(int playerID)
     {
-        if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying)
+        if (!SceneManager.GetActiveScene().ToString().Equals("MainMenus") && isPlaying && !hasScored)
         {
             if (pauseTimer < pauseDelay || isGameOver) return;
             pauseTimer = 0f;
