@@ -10,11 +10,25 @@ public class BallTrailController : MonoBehaviour
     [SerializeField] private float maxRateOverDistance = 50f;
     [SerializeField] private float minRateOverDistance = 10f;
 
+    public Color normalColor;
+    public Color superKickColor = Color.red;
+    public float colorLerpSpeed = 2f;
+
+    private Color currentColor;
+    private bool wasSuperKicked = false;
+
     void Start()
     {
         rb = transform.parent.gameObject.GetComponent<Rigidbody>();
         ballTrail = GetComponent<ParticleSystem>();
         BP = transform.parent.gameObject.GetComponent<BallProperties>();
+
+        // Save base color of trail
+        if (ballTrail != null)
+        {
+            normalColor = ballTrail.main.startColor.color;
+            currentColor = normalColor;
+        }
     }
 
     void Update()
@@ -31,6 +45,33 @@ public class BallTrailController : MonoBehaviour
         {
             emission.rateOverDistance = Mathf.Lerp(minRateOverDistance, maxRateOverDistance, speed / BP.maxSpeed); // Adjust density based on speed
         }
+
+
+        // Change ball trail color on super kick
+        if (BP.ballOwner != null && BP.ballOwner.GetComponent<WarriorController>() != null
+        && BP.ballOwner.GetComponent<WarriorController>().superKicking)
+        {
+            Debug.Log("Superkicking: " + BP.ballOwner.GetComponent<WarriorController>().superKicking);
+
+            currentColor = superKickColor;
+            wasSuperKicked = true;
+        }
+        else if (wasSuperKicked)
+        {
+            // Smoothly lerp back to base color
+            currentColor = Color.Lerp(currentColor, normalColor, Time.deltaTime * colorLerpSpeed);
+
+            if (Vector4.Distance(currentColor, normalColor) < 0.01f)
+            {
+                currentColor = normalColor;
+                wasSuperKicked = false;
+            }
+        }
+
+        // Apply color to particle system
+        var main = ballTrail.main;
+        main.startColor = currentColor;
+
         // Debug.Log("ball speed: " + speed);
     }
 
