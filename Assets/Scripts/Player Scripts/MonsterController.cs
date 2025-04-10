@@ -706,6 +706,8 @@ public class MonsterController : MonoBehaviour
     {
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
+        AbilityMinotaurBoost MINO = GetComponent<AbilityMinotaurBoost>();
+        if (MINO != null) MINO.Activate();
     }
 
     void PlayKickSound(float charge)

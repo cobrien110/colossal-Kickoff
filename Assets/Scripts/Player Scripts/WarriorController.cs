@@ -830,6 +830,13 @@ public class WarriorController : MonoBehaviour
         }
         //Instantiate(particleObj, transform.position, Quaternion.identity);
 
+        // pump up minotaur boost state if active
+        AbilityMinotaurBoost minotaurBoost = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityMinotaurBoost>();
+        if (minotaurBoost != null && minotaurBoost.GetActive())
+        {
+            minotaurBoost.AddBonus();
+        }
+
         // soul orb spawn if fighting gasha
         AbilityGashaPassive AGP = GameObject.FindGameObjectWithTag("Monster").GetComponent<AbilityGashaPassive>();
         if (AGP != null)

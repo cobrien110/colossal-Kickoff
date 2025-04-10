@@ -673,7 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: MoltenIchor
   hasCooldown: 0
-  cooldown: 0
+  cooldown: 2
   counterMax: 1
   counterAmount: 0
   visualizer: {fileID: 0}
@@ -682,9 +682,11 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  duration: 5
-  speedBoost: 0.5
-  onColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 5.5
+  speedBoost: 0.6
+  onColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
+  degradeRate: 1
+  bonusAmount: 3
 --- !u!114 &8342599681389894631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,7 +701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: MinotaurWall
   abilityNum: 0
-  cooldown: 10
+  cooldown: 11
   usableWhileIntangible: 0
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -787,7 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Bullrush
   abilityNum: 2
-  cooldown: 4
+  cooldown: 5
   usableWhileIntangible: 0
   usableWhileDribbling: 0
   attackVisualizer: {fileID: 0}

@@ -105,11 +105,35 @@ public class AbilitySphericalAttack : AbilityChargeable
     void SpawnShrapnel(Vector3 point)
     {
         if (projectilePrefab == null) return;
-        Vector3 pos = new Vector3(point.x, point.y, point.z);
-        GameObject shrap = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
-        WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
-        WS.damage = projectileDamage;
-        WS.speed = projectileSpeed;
+
+        if (MC.GetComponent<AbilityMinotaurBoost>() != null && MC.GetComponent<AbilityMinotaurBoost>().counterAmount > 0)
+        {
+            float angleIncrement = 45 / (3 - 1);
+            float startAngle = -45 / 2; // Start angle of the spread
+
+            Vector3 pos = new Vector3(point.x, point.y, point.z);
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject shrap = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
+                WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
+                WS.damage = projectileDamage;
+                WS.speed = projectileSpeed;
+
+                // Calculate the angle for this projectile
+                float angle = startAngle + (angleIncrement * i);
+
+                shrap.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up) * shrap.transform.rotation;
+            }
+            
+        } else
+        {
+            Vector3 pos = new Vector3(point.x, point.y, point.z);
+            GameObject shrap = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(transform.forward, Vector3.up));
+            WallShrapnel WS = shrap.GetComponent<WallShrapnel>();
+            WS.damage = projectileDamage;
+            WS.speed = projectileSpeed;
+        }
+        
     }
 
     public override void ResizeAttackVisual()
