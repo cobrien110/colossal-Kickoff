@@ -106,6 +106,18 @@ public class WarriorDesc : MonoBehaviour
         WCSO.updateColor(redValue, greenValue, blueValue);
     }
 
+    public void ResetColor()
+    {
+        WCSO.updateColor(0.0f, 0.0f, 0.0f);
+    }
+
+    public void ResetSliders()
+    {
+        redSlider.value = 0;
+        greenSlider.value = 0;
+        blueSlider.value = 0;
+    }
+
     public Color getCurrentColor()
     {
         return new Color(redValue, greenValue, blueValue);
