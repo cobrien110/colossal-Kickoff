@@ -414,6 +414,8 @@ public class MonsterController : MonoBehaviour
             return;
         }
 
+        if (isStunned) return;
+
         if (!usingNewScheme)
         {
             if (((rightStickInput == Vector3.zero && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
@@ -699,19 +701,76 @@ public class MonsterController : MonoBehaviour
     public void Stun()
     {
         if (isStunned || !canBeStunned) return;
+        Debug.Log("Monster stunned");
         BP.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
         isStunned = true;
+        ChargeDownAbilities();
+        ResetAnimatorState(); // <-- resets triggers and bools
+        String idleAnim;
+        switch (monsterType)
+        {
+            case MonsterType.Minotaur:
+                idleAnim = "MinotaurIdle";
+                break;
+            case MonsterType.Akhlut:
+                idleAnim = "AhklutIdle";
+                break;
+            case MonsterType.Gashadokuro:
+                idleAnim = "GashaIdle";
+                break;
+            case MonsterType.Sphinx:
+                idleAnim = "SphinxIdle";
+                break;
+            case MonsterType.Quetzalcaotl:
+                idleAnim = "MinotaurIdle";
+                break;
+            default:
+                idleAnim = "MinotaurIdle";
+                break;
+        }
+        ANIM.Play(idleAnim, 0, 0f); // force it into idle immediately
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
         CSM.PlayDeathSound(false);
         StartCoroutine(ResetStun());
     }
 
+    private void ChargeDownAbilities()
+    {
+        foreach (AbilityScript ab in abilities)
+        {
+            AbilityChargeable ac = ab as AbilityChargeable;
+            if (ac != null)
+            {
+                Debug.Log("Charge Down - " + ac.name);
+                ac.ChargeDown();
+            }
+        }
+    }
+
     private IEnumerator ResetStun()
     {
         yield return new WaitForSeconds(stunTime);
+        Debug.Log("No longer stunned");
         isStunned = false;
         AbilityMinotaurBoost MINO = GetComponent<AbilityMinotaurBoost>();
         if (MINO != null) MINO.Activate();
+    }
+
+    private void ResetAnimatorState()
+    {
+        foreach (AnimatorControllerParameter param in ANIM.parameters)
+        {
+            switch (param.type)
+            {
+                case AnimatorControllerParameterType.Trigger:
+                    ANIM.ResetTrigger(param.name);
+                    break;
+
+                case AnimatorControllerParameterType.Bool:
+                    ANIM.SetBool(param.name, false);
+                    break;
+            }
+        }
     }
 
     void PlayKickSound(float charge)
