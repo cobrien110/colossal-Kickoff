@@ -271,6 +271,7 @@ public class GameplayManager : MonoBehaviour
         BallProperties BP = Ball.GetComponent<BallProperties>();
         StartCoroutine(Kickoff());
         BP.isSuperKick = false;
+        BP.isFullSuperKick = false;
         passMeter = 0;
         UM.UpdateWarriorContestBar(passMeter);
         UM.ShowPlayerScoredText(false);

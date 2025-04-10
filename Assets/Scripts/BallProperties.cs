@@ -18,6 +18,7 @@ public class BallProperties : MonoBehaviour
     public GameObject playerTest = null;
     public float passBonus = 0.25f;
     public bool isSuperKick = false;
+    public bool isFullSuperKick = false;
     public bool isInSingleOutMode = false;
     public float passTimeFrame = .5f;
     private float passTimer = 0f;
@@ -214,11 +215,12 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
-            if (mc != null && !mc.isStunned && isSuperKick && passTimer <= passTimeFrame)
+            if (mc != null && !mc.isStunned && isFullSuperKick && passTimer <= passTimeFrame)
             {
                 if (mc.isIntangible) return;
                 mc.Stun();
                 isSuperKick = false;
+                isFullSuperKick = false;
                 return;
             } else if (mc != null && (mc.isStunned || mc.isIntangible))
             {
@@ -265,13 +267,15 @@ public class BallProperties : MonoBehaviour
 
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("catchPass"), 0.25f);
             isSuperKick = false;
+            isFullSuperKick = false;
 
             // GET SUCCESSFUL PASS
             if (previousKicker != null && previousKicker != other.gameObject && ballOwner.tag.Equals("Warrior") && previousKicker.tag.Equals("Warrior"))
             {
-                if (isSuperKick)
+                if (isSuperKick || isFullSuperKick)
                 {
                     isSuperKick = false;
+                    isFullSuperKick = false;
                 }
                 if (passTimer <= passTimeFrame)
                 {
@@ -442,7 +446,8 @@ public class BallProperties : MonoBehaviour
 
                 AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
                 if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
-            } else if (GWB != null && !GWB.canBeScoredIn)
+            }
+            else if (GWB != null && !GWB.canBeScoredIn)
             {
                 // prevent goal if it would be an own goal while the ball is still being held
                 if (ballOwner != null && ballOwner.GetComponent<MonsterController>() != null) return;
@@ -465,7 +470,14 @@ public class BallProperties : MonoBehaviour
                 }
 
                 Debug.Log("Reject ball - Monster goal");
-                GWB.RejectBall(RB);
+                if (isFullSuperKick)
+                {
+                    GWB.canBeScoredIn = true;
+                }
+                else
+                {
+                    GWB.RejectBall(RB);
+                }
                 //isInteractable = false;
                 isInSingleOutMode = true;
                 Invoke("EndIntangibility", intangibleTime);
@@ -476,6 +488,7 @@ public class BallProperties : MonoBehaviour
         if (other.gameObject.tag.Equals("MinoWall"))
         {
             isSuperKick = false;
+            isFullSuperKick = false;
 
             MinoWall wall = other.gameObject.GetComponent<MinoWall>();
             if (wall != null && isInSingleOutMode)
@@ -611,6 +624,7 @@ public class BallProperties : MonoBehaviour
         if (collision.gameObject.tag.Equals("MinoWall") || collision.gameObject.tag.Equals("InvisWall"))
         {
             isSuperKick = false;
+            isFullSuperKick = false;
 
             MinoWall wall = collision.gameObject.GetComponent<MinoWall>();
             if (wall != null && isInSingleOutMode)

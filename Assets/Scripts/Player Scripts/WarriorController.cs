@@ -438,6 +438,7 @@ public class WarriorController : MonoBehaviour
                     {
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
+                        BP.isFullSuperKick = true;
                         GM.passMeter = 0f;
                         UM.UpdateWarriorContestBar(0f);
                     }
@@ -512,6 +513,7 @@ public class WarriorController : MonoBehaviour
                     {
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
+                        BP.isFullSuperKick = true;
                         GM.passMeter = 0f;
                     }
                     else
