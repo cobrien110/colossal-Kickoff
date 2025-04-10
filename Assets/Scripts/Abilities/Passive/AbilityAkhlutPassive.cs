@@ -24,23 +24,24 @@ public class AbilityAkhlutPassive : PassiveAbility
     // Update is called once per frame
     void Update()
     {
-        if (isCharging && counterAmount < counterMax)
+        // add counter when charging, decrease after activation
+        if (isCharging && counterAmount < counterMax && !isActive)
         {
             counterAmount += Time.deltaTime;
-        } else if (counterAmount > 0)
+        } else if (counterAmount > 0 && isActive)
         {
             counterAmount -= Time.deltaTime * decayRate;
+            if (counterAmount <= 0)
+            {
+                isActive = false;
+            }
         }
 
-        if (counterAmount >= counterMax/2)
+        if (counterAmount >= counterMax && !isActive)
         {
             //active
             isActive = true;
-            
-        } else
-        {
-            isActive = false;
-        }
+        } 
 
         if (isActive)
         {
@@ -53,5 +54,11 @@ public class AbilityAkhlutPassive : PassiveAbility
         }
 
         UpdateChargeBar();
+    }
+
+    public void Deactivate()
+    {
+        isActive = false;
+        counterAmount = 0;
     }
 }

@@ -520,6 +520,10 @@ public class MonsterController : MonoBehaviour
                 //aimingDirection = Vector3.zero;
             }
         }
+        if (BP.ballOwner.gameObject != gameObject && !isChargingAbility)
+        {
+            ANIM.SetBool("isWindingUp", false);
+        }
     }
 
     void RotateWhileCharging()
