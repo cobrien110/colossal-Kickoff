@@ -9,6 +9,8 @@ public class AbilityGashaPassive : PassiveAbility
     public int bonusOnOrb = 1;
     public int bonusOnKill = 4;
     public float orbSpawnLaunchSpeed = 1f;
+    public float passiveTickTime = 3f;
+    private float passiveTickTimer = 0f;
 
     public override void Deactivate()
     {
@@ -34,5 +36,12 @@ public class AbilityGashaPassive : PassiveAbility
     private void Update()
     {
         UpdateChargeBar();
+        passiveTickTimer += Time.deltaTime;
+        if (passiveTickTimer > passiveTickTime)
+        {
+            passiveTickTimer = 0f;
+            counterAmount += 1;
+            if (counterAmount > counterMax) counterAmount = counterMax;
+        }
     }
 }
