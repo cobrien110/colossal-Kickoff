@@ -76,6 +76,8 @@ public class SoulOrb : MonoBehaviour
         }
 
         // if on warrior team and hit monster, convert it
+
+        
         SoulOrb SO = other.GetComponent<SoulOrb>();
         if (SO == null) return;
         Vector3 dir1 = (SO.transform.position - transform.position).normalized * RB.velocity.magnitude;
