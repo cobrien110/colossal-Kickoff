@@ -85,7 +85,7 @@ public class GoalWithBarrier : MonoBehaviour
         }
 
         UpdateBars();
-        if (usingBonusBars && bonusHealth >= 0) UpdateBarsBonus();
+        if (usingBonusBars) UpdateBarsBonus();
     }
 
     void SetCanScore(bool b)

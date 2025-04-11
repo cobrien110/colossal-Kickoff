@@ -56,10 +56,4 @@ public class AbilityAkhlutPassive : PassiveAbility
 
         UpdateChargeBar();
     }
-
-    public void Deactivate()
-    {
-        isActive = false;
-        counterAmount = 0;
-    }
 }

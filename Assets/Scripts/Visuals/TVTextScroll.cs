@@ -62,17 +62,33 @@ public class TVTextScroll : MonoBehaviour
     private void TextRandom()
     {
         int x = Random.Range(0, 100);
-        if (x < 75)
+        if (x < 15)
+        {
+            scrollingText.text = "BREAKING NEWS: COLOSSSAL SOCCER GAMES NOW IN PROGRESS!";
+        }
+        else if (x < 30)
+        {
+            scrollingText.text = "HISTORIANS RECRUITED TO DEFENSE FORCES AS INVASION CONTINUES";
+        }
+        else if (x < 55)
         {
             scrollingText.text = "WARNING! MONSTERS ARE INVADING EARTH! SEEK SHELTER IMMEDIATELY!";
+        }
+        else if (x < 75)
+        {
+            scrollingText.text = "WHERE DID OUR USUAL REPORTER GO? NO ONE HAS SEEN HIM, SEND HELP";
         }
         else if (x < 98)
         {
             scrollingText.text = "REMEMBER TO JOIN THE DISCORD :)";
+        } 
+        else if (x == 98)
+        {
+            scrollingText.text = "CREATURE SIGHTING: AMPHIBIAN SEEN TERRORISING MIDWESTERN USA";
         }
         else if (x == 99)
         {
-            scrollingText.text = "THIS MESSAGE IS REALLY RARE";
+            scrollingText.text = "ECONOMICS UPDATE: WIZARD FIRED FROM JOB FOR HUNDRETH TIME";
         }
     }
 }

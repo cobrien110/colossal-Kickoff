@@ -221,6 +221,7 @@ public class BallProperties : MonoBehaviour
                 mc.Stun();
                 isSuperKick = false;
                 isFullSuperKick = false;
+                ReapplyLastVelocity();
                 return;
             } else if (mc != null && (mc.isStunned || mc.isIntangible))
             {
@@ -473,6 +474,7 @@ public class BallProperties : MonoBehaviour
                 if (isFullSuperKick)
                 {
                     GWB.canBeScoredIn = true;
+                    GWB.health = 0;
                 }
                 else
                 {
@@ -512,6 +514,7 @@ public class BallProperties : MonoBehaviour
             Debug.Log("I am in the right place for OT");
             GameObject scorer = previousKicker;
             if (ballOwner != null) scorer = ballOwner;
+            if (scorer.GetComponent<AIMummy>()) scorer = GameObject.FindGameObjectWithTag("Monster");
             // Play goal effects
             try
             {
@@ -545,6 +548,7 @@ public class BallProperties : MonoBehaviour
             Debug.Log("I am in the wrong place for OT");
             GameObject scorer = previousKicker;
             if (ballOwner != null) scorer = ballOwner;
+            if (scorer.GetComponent<AIMummy>()) scorer = GameObject.FindGameObjectWithTag("Monster");
             // Play goal effects
             try
             {

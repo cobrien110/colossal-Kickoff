@@ -42,6 +42,7 @@ public class PassiveAbility : MonoBehaviour
     public virtual void Deactivate()
     {
         isActive = false;
+        counterAmount = 0;
     }
 
     public bool GetActive()
