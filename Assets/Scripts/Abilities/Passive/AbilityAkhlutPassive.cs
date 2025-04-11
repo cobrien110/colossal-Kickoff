@@ -9,6 +9,7 @@ public class AbilityAkhlutPassive : PassiveAbility
     private AbilitySphericalAttack ASA;
     private float baseRadius;
     public float rangeBoostMult = 2f;
+    public float chargeRate = 1.2f;
     public float decayRate = .25f;
     public bool isCharging = false;
 
@@ -27,8 +28,8 @@ public class AbilityAkhlutPassive : PassiveAbility
         // add counter when charging, decrease after activation
         if (isCharging && counterAmount < counterMax && !isActive)
         {
-            counterAmount += Time.deltaTime;
-        } else if (counterAmount > 0 && isActive)
+            counterAmount += Time.deltaTime * chargeRate;
+        } else if (counterAmount > 0 && isActive && !MC.isIntangible)
         {
             counterAmount -= Time.deltaTime * decayRate;
             if (counterAmount <= 0)

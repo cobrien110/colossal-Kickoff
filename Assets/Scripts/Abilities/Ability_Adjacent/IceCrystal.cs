@@ -8,8 +8,11 @@ public class IceCrystal : MonoBehaviour
     public float stunTime = 1f;
     public float radius = 1f;
     public MonsterController MC;
+    public float speed = 0.25f;
+    public Vector3 movePoint;
 
     public GameObject attackVisualizer;
+    private bool isEchoing = false;
 
     public void Awake()
     {
@@ -17,11 +20,26 @@ public class IceCrystal : MonoBehaviour
         DAD = GetComponent<DeleteAfterDelay>();
     }
 
+    public void Update()
+    {
+        /*
+        if (movePoint != null)
+        {
+            transform.position = 
+                Vector3.MoveTowards(transform.position, new Vector3(movePoint.x, transform.position.y, movePoint.z), speed * Time.deltaTime);
+        }
+        */
+    }
+
     public void Echo()
     {
+        if (isEchoing) return;
+        isEchoing = true;
         DAD.NewTimer(1f);
         attackVisualizer.SetActive(true);
         attackVisualizer.transform.localScale *= radius;
+        AudioPlayer AP = GetComponent<AudioPlayer>();
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("iceBreak"));
 
         // Schedule the deactivation after 1 second
         Invoke(nameof(DeactivateVisualizer), 1f);
@@ -58,18 +76,28 @@ public class IceCrystal : MonoBehaviour
         }
     }
 
+    public void SetNewPoint(Vector3 newPoint)
+    {
+        movePoint = newPoint;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         WarriorController WC = other.gameObject.GetComponent<WarriorController>();
         if (WC != null && WC.isSliding)
         {
-            DAD.Kill();
+            Echo();
         }
     }
 
     private void DeactivateVisualizer()
     {
         attackVisualizer.SetActive(false);
+    }
+
+    public void ResetTimer()
+    {
+        DAD.NewTimer(DAD.deathTimer);
     }
 
     private void OnDrawGizmos()
@@ -80,5 +108,4 @@ public class IceCrystal : MonoBehaviour
         // Draw a wireframe sphere at the object's position with the radius of howlRadius
         Gizmos.DrawWireSphere(transform.position, radius);
     }
-
 }

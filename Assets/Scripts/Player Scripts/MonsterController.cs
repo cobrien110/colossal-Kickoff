@@ -1147,6 +1147,11 @@ public class MonsterController : MonoBehaviour
             // Debug.Log("Reseting ability");
             ab.AbilityReset();
         }
+        foreach (PassiveAbility pa in passiveAbilities)
+        {
+            if (pa == null) continue;
+            pa.Deactivate();
+        }
     }
 
 }

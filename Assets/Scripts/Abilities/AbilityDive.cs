@@ -68,16 +68,7 @@ public class AbilityDive : AbilityScript
             {
                 diveLooper.source.Stop();
             }
-
-            // create crystal if passive is charged
-            if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
-            {
-                AH.currentCrystal = Instantiate(crystalPrefab, transform.position, Quaternion.identity).GetComponent<IceCrystal>();
-                AH.currentCrystal.stunTime = AH.stunTime;
-                AH.currentCrystal.MC = MC;
-                AH.currentCrystal.radius = AH.crystalRadius;
-                return;
-            }
+            
         }
         ANIM.SetBool("isDiving", isActive);
     }
@@ -91,6 +82,17 @@ public class AbilityDive : AbilityScript
             isActive = false;
             inputBuffer = 0f;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(emergeSound), 0.7f);
+
+            // create crystal if passive is charged
+            if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
+            {
+                AH.currentCrystal = Instantiate(crystalPrefab, transform.position, Quaternion.identity).GetComponent<IceCrystal>();
+                AH.currentCrystal.stunTime = AH.stunTime;
+                AH.currentCrystal.MC = MC;
+                AH.currentCrystal.speed = AH.crystalSpeed;
+                AH.currentCrystal.radius = AH.crystalRadius;
+                return;
+            }
         }
         if (timer >= cooldown && inputBuffer >= inputBufferTime)
         {
@@ -111,5 +113,23 @@ public class AbilityDive : AbilityScript
     {
         isActive = false;
         inputBuffer = 0f;
+
+        // create crystal if passive is charged
+        if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
+        {
+            AH.currentCrystal = Instantiate(crystalPrefab, transform.position, Quaternion.identity).GetComponent<IceCrystal>();
+            AH.currentCrystal.stunTime = AH.stunTime;
+            AH.currentCrystal.MC = MC;
+            AH.currentCrystal.speed = AH.crystalSpeed;
+            AH.currentCrystal.radius = AH.crystalRadius;
+            return;
+        }
+        /*
+        if (GM.isPlaying && AH != null && AH.currentCrystal != null)
+        {
+            // if crystal exists, move it
+            AH.currentCrystal.SetNewPoint(transform.position);
+        }
+        */
     }
 }

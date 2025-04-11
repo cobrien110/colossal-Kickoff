@@ -7,6 +7,7 @@ public class AbilityHowl : AbilityScript
     [Header("Ability Specific Variables")]
     public float howlRadius = 1f;
     public float crystalRadius = 1f;
+    public float crystalSpeed = 0.5f;
     public float stunTime = 1.5f;
     public float delayBeforeActivate = 0.5f;
 
@@ -119,7 +120,7 @@ public class AbilityHowl : AbilityScript
     private void OnDrawGizmosSelected()
     {
         // Set the color of the gizmo
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.white;
 
         // Draw a wireframe sphere at the object's position with the radius of howlRadius
         Gizmos.DrawWireSphere(transform.position, howlRadius);
