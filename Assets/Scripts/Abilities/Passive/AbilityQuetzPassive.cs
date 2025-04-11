@@ -10,6 +10,9 @@ public class AbilityQuetzPassive : PassiveAbility
     private AbilityFly AF;
     public float rangeBonusPerPoint = 0.2f;
     private float baseRange;
+    public float passiveTickTime = 5f;
+    private float passiveTickTimer = 0f;
+
     [Header("PassiveClouds")]
     public GameObject rainCloudPrefab;
     public int startingCloudAmount = 3;
@@ -55,6 +58,16 @@ public class AbilityQuetzPassive : PassiveAbility
         }
 
         UpdateChargeBar();
+
+        if (MC.GM.isPlaying)
+        {
+            passiveTickTimer += Time.deltaTime;
+            if (passiveTickTimer > passiveTickTime)
+            {
+                passiveTickTimer = 0;
+                if (counterAmount > 0) counterAmount--;
+            }
+        }
     }
 
     void SpawnCloud()
@@ -76,6 +89,7 @@ public class AbilityQuetzPassive : PassiveAbility
         if (counterAmount < counterMax) counterAmount++;
         ASS.AddSegment();
         cloudCount--;
+        passiveTickTimer = 0;
     }
 
     public override void Deactivate()

@@ -15,6 +15,7 @@ public class AbilityGashaPassive : PassiveAbility
     public override void Deactivate()
     {
         counterAmount = 0;
+        passiveTickTimer = 0f;
     }
 
     public void Add(int amount)
@@ -36,7 +37,7 @@ public class AbilityGashaPassive : PassiveAbility
     private void Update()
     {
         UpdateChargeBar();
-        passiveTickTimer += Time.deltaTime;
+        if (MC.GM.isPlaying) passiveTickTimer += Time.deltaTime;
         if (passiveTickTimer > passiveTickTime)
         {
             passiveTickTimer = 0f;
