@@ -13,6 +13,7 @@ public class IceCrystal : MonoBehaviour
 
     public GameObject attackVisualizer;
     private bool isEchoing = false;
+    public bool firstPointSet = false;
 
     public void Awake()
     {
@@ -22,13 +23,13 @@ public class IceCrystal : MonoBehaviour
 
     public void Update()
     {
-        /*
-        if (movePoint != null)
+        
+        if (movePoint != null && firstPointSet && !isEchoing)
         {
-            transform.position = 
-                Vector3.MoveTowards(transform.position, new Vector3(movePoint.x, transform.position.y, movePoint.z), speed * Time.deltaTime);
+            //transform.position = 
+                //Vector3.MoveTowards(transform.position, new Vector3(movePoint.x, transform.position.y, movePoint.z), speed * Time.deltaTime);
         }
-        */
+        
     }
 
     public void Echo()
@@ -79,6 +80,8 @@ public class IceCrystal : MonoBehaviour
     public void SetNewPoint(Vector3 newPoint)
     {
         movePoint = newPoint;
+        firstPointSet = true;
+        DAD.NewTimer(DAD.deathTimer);
     }
 
     private void OnTriggerStay(Collider other)

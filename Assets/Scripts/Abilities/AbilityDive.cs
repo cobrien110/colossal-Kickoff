@@ -91,7 +91,10 @@ public class AbilityDive : AbilityScript
                 AH.currentCrystal.MC = MC;
                 AH.currentCrystal.speed = AH.crystalSpeed;
                 AH.currentCrystal.radius = AH.crystalRadius;
-                return;
+                //return;
+            } else if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal != null)
+            {
+                AH.currentCrystal.SetNewPoint(transform.position);
             }
         }
         if (timer >= cooldown && inputBuffer >= inputBufferTime)
@@ -117,12 +120,14 @@ public class AbilityDive : AbilityScript
         // create crystal if passive is charged
         if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
         {
+            /*
             AH.currentCrystal = Instantiate(crystalPrefab, transform.position, Quaternion.identity).GetComponent<IceCrystal>();
             AH.currentCrystal.stunTime = AH.stunTime;
             AH.currentCrystal.MC = MC;
             AH.currentCrystal.speed = AH.crystalSpeed;
             AH.currentCrystal.radius = AH.crystalRadius;
             return;
+            */
         }
         /*
         if (GM.isPlaying && AH != null && AH.currentCrystal != null)
