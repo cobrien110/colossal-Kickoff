@@ -596,6 +596,7 @@ public class WarriorController : MonoBehaviour
         float slideSpeed;
         // AudioClip audioClip;
         // String anim;
+        ForceMode forceMode;
         if (BP.ballOwner == gameObject)
         {
             Debug.Log("Dodge slide");
@@ -603,6 +604,7 @@ public class WarriorController : MonoBehaviour
             slideDuration = slideDurationDodge;
             slideSpeed = slideSpeedDodge;
             slideCooldown = slideCooldownDodge;
+            forceMode = ForceMode.VelocityChange;
 
             // audioClip = ???
             // anim = ???
@@ -613,6 +615,7 @@ public class WarriorController : MonoBehaviour
             slideDuration = slideDurationRegular;
             slideSpeed = slideSpeedRegular;
             slideCooldown = slideCooldownRegular;
+            forceMode = ForceMode.Force;
 
             // audioClip = ???
             // anim = ???
@@ -622,7 +625,7 @@ public class WarriorController : MonoBehaviour
 
         // Add force in direction of the player input for this warrior (movementDirection)
         Vector3 slideVelocity = movementDirection.normalized * slideSpeed;
-        rb.AddForce(slideVelocity);
+        rb.AddForce(slideVelocity, forceMode);
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); // Maybe replace argument with "audioClip" variable
 
         // Set isSliding to false after a delay
