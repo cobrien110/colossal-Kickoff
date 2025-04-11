@@ -21,12 +21,15 @@ public class BallOutlineColor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Color fbCol = Color.white;
-        if (FB != null) fbCol = FB.SR.color;
-        fbCol = new Color(fbCol.r, fbCol.g, fbCol.b, 1);
-        if (SR != null && SR.color != fbCol)
+        if (PlayerPrefs.GetInt("ballOutlineMatchesTeam") == 1)
         {
-            SR.color = fbCol;
+            Color fbCol = Color.white;
+            if (FB != null) fbCol = FB.SR.color;
+            fbCol = new Color(fbCol.r, fbCol.g, fbCol.b, 1);
+            if (SR != null && SR.color != fbCol)
+            {
+                SR.color = fbCol;
+            }
         }
     }
 }
