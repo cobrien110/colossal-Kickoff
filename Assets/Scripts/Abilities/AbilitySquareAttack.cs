@@ -19,6 +19,7 @@ public class AbilitySquareAttack : AbilityChargeable
     public float projectileSpeed = 450f;
     public Mesh M;
     private AbilityQuetzPassive AQP;
+    [SerializeField] private SpriteRenderer chargeOrb;
 
     public override void Activate()
     {
@@ -102,6 +103,18 @@ public class AbilitySquareAttack : AbilityChargeable
             ANIM.Play(activatedAnimationName);
 
             StartCoroutine(MC.MoveDelay());
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (chargeOrb == null) return;
+        if (isCharging)
+        {
+            chargeOrb.enabled = true;
+        } else
+        {
+            chargeOrb.enabled = false;
         }
     }
 
