@@ -15,7 +15,7 @@ public class WarriorUI : MonoBehaviour
     [SerializeField] private Transform target = null;
     [SerializeField] private Vector3 offset;
 
-    [SerializeField] private GameObject callForPass = null;
+    [SerializeField] private Image callForPass = null;
     private bool isAI = false;
 
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class WarriorUI : MonoBehaviour
     {
         target = transform.parent;
         chargeBar.SetActive(false);
-        callForPass.SetActive(false);
+        callForPass.enabled = false;
     }
 
     // Update is called once per frame
@@ -45,7 +45,8 @@ public class WarriorUI : MonoBehaviour
 
     public void ShowCallForPass(bool state)
     {
-        if (!isAI) callForPass.SetActive(state);
+        if (!isAI) Debug.Log(gameObject.transform.parent.name + " Showing call for pass arrow, is AI = " + isAI + ", setting to " + state);
+        if (!isAI) callForPass.enabled = state;
     }
 
     public void SetAI()

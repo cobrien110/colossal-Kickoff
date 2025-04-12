@@ -605,6 +605,7 @@ public class WarriorController : MonoBehaviour
             slideSpeed = slideSpeedDodge;
             slideCooldown = slideCooldownDodge;
             forceMode = ForceMode.VelocityChange;
+            ANIM.SetBool("isJuking", true);
 
             // audioClip = ???
             // anim = ???
@@ -641,6 +642,7 @@ public class WarriorController : MonoBehaviour
     {
         // Debug.Log("No longer sliding");
         ANIM.SetBool("isSliding", false);
+        ANIM.SetBool("isJuking", false);
         // ANIM.SetBool("isDodging", false);
         isSliding = false;
         isInvincible = false;
