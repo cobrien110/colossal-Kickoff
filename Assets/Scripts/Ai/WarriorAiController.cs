@@ -292,6 +292,7 @@ public class WarriorAiController : MonoBehaviour
         if (wc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
+            if (wc != null) wc.SetKickHappened(true);
 
             // Prevent ball from getting kicked "through" walls
             if (wc != null && wc.BP != null && wc.IsWallBetweenBallAndPlayer())
@@ -430,8 +431,6 @@ public class WarriorAiController : MonoBehaviour
         // kickTimer = kickCooldown;
 
         Debug.Log("Pass");
-
-        if (wc != null) wc.SetKickHappened(true);
 
         // Estimate where the target will be
         Vector3 predictedPosition = PredictFuturePosition(target);

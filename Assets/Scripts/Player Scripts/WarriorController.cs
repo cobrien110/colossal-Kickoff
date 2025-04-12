@@ -1017,12 +1017,13 @@ public class WarriorController : MonoBehaviour
         // Debug.Log("Start PassWindowCheck");
         while (passWindowTimer < passWindowDuration)
         {
+            Debug.Log("pass window timer: " + passWindowTimer + ", duration: " + passWindowDuration);
             // Debug.Log("Tick");
             // Check if kick happened
             if (kickHappened)
             {
                 // Enable gravity field
-                Debug.Log("Enable gravity field");
+                Debug.Log("Enable gravity field from pass window");
                 EnableGravityField();
                 break;
             }
@@ -1037,7 +1038,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator ResetKickHappened()
     {
-        yield return new WaitForSeconds(0.4f); // however long to allow kickHappened to be true, before reseting back to false
+        yield return new WaitForSeconds(0.1f); // however long to allow kickHappened to be true, before reseting back to false
         kickHappened = false;
     }
 
@@ -1081,6 +1082,7 @@ public class WarriorController : MonoBehaviour
     public void SetKickHappened(bool kickHappened)
     {
         WarriorController.kickHappened = kickHappened;
+        StartCoroutine(ResetKickHappened());
     }
 
 
