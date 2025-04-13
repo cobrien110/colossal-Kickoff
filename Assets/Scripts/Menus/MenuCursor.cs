@@ -167,7 +167,10 @@ public class MenuCursor : MonoBehaviour
         //cursorMove.Disable();
         MC.characterSelected(playerNumber, playerSlot);
 
-        if (playerSlot == 1)
+        if (playerSlot == 0)
+        {
+            //MC.monsterAbilityCanHover = false;
+        } else if (playerSlot == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
         } else if (playerSlot == 2)

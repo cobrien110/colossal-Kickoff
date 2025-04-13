@@ -7,12 +7,12 @@ public class MonsterAbilityViewController : MonoBehaviour
     [SerializeField] private MonsterAbilityBlurb blurb;
     [SerializeField] private MonsterAbilityIcon[] abilityIcons;
     [SerializeField] private MonsterName name;
-    [SerializeField] private string[] monsterBlurbs;
-    [SerializeField] private string[] minotaurAbilityBlurbs;
-    [SerializeField] private string[] akhlutAbilityBlurbs;
-    [SerializeField] private string[] gashaAbilityBlurbs;
-    [SerializeField] private string[] quetzalAbilityBlurbs;
-    [SerializeField] private string[] sphinxAbilityBlurbs;
+    [SerializeField] public string[] monsterBlurbs;
+    [SerializeField] public string[] minotaurAbilityBlurbs;
+    [SerializeField] public string[] akhlutAbilityBlurbs;
+    [SerializeField] public string[] gashaAbilityBlurbs;
+    [SerializeField] public string[] quetzalAbilityBlurbs;
+    [SerializeField] public string[] sphinxAbilityBlurbs;
     private int abilityHighlighted = 0;
     public bool selectedHighlightingAbilities = false;
     // Start is called before the first frame update
@@ -101,7 +101,7 @@ public class MonsterAbilityViewController : MonoBehaviour
         }
     }
 
-    void highlightIcon(int input) {
+    public void highlightIcon(int input) {
         //Debug.Log("highlighting icon " + input);
         for (int i = 0; i < abilityIcons.Length; i++) {
             if (i == input) {
@@ -114,7 +114,7 @@ public class MonsterAbilityViewController : MonoBehaviour
         }
     }
 
-    void unhighlightAll() {
+    public void unhighlightAll() {
         for (int i = 0; i < abilityIcons.Length; i++) {
             abilityIcons[i].unhighlight();
         }

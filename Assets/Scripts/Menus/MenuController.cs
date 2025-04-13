@@ -74,6 +74,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private WarriorDesc WD1;
     [SerializeField] private WarriorDesc WD2;
     [SerializeField] private WarriorDesc WD3;
+    public bool monsterAbilityCanHover = true;
 
     [Header("Menu Navigation Controls")]
     [SerializeField] private GameObject topFirstButton;
@@ -589,6 +590,7 @@ public class MenuController : MonoBehaviour
         Debug.Log("Player " + playerNumber + " selected Character " + playerSlot);
         //todo: set it so playerNumber can control playerSlot's character options
         playerOptions[playerSlot].SetActive(true);
+        if (playerSlot == 0) monsterAbilityCanHover = false;
     }
 
     public void characterUnselected(int playerNumber, int playerSlot)
@@ -596,6 +598,7 @@ public class MenuController : MonoBehaviour
         Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
         //todo: reverse that thing from the last comment
         playerOptions[playerSlot].SetActive(false);
+        if (playerSlot == 0) monsterAbilityCanHover = true;
         //if (confirm)
         if (confirmedInfos.Contains(characterInfos[playerSlot]))
         {
