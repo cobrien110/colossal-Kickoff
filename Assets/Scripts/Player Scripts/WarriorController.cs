@@ -127,6 +127,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float gravityRadius = 5f; // Radius of effect
     private Coroutine gravityCoroutine;
 
+    private bool canReadAimInput = true;
 
     // Start is called before the first frame update
     void Awake()
@@ -632,10 +633,32 @@ public class WarriorController : MonoBehaviour
         // Set isSliding to false after a delay
         Invoke("StopSliding", slideDuration);
 
+        // If owner is kicking
+        if (BP.ballOwner != null && BP.ballOwner == gameObject)
+        {
+            Debug.Log("Cancel Kick");
+
+            // Cancel kick
+            isCharging = false;
+            kickCharge = 1;
+            aimingDirection = Vector3.zero;
+            WUI.UpdateChargeBar(0f);
+            rightStickInput = Vector3.zero;
+
+            canReadAimInput = false;
+            Invoke("ResetCanReadAimInput", 0.35f);
+
+        }
+
         // Update the last slide time
         lastSlideTime = Time.time;
         ANIM.SetBool("isSliding", true); // Maybe replace argument with "anim" variable
 
+    }
+
+    private void ResetCanReadAimInput()
+    {
+        canReadAimInput = true;
     }
 
     void StopSliding()
@@ -953,6 +976,7 @@ public class WarriorController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        if (!canReadAimInput) return;
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
         if (invertControls)
