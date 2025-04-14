@@ -42,6 +42,7 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField] private float kickCooldown = 0.75f;
     private static float kickTimer = 0f;
     [SerializeField] private float actionDelay = 0.25f;
+    [SerializeField] private float anticipationSeconds = 0.5f;
 
 
     private Coroutine aiCoroutine;
@@ -204,7 +205,7 @@ public class WarriorAiController : MonoBehaviour
             {
                 isBackingUpTimer = 0;
 
-                Vector3 anticipatedBallPos = wc.BP.GetAnticipatedPosition(0.5f);
+                Vector3 anticipatedBallPos = wc.BP.GetAnticipatedPosition(anticipationSeconds);
                 // Chase down monster
                 Vector2 toBall = new Vector2(
                     anticipatedBallPos.x - transform.position.x,

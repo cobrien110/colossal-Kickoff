@@ -51,7 +51,7 @@ public class GraveHazard : MonoBehaviour
 
     public void ResetGrave()
     {
-        StopCoroutine(Waiting);
+        if (Waiting != null) StopCoroutine(Waiting);
         BC.enabled = true;
         SetAnimatorBool(false); 
         FlipRenderers(true);
