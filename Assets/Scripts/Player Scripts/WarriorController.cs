@@ -437,7 +437,6 @@ public class WarriorController : MonoBehaviour
                 {
                     if (GM.passMeter == GM.passMeterMax)
                     {
-                        Debug.Log("passMeter: " + GM.passMeter + ", passMeterMax: " + GM.passMeterMax);
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
                         BP.isFullSuperKick = true;

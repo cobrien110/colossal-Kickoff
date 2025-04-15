@@ -219,9 +219,6 @@ public class BallProperties : MonoBehaviour
             if (mc != null && !mc.isStunned && isFullSuperKick && passTimer <= passTimeFrame
                 && RB.velocity.magnitude > superKickMinStunSpeed)
             {
-                Debug.Log("isFullSuperKick: " + isFullSuperKick);
-                Debug.Log("ball speed: " + RB.velocity.magnitude + ", superKickMinStunSpeed: " + superKickMinStunSpeed);
-
                 // Full super kick hit monster
                 if (mc.isIntangible) return;
                 mc.Stun();
