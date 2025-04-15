@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_text: CREDITS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
-  m_sharedMaterial: {fileID: -2205983582761376483, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: c827be4b7176c4f488a52f426b98079d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5515,6 +5515,10 @@ MonoBehaviour:
   TVT: {fileID: 1408564317}
   CC: {fileID: 310073400}
   STBC: {fileID: 2120336778}
+  splashScreen: {fileID: 394604614}
+  splashLogo: {fileID: 1096297420}
+  splashText: {fileID: 1661777944}
+  pressA: {fileID: 1704291338}
   mainMenuButtons: {fileID: 1804231207}
   quitGameButtons: {fileID: 1709912220}
   creditsContent: {fileID: 222268221}
@@ -5528,7 +5532,6 @@ MonoBehaviour:
   stageSettings: {fileID: 1941968619}
   stageSettingsButton: {fileID: 1063698651}
   sceneEventSystem: {fileID: 1008148374}
-  splashScreen: {fileID: 394604614}
   readyText: {fileID: 716119551}
   hideWhenReady: {fileID: 1358689393}
   showWhenReady: {fileID: 408564709}
@@ -11449,7 +11452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &700376315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12360,7 +12363,7 @@ MonoBehaviour:
   m_text: 1.0.0 RC
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
-  m_sharedMaterial: {fileID: -2205983582761376483, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: c827be4b7176c4f488a52f426b98079d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17750,7 +17753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -27067,14 +27070,14 @@ MonoBehaviour:
   m_text: PRESS      TO ENTER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
-  m_sharedMaterial: {fileID: -1698889853656761225, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: fec01e24aac66d947b35cce78ea3dd0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278240255
-  m_fontColor: {r: 1, g: 0.7643979, b: 0, a: 1}
+    rgba: 50175
+  m_fontColor: {r: 1, g: 0.7643979, b: 0, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -27809,7 +27812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

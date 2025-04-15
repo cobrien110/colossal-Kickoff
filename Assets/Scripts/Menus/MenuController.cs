@@ -27,6 +27,16 @@ public class MenuController : MonoBehaviour
 
     [Header("Main Menu Elements")]
     // Parent object containing all buttons from the main menu
+    [SerializeField] private GameObject splashScreen;
+    [SerializeField] private Image splashLogo;
+    [SerializeField] private TMP_Text splashText;
+    [SerializeField] private Image pressA;
+    private float startAlpha = 0f;
+    private float endAlpha = 1f;
+    private Color splashLogoCol = new Color(255, 255, 255);
+    private Color pressTextCol = new Color(255, 255, 255);
+    private Color pressACol = new Color(255, 255, 255);
+    private bool fadeStart = false;
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject quitGameButtons;
     [SerializeField] private GameObject creditsContent;
@@ -48,7 +58,6 @@ public class MenuController : MonoBehaviour
 
     [Header("UI Navigation & Buttons")]
     [SerializeField] private GameObject sceneEventSystem;
-    [SerializeField] private GameObject splashScreen;
     [SerializeField] private GameObject readyText;
     [SerializeField] private GameObject hideWhenReady;
     [SerializeField] private GameObject showWhenReady;
@@ -89,6 +98,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button settingsGameplayButton;
     [SerializeField] private Button settingsBackButton;
     public bool skipMain = false;
+    private bool canEnterGame = false;
 
     Navigation backNavi = new Navigation();
     Navigation controlsNavi = new Navigation();
@@ -142,6 +152,7 @@ public class MenuController : MonoBehaviour
             InputSystem.EnableDevice(Gamepad.all[i]);
         }
 
+        StartCoroutine(FadeWait());
         GameObject currentES = EventSystem.current.gameObject;
         currentES.SetActive(false);
         currentES.SetActive(true);
@@ -149,6 +160,10 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
         AP = GetComponent<AudioPlayer>();
+
+        Color splashLogoCol = splashLogo.color;
+        Color pressTextCol = splashText.color;
+        Color pressACol = pressA.color;
 
         //Settings Navigation
         backNavi = settingsBackButton.navigation;
@@ -178,6 +193,7 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
+        if (startAlpha < 1 && fadeStart) SplashFadeIn();
         //if (Input.GetMouseButtonDown(0)) {
         //    switch (selected) {
         //        //VERSUS MATCH
@@ -207,8 +223,9 @@ public class MenuController : MonoBehaviour
         Gamepad gamepad = Gamepad.current;
         if (splashScreen.activeInHierarchy && gamepad != null)
         {
-            if (gamepad.buttonSouth.wasPressedThisFrame)
+            if (gamepad.buttonSouth.wasPressedThisFrame && canEnterGame)
             {
+                Debug.Log("Game Enter");
                 splashScreen.SetActive(false);
                 mainMenuButtons.SetActive(true);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
@@ -282,6 +299,26 @@ public class MenuController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SplashFadeIn()
+    {
+        startAlpha = Mathf.MoveTowards(startAlpha, endAlpha, 2.0f * Time.deltaTime);
+        splashLogoCol.a = startAlpha;
+        splashLogo.color = splashLogoCol;
+        pressTextCol.a = startAlpha;
+        splashText.color = pressTextCol;
+        pressACol.a = startAlpha;
+        pressA.color = pressACol;
+
+        //Debug.Log(startAlpha);
+        if (startAlpha >= endAlpha) canEnterGame = true;
+    }
+
+    private IEnumerator FadeWait()
+    {
+        yield return new WaitForSeconds(0.25f);
+        fadeStart = true;
     }
 
     #endregion
