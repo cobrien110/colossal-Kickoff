@@ -191,8 +191,6 @@ public class BallProperties : MonoBehaviour
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
         MonsterController mc = other.gameObject.GetComponent<MonsterController>();
         AiMinotaurController aiMC = other.gameObject.GetComponent<AiMinotaurController>();
-        //if (aiMC != null && !aiMC.GetCanPickUpBall()) return; // To prevent issue with AiMino picking up ball right after kicking it
-
         AIMummy mummy = other.gameObject.GetComponent<AIMummy>();
         if ((other.tag.Equals("Warrior") || other.tag.Equals("Monster") || other.tag.Equals("Mummy"))
             && (ballOwner == null || ( (wc != null && wc.IsSliding()) || (mummy != null && mummy.IsSliding()))))
@@ -239,9 +237,13 @@ public class BallProperties : MonoBehaviour
             Debug.Log("ballOwner: " + ballOwner);
             
             bool isASteal = false;
+            AIMummy mummyToKill = null; // Used to kill mummy when stolen from
             if (ballOwner != null)
             {
                 isASteal = true;
+
+                // If a mummy is being stolen from, queue it to die
+                mummyToKill = ballOwner.GetComponent<AIMummy>();
             }
 
             Debug.Log("Ball owner being set to: " + other.gameObject);
@@ -294,6 +296,9 @@ public class BallProperties : MonoBehaviour
                     StartCoroutine(Assisting());
                 }
             }
+
+            // If a mummy was stolen from, kill mummy
+            if (mummyToKill != null) mummyToKill.Die(true);
         }
     }
 
