@@ -23,6 +23,7 @@ public class BallProperties : MonoBehaviour
     public float passTimeFrame = .5f;
     private float passTimer = 0f;
     [SerializeField] private float heightLockDelay = 3.5f;
+    [SerializeField] private float superKickMinStunSpeed = 1.2f;
 
     // Lighting Effects
     private Material SoccerUVS = null;
@@ -215,8 +216,13 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
-            if (mc != null && !mc.isStunned && isFullSuperKick && passTimer <= passTimeFrame)
+            if (mc != null && !mc.isStunned && isFullSuperKick && passTimer <= passTimeFrame
+                && RB.velocity.magnitude > superKickMinStunSpeed)
             {
+                Debug.Log("isFullSuperKick: " + isFullSuperKick);
+                Debug.Log("ball speed: " + RB.velocity.magnitude + ", superKickMinStunSpeed: " + superKickMinStunSpeed);
+
+                // Full super kick hit monster
                 if (mc.isIntangible) return;
                 mc.Stun();
                 isSuperKick = false;

@@ -437,6 +437,7 @@ public class WarriorController : MonoBehaviour
                 {
                     if (GM.passMeter == GM.passMeterMax)
                     {
+                        Debug.Log("passMeter: " + GM.passMeter + ", passMeterMax: " + GM.passMeterMax);
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
                         BP.isFullSuperKick = true;
@@ -512,6 +513,7 @@ public class WarriorController : MonoBehaviour
                 {
                     if (GM.passMeter == GM.passMeterMax)
                     {
+                        Debug.Log("passMeter: " + GM.passMeter + ", " + "passMeterMax: " + GM.passMeterMax);
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
                         BP.isFullSuperKick = true;
@@ -642,9 +644,11 @@ public class WarriorController : MonoBehaviour
             isCharging = false;
             kickCharge = 1;
             aimingDirection = Vector3.zero;
-            WUI.UpdateChargeBar(0f);
+            WUI.UpdateChargeBar(0f); // Update ui
             rightStickInput = Vector3.zero;
+            superKicking = false; // Reset superKicking if true
 
+            // Disable aim input for a moment to allow the right stick to be released without causing a kick to occur
             canReadAimInput = false;
             Invoke("ResetCanReadAimInput", 0.35f);
 
