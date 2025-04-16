@@ -144,7 +144,7 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
-        if (isSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
+        if (isFullSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
         {
             SetBallColor(Color.red);
         }
@@ -740,6 +740,11 @@ public class BallProperties : MonoBehaviour
             // Predict the future position based on calculated velocity
             return transform.position + (calculatedVelocity * inSeconds);
         }
+    }
+
+    public void SetPassTimer(float f)
+    {
+        passTimer = f;
     }
 
 }

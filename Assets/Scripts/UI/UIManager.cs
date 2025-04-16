@@ -643,12 +643,12 @@ public class UIManager : MonoBehaviour
     {
         warriorContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        if (warriorContestFill.fillAmount == 1)
         {
             ShowMiddleContestBar(true);
         }
 
-        else if (middleContestFill.gameObject.activeInHierarchy && (warriorContestFill.fillAmount < 1.0f || monsterContestFill.fillAmount < 1.0f))
+        else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
         {
             ShowMiddleContestBar(false);
         }
@@ -658,12 +658,12 @@ public class UIManager : MonoBehaviour
     {
         monsterContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1 && (monsterContestFill.fillAmount >= 0.85f))
+        if (warriorContestFill.fillAmount == 1)
         {
             ShowMiddleContestBar(true);
         }
 
-        else if (middleContestFill.gameObject.activeInHierarchy && (warriorContestFill.fillAmount < 1.0f || monsterContestFill.fillAmount < 1.0f))
+        else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
         {
             ShowMiddleContestBar(false);
         }

@@ -55,6 +55,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float slideCooldownDodge = 3f;
     [SerializeField] private float slideDurationDodge = 0.5f;
     public bool isSliding = false;
+    private bool isJuking = false;
     private float lastSlideTime = -1f;
     [HideInInspector] public bool isStunned = false;
 
@@ -88,6 +89,10 @@ public class WarriorController : MonoBehaviour
     public int playerNum;
     [SerializeField] public GameObject goreParticleObj;
     [SerializeField] public GameObject pinataParticleObj;
+    [SerializeField] private GameObject dodgeTextPrefab;
+    [SerializeField] private GameObject superTextPrefab;
+    [SerializeField] private GameObject superTextFullPrefab;
+    private bool canSpawnText = true;
     [SerializeField] private CapsuleCollider capsuleCollider;
 
     private bool shouldShake1 = true;
@@ -606,8 +611,9 @@ public class WarriorController : MonoBehaviour
             slideDuration = slideDurationDodge;
             slideSpeed = slideSpeedDodge;
             slideCooldown = slideCooldownDodge;
-            forceMode = ForceMode.VelocityChange;
+            forceMode = ForceMode.Force;
             ANIM.SetBool("isJuking", true);
+            isJuking = true;
 
             // audioClip = ???
             // anim = ???
@@ -671,6 +677,7 @@ public class WarriorController : MonoBehaviour
         ANIM.SetBool("isJuking", false);
         // ANIM.SetBool("isDodging", false);
         isSliding = false;
+        isJuking = false;
         isInvincible = false;
         capsuleCollider.radius = baseHitboxRadius;
     }
@@ -742,6 +749,7 @@ public class WarriorController : MonoBehaviour
         fancySpawnStarted = false;
         elapsedJumpTime = 0;
         health = healthMax;
+        ANIM.SetBool("isDead", false);
 
         // Update list of warriors in AiMonsterController if appropriate
         AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
@@ -802,6 +810,13 @@ public class WarriorController : MonoBehaviour
     {
         Debug.Log("Die");
         Vector3 deathPosition = this.transform.position;
+        if (isInvincible && isJuking && canSpawnText && GetComponent<WarriorAiController>() == null)
+        {
+            // TRIGGER "SMOOTH" flair text if a player dodges an instant death attack
+            Instantiate(dodgeTextPrefab, transform.position, Quaternion.identity);
+            canSpawnText = false;
+            StartCoroutine(TextSpawnReset());
+        }
         if (isInvincible || isWinner) return;
         
         // Chance for AiWarrior to dodge if slide is off cooldown
@@ -852,6 +867,8 @@ public class WarriorController : MonoBehaviour
         {
             // Debug.Log("ballOwner set to null");
             BP.ballOwner = null;
+            // stop ball from counting as a pass
+            BP.SetPassTimer(BP.passTimeFrame);
         }
 
         // Gore
@@ -1130,10 +1147,20 @@ public class WarriorController : MonoBehaviour
 
     public void OnSuperKick(InputAction.CallbackContext context)
     {
-        if (!superKicking && GM.passMeter > 0 && isCharging)
+        if (!superKicking && GM.passMeter > 0 && isCharging && !isDead)
         {
             superKicking = true;
             AV.SuperKickColor(Color.red);
+            if (GM.passMeter < 1)
+            {
+                if (canSpawnText) Instantiate(superTextPrefab, transform.position, Quaternion.identity);
+                StartCoroutine(TextSpawnReset());
+            } else
+            {
+                if (canSpawnText) Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
+                StartCoroutine(TextSpawnReset());
+            }
+            
         }
     }
 
@@ -1244,6 +1271,12 @@ public class WarriorController : MonoBehaviour
         return !isStunned && !isCursed
             && (Time.time - lastSlideTime >= slideCooldown)
             && (movementDirection != Vector3.zero);
+    }
+
+    private IEnumerator TextSpawnReset()
+    {
+        yield return new WaitForSeconds(0.55f);
+        canSpawnText = true;
     }
 
     private void OnTriggerStay(Collider other)
