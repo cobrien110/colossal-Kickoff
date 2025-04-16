@@ -48,7 +48,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject audioSettings;
     [SerializeField] private GameObject controlSettings;
 
-    [Header("Character and Stage Selection")]
+    [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
     [SerializeField] private GameObject stageSelect;
     [SerializeField] private GameObject stageSettings;
@@ -84,6 +84,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private WarriorDesc WD2;
     [SerializeField] private WarriorDesc WD3;
     public bool monsterAbilityCanHover = true;
+
+    [SerializeField] private GameObject[] monsterImages;
+    [SerializeField] private MonsterName monsterNameScript;
 
     [Header("Menu Navigation Controls")]
     [SerializeField] private GameObject topFirstButton;
@@ -655,6 +658,7 @@ public class MenuController : MonoBehaviour
             canMoveToGame = true;
             readyText.SetActive(true);
             hideWhenReady.SetActive(false);
+            monsterImages[monsterNameScript.monsterIndex].SetActive(true);
             showWhenReady.SetActive(true);
         }
     }
@@ -670,6 +674,7 @@ public class MenuController : MonoBehaviour
             canMoveToGame = false;
             readyText.SetActive(false);
             hideWhenReady.SetActive(true);
+            monsterImages[monsterNameScript.monsterIndex].SetActive(false);
             showWhenReady.SetActive(false);
         }
     }
