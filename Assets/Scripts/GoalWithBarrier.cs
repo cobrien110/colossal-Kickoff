@@ -242,6 +242,14 @@ public class GoalWithBarrier : MonoBehaviour
             health = maxHealth;
             canBeScoredIn = false;
         }
+
+        if (GM.overtimeStarted)
+        {
+            health = maxHealth;
+            canBeScoredIn = false;
+            wasJustScored = false;
+        }
+
         timer = 0f;
         timerDamage = 0f;
         canScoreTimer = 0f;
