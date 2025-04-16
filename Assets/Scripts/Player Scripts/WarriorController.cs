@@ -1153,10 +1153,12 @@ public class WarriorController : MonoBehaviour
             AV.SuperKickColor(Color.red);
             if (GM.passMeter < 1)
             {
-                Instantiate(superTextPrefab, transform.position, Quaternion.identity);
+                if (canSpawnText) Instantiate(superTextPrefab, transform.position, Quaternion.identity);
+                StartCoroutine(TextSpawnReset());
             } else
             {
-                Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
+                if (canSpawnText) Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
+                StartCoroutine(TextSpawnReset());
             }
             
         }
@@ -1273,7 +1275,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator TextSpawnReset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.55f);
         canSpawnText = true;
     }
 
