@@ -144,7 +144,7 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
-        if (isSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
+        if (isFullSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
         {
             SetBallColor(Color.red);
         }
