@@ -742,4 +742,9 @@ public class BallProperties : MonoBehaviour
         }
     }
 
+    public void SetPassTimer(float f)
+    {
+        passTimer = f;
+    }
+
 }

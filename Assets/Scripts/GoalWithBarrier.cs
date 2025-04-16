@@ -160,6 +160,15 @@ public class GoalWithBarrier : MonoBehaviour
         // Fix ball position
         Vector3 tempPos = rb.transform.position;
         rb.transform.position = new Vector3(xPos,tempPos.y, tempPos.z);
+
+        //remove super kick
+        BallProperties bp = rb.GetComponent<BallProperties>();
+        if (bp != null)
+        {
+            bp.isSuperKick = false;
+            bp.isFullSuperKick = false;
+            bp.SetPassTimer(bp.passTimeFrame);
+        }
     }
 
     private void UpdateBars()

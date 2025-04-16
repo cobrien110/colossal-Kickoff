@@ -256,6 +256,8 @@ public class AiMinotaurController : AiMonsterController
             {
                 // Default behavior
                 mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized; // Retreat to own goal
+                mc.movementDirection.y = 0;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
                 // Set Wall chance and behavior
                 ability1Chance = 0.1f;
@@ -394,6 +396,7 @@ public class AiMinotaurController : AiMonsterController
         {
             //usingKeyboard = true;
             mc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
+            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             mc.aimingDirection = mc.movementDirection;
         }
 
@@ -449,6 +452,7 @@ public class AiMinotaurController : AiMonsterController
 
         // Apply smoothed offset to movement direction
         mc.movementDirection = Vector3.Lerp(mc.movementDirection, (toGoalIgnoreY + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
+        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Update walking animation if applicable
         mc.ANIM.SetBool("isWalking", rb.velocity != Vector3.zero);
@@ -521,9 +525,10 @@ public class AiMinotaurController : AiMonsterController
                 Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
                 mc.movementDirection = directionToTargetIgnoreY;
                 rb.velocity = mc.movementDirection * mc.monsterSpeed;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
                 // Rotate the minotaur to face the direction it's moving
-                Quaternion newRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
+                Quaternion newRotation = Quaternion.LookRotation(directionToTargetIgnoreY, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
 
                 yield return null;
@@ -685,6 +690,7 @@ public class AiMinotaurController : AiMonsterController
             Vector3 dir = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
             // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
             mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
             yield return null;
         }
@@ -732,6 +738,7 @@ public class AiMinotaurController : AiMonsterController
             Vector3 dir = (ballController.transform.position - transform.position).normalized;
             //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
             mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             yield return null;
         }
     }
@@ -783,7 +790,8 @@ public class AiMinotaurController : AiMonsterController
 
                     // Smoothly update the movement direction using linear interpolation
                     mc.movementDirection = targetDirectionIgnoreY;
-                        //Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
+                    //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
+                    //Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
                 }
                 else
                 {
@@ -843,6 +851,7 @@ public class AiMinotaurController : AiMonsterController
         // Look toward ball
         Vector3 dir = (ball.transform.position - transform.position).normalized;
         mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall
         mc.abilities[0].Activate();
@@ -897,6 +906,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Look toward warrior
                 mc.movementDirection = toWarriorIgnoreY;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
                 // Summon wall
                 mc.abilities[0].Activate();
@@ -926,6 +936,7 @@ public class AiMinotaurController : AiMonsterController
         // Look toward own goal
         Vector3 dir = (monsterGoal.transform.position - transform.position).normalized;
         mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall
         mc.abilities[0].Activate();
@@ -1043,6 +1054,7 @@ public class AiMinotaurController : AiMonsterController
                 Vector3 toBallOwner = (mc.BP.ballOwner.transform.position - transform.position).normalized;
                 toBallOwner = new Vector3(toBallOwner.x, 0, toBallOwner.z);
                 mc.movementDirection = toBallOwner;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             }
 
             // Dash
@@ -1081,6 +1093,7 @@ public class AiMinotaurController : AiMonsterController
                 Vector3 toNearestWarrior = (nearestWarrior.transform.position - transform.position).normalized;
                 toNearestWarrior = new Vector3(toNearestWarrior.x, 0, toNearestWarrior.z);
                 mc.movementDirection = toNearestWarrior;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             }
 
             // Dash
@@ -1115,6 +1128,7 @@ public class AiMinotaurController : AiMonsterController
                 Vector3 toBall = (mc.BP.gameObject.transform.position - transform.position).normalized;
                 toBall = new Vector3(toBall.x, 0, toBall.z);
                 mc.movementDirection = toBall;
+                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             }
 
             // Dash
@@ -1202,6 +1216,7 @@ public class AiMinotaurController : AiMonsterController
         yield return new WaitForSeconds(defendGoalDelay);
         Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
         mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
+        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
         defendGoalCoroutine = null;
     }
 
