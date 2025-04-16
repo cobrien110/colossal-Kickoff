@@ -376,7 +376,16 @@ public class BallProperties : MonoBehaviour
                     ballOwner = null;
                 }
 
-                GWB.RejectBall(RB);
+                Debug.Log("Reject ball - warrior goal");
+                if (GWB.health <= 0 && previousKicker.GetComponent<MonsterController>() != null && RB.velocity.magnitude >= 6.5f)
+                {
+                    GWB.canBeScoredIn = true;
+                    GWB.health = 0;
+                } else
+                {
+                    GWB.RejectBall(RB);
+                }
+                
                 //isInteractable = false;
                 isInSingleOutMode = true;
                 Invoke("EndIntangibility", intangibleTime);
@@ -481,8 +490,15 @@ public class BallProperties : MonoBehaviour
                 Debug.Log("Reject ball - Monster goal");
                 if (isFullSuperKick)
                 {
-                    GWB.canBeScoredIn = true;
-                    GWB.health = 0;
+                    if (GWB.bonusHealth > 0)
+                    {
+                        GWB.bonusHealth = 0;
+                        GWB.RejectBall(RB);
+                    } else
+                    {
+                        GWB.canBeScoredIn = true;
+                        GWB.health = 0;
+                    }
                 }
                 else
                 {
