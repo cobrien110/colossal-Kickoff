@@ -867,6 +867,8 @@ public class WarriorController : MonoBehaviour
         {
             // Debug.Log("ballOwner set to null");
             BP.ballOwner = null;
+            // stop ball from counting as a pass
+            BP.SetPassTimer(BP.passTimeFrame);
         }
 
         // Gore
