@@ -296,4 +296,9 @@ public class GoalWithBarrier : MonoBehaviour
     {
         usingBonusBars = isOn;
     }
+
+    public bool CalculateIfHitWillBreak(Rigidbody RB)
+    {
+        return RB.velocity.magnitude >= health + bonusHealth;
+    }
 }
