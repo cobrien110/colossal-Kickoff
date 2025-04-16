@@ -70,7 +70,7 @@ public class GoalWithBarrier : MonoBehaviour
             canScoreTimer += Time.deltaTime;
         }
 
-        if (health <= 0 && !canBeScoredIn
+        if (health <= 0 && bonusHealth <= 0 && !canBeScoredIn
             /*&& (timer >= delayAfterInteraction) */&& (canScoreTimer >= delayBeforeCanBeScored))
         {
             SetCanScore(true);

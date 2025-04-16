@@ -16,11 +16,11 @@ public class SoulOrb : MonoBehaviour
     public float launchSpeed;
     public Material monMat;
     public Material warMat;
-    public Color monCol;
-    public Color warCol;
+    //public Color monCol;
+    //public Color warCol;
     public GameObject innerOrb;
     private MeshRenderer MR;
-    public SpriteRenderer SR;
+    //public SpriteRenderer SR;
     public bool isMonsterTeam = true;
 
     // Start is called before the first frame update
@@ -166,11 +166,11 @@ public class SoulOrb : MonoBehaviour
         if (b)
         {
             MR.material = monMat;
-            SR.color = monCol;
+            //SR.color = monCol;
         } else
         {
             MR.material = warMat;
-            SR.color = warCol;
+            //SR.color = warCol;
         }
     }
 }

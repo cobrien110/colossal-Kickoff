@@ -43,6 +43,7 @@ public class GashadokuroHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (monster == null) return;
         Debug.Log("GashaHand OnTriggerEnter");
         if (BP == null)
         {
