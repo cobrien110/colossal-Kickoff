@@ -92,7 +92,7 @@ public class AudioPlayer : MonoBehaviour
 
     private void SetRandomPitch()
     {
-        source.pitch = Random.Range(pitchRangeLow, pitchRangeHigh);
+        if (source != null) source.pitch = Random.Range(pitchRangeLow, pitchRangeHigh);
     }
 
     public bool isPlaying()
