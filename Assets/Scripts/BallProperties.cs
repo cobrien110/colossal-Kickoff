@@ -763,4 +763,9 @@ public class BallProperties : MonoBehaviour
         passTimer = f;
     }
 
+    public Rigidbody GetRB()
+    {
+        return RB;
+    }
+
 }
