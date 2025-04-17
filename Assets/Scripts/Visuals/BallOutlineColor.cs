@@ -43,14 +43,16 @@ public class BallOutlineColor : MonoBehaviour
         }
 
         // look at camera
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
-        //transform.rotation = new Quaternion(tra, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-        if (transform.parent == null) return;
-        if (transform.parent.rotation.eulerAngles.y >= 180f)
-        {
-            //transform.rotation = new Quaternion(transform.rotation.x, -transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            transform.RotateAround(transform.position, transform.up, 180f);
-        }
+        // Store the current z rotation (rolling/spinning) of the object
+        float zRotation = transform.eulerAngles.z;
+
+        // Make the object face the camera
+        transform.LookAt(transform.position + cam.transform.forward, cam.transform.up);
+
+        // Restore the original Z rotation
+        Vector3 euler = transform.eulerAngles;
+        euler.z = zRotation;
+        transform.eulerAngles = euler;
 
         // set outline shape
         if (SR != null && outlines.Length > 1)
@@ -70,7 +72,11 @@ public class BallOutlineColor : MonoBehaviour
             {
                 counter = 1;
                 isSpinning = true;
-            }
+            } else if (BP.GetRB().velocity.magnitude > 10f)
+            {
+                counter = 1;
+                isSpinning = true;
+            } 
             else
             {
                 counter = 0;

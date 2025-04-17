@@ -377,7 +377,7 @@ public class BallProperties : MonoBehaviour
                 }
 
                 Debug.Log("Reject ball - warrior goal");
-                if (GWB.health <= 0 && previousKicker.GetComponent<MonsterController>() != null && RB.velocity.magnitude >= 6.5f)
+                if (GWB.health <= 0 && previousKicker.GetComponent<MonsterController>() != null && RB.velocity.magnitude >= 10f)
                 {
                     GWB.canBeScoredIn = true;
                     GWB.health = 0;
