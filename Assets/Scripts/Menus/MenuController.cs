@@ -47,6 +47,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject gameplaySettings;
     [SerializeField] private GameObject audioSettings;
     [SerializeField] private GameObject controlSettings;
+    [SerializeField] private GameObject warriorControls;
+    [SerializeField] private GameObject monsterControls;
 
     [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
@@ -126,6 +128,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Dropdown kickchargeDropdown;
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private Toggle controlsToggle;
+    [SerializeField] private Button controlTypeSwap;
 
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
@@ -580,14 +583,14 @@ public class MenuController : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
             //settingsHeader.text = "CONTROLS";
 
-            controlsNavi.selectOnDown = settingsBackButton;
+            controlsNavi.selectOnDown = controlTypeSwap;
             settingsControlsButton.navigation = controlsNavi;
-            audioNavi.selectOnDown = settingsBackButton;
+            audioNavi.selectOnDown = controlTypeSwap;
             settingsAudioButton.navigation = audioNavi;
-            gameplayNavi.selectOnDown = settingsBackButton;
+            gameplayNavi.selectOnDown = controlTypeSwap;
             settingsGameplayButton.navigation = gameplayNavi;
 
-            backNavi.selectOnUp = settingsControlsButton;
+            backNavi.selectOnUp = controlTypeSwap;
             backNavi.selectOnDown = settingsControlsButton;
             settingsBackButton.navigation = backNavi;
         }
@@ -613,6 +616,20 @@ public class MenuController : MonoBehaviour
             settingsBackButton.navigation = backNavi;
         }
 
+    }
+
+    public void SwapSettingsControlType()
+    {
+        if (warriorControls.activeInHierarchy)
+        {
+            warriorControls.SetActive(false);
+            monsterControls.SetActive(true);
+        }
+        else
+        {
+            warriorControls.SetActive(true);
+            monsterControls.SetActive(false);
+        }
     }
 
     public void exitGame()
