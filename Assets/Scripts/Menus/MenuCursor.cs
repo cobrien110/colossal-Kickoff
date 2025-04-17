@@ -162,6 +162,7 @@ public class MenuCursor : MonoBehaviour
         else
         {
             PH.teamName = "Warrior";
+            PH.warriorPosition = value;
         }
         hideCursor();
         //cursorMove.Disable();
@@ -349,6 +350,7 @@ public class MenuCursor : MonoBehaviour
             hasSelected = false;
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
+        PH.warriorPosition = -1;
             WD = null;
             MC.deselectOccured = true;
     }

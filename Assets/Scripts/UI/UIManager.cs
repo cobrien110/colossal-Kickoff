@@ -104,6 +104,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image player1Dead = null;
     [SerializeField] private Image player2Dead = null;
     [SerializeField] private Image player3Dead = null;
+
+    [SerializeField] private Sprite humanSpriteAlive = null;
+    [SerializeField] private Sprite humanSpriteDead = null;
+    [SerializeField] private Sprite robotSpriteAlive = null;
+    [SerializeField] private Sprite robotSpriteDead = null;
     //I might change how this looks to just change the image component and color instead of having different objects (I will at some point)
 
     [SerializeField] private Image monsterAbility1Icon = null;
@@ -942,6 +947,56 @@ public class UIManager : MonoBehaviour
                     count++;
                 }
             } 
+        }
+    }
+
+    public void SetPlayerPortrait(bool isAI, int warriorPosition)
+    {
+        if (isAI)
+        {
+            switch (warriorPosition)
+            {
+                case 1:
+                    player1Icon.sprite = robotSpriteAlive;
+                    player1Dead.sprite = robotSpriteDead;
+                    break;
+
+                case 2:
+                    player2Icon.sprite = robotSpriteAlive;
+                    player2Dead.sprite = robotSpriteDead;
+                    break;
+
+                case 3:
+                    player3Icon.sprite = robotSpriteAlive;
+                    player3Dead.sprite = robotSpriteDead;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            switch (warriorPosition)
+            {
+                case 1:
+                    player1Icon.sprite = humanSpriteAlive;
+                    player1Dead.sprite = humanSpriteDead;
+                    break;
+
+                case 2:
+                    player2Icon.sprite = humanSpriteAlive;
+                    player2Dead.sprite = humanSpriteDead;
+                    break;
+
+                case 3:
+                    player3Icon.sprite = humanSpriteAlive;
+                    player3Dead.sprite = humanSpriteDead;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

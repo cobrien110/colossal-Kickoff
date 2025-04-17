@@ -470,7 +470,7 @@ public class GameplayManager : MonoBehaviour
 
     }
 
-    public void AddPlayer(GameObject playerPrefab, int playerID, Gamepad gamepad)
+    public void AddPlayer(GameObject playerPrefab, int playerID, int warriorPosition, Gamepad gamepad)
     {
         WH = GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>();
         //playerInputs.Add(player);
@@ -479,11 +479,11 @@ public class GameplayManager : MonoBehaviour
         PlayerInput p = PlayerInput.Instantiate(playerPrefab, controlScheme: "Xbox Control Scheme", pairWithDevice: gamepad);
         //MTC.AddTarget(p.transform);
 
-        NewPlayer(p, playerID);
+        NewPlayer(p, playerID, warriorPosition);
         //if (PIM != null) PIM.playerPrefab = warriorPrefab;
     }
 
-    public void NewPlayer(PlayerInput p, int playerID)
+    public void NewPlayer(PlayerInput p, int playerID, int warriorPosition)
     {
         GameObject player = p.gameObject;
         if (player.tag.Equals("Monster"))
@@ -497,6 +497,7 @@ public class GameplayManager : MonoBehaviour
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             WC = player.GetComponent<WarriorController>();
             WC.playerID = playerID;
+            WC.warriorPosition = warriorPosition;
             //WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
             playerList.Add(player);
@@ -523,7 +524,8 @@ public class GameplayManager : MonoBehaviour
             {
                 // Null Reference Catch
             }
-            
+
+            UM.SetPlayerPortrait(false, WC.playerNum);
         }
     }
 
@@ -565,6 +567,25 @@ public class GameplayManager : MonoBehaviour
                 Debug.Log("PLAYER ADDED");
                 //UM.ShowPlayerUI(true, i);
 
+                List<int> warriorPositions = new List<int>();
+
+                for (int j = 0; j < warriors.Length; j++)
+                {
+                    warriorPositions.Add(warriors[j].GetComponent<WarriorController>().warriorPosition);
+                }
+
+                if (!warriorPositions.Contains(1))
+                {
+                    WC.warriorPosition = 1;
+                } else if (!warriorPositions.Contains(2))
+                {
+                    WC.warriorPosition = 2;
+                }
+                else
+                {
+                    WC.warriorPosition = 3;
+                }
+                UM.SetPlayerPortrait(true, WC.warriorPosition);
             }
         }
 

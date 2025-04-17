@@ -18,6 +18,9 @@ public class PlayerHolder : MonoBehaviour
 
     public Color warriorColor;
 
+    // Which of the three warriors was selected on the Main Menu. Keeping it separate from PlayerNum cause that whole thing is a mess.
+    public int warriorPosition = -1;
+
     public string gameplaySceneName = null;
 
     public InputActionAsset InputMaster;
@@ -66,7 +69,7 @@ public class PlayerHolder : MonoBehaviour
             } else
             {
                 teamName = "Warrior";
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
 
             }
         }
@@ -122,7 +125,7 @@ public class PlayerHolder : MonoBehaviour
             }
             else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, thisGamepad, warriorColor);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
 
             }
         }

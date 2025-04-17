@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class WarriorController : MonoBehaviour
 {
     public int playerID;
+    public int warriorPosition;
 
     public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
@@ -711,7 +712,7 @@ public class WarriorController : MonoBehaviour
             respawnTimer += Time.deltaTime;
             if (respawnTimer >= respawnTime)
             {
-                UM.PlayerIconGreyout(false, playerNum);
+                UM.PlayerIconGreyout(false, warriorPosition);
             }
 
             //UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
@@ -835,19 +836,19 @@ public class WarriorController : MonoBehaviour
 
         if (playerNum == 1)
         {
-            UM.PlayerIconGreyout(true, 1);
+            UM.PlayerIconGreyout(true, warriorPosition);
             ST.UpdateWDeaths(1);
             UM.UpdateWarriorDeathsSB(1);
         }
         if (playerNum == 2)
         {
-            UM.PlayerIconGreyout(true, 2);
+            UM.PlayerIconGreyout(true, warriorPosition);
             ST.UpdateWDeaths(2);
             UM.UpdateWarriorDeathsSB(2);
         }
         if (playerNum == 3)
         {
-            UM.PlayerIconGreyout(true, 3);
+            UM.PlayerIconGreyout(true, warriorPosition);
             ST.UpdateWDeaths(3);
             UM.UpdateWarriorDeathsSB(3);
         }

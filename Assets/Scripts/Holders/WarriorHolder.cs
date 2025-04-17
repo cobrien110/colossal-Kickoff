@@ -27,7 +27,7 @@ public class WarriorHolder : MonoBehaviour
 
     }
 
-    public void spawnWarrior(int playerID, Gamepad gamepad, Color color)
+    public void spawnWarrior(int playerID, int warriorPosition, Gamepad gamepad, Color color)
     {
         //Debug.Log(warriorCount);
         warriorCount++;
@@ -40,6 +40,6 @@ public class WarriorHolder : MonoBehaviour
 
         warriorColors.Add(color);
 
-        GM.AddPlayer(warriorPrefab, playerID, gamepad);
+        GM.AddPlayer(warriorPrefab, playerID, warriorPosition, gamepad);
     }
 }
