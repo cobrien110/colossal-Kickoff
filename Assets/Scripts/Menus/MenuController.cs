@@ -129,6 +129,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Toggle screenshakeToggle;
     [SerializeField] private Toggle controlsToggle;
     [SerializeField] private Button controlTypeSwap;
+    [SerializeField] private Toggle outlineToggle;
 
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
@@ -749,6 +750,21 @@ public class MenuController : MonoBehaviour
         else
         {
             PlayerPrefs.SetInt("showControls", 0);
+        }
+
+        //sound
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetBallOutline()
+    {
+        if (outlineToggle.isOn)
+        {
+            PlayerPrefs.SetInt("ballOutlineMatchesTeam", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("ballOutlineMatchesTeam", 0);
         }
 
         //sound
