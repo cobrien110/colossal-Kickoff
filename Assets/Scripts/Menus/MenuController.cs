@@ -130,6 +130,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Toggle controlsToggle;
     [SerializeField] private Button controlTypeSwap;
     [SerializeField] private Toggle outlineToggle;
+    [SerializeField] private Slider deadzoneSlider;
+    [SerializeField] private TMP_Text DeadzoneAdjNum;
 
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
@@ -612,7 +614,7 @@ public class MenuController : MonoBehaviour
             gameplayNavi.selectOnDown = goreDropdown;
             settingsGameplayButton.navigation = gameplayNavi;
 
-            backNavi.selectOnUp = controlsToggle;
+            backNavi.selectOnUp = deadzoneSlider;
             backNavi.selectOnDown = settingsGameplayButton;
             settingsBackButton.navigation = backNavi;
         }
@@ -769,6 +771,12 @@ public class MenuController : MonoBehaviour
 
         //sound
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void setDeadzoneAdjustment()
+    {
+        PlayerPrefs.SetFloat("deadzoneValue", deadzoneSlider.value / 10);
+        DeadzoneAdjNum.text = (deadzoneSlider.value / 10).ToString();
     }
 
     //Audio Settings
