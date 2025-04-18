@@ -295,13 +295,13 @@ public class AbilityHandSlam : AbilityDelayed
                 {
                     if (zDirection > 0)
                     {
-                        chosenHand = abilityCreateHands.hand1;
-                        chosenHandIndex = 1;
+                        chosenHand = abilityCreateHands.hand2;
+                        chosenHandIndex = 2;
                     }
                     else
                     {
-                        chosenHand = abilityCreateHands.hand2;
-                        chosenHandIndex = 2;
+                        chosenHand = abilityCreateHands.hand1;
+                        chosenHandIndex = 1;
                     }
                 }
 
