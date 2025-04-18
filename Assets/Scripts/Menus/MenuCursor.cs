@@ -350,7 +350,7 @@ public class MenuCursor : MonoBehaviour
             hasSelected = false;
             this.GetComponent<Image>().enabled = true;
             playerSlot = -1;
-        PH.warriorPosition = -1;
+            PH.warriorPosition = -1;
             WD = null;
             MC.deselectOccured = true;
     }

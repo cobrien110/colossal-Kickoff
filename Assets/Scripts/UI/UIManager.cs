@@ -119,6 +119,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text monsterAbility3Text = null;
 
     [SerializeField] private GameObject controlsHolder = null;
+    [SerializeField] private GameObject RBgo = null;
+    private bool isSuperFlashing = false;
     //private int[] playerIds = new int[4];
 
     [SerializeField] private AudioPlayer AP;
@@ -166,13 +168,15 @@ public class UIManager : MonoBehaviour
         if (PlayerPrefs.GetInt("showControls") == 0)
         {
             controlsHolder.SetActive(false);
+        } else
+        {
+            RBgo = controlsHolder.GetComponentInChildren<Image>().gameObject;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (console.gameObject.activeInHierarchy && !console.isFocused)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -651,12 +655,28 @@ public class UIManager : MonoBehaviour
         if (warriorContestFill.fillAmount == 1)
         {
             ShowMiddleContestBar(true);
+
+            if (!isSuperFlashing)
+            {
+                Debug.Log("STARTING SUPER KICK FLASH");
+                isSuperFlashing = true;
+                InvokeRepeating("SuperKickFlash", 1f, 0.5f);
+            }
         }
 
         else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
         {
             ShowMiddleContestBar(false);
+            Debug.Log("STOPPING SUPER KICK FLASH");
+            CancelInvoke("SuperKickFlash");
+            isSuperFlashing = false;
+            RBgo.SetActive(true);
         }
+    }
+
+    private void SuperKickFlash()
+    {
+        RBgo.SetActive(!RBgo.activeInHierarchy);
     }
 
     public void UpdateMonsterContestBar(float charge, Color c)
