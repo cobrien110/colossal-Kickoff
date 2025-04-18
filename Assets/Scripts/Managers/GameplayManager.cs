@@ -36,6 +36,8 @@ public class GameplayManager : MonoBehaviour
     public int chargeStyle = 0;
     public Color[] playerColors = new Color[4];
     private List<PlayerInput> playerInputs = new List<PlayerInput>();
+    [SerializeField] private InputActionAsset inputMaster;
+    public float deadzoneValue = 0.3f;
 
     [Header("Passing System")]
     public float passMeter = 0;
@@ -113,6 +115,7 @@ public class GameplayManager : MonoBehaviour
             GetBarrierPrefs();
             GetOvertimePrefs();
             GetChargePrefs();
+            GetInputPrefs();
         }
         SetPlayerColors();
     }
@@ -467,7 +470,14 @@ public class GameplayManager : MonoBehaviour
             monsterKickChargeSpeed = 0.5f;
             warriorKickChargeSpeed = 0.5f;
         }
+    }
 
+    private void GetInputPrefs()
+    {
+        deadzoneValue = PlayerPrefs.GetFloat("deadzoneValue");
+        inputMaster.FindActionMap("Player").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
+        inputMaster.FindActionMap("Monster").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
+        Debug.Log("DEADZONE VALUE: " + inputMaster.FindActionMap("Player").FindAction("Aim").GetParameterValue("StickDeadzone:min"));
     }
 
     public void AddPlayer(GameObject playerPrefab, int playerID, int warriorPosition, Gamepad gamepad)
