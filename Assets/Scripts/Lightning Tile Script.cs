@@ -11,9 +11,11 @@ public class LightningTileScript : MonoBehaviour
 
     [Header("Offset Settings")]
     public float AddedOffset = 0.1f;
+    public bool AffectX = false; 
 
     private Material mat;
     private MeshRenderer meshRenderer;
+    private float offsetX = 0f;
     private float offsetY = 0f;
 
     void Start()
@@ -21,11 +23,12 @@ public class LightningTileScript : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         if (meshRenderer == null)
         {
-            Debug.LogError("MaterialOffsetLooper: No MeshRenderer found!");
+            Debug.LogError("LightningTileScript: No MeshRenderer found!");
             enabled = false;
             return;
         }
 
+        //Use instance material so each tile can animate independently
         mat = meshRenderer.material;
 
         StartCoroutine(OffsetCycle());
@@ -36,13 +39,20 @@ public class LightningTileScript : MonoBehaviour
         while (true)
         {
             float elapsed = 0f;
-
             meshRenderer.enabled = true;
 
             while (elapsed < TimeUntilStop)
             {
-                offsetY += AddedOffset;
-                mat.mainTextureOffset = new Vector2(mat.mainTextureOffset.x, offsetY);
+                if (AffectX)
+                {
+                    offsetX += AddedOffset;
+                }
+                else
+                {
+                    offsetY += AddedOffset;
+                }
+
+                mat.mainTextureOffset = new Vector2(offsetX, offsetY);
 
                 yield return new WaitForSeconds(TimeBetweenChange);
                 elapsed += TimeBetweenChange;
@@ -51,7 +61,7 @@ public class LightningTileScript : MonoBehaviour
             meshRenderer.enabled = false;
 
             yield return new WaitForSeconds(1f);
-            
+
             //Delete looping stuff after done demoing.
             if (!Looping)
                 yield break;
