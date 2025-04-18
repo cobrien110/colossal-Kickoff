@@ -20,6 +20,11 @@ public class GashaShrine : MonoBehaviour
     private bool movingBack = false;
     public float speed = 3f;
 
+    public GameObject Hands;
+    [SerializeField] private float timeUntilGone = 1f;
+    private Vector3 handsStartPos;
+    private Vector3 handsEndPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +36,11 @@ public class GashaShrine : MonoBehaviour
         visual.transform.position = startPt.transform.position;
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
         StartCoroutine(Swap());
+
+        handsStartPos = Hands.transform.position;
+        handsEndPos = handsStartPos + Vector3.down * 2f;
+        StartCoroutine(LowerAndHideHands());
+
     }
 
     // Update is called once per frame
@@ -70,5 +80,25 @@ public class GashaShrine : MonoBehaviour
         endPt = startPt;
         startPt = temp;
         movingBack = true;
+    }
+
+    IEnumerator LowerAndHideHands()
+    {
+        yield return new WaitForSeconds(timeUntilGone);
+
+        float dropDuration = 0.5f; // Duration of the lowering animation
+        float elapsed = 0f;
+
+        Vector3 initialPos = Hands.transform.position;
+        Vector3 finalPos = handsEndPos;
+
+        while (elapsed < dropDuration)
+        {
+            elapsed += Time.deltaTime;
+            Hands.transform.position = Vector3.Lerp(initialPos, finalPos, elapsed / dropDuration);
+            yield return null;
+        }
+
+        Hands.SetActive(false); 
     }
 }

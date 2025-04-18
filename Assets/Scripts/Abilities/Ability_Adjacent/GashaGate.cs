@@ -19,6 +19,10 @@ public class GashaGate : MonoBehaviour
     private GoalWithBarrier GOAL;
     private bool hasTriggeredBonusHealth = false;
 
+
+    public GameObject[] Hands;
+    [SerializeField] private float timeUntilGone = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,14 @@ public class GashaGate : MonoBehaviour
         visual.transform.position = startPt.transform.position;
         journeyLength = Vector3.Distance(startPt.position, endPt.position);
         StartCoroutine(Swap());
+
+        if (Hands != null && Hands.Length > 0)
+        {
+            foreach (GameObject hand in Hands)
+            {
+                StartCoroutine(LowerAndHideHand(hand));
+            }
+        }
     }
 
     // Update is called once per frame
@@ -99,5 +111,25 @@ public class GashaGate : MonoBehaviour
         endPt = startPt;
         startPt = temp;
         movingBack = true;
+    }
+
+    IEnumerator LowerAndHideHand(GameObject hand)
+    {
+        yield return new WaitForSeconds(timeUntilGone);
+
+        float dropDuration = 0.5f;
+        float elapsed = 0f;
+
+        Vector3 initialPos = hand.transform.position;
+        Vector3 finalPos = initialPos + Vector3.down * 2f; 
+
+        while (elapsed < dropDuration)
+        {
+            elapsed += Time.deltaTime;
+            hand.transform.position = Vector3.Lerp(initialPos, finalPos, elapsed / dropDuration);
+            yield return null;
+        }
+
+        hand.SetActive(false); 
     }
 }
