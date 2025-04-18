@@ -26,6 +26,7 @@ public class AudioPlayer : MonoBehaviour
     {
         if (!isPlaying())
         {
+            if (source == null) return;
             source.volume = volume;
             source.pitch = 1;
             if (useComVol) useComVol = false;
@@ -34,6 +35,7 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlaySound(AudioClip sound)
     {
+        if (source == null) return;
         if (sound == null) return;
         source.clip = sound;
         //Debug.Log("SFX PREFS: " + PlayerPrefs.GetFloat("effectsVolume", 1));
@@ -45,12 +47,14 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlaySoundRandomPitch(AudioClip sound)
     {
+        if (source == null) return;
         SetRandomPitch();
         PlaySound(sound);
     }
 
     public void PlaySoundSpecificPitch(AudioClip sound, float pitch)
     {
+        if (source == null) return;
         source.pitch = pitch;
         PlaySound(sound);
     }
@@ -58,6 +62,7 @@ public class AudioPlayer : MonoBehaviour
     public void PlaySoundVolume(AudioClip sound, float tempVolume)
     {
         if (sound == null) return;
+        if (source == null) return;
         source.clip = sound;
         if (!useComVol) source.volume = volume * tempVolume * PlayerPrefs.GetFloat("effectsVolume", 1);
         else source.volume = volume * tempVolume * PlayerPrefs.GetFloat("commentaryVolume", 1);
@@ -68,12 +73,14 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlaySoundVolumeRandomPitch(AudioClip sound, float tempVolume)
     {
+        if (source == null) return;
         SetRandomPitch();
         PlaySoundVolume(sound, tempVolume);
     }
 
     public void PlaySoundRandom()
     {
+        if (source == null) return;
         int clipIndex = Random.Range(0, sounds.Length - 1);
         PlaySoundRandomPitch(sounds[clipIndex]);
     }
@@ -97,6 +104,7 @@ public class AudioPlayer : MonoBehaviour
 
     public bool isPlaying()
     {
+        if (source == null) return false;
         return source.isPlaying;
     }
 
