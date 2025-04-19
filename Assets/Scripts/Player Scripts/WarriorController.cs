@@ -603,7 +603,7 @@ public class WarriorController : MonoBehaviour
         float slideDuration;
         float slideSpeed;
         // AudioClip audioClip;
-        // String anim;
+        string anim;
         ForceMode forceMode;
         if (BP.ballOwner == gameObject)
         {
@@ -613,11 +613,12 @@ public class WarriorController : MonoBehaviour
             slideSpeed = slideSpeedDodge;
             slideCooldown = slideCooldownDodge;
             forceMode = ForceMode.Force;
-            ANIM.SetBool("isJuking", true);
+            //ANIM.SetBool("isJuking", true);
             isJuking = true;
 
             // audioClip = ???
-            // anim = ???
+            anim = "isJuking";
+            ANIM.Play(anim);
         } else
         {
             Debug.Log("Regular slide");
@@ -628,7 +629,7 @@ public class WarriorController : MonoBehaviour
             forceMode = ForceMode.Force;
 
             // audioClip = ???
-            // anim = ???
+            anim = "isSliding";
         }
 
         Debug.Log("slideSpeed: " + slideSpeed);
@@ -641,8 +642,8 @@ public class WarriorController : MonoBehaviour
         // Set isSliding to false after a delay
         Invoke("StopSliding", slideDuration);
 
-        // If owner is kicking
-        if (BP.ballOwner != null && BP.ballOwner == gameObject)
+        // If owner is kicking, if kicking
+        if (BP.ballOwner != null && BP.ballOwner == gameObject && kickCharge > 1)
         {
             Debug.Log("Cancel Kick");
 
@@ -662,8 +663,13 @@ public class WarriorController : MonoBehaviour
 
         // Update the last slide time
         lastSlideTime = Time.time;
-        ANIM.SetBool("isSliding", true); // Maybe replace argument with "anim" variable
+        ANIM.SetBool(anim, true); // Maybe replace argument with "anim" variable
 
+    }
+
+    public void ResetSlideCooldown()
+    {
+        lastSlideTime = -1f;
     }
 
     private void ResetCanReadAimInput()
@@ -1271,7 +1277,8 @@ public class WarriorController : MonoBehaviour
     {
         return !isStunned && !isCursed
             && (Time.time - lastSlideTime >= slideCooldown)
-            && (movementDirection != Vector3.zero);
+            && (movementDirection != Vector3.zero)
+            && !isSliding;
     }
 
     private IEnumerator TextSpawnReset()
