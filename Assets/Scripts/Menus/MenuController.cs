@@ -49,6 +49,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject controlSettings;
     [SerializeField] private GameObject warriorControls;
     [SerializeField] private GameObject monsterControls;
+    [SerializeField] private TMP_Text teamControlsText;
 
     [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
@@ -627,11 +628,13 @@ public class MenuController : MonoBehaviour
         {
             warriorControls.SetActive(false);
             monsterControls.SetActive(true);
+            teamControlsText.text = "MONSTERS";
         }
         else
         {
             warriorControls.SetActive(true);
             monsterControls.SetActive(false);
+            teamControlsText.text = "WARRIORS";
         }
     }
 

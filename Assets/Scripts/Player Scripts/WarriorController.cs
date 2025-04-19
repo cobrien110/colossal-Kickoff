@@ -372,6 +372,7 @@ public class WarriorController : MonoBehaviour
         {
             // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
             WUI.ShowChargeBar(false);
+            WUI.UpdateChargeBar(0f);
         }
     }
 

@@ -362,6 +362,7 @@ public class MonsterController : MonoBehaviour
         else
         {
             MUI.ShowChargeBar(false);
+            MUI.UpdateChargeBar(0f);
         }
     }
 
