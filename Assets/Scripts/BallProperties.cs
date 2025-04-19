@@ -247,7 +247,7 @@ public class BallProperties : MonoBehaviour
                 wc.StopSuperKick();
             }
             
-            Debug.Log("ballOwner: " + ballOwner);
+            Debug.Log("ballOwner before: " + ballOwner);
             
             bool isASteal = false;
             AIMummy mummyToKill = null; // Used to kill mummy when stolen from
@@ -258,6 +258,9 @@ public class BallProperties : MonoBehaviour
                 // If a mummy is being stolen from, queue it to die
                 mummyToKill = ballOwner.GetComponent<AIMummy>();
             }
+
+            // If this is a warrior picking up the ball, reset slide cooldown (to allow them to dodge/juke)
+            if (wc != null) wc.ResetSlideCooldown();
 
             Debug.Log("Ball owner being set to: " + other.gameObject);
             RB.velocity = Vector3.zero;
