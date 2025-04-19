@@ -229,6 +229,19 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
+            if (mummy != null && isFullSuperKick && passTimer <= passTimeFrame
+                && RB.velocity.magnitude > superKickMinStunSpeed)
+            {
+                // Full super kick hit mummy
+                if (!mummy.IsSliding())
+                {
+                    Debug.Log("Super kick hit " + mummy.name);
+                    mummy.Die(true);
+                    ReapplyLastVelocity();
+                    return;
+                }
+            }
+
             if (wc != null)
             {
                 wc.StopSuperKick();

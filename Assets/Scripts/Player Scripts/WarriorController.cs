@@ -410,7 +410,7 @@ public class WarriorController : MonoBehaviour
     {
         if (!usingNewScheme)
         {
-            if (((rightStickInput == Vector3.zero && !usingKeyboard) || Input.GetKeyUp(KeyCode.Space)) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (((rightStickInput == Vector3.zero && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.Space)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
 
@@ -469,7 +469,7 @@ public class WarriorController : MonoBehaviour
 
                 StartCoroutine(KickDelay());
             }
-            if (((rightStickInput != Vector3.zero && !usingKeyboard) || Input.GetKey(KeyCode.Space)) && BP.ballOwner == gameObject)
+            if (((rightStickInput != Vector3.zero && !usingKeyboard) || /*Input.GetKey(KeyCode.Space)*/false) && BP.ballOwner == gameObject)
             {
                 if (kickCharge <= maxCharge)
                 {

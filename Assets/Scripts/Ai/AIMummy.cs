@@ -564,24 +564,25 @@ public class AIMummy : MonoBehaviour
         BallProperties BP = other.GetComponent<BallProperties>();
         // Debug.Log("Other: " + other);
 
-        if (BP == null)
+        if (BP == null || BP.isFullSuperKick)
         {
             // Debug.Log("No Ball found");
             //pickupBallTimer = pickupBallCooldown;
+            return;
         }
         else if (BP.ballOwner != null)
         {
             // Debug.Log("Already have ball OR someone else has ball");
             pickupBallTimer = pickupBallCooldown;
         }
-        // If ball hasn't been in warrior's colliders long enough
+        // If ball hasn't been in mummy's colliders long enough
         else if (BP != null && pickupBallTimer > 0)
         {
             // Count down timer
             // Debug.Log("Waiting to pick up ball");
             pickupBallTimer -= Time.deltaTime;
         }
-        // If has been in warrior's collider long enough
+        // If has been in mummy's collider long enough
         else if (BP != null && pickupBallTimer <= 0 && BP.isInteractable)
         {
             // if you were last kicker and ball is in singleMode, return
