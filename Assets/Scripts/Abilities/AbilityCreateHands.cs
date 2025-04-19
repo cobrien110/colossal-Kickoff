@@ -31,6 +31,11 @@ public class AbilityCreateHands : PassiveAbility
 
     private AbilityHandSlam abilityHandSlam;
 
+    private Coroutine hand1MoveRoutine;
+    private Coroutine hand2MoveRoutine;
+
+    [SerializeField] private float handSlamTransitionSpeed = 0.25f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,8 +84,16 @@ public class AbilityCreateHands : PassiveAbility
         // If this hand is detached, set its position to be above visualizer
         else if (hand1 != null && gashaHand1 && gashaHand1.GetIsDetached())
         {
-            hand1.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
-                hand1.transform.position.y, abilityHandSlam.attackVisualizer.transform.position.z);
+            // if (hand1MoveRoutine != null) StopCoroutine(hand1MoveRoutine);
+
+            Vector3 targetPos = new Vector3(
+                abilityHandSlam.attackVisualizer.transform.position.x,
+                hand1.transform.position.y, // keep Y same
+                abilityHandSlam.attackVisualizer.transform.position.z
+            );
+
+            if (hand1MoveRoutine == null) hand1MoveRoutine = StartCoroutine(MoveHandToPosition(hand1.transform, targetPos, 1));
+
         }
 
         if (hand2 != null && gashaHand2 != null && !gashaHand2.GetIsDetached()) // Ignore if hand is detached
@@ -90,8 +103,13 @@ public class AbilityCreateHands : PassiveAbility
         // If this hand is detached, set its position to be above visualizer
         else if (hand2 != null && gashaHand2 && gashaHand2.GetIsDetached())
         {
-            hand2.transform.position = new Vector3(abilityHandSlam.attackVisualizer.transform.position.x,
-                hand2.transform.position.y, abilityHandSlam.attackVisualizer.transform.position.z);
+            Vector3 targetPos = new Vector3(
+                abilityHandSlam.attackVisualizer.transform.position.x,
+                hand2.transform.position.y, // keep Y same
+                abilityHandSlam.attackVisualizer.transform.position.z
+            );
+
+            if (hand2MoveRoutine == null) hand2MoveRoutine = StartCoroutine(MoveHandToPosition(hand2.transform, targetPos, 2));
         }
 
         // Count up timers if hand is dead
@@ -119,6 +137,30 @@ public class AbilityCreateHands : PassiveAbility
 
         hand1.SetActive(hand1IsActive);
         hand2.SetActive(hand2IsActive);
+    }
+
+    private IEnumerator MoveHandToPosition(Transform hand, Vector3 targetPos, int handNum)
+    {
+        float elapsed = 0f;
+        Vector3 start = hand.position;
+
+        while (elapsed < handSlamTransitionSpeed)
+        {
+            hand.position = Vector3.Lerp(start, targetPos, elapsed / handSlamTransitionSpeed);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        hand.position = targetPos; // Final snap
+
+        // Reset corresponding coroutine to null once finished
+        if (handNum == 1)
+        {
+            hand1MoveRoutine = null;
+        } else if (handNum == 2)
+        {
+            hand2MoveRoutine = null;
+        }
     }
 
     public void KillHand(int handNum)
