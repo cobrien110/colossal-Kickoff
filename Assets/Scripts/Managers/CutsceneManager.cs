@@ -177,12 +177,16 @@ public class CutsceneManager : MonoBehaviour
             standbySprite.enabled = false;
             orcmanRect.transform.localPosition = orcPosition2;
             orcmanRect.transform.localScale = orcScale2;
+            ANIM.SetBool("isTalking", true);
+            ANIM.speed = 0.25f;
         }
         if (eventNum == 3)
         {
             standbySprite.enabled = true;
             orcmanRect.transform.localPosition = orcPosition1;
             orcmanRect.transform.localScale = orcScale1;
+            ANIM.SetBool("isTalking", false);
+            ANIM.speed = 1f;
         }
         if (eventNum == 4)
         {
