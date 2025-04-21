@@ -10,16 +10,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 111001028339796649, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: volume
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 111001028339796649, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 111001028339796649, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: pitchRangeLow
+      value: 1.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 111001028339796649, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: pitchRangeHigh
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 111001028339796649, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: sounds.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: bb9750c0c404d9245a28bebab5497227, type: 3}
+      objectReference: {fileID: 8300000, guid: 2fc7381242ef47e4d8ffd3db0e16945b, type: 3}
     - target: {fileID: 299060149215669616, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.75
@@ -78,15 +86,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 322296102211395518, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: m_Name
-      value: FLSuperFull
+      value: FLTauntOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2037581634952909170, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.735
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: moveSpeed
-      value: 0.1
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: alphaTracker
-      value: 1
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: colorCycleSpeed
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.size
@@ -94,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: alphaLossPerSecond
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.size
@@ -102,11 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[0].b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[0].g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[0].r
@@ -114,15 +130,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[1].b
-      value: 0
+      value: 0.7626808
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[1].g
-      value: 1
+      value: 0.8867924
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[1].r
-      value: 0.9866247
+      value: 0.48104307
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: colors.Array.data[2].b
@@ -150,32 +166,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.data[0]
-      value: '"HERE WE GO!"'
+      value: '"Pass it!"'
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.data[1]
-      value: '"FULL POWER!"'
+      value: '"I''m open!"'
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.data[2]
-      value: '"FOR HUMANITY!"'
+      value: '"Over here!"'
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.data[3]
-      value: '"FOR EARTH!"'
+      value: '"To me!"'
       objectReference: {fileID: 0}
     - target: {fileID: 4969765212636340335, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: textToShow.Array.data[4]
-      value: '"I''M UNSTOPPABLE!"'
+      value: '"I want the ball!"'
       objectReference: {fileID: 0}
     - target: {fileID: 5753629374245738022, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: m_text
-      value: '"HERE WE GO!"'
+      value: '"Here we go!"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753629374245738022, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: m_fontSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753629374245738022, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8042251034483524378, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: bb9750c0c404d9245a28bebab5497227, type: 3}
+      objectReference: {fileID: 8300000, guid: b89bff59ef78a1b4f9cfb06bdd352451, type: 3}
     - target: {fileID: 8328567452636164823, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
       propertyPath: deathTimer
       value: 2

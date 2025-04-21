@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  warriorPosition: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -126,6 +127,11 @@ MonoBehaviour:
   dodgeTextPrefab: {fileID: 322296102211395518, guid: 73fc1f911be17e8458158f383fad214c, type: 3}
   superTextPrefab: {fileID: 3629042020925567795, guid: 7dfa472b35d0903469d35cfc3a8f4e36, type: 3}
   superTextFullPrefab: {fileID: 3629042020925567795, guid: d782ab8b275ee56418fdb32c58d049f4, type: 3}
+  tauntTextPrefabs:
+  - {fileID: 3629042020925567795, guid: ce5fbc92b1a96d94084b4b67a90e4f34, type: 3}
+  - {fileID: 3629042020925567795, guid: 5db12725f500ec14ca7ad078c3e22b0c, type: 3}
+  - {fileID: 3629042020925567795, guid: 588c5584f5d8c1a458eef0770677b138, type: 3}
+  - {fileID: 3629042020925567795, guid: bd7b4e1bb3b761c4788c77cca0cb3e18, type: 3}
   capsuleCollider: {fileID: 1841548018822893374}
   shakeIntensity: 1
   isCursed: 0

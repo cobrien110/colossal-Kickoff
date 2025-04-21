@@ -93,6 +93,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private GameObject dodgeTextPrefab;
     [SerializeField] private GameObject superTextPrefab;
     [SerializeField] private GameObject superTextFullPrefab;
+    [SerializeField] private GameObject[] tauntTextPrefabs;
     private bool canSpawnText = true;
     [SerializeField] private CapsuleCollider capsuleCollider;
 
@@ -728,6 +729,7 @@ public class WarriorController : MonoBehaviour
         } else if (isDead && canRespawn)
         {
             isDead = false;
+            canSpawnText = true;
             respawnTimer = 0;
             MTC.AddTarget(transform);
             ResetPlayer();
@@ -821,9 +823,11 @@ public class WarriorController : MonoBehaviour
         if (isInvincible && isJuking && canSpawnText && GetComponent<WarriorAiController>() == null)
         {
             // TRIGGER "SMOOTH" flair text if a player dodges an instant death attack
-            Instantiate(dodgeTextPrefab, transform.position, Quaternion.identity);
-            canSpawnText = false;
-            StartCoroutine(TextSpawnReset());
+            if (canSpawnText) {
+                Instantiate(dodgeTextPrefab, transform.position, Quaternion.identity);
+                canSpawnText = false;
+                StartCoroutine(TextSpawnReset());
+            }
         }
         if (isInvincible || isWinner) return;
         
@@ -1028,6 +1032,14 @@ public class WarriorController : MonoBehaviour
     public void OnSlide(InputAction.CallbackContext context)
     {
         if (GM.isPlaying && !isDead && !GM.isPaused) Sliding();
+        /*
+        if (canSpawnText)
+        {
+            Instantiate(tauntTextPrefabs[0], transform.position, Quaternion.identity);
+            canSpawnText = false;
+            StartCoroutine(TextSpawnReset());
+        }
+        */
     }
 
     public void OnCallForPass(InputAction.CallbackContext context)
@@ -1161,12 +1173,20 @@ public class WarriorController : MonoBehaviour
             AV.SuperKickColor(Color.red);
             if (GM.passMeter < 1)
             {
-                if (canSpawnText) Instantiate(superTextPrefab, transform.position, Quaternion.identity);
-                StartCoroutine(TextSpawnReset());
+                if (canSpawnText)
+                {
+                    Instantiate(superTextPrefab, transform.position, Quaternion.identity);
+                    canSpawnText = false;
+                    StartCoroutine(TextSpawnReset());
+                }
             } else
             {
-                if (canSpawnText) Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
-                StartCoroutine(TextSpawnReset());
+                if (canSpawnText)
+                {
+                    Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
+                    canSpawnText = false;
+                    StartCoroutine(TextSpawnReset());
+                }
             }
             
         }
@@ -1284,7 +1304,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator TextSpawnReset()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.35f);
         canSpawnText = true;
     }
 
