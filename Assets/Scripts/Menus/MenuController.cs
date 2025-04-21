@@ -238,6 +238,7 @@ public class MenuController : MonoBehaviour
                 Debug.Log("Game Enter");
                 splashScreen.SetActive(false);
                 mainMenuButtons.SetActive(true);
+                if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
             }
         }
@@ -308,6 +309,11 @@ public class MenuController : MonoBehaviour
                     SettingsSwap(0);
                 }
             }
+        }
+
+        if (AP.getUseComVol() && !AP.isPlaying())
+        {
+            AP.setUseComVol(false);
         }
     }
 
@@ -392,6 +398,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
                 goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
                 //sound
+                if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
@@ -414,8 +421,11 @@ public class MenuController : MonoBehaviour
                 comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
                 screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
                 controlsToggle.isOn = (PlayerPrefs.GetInt("showControls", 1) != 0);
+                outlineToggle.isOn = (PlayerPrefs.GetInt("ballOutlineMatchesTeam", 1) != 0);
+                deadzoneSlider.value = PlayerPrefs.GetFloat("deadzoneValue", .3f) * 10;
 
                 //sound
+                if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
@@ -429,6 +439,7 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 TVT.WarningEnd();
                 //sound
+                if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
                 
@@ -444,6 +455,7 @@ public class MenuController : MonoBehaviour
                 //creditsContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 //sound
+                if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
@@ -471,6 +483,7 @@ public class MenuController : MonoBehaviour
         TVT.WarningStart();
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
 
@@ -489,6 +502,7 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(true);
         stageFirstButton.gameObject.GetComponent<Selectable>().Select();
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
     }
 
@@ -536,6 +550,7 @@ public class MenuController : MonoBehaviour
         lastStageButton.GetComponent<Selectable>().Select();
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClose"));
     }
 
@@ -728,6 +743,7 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetInt("goreMode", goreDropdown.value);
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -743,6 +759,7 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -758,6 +775,8 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
+
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -773,6 +792,7 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -780,6 +800,9 @@ public class MenuController : MonoBehaviour
     {
         PlayerPrefs.SetFloat("deadzoneValue", deadzoneSlider.value / 10);
         DeadzoneAdjNum.text = (deadzoneSlider.value / 10).ToString();
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
     //Audio Settings
@@ -795,6 +818,7 @@ public class MenuController : MonoBehaviour
         FXVolNum.text = Mathf.Round(effectsSlider.value).ToString();
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -817,6 +841,7 @@ public class MenuController : MonoBehaviour
         CommFreqNum.text = Mathf.Round(comFreqSlider.value).ToString();
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -826,6 +851,7 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
 
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -833,6 +859,7 @@ public class MenuController : MonoBehaviour
     {
         PlayerPrefs.SetInt("overtime", overtimeDropdown.value);
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
@@ -840,6 +867,7 @@ public class MenuController : MonoBehaviour
     {
         PlayerPrefs.SetInt("kickcharge", kickchargeDropdown.value);
         //sound
+        if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
     #endregion

@@ -29,7 +29,7 @@ public class AudioPlayer : MonoBehaviour
             if (source == null) return;
             source.volume = volume;
             source.pitch = 1;
-            if (useComVol) useComVol = false;
+            //if (useComVol) useComVol = false;
         }
     }
 
@@ -111,5 +111,10 @@ public class AudioPlayer : MonoBehaviour
     public void setUseComVol(bool b)
     {
         useComVol = b;
+    }
+
+    public bool getUseComVol()
+    {
+        return useComVol;
     }
 }
