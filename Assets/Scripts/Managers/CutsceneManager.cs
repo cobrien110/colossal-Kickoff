@@ -18,6 +18,7 @@ public class CutsceneManager : MonoBehaviour
     public GameObject subtitles;
     public String menuSceneName;
     public AudioPlayer sound;
+    public AudioPlayer soundIntro;
     public MusicPlayer musicPlayer;
     public Image fadeIn;
     public float fadeSpeed = 1f;
@@ -26,11 +27,17 @@ public class CutsceneManager : MonoBehaviour
     public Animator newsImages;
     public Animator newsImagesBox;
     public float delayForTechDif = 5f;
+    public float delayForIntro = 1f;
     public Image standbySprite;
     public Image staticSprite;
     public AudioPlayer staticSounds;
     private float staticBaseVolume;
     private bool isRandomizingStatic = true;
+    public RectTransform orcmanRect;
+    public Vector3 orcPosition1;
+    public Vector3 orcPosition2;
+    public Vector3 orcScale1;
+    public Vector3 orcScale2;
 
     // sound management
     private float[] samples = new float[1024]; // Buffer for sample data
@@ -58,11 +65,15 @@ public class CutsceneManager : MonoBehaviour
         newsImagesBox.speed = 0f;
         //STATIC SOUND PLAYER
         staticBaseVolume = staticSounds.volume;
+
+        orcPosition1 = orcmanRect.transform.localPosition;
+        orcScale1 = orcmanRect.transform.localScale;
         
         //ORCMAN FIGHT SOUND PLAYER
 
         //subtitlesText.text = "TEST TEST";
         StartCoroutine(StartSubtitles());
+        StartCoroutine(StartIntro());
         StartCoroutine(RandomizeStatic());
     }
 
@@ -106,17 +117,27 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    IEnumerator StartSubtitles()
+    IEnumerator StartIntro()
     {
+        yield return new WaitForSeconds(delayForIntro);
+        soundIntro.PlaySound(soundIntro.Find("intro"));
         yield return new WaitForSeconds(delayForTechDif);
-        StartCoroutine(SubtitlesCoroutine());
+        sound.PlaySound(sound.Find("John Orcman finalV1"));
+
         newsImages.speed = 1f;
         newsImagesBox.speed = 1f;
         musicPlayer.source.Play();
         standbySprite.enabled = false;
         staticSounds.source.Stop();
+    }
+
+    IEnumerator StartSubtitles()
+    {
+        yield return new WaitForSeconds(delayForIntro);
+        StartCoroutine(SubtitlesCoroutine());
         
-        sound.PlaySound(sound.Find("John Orcman finalV1"));
+        
+        
     }
 
     IEnumerator SubtitlesCoroutine()
@@ -149,17 +170,37 @@ public class CutsceneManager : MonoBehaviour
     {
         if (eventNum == 0)
         {
-            ANIM.SetBool("isTalking", true);
+            subtitlesText.color = Color.white;
         }
-        if (eventNum == 1) {
+        if (eventNum == 2)
+        {
+            standbySprite.enabled = false;
+            orcmanRect.transform.localPosition = orcPosition2;
+            orcmanRect.transform.localScale = orcScale2;
+        }
+        if (eventNum == 3)
+        {
+            standbySprite.enabled = true;
+            orcmanRect.transform.localPosition = orcPosition1;
+            orcmanRect.transform.localScale = orcScale1;
+        }
+        if (eventNum == 4)
+        {
+            subtitlesText.color = Color.green;
+        }
+        if (eventNum == 6)
+        {
+            ANIM.SetBool("isTalking", true);
             staticSprite.enabled = false;
             isRandomizingStatic = false;
         }
-        if (eventNum == 16 || eventNum == 29 || eventNum == 30 || eventNum == 31 || eventNum == 35 || eventNum == 37)
+        if (eventNum == 7) {
+        }
+        if (eventNum == 22 || eventNum == 35 || eventNum == 36 || eventNum == 37 || eventNum == 41 || eventNum == 43)
         {
             ANIM.Play("OrcmanSmash");
         }
-        if (eventNum == 37)
+        if (eventNum == 43)
         {
             isFadingIn = true;
             newsImages.speed = 0f;
