@@ -1284,7 +1284,7 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator TextSpawnReset()
     {
-        yield return new WaitForSeconds(0.55f);
+        yield return new WaitForSeconds(0.25f);
         canSpawnText = true;
     }
 
