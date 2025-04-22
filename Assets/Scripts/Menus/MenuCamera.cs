@@ -12,6 +12,11 @@ public class MenuCamera : MonoBehaviour
     public Transform creditsTransform;
     public Transform quittingTransform;
 
+    public Transform ArcadeTransform;
+    public Transform StatsTransform;
+    public Transform HowToTransform;
+    public Transform SandboxTransform;
+
     [Header("Variables")]
     //camera movement speed
     public float speed = 30.0f;
