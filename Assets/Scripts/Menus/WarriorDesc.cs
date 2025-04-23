@@ -108,14 +108,57 @@ public class WarriorDesc : MonoBehaviour
 
     public void ResetColor()
     {
-        WCSO.updateColor(0.0f, 0.0f, 0.0f);
+        //WCSO.updateColor(0.0f, 0.0f, 0.0f);
+
+        switch (playerSlot)
+        {
+            case 1:
+                Debug.Log("RESETING COLORS FOR 1");
+                WCSO.updateColor(1.0f, 0.0f, 0.0f);
+                break;
+            case 2:
+                WCSO.updateColor(0.0f, 1.0f, 0.0f);
+                break;
+            case 3:
+                WCSO.updateColor(0.0f, 0.0f, 1.0f);
+                break;
+            default:
+                WCSO.updateColor(0.0f, 0.0f, 0.0f);
+                break;
+        }
+        ResetSliders();
     }
 
     public void ResetSliders()
     {
-        redSlider.value = 0;
-        greenSlider.value = 0;
-        blueSlider.value = 0;
+        //redSlider.value = 0;
+        //greenSlider.value = 0;
+        //blueSlider.value = 0;
+
+        switch (playerSlot)
+        {
+            case 1:
+                Debug.Log("RESETING SLIDERS FOR 1");
+                redSlider.value = 25;
+                greenSlider.value = 0;
+                blueSlider.value = 0;
+                break;
+            case 2:
+                redSlider.value = 0;
+                greenSlider.value = 25;
+                blueSlider.value = 0;
+                break;
+            case 3:
+                redSlider.value = 0;
+                greenSlider.value = 0;
+                blueSlider.value = 25;
+                break;
+            default:
+                redSlider.value = 0;
+                greenSlider.value = 0;
+                blueSlider.value = 0;
+                break;
+        }
     }
 
     public Color getCurrentColor()
