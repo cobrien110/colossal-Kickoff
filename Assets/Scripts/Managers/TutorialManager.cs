@@ -93,11 +93,6 @@ public class TutorialManager : MonoBehaviour
         aiMummymanager = FindObjectOfType<AiMummyManager>();
         Time.timeScale = 1;
 
-        if (automaticAISpawn && playerList.Count < 4)
-        {
-            SpawnAI();
-        }
-
         //WIP
         int count = 0;
         while (count < 2)
@@ -109,9 +104,6 @@ public class TutorialManager : MonoBehaviour
 
         if (usePlayerPrefs)
         {
-            GetBarrierPrefs();
-            GetOvertimePrefs();
-            GetChargePrefs();
             GetInputPrefs();
         }
         SetPlayerColors();
@@ -196,19 +188,6 @@ public class TutorialManager : MonoBehaviour
         if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn;
     }
 
-    public void ResetOvertime()
-    {
-        //StopPlaying();
-        UM.StopTimer();
-        hasScored = true;
-        if (MP != null && MP.GetComponent<MusicPlayerOvertime>() != null) MP.PauseMusic();
-        else Debug.Log("Failed to pause music");
-        Invoke("FinalizeResetOvertime", 3f);
-
-        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        if (lastGoalScoredIn != null) MTC.targets[0] = lastGoalScoredIn;
-    }
-
     private void FinalizeReset()
     {
         StopPlaying();
@@ -262,52 +241,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void FinalizeResetOvertime()
-    {
-        //StopPlaying();
-
-        Vector3 spawnPosition = BallSpawner.transform.position;
-        GameObject newBall = Instantiate(Ball, spawnPosition, Quaternion.identity);
-        Ball = newBall;
-        BallProperties BP = Ball.GetComponent<BallProperties>();
-
-        BP.isSuperKick = false;
-        passMeter = 0;
-        UM.UpdateWarriorContestBar(passMeter);
-        Debug.Log(playerList);
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            WC = playerList[i].GetComponent<WarriorController>();
-            WC.Ball = newBall;
-            WC.BP = BP;
-            WC.ResetPlayer();
-        }
-
-
-        MultipleTargetCamera MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        MTC.targets[0] = null;
-        //FollowBall FB = GameObject.Find("BallPointer").GetComponent<FollowBall>();
-        //FB.BP = Ball.GetComponent<BallProperties>();
-
-        // These lines of code should delete any objects in the scene that have the DELETEAFTERDELAY script attatched
-        DeleteAfterDelay[] ObjectsToDelete = (DeleteAfterDelay[])FindObjectsByType(typeof(DeleteAfterDelay), FindObjectsSortMode.InstanceID);
-        if (ObjectsToDelete.Length != 0)
-        {
-            for (int i = 0; i < ObjectsToDelete.Length; i++)
-            {
-                try
-                {
-                    ObjectsToDelete[i].Kill();
-                }
-                catch
-                {
-                    // NOTHING HAHA
-                }
-
-            }
-        }
-    }
-
+    
     //isPlaying getter and setter
     public bool IsPlayingGet()
     {
@@ -324,84 +258,6 @@ public class TutorialManager : MonoBehaviour
         return Ball;
     }
 
-    private void GetBarrierPrefs()
-    {
-        int goalSetting = PlayerPrefs.GetInt("goalBarriers");
-        if (goalSetting == 0)
-        {
-            // DEFAULT
-            barrierRespawnStyle = 2;
-            barriersAreOn = true;
-        }
-        else if (goalSetting == 1)
-        {
-            // HIGH HEALTH
-            barrierMaxHealth *= 1.5f;
-            barrierRespawnStyle = 2;
-            barriersAreOn = true;
-        }
-        else if (goalSetting == 2)
-        {
-            // SINGLE HIT
-            barrierMaxHealth = 1;
-            barrierRespawnStyle = 2;
-            barriersAreOn = true;
-        }
-        else if (goalSetting == 3)
-        {
-            // PERSISTANT
-            barrierRespawnStyle = 1;
-            barriersAreOn = true;
-        }
-        else if (goalSetting == 4)
-        {
-            // PERSISTANT HIGH HEALTH
-            barrierMaxHealth *= 1.5f;
-            barrierRespawnStyle = 1;
-            barriersAreOn = true;
-        }
-        else if (goalSetting == 5)
-        {
-            // PERSISTANT SINGLE HIT
-            // SINGLE HIT
-            barrierMaxHealth = 1;
-            barrierRespawnStyle = 1;
-            barriersAreOn = true;
-        }
-        else
-        {
-            // NO BARRIERS
-            barriersAreOn = false;
-        }
-    }
-
-    private void GetOvertimePrefs()
-    {
-        overtimeStyle = PlayerPrefs.GetInt("overtime");
-    }
-
-    private void GetChargePrefs()
-    {
-        chargeStyle = PlayerPrefs.GetInt("kickcharge");
-        if (chargeStyle == 0)
-        {
-            //STANDARD
-            monsterKickChargeSpeed = 1.0f;
-            warriorKickChargeSpeed = 1.0f;
-        }
-        else if (chargeStyle == 1)
-        {
-            //FAST
-            monsterKickChargeSpeed = 1.5f;
-            warriorKickChargeSpeed = 1.5f;
-        }
-        else
-        {
-            //SLOW
-            monsterKickChargeSpeed = 0.5f;
-            warriorKickChargeSpeed = 0.5f;
-        }
-    }
 
     private void GetInputPrefs()
     {
@@ -465,57 +321,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void SpawnAI()
-    {
-        int playerNumberInput;
-        for (int i = playerList.Count; i < 4; i++)
-        {
-            GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
-            playerNumberInput = warriors.Length + 1;
-            Debug.Log("WarriorAI_" + (playerNumberInput));
-            WarriorAI.name = "WarriorAI_" + (playerNumberInput);
-            GameObject newWar = Instantiate(WarriorAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);
-            //WarriorAI = GameObject.Find("WarriorAI_" + (warriors.Length + 1) + "(Clone)");
-            WC = newWar.GetComponent<WarriorController>();
-            Debug.Log("My Spawner:" + spawnCount);
-            WC.WarriorSpawner = WarriorSpawners[spawnCount++];
-            WC.transform.position = WC.WarriorSpawner.transform.position;
-            //WC.SetColor(playerNumberInput);
-            WC.SetPlayerNum(playerNumberInput);
-            playerList.Add(newWar);
-            Debug.Log("My Player Num:" + WC.playerNum);
-            Debug.Log("My Name" + WarriorAI.name);
-            Debug.Log("PLAYER ADDED");
-            //UM.ShowPlayerUI(true, i);
-
-            List<int> warriorPositions = new List<int>();
-
-            for (int j = 0; j < warriors.Length; j++)
-            {
-                warriorPositions.Add(warriors[j].GetComponent<WarriorController>().warriorPosition);
-            }
-
-            if (!warriorPositions.Contains(1))
-            {
-                WC.warriorPosition = 1;
-            }
-            else if (!warriorPositions.Contains(2))
-            {
-                WC.warriorPosition = 2;
-            }
-            else
-            {
-                WC.warriorPosition = 3;
-            }
-            UM.SetPlayerPortrait(true, WC.warriorPosition);
-        }
-
-        //WarriorAI.name = "2_WarriorAI";
-        //Instantiate(WarriorAI, new Vector3(5.25f, 0f, 0f), Quaternion.identity);
-        /*WarriorAI.name = "3_WarriorAI";
-        Instantiate(WarriorAI, new Vector3(5.25f, 0f, 2f), Quaternion.identity);*/
-    }
-
     private bool CheckPlayerList(bool isAddingMonster, GameObject thingToAdd)
     {
         // if adding monster, check to see if there are any human warriors
@@ -538,26 +343,6 @@ public class TutorialManager : MonoBehaviour
             }
         }
         return false;
-    }
-
-    public void ResetGame()
-    {
-        Debug.Log("Resetting Game");
-        Time.timeScale = 1;
-        ALM.BeginLoad(SceneManager.GetActiveScene().name);
-        return;
-
-        /*
-        //isPlaying = true;
-        UM.ShowGameOverText(false, 3);
-        GameObject ballTemp = Ball.gameObject;
-        Reset();
-        Destroy(ballTemp);
-        UM.ResetScoreAndTime();
-
-        // Resume Game
-        Time.timeScale = 1;
-        */
     }
 
     public void PauseGame(int playerID)

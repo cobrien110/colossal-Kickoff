@@ -19394,7 +19394,7 @@ GameObject:
   - component: {fileID: 9110003588102575843}
   - component: {fileID: 3498813240669588927}
   - component: {fileID: 2756669507867500072}
-  - component: {fileID: 8211218968234604819}
+  - component: {fileID: 9110003588102575844}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -35650,93 +35650,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8622362593094787191}
   m_CullTransparentMesh: 1
---- !u!114 &8211218968234604819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936849418708477533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff9cf7f316fefb643825fb2b156eda9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allInGameUI: {fileID: 4098190152313728468}
-  countdown: {fileID: 6568399561997551300}
-  gameoverText: {fileID: 7243115538118178086}
-  playerScoredText: {fileID: 6350761049056489080}
-  pauseScreen: {fileID: 1921743462593357683}
-  hideWhenPaused: {fileID: 4590866827090044236}
-  topScoreboard: {fileID: 2362108407546971162}
-  scoreTextHuman: {fileID: 3855265446634272462}
-  scoreTextMonster: {fileID: 4928648109468112116}
-  scoreTextHumanBG: {fileID: 2497633115255661588}
-  scoreTextMonsterBG: {fileID: 4333977723182761565}
-  scoreTextTimer: {fileID: 479967962833475801}
-  warriorScore: 0
-  monsterScore: 0
-  statsScoreboard: {fileID: 8069160146263695496}
-  WarriorLabels:
-  - {fileID: 5646890899125188877}
-  - {fileID: 1095406481694678950}
-  - {fileID: 6070089051729893183}
-  MonsterLabel: {fileID: 2825344419562577720}
-  Warrior1GoalsText: {fileID: 3610298233681682207}
-  Warrior2GoalsText: {fileID: 6366026269079748782}
-  Warrior3GoalsText: {fileID: 880523438459878474}
-  Warrior1AssistsText: {fileID: 8240370311295230820}
-  Warrior2AssistsText: {fileID: 6156560969347319697}
-  Warrior3AssistsText: {fileID: 852559212062525373}
-  Warrior1DeathsText: {fileID: 208213715062717915}
-  Warrior2DeathsText: {fileID: 8289987585484532489}
-  Warrior3DeathsText: {fileID: 9072434484470996079}
-  Warrior1StealsText: {fileID: 6497092264832377567}
-  Warrior2StealsText: {fileID: 8394089571562563378}
-  Warrior3StealsText: {fileID: 3700809386890179452}
-  MonsterGoalsText: {fileID: 1730995713841351056}
-  MonsterKillsText: {fileID: 1336473152300035758}
-  MonsterAbUsedText: {fileID: 2241371234596172520}
-  P1MVP: {fileID: 2327358419408085051}
-  P2MVP: {fileID: 3707182307214315258}
-  P3MVP: {fileID: 6339284950910578172}
-  winnerTextSB: {fileID: 5288853509231572375}
-  devStats: {fileID: 8144169370485053670}
-  gameWinnerText: {fileID: 2605851415944840206}
-  chargeBar: {fileID: 4849253293253296110}
-  chargeBarFill: {fileID: 3495389645243604757}
-  chargeBarText: {fileID: 1971394208568700866}
-  warriorContestFill: {fileID: 3199919335452114061}
-  monsterContestFill: {fileID: 3120171399005223939}
-  middleContestFill: {fileID: 6711059083550525906}
-  monsterUI: {fileID: 7853193389821080325}
-  monsterAbility1Bar: {fileID: 7897021602172866107}
-  monsterAbility2Bar: {fileID: 3595102082413000180}
-  monsterAbility3Bar: {fileID: 9041100914822928941}
-  player1Icon: {fileID: 8938914155741206377}
-  player2Icon: {fileID: 965166106029781449}
-  player3Icon: {fileID: 6532047504774617121}
-  player1Alive: {fileID: 8938914155741206377}
-  player2Alive: {fileID: 965166106029781449}
-  player3Alive: {fileID: 6532047504774617121}
-  player1Dead: {fileID: 4741024368651448867}
-  player2Dead: {fileID: 6277430495568141854}
-  player3Dead: {fileID: 8525786232126344587}
-  humanSpriteAlive: {fileID: 21300000, guid: 30cecb472743a75468819463bc1d11ad, type: 3}
-  humanSpriteDead: {fileID: 21300000, guid: fc2952a23506aa047acfe1c1734fcc68, type: 3}
-  robotSpriteAlive: {fileID: 21300000, guid: 6606e6505637df446aef9dbfeda86e8e, type: 3}
-  robotSpriteDead: {fileID: 21300000, guid: e2e2cbca56e97144e856571cce591ba2, type: 3}
-  monsterAbility1Icon: {fileID: 6660988971376706833}
-  monsterAbility2Icon: {fileID: 1048327643293108061}
-  monsterAbility3Icon: {fileID: 1776619388205338438}
-  monsterAbility1Text: {fileID: 2595253529388770582}
-  monsterAbility2Text: {fileID: 843334690388261949}
-  monsterAbility3Text: {fileID: 6576329113269534673}
-  controlsHolder: {fileID: 1312540972650104134}
-  RBgo: {fileID: 1835016335604190760}
-  AP: {fileID: 2318993555350067603}
-  console: {fileID: 5125258385793959206}
-  overtime: 0
 --- !u!224 &8211395868070256236
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37641,6 +37554,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &9110003588102575844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936849418708477533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffeed8284d7d9345a45942b25359654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScoredText: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  hideWhenPaused: {fileID: 0}
+  statsScoreboard: {fileID: 0}
+  chargeBar: {fileID: 0}
+  chargeBarFill: {fileID: 0}
+  chargeBarText: {fileID: 0}
+  AP: {fileID: 0}
+  overtime: 0
 --- !u!1 &9112678643674955157
 GameObject:
   m_ObjectHideFlags: 0
