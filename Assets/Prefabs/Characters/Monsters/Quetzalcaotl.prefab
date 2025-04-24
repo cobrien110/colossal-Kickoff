@@ -973,6 +973,8 @@ MonoBehaviour:
   projectileSpeed: 450
   M: {fileID: 0}
   chargeOrb: {fileID: 1967735844999954999}
+  attackParticles: {fileID: 5256950146344784235, guid: f7aa3c7765bd1834f83a599fe59f7036, type: 3}
+  attackChargeParticles: {fileID: 5604850186413485151, guid: 9a9290212d244b7418d8015f3a2b4c2e, type: 3}
 --- !u!114 &3357644000442038238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,6 +1008,7 @@ MonoBehaviour:
   speedBonus: 2
   baseSpeed: 0
   slamRadius: 1
+  slamParticles: {fileID: 1950382900719152646, guid: ecfcaa3e7ec4ebe43b8c624ad6082f24, type: 3}
   maxSpriteYOffset: 5
   activatedSoundName: quetzFly
   slamSoundName: quetzCrash

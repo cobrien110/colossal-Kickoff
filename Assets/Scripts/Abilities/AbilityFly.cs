@@ -12,6 +12,7 @@ public class AbilityFly : AbilityScript
     public float speedBonus = 5f;
     [HideInInspector] public float baseSpeed;
     public float slamRadius = 3f;
+    [SerializeField] private GameObject slamParticles;
 
     private GameObject sprite;
     private float spritePositionY;

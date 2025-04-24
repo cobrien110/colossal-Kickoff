@@ -20,6 +20,8 @@ public class AbilitySquareAttack : AbilityChargeable
     public Mesh M;
     private AbilityQuetzPassive AQP;
     [SerializeField] private SpriteRenderer chargeOrb;
+    [SerializeField] private GameObject attackParticles;
+    [SerializeField] private GameObject attackChargeParticles;
 
     public override void Activate()
     {
