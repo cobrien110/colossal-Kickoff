@@ -44,6 +44,7 @@ Transform:
   - {fileID: 4468038395541488230}
   - {fileID: 600748730420221986}
   - {fileID: 3036811768985580966}
+  - {fileID: 4498838922191949007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1063518855127335618
@@ -64,6 +65,7 @@ MonoBehaviour:
   Ball: {fileID: 0}
   BP: {fileID: 0}
   AV: {fileID: 0}
+  aura: {fileID: 4995028859849740982}
   warriorSpeed: 2.85
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
@@ -6805,3 +6807,74 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!1001 &4218774900025253263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6106750825581961316}
+    m_Modifications:
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213785549146279737, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_Name
+      value: Player_Aura
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213785549146279737, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+--- !u!4 &4498838922191949007 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 352141974517911872, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+  m_PrefabInstance: {fileID: 4218774900025253263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4995028859849740982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9213785549146279737, guid: b7d50b316d8e91244bc7a5a32c94420d, type: 3}
+  m_PrefabInstance: {fileID: 4218774900025253263}
+  m_PrefabAsset: {fileID: 0}

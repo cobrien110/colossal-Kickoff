@@ -15,6 +15,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
     [SerializeField] private AimVisualizer AV = null;
+    [SerializeField] private GameObject aura;
 
     public const float baseMovementSpeed = 2.85f;
     [SerializeField] public float warriorSpeed = baseMovementSpeed;
@@ -659,7 +660,7 @@ public class WarriorController : MonoBehaviour
 
             // Disable aim input for a moment to allow the right stick to be released without causing a kick to occur
             canReadAimInput = false;
-            Invoke("ResetCanReadAimInput", 0.35f);
+            Invoke("ResetCanReadAimInput", 0.45f);
 
         }
 
@@ -1170,6 +1171,7 @@ public class WarriorController : MonoBehaviour
         if (!superKicking && GM.passMeter > 0 && isCharging && !isDead)
         {
             superKicking = true;
+            aura.SetActive(true);
             AV.SuperKickColor(Color.red);
             if (GM.passMeter < 1)
             {
@@ -1196,6 +1198,7 @@ public class WarriorController : MonoBehaviour
     {
         superKicking = false;
         AV.RevertColor();
+        aura.SetActive(false);
     }
 
     /**
@@ -1299,7 +1302,8 @@ public class WarriorController : MonoBehaviour
         return !isStunned && !isCursed
             && (Time.time - lastSlideTime >= slideCooldown)
             && (movementDirection != Vector3.zero)
-            && !isSliding;
+            && !isSliding
+            && !superKicking;
     }
 
     private IEnumerator TextSpawnReset()
