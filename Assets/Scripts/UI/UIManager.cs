@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text playerScoredText = null;
     [SerializeField] private GameObject pauseScreen = null;
     [SerializeField] private GameObject hideWhenPaused = null;
-
+    [SerializeField] private GameObject overtimeGraphic = null;
 
     //UpperScoreboardUI
     [Header("UpperScoreboardUI")]
@@ -264,6 +264,12 @@ public class UIManager : MonoBehaviour
         gameoverText.gameObject.SetActive(state);
     }
 
+    public void ShowOvertime(bool state)
+    {
+        Debug.Log("OVERTIME" + state);
+        overtimeGraphic.SetActive(state);
+    }
+
     public void ShowPlayerScoredText(bool state)
     {
         playerScoredText.gameObject.SetActive(state);
@@ -445,6 +451,7 @@ public class UIManager : MonoBehaviour
         //if (overtime == true) return;
         overtime = true;
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("pauseWhistle"));
+        ShowOvertime(true);
         Debug.Log("UI ENTERING OT STYLE " + pref);
         //Standard
         if (pref == 0)
@@ -454,6 +461,7 @@ public class UIManager : MonoBehaviour
             timeRemainingSeconds = 60;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
             BP.ResetBall();
+            //ShowOvertime(false);
             GM.OvertimeMusic();
         }
 
@@ -464,6 +472,7 @@ public class UIManager : MonoBehaviour
             timeRemainingSeconds = 0;
             BallProperties BP = GM.GetBall().GetComponent<BallProperties>();
             BP.ResetBall();
+            //ShowOvertime(false);
             GM.OvertimeMusic();
         }
     }
@@ -652,18 +661,17 @@ public class UIManager : MonoBehaviour
     {
         warriorContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1)
+        if (warriorContestFill.fillAmount == 1 && !isSuperFlashing)
+        {
+            Debug.Log("STARTING SUPER KICK FLASH");
+            isSuperFlashing = true;
+            InvokeRepeating("SuperKickFlash", 1f, 0.5f);
+        }
+        
+        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
         {
             ShowMiddleContestBar(true);
-
-            if (!isSuperFlashing)
-            {
-                Debug.Log("STARTING SUPER KICK FLASH");
-                isSuperFlashing = true;
-                InvokeRepeating("SuperKickFlash", 1f, 0.5f);
-            }
         }
-
         else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
         {
             ShowMiddleContestBar(false);
@@ -683,7 +691,7 @@ public class UIManager : MonoBehaviour
     {
         monsterContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1)
+        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
         {
             ShowMiddleContestBar(true);
         }
