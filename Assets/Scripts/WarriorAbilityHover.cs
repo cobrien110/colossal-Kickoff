@@ -31,19 +31,19 @@ public class WarriorAbilityHover : MonoBehaviour
     {
         if (index == 0)
         {
-            textBox.text = "SUPER KICK";
+            textBox.text = "Let loose a super-charged kick that stuns the Monster and pierces the goal barrier when fully charged! Charge it by passing to each other.";
         }
         else if (index == 1)
         {
-            textBox.text = "SLIDE JUKE";
+            textBox.text = "Slide for brief invulnerability and to steal the ball from the Monster! While you have the ball, juke to avoid attacks!";
         }
         else if (index == 2)
         {
-            textBox.text = "CALL FOR PASS";
+            textBox.text = "Call for a pass from your teammates! Computer players will automatically pass to you.";
         }
         else
         {
-            textBox.text = "BASE WARRIOR TEXT";
+            textBox.text = "Team up as the 3 Warriors!";
         }
     }
 
