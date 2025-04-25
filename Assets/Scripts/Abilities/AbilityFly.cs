@@ -13,6 +13,7 @@ public class AbilityFly : AbilityScript
     [HideInInspector] public float baseSpeed;
     public float slamRadius = 3f;
     [SerializeField] private GameObject slamParticles;
+    [SerializeField] private Transform slamParticlesTransform;
 
     private GameObject sprite;
     private float spritePositionY;
@@ -113,6 +114,13 @@ public class AbilityFly : AbilityScript
         Invoke(nameof(DeactivateVisualizer), 0.5f);
 
         Debug.Log("Slam");
+
+        if (slamParticles != null)
+        {
+            GameObject particleInstance = Instantiate(slamParticles, slamParticlesTransform.position, Quaternion.Euler(90, 0, 0), transform);
+            Vector3 originalScale = particleInstance.transform.localScale;
+            particleInstance.transform.localScale = originalScale * slamRadius * 1f;
+        }
 
         Collider[] objectsInRange = Physics.OverlapSphere(transform.position, slamRadius);
         foreach (Collider obj in objectsInRange)

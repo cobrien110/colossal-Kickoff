@@ -21,6 +21,7 @@ public class AbilitySquareAttack : AbilityChargeable
     private AbilityQuetzPassive AQP;
     [SerializeField] private SpriteRenderer chargeOrb;
     [SerializeField] private GameObject attackParticles;
+    [SerializeField] private Transform attackParticlesTransform;
     [SerializeField] private GameObject attackChargeParticles;
 
     public override void Activate()
@@ -41,6 +42,11 @@ public class AbilitySquareAttack : AbilityChargeable
             transform.position.y + direction.y + attackVisualOffsetY,
             (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
             Collider[] colliders = Physics.OverlapBox(origin, size / 2, transform.rotation * Quaternion.Euler(0, 90, 0), affectedLayers);
+            if (attackParticles != null)
+            {
+                ParticleSystem particleInstance = Instantiate(attackParticles, attackParticlesTransform.position, transform.rotation ).GetComponent<ParticleSystem>();
+                particleInstance.startLifetime = (chargeAmount / maxChargeSeconds) / 10; //10 means it goes from 0-1 to 0-.1
+            }
 
             foreach (Collider col in colliders)
             {
@@ -113,9 +119,11 @@ public class AbilitySquareAttack : AbilityChargeable
         if (chargeOrb == null) return;
         if (isCharging)
         {
+            attackChargeParticles.SetActive(true);
             chargeOrb.enabled = true;
         } else
         {
+            attackChargeParticles.SetActive(false);
             chargeOrb.enabled = false;
         }
     }
