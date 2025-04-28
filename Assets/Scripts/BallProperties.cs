@@ -792,4 +792,10 @@ public class BallProperties : MonoBehaviour
         return RB;
     }
 
+    public bool GetIsInPassState()
+    {
+        return previousKicker != null && previousKicker.tag.Equals("Warrior") && ballOwner == null && GM.isPlaying
+            && GM.passIndicator && passTimer <= passTimeFrame;
+    }
+
 }

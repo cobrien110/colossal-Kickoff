@@ -76,7 +76,11 @@ public class BallOutlineColor : MonoBehaviour
             {
                 counter = 1;
                 isSpinning = true;
-            } 
+            } else if (BP.GetIsInPassState())
+            {
+                counter = 3;
+                isSpinning = false;
+            }
             else
             {
                 counter = 0;
@@ -89,6 +93,12 @@ public class BallOutlineColor : MonoBehaviour
             if (isSpinning)
             {
                 transform.RotateAround(transform.forward, spinSpeed * Time.deltaTime);
+            }
+            else
+            {
+
+                    transform.rotation = Quaternion.identity;
+
             }
         }
     }
