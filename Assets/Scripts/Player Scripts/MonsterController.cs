@@ -1030,7 +1030,29 @@ public class MonsterController : MonoBehaviour
 
             StartCoroutine(PassWindowCheck()); // Check to enable gravity field
         }
+    }
 
+    public void OnTaunt(InputAction.CallbackContext context)
+    {
+        string tauntNum = context.control.displayName;
+        switch (tauntNum)
+        {
+            case "D-Pad Up":
+                Debug.Log("Taunt 1 Active");
+                break;
+            case "D-Pad Right":
+                Debug.Log("Taunt 2 Active");
+                break;
+            case "D-Pad Down":
+                Debug.Log("Taunt 3 Active");
+                break;
+            case "D-Pad Left":
+                Debug.Log("Taunt 4 Active");
+                break;
+            default:
+                Debug.Log("Unknown Taunt");
+                break;
+        }
     }
 
     private IEnumerator PassWindowCheck()

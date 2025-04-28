@@ -98,6 +98,42 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt1"",
+                    ""type"": ""Button"",
+                    ""id"": ""197278f2-9049-4745-b564-5c138f8a7cab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt2"",
+                    ""type"": ""Button"",
+                    ""id"": ""7bb751e6-6745-493a-9b3e-101b9b1c89e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt3"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f5b140a-83c8-4c18-a568-8a0008dc1a0c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt4"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a4ccfac-3c07-41bf-ae58-9b12a208e591"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +268,50 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""action"": ""CallForPass"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5705253-fbe5-45ac-9a4e-2cc7451b7203"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""690208c4-7b85-4f99-a7d6-4aa0d1202131"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a684a29-3ff9-41e5-98de-a57f108580f6"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbbd3714-1ed5-46e3-8759-1280789492b3"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -306,6 +386,42 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""name"": ""CallForPass"",
                     ""type"": ""Button"",
                     ""id"": ""eb816d07-ad6f-48c2-889e-d3130ba10562"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt1"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac6af0c6-188b-4588-8c3c-70b4fc775f54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt2"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f4b4207-9a62-48bd-87a9-06a59907c870"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt3"",
+                    ""type"": ""Button"",
+                    ""id"": ""418310f4-d43a-465a-85f0-631e1b5b90e1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Taunt4"",
+                    ""type"": ""Button"",
+                    ""id"": ""b39db285-8abd-411c-8527-02d2efbfe203"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -442,6 +558,50 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Playstation Control Scheme"",
                     ""action"": ""CallForPass"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e6b1f99-7118-4cda-8247-fa58c47962ab"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f05167d-782d-46a3-a8a9-622e135412c7"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2956811e-4eb8-4643-b6d3-dfa8f9f9f1a2"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""648d658e-6733-4cdf-b743-b5c345f2a44a"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Control Scheme;Playstation Control Scheme"",
+                    ""action"": ""Taunt1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -613,6 +773,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_SuperKick = m_Player.FindAction("SuperKick", throwIfNotFound: true);
         m_Player_CallForPass = m_Player.FindAction("CallForPass", throwIfNotFound: true);
+        m_Player_Taunt1 = m_Player.FindAction("Taunt1", throwIfNotFound: true);
+        m_Player_Taunt2 = m_Player.FindAction("Taunt2", throwIfNotFound: true);
+        m_Player_Taunt3 = m_Player.FindAction("Taunt3", throwIfNotFound: true);
+        m_Player_Taunt4 = m_Player.FindAction("Taunt4", throwIfNotFound: true);
         // Monster
         m_Monster = asset.FindActionMap("Monster", throwIfNotFound: true);
         m_Monster_Movement = m_Monster.FindAction("Movement", throwIfNotFound: true);
@@ -623,6 +787,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         m_Monster_Charge = m_Monster.FindAction("Charge", throwIfNotFound: true);
         m_Monster_Invert = m_Monster.FindAction("Invert", throwIfNotFound: true);
         m_Monster_CallForPass = m_Monster.FindAction("CallForPass", throwIfNotFound: true);
+        m_Monster_Taunt1 = m_Monster.FindAction("Taunt1", throwIfNotFound: true);
+        m_Monster_Taunt2 = m_Monster.FindAction("Taunt2", throwIfNotFound: true);
+        m_Monster_Taunt3 = m_Monster.FindAction("Taunt3", throwIfNotFound: true);
+        m_Monster_Taunt4 = m_Monster.FindAction("Taunt4", throwIfNotFound: true);
         // Cursor
         m_Cursor = asset.FindActionMap("Cursor", throwIfNotFound: true);
         m_Cursor_Move = m_Cursor.FindAction("Move", throwIfNotFound: true);
@@ -699,6 +867,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_SuperKick;
     private readonly InputAction m_Player_CallForPass;
+    private readonly InputAction m_Player_Taunt1;
+    private readonly InputAction m_Player_Taunt2;
+    private readonly InputAction m_Player_Taunt3;
+    private readonly InputAction m_Player_Taunt4;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -711,6 +883,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Kick => m_Wrapper.m_Player_Kick;
         public InputAction @SuperKick => m_Wrapper.m_Player_SuperKick;
         public InputAction @CallForPass => m_Wrapper.m_Player_CallForPass;
+        public InputAction @Taunt1 => m_Wrapper.m_Player_Taunt1;
+        public InputAction @Taunt2 => m_Wrapper.m_Player_Taunt2;
+        public InputAction @Taunt3 => m_Wrapper.m_Player_Taunt3;
+        public InputAction @Taunt4 => m_Wrapper.m_Player_Taunt4;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -744,6 +920,18 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @CallForPass.started += instance.OnCallForPass;
             @CallForPass.performed += instance.OnCallForPass;
             @CallForPass.canceled += instance.OnCallForPass;
+            @Taunt1.started += instance.OnTaunt1;
+            @Taunt1.performed += instance.OnTaunt1;
+            @Taunt1.canceled += instance.OnTaunt1;
+            @Taunt2.started += instance.OnTaunt2;
+            @Taunt2.performed += instance.OnTaunt2;
+            @Taunt2.canceled += instance.OnTaunt2;
+            @Taunt3.started += instance.OnTaunt3;
+            @Taunt3.performed += instance.OnTaunt3;
+            @Taunt3.canceled += instance.OnTaunt3;
+            @Taunt4.started += instance.OnTaunt4;
+            @Taunt4.performed += instance.OnTaunt4;
+            @Taunt4.canceled += instance.OnTaunt4;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -772,6 +960,18 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @CallForPass.started -= instance.OnCallForPass;
             @CallForPass.performed -= instance.OnCallForPass;
             @CallForPass.canceled -= instance.OnCallForPass;
+            @Taunt1.started -= instance.OnTaunt1;
+            @Taunt1.performed -= instance.OnTaunt1;
+            @Taunt1.canceled -= instance.OnTaunt1;
+            @Taunt2.started -= instance.OnTaunt2;
+            @Taunt2.performed -= instance.OnTaunt2;
+            @Taunt2.canceled -= instance.OnTaunt2;
+            @Taunt3.started -= instance.OnTaunt3;
+            @Taunt3.performed -= instance.OnTaunt3;
+            @Taunt3.canceled -= instance.OnTaunt3;
+            @Taunt4.started -= instance.OnTaunt4;
+            @Taunt4.performed -= instance.OnTaunt4;
+            @Taunt4.canceled -= instance.OnTaunt4;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -801,6 +1001,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Monster_Charge;
     private readonly InputAction m_Monster_Invert;
     private readonly InputAction m_Monster_CallForPass;
+    private readonly InputAction m_Monster_Taunt1;
+    private readonly InputAction m_Monster_Taunt2;
+    private readonly InputAction m_Monster_Taunt3;
+    private readonly InputAction m_Monster_Taunt4;
     public struct MonsterActions
     {
         private @InputMaster m_Wrapper;
@@ -813,6 +1017,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         public InputAction @Charge => m_Wrapper.m_Monster_Charge;
         public InputAction @Invert => m_Wrapper.m_Monster_Invert;
         public InputAction @CallForPass => m_Wrapper.m_Monster_CallForPass;
+        public InputAction @Taunt1 => m_Wrapper.m_Monster_Taunt1;
+        public InputAction @Taunt2 => m_Wrapper.m_Monster_Taunt2;
+        public InputAction @Taunt3 => m_Wrapper.m_Monster_Taunt3;
+        public InputAction @Taunt4 => m_Wrapper.m_Monster_Taunt4;
         public InputActionMap Get() { return m_Wrapper.m_Monster; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -846,6 +1054,18 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @CallForPass.started += instance.OnCallForPass;
             @CallForPass.performed += instance.OnCallForPass;
             @CallForPass.canceled += instance.OnCallForPass;
+            @Taunt1.started += instance.OnTaunt1;
+            @Taunt1.performed += instance.OnTaunt1;
+            @Taunt1.canceled += instance.OnTaunt1;
+            @Taunt2.started += instance.OnTaunt2;
+            @Taunt2.performed += instance.OnTaunt2;
+            @Taunt2.canceled += instance.OnTaunt2;
+            @Taunt3.started += instance.OnTaunt3;
+            @Taunt3.performed += instance.OnTaunt3;
+            @Taunt3.canceled += instance.OnTaunt3;
+            @Taunt4.started += instance.OnTaunt4;
+            @Taunt4.performed += instance.OnTaunt4;
+            @Taunt4.canceled += instance.OnTaunt4;
         }
 
         private void UnregisterCallbacks(IMonsterActions instance)
@@ -874,6 +1094,18 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
             @CallForPass.started -= instance.OnCallForPass;
             @CallForPass.performed -= instance.OnCallForPass;
             @CallForPass.canceled -= instance.OnCallForPass;
+            @Taunt1.started -= instance.OnTaunt1;
+            @Taunt1.performed -= instance.OnTaunt1;
+            @Taunt1.canceled -= instance.OnTaunt1;
+            @Taunt2.started -= instance.OnTaunt2;
+            @Taunt2.performed -= instance.OnTaunt2;
+            @Taunt2.canceled -= instance.OnTaunt2;
+            @Taunt3.started -= instance.OnTaunt3;
+            @Taunt3.performed -= instance.OnTaunt3;
+            @Taunt3.canceled -= instance.OnTaunt3;
+            @Taunt4.started -= instance.OnTaunt4;
+            @Taunt4.performed -= instance.OnTaunt4;
+            @Taunt4.canceled -= instance.OnTaunt4;
         }
 
         public void RemoveCallbacks(IMonsterActions instance)
@@ -997,6 +1229,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnKick(InputAction.CallbackContext context);
         void OnSuperKick(InputAction.CallbackContext context);
         void OnCallForPass(InputAction.CallbackContext context);
+        void OnTaunt1(InputAction.CallbackContext context);
+        void OnTaunt2(InputAction.CallbackContext context);
+        void OnTaunt3(InputAction.CallbackContext context);
+        void OnTaunt4(InputAction.CallbackContext context);
     }
     public interface IMonsterActions
     {
@@ -1008,6 +1244,10 @@ public partial class @InputMaster: IInputActionCollection2, IDisposable
         void OnCharge(InputAction.CallbackContext context);
         void OnInvert(InputAction.CallbackContext context);
         void OnCallForPass(InputAction.CallbackContext context);
+        void OnTaunt1(InputAction.CallbackContext context);
+        void OnTaunt2(InputAction.CallbackContext context);
+        void OnTaunt3(InputAction.CallbackContext context);
+        void OnTaunt4(InputAction.CallbackContext context);
     }
     public interface ICursorActions
     {

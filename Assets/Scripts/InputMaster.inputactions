@@ -76,6 +76,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt1",
+                    "type": "Button",
+                    "id": "197278f2-9049-4745-b564-5c138f8a7cab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt2",
+                    "type": "Button",
+                    "id": "7bb751e6-6745-493a-9b3e-101b9b1c89e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt3",
+                    "type": "Button",
+                    "id": "3f5b140a-83c8-4c18-a568-8a0008dc1a0c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt4",
+                    "type": "Button",
+                    "id": "0a4ccfac-3c07-41bf-ae58-9b12a208e591",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -210,6 +246,50 @@
                     "action": "CallForPass",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5705253-fbe5-45ac-9a4e-2cc7451b7203",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "690208c4-7b85-4f99-a7d6-4aa0d1202131",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a684a29-3ff9-41e5-98de-a57f108580f6",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbbd3714-1ed5-46e3-8759-1280789492b3",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -284,6 +364,42 @@
                     "name": "CallForPass",
                     "type": "Button",
                     "id": "eb816d07-ad6f-48c2-889e-d3130ba10562",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt1",
+                    "type": "Button",
+                    "id": "ac6af0c6-188b-4588-8c3c-70b4fc775f54",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt2",
+                    "type": "Button",
+                    "id": "4f4b4207-9a62-48bd-87a9-06a59907c870",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt3",
+                    "type": "Button",
+                    "id": "418310f4-d43a-465a-85f0-631e1b5b90e1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Taunt4",
+                    "type": "Button",
+                    "id": "b39db285-8abd-411c-8527-02d2efbfe203",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -420,6 +536,50 @@
                     "processors": "",
                     "groups": "Playstation Control Scheme",
                     "action": "CallForPass",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e6b1f99-7118-4cda-8247-fa58c47962ab",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f05167d-782d-46a3-a8a9-622e135412c7",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2956811e-4eb8-4643-b6d3-dfa8f9f9f1a2",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "648d658e-6733-4cdf-b743-b5c345f2a44a",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Control Scheme;Playstation Control Scheme",
+                    "action": "Taunt1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
