@@ -595,7 +595,7 @@ public class BallProperties : MonoBehaviour
                 GoalWithBarrier goal = t.gameObject.GetComponent<GoalWithBarrier>();
                 goal.PerformGoalEffects();
                 //Debug.Log("Previous kicker");
-                if (scorer != null) MTC.FocusOn(scorer.transform);
+                MTC.FocusOn(scorer.transform);
                 StartCoroutine(MTC.ScreenShake(2.0f));
                 //ballOwner = null;
             }
