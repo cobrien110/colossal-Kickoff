@@ -336,7 +336,7 @@ public class BallProperties : MonoBehaviour
                 UM.UpdateMonsterGoalsSB();
 
                 //Monster Scores
-                if (playerTest.GetComponent<MonsterController>() != null)
+                if (playerTest != null && playerTest.GetComponent<MonsterController>() != null)
                 {
                     int i = playerTest.GetComponent<MonsterController>().playerID;
                     if (playerTest.GetComponent<AiMonsterController>() != null)
@@ -350,7 +350,7 @@ public class BallProperties : MonoBehaviour
                     UM.ShowPlayerScoredText(true);
                 }
                 //Warrior OwnGoals
-                else if (playerTest.GetComponent<WarriorController>() != null)
+                else if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
                 {
                     int i = playerTest.GetComponent<WarriorController>().playerID;
                     if (playerTest.GetComponent<WarriorAiController>() != null)
@@ -588,7 +588,7 @@ public class BallProperties : MonoBehaviour
             Debug.Log("I am in the wrong place for OT");
             GameObject scorer = previousKicker;
             if (ballOwner != null) scorer = ballOwner;
-            if (scorer.GetComponent<AIMummy>()) scorer = GameObject.FindGameObjectWithTag("Monster");
+            if (scorer != null && scorer.GetComponent<AIMummy>()) scorer = GameObject.FindGameObjectWithTag("Monster");
             // Play goal effects
             try
             {
