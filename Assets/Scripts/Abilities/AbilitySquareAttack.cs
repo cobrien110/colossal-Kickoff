@@ -52,11 +52,15 @@ public class AbilitySquareAttack : AbilityChargeable
             {
                 // Handle collision with each collider
                 Debug.Log("SquareCast hit " + col.gameObject.name);
+                bool hitWarrior = false;
                 if (col.gameObject.CompareTag("Warrior"))
                 {
                     WarriorController WC = col.GetComponent<WarriorController>();
                     if (!WC.isInvincible)
+                    {
                         WC.Die();
+                        hitWarrior = true;
+                    }
                     //Temp code for Quetz to get bigger on kill
                     AbilitySnakeSegments ASS = this.gameObject.GetComponent<AbilitySnakeSegments>();
                     if (ASS != null)
@@ -66,7 +70,7 @@ public class AbilitySquareAttack : AbilityChargeable
                     else
                         Debug.Log("Warrior is invincible");
                 }
-                if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null)
+                if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null && !hitWarrior)
                 {
                     // SWIPE AWAY BALL - UNUSED FOR NOW
                     if (canHitBall)
@@ -78,6 +82,7 @@ public class AbilitySquareAttack : AbilityChargeable
                         Vector3 dir = (posA - posB).normalized;
                         Vector3 forceToAdd = dir * kickForce;
                         BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                        BP.previousKicker = gameObject;
                     }
                 }
                 if (col.gameObject.CompareTag("Bomb"))

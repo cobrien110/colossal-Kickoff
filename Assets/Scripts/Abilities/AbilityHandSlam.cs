@@ -212,6 +212,7 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Apply the force to the ball's Rigidbody in the calculated direction
         BP.gameObject.GetComponent<Rigidbody>().AddForce(randomDirection * ejectForce, ForceMode.Impulse);
+        BP.previousKicker = gameObject;
     }
 
     IEnumerator TriggerSlam()
