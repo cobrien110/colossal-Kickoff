@@ -278,6 +278,8 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayerScoredText(int player)
     {
         if (player == 0) playerScoredText.text = "CPU SCORED!";
+        else if (player == 11) playerScoredText.text = "HUMANS SCORED!";
+        else if (player == 12) playerScoredText.text = "MONSTER SCORED!";
         else if (player > 0) playerScoredText.text = "PLAYER " + (player) + " SCORED!";
         else playerScoredText.text = "PLAYER " + (player * -1) + " OWN GOALED!";
     }

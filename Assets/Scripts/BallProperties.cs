@@ -347,7 +347,7 @@ public class BallProperties : MonoBehaviour
                     {
                         UM.UpdatePlayerScoredText(i + 1);
                     }
-                    UM.ShowPlayerScoredText(true);
+                    //UM.ShowPlayerScoredText(true);
                 }
                 //Warrior OwnGoals
                 else if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
@@ -362,9 +362,13 @@ public class BallProperties : MonoBehaviour
                         i = i * -1;
                         UM.UpdatePlayerScoredText(i - 1);
                     }
-                    UM.ShowPlayerScoredText(true);
+                    
+                } 
+                else {
+                    UM.UpdatePlayerScoredText(12);
                 }
-                
+                UM.ShowPlayerScoredText(true);
+
                 ScoreBall(true, other.transform);
 
                 AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
@@ -420,7 +424,7 @@ public class BallProperties : MonoBehaviour
                 UM.WarriorPoint();
 
                 //Warrior Scores
-                if (playerTest.GetComponent<WarriorController>() != null)
+                if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
                 {
                     int i = playerTest.GetComponent<WarriorController>().playerID;
                     if (playerTest.GetComponent<WarriorAiController>() != null)
@@ -431,10 +435,10 @@ public class BallProperties : MonoBehaviour
                     {
                         UM.UpdatePlayerScoredText(i + 1);
                     }
-                    UM.ShowPlayerScoredText(true);
+                    //UM.ShowPlayerScoredText(true);
                 }
                 //Monster OwnGoals
-                else if (playerTest.GetComponent<MonsterController>() != null)
+                else if (playerTest != null && playerTest.GetComponent<MonsterController>() != null)
                 {
                     int i = playerTest.GetComponent<MonsterController>().playerID;
                     if (playerTest.GetComponent<AiMonsterController>() != null)
@@ -446,11 +450,15 @@ public class BallProperties : MonoBehaviour
                         i = i * -1;
                         UM.UpdatePlayerScoredText(i - 1);
                     }
-                    UM.ShowPlayerScoredText(true);
+                    //UM.ShowPlayerScoredText(true);
+                } else
+                {
+                    UM.UpdatePlayerScoredText(11);
                 }
+                UM.ShowPlayerScoredText(true);
 
                 //Stat tracking warrior points
-                if (playerTest.GetComponent<WarriorController>() != null)
+                if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
                 {
                     if (playerTest.GetComponent<WarriorController>().playerNum == 1)
                     {
