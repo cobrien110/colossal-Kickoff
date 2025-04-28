@@ -1033,14 +1033,6 @@ public class WarriorController : MonoBehaviour
     public void OnSlide(InputAction.CallbackContext context)
     {
         if (GM.isPlaying && !isDead && !GM.isPaused) Sliding();
-        /*
-        if (canSpawnText)
-        {
-            Instantiate(tauntTextPrefabs[0], transform.position, Quaternion.identity);
-            canSpawnText = false;
-            StartCoroutine(TextSpawnReset());
-        }
-        */
     }
 
     public void OnCallForPass(InputAction.CallbackContext context)
@@ -1175,20 +1167,16 @@ public class WarriorController : MonoBehaviour
             AV.SuperKickColor(Color.red);
             if (GM.passMeter < 1)
             {
-                if (canSpawnText)
-                {
-                    Instantiate(superTextPrefab, transform.position, Quaternion.identity);
-                    canSpawnText = false;
-                    StartCoroutine(TextSpawnReset());
-                }
+                Instantiate(superTextPrefab, transform.position, Quaternion.identity);
+                canSpawnText = false;
+                StartCoroutine(TextSpawnReset());
             } else
             {
-                if (canSpawnText)
-                {
-                    Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
-                    canSpawnText = false;
-                    StartCoroutine(TextSpawnReset());
-                }
+
+                Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
+                canSpawnText = false;
+                StartCoroutine(TextSpawnReset());
+
             }
             
         }
@@ -1196,25 +1184,36 @@ public class WarriorController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
+        if (!canSpawnText) return;
         string tauntNum = context.control.displayName;
+        int tauntStyle = 0;
         switch (tauntNum)
         {
             case "D-Pad Up":
                 Debug.Log("Taunt 1 Active");
+                tauntStyle = 0;
                 break;
             case "D-Pad Right":
                 Debug.Log("Taunt 2 Active");
+                tauntStyle = 1;
                 break;
             case "D-Pad Down":
                 Debug.Log("Taunt 3 Active");
+                tauntStyle = 2;
                 break;
             case "D-Pad Left":
                 Debug.Log("Taunt 4 Active");
+                tauntStyle = 3;
                 break;
             default:
                 Debug.Log("Unknown Taunt");
+                tauntStyle = 0;
                 break;
         }
+
+        Instantiate(tauntTextPrefabs[tauntStyle], transform.position, Quaternion.identity);
+        canSpawnText = false;
+        StartCoroutine(TextSpawnReset(1f));
     }
 
     public void StopSuperKick()
@@ -1331,7 +1330,13 @@ public class WarriorController : MonoBehaviour
 
     private IEnumerator TextSpawnReset()
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.15f);
+        canSpawnText = true;
+    }
+
+    private IEnumerator TextSpawnReset(float time)
+    {
+        yield return new WaitForSeconds(1f);
         canSpawnText = true;
     }
 
