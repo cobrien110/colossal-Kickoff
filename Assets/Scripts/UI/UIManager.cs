@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
     [Header("ContestBar")]
     [SerializeField] private Image warriorContestFill = null;
     [SerializeField] private Image monsterContestFill = null;
-    [SerializeField] private Image middleContestFill = null;
+    //[SerializeField] private Image middleContestFill = null;
 
     //Monster and Human UI
     [Header("Monster and Human UI")]
@@ -670,13 +670,14 @@ public class UIManager : MonoBehaviour
             InvokeRepeating("SuperKickFlash", 1f, 0.5f);
         }
         
-        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        //if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        //{
+        //    ShowMiddleContestBar(true);
+        //}
+
+        if (warriorContestFill.fillAmount < 1.0f)
         {
-            ShowMiddleContestBar(true);
-        }
-        else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
-        {
-            ShowMiddleContestBar(false);
+            //ShowMiddleContestBar(false);
             Debug.Log("STOPPING SUPER KICK FLASH");
             CancelInvoke("SuperKickFlash");
             isSuperFlashing = false;
@@ -693,15 +694,15 @@ public class UIManager : MonoBehaviour
     {
         monsterContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
-        {
-            ShowMiddleContestBar(true);
-        }
+        //if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
+        //{
+        //    ShowMiddleContestBar(true);
+        //}
 
-        else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
-        {
-            ShowMiddleContestBar(false);
-        }
+        //else if (middleContestFill.gameObject.activeInHierarchy && warriorContestFill.fillAmount < 1.0f)
+        //{
+        //    ShowMiddleContestBar(false);
+        //}
 
         if (!monsterContestFill.color.Equals(c))
         {
@@ -709,10 +710,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowMiddleContestBar(bool state)
-    {
-        middleContestFill.gameObject.SetActive(state);
-    }
+    //public void ShowMiddleContestBar(bool state)
+    //{
+    //    middleContestFill.gameObject.SetActive(state);
+    //}
 
     public void ShowTopScoreboard(bool state)
     {
