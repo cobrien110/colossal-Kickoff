@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using ColorUtility = UnityEngine.ColorUtility;
 
 public class UIManager : MonoBehaviour
 {
@@ -275,13 +276,20 @@ public class UIManager : MonoBehaviour
         playerScoredText.gameObject.SetActive(state);
     }
 
-    public void UpdatePlayerScoredText(int player)
+    public void UpdatePlayerScoredText(int player, Color color)
     {
+        string hex = ColorUtility.ToHtmlStringRGBA(color);
+        Debug.Log("HEX: " + hex);
+
         if (player == 0) playerScoredText.text = "CPU SCORED!";
         else if (player == 11) playerScoredText.text = "HUMANS SCORED!";
         else if (player == 12) playerScoredText.text = "MONSTER SCORED!";
-        else if (player > 0) playerScoredText.text = "PLAYER " + (player) + " SCORED!";
+        else if (player > 0) playerScoredText.text = "<color=#" + hex + ">PLAYER " + (player) + "</color> SCORED!";
         else playerScoredText.text = "PLAYER " + (player * -1) + " OWN GOALED!";
+
+
+        //<color=#ff0000ff>
+        //</color>
     }
 
     public IEnumerator ScoreTimer()

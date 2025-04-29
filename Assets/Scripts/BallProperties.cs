@@ -341,11 +341,11 @@ public class BallProperties : MonoBehaviour
                     int i = playerTest.GetComponent<MonsterController>().playerID;
                     if (playerTest.GetComponent<AiMonsterController>() != null)
                     {
-                        UM.UpdatePlayerScoredText(0);
+                        UM.UpdatePlayerScoredText(0, Color.white);
                     }
                     else
                     {
-                        UM.UpdatePlayerScoredText(i + 1);
+                        UM.UpdatePlayerScoredText(i + 1, playerTest.GetComponent<WarriorController>().GetColor());
                     }
                     //UM.ShowPlayerScoredText(true);
                 }
@@ -355,17 +355,17 @@ public class BallProperties : MonoBehaviour
                     int i = playerTest.GetComponent<WarriorController>().playerID;
                     if (playerTest.GetComponent<WarriorAiController>() != null)
                     {
-                        UM.UpdatePlayerScoredText(0);
+                        UM.UpdatePlayerScoredText(0, Color.white);
                     }
                     else
                     {
                         i = i * -1;
-                        UM.UpdatePlayerScoredText(i - 1);
+                        UM.UpdatePlayerScoredText(i - 1, playerTest.GetComponent<WarriorController>().GetColor());
                     }
                     
                 } 
                 else {
-                    UM.UpdatePlayerScoredText(12);
+                    UM.UpdatePlayerScoredText(12, Color.white);
                 }
                 UM.ShowPlayerScoredText(true);
 
@@ -429,11 +429,11 @@ public class BallProperties : MonoBehaviour
                     int i = playerTest.GetComponent<WarriorController>().playerID;
                     if (playerTest.GetComponent<WarriorAiController>() != null)
                     {
-                        UM.UpdatePlayerScoredText(0);
+                        UM.UpdatePlayerScoredText(0, Color.white);
                     }
                     else
                     {
-                        UM.UpdatePlayerScoredText(i + 1);
+                        UM.UpdatePlayerScoredText(i + 1, playerTest.GetComponent<WarriorController>().GetColor());
                     }
                     //UM.ShowPlayerScoredText(true);
                 }
@@ -443,17 +443,17 @@ public class BallProperties : MonoBehaviour
                     int i = playerTest.GetComponent<MonsterController>().playerID;
                     if (playerTest.GetComponent<AiMonsterController>() != null)
                     {
-                        UM.UpdatePlayerScoredText(0);
+                        UM.UpdatePlayerScoredText(0, Color.white);
                     }
                     else
                     {
                         i = i * -1;
-                        UM.UpdatePlayerScoredText(i - 1);
+                        UM.UpdatePlayerScoredText(i - 1, playerTest.GetComponent<WarriorController>().GetColor());
                     }
                     //UM.ShowPlayerScoredText(true);
                 } else
                 {
-                    UM.UpdatePlayerScoredText(11);
+                    UM.UpdatePlayerScoredText(11, Color.white);
                 }
                 UM.ShowPlayerScoredText(true);
 

@@ -1244,6 +1244,11 @@ public class WarriorController : MonoBehaviour
 
     }
 
+    public Color GetColor()
+    {
+        return ring.color;
+    }
+
     IEnumerator SetInvincibility(bool invin, float time)
     {
         Debug.Log("Invincibility will be set to " + invin + " in " + time + " seconds");
