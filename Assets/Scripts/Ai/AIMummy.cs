@@ -531,6 +531,9 @@ public class AIMummy : MonoBehaviour
 
         // Destroy this mummy
         Destroy(gameObject);
+
+        // Set living mummy count to be 1 less
+        aiMummyManager.DecrementLivingMummyCount();
     }
 
     IEnumerator DelayedTeammateAssignment()

@@ -109,6 +109,7 @@ public class WarriorController : MonoBehaviour
     private float bombCooldown = 3f;
     private float bombTimer = 0f;
     [SerializeField] private GameObject BombVisual = null;
+    private AiMummyManager aiMummyManager;
 
     // If there is no ball owner yet a warrior or monster is on top of ball, OnTriggerStay will wait this long until making that character pick up ball
     private float pickupBallCooldown = 0.25f;
@@ -172,6 +173,21 @@ public class WarriorController : MonoBehaviour
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         pickupBallTimer = pickupBallCooldown;
         chargeSpeed = GM.warriorKickChargeSpeed;
+
+        // Instantiate mummy manager variable
+        GameObject monsterObj = GameObject.FindGameObjectWithTag("Monster");
+        if (monsterObj != null)
+        {
+            aiMummyManager = monsterObj.GetComponent<AiMummyManager>();
+            if (aiMummyManager == null)
+            {
+                Debug.LogWarning("AiMummyManager component not found on GameObject tagged 'Monster'.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with tag 'Monster' found.");
+        }
     }
 
     // Temp Controller Scheme Swap
@@ -918,10 +934,12 @@ public class WarriorController : MonoBehaviour
         if (isCursed)
         {
             Debug.Log("Cursed Mummy Should Spawn");
-            if (Mummy != null)
+            if (aiMummyManager != null)
             {
-                Instantiate(Mummy, deathPosition, Quaternion.identity);
+                aiMummyManager.CurseMummySpawn(deathPosition);
+                // Instantiate(Mummy, deathPosition, Quaternion.identity);
             }
+
         }
 
         // Update list of warriors in AiMonsterController if appropriate
