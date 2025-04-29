@@ -11,6 +11,9 @@ public class AiMummyManager : MonoBehaviour
     private float spawnPositionOffsetZ = 1.7f;
     private bool usePosition1 = true; // Use for logic that alternates spawn positions
     private GameObject monsterGoal;
+    private int activeMummyCount; // How many mummies are alive or queued to respawn
+    private int livingMummyCount = 0; // How many mummies are alive
+    [SerializeField] private int maxMummyCount = 6; // Max number of mummies that can be active
     [SerializeField] private GameObject mummyPrefab;
     [SerializeField] private float respawnDelay;
     [SerializeField] private int startingMummyAmount = 2;
@@ -22,6 +25,7 @@ public class AiMummyManager : MonoBehaviour
         monsterGoal = GameObject.FindWithTag("MonsterGoal");
         spawnPosition1 = new Vector3(monsterGoal.transform.position.x + spawnPositionOffsetX, 0f, spawnPositionOffsetZ);
         spawnPosition2 = new Vector3(monsterGoal.transform.position.x + spawnPositionOffsetX, 0f, -spawnPositionOffsetZ);
+        activeMummyCount = startingMummyAmount;
     }
 
     void Start()
@@ -33,6 +37,9 @@ public class AiMummyManager : MonoBehaviour
     public void ResetMummies()
     {
         // Debug.Log("Reset Mummies");
+
+        // Reset activeMummyCount
+        activeMummyCount = startingMummyAmount;
 
         // Get all old (currently in the scene) mummies
         AIMummy[] mummies = FindObjectsOfType<AIMummy>();
@@ -67,6 +74,12 @@ public class AiMummyManager : MonoBehaviour
             return;
         }
 
+        if (livingMummyCount >= activeMummyCount)
+        {
+            Debug.Log("Living mummy count already at activeMummyCount - Don't respawn");
+            return;
+        }
+
         Debug.Log("Respawn mummy");
 
         // Determine the location to spawn based on alternating positions
@@ -82,5 +95,24 @@ public class AiMummyManager : MonoBehaviour
 
         // Alternate next spawn position
         usePosition1 = !usePosition1;
+
+        livingMummyCount++;
+    }
+
+    public void DecrementLivingMummyCount()
+    {
+        livingMummyCount--;
+    }
+    
+    public void CurseMummySpawn(Vector3 position)
+    {
+        // Debug.Log("ActiveMummyCount: " + activeMummyCount + ", maxMummyCount: " + maxMummyCount);
+        if (activeMummyCount < maxMummyCount)
+        {
+            // Debug.Log("Curse - Spawning Mummy");
+            activeMummyCount++;
+            Instantiate(mummyPrefab, position, Quaternion.identity);
+            livingMummyCount++;
+        }
     }
 }
