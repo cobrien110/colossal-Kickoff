@@ -52,6 +52,10 @@ public class AIMummy : MonoBehaviour
     private AbilitySphinxPassive ASP;
 
     private bool isPursuing = false;
+    public bool isCursed = false;
+    public bool stayStill = false;
+    private bool gonnaDie = false;
+    private bool youOnlyLiveOnce = false;
 
     // Get all WarriorController components (including subclasses)
     ////[SerializeField]
@@ -75,13 +79,16 @@ public class AIMummy : MonoBehaviour
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
         ANIM = GetComponentInChildren<Animator>();
         ASP = mc.GetComponent<AbilitySphinxPassive>();
-
         //Debug.Log(": " + );
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (isCursed)
+        {
+            ANIM.SetTrigger("isCursed");
+        }
         StartCoroutine(CheckForPass());
         StartCoroutine(DelayedTeammateAssignment());
         
@@ -135,7 +142,7 @@ public class AIMummy : MonoBehaviour
     public void AiBehavior()
     {
         //if (isStunned) return;
-
+        if (stayStill) return;
         // If no one has the ball
         if (mc.BP.ballOwner == null)
         {
@@ -425,6 +432,12 @@ public class AIMummy : MonoBehaviour
             // Move towards the current goal
             while (Vector3.Distance(transform.position, targetWithOffset) * distanceToTravelMultiplier > stoppingDistanceFromGoal)
             {
+
+                if (stayStill)
+                {
+                    Debug.Log("StayStill");
+                    break;
+                }
                 ////if (isStunned) break;
                 Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
                 //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
@@ -517,8 +530,10 @@ public class AIMummy : MonoBehaviour
 
     public void Die(bool shouldRespawn)
     {
+        if (youOnlyLiveOnce) return;
+        youOnlyLiveOnce = true;
         // Debug.Log("Mummy despawned");
-
+        gonnaDie = true;
         if (shouldRespawn)
         {
             // Start the respawn coroutine from AiMummyManager
@@ -529,8 +544,7 @@ public class AIMummy : MonoBehaviour
             ASP.AddCounter();
         }
 
-        // Destroy this mummy
-        Destroy(gameObject);
+        ANIM.SetTrigger("makeDie");
 
         // Set living mummy count to be 1 less
         aiMummyManager.DecrementLivingMummyCount();
@@ -614,5 +628,19 @@ public class AIMummy : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f); // however long to allow kickHappened to be true, before reseting back to false
         kickHappened = false;
+    }
+
+    public void ChangeStillness()
+    {
+        stayStill = !stayStill;
+        
+    }
+
+    public void MakeDie()
+    {
+        if (gonnaDie)
+        {
+            Destroy(gameObject);
+        }
     }
 }

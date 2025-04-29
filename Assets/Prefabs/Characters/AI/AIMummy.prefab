@@ -5403,6 +5403,7 @@ GameObject:
   - component: {fileID: 3600701587838917753}
   - component: {fileID: 2670507667831363307}
   - component: {fileID: 353177656462897823}
+  - component: {fileID: 8928651384861650174}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -5526,6 +5527,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AP: {fileID: 3964913829606423218}
+--- !u!114 &8928651384861650174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7255507808279437630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bde1df8cd3807b4aa50ababa7449693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bigBrother: {fileID: 3124687607624498327}
 --- !u!1 &7277705579503898053
 GameObject:
   m_ObjectHideFlags: 0
@@ -5691,6 +5705,8 @@ MonoBehaviour:
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
   audioPlayer: {fileID: 1416126086845133636}
+  isCursed: 0
+  stayStill: 0
   pickupBallTimer: 0
 --- !u!136 &8984695175946079552
 CapsuleCollider:

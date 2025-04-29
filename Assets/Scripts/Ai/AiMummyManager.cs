@@ -111,7 +111,8 @@ public class AiMummyManager : MonoBehaviour
         {
             // Debug.Log("Curse - Spawning Mummy");
             activeMummyCount++;
-            Instantiate(mummyPrefab, position, Quaternion.identity);
+            GameObject mummyInstance = Instantiate(mummyPrefab, position, Quaternion.identity);
+            mummyInstance.GetComponent<AIMummy>().isCursed = true;
             livingMummyCount++;
         }
     }
