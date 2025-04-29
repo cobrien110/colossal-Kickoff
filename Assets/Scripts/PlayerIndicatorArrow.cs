@@ -12,14 +12,12 @@ public class PlayerIndicatorArrow : MonoBehaviour
     private Transform p;
     private bool isHiding = false;
     private bool gotIsDead = false;
-    private float currentA = 1f;
     // Start is called before the first frame update
     void Start()
     {
         SR = GetComponent<SpriteRenderer>();
         SR.enabled = false;
         p = transform.parent;
-        currentA = SR.color.a;
         StartCoroutine(SetPlayer());
         StartCoroutine(BeginHiding(2.5f));
     }
@@ -27,18 +25,15 @@ public class PlayerIndicatorArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SR.enabled && currentA > 0 && isHiding)
+        if (SR.enabled && SR.color.a > 0 && isHiding)
         {
-            currentA -= alphaRate * Time.deltaTime;
-            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, currentA);
-            if (currentA <= 0) isHiding = false;
+            SR.color = new Color(SR.color.r, SR.color.g, SR.color.b, SR.color.a - alphaRate * Time.deltaTime);
+            if (SR.color.a <= 0) isHiding = false;
         } 
-
-        if (SR.enabled && p != null && transform.parent == null && currentA > 0)
+        if (SR.enabled && p != null && transform.parent == null && SR.color.a > 0)
         {
             transform.position = new Vector3(p.position.x, transform.position.y, p.position.z);
         }
-
         if (WC != null && WC.GetIsDead())
         {
             StartCoroutine(ResetA());
