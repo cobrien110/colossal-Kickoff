@@ -65,7 +65,7 @@ public class GoalWithBarrier : MonoBehaviour
     {
         // Debug.Log("health: " + health);
         // Debug.Log(gameObject.name + " - canBeScoredIn: " + canBeScoredIn);
-        if (health <= 0 && canScoreTimer < delayBeforeCanBeScored)
+        if (health <= 0 && bonusHealth <= 0 && canScoreTimer < delayBeforeCanBeScored)
         {
             canScoreTimer += Time.deltaTime;
         }
@@ -85,6 +85,7 @@ public class GoalWithBarrier : MonoBehaviour
         }
 
         UpdateBars();
+        if (usingBonusBars && bonusHealth > 0) bonusHealth -= Time.deltaTime * bonusHealthLossPerSecond;
         if (usingBonusBars) UpdateBarsBonus();
     }
 
@@ -212,8 +213,6 @@ public class GoalWithBarrier : MonoBehaviour
                 bonusBarrierObjects[i].SetActive(true);
             }
         }
-
-        bonusHealth -= Time.deltaTime * bonusHealthLossPerSecond;
     }
 
     public void ResetTimers()
