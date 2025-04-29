@@ -34,6 +34,8 @@ public class AIMummy : MonoBehaviour
 
     [SerializeField]
     private GameObject ballPosition;
+    [SerializeField] private GameObject sandStormPrefab;
+    [SerializeField] private GameObject GroundRefernce;
 
     private Vector3 movementDirection;
 
@@ -79,6 +81,8 @@ public class AIMummy : MonoBehaviour
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
         ANIM = GetComponentInChildren<Animator>();
         ASP = mc.GetComponent<AbilitySphinxPassive>();
+        Instantiate(sandStormPrefab, transform.localPosition, transform.localRotation);
+
         //Debug.Log(": " + );
     }
 
@@ -154,7 +158,7 @@ public class AIMummy : MonoBehaviour
             Vector2 toBall = new Vector2(
                 mc.BP.gameObject.transform.position.x - transform.position.x,
                 mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
-            BaseMovement(toBall); ;
+            BaseMovement(toBall);
         }
         // If this mummy has the ball
         else if (mc.BP.ballOwner == gameObject)
