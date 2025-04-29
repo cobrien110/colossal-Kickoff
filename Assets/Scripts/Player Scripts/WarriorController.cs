@@ -58,6 +58,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float slideDurationDodge = 0.5f;
     public bool isSliding = false;
     private bool isJuking = false;
+    private bool jukeKickReady = false;
     private float lastSlideTime = -1f;
     [HideInInspector] public bool isStunned = false;
 
@@ -478,6 +479,13 @@ public class WarriorController : MonoBehaviour
                     StopSuperKick();
                 }
 
+                //Juke Kick
+                if (jukeKickReady)
+                {
+                    kickForce = kickForce * (1.3f);
+                    jukeKickReady = false;
+                }
+                Debug.Log(kickForce);
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
@@ -492,6 +500,14 @@ public class WarriorController : MonoBehaviour
             {
                 if (kickCharge <= maxCharge)
                 {
+                    //Juke Kick Var
+                    if (isJuking && !jukeKickReady)
+                    {
+                        jukeKickReady = true;
+                        Invoke("UpdateJukeKickReady", 1.0f);
+                        Debug.Log("JUKE KICK CHARGING");
+                    }
+
                     //Debug.Log(kickCharge);
                     WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
                     
@@ -552,6 +568,14 @@ public class WarriorController : MonoBehaviour
                     StopSuperKick();
                 }
 
+                //Juke Kick
+                if (jukeKickReady)
+                {
+                    kickForce = kickForce * (1.3f);
+                    jukeKickReady = false;
+                }
+                Debug.Log(kickForce);
+
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
                 ANIM.Play("WarriorKick");
@@ -565,6 +589,14 @@ public class WarriorController : MonoBehaviour
             {
                 if (kickCharge <= maxCharge)
                 {
+                    //Juke Kick Var
+                    if (isJuking && !jukeKickReady)
+                    {
+                        jukeKickReady = true;
+                        Invoke("UpdateJukeKickReady", 1.0f);
+                        Debug.Log("JUKE KICK CHARGING");
+                    }
+
                     //Debug.Log(kickCharge);
                     WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
                     
@@ -602,6 +634,11 @@ public class WarriorController : MonoBehaviour
         }
     }
 
+    private void UpdateJukeKickReady()
+    {
+        Debug.Log("JUKE KICK NOT READY");
+        jukeKickReady = false;
+    }
 
     public void Sliding()
     {
