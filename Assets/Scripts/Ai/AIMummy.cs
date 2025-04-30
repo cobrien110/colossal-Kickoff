@@ -57,7 +57,6 @@ public class AIMummy : MonoBehaviour
     private bool isPursuing = false;
     public bool isCursed = false;
     public bool stayStill = false;
-    private bool gonnaDie = false;
     private bool youOnlyLiveOnce = false;
 
     // Get all WarriorController components (including subclasses)
@@ -539,7 +538,6 @@ public class AIMummy : MonoBehaviour
         if (youOnlyLiveOnce) return;
         youOnlyLiveOnce = true;
         // Debug.Log("Mummy despawned");
-        gonnaDie = true;
         if (shouldRespawn)
         {
             // Start the respawn coroutine from AiMummyManager
@@ -644,9 +642,6 @@ public class AIMummy : MonoBehaviour
 
     public void MakeDie()
     {
-        if (gonnaDie)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
