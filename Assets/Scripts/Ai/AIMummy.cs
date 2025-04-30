@@ -25,6 +25,9 @@ public class AIMummy : MonoBehaviour
     [SerializeField] private float slideCooldown = 1f;
     [SerializeField] private float slideDuration = 0.35f;
     [SerializeField] private float mummyLifeSpan = 12f;
+    [SerializeField] private float shootDelay = 0.5f;
+    [SerializeField] private float passDelay = 0.1f;
+    private bool isPreparingKick = false;
     private float timer = 0f;
     private bool isSliding = false;
     private float lastSlideTime = -1f;
@@ -96,7 +99,7 @@ public class AIMummy : MonoBehaviour
         }
         StartCoroutine(CheckForPass());
         StartCoroutine(DelayedTeammateAssignment());
-        
+
         //warriors = FindObjectsOfType<WarriorController>();
         //int index = 0;
         // Debug.Log("teammates: " + FindObjectsOfType<WarriorController>());
@@ -147,7 +150,7 @@ public class AIMummy : MonoBehaviour
     public void AiBehavior()
     {
         //if (isStunned) return;
-        if (stayStill) return;
+        if (stayStill || isPreparingKick || dieOnceCalled) return;
         // If no one has the ball
         if (mc.BP.ballOwner == null)
         {
@@ -256,8 +259,11 @@ public class AIMummy : MonoBehaviour
     }
 
     // The pass and shoot method for Ai Warriors
-    void Kick()
+    private IEnumerator DelayedKick(float kickDelay)
     {
+        isPreparingKick = true;
+        yield return new WaitForSeconds(kickDelay);
+        isPreparingKick = false;
         if (mc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
@@ -282,6 +288,12 @@ public class AIMummy : MonoBehaviour
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
             ANIM.Play("WarriorKick");
         }
+    }
+
+    private void Kick(float kickDelay = 0f) // Defaults to no kick delay
+    {
+        // Debug.Log("Kicking - Delay: " + kickDelay);
+        StartCoroutine(DelayedKick(kickDelay));
     }
 
     void HasBall()
@@ -321,6 +333,7 @@ public class AIMummy : MonoBehaviour
             {
                 Pass(teammates[1]);
             }*/
+            return;
         }
 
         // Move toward goal until close enough
@@ -349,7 +362,7 @@ public class AIMummy : MonoBehaviour
         Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
         transform.rotation = newRotation;
 
-        Kick();
+        Kick(shootDelay);
     }
 
     IEnumerator CheckForPass()
@@ -364,7 +377,7 @@ public class AIMummy : MonoBehaviour
 
     bool ShouldPass()
     {
-        if (!checkToPass) return false; // Shouldn't even consider passing
+        if (!checkToPass) return false; // Shouldn't even consider passing)
 
         // Should consider passing, reset bool
         checkToPass = false;
@@ -375,11 +388,12 @@ public class AIMummy : MonoBehaviour
         // Check if nearest teammate is close enough for a pass
 
         float closestDistance = 100f;
+        float minDist = 1f;
         foreach (AIMummy mummy in teammates)
         {
             if (mummy == null) continue;
             float distance = Vector3.Distance(mummy.transform.position, transform.position);
-            if (distance < closestDistance)
+            if (distance < closestDistance && distance > minDist)
             {
                 closestDistance = distance;
             }
@@ -404,20 +418,20 @@ public class AIMummy : MonoBehaviour
         // Turn to teammate
 
         // Calculate the direction from this GameObject to the target
-        Vector3 directionToTarget = target.transform.position - transform.position;
+        Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
 
         // Ensure the direction vector is not zero (to avoid errors)
         if (directionToTarget != Vector3.zero)
         {
             // Calculate the rotation needed to face the target
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
 
             // Apply the rotation to this GameObject
             transform.rotation = targetRotation;
         }
-
+        
         // Kick in their direction
-        Kick();
+        Kick(passDelay);
     }
 
     IEnumerator Roam()
@@ -536,7 +550,16 @@ public class AIMummy : MonoBehaviour
     public void Die(bool shouldRespawn)
     {
         if (dieOnceCalled) return;
+        Debug.Log("Mummy Die");
         dieOnceCalled = true;
+
+        // Disable colliders to prevent physics interactions
+        CapsuleCollider[] colliders = GetComponents<CapsuleCollider>();
+        foreach (CapsuleCollider collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
         // Debug.Log("Mummy despawned");
         if (shouldRespawn)
         {
@@ -560,7 +583,7 @@ public class AIMummy : MonoBehaviour
         teammates.Clear();
         foreach (AIMummy mummy in FindObjectsOfType<AIMummy>())
         {
-            if (mummy.gameObject != gameObject) // Ensure it's not the same object
+            if (mummy.gameObject != gameObject && !mummy.GetDieOnceCalled()) // Ensure it's not the same object
             {
                 teammates.Add(mummy);
             }
@@ -608,6 +631,8 @@ public class AIMummy : MonoBehaviour
         {
             // if you were last kicker and ball is in singleMode, return
             if (BP.isInSingleOutMode && BP.previousKicker == gameObject) return;
+            Debug.Log("BP.isInSingleOutMode: " + BP.isInSingleOutMode);
+            Debug.Log("BP.previousKicker: " + BP.previousKicker);
 
             // Pick up ball
             Debug.Log("Pick up ball");
@@ -642,6 +667,7 @@ public class AIMummy : MonoBehaviour
 
     public void MakeDie()
     {
+        Debug.Log("MakeDie");
         Destroy(gameObject);
     }
 

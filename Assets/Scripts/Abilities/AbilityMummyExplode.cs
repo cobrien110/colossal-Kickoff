@@ -24,8 +24,8 @@ public class AbilityMummyExplode : AbilityScript
             return; // Ability not off cooldown
         }
 
-        // Ensure there are mummies in scene
-        AIMummy[] mummies = FindObjectsOfType<AIMummy>();
+        // Ensure there are living mummies in scene
+        AIMummy[] mummies = FindObjectsOfType<AIMummy>().Where(m => !m.GetDieOnceCalled()).ToArray();
         if (mummies.Length < 1)
         {
             Debug.Log("No mummies - can't activate Mummy Explode");
