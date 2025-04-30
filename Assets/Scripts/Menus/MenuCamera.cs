@@ -12,10 +12,10 @@ public class MenuCamera : MonoBehaviour
     public Transform creditsTransform;
     public Transform quittingTransform;
 
-    public Transform ArcadeTransform;
-    public Transform StatsTransform;
-    public Transform HowToTransform;
-    public Transform SandboxTransform;
+    public Transform arcadeTransform;
+    public Transform statsTransform;
+    public Transform howToTransform;
+    public Transform sandboxTransform;
 
     [Header("Variables")]
     //camera movement speed
@@ -75,6 +75,26 @@ public class MenuCamera : MonoBehaviour
     public void goToQuitting()
     {
         SetTarget(quittingTransform);
+    }
+
+    public void goToExtras()
+    {
+        SetTarget(arcadeTransform);
+    }
+
+    public void goToSandbox()
+    {
+        SetTarget(sandboxTransform);
+    }
+
+    public void goToHowTo()
+    {
+        SetTarget(howToTransform);
+    }
+
+    public void goToStats()
+    {
+        SetTarget(statsTransform);
     }
 
     private void SetTarget(Transform targetTransform)

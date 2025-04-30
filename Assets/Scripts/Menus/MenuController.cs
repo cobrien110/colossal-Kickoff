@@ -458,7 +458,6 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
-
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
