@@ -15,6 +15,8 @@ public class BallOutlineColor : MonoBehaviour
     [SerializeField] private Sprite[] outlines;
     bool isSpinning = false;
     [SerializeField] private float spinSpeed = 100f;
+    [SerializeField] private float spinSpeedPass = 20f;
+    private float currentSpeed = 100f;
     private Camera cam;
     private int counter;
     private float outlineChangeTimer = 0f;
@@ -26,6 +28,7 @@ public class BallOutlineColor : MonoBehaviour
         SR = GetComponent<SpriteRenderer>();
         if (BP == null) BP = GetComponentInParent<BallProperties>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        currentSpeed = spinSpeed;
     }
 
     // Update is called once per frame
@@ -67,19 +70,23 @@ public class BallOutlineColor : MonoBehaviour
             {
                 counter = 2;
                 isSpinning = true;
+                currentSpeed = spinSpeed;
             }
             else if (BP.isSuperKick)
             {
                 counter = 1;
                 isSpinning = true;
+                currentSpeed = spinSpeed;
             } else if (BP.GetRB().velocity.magnitude > 10f)
             {
                 counter = 1;
                 isSpinning = true;
+                currentSpeed = spinSpeed;
             } else if (BP.GetIsInPassState())
             {
                 counter = 3;
-                isSpinning = false;
+                isSpinning = true;
+                currentSpeed = spinSpeedPass;
             }
             else
             {
@@ -92,7 +99,7 @@ public class BallOutlineColor : MonoBehaviour
 
             if (isSpinning)
             {
-                transform.RotateAround(transform.forward, spinSpeed * Time.deltaTime);
+                transform.RotateAround(transform.forward, currentSpeed * Time.deltaTime);
             }
             else
             {
