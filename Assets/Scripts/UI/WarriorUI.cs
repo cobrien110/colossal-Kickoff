@@ -10,6 +10,8 @@ public class WarriorUI : MonoBehaviour
     [SerializeField] private GameObject chargeBar = null;
     [SerializeField] private Image chargeBarFill = null;
 
+    [SerializeField] private Image staminaFill = null;
+
     //Camera
     [SerializeField] private Camera camera = null;
     [SerializeField] private Transform target = null;
@@ -41,6 +43,11 @@ public class WarriorUI : MonoBehaviour
     public void ShowChargeBar(bool state)
     {
         if (!isAI) chargeBar.SetActive(state);
+    }
+
+    public void UpdateStaminaBar(float charge)
+    {
+        if (!isAI) staminaFill.fillAmount = charge;
     }
 
     public void ShowCallForPass(bool state)

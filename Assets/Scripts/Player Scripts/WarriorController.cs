@@ -297,6 +297,7 @@ public class WarriorController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             //Debug.Log("Fixed warrior y position");
         }
+
     }
 
     private void FixedUpdate()
