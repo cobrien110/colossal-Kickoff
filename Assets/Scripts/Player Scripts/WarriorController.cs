@@ -922,7 +922,7 @@ public class WarriorController : MonoBehaviour
         UM.UpdateMonsterKillsSB();
         WUI.ShowCallForPass(false);
 
-        superKicking = false;
+        StopSuperKick();
         isDead = true;
         isInvincible = true;
         isBomb = false;
