@@ -644,4 +644,9 @@ public class AIMummy : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public bool GetDieOnceCalled()
+    {
+        return dieOnceCalled;
+    }
 }
