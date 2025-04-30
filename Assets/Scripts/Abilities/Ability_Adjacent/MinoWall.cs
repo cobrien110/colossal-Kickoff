@@ -23,6 +23,16 @@ public class MinoWall : MonoBehaviour
     private bool movingBack = false;
     private BoxCollider BC;
 
+    [Header("Cooling Effect")]
+    [SerializeField] private GameObject[] wallSegments;
+    [SerializeField] private Color hotColor = Color.red;
+    [SerializeField] private Color coolColor = Color.white;
+    [SerializeField] private float coolingDuration = 5f;
+
+    private Material coolingMaterial;
+    private float coolingStartTime;
+    private bool isCooling = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +54,30 @@ public class MinoWall : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.up, players)) {
             //BC.enabled = false;
         }
+
+        if (wallSegments != null && wallSegments.Length > 0)
+        {
+            Renderer firstRenderer = wallSegments[0].GetComponent<Renderer>();
+            if (firstRenderer != null)
+            {
+                //create one shared mat
+                coolingMaterial = new Material(firstRenderer.material);
+                coolingMaterial.SetColor("_BaseColor", hotColor);
+
+                //Apply that mat to all segments
+                foreach (GameObject segment in wallSegments)
+                {
+                    Renderer rend = segment.GetComponent<Renderer>();
+                    if (rend != null)
+                    {
+                        rend.material = coolingMaterial;
+                    }
+                }
+
+                coolingStartTime = Time.time;
+                isCooling = true;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +96,18 @@ public class MinoWall : MonoBehaviour
         float distCovered = (Time.time - startTime) * speed;
         float fractionOfJourney = distCovered / journeyLength;
         transform.position = Vector3.Lerp(transform.position, endPt.position, fractionOfJourney);
+
+        if (isCooling && coolingMaterial != null)
+        {
+            Debug.Log("Material trans");
+            float t = (Time.time - coolingStartTime) / coolingDuration;
+            coolingMaterial.SetColor("_BaseColor", Color.Lerp(hotColor, coolColor, t));
+
+            if (t >= 1f)
+            {
+                isCooling = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
