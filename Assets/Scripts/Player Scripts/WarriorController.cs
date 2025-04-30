@@ -1273,9 +1273,11 @@ public class WarriorController : MonoBehaviour
 
     public void StopSuperKick()
     {
+        Debug.Log("StopSuperKick");
         superKicking = false;
         AV.RevertColor();
         aura.SetActive(false);
+        BP.StopBallGlow();
     }
 
     /**
