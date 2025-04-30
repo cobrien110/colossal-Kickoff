@@ -57,7 +57,7 @@ public class AIMummy : MonoBehaviour
     private bool isPursuing = false;
     public bool isCursed = false;
     public bool stayStill = false;
-    private bool youOnlyLiveOnce = false;
+    private bool dieOnceCalled = false;
 
     // Get all WarriorController components (including subclasses)
     ////[SerializeField]
@@ -535,8 +535,8 @@ public class AIMummy : MonoBehaviour
 
     public void Die(bool shouldRespawn)
     {
-        if (youOnlyLiveOnce) return;
-        youOnlyLiveOnce = true;
+        if (dieOnceCalled) return;
+        dieOnceCalled = true;
         // Debug.Log("Mummy despawned");
         if (shouldRespawn)
         {
