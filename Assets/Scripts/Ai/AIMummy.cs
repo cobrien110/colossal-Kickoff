@@ -35,6 +35,7 @@ public class AIMummy : MonoBehaviour
     [SerializeField]
     private GameObject ballPosition;
     [SerializeField] private GameObject sandStormPrefab;
+    [SerializeField] private GameObject sandStormInstance;
     [SerializeField] private GameObject GroundRefernce;
 
     private Vector3 movementDirection;
@@ -81,7 +82,7 @@ public class AIMummy : MonoBehaviour
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
         ANIM = GetComponentInChildren<Animator>();
         ASP = mc.GetComponent<AbilitySphinxPassive>();
-        Instantiate(sandStormPrefab, transform.localPosition, transform.localRotation);
+        sandStormInstance = Instantiate(sandStormPrefab, transform.localPosition, transform.localRotation);
 
         //Debug.Log(": " + );
     }
@@ -91,6 +92,7 @@ public class AIMummy : MonoBehaviour
     {
         if (isCursed)
         {
+            Destroy(sandStormInstance);
             ANIM.SetTrigger("isCursed");
         }
         StartCoroutine(CheckForPass());
