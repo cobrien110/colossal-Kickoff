@@ -34,6 +34,9 @@ public class AIMummy : MonoBehaviour
 
     [SerializeField]
     private GameObject ballPosition;
+    [SerializeField] private GameObject sandStormPrefab;
+    [SerializeField] private GameObject sandStormInstance;
+    [SerializeField] private GameObject GroundRefernce;
 
     private Vector3 movementDirection;
 
@@ -54,7 +57,6 @@ public class AIMummy : MonoBehaviour
     private bool isPursuing = false;
     public bool isCursed = false;
     public bool stayStill = false;
-    private bool gonnaDie = false;
     private bool youOnlyLiveOnce = false;
 
     // Get all WarriorController components (including subclasses)
@@ -79,6 +81,8 @@ public class AIMummy : MonoBehaviour
         aiMummyManager = mc.gameObject.GetComponent<AiMummyManager>();
         ANIM = GetComponentInChildren<Animator>();
         ASP = mc.GetComponent<AbilitySphinxPassive>();
+        sandStormInstance = Instantiate(sandStormPrefab, transform.localPosition, transform.localRotation);
+
         //Debug.Log(": " + );
     }
 
@@ -87,6 +91,7 @@ public class AIMummy : MonoBehaviour
     {
         if (isCursed)
         {
+            Destroy(sandStormInstance);
             ANIM.SetTrigger("isCursed");
         }
         StartCoroutine(CheckForPass());
@@ -154,7 +159,7 @@ public class AIMummy : MonoBehaviour
             Vector2 toBall = new Vector2(
                 mc.BP.gameObject.transform.position.x - transform.position.x,
                 mc.BP.gameObject.transform.position.z - transform.position.z).normalized;
-            BaseMovement(toBall); ;
+            BaseMovement(toBall);
         }
         // If this mummy has the ball
         else if (mc.BP.ballOwner == gameObject)
@@ -533,7 +538,6 @@ public class AIMummy : MonoBehaviour
         if (youOnlyLiveOnce) return;
         youOnlyLiveOnce = true;
         // Debug.Log("Mummy despawned");
-        gonnaDie = true;
         if (shouldRespawn)
         {
             // Start the respawn coroutine from AiMummyManager
@@ -638,9 +642,6 @@ public class AIMummy : MonoBehaviour
 
     public void MakeDie()
     {
-        if (gonnaDie)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
