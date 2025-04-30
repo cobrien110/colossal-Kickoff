@@ -183,11 +183,13 @@ public class BallProperties : MonoBehaviour
 
     public void ReapplyLastVelocity()
     {
+        // Debug.Log("ReapplyLastVelocity: " + previousVelocity);
         RB.velocity = previousVelocity;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Debug.Log("OnTriggerEnter. other.name: " + other.name);
         WarriorController wc = other.gameObject.GetComponent<WarriorController>();
         MonsterController mc = other.gameObject.GetComponent<MonsterController>();
         AiMinotaurController aiMC = other.gameObject.GetComponent<AiMinotaurController>();
@@ -214,6 +216,9 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
+            // If this is a mummy that is already queued to die (AKA this is a duplicate collision with superkick hitting the mummy), return
+            if (mummy != null && mummy.GetDieOnceCalled()) return;
+
             if (mc != null && !mc.isStunned && isFullSuperKick && passTimer <= passTimeFrame
                 && RB.velocity.magnitude > superKickMinStunSpeed)
             {
@@ -237,7 +242,7 @@ public class BallProperties : MonoBehaviour
                 {
                     Debug.Log("Super kick hit " + mummy.name);
                     mummy.Die(true);
-                    ReapplyLastVelocity();
+                    //ReapplyLastVelocity();
                     return;
                 }
             }

@@ -380,13 +380,13 @@ AnimatorStateMachine:
     m_Position: {x: 470, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3074784391753197621}
-    m_Position: {x: 430, y: 240, z: 0}
+    m_Position: {x: 480, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2385471098402431112}
     m_Position: {x: -130, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6172991990873683995}
-    m_Position: {x: 280, y: 490, z: 0}
+    m_Position: {x: 400, y: 630, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -852,7 +852,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isCharging
+    m_ConditionEvent: isChargingKick
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isJuking
