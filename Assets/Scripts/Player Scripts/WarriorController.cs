@@ -48,6 +48,7 @@ public class WarriorController : MonoBehaviour
     private float chargeSpeed;
     [SerializeField] private float slideHitboxRadius = 2f;
     private float baseHitboxRadius;
+    [SerializeField] private float auraLingerDuration = 1f;
 
     private float slideCooldown = 2f;
     [SerializeField] private float slideSpeedRegular = 230f;
@@ -923,7 +924,7 @@ public class WarriorController : MonoBehaviour
         UM.UpdateMonsterKillsSB();
         WUI.ShowCallForPass(false);
 
-        superKicking = false;
+        StopSuperKick();
         isDead = true;
         isInvincible = true;
         isBomb = false;
@@ -1277,8 +1278,13 @@ public class WarriorController : MonoBehaviour
         Debug.Log("StopSuperKick");
         superKicking = false;
         AV.RevertColor();
-        aura.SetActive(false);
+        Invoke("DisableAura", auraLingerDuration);
         BP.StopBallGlow();
+    }
+
+    private void DisableAura()
+    {
+        aura.SetActive(false);
     }
 
     /**
