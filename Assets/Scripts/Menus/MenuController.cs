@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using Steamworks;
 
 public class MenuController : MonoBehaviour
 {
@@ -198,6 +199,14 @@ public class MenuController : MonoBehaviour
             splashScreen.SetActive(false);
             OptionSelect(0);
             skipMain = false;
+        }
+
+        //Temp Steam Achievement Stuff
+        if (SteamManager.Initialized)
+        {
+            Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+            Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("CUTSCENE_ACHIEVEMENT"));
+            Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
         }
     }
 
@@ -1000,5 +1009,4 @@ public class MenuController : MonoBehaviour
     //}
 
     #endregion
-
 }
