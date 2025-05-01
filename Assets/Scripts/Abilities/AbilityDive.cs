@@ -45,6 +45,12 @@ public class AbilityDive : AbilityScript
         if (inputBuffer < inputBufferTime) inputBuffer += Time.deltaTime;
 
         float t = activeDuration / durationOfSpeedBoost;
+
+        if (GM.isGameOver)
+        {
+            isActive = false;
+        }
+
         if (isActive) // If ability has been toggled on
         {
             // Boost speed and gradually roll back speed boost
