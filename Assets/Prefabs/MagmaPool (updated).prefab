@@ -4844,6 +4844,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c190cb664aef5d44b448f87dc3ea722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minRange: 0
+  maxRange: 1
 --- !u!1 &8135289664213372500
 GameObject:
   m_ObjectHideFlags: 0
@@ -9841,7 +9843,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
