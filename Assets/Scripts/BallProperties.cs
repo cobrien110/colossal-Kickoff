@@ -354,7 +354,7 @@ public class BallProperties : MonoBehaviour
                     }
                     else
                     {
-                        UM.UpdatePlayerScoredText(i + 1, playerTest.GetComponent<WarriorController>().GetColor());
+                        UM.UpdatePlayerScoredText(i + 1, Color.white);
                     }
                     //UM.ShowPlayerScoredText(true);
                 }
@@ -457,7 +457,7 @@ public class BallProperties : MonoBehaviour
                     else
                     {
                         i = i * -1;
-                        UM.UpdatePlayerScoredText(i - 1, playerTest.GetComponent<WarriorController>().GetColor());
+                        UM.UpdatePlayerScoredText(i - 1, Color.white);
                     }
                     //UM.ShowPlayerScoredText(true);
                 } else
