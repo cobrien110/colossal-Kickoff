@@ -208,6 +208,8 @@ public class BallProperties : MonoBehaviour
                 return;
             }
 
+            if (mummy != null && mummy.IsPursuing()) return; // Mummy should not be able to pick up ball when pursuing
+
             // If mummy tries to steal ball from sliding warrior, don't allow it
             if (mummy != null && ballOwner != null && ballOwner.GetComponent<WarriorController>() != null
                 && ballOwner.GetComponent<WarriorController>().IsSliding())

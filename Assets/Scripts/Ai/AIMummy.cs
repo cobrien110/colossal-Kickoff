@@ -631,6 +631,7 @@ public class AIMummy : MonoBehaviour
         {
             // if you were last kicker and ball is in singleMode, return
             if (BP.isInSingleOutMode && BP.previousKicker == gameObject) return;
+            if (isPursuing) return;
             Debug.Log("BP.isInSingleOutMode: " + BP.isInSingleOutMode);
             Debug.Log("BP.previousKicker: " + BP.previousKicker);
 

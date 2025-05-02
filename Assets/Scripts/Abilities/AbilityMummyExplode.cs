@@ -34,10 +34,27 @@ public class AbilityMummyExplode : AbilityScript
         }
 
         // Ensure ball owner is a warrior
-        if (BP.ballOwner == null || BP.ballOwner.GetComponent<WarriorController>() == null)
+        //if (BP.ballOwner == null || BP.ballOwner.GetComponent<WarriorController>() == null)
+        //{
+        //    Debug.Log("Ball owner is not a warrior - can't activate Mummy Explode");
+        //    return; // Ball owner is not a warrior
+        //}
+
+        WarriorController target = null;
+        if (BP.ballOwner == null || BP.ballOwner.GetComponent<MonsterController>() != null) // No one has the ball, or monster has ball
         {
-            Debug.Log("Ball owner is not a warrior - can't activate Mummy Explode");
-            return; // Ball owner is not a warrior
+            // Mummy explode will target warrior nearest ball
+            target = GetNearestWarrior(BP.gameObject);
+        } else if (BP.ballOwner.GetComponent<WarriorController>() != null) // Warrior has the ball
+        {
+            // Mummy will target warrior with ball
+            target = BP.ballOwner.GetComponent<WarriorController>();
+        }
+
+        if (target == null)
+        {
+            Debug.Log("Mummy explode didn't activate because there was an error choosing target");
+            return;
         }
 
         timer = 0;
@@ -47,7 +64,7 @@ public class AbilityMummyExplode : AbilityScript
         float closestDistance = 100f;
         foreach (AIMummy m in mummies)
         {
-            float distance = Vector3.Distance(m.gameObject.transform.position, BP.ballOwner.transform.position);
+            float distance = Vector3.Distance(m.gameObject.transform.position, target.transform.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -55,10 +72,15 @@ public class AbilityMummyExplode : AbilityScript
             }
         }
 
-        WarriorController target = BP.ballOwner.GetComponent<WarriorController>();
-        if (nearestMummy != null && target != null) StartCoroutine(PursueBallOwner(nearestMummy, target));
-
-        // When close enough to ball owner, mummy explodes, killing ball owner
+        // WarriorController target = BP.ballOwner.GetComponent<WarriorController>();
+        if (nearestMummy != null)
+        {
+            StartCoroutine(PursueBallOwner(nearestMummy, target));
+        } else
+        {
+            Debug.Log("Error: NearestMummy is null");
+            return;
+        }
 
         // Play sound
         audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
@@ -98,7 +120,7 @@ public class AbilityMummyExplode : AbilityScript
             {
                 Debug.Log("Mummy explode - Chasing a dead warrior");
 
-                target = GetNearestWarrior(pursuer);
+                target = GetNearestWarrior(pursuer.gameObject);
 
                 // If no warrior is alive, break
                 if (target == null)
@@ -125,7 +147,7 @@ public class AbilityMummyExplode : AbilityScript
         yield return null;
     }
 
-    private WarriorController GetNearestWarrior(AIMummy mummy)
+    private WarriorController GetNearestWarrior(GameObject obj)
     {
         List<WarriorController> warriors = FindObjectsOfType<WarriorController>().ToList();
 
@@ -137,8 +159,8 @@ public class AbilityMummyExplode : AbilityScript
         {
             if (!warrior.GetIsDead()) // Ensure this warrior is alive
             {
-                // Get dist between this warrior and pursuer (mummy)
-                float dist = Vector3.Distance(mummy.transform.position, warrior.transform.position);
+                // Get dist between this warrior and obj
+                float dist = Vector3.Distance(obj.transform.position, warrior.transform.position);
 
                 // See if this warrior is closest yet
                 if (dist < closestDist)
