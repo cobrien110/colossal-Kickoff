@@ -9,7 +9,7 @@ public class MonsterAbilityBlurb : MonoBehaviour
 
 
     void Start() {
-        unselectBlurbs();
+        
     }
 
     public void setText(string input) {
@@ -17,7 +17,7 @@ public class MonsterAbilityBlurb : MonoBehaviour
     }
 
     public void unselectBlurbs() {
-        //displayedBlurb.color = new Color(0.6981132f, 0.6981132f, 0.6981132f, 1.0f);
+        displayedBlurb.color = new Color(0.6981132f, 0.6981132f, 0.6981132f, 1.0f);
     }
 
     public void selectBlurbs() {

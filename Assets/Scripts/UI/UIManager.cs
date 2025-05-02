@@ -864,6 +864,7 @@ public class UIManager : MonoBehaviour
 
         GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
 
+        //Final Check
         foreach (GameObject warrior in warriors)
         {
             if (warrior.GetComponent<WarriorController>() != null) {

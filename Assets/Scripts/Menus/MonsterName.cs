@@ -5,8 +5,8 @@ using TMPro;
 
 public class MonsterName : MonoBehaviour
 {
-    [SerializeField] private string[] monsterNames;
-    [SerializeField] private TextMeshProUGUI displayedName;
+    [SerializeField] public string[] monsterNames;
+    [SerializeField] public TextMeshProUGUI displayedName;
     [SerializeField] private MonsterCharSelectOption visual;
     [SerializeField] private CharacterInfo charInfo;
     [SerializeField] private MenuController MC;
@@ -15,7 +15,7 @@ public class MonsterName : MonoBehaviour
     private int numMonsters;
     void Start()
     {
-        selectName();
+        //selectName();
         numMonsters = monsterNames.Length;
         monsterIndex = 0;
     }
@@ -44,7 +44,8 @@ public class MonsterName : MonoBehaviour
             } else {
                 monsterIndex = numMonsters - 1;
             }
-            displayedName.text = monsterNames[monsterIndex];
+            Debug.Log("PAGE LEFT SET ARROWS");
+            displayedName.text = "< " + monsterNames[monsterIndex] + " >";
             visual.updateSprite(monsterIndex);
         }
     }
@@ -56,17 +57,21 @@ public class MonsterName : MonoBehaviour
             } else {
                 monsterIndex = 0;
             }
-            displayedName.text = monsterNames[monsterIndex];
+            Debug.Log("PAGE RIGHT SET ARROWS");
+            displayedName.text = "< " + monsterNames[monsterIndex] + " >";
             visual.updateSprite(monsterIndex);
         }
     }
 
-    public void unselectName() {
-        displayedName.color = new Color(0.6981132f, 0.6981132f, 0.6981132f, 1.0f);
+    public void unselectName(string name) {
+        //displayedName.color = new Color(0.6981132f, 0.6981132f, 0.6981132f, 1.0f);
+        displayedName.text = name;
     }
 
-    public void selectName() {
-        displayedName.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    public void selectName(string name) {
+        //displayedName.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        Debug.Log("SELECT NAME SET ARROWS");
+        displayedName.text = "< " + name + " >";
     }
 
 }

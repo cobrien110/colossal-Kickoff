@@ -57,11 +57,9 @@ public class MonsterAbilityViewController : MonoBehaviour
     public void pageUpDown(bool highlightingAbilities) {
         selectedHighlightingAbilities = highlightingAbilities;
         if (selectedHighlightingAbilities) {
-            blurb.selectBlurbs();
-            name.unselectName();
+            name.unselectName(name.monsterNames[name.monsterIndex]);
         } else {
-            blurb.unselectBlurbs();
-            name.selectName();
+            name.selectName(name.monsterNames[name.monsterIndex]);
         }
         updateVisuals();
     }

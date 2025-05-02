@@ -171,6 +171,7 @@ public class MenuCursor : MonoBehaviour
         if (playerSlot == 0)
         {
             //MC.monsterAbilityCanHover = false;
+            MN.selectName(MN.monsterNames[MN.monsterIndex]);
         } else if (playerSlot == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
@@ -335,24 +336,27 @@ public class MenuCursor : MonoBehaviour
     }
 
     public void deselect() {
-            //cursorMove.Enable();
-            if (selectedHighlightingAbilities) {
-                selectedHighlightingAbilities = false;
-                monsterAbilityViewController.pageUpDown(false);
-            }
-            if (hasSelected) {
-                playerMarkerIcons[playerSlot].changeSprite(0);
-                MC.characterUnselected(playerNumber, playerSlot);
-            }
+        //cursorMove.Enable();
+        if (selectedHighlightingAbilities)
+        {
+            selectedHighlightingAbilities = false;
+            //monsterAbilityViewController.pageUpDown(false);
+        }
+        if (hasSelected)
+        {
+            playerMarkerIcons[playerSlot].changeSprite(0);
+            MC.characterUnselected(playerNumber, playerSlot);
+            MN.unselectName(MN.monsterNames[MN.monsterIndex]);
+        }
 
-            PH.RemoveEvents();
-            PH.teamName = "";
-            hasSelected = false;
-            this.GetComponent<Image>().enabled = true;
-            playerSlot = -1;
-            PH.warriorPosition = -1;
-            WD = null;
-            MC.deselectOccured = true;
+        PH.RemoveEvents();
+        PH.teamName = "";
+        hasSelected = false;
+        this.GetComponent<Image>().enabled = true;
+        playerSlot = -1;
+        PH.warriorPosition = -1;
+        WD = null;
+        MC.deselectOccured = true;
     }
 
     //find the icons that display who's selected which characters on screen

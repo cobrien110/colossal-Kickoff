@@ -683,7 +683,7 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("Player " + playerNumber + " unselected Character " + playerSlot);
         //todo: reverse that thing from the last comment
-        playerOptions[playerSlot].SetActive(false);
+        //playerOptions[playerSlot].SetActive(false);
         if (playerSlot == 0) monsterAbilityCanHover = true;
         //if (confirm)
         if (confirmedInfos.Contains(characterInfos[playerSlot]))
