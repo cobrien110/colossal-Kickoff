@@ -21,12 +21,11 @@ public class AbilityMummyExplode : AbilityScript
         // Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
         if (timer < cooldown)
         {
-            // Debug.Log("Not off cooldown - can't activate Mummy Explode");
             return; // Ability not off cooldown
         }
 
         // Ensure there are living mummies in scene
-        AIMummy[] mummies = FindObjectsOfType<AIMummy>().Where(m => !m.GetDieOnceCalled()).ToArray();
+        AIMummy[] mummies = FindObjectsOfType<AIMummy>().Where(m => !m.GetDieOnceCalled() && BP.ballOwner != m.gameObject).ToArray();
         if (mummies.Length < 1)
         {
             Debug.Log("No mummies - can't activate Mummy Explode");
@@ -49,6 +48,10 @@ public class AbilityMummyExplode : AbilityScript
         {
             // Mummy will target warrior with ball
             target = BP.ballOwner.GetComponent<WarriorController>();
+        } else if (BP.ballOwner.GetComponent<AIMummy>() != null) // Mummy has the ball
+        {
+            // Mummy explode will target warrior nearest ball
+            target = GetNearestWarrior(BP.gameObject);
         }
 
         if (target == null)
@@ -58,8 +61,8 @@ public class AbilityMummyExplode : AbilityScript
         }
 
         timer = 0;
-        // Find nearest mummy to warrior ball owner
-
+        
+        // Find nearest mummy to target
         AIMummy nearestMummy = null;
         float closestDistance = 100f;
         foreach (AIMummy m in mummies)
@@ -93,6 +96,7 @@ public class AbilityMummyExplode : AbilityScript
     void Start()
     {
         Setup();
+        usableWhileDribbling = true;
     }
 
     // Update is called once per frame
@@ -103,6 +107,8 @@ public class AbilityMummyExplode : AbilityScript
 
     private IEnumerator PursueBallOwner(AIMummy pursuer, WarriorController target)
     {
+        pursuer.StopRoaming();
+
         // Visually show pursuer
         SpriteRenderer SR = pursuer.gameObject.GetComponentInChildren<SpriteRenderer>();
         SR.color = new Color(255, 0, 0);
@@ -131,6 +137,7 @@ public class AbilityMummyExplode : AbilityScript
             // Go toward warrior
             // pursuerRB.velocity = (target.transform.position - pursuer.transform.position).normalized * pursueBaseSpeed;
             Vector3 dirToTarget = (target.transform.position - pursuer.transform.position).normalized;
+            // Debug.Log("Target pos: " + target.transform.position);
             pursuer.BaseMovement(new Vector2(dirToTarget.x, dirToTarget.z));
 
             // Speed up mummy
@@ -149,7 +156,7 @@ public class AbilityMummyExplode : AbilityScript
 
     private WarriorController GetNearestWarrior(GameObject obj)
     {
-        List<WarriorController> warriors = FindObjectsOfType<WarriorController>().ToList();
+        List<WarriorController> warriors = FindObjectsOfType<WarriorController>().Where(w => !w.GetIsDead()).ToList();
 
         // Set arbitrarily large value
         float closestDist = 100f;

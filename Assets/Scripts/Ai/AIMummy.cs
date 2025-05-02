@@ -495,7 +495,7 @@ public class AIMummy : MonoBehaviour
         }
     }
 
-    private void StopRoaming()
+    public void StopRoaming()
     {
         if (roaoroutine != null)
         {
