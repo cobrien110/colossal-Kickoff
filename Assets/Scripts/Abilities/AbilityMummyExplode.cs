@@ -6,9 +6,10 @@ using UnityEngine;
 public class AbilityMummyExplode : AbilityScript
 {
     [SerializeField] private float distanceUntilExplode = 1f;
-    [SerializeField] private float pursueSpeed = 3f;
+    [SerializeField] private float pursueBaseSpeed = 3f;
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private GameObject slowAura;
+    [SerializeField] private float speedupMult = 1f;
     [SerializeField] private string soundName;
     [SerializeField] private string explodeSoundName;
     private const float slowAuraOffSetY = -0.3f;
@@ -88,6 +89,7 @@ public class AbilityMummyExplode : AbilityScript
 
         Rigidbody pursuerRB = pursuer.gameObject.GetComponent<Rigidbody>();
         pursuer.SetIsPursuing(true);
+        pursuer.SetMummySpeed(pursueBaseSpeed);
         // While not in range to explode
         while (pursuer != null && target != null
             && Vector3.Distance(pursuer.transform.position, target.gameObject.transform.position) > distanceUntilExplode)
@@ -97,12 +99,20 @@ public class AbilityMummyExplode : AbilityScript
                 Debug.Log("Mummy explode - Chasing a dead warrior");
 
                 target = GetNearestWarrior(pursuer);
-                
+
                 // If no warrior is alive, break
-                if (target == null) break;
+                if (target == null)
+                {
+                    break;
+                }
             }
             // Go toward warrior
-            pursuerRB.velocity = (target.transform.position - pursuer.transform.position).normalized * pursueSpeed;
+            // pursuerRB.velocity = (target.transform.position - pursuer.transform.position).normalized * pursueBaseSpeed;
+            Vector3 dirToTarget = (target.transform.position - pursuer.transform.position).normalized;
+            pursuer.BaseMovement(new Vector2(dirToTarget.x, dirToTarget.z));
+
+            // Speed up mummy
+            pursuer.GetComponent<AIMummy>().IncreaseMummySpeed(Time.deltaTime * speedupMult);
 
             yield return null;
         }

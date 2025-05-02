@@ -210,7 +210,7 @@ public class AIMummy : MonoBehaviour
         if (rb.velocity.magnitude < 1) movementDirection = Vector3.zero;
     }
 
-    void BaseMovement(Vector2 targetPos)
+    public void BaseMovement(Vector2 targetPos)
     {
         //if (.isSliding) return;
 
@@ -674,5 +674,15 @@ public class AIMummy : MonoBehaviour
     public bool GetDieOnceCalled()
     {
         return dieOnceCalled;
+    }
+
+    public void IncreaseMummySpeed(float speed)
+    {
+        mummySpeed += speed;
+    }
+
+    public void SetMummySpeed(float speed)
+    {
+        mummySpeed = speed;
     }
 }
