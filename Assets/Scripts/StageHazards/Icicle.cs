@@ -38,6 +38,11 @@ public class Icicle : MonoBehaviour
             MC.Stun();
             willDestroy = true;
         }
+        if (other.CompareTag("Mummy"))
+        {
+            AIMummy AIM = other.GetComponent<AIMummy>();
+            AIM.Die(true);
+        }
 
         if (other.CompareTag("Indicator"))
         {
