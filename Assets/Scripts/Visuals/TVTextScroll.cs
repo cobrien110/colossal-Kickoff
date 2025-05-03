@@ -5,6 +5,31 @@ using UnityEngine;
 
 public class TVTextScroll : MonoBehaviour
 {
+    public class WeightedText
+    {
+        public string message;
+        public int weight;
+    }
+
+    //Add your text here with appropriate weights :)
+    //Low number means less chance to activate :3
+    public List<WeightedText> weightedMessages = new List<WeightedText>
+    {
+        new WeightedText { message = "BREAKING NEWS: COLOSSSAL SOCCER GAMES NOW IN PROGRESS!", weight = 15 },
+        new WeightedText { message = "HISTORIANS RECRUITED TO DEFENSE FORCES AS INVASION CONTINUES", weight = 15 },
+        new WeightedText { message = "WARNING! MONSTERS ARE INVADING EARTH! SEEK SHELTER IMMEDIATELY!", weight = 25 },
+        new WeightedText { message = "WHERE DID OUR USUAL REPORTER GO? NO ONE HAS SEEN HIM, SEND HELP", weight = 20 },
+        new WeightedText { message = "REMEMBER TO JOIN THE DISCORD :)", weight = 23 },
+        new WeightedText { message = "CRYPTIDS RUNNING RAMPANT IN AMERICA! COLOSSAL LEAGUE WORKING ON A RESPONSE.", weight = 5 },
+        new WeightedText { message = "DID YOU KNOW YOU HAVE RIGHTS? MONSTERS SAY YOU DON'T", weight = 3 },
+        new WeightedText { message = "AVERAGE COLOSSAL LEAGUE MEMBER CLAIMS THEY CAN \"1V1 A GORILLA\"?", weight = 13 },
+        new WeightedText { message = "MINOTAUR SHARES COOKING RECIPIES ONLINE. MOTHERS OF THE DECEASED APPALLED", weight = 5 },
+        new WeightedText { message = "A NEW \"CRASH OUT\" DISEASE CAUSING A NEW PANDEMIC.", weight = 1 },
+        new WeightedText { message = "MISSING: PIXEL. PLEASE SEND INFORMATION TO (XXX) XXX - XXXX", weight = 1 },
+        new WeightedText { message = "CREATURE SIGHTING: AMPHIBIAN SEEN TERRORISING MIDWESTERN USA", weight = 1 },
+        new WeightedText { message = "ECONOMICS UPDATE: WIZARD FIRED FROM JOB FOR HUNDRETH TIME", weight = 1 }
+    };
+
     public Transform warningTextTransform;
     public Transform spawnPoint; //Transform where elements spawn
     public Transform borderPoint; //Transform where elements are considered out of bounds
@@ -16,7 +41,8 @@ public class TVTextScroll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ResetWarning();    }
+        ResetWarning();
+    }
 
     public void WarningStart()
     {
@@ -40,7 +66,7 @@ public class TVTextScroll : MonoBehaviour
     public void ResetWarning()
     {
         TextRandom();
-        warningTextTransform.transform.position = spawnPoint.transform.position;
+        warningTextTransform.position = spawnPoint.position;
     }
 
     private IEnumerator ScrollWarning()
@@ -48,47 +74,42 @@ public class TVTextScroll : MonoBehaviour
         while (isScrolling)
         {
             //Debug.Log("Scrolling");
-            warningTextTransform.transform.position += Vector3.right * speed * Time.deltaTime;
-            if (warningTextTransform.transform.position.x > borderPoint.position.x)
+            warningTextTransform.position += Vector3.right * speed * Time.deltaTime;
+            if (warningTextTransform.position.x > borderPoint.position.x)
             {
                 ResetWarning();
             }
             yield return null;
-
         }
     }
 
-    //Add your text here and remember to increase the random range :)
     private void TextRandom()
     {
-        int x = Random.Range(0, 100);
-        if (x < 15)
+        scrollingText.text = GetRandomWeightedMessage();
+    }
+
+    //Picks a message based on its weight
+    private string GetRandomWeightedMessage()
+    {
+        int totalWeight = 0;
+        foreach (var item in weightedMessages)
         {
-            scrollingText.text = "BREAKING NEWS: COLOSSSAL SOCCER GAMES NOW IN PROGRESS!";
+            totalWeight += item.weight;
         }
-        else if (x < 30)
+
+        int randomValue = Random.Range(0, totalWeight);
+        int currentSum = 0;
+
+        foreach (var item in weightedMessages)
         {
-            scrollingText.text = "HISTORIANS RECRUITED TO DEFENSE FORCES AS INVASION CONTINUES";
+            currentSum += item.weight;
+            if (randomValue < currentSum)
+            {
+                return item.message;
+            }
         }
-        else if (x < 55)
-        {
-            scrollingText.text = "WARNING! MONSTERS ARE INVADING EARTH! SEEK SHELTER IMMEDIATELY!";
-        }
-        else if (x < 75)
-        {
-            scrollingText.text = "WHERE DID OUR USUAL REPORTER GO? NO ONE HAS SEEN HIM, SEND HELP";
-        }
-        else if (x < 98)
-        {
-            scrollingText.text = "REMEMBER TO JOIN THE DISCORD :)";
-        } 
-        else if (x == 98)
-        {
-            scrollingText.text = "CREATURE SIGHTING: AMPHIBIAN SEEN TERRORISING MIDWESTERN USA";
-        }
-        else if (x == 99)
-        {
-            scrollingText.text = "ECONOMICS UPDATE: WIZARD FIRED FROM JOB FOR HUNDRETH TIME";
-        }
+
+        //fallback, should never hit this
+        return weightedMessages[0].message;
     }
 }
