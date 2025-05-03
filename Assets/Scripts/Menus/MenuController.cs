@@ -41,6 +41,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject quitGameButtons;
     [SerializeField] private GameObject creditsContent;
+    [SerializeField] private GameObject extrasContent;
 
     [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
@@ -98,6 +99,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject stageFirstButton;
     [SerializeField] private GameObject quitFirstButton;
     [SerializeField] private GameObject stageSettingsFirstButton;
+    [SerializeField] private GameObject extrasFirstButton;
     [SerializeField] private GameObject creditsBackButton;
 
     [SerializeField] private Button settingsControlsButton;
@@ -467,6 +469,20 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
+
+            //EXTRAS
+            case 4:
+                currentScreen = 6;
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(extrasFirstButton);
+                menuCamera.goToExtras();
+                TVT.WarningEnd();
+                extrasContent.SetActive(true);
+                mainMenuButtons.SetActive(false);
+                //sound
+                if (AP != null) AP.setUseComVol(false);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+                break;
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
@@ -483,7 +499,8 @@ public class MenuController : MonoBehaviour
         CC.SwitchToNews();
         currentScreen = 0;
         mainMenuButtons.SetActive(true);
-        stageSelect.SetActive(false);
+        stageSelect.SetActive(false); 
+        extrasContent.SetActive(false);
         quitGameButtons.SetActive(false);
         settingsButtons.SetActive(false);
         creditsContent.SetActive(false);
