@@ -42,6 +42,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject quitGameButtons;
     [SerializeField] private GameObject creditsContent;
     [SerializeField] private GameObject extrasContent;
+    [SerializeField] private GameObject sandboxContent;
+    [SerializeField] private GameObject tutorialContent;
+    [SerializeField] private GameObject statsContent;
+
 
     [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
@@ -285,6 +289,9 @@ public class MenuController : MonoBehaviour
                     case (5):
                         returnToTop();
                         break;
+                    case (6):
+                        returnToTop();
+                        break;
                     default:
                         break;
                 }
@@ -407,7 +414,10 @@ public class MenuController : MonoBehaviour
                 TVT.WarningEnd();
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
+                
+                //settings to prefs
                 goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
+
                 //sound
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
@@ -483,6 +493,33 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
+            case 5:
+                menuCamera.goToSandbox();
+                extrasContent.SetActive(false);
+                sandboxContent.SetActive(true);
+                TVT.WarningEnd();
+                //sound
+                if (AP != null) AP.setUseComVol(false);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
+                break;
+            case 6:
+                menuCamera.goToHowTo();
+                extrasContent.SetActive(false);
+                tutorialContent.SetActive(true);
+                TVT.WarningEnd();
+                //sound
+                if (AP != null) AP.setUseComVol(false);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
+                break;
+            case 7:
+                menuCamera.goToStats();
+                extrasContent.SetActive(false);
+                statsContent.SetActive(true);
+                TVT.WarningEnd();
+                //sound
+                if (AP != null) AP.setUseComVol(false);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
+                break;
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
@@ -504,6 +541,9 @@ public class MenuController : MonoBehaviour
         quitGameButtons.SetActive(false);
         settingsButtons.SetActive(false);
         creditsContent.SetActive(false);
+        sandboxContent.SetActive(false);
+        tutorialContent.SetActive(false);
+        statsContent.SetActive(false);
         CSU.CreditsEnd();
         TVT.WarningStart();
 
