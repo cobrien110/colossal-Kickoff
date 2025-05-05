@@ -566,7 +566,7 @@ public class AIMummy : MonoBehaviour
             // Start the respawn coroutine from AiMummyManager
             aiMummyManager.StartCoroutine(aiMummyManager.TriggerDelayedRespawn());
         }
-        if (ASP != null)
+        if (ASP != null && GM.isPlaying)
         {
             ASP.AddCounter();
         }
