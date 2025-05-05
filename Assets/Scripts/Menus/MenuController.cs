@@ -49,6 +49,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Sprite[] tutorialImages;
     [SerializeField] private Image tutorialSwapImage;
     private int tutorialIndex = 0;
+    [SerializeField] private GameObject mainCanvasTutorial;
 
 
     [Header("Settings Menu Elements")]
@@ -510,8 +511,10 @@ public class MenuController : MonoBehaviour
                 break;
             case 6:
                 menuCamera.goToHowTo();
+                tutorialIndex = 0;
                 extrasContent.SetActive(false);
                 tutorialContent.SetActive(true);
+                mainCanvasTutorial.SetActive(true);
                 TVT.WarningEnd();
                 //sound
                 if (AP != null) AP.setUseComVol(false);
@@ -549,6 +552,7 @@ public class MenuController : MonoBehaviour
         creditsContent.SetActive(false);
         sandboxContent.SetActive(false);
         tutorialContent.SetActive(false);
+        mainCanvasTutorial.SetActive(false);
         statsContent.SetActive(false);
         CSU.CreditsEnd();
         TVT.WarningStart();
