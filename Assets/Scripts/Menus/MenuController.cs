@@ -46,6 +46,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject tutorialContent;
     [SerializeField] private GameObject statsContent;
 
+    [SerializeField] private Sprite[] tutorialImages;
+    [SerializeField] private Image tutorialSwapImage;
+    private int tutorialIndex = 0;
+
 
     [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
@@ -328,6 +332,8 @@ public class MenuController : MonoBehaviour
                 }
             }
         }
+        
+        if (tutorialContent.activeInHierarchy) TutorialImageSwap(gamepad);
 
         if (AP.getUseComVol() && !AP.isPlaying())
         {
@@ -722,6 +728,21 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("Quitting game. Goodbye!");
         Application.Quit();
+    }
+
+    private void TutorialImageSwap(Gamepad gamepad)
+    {
+        if (gamepad.leftShoulder.wasPressedThisFrame && tutorialIndex >= 1)
+        {
+            tutorialIndex--;
+            tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
+        }
+
+        if (gamepad.rightShoulder.wasPressedThisFrame && tutorialIndex < 4)
+        {
+            tutorialIndex++;
+            tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
+        } 
     }
 
     #endregion
