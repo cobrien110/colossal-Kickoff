@@ -14,8 +14,11 @@ public class MenuCamera : MonoBehaviour
 
     public Transform arcadeTransform;
     public Transform statsTransform;
+    public Transform statsTransformZoom;
     public Transform howToTransform;
+    public Transform howToTransformZoom;
     public Transform sandboxTransform;
+    public Transform sandboxTransformZoom;
 
     [Header("Variables")]
     //camera movement speed
@@ -87,15 +90,32 @@ public class MenuCamera : MonoBehaviour
         SetTarget(sandboxTransform);
     }
 
+    public void goToSandboxZoom()
+    {
+        SetTarget(sandboxTransformZoom);
+    }
+
     public void goToHowTo()
     {
         SetTarget(howToTransform);
+    }
+
+    public void goToHowToZoom()
+    {
+        SetTarget(howToTransformZoom);
     }
 
     public void goToStats()
     {
         SetTarget(statsTransform);
     }
+
+    public void goToStatsZoom()
+    {
+        SetTarget(statsTransformZoom);
+    }
+
+
 
     private void SetTarget(Transform targetTransform)
     {
