@@ -742,7 +742,7 @@ public class MenuController : MonoBehaviour
             tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
         }
 
-        if (gamepad.rightShoulder.wasPressedThisFrame && tutorialIndex < 4)
+        if (gamepad.rightShoulder.wasPressedThisFrame && tutorialIndex < tutorialImages.Length - 1)
         {
             tutorialIndex++;
             tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
