@@ -39,6 +39,7 @@ public class MenuController : MonoBehaviour
     private Color pressTextCol = new Color(255, 255, 255);
     private Color pressACol = new Color(255, 255, 255);
     private bool fadeStart = false;
+
     [SerializeField] private GameObject mainMenuButtons;
     [SerializeField] private GameObject quitGameButtons;
     [SerializeField] private GameObject creditsContent;
@@ -47,11 +48,17 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject tutorialContent;
     [SerializeField] private GameObject statsContent;
 
+    [Header("Tutorial Elements")]
     [SerializeField] private Sprite[] tutorialImages;
+    [SerializeField] private TMP_Text tutorialHeaderText;
+    [SerializeField] private string[] tutorialHeaders;
+    [SerializeField] private TMP_Text tutorialBlurbText;
+    [SerializeField] private string[] tutorialBlurbs;
     [SerializeField] private Image tutorialSwapImage;
     private int tutorialIndex = 0;
     [SerializeField] private GameObject mainCanvasTutorial;
 
+    [Header("Stats Elements")]
     [SerializeField] private TMP_Text mGoalsText;
     [SerializeField] private TMP_Text mKillsText;
     [SerializeField] private TMP_Text mAbiltiesText;
@@ -521,7 +528,7 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
             case 6:
-                menuCamera.goToHowTo();
+                menuCamera.goToHowToZoom();
                 tutorialIndex = 0;
                 extrasContent.SetActive(false);
                 tutorialContent.SetActive(true);
@@ -751,12 +758,16 @@ public class MenuController : MonoBehaviour
         {
             tutorialIndex--;
             tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
+            tutorialHeaderText.text = tutorialHeaders[tutorialIndex];
+            tutorialBlurbText.text = tutorialBlurbs[tutorialIndex];
         }
 
         if (gamepad.rightShoulder.wasPressedThisFrame && tutorialIndex < tutorialImages.Length - 1)
         {
             tutorialIndex++;
             tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
+            tutorialHeaderText.text = tutorialHeaders[tutorialIndex];
+            tutorialBlurbText.text = tutorialBlurbs[tutorialIndex];
         } 
     }
 
