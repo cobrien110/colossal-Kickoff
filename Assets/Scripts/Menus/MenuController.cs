@@ -57,7 +57,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Text mAbiltiesText;
     [SerializeField] private TMP_Text mWinsText;
     [SerializeField] private TMP_Text wGoalsText;
-    [SerializeField] private TMP_Text wDeathsText;
+    //[SerializeField] private TMP_Text wDeathsText;
     [SerializeField] private TMP_Text wAssistsText;
     [SerializeField] private TMP_Text wStealsText;
     [SerializeField] private TMP_Text wWinsText;
@@ -768,7 +768,7 @@ public class MenuController : MonoBehaviour
         mWinsText.text = "Wins: " + ST.saveData.mWins;
 
         wGoalsText.text = "Goals: " + ST.saveData.wGoals;
-        wDeathsText.text = "Deaths: " + ST.saveData.deaths;
+        //wDeathsText.text = "Deaths: " + ST.saveData.deaths;
         wAssistsText.text = "Assists: " + ST.saveData.assists;
         wStealsText.text = "Steals: " + ST.saveData.steals;
         wWinsText.text = "Wins: " + ST.saveData.wWins;
