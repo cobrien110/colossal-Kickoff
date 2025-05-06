@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 public class Stats
 {
@@ -24,7 +25,6 @@ public class StatTracker : MonoBehaviour
     public Stats saveData = new Stats();
 
     // Warriors:
-    //Active:
     private int w1Goals = 0;
     private int w2Goals = 0;
     private int w3Goals = 0;
@@ -41,22 +41,18 @@ public class StatTracker : MonoBehaviour
     private int w2Assists = 0;
     private int w3Assists = 0;
 
-    //Inactive:
-    private int wSaves = 0;
-
     // Monster:
-    //Active:
     private int mGoals = 0;
     private int mKills = 0;
-
-    //Inactive:
     private int mAbUsed = 0;
-    private int mSaves = 0;
 
     // Dev:
     private float ballTimeMonster = 0;
     private float ballTimeWarrior = 0;
     private string gameWinner = "";
+
+    UnityEvent dataLoad;
+    public bool dataLoaded = false;
 
     //MVP Stats
     [Header("MVP Values")]
@@ -68,8 +64,15 @@ public class StatTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (SceneManager.GetActiveScene().name.Equals("MainMenus"))
+        {
+            MenuController menuController = null;
+            menuController = GameObject.Find("MenuController").GetComponent<MenuController>();
+            dataLoad = new UnityEvent();
+            dataLoad.AddListener(menuController.UpdateStatsText);
+        }
+
         LoadFromJson();
-        Debug.Log("Test - Monster Kills: " + saveData.kills);
     }
 
     // Update is called once per frame
@@ -174,7 +177,7 @@ public class StatTracker : MonoBehaviour
 
     public void UpdateWSaves()
     {
-        wSaves++;
+        //wSaves++;
     }
 
     public void UpdateMGoals()
@@ -209,7 +212,12 @@ public class StatTracker : MonoBehaviour
 
     public void UpdateMSaves()
     {
-        mSaves++;
+        //mSaves++;
+    }
+
+    public void UpdateMWins()
+    {
+        
     }
     
     public void SaveToJson()
@@ -229,6 +237,8 @@ public class StatTracker : MonoBehaviour
             string data = System.IO.File.ReadAllText(filePath);
 
             saveData = JsonUtility.FromJson<Stats>(data);
+            dataLoad.Invoke();
+            dataLoaded = true;
             Debug.Log("Data Loaded");
         }
         catch
