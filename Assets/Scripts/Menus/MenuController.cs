@@ -175,7 +175,8 @@ public class MenuController : MonoBehaviour
 
     [Header("Game State Tracking")]
     public int currentScreen = 0;
-    private int numPlayersConfirmed = 0;
+    private int numPlayersConfirmed = 0; 
+    private bool tutorialInitialized = false;
     public bool canMoveToGame = false;
     public bool deselectOccured = false;
 
@@ -759,6 +760,14 @@ public class MenuController : MonoBehaviour
 
     private void TutorialImageSwap(Gamepad gamepad)
     {
+        if (!tutorialInitialized && tutorialContent.activeInHierarchy)
+        {
+            tutorialIndex = 0;
+            tutorialSwapImage.sprite = tutorialImages[tutorialIndex];
+            tutorialHeaderText.text = tutorialHeaders[tutorialIndex];
+            tutorialBlurbText.text = tutorialBlurbs[tutorialIndex];
+            tutorialInitialized = true;
+        }
         if (gamepad.leftShoulder.wasPressedThisFrame && tutorialIndex >= 1)
         {
             tutorialIndex--;
