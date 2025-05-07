@@ -531,7 +531,12 @@ public class MenuController : MonoBehaviour
                 menuCamera.goToHowToZoom();
                 tutorialIndex = 0;
                 extrasContent.SetActive(false);
+                
                 tutorialContent.SetActive(true);
+                tutorialSwapImage.sprite = tutorialImages[0];
+                tutorialHeaderText.text = tutorialHeaders[0];
+                tutorialBlurbText.text = tutorialBlurbs[0];
+
                 mainCanvasTutorial.SetActive(true);
                 TVT.WarningEnd();
                 //sound
