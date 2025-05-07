@@ -68,6 +68,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TMP_Text wAssistsText;
     [SerializeField] private TMP_Text wStealsText;
     [SerializeField] private TMP_Text wWinsText;
+    private bool resetThisScene = false;
 
     [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
@@ -353,6 +354,12 @@ public class MenuController : MonoBehaviour
         }
         
         if (tutorialContent.activeInHierarchy) TutorialImageSwap(gamepad);
+
+        if (statsContent.activeInHierarchy && Input.GetKeyDown(KeyCode.R) && !resetThisScene)
+        {
+            ST.ResetSaveData();
+            resetThisScene = true;
+        }
 
         if (AP.getUseComVol() && !AP.isPlaying())
         {

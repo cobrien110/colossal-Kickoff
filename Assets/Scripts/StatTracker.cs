@@ -260,7 +260,23 @@ public class StatTracker : MonoBehaviour
         saveData.assists += (w1Assists + w2Assists + w3Assists);
         saveData.deaths += (w1Deaths + w2Deaths + w3Deaths);
         saveData.steals += (w1Steals + w2Steals + w3Steals);
-        if (!GetGameWinner().Equals("WARRIORS WIN!")) saveData.wWins += 1;
+        if (!GetGameWinner().Equals("WARRIORS WIN!")) saveData.mWins += 1;
+    }
+
+    public void ResetSaveData()
+    {
+        saveData.kills = 0;
+        saveData.mGoals = 0;
+        saveData.abilities = 0;
+        saveData.mWins = 0;
+
+        saveData.wGoals = 0;
+        saveData.assists = 0;
+        saveData.deaths = 0;
+        saveData.steals = 0;
+        saveData.mWins = 0;
+
+        SaveToJson();
     }
 
 }
