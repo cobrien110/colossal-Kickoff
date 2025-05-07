@@ -1200,12 +1200,12 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0
-      minScalar: 0.80285144
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1258,7 +1258,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0
-      minScalar: 0.2617994
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1311,7 +1311,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0
-      minScalar: 0.2617994
+      minScalar: 6.283185
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4905,20 +4905,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: d26b3b7be20bfa142a58c67121d430f7, type: 3}
-  - {fileID: 21300000, guid: 36fa79492f1031344915ada697d6f1f1, type: 3}
-  - {fileID: 21300000, guid: ac81b11bde68fcd48b37aae9bff630aa, type: 3}
-  - {fileID: 21300000, guid: fcac5e681bb52d346b0ff46a847937f5, type: 3}
-  - {fileID: 21300000, guid: 220859b0d39aad94098110cafda31203, type: 3}
-  - {fileID: 21300000, guid: 363638de1d0dea24c8dda78bb0f88358, type: 3}
-  - {fileID: 21300000, guid: 5e7ea771fce719544ae461a09eb60791, type: 3}
+  - {fileID: 21300000, guid: 95d992169b1704647b2c9a9ed5f01837, type: 3}
+  - {fileID: 21300000, guid: 6de8b57691148f1499d846b9e1e0901e, type: 3}
+  - {fileID: 21300000, guid: fb9c29bb043d1e644a49a1e0ac49beec, type: 3}
+  - {fileID: 21300000, guid: d23584109d919ba4eb78c3312fae9a71, type: 3}
+  - {fileID: 21300000, guid: 2be516da9e30e724eb669a4d5f1ec62a, type: 3}
+  - {fileID: 21300000, guid: b02cc5be9a721d847b5872f88f528d6d, type: 3}
+  - {fileID: 21300000, guid: 1f38410b6c7e60f45b6978f8b00c8a09, type: 3}
+  size: 2
+  spriteMaterial: {fileID: 2100000, guid: 1726df098e3250e4a81ad0f60ef02fc3, type: 2}
+  spriteColor: {r: 1, g: 1, b: 1, a: 1}
   minSpin: 16
   maxSpin: 32
   minLaunchForce: 4
   maxLaunchForce: 12
   minWeight: 1
   maxWeight: 0.5
-  size: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -942,7 +942,9 @@ public class WarriorController : MonoBehaviour
         // Gore
         int goreMode = PlayerPrefs.GetInt("goreMode", 0);
         if (goreParticleObj != null && goreMode == 0) {
-            Instantiate(goreParticleObj, transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(goreParticleObj, transform.position, Quaternion.identity);
+            SpriteBurst burst = obj.GetComponent<SpriteBurst>();
+            if (burst != null) burst.spriteColor = GetColor();
         } else if (goreParticleObj != null && goreMode == 1) {
             Instantiate(pinataParticleObj, transform.position, Quaternion.identity);
         }

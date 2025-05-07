@@ -594,6 +594,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4097289086539393512, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.796
@@ -690,6 +694,10 @@ PrefabInstance:
     - target: {fileID: 9137296216186184701, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
       propertyPath: m_Name
       value: Grave
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137296216186184701, guid: cefbbcb2ec9bd484fad16f134d63fa0a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2077,6 +2085,63 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.01361773, y: 0.011602371, z: 0.0714876}
   m_Center: {x: -0.00275715, y: 0.0022754741, z: -0.012819313}
+--- !u!1001 &1078177419
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4709248696784352767, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_Name
+      value: Gore Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752218933488397236, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c5e52240f590ae3459102a8bb2447d5d, type: 3}
 --- !u!1 &1097486362 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4408217709679005857, guid: e17c941d9307bc24eaebd42d2d05ab2c, type: 3}
@@ -4093,6 +4158,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AIMummy
       objectReference: {fileID: 0}
+    - target: {fileID: 8199813728392553911, guid: 0b9a377dbef072a48b13b7e9b85f2d61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4648,26 +4717,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 314374923833777578, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
-      propertyPath: RotationModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 314374923833777578, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
-      propertyPath: RotationModule.x.minScalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 314374923833777578, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
-      propertyPath: RotationModule.y.minScalar
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 314374923833777578, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
-      propertyPath: RotationModule.separateAxes
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 314374923833777578, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
-      propertyPath: RotationModule.curve.minScalar
-      value: 6.283185
-      objectReference: {fileID: 0}
     - target: {fileID: 4709248696784352767, guid: b4a2daecfd5b1914392997edfb85b4fe, type: 3}
       propertyPath: m_Name
       value: Robo Particles
@@ -5050,6 +5099,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5890502186831270437, guid: ec751c63bbe0c534881e9f574c40bcb9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7896571837359121010, guid: ec751c63bbe0c534881e9f574c40bcb9, type: 3}
       propertyPath: m_Name
       value: Main Menu Objects
@@ -5086,3 +5139,4 @@ SceneRoots:
   - {fileID: 1216757519232753578}
   - {fileID: 250509686}
   - {fileID: 1242273933303907966}
+  - {fileID: 1078177419}
