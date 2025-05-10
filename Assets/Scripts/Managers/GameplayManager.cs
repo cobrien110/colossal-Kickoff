@@ -536,7 +536,7 @@ public class GameplayManager : MonoBehaviour
                 // Null Reference Catch
             }
 
-            UM.SetPlayerPortrait(false, WC.playerNum);
+            UM.SetPlayerPortrait(false, WC);
         }
     }
 
@@ -596,7 +596,7 @@ public class GameplayManager : MonoBehaviour
                 {
                     WC.warriorPosition = 3;
                 }
-                UM.SetPlayerPortrait(true, WC.warriorPosition);
+                UM.SetPlayerPortrait(true, WC);
             }
         }
 

@@ -317,7 +317,7 @@ public class TutorialManager : MonoBehaviour
                 // Null Reference Catch
             }
 
-            UM.SetPlayerPortrait(false, WC.playerNum);
+            UM.SetPlayerPortrait(false, WC);
         }
     }
 

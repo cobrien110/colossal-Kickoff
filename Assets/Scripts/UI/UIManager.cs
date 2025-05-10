@@ -611,6 +611,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Calling UI player 1");
             player1Icon.gameObject.SetActive(state);
+            
         }
         else if (player == 2)
         {
@@ -990,53 +991,54 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetPlayerPortrait(bool isAI, int warriorPosition)
+    public void SetPlayerPortrait(bool isAI, WarriorController WC)
     {
+        Sprite aliveSprite;
+        Sprite deadSprite;
+
         if (isAI)
         {
-            switch (warriorPosition)
-            {
-                case 1:
-                    player1Icon.sprite = robotSpriteAlive;
-                    player1Dead.sprite = robotSpriteDead;
-                    break;
-
-                case 2:
-                    player2Icon.sprite = robotSpriteAlive;
-                    player2Dead.sprite = robotSpriteDead;
-                    break;
-
-                case 3:
-                    player3Icon.sprite = robotSpriteAlive;
-                    player3Dead.sprite = robotSpriteDead;
-                    break;
-
-                default:
-                    break;
-            }
+            aliveSprite = robotSpriteAlive;
+            deadSprite = robotSpriteDead;
         }
         else
         {
-            switch (warriorPosition)
-            {
-                case 1:
-                    player1Icon.sprite = humanSpriteAlive;
-                    player1Dead.sprite = humanSpriteDead;
-                    break;
-
-                case 2:
-                    player2Icon.sprite = humanSpriteAlive;
-                    player2Dead.sprite = humanSpriteDead;
-                    break;
-
-                case 3:
-                    player3Icon.sprite = humanSpriteAlive;
-                    player3Dead.sprite = humanSpriteDead;
-                    break;
-
-                default:
-                    break;
-            }
+            aliveSprite = humanSpriteAlive;
+            deadSprite = humanSpriteDead;
         }
+
+        Color playerColor = WC.GetColor();
+
+        Image icon;
+        Image dead;
+
+        switch (WC.playerNum)
+        {
+            case 1:
+                icon = player1Icon;
+                dead = player1Dead;
+                break;
+            case 2:
+                icon = player2Icon;
+                dead = player2Dead;
+                break;
+            case 3:
+                icon = player3Icon;
+                dead = player3Dead;
+                break;
+            default:
+                return;
+        }
+
+        icon.sprite = aliveSprite;
+        dead.sprite = deadSprite;
+
+        Material iconMat = new Material(icon.material);
+        iconMat.color = playerColor;
+        icon.material = iconMat;
+
+        Material deadMat = new Material(dead.material);
+        deadMat.color = playerColor;
+        dead.material = deadMat;
     }
 }
