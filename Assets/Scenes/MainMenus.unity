@@ -5089,17 +5089,17 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: REPLENISHING
+      m_Image: {fileID: 0}
+    - m_Text: REPLENISHING+
+      m_Image: {fileID: 0}
+    - m_Text: REPLENISHING-
+      m_Image: {fileID: 0}
     - m_Text: STANDARD
       m_Image: {fileID: 0}
-    - m_Text: STANDARD - STRONG
+    - m_Text: STANDARD+
       m_Image: {fileID: 0}
-    - m_Text: STANDARD - WEAK
-      m_Image: {fileID: 0}
-    - m_Text: PERSISTENT
-      m_Image: {fileID: 0}
-    - m_Text: PERSISTENT - STRONG
-      m_Image: {fileID: 0}
-    - m_Text: PERSISTENT - WEAK
+    - m_Text: STANDARD-
       m_Image: {fileID: 0}
     - m_Text: NONE
       m_Image: {fileID: 0}
@@ -8669,11 +8669,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "--- GOAL BARRIER INFO ---\n\nStandard Goal Barriers will reset to full
-    health after each score, regardless of team.\n\nPersistent Barriers will only
-    reset their health if their goal is scored in. \n\nThe Strong version of each
-    type can take an extra hit or two. The Weak version will deplete in a single
-    hit.\n\nChoose whichever style you prefer to play with!"
+  m_text: 'Standard Barriers will retain their damage between points until a point
+    is scored into them.
+
+
+    Replenishing Goal Barriers will both reset to full
+    health after either team scores.
+
+
+    The + version of each type can take an
+    extra hit or two. The - version will deplete in a single hit.
+
+
+    All Goal
+    Barriers can be pierced by a charged Warrior Super Kick, or a sufficiently powerful
+    Monster kick.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: c827be4b7176c4f488a52f426b98079d, type: 2}
@@ -14833,8 +14843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 339.6, y: -206.9}
-  m_SizeDelta: {x: 114.5085, y: 35.8819}
+  m_AnchoredPosition: {x: 324.06653, y: -212.63062}
+  m_SizeDelta: {x: 145.5755, y: 24.4207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &736757919
 MonoBehaviour:
@@ -14856,7 +14866,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BETA 1.0
+  m_text: EARLY ACCESS 1.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: c827be4b7176c4f488a52f426b98079d, type: 2}

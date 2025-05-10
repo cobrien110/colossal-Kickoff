@@ -316,6 +316,15 @@ public class MenuController : MonoBehaviour
                     case (6):
                         returnToTop();
                         break;
+                    case (7):
+                        backToExtras();
+                        break;
+                    case (8):
+                        backToExtras();
+                        break;
+                    case (9):
+                        backToExtras();
+                        break;
                     default:
                         break;
                 }
@@ -526,6 +535,7 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
             case 5:
+                currentScreen = 7;
                 menuCamera.goToSandbox();
                 extrasContent.SetActive(false);
                 sandboxContent.SetActive(true);
@@ -535,6 +545,7 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
             case 6:
+                currentScreen = 8;
                 menuCamera.goToHowToZoom();
                 tutorialIndex = 0;
                 extrasContent.SetActive(false);
@@ -551,6 +562,7 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
             case 7:
+                currentScreen = 9;
                 menuCamera.goToStatsZoom();
                 extrasContent.SetActive(false);
                 statsContent.SetActive(true);
@@ -587,6 +599,23 @@ public class MenuController : MonoBehaviour
         CSU.CreditsEnd();
         TVT.WarningStart();
 
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+    }
+
+    public void backToExtras() {
+        Debug.Log("BackToExtras");
+        currentScreen = 6;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(extrasFirstButton);
+        menuCamera.goToExtras();
+        TVT.WarningEnd();
+        extrasContent.SetActive(true);
+        sandboxContent.SetActive(false);
+        tutorialContent.SetActive(false);
+        mainCanvasTutorial.SetActive(false);
+        statsContent.SetActive(false);
         //sound
         if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
