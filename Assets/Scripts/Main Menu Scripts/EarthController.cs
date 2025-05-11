@@ -39,6 +39,9 @@ public class EarthController : MonoBehaviour
                 Debug.LogWarning($"EarthController: Marker {marker.name} is missing a SpriteRenderer component!");
             }
         }
+
+        //Ensures a default marker is highlighted and selected on load
+        RotateToCountry(1); 
     }
 
     //Call this method to rotate the Earth to a specific country
