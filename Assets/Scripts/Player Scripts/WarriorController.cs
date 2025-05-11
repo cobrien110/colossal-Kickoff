@@ -791,6 +791,7 @@ public class WarriorController : MonoBehaviour
             ResetPlayer();
             fancySpawnStarted = false;
             elapsedJumpTime = 0;
+            DisableAura();
 
             // Update list of warriors in AiMonsterController if appropriate
             AiMonsterController aiMonsterController = FindObjectOfType<MonsterController>().GetComponent<AiMonsterController>();
