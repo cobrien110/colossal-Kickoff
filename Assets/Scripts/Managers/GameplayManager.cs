@@ -761,4 +761,9 @@ public class GameplayManager : MonoBehaviour
     {
         MP = m;
     }
+
+    public bool GetPodiumSequenceStarted()
+    {
+        return podiumSequenceStarted;
+    }
 }
