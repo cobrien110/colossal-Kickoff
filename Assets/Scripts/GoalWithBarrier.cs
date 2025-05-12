@@ -289,6 +289,10 @@ public class GoalWithBarrier : MonoBehaviour
         bonusHealth = amountToAdd;
         if (bonusHealth >= maxBonusHealth) bonusHealth = maxBonusHealth;
         BarrierAudio.PlaySoundRandomPitch(BarrierAudio.Find("goalBarrierCharge"));
+        if (canBeScoredIn == true)
+        {
+            SetCanScore(false);
+        }
     }
 
     public void SetBonusBars(bool isOn)
