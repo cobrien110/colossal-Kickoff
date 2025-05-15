@@ -5701,8 +5701,11 @@ MonoBehaviour:
   slideCooldown: 1
   slideDuration: 0.35
   mummyLifeSpan: 12
+  shootDelay: 0.5
+  passDelay: 0.1
   ballPosition: {fileID: 3482737404897961101}
   sandStormPrefab: {fileID: 6992364771470286713, guid: 683b903ef955a1a418aea26960fdf429, type: 3}
+  sandStormInstance: {fileID: 0}
   GroundRefernce: {fileID: 2498598097433495420}
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
@@ -5982,7 +5985,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4bdd1d979b30a7b4f97631a6a373cebe, type: 3}
-  m_Color: {r: 1, g: 0.48748046, b: 0, a: 0.15686275}
+  m_Color: {r: 1, g: 0.18161473, b: 0, a: 0.15686275}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

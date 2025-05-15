@@ -519,6 +519,15 @@ public class MenuController : MonoBehaviour
                 //sound
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                // Steam Achievement Stuff
+                if (SteamManager.Initialized)
+                {
+                    Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                    Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("CREDITS_VIEWED"));
+                    Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+                }
+
                 break;
 
             //EXTRAS

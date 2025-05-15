@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using Steamworks;
 
 public class WarriorController : MonoBehaviour
 {
@@ -884,6 +885,14 @@ public class WarriorController : MonoBehaviour
                 Instantiate(dodgeTextPrefab, transform.position, Quaternion.identity);
                 canSpawnText = false;
                 StartCoroutine(TextSpawnReset());
+
+                // Steam Achievement Stuff
+                if (SteamManager.Initialized)
+                {
+                    Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                    Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("SMOOTH_JUKE"));
+                    Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+                }
             }
         }
         if (isInvincible || isWinner) return;

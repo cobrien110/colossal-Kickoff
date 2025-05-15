@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Steamworks;
 
 public class Car : MonoBehaviour
 {
@@ -37,6 +38,13 @@ public class Car : MonoBehaviour
         {
             WarriorController WC = collision.GetComponent<WarriorController>();
             WC.Die();
+            // Steam Achievement Stuff
+            if (SteamManager.Initialized)
+            {
+                Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("HIT_BY_CAR"));
+                Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+            }
         } else if (collision.CompareTag("Monster"))
         {
             MonsterController MC = collision.GetComponent<MonsterController>();
