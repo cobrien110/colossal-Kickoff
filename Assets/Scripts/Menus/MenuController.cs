@@ -231,7 +231,7 @@ public class MenuController : MonoBehaviour
             skipMain = false;
         }
 
-        //Temp Steam Achievement Stuff
+        // Steam Achievement Stuff
         if (SteamManager.Initialized)
         {
             Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
@@ -1016,6 +1016,17 @@ public class MenuController : MonoBehaviour
     public void setGoalBarriers()
     {
         PlayerPrefs.SetInt("goalBarriers", goalDropdown.value);
+
+        // give achievement for turning off
+        if (goalDropdown.value == 6)
+        {
+            if (SteamManager.Initialized)
+            {
+                Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("NO_BARRIERS"));
+                Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+            }
+        }
 
         //sound
         if (AP != null) AP.setUseComVol(false);
