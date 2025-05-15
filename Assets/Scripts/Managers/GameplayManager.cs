@@ -59,6 +59,7 @@ public class GameplayManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private UIManager UM = null;
+    [SerializeField] private StatTracker ST = null;
     public SceneInfoManager SceneIM;
     [SerializeField] private GameObject Ball = null;
     [SerializeField] private AsyncLoadManager ALM = null;
@@ -87,6 +88,7 @@ public class GameplayManager : MonoBehaviour
             InputSystem.EnableDevice(Gamepad.all[i]);
         }
 
+        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         BallSpawner = GameObject.Find("BallSpawner");
         Ball = GameObject.FindGameObjectWithTag("Ball");
         WarriorSpawners = GameObject.FindGameObjectsWithTag("WarriorSpawner");
@@ -123,9 +125,14 @@ public class GameplayManager : MonoBehaviour
         if (SteamManager.Initialized)
         {
             SteamUserStats.RequestCurrentStats();
+
             int goalsScored = 0;
             SteamUserStats.GetStat("goals_scored", out goalsScored);
             Debug.Log("GOALS SCORED: " + goalsScored);
+
+            int monsterKills = 0;
+            SteamUserStats.GetStat("monster_kills", out monsterKills);
+            Debug.Log("MONSTER KILLS: " + monsterKills);
         }
     }
 
@@ -239,9 +246,14 @@ public class GameplayManager : MonoBehaviour
         if (SteamManager.Initialized)
         {
             SteamUserStats.RequestCurrentStats();
+
             int goalsScored = 0;
             SteamUserStats.GetStat("goals_scored", out goalsScored);
             SteamUserStats.SetStat("goals_scored", goalsScored + (UM.GetWarriorScore() + UM.GetMonsterScore()));
+
+            int monsterKills = 0;
+            SteamUserStats.GetStat("monster_kills", out monsterKills);
+            SteamUserStats.SetStat("monster_kills", monsterKills + ST.GetMKills());
             SteamUserStats.StoreStats();
         }
     }
