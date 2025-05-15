@@ -1000,6 +1000,17 @@ public class MenuController : MonoBehaviour
             AP.setUseComVol(true);
             AP.PlaySound(AP.Find("a_death_warrior3"));
         }
+
+        if (PlayerPrefs.GetFloat("commentaryVolume") == 0f)
+        {
+            // Steam Achievement Stuff
+            if (SteamManager.Initialized)
+            {
+                Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("COMMENTATOR_OFF"));
+                Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+            }
+        }
     }
 
     public void setCommentaryFrequency()
@@ -1010,6 +1021,17 @@ public class MenuController : MonoBehaviour
         //sound
         if (AP != null) AP.setUseComVol(false);
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+
+        if (PlayerPrefs.GetFloat("commentaryFrequency") == 0f)
+        {
+            // Steam Achievement Stuff
+            if (SteamManager.Initialized)
+            {
+                Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
+                Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("COMMENTATOR_OFF"));
+                Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
+            }
+        }
     }
 
     //Match Settings
