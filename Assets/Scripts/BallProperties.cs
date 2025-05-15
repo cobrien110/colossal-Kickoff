@@ -811,4 +811,9 @@ public class BallProperties : MonoBehaviour
             && GM.passIndicator && passTimer <= passTimeFrame;
     }
 
+    public float GetSuperKickMinStunSpeed()
+    {
+        return superKickMinStunSpeed;
+    }
+
 }

@@ -15,7 +15,8 @@ public class BallTrailController : MonoBehaviour
     [SerializeField] private float colorLerpSpeed = 2f;
 
     private Color currentColor;
-    private bool wasSuperKicked = false;
+    private bool superKickActive = false;
+    private float startSpeed = 0f;
 
     void Start()
     {
@@ -34,37 +35,45 @@ public class BallTrailController : MonoBehaviour
     void Update()
     {
         var emission = ballTrail.emission;
-        float speed = rb.velocity.magnitude;
+        float currentSpeed = rb.velocity.magnitude;
 
-        if (speed < 0.2f)
+        if (currentSpeed < 0.2f)
         {
             emission.rateOverDistance = 0f;
             emission.rateOverTime = 0f;
         }
         else
         {
-            emission.rateOverDistance = Mathf.Lerp(minRateOverDistance, maxRateOverDistance, speed / BP.maxSpeed); // Adjust density based on speed
+            emission.rateOverDistance = Mathf.Lerp(minRateOverDistance, maxRateOverDistance, currentSpeed / BP.maxSpeed); // Adjust density based on speed
         }
 
 
-        // Change ball trail color on super kick
-        if (BP.ballOwner != null && BP.ballOwner.GetComponent<WarriorController>() != null
-        && BP.ballOwner.GetComponent<WarriorController>().superKicking)
+        if (BP.ballOwner != null &&
+        BP.ballOwner.TryGetComponent(out WarriorController wc) &&
+        wc.superKicking)
         {
-            Debug.Log("Superkicking: " + BP.ballOwner.GetComponent<WarriorController>().superKicking);
-
             currentColor = superKickColor;
-            wasSuperKicked = true;
+            superKickActive = true;
+            startSpeed = 0f;
         }
-        else if (wasSuperKicked)
+        else if (superKickActive)
         {
-            // Smoothly lerp back to base color
-            currentColor = Color.Lerp(currentColor, normalColor, Time.deltaTime * colorLerpSpeed);
-
-            if (Vector4.Distance(currentColor, normalColor) < 0.01f)
+            if (startSpeed == 0f && currentSpeed > BP.GetSuperKickMinStunSpeed())
             {
-                currentColor = normalColor;
-                wasSuperKicked = false;
+                startSpeed = currentSpeed;
+            }
+
+            if (startSpeed > 0f)
+            {
+                float t = Mathf.InverseLerp(startSpeed, BP.GetSuperKickMinStunSpeed(), currentSpeed);
+                currentColor = Color.Lerp(superKickColor, normalColor, t);
+
+                if (t >= 1f || Vector4.Distance(currentColor, normalColor) < 0.01f)
+                {
+                    currentColor = normalColor;
+                    superKickActive = false;
+                    startSpeed = 0f;
+                }
             }
         }
 
