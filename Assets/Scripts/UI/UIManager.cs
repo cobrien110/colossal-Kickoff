@@ -1041,4 +1041,14 @@ public class UIManager : MonoBehaviour
         deadMat.color = playerColor;
         dead.material = deadMat;
     }
+
+    public int GetWarriorScore()
+    {
+        return warriorScore;
+    }
+
+    public int GetMonsterScore()
+    {
+        return monsterScore;
+    }
 }

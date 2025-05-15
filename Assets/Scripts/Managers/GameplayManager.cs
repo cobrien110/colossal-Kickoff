@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Steamworks;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -118,6 +119,14 @@ public class GameplayManager : MonoBehaviour
             GetInputPrefs();
         }
         SetPlayerColors();
+
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.RequestCurrentStats();
+            int goalsScored = 0;
+            SteamUserStats.GetStat("goals_scored", out goalsScored);
+            Debug.Log("GOALS SCORED: " + goalsScored);
+        }
     }
 
     // Update is called once per frame
@@ -226,6 +235,15 @@ public class GameplayManager : MonoBehaviour
 
         // Remove all mummies
         if (aiMummymanager != null) aiMummymanager.ResetMummies();
+
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.RequestCurrentStats();
+            int goalsScored = 0;
+            SteamUserStats.GetStat("goals_scored", out goalsScored);
+            SteamUserStats.SetStat("goals_scored", goalsScored + (UM.GetWarriorScore() + UM.GetMonsterScore()));
+            SteamUserStats.StoreStats();
+        }
     }
 
     private IEnumerator Kickoff()
