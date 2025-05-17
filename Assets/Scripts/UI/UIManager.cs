@@ -991,6 +991,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <param name="isAI">If true, sets the portrait for an AI-controlled player; otherwise, for a human player.</param>
+    /// <param name="WC">The <see cref="WarriorController"/> representing the warrior whose portrait should be set.</param>
     public void SetPlayerPortrait(bool isAI, WarriorController WC)
     {
         Sprite aliveSprite;
@@ -1008,6 +1010,8 @@ public class UIManager : MonoBehaviour
         }
 
         Color playerColor = WC.GetColor();
+
+        Debug.Log("Set Player" + WC.playerNum + " icon to: " + playerColor);
 
         Image icon;
         Image dead;

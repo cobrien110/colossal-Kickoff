@@ -572,7 +572,6 @@ public class GameplayManager : MonoBehaviour
                 // Null Reference Catch
             }
 
-            UM.SetPlayerPortrait(false, WC);
         }
     }
 
@@ -632,7 +631,6 @@ public class GameplayManager : MonoBehaviour
                 {
                     WC.warriorPosition = 3;
                 }
-                UM.SetPlayerPortrait(true, WC);
             }
         }
 
@@ -773,11 +771,12 @@ public class GameplayManager : MonoBehaviour
             {
                 if (warrior.GetComponent<WarriorAiController>() != null)
                 {
-                    //do nothing
+                    UM.SetPlayerPortrait(true, WC);
                 }
                 else
                 {
                     WC.SetColor(playerColors[count]);
+                    UM.SetPlayerPortrait(false, WC);
                     count++;
                 }
             }
