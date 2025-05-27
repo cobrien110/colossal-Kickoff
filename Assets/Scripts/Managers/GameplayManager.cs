@@ -245,20 +245,49 @@ public class GameplayManager : MonoBehaviour
         // Remove all mummies
         if (aiMummymanager != null) aiMummymanager.ResetMummies();
 
+        // Sets end-of-game Steam stats
         if (SteamManager.Initialized)
         {
             SteamUserStats.RequestCurrentStats();
 
+            // Checks if Monster is AI for tracking Kills
             if (MC != null && MC.gameObject.GetComponent<AiMonsterController>() == null)
             {
+                // If not AI, add to Stats
                 int monsterKills = 0;
                 SteamUserStats.GetStat("monster_kills", out monsterKills);
                 SteamUserStats.SetStat("monster_kills", monsterKills + ST.GetMKills());
             }
 
-            if ((UM.GetWarriorScore() - 5) >= UM.GetMonsterScore() || (UM.GetMonsterScore() - 5) >= UM.GetWarriorScore())
+            // Checks if Warrior Score is 5+ more than Monster Score
+            if (UM.GetWarriorScore() - 5 >= UM.GetMonsterScore())
             {
-                SteamUserStats.SetAchievement("BIG_SCORE_GAP");
+                int playerCount = 0;
+                GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
+
+                // Checks how many Warriors are AI. Adds to playerCount for each non-AI
+                for (int i = 0; i < warriors.Length; i++)
+                {
+                    if (warriors[i].GetComponent<WarriorAiController>() == null)
+                    {
+                        playerCount++;
+                    }
+                }
+
+                // If there is at least 1 human Warrior, set achievement.
+                if (playerCount > 0)
+                {
+                    SteamUserStats.SetAchievement("BIG_SCORE_GAP");
+                }
+            }
+            // Checks if Monster Score is 5+ more than Warrior Score
+            else if (UM.GetMonsterScore() - 5 >= UM.GetWarriorScore())
+            {
+                // If Monster is not AI, set achievement.
+                if (MC.gameObject.GetComponent<AiMonsterController>() == null)
+                {
+                    SteamUserStats.SetAchievement("BIG_SCORE_GAP");
+                }
             }
 
             SteamUserStats.StoreStats();
