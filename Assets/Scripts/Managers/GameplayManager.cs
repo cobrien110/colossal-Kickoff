@@ -122,17 +122,19 @@ public class GameplayManager : MonoBehaviour
         }
         SetPlayerColors();
 
+        // Steam stat debugging
         if (SteamManager.Initialized)
         {
             SteamUserStats.RequestCurrentStats();
+            Debug.Log("___STEAM STAT DEBUG___");
 
             int goalsScored = 0;
             SteamUserStats.GetStat("goals_scored", out goalsScored);
-            Debug.Log("GOALS SCORED: " + goalsScored);
+            Debug.Log("Goals: " + goalsScored);
 
             int monsterKills = 0;
             SteamUserStats.GetStat("monster_kills", out monsterKills);
-            Debug.Log("MONSTER KILLS: " + monsterKills);
+            Debug.Log("Kills: " + monsterKills);
         }
     }
 
@@ -246,10 +248,6 @@ public class GameplayManager : MonoBehaviour
         if (SteamManager.Initialized)
         {
             SteamUserStats.RequestCurrentStats();
-
-            int goalsScored = 0;
-            SteamUserStats.GetStat("goals_scored", out goalsScored);
-            SteamUserStats.SetStat("goals_scored", goalsScored + (UM.GetWarriorScore() + UM.GetMonsterScore()));
 
             int monsterKills = 0;
             SteamUserStats.GetStat("monster_kills", out monsterKills);

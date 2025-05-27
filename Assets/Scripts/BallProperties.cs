@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Steamworks;
 
 public class BallProperties : MonoBehaviour
 {
@@ -352,13 +353,28 @@ public class BallProperties : MonoBehaviour
                 if (playerTest != null && playerTest.GetComponent<MonsterController>() != null)
                 {
                     int i = playerTest.GetComponent<MonsterController>().playerID;
+
+                    // AI Scores
                     if (playerTest.GetComponent<AiMonsterController>() != null)
                     {
                         UM.UpdatePlayerScoredText(0, Color.white);
                     }
+                    // Player Scores
                     else
                     {
                         UM.UpdatePlayerScoredText(i + 1, Color.white);
+
+                        // Add to "goals_scored" Steam stat
+                        if (SteamManager.Initialized)
+                        {
+                            SteamUserStats.RequestCurrentStats();
+
+                            int goalsScored = 0;
+                            SteamUserStats.GetStat("goals_scored", out goalsScored);
+                            SteamUserStats.SetStat("goals_scored", goalsScored + 1);
+
+                            SteamUserStats.StoreStats();
+                        }
                     }
                     //UM.ShowPlayerScoredText(true);
                 }
@@ -366,10 +382,13 @@ public class BallProperties : MonoBehaviour
                 else if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
                 {
                     int i = playerTest.GetComponent<WarriorController>().playerID;
+
+                    // AI OwnGoals
                     if (playerTest.GetComponent<WarriorAiController>() != null)
                     {
                         UM.UpdatePlayerScoredText(0, Color.white);
                     }
+                    // Player OwnGoals
                     else
                     {
                         i = i * -1;
@@ -440,13 +459,28 @@ public class BallProperties : MonoBehaviour
                 if (playerTest != null && playerTest.GetComponent<WarriorController>() != null)
                 {
                     int i = playerTest.GetComponent<WarriorController>().playerID;
+
+                    // AI Scores
                     if (playerTest.GetComponent<WarriorAiController>() != null)
                     {
                         UM.UpdatePlayerScoredText(0, Color.white);
                     }
+                    // Player Scores
                     else
                     {
                         UM.UpdatePlayerScoredText(i + 1, playerTest.GetComponent<WarriorController>().GetColor());
+
+                        // Add to "goals_scored" Steam stat
+                        if (SteamManager.Initialized)
+                        {
+                            SteamUserStats.RequestCurrentStats();
+
+                            int goalsScored = 0;
+                            SteamUserStats.GetStat("goals_scored", out goalsScored);
+                            SteamUserStats.SetStat("goals_scored", goalsScored + 1);
+
+                            SteamUserStats.StoreStats();
+                        }
                     }
                     //UM.ShowPlayerScoredText(true);
                 }
@@ -454,10 +488,13 @@ public class BallProperties : MonoBehaviour
                 else if (playerTest != null && playerTest.GetComponent<MonsterController>() != null)
                 {
                     int i = playerTest.GetComponent<MonsterController>().playerID;
+
+                    // AI OwnGoals
                     if (playerTest.GetComponent<AiMonsterController>() != null)
                     {
                         UM.UpdatePlayerScoredText(0, Color.white);
                     }
+                    // Player OwnGoals
                     else
                     {
                         i = i * -1;
