@@ -249,9 +249,12 @@ public class GameplayManager : MonoBehaviour
         {
             SteamUserStats.RequestCurrentStats();
 
-            int monsterKills = 0;
-            SteamUserStats.GetStat("monster_kills", out monsterKills);
-            SteamUserStats.SetStat("monster_kills", monsterKills + ST.GetMKills());
+            if (MC != null && MC.gameObject.GetComponent<AiMonsterController>() == null)
+            {
+                int monsterKills = 0;
+                SteamUserStats.GetStat("monster_kills", out monsterKills);
+                SteamUserStats.SetStat("monster_kills", monsterKills + ST.GetMKills());
+            }
 
             if ((UM.GetWarriorScore() - 5) >= UM.GetMonsterScore() || (UM.GetMonsterScore() - 5) >= UM.GetWarriorScore())
             {
