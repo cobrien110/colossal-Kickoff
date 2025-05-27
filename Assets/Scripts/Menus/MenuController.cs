@@ -47,6 +47,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject sandboxContent;
     [SerializeField] private GameObject tutorialContent;
     [SerializeField] private GameObject statsContent;
+    [SerializeField] private GameObject changelogContent;
 
     [Header("Tutorial Elements")]
     [SerializeField] private Sprite[] tutorialImages;
@@ -128,6 +129,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject stageSettingsFirstButton;
     [SerializeField] private GameObject extrasFirstButton;
     [SerializeField] private GameObject creditsBackButton;
+    [SerializeField] private GameObject changelogBackButton;
 
     [SerializeField] private Button settingsControlsButton;
     [SerializeField] private Button settingsAudioButton;
@@ -324,6 +326,9 @@ public class MenuController : MonoBehaviour
                         break;
                     case (9):
                         backToExtras();
+                        break;
+                    case (10):
+                        returnToTop();
                         break;
                     default:
                         break;
@@ -580,6 +585,15 @@ public class MenuController : MonoBehaviour
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
+            case 8:
+                currentScreen = 10;
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(changelogBackButton);
+                
+                changelogContent.SetActive(true);
+                mainMenuButtons.SetActive(false);
+                break;
+
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
@@ -605,6 +619,7 @@ public class MenuController : MonoBehaviour
         tutorialContent.SetActive(false);
         mainCanvasTutorial.SetActive(false);
         statsContent.SetActive(false);
+        changelogContent.SetActive(false);
         CSU.CreditsEnd();
         TVT.WarningStart();
 
