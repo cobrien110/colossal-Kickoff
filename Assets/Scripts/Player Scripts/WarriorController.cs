@@ -164,7 +164,7 @@ public class WarriorController : MonoBehaviour
 
         // fancy respawn
         jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
-        jumpInTime = respawnTime - 1;
+        jumpInTime = 1f;
     }
 
     private void Start()
@@ -834,7 +834,7 @@ public class WarriorController : MonoBehaviour
     {
         if (jumpInLocation == null || !canRespawn) return;
 
-        if (respawnTimer >= 1 && isDead)
+        if (respawnTimer >= respawnTime - 1 && isDead)
         {
             if (!fancySpawnStarted)
             {
