@@ -234,6 +234,10 @@ public class GameplayManager : MonoBehaviour
         Debug.Log("GM calling start of podium sequence");
         isGameOver = true;
         overtimeStarted = false;
+
+        // deactivate monster abilities
+        MC.ResetAbilities();
+
         MP.PlayResults();
         PS.StartPodiumSequence(PS.GetUI().CheckWinner());
         GameObject[] hazards = GameObject.FindGameObjectsWithTag("Hazard");

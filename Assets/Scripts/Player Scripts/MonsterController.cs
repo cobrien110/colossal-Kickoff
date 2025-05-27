@@ -795,17 +795,7 @@ public class MonsterController : MonoBehaviour
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
 
         isIntangible = false;
-        for (int i = 0; i < abilities.Count; i++)
-        {
-            if (abilities[i] != null) abilities[i].Deactivate();
-        }
-        if (passiveAbilities.Length > 0)
-        {
-            for (int i = 0; i< passiveAbilities.Length; i++)
-            {
-                passiveAbilities[i].Deactivate();
-            }
-        }
+        ResetAbilities();
 
         // If playing Quetz, reset it's segments
         AbilitySnakeSegments segments = GetComponent<AbilitySnakeSegments>();
@@ -1169,6 +1159,7 @@ public class MonsterController : MonoBehaviour
             if (ab == null) continue; // Ignore the null abilities
             // Debug.Log("Reseting ability");
             ab.AbilityReset();
+            ab.Deactivate();
         }
         foreach (PassiveAbility pa in passiveAbilities)
         {

@@ -16,6 +16,7 @@ public class AbilityFly : AbilityScript
     [SerializeField] private Transform slamParticlesTransform;
 
     private GameObject sprite;
+    [SerializeField] private Transform tranformForCam;
     private float spritePositionY;
     public float maxSpriteYOffset = 5f;
     private float sY;
@@ -101,8 +102,8 @@ public class AbilityFly : AbilityScript
 
             if (MTC.CheckTarget(transform))
             {
-                MTC.AddTarget(sprite.transform);
-                MTC.RemoveTarget(transform);
+                MTC.AddTarget(tranformForCam);
+                //MTC.RemoveTarget(transform);
             }
         }
     }
@@ -135,15 +136,16 @@ public class AbilityFly : AbilityScript
         }
         audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(slamSoundName), 0.75f);
 
-        if (MTC.CheckTarget(sprite.transform))
+        if (MTC.CheckTarget(tranformForCam))
         {
-            MTC.AddTarget(transform);
-            MTC.RemoveTarget(sprite.transform);
+            //MTC.AddTarget(transform);
+            MTC.RemoveTarget(tranformForCam);
         }
     }
 
     public override void Deactivate()
     {
+        //Debug.Log("Deactivating " + abilityName);
         activeDuration = 0;
         isActive = false;
         sprite.transform.position = new Vector3(sprite.transform.position.x, spritePositionY, sprite.transform.position.z);
