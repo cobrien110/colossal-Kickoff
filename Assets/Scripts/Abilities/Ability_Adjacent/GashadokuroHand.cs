@@ -93,6 +93,9 @@ public class GashadokuroHand : MonoBehaviour
 
             // Apply force to the ball
             collider.gameObject.GetComponent<Rigidbody>().AddForce(hitballDirection * createHandsScript.hitballSpeed);
+
+            //update owner
+            BP.previousKicker = gameObject;
         }
         else if (SO != null)
         {
