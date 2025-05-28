@@ -491,6 +491,8 @@ public class MenuController : MonoBehaviour
                 outlineToggle.isOn = (PlayerPrefs.GetInt("ballOutlineMatchesTeam", 1) != 0);
                 deadzoneSlider.value = PlayerPrefs.GetFloat("deadzoneValue", .3f) * 10;
 
+                Debug.Log(PlayerPrefs.GetFloat("commentaryVolume"));
+
                 //sound
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
@@ -840,7 +842,7 @@ public class MenuController : MonoBehaviour
     {
         mGoalsText.text = "Goals: " + ST.saveData.mGoals;
         mKillsText.text = "Kills: " + ST.saveData.kills;
-        mAbiltiesText.text = "Abilites: " + ST.saveData.abilities;
+        mAbiltiesText.text = "Abilities: " + ST.saveData.abilities;
         mWinsText.text = "Wins: " + ST.saveData.mWins;
 
         wGoalsText.text = "Goals: " + ST.saveData.wGoals;

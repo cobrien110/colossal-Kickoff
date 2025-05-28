@@ -51,6 +51,9 @@ public class WarriorController : MonoBehaviour
     private float baseHitboxRadius;
     [SerializeField] private float auraLingerDuration = 1f;
 
+    //Add setting to adjust this, replace deadzone?
+    public float kickingSensitivity = 0.99f;
+
     private float slideCooldown = 2f;
     [SerializeField] private float slideSpeedRegular = 230f;
     [SerializeField] private float slideCooldownRegular = 2f;
@@ -431,9 +434,11 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
+
+        // ---Flick to Kick --- 
         if (!usingNewScheme)
         {
-            if (((rightStickInput == Vector3.zero && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.Space)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.Space)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
 
@@ -488,7 +493,7 @@ public class WarriorController : MonoBehaviour
                     kickForce = kickForce * (1.3f);
                     jukeKickReady = false;
                 }
-                Debug.Log(kickForce);
+                //Debug.Log(kickForce);
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
@@ -499,7 +504,7 @@ public class WarriorController : MonoBehaviour
 
                 StartCoroutine(KickDelay());
             }
-            if (((rightStickInput != Vector3.zero && !usingKeyboard) || /*Input.GetKey(KeyCode.Space)*/false) && BP.ballOwner == gameObject)
+            if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.Space)*/false) && BP.ballOwner == gameObject)
             {
                 if (kickCharge <= maxCharge)
                 {
@@ -533,7 +538,8 @@ public class WarriorController : MonoBehaviour
                 aimingDirection = Vector3.zero;
                 ANIM.SetBool("isChargingKick", false);
             }
-        } else
+        } // --- Different Control Scheme ---
+        else
         {
             if ((warriorControls.phase == InputActionPhase.Canceled || warriorControls.WasReleasedThisFrame()) && BP.ballOwner == gameObject && kickCharge != 1)
             {
@@ -577,7 +583,7 @@ public class WarriorController : MonoBehaviour
                     kickForce = kickForce * (1.3f);
                     jukeKickReady = false;
                 }
-                Debug.Log(kickForce);
+                //Debug.Log(kickForce);
 
                 Vector3 forceToAdd = aimingDirection * kickForce;
                 BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
@@ -1087,9 +1093,11 @@ public class WarriorController : MonoBehaviour
             rightStickInput.z = -rightStickInput.z;
         }
 
-        if (rightStickInput != Vector3.zero && !usingKeyboard)
+        if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
+            Debug.Log("AIMING DIR " + aimingDirection);
+            Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
         }
         usingKeyboard = false;
     }

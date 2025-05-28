@@ -18,6 +18,9 @@ public class Stats
     public int deaths;
     public int steals;
     public int wWins;
+
+    //General Stats
+    public bool hasPlayed;
 }
 
 public class StatTracker : MonoBehaviour
@@ -247,13 +250,14 @@ public class StatTracker : MonoBehaviour
         }
     }
 
+    //Move this from buttons to ending sequence?
     public void UpdateSaveData()
     {
         //Monster Stats
         saveData.kills += mKills;
         saveData.mGoals += mGoals;
         saveData.abilities += mAbUsed;
-        if (GetGameWinner().Equals("WARRIORS WIN!")) saveData.mWins += 1;
+        if (GetGameWinner().Equals("MONSTER WINS!")) saveData.mWins += 1;
 
         //Warrior Stats
         saveData.wGoals += (w1Goals + w2Goals + w3Goals);
@@ -261,6 +265,8 @@ public class StatTracker : MonoBehaviour
         saveData.deaths += (w1Deaths + w2Deaths + w3Deaths);
         saveData.steals += (w1Steals + w2Steals + w3Steals);
         if (!GetGameWinner().Equals("WARRIORS WIN!")) saveData.wWins += 1;
+
+        if (!saveData.hasPlayed) saveData.hasPlayed = true;
     }
 
     public void ResetSaveData()
@@ -275,6 +281,8 @@ public class StatTracker : MonoBehaviour
         saveData.deaths = 0;
         saveData.steals = 0;
         saveData.wWins = 0;
+
+        //saveData.hasPlayed = false;
 
         SaveToJson();
     }
