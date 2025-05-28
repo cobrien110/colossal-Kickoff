@@ -43,12 +43,14 @@ public class AbilitySphericalAttack : AbilityChargeable
             Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
             Instantiate(attackParticles,  new Vector3(0, 0.216f, 0) + origin + transform.forward * attackRange, Quaternion.identity);
             Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
+            
 
             foreach (Collider col in colliders)
             {
                 // Handle collision with each collider
                 Debug.Log("SphereCast hit " + col.gameObject.name);
                 bool hitWarrior = false;
+
                 if (col.gameObject.CompareTag("Warrior"))
                 {
                     WarriorController WC = col.GetComponent<WarriorController>();
@@ -69,7 +71,7 @@ public class AbilitySphericalAttack : AbilityChargeable
                 }
                 if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null && !hitWarrior)
                 {
-                    // SWIPE AWAY BALL - UNUSED FOR NOW
+                    // SWIPE AWAY BALL
                     if (canHitBall)
                     {
                         Debug.Log("AXE HIT BALL!");
@@ -79,7 +81,9 @@ public class AbilitySphericalAttack : AbilityChargeable
                         Vector3 dir = (posA - posB).normalized;
                         Vector3 forceToAdd = dir * kickForce;
                         BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                        Debug.Log("Setting ball previous kicker to monster");
                         BP.previousKicker = gameObject;
+                        BP.playerTest = BP.previousKicker;
                     }
                 }
                 DamagePlayer magmaPool = col.gameObject.GetComponent<DamagePlayer>();

@@ -96,6 +96,7 @@ public class GashadokuroHand : MonoBehaviour
 
             //update owner
             BP.previousKicker = gameObject;
+            BP.playerTest = BP.previousKicker;
         }
         else if (SO != null)
         {

@@ -82,7 +82,9 @@ public class AbilitySquareAttack : AbilityChargeable
                         Vector3 dir = (posA - posB).normalized;
                         Vector3 forceToAdd = dir * kickForce;
                         BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+                        //update owner
                         BP.previousKicker = gameObject;
+                        BP.playerTest = BP.previousKicker;
                     }
                 }
                 if (col.gameObject.CompareTag("Bomb"))
