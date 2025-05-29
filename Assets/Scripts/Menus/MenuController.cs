@@ -607,6 +607,7 @@ public class MenuController : MonoBehaviour
         Debug.Log("ReturnToTop");
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(topFirstButton);
+        topFirstButton.GetComponentInChildren<TMP_Text>().fontSize = 27.5f;
         STBC.TurnOff();
         menuCamera.goToTitle();
         CC.SwitchToNews();
