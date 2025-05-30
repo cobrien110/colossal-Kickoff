@@ -5365,11 +5365,11 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: REPLENISHING-
       m_Image: {fileID: 0}
-    - m_Text: PERSISTANT
+    - m_Text: PERSISTENT
       m_Image: {fileID: 0}
-    - m_Text: PERSISTANT+
+    - m_Text: PERSISTENT+
       m_Image: {fileID: 0}
-    - m_Text: PERSISTANT-
+    - m_Text: PERSISTENT-
       m_Image: {fileID: 0}
     - m_Text: NONE
       m_Image: {fileID: 0}
@@ -8580,7 +8580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodies:
   - GOAL BARRIERS exist to prevent scoring soon after the start of a round. Replenishing
-    goal barriers reset their health at the start of rounds. Persistant goal barriers
+    goal barriers reset their health at the start of rounds. Persistent goal barriers
     only reset if a goal has been scored on the side it's on. None disables goal
     barriers.
   - OVERTIME happens if there is a tie in points. Extra time gives an extra minute
@@ -9134,7 +9134,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Persistant barriers will retain their damage between points until a point
+  m_text: 'Persistent barriers will retain their damage between points until a point
     is scored into them.
 
 
