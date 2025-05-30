@@ -1208,18 +1208,21 @@ public class MenuController : MonoBehaviour
 
     public void ShowStageSettings(bool state)
     {
+        stageSettings.SetActive(state);
+        stageSelect.SetActive(!state);
+
         if (state)
         {
             EventSystem.current.SetSelectedGameObject(null);
+            stageSettingsFirstButton.gameObject.GetComponent<Selectable>().Select();
             EventSystem.current.SetSelectedGameObject(stageSettingsFirstButton);
         }
         else
         {
             EventSystem.current.SetSelectedGameObject(null);
+            lastStageButton.gameObject.GetComponent<Selectable>().Select();
             EventSystem.current.SetSelectedGameObject(lastStageButton.gameObject);
         }
-        stageSettings.SetActive(state);
-        stageSelect.SetActive(!state);
     }
 
     //private IEnumerator StageImage(int stageID)

@@ -4739,7 +4739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STANDARD
+  m_text: REPLENISHING
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
   m_sharedMaterial: {fileID: -1698889853656761225, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
@@ -5279,6 +5279,7 @@ GameObject:
   - component: {fileID: 260222349}
   - component: {fileID: 260222348}
   - component: {fileID: 260222347}
+  - component: {fileID: 260222350}
   m_Layer: 5
   m_Name: DropdownGoalBarriers
   m_TagString: Untagged
@@ -5364,11 +5365,11 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: REPLENISHING-
       m_Image: {fileID: 0}
-    - m_Text: STANDARD
+    - m_Text: PERSISTANT
       m_Image: {fileID: 0}
-    - m_Text: STANDARD+
+    - m_Text: PERSISTANT+
       m_Image: {fileID: 0}
-    - m_Text: STANDARD-
+    - m_Text: PERSISTANT-
       m_Image: {fileID: 0}
     - m_Text: NONE
       m_Image: {fileID: 0}
@@ -5426,6 +5427,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260222345}
   m_CullTransparentMesh: 1
+--- !u!114 &260222350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260222345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 359537841}
+          m_TargetAssemblyTypeName: MatchSettingsText, Assembly-CSharp
+          m_MethodName: DisplayText
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &264930798
 GameObject:
   m_ObjectHideFlags: 0
@@ -8497,6 +8527,110 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 354889179}
   m_CullTransparentMesh: 1
+--- !u!1 &359537839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359537840}
+  - component: {fileID: 359537843}
+  - component: {fileID: 359537842}
+  - component: {fileID: 359537841}
+  m_Layer: 5
+  m_Name: Explain text pannel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &359537840
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359537839}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.77}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 660834404}
+  m_Father: {fileID: 1941968620}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 57.52, y: -97.399994}
+  m_SizeDelta: {x: 115.04, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &359537841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359537839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6955ed7573389d4468bd3cd9f776f855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodies:
+  - GOAL BARRIERS exist to prevent scoring soon after the start of a round. Replenishing
+    goal barriers reset their health at the start of rounds. Persistant goal barriers
+    only reset if a goal has been scored on the side it's on. None disables goal
+    barriers.
+  - OVERTIME happens if there is a tie in points. Extra time gives an extra minute
+    of play time for each team to try and score more. Sudden death means the first
+    to score wins the match.
+  - KICK CHARGE SPEED affects how fast kicks are charged before a fullly charged
+    kick is possible.
+  bodyBox: {fileID: 660834405}
+  bodySpeed: 0.03
+  scaleSpeed: 2
+  useTextScrawl: 0
+  useScalability: 0
+--- !u!114 &359537842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359537839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: f1e8dd4b26a2d3b4aa6a8440e870e430, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &359537843
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359537839}
+  m_CullTransparentMesh: 1
 --- !u!1 &362426257
 GameObject:
   m_ObjectHideFlags: 0
@@ -8960,7 +9094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &387577262
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9000,11 +9134,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Standard Barriers will retain their damage between points until a point
+  m_text: 'Persistant barriers will retain their damage between points until a point
     is scored into them.
 
 
-    Replenishing Goal Barriers will both reset to full
+    Replenishing goal barriers will both reset to full
     health after either team scores.
 
 
@@ -13630,6 +13764,140 @@ MonoBehaviour:
   endColor: {r: 0.9150943, g: 0.7421692, b: 0.2719384, a: 1}
   time: 0.35
   isSelected: 0
+--- !u!1 &660834403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 660834404}
+  - component: {fileID: 660834406}
+  - component: {fileID: 660834405}
+  m_Layer: 0
+  m_Name: Settings Explain Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &660834404
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660834403}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 359537840}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.24, y: 0}
+  m_SizeDelta: {x: 126.39, y: 21.62}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &660834405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660834403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 50fd93be330c21245bf45b96d0f8426b, type: 2}
+  m_sharedMaterial: {fileID: 1182149466638778183, guid: 50fd93be330c21245bf45b96d0f8426b, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 3.92
+  m_fontSizeBase: 3.92
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &660834406
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660834403}
+  m_CullTransparentMesh: 1
 --- !u!1 &663702809 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7139578135928781414, guid: c6de699d5604df04fadd1b2cd000b9c5, type: 3}
@@ -17613,7 +17881,7 @@ MonoBehaviour:
   m_text: BACK
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
-  m_sharedMaterial: {fileID: -2205983582761376483, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
+  m_sharedMaterial: {fileID: -1698889853656761225, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17676,7 +17944,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &843411251
@@ -23224,7 +23492,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STANDARD
+  m_text: EXTRA TIME
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
   m_sharedMaterial: {fileID: -1698889853656761225, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
@@ -28944,6 +29212,7 @@ GameObject:
   - component: {fileID: 1397392957}
   - component: {fileID: 1397392956}
   - component: {fileID: 1397392955}
+  - component: {fileID: 1397392958}
   m_Layer: 5
   m_Name: StageSettingsBack
   m_TagString: Untagged
@@ -29065,6 +29334,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1397392953}
   m_CullTransparentMesh: 1
+--- !u!114 &1397392958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397392953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 359537841}
+          m_TargetAssemblyTypeName: MatchSettingsText, Assembly-CSharp
+          m_MethodName: ClearText
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1400484853
 GameObject:
   m_ObjectHideFlags: 0
@@ -29734,6 +30032,7 @@ GameObject:
   - component: {fileID: 1417722578}
   - component: {fileID: 1417722577}
   - component: {fileID: 1417722576}
+  - component: {fileID: 1417722580}
   m_Layer: 5
   m_Name: DropdownKickcharge
   m_TagString: Untagged
@@ -29873,6 +30172,35 @@ RectTransform:
   m_AnchoredPosition: {x: 125, y: 0}
   m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1417722580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417722575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 359537841}
+          m_TargetAssemblyTypeName: MatchSettingsText, Assembly-CSharp
+          m_MethodName: DisplayText
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1418174370
 GameObject:
   m_ObjectHideFlags: 0
@@ -36316,6 +36644,7 @@ GameObject:
   - component: {fileID: 1746892080}
   - component: {fileID: 1746892079}
   - component: {fileID: 1746892078}
+  - component: {fileID: 1746892081}
   m_Layer: 5
   m_Name: DropdownOvertime
   m_TagString: Untagged
@@ -36395,7 +36724,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: STANDARD
+    - m_Text: EXTRA TIME
       m_Image: {fileID: 0}
     - m_Text: SUDDEN DEATH
       m_Image: {fileID: 0}
@@ -36453,6 +36782,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746892076}
   m_CullTransparentMesh: 1
+--- !u!114 &1746892081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746892076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 359537841}
+          m_TargetAssemblyTypeName: MatchSettingsText, Assembly-CSharp
+          m_MethodName: DisplayText
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1749795309
 GameObject:
   m_ObjectHideFlags: 0
@@ -40559,6 +40917,7 @@ RectTransform:
   - {fileID: 1417722579}
   - {fileID: 387577262}
   - {fileID: 1397392954}
+  - {fileID: 359537840}
   m_Father: {fileID: 2119243817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
