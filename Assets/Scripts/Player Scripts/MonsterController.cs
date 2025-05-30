@@ -71,6 +71,8 @@ public class MonsterController : MonoBehaviour
     [HideInInspector] public bool canBeStunned = true;
     public bool isIntangible = false;
 
+    public float kickingSensitivity = 0.90f;
+
     // Call For Pass
     private float lastCallForPassTime;
     [SerializeField] private float callForPassCooldown = 1f;
@@ -419,7 +421,7 @@ public class MonsterController : MonoBehaviour
 
         if (!usingNewScheme)
         {
-            if (((rightStickInput == Vector3.zero && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
             {
                 Debug.Log("Kick!");
 
@@ -452,7 +454,7 @@ public class MonsterController : MonoBehaviour
                 ANIM.SetBool("isWindingUp", false);
                 ANIM.Play("MinotaurAttack");
             }
-            if (((rightStickInput != Vector3.zero && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
+            if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
             {
                 if (kickCharge <= maxCharge)
                 {
@@ -886,7 +888,7 @@ public class MonsterController : MonoBehaviour
             rightStickInput.z = -rightStickInput.z;
         }
 
-        if (rightStickInput != Vector3.zero && !usingKeyboard)
+        if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
         }

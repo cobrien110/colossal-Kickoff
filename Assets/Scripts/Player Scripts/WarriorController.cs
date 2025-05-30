@@ -52,7 +52,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float auraLingerDuration = 1f;
 
     //Add setting to adjust this, replace deadzone?
-    public float kickingSensitivity = 0.99f;
+    public float kickingSensitivity = 0.90f;
 
     private float slideCooldown = 2f;
     [SerializeField] private float slideSpeedRegular = 230f;
@@ -1096,8 +1096,8 @@ public class WarriorController : MonoBehaviour
         if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
-            Debug.Log("AIMING DIR " + aimingDirection);
-            Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
+            //Debug.Log("AIMING DIR " + aimingDirection);
+            //Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
         }
         usingKeyboard = false;
     }
