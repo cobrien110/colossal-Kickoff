@@ -1157,7 +1157,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -2.774, z: 0}
-  m_LocalScale: {x: 1.3816009, y: 0.641416, z: 0.5555556}
+  m_LocalScale: {x: 1.3816009, y: 0.43134585, z: 0.5555556}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1421270219221338005}
@@ -1225,7 +1225,7 @@ GameObject:
   - component: {fileID: 6063620051954423837}
   - component: {fileID: 2169467331076895546}
   - component: {fileID: 4081563406776443534}
-  - component: {fileID: 8783505982665058509}
+  - component: {fileID: 625358611843311291}
   m_Layer: 10
   m_Name: Hand
   m_TagString: Untagged
@@ -1294,8 +1294,8 @@ MonoBehaviour:
   animType1: {fileID: 9100000, guid: 8b4bfcc7099b43e4888dcbe2aaea3c67, type: 2}
   animType2: {fileID: 9100000, guid: 6449df32ce6e23344a94c602d45e7f4f, type: 2}
   ANIM: {fileID: 5086755408192488962}
---- !u!136 &8783505982665058509
-CapsuleCollider:
+--- !u!65 &625358611843311291
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1312,11 +1312,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.47
-  m_Height: 1.91
-  m_Direction: 0
-  m_Center: {x: 0, y: -0.02, z: 0}
+  serializedVersion: 3
+  m_Size: {x: 1.51, y: 1, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7265482543972546976
 GameObject:
   m_ObjectHideFlags: 0

@@ -213,6 +213,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &1075569688923355008
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +421,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &2591961924076521443
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +656,7 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  kickingSensitivity: 0.9
   callForPassCooldown: 1
   passWindowDuration: 1
   gravityFieldDuration: 0.5
@@ -702,7 +707,7 @@ MonoBehaviour:
   AF: {fileID: 935016637366541079}
   hand1IsActive: 1
   hand2IsActive: 1
-  hitballSpeed: 350
+  hitballSpeed: 275
   secondHandSprite: {fileID: 21300000, guid: a5ec8483b49e7f5419c3a522e949edbf, type: 3}
   handSlamTransitionSpeed: 0.175
 --- !u!114 &1777863416003297857
@@ -772,10 +777,10 @@ MonoBehaviour:
   magmaPool: {fileID: 5264593554761257965, guid: 82fcd01c4dc339345ae838828217eef2, type: 3}
   fireBreathDelay: 0.5
   baseFireBreathWidth: 1
-  hitBallPower: 8
+  hitBallPower: 5
   hitOrbPower: 5
   orb: {fileID: 8715075995557748544, guid: 2ab5e814e4f85014884619537177fd77, type: 3}
-  spawnOrbQty: 3
+  spawnOrbQty: 2
 --- !u!114 &5683144866873222350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,11 +809,13 @@ MonoBehaviour:
   UM: {fileID: 0}
   ST: {fileID: 0}
   slamRadius: 0.7
+  ejectForce: 7.5
   visEffect: {fileID: 898531435147855845, guid: 08799baedbc3e5447bfd99a53ed6c727, type: 3}
   soundName: gashaSlam
   slamLength: 2
+  stunTime: 0.5
   orb: {fileID: 8715075995557748544, guid: 2ab5e814e4f85014884619537177fd77, type: 3}
-  spawnOrbQty: 3
+  spawnOrbQty: 1
   hitOrbPower: 5
   slamDelay: 0.25
   stunRadiusMult: 1.5
@@ -844,9 +851,9 @@ MonoBehaviour:
   structure1: {fileID: 8949798913232257075, guid: f40590157422acf49b92752a2cfed398, type: 3}
   orbLaunchSpeed: 2
   timeBetweenSpawns: 5
-  structure2Duration: 25
+  structure2Duration: 20
   structure2: {fileID: 126153728992482447, guid: 616c2cc896b3a96469dac6599c111d7e, type: 3}
-  orbLaunchSpeed2: 10
+  orbLaunchSpeed2: 5
   soundName: gashaSwipe
 --- !u!33 &4594944956692112125
 MeshFilter:
@@ -2215,6 +2222,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &8926044657568867425
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ public class SoulOrb : MonoBehaviour
 
         // if close enough to shrine, launch again
         float distance = Vector3.Distance(transform.position, closestShrine.transform.position);
-        if (!launchable || distance > 0.3f) return;
+        if (!launchable || distance > 0.4f) return;
         Launch(GetRandomLaunchForce());
         //SetTeam(true);
     }
@@ -68,10 +68,13 @@ public class SoulOrb : MonoBehaviour
                 Destroy(gameObject);
             } else // else swap teams
             {
+                Destroy(gameObject);
+                /*
                 Vector3 dir = (transform.position - WC.transform.position).normalized;
                 dir.y = 0f;
                 Launch(dir * launchSpeed);
                 SetTeam(false);
+                */
             }
         }
 

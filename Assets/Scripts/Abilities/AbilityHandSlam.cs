@@ -9,10 +9,11 @@ public class AbilityHandSlam : AbilityDelayed
     [Header("Ability Vars")]
     AbilityCreateHands abilityCreateHands;
     public float slamRadius = 2.0f; // Radius within which the hand slam will kill warriors
-    float ejectForce = 10f;
+    public float ejectForce = 10f;
     public GameObject visEffect;
     public string soundName;
     public float slamLength = 2f;
+    public float stunTime = 0.5f;
 
     private Rigidbody monsterRB;
     private GameObject chosenHand;
@@ -108,7 +109,7 @@ public class AbilityHandSlam : AbilityDelayed
             if (warrior != null)
             {
                 Debug.Log($"Stunned warrior: {warrior.name}");
-                warrior.Stun(1f); // Call the stun method on the warrior
+                warrior.Stun(stunTime); // Call the stun method on the warrior
             }
         }
 
