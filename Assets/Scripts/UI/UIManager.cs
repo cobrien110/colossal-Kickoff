@@ -86,6 +86,7 @@ public class UIManager : MonoBehaviour
     //ContestBar
     [Header("ContestBar")]
     [SerializeField] private Image warriorContestFill = null;
+    private Color warriorBarStartColor = Color.white;
     [SerializeField] private Image monsterContestFill = null;
     //[SerializeField] private Image middleContestFill = null;
 
@@ -155,6 +156,7 @@ public class UIManager : MonoBehaviour
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
         timeRemainingSeconds = GM.gameSeconds;
+        warriorBarStartColor = warriorContestFill.color;
         ShowChargeBar(false);
         ShowMonsterUI(false);
         //ShowPlayerUI(false, 1);
@@ -676,7 +678,8 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("STARTING SUPER KICK FLASH");
             isSuperFlashing = true;
-            InvokeRepeating("SuperKickFlash", 1f, 0.5f);
+            //InvokeRepeating("SuperKickFlash", .4f, 0.5f);
+            InvokeRepeating("SuperMeterFlash", .2f, 0.25f);
         }
         
         //if (warriorContestFill.fillAmount == 1 && monsterContestFill.fillAmount == 1)
@@ -688,15 +691,23 @@ public class UIManager : MonoBehaviour
         {
             //ShowMiddleContestBar(false);
             Debug.Log("STOPPING SUPER KICK FLASH");
-            CancelInvoke("SuperKickFlash");
+            //CancelInvoke("SuperKickFlash");
+            CancelInvoke("SuperMeterFlash");
             isSuperFlashing = false;
             RBgo.SetActive(true);
+            warriorContestFill.color = warriorBarStartColor;
         }
     }
 
     private void SuperKickFlash()
     {
         RBgo.SetActive(!RBgo.activeInHierarchy);
+        
+    }
+
+    private void SuperMeterFlash()
+    {
+        warriorContestFill.color = warriorContestFill.color.Equals(warriorBarStartColor) ? Color.white : warriorBarStartColor;
     }
 
     public void UpdateMonsterContestBar(float charge, Color c)
