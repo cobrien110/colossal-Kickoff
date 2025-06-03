@@ -61,11 +61,11 @@ public class AbilitySquareAttack : AbilityChargeable
                         WC.Die();
                         hitWarrior = true;
                     }
-                    //Temp code for Quetz to get bigger on kill
-                    AbilitySnakeSegments ASS = this.gameObject.GetComponent<AbilitySnakeSegments>();
-                    if (ASS != null)
+                    //Code for Quetz to get bigger on kill
+                    //AbilitySnakeSegments ASS = this.gameObject.GetComponent<AbilitySnakeSegments>();
+                    if (AQP != null)
                     {
-                        ASS.AddSegment();
+                        AQP.EatWarrior();
                     }
                     else
                         Debug.Log("Warrior is invincible");

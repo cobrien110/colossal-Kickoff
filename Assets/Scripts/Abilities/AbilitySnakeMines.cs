@@ -8,6 +8,11 @@ public class AbilitySnakeMines : AbilityScript
     public float radius = 1f;
     public float delayBeforeExplosion = 0.1f;
     public Vector3 centerOffset = new Vector3(0f, -.25f, 0f);
+    public bool willTeleport = false;
+    public GameObject teleEffect;
+    public Transform slamParticlesTransform;
+    public float telePortTime = 1f;
+    private bool hasTeleported = false;
 
     public string soundName;
 
@@ -26,25 +31,49 @@ public class AbilitySnakeMines : AbilityScript
 
     public override void Activate()
     {
-        if (!canActivate) return;
-
-        if (timer >= cooldown && ASS.cutSegments.Count >= 1)
+        if (!canActivate)
         {
-            timer = 0;
-            
-            for (int i = ASS.cutSegments.Count - 1; i >= 0; i--)
-            {
-                SnakeBomb bombToDestroy = ASS.cutSegments[i].GetComponent<SnakeBomb>();
-                bombToDestroy.radius = radius;
-                bombToDestroy.delay = delayBeforeExplosion;
-                bombToDestroy.centerOffset = centerOffset;
-                ASS.cutSegments.RemoveAt(i);
-                bombToDestroy.PrimeExplosion();
-            }
-            audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
-            ST.UpdateMAbUsed();
-            UM.UpdateMonsterAbilitiesSB();
+            return;
         }
+
+        if (willTeleport && !MC.isIntangible && timer <= telePortTime && !hasTeleported)
+        {
+            transform.position = ASS.GetTailPosition();
+            ASS.RebuildSegments();
+            hasTeleported = true;
+
+            if (teleEffect != null)
+            {
+                GameObject particleInstance = Instantiate(teleEffect, slamParticlesTransform.position, Quaternion.Euler(90, 0, 0), transform);
+                Vector3 originalScale = particleInstance.transform.localScale;
+                particleInstance.transform.localScale = originalScale * 1.5f;
+            }
+        }
+
+        if (timer >= cooldown)
+        {
+
+            if (ASS.cutSegments.Count >= 1)
+            {
+                timer = 0;
+                hasTeleported = false;
+                for (int i = ASS.cutSegments.Count - 1; i >= 0; i--)
+                {
+                    SnakeBomb bombToDestroy = ASS.cutSegments[i].GetComponent<SnakeBomb>();
+                    bombToDestroy.radius = radius;
+                    bombToDestroy.delay = delayBeforeExplosion;
+                    bombToDestroy.centerOffset = centerOffset;
+                    ASS.cutSegments.RemoveAt(i);
+                    bombToDestroy.PrimeExplosion();
+                }
+                audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
+                ST.UpdateMAbUsed();
+                UM.UpdateMonsterAbilitiesSB();
+            }
+            
+        }
+
+        
     }
 
     public void ExplodeSpecificBomb(SnakeBomb SB)

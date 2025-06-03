@@ -92,6 +92,14 @@ public class AbilityQuetzPassive : PassiveAbility
         passiveTickTimer = 0;
     }
 
+    public void EatWarrior()
+    {
+        if (counterAmount < counterMax) counterAmount++;
+        ASS.AddSegment();
+        //cloudCount--;
+        //passiveTickTimer = 0;
+    }
+
     public override void Deactivate()
     {
         counterAmount = 0;

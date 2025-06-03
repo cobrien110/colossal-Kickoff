@@ -36,6 +36,11 @@ public class AbilitySnakeSegments : PassiveAbility
         }
     }
 
+    private void Awake()
+    {
+        
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -76,15 +81,18 @@ public class AbilitySnakeSegments : PassiveAbility
     {
         // Calculate position of the new segment
         Vector3 newPosition = Vector3.zero;
+        bool lookAtHead = false;
+        Vector3 oldAngles = Vector3.zero;
         if (segments.Count > 0)
         {
             GameObject oldTail = segments[segments.Count - 1];
+            oldAngles = oldTail.transform.eulerAngles;
 
             // Spawn behind the last segment
             newPosition = oldTail.transform.position - oldTail.transform.forward * followDistance;
 
             // Replace old tail with a segment
-            GameObject newSegment = Instantiate(segmentPrefab, oldTail.transform.position, Quaternion.identity);
+            GameObject newSegment = Instantiate(segmentPrefab, oldTail.transform.position, oldTail.transform.rotation);
             segments.Remove(oldTail);
             Destroy(oldTail);
             segments.Add(newSegment);
@@ -93,11 +101,19 @@ public class AbilitySnakeSegments : PassiveAbility
         else
         {
             // First segment starts behind the head
-            newPosition = head.position - head.forward * followDistance;
+            Vector3 tempHead = MC.transform.position;
+            tempHead = new Vector3(tempHead.x, head.position.y, tempHead.z);
+            Vector3 dir = MC.transform.forward;
+            //Debug.Log("head dir = " + dir);
+            newPosition = tempHead - dir * followDistance;
+            //Debug.Log("head dir pos = " + newPosition);
+            lookAtHead = true;
         }
 
-        // Instantiate new segment and add to list
+        // Instantiate new tail and add to list
         GameObject newTail = Instantiate(tailPrefab, newPosition, Quaternion.identity);
+        if (lookAtHead) newTail.transform.eulerAngles = MC.transform.eulerAngles;
+        else newTail.transform.eulerAngles = oldAngles;
         segments.Add(newTail);
         newTail.GetComponent<SnakeSegment>().index = segments.Count - 1;
     }
@@ -137,7 +153,8 @@ public class AbilitySnakeSegments : PassiveAbility
         GameObject newTail = segments[index - 1];
 
         // Create a cut segment
-        GameObject cutSegment = Instantiate(cutSegmentPrefab, oldTail.transform.position, oldTail.transform.rotation);
+        GameObject cutSegment = Instantiate(cutSegmentPrefab, oldTail.transform.position, Quaternion.identity);
+        cutSegment.transform.eulerAngles = Vector3.zero;
         cutSegments.Add(cutSegment);
 
         // Destroy both the old tail and the segment that will
@@ -154,7 +171,7 @@ public class AbilitySnakeSegments : PassiveAbility
 
     public void ResetSegments()
     {
-        // remove boms
+        // remove bombs
         for (int i = 0; i < cutSegments.Count; i++)
         {
             Destroy(cutSegments[i]);
@@ -175,5 +192,73 @@ public class AbilitySnakeSegments : PassiveAbility
         {
             AddSegment();
         }
+    }
+
+    public void RebuildSegments()
+    {
+        int currentSegments = segments.Count;
+
+        // reset segments
+        for (int i = 0; i < segments.Count; i++)
+        {
+            Destroy(segments[i]);
+        }
+        segments.Clear();
+
+        // Re add new segments
+        lastHeadPosition = head.position;
+
+        for (int i = 0; i < currentSegments; i++)
+        {
+            AddSegmentAtPos();
+        }
+    }
+
+    public Vector3 GetTailPosition()
+    {
+        Vector3 newPos = segments[segments.Count - 1].transform.position;
+        newPos.y = transform.position.y;
+        return newPos;
+    }
+
+    public void AddSegmentAtPos()
+    {
+        // Calculate position of the new segment
+        Vector3 newPosition = Vector3.zero;
+        bool lookAtHead = false;
+        Vector3 oldAngles = Vector3.zero;
+        if (segments.Count > 0)
+        {
+            GameObject oldTail = segments[segments.Count - 1];
+            oldAngles = oldTail.transform.eulerAngles;
+
+            // Spawn behind the last segment
+            newPosition = oldTail.transform.position;
+
+            // Replace old tail with a segment
+            GameObject newSegment = Instantiate(segmentPrefab, oldTail.transform.position, oldTail.transform.rotation);
+            segments.Remove(oldTail);
+            Destroy(oldTail);
+            segments.Add(newSegment);
+            newSegment.GetComponent<SnakeSegment>().index = segments.Count - 1;
+        }
+        else
+        {
+            // First segment starts behind the head
+            Vector3 tempHead = MC.transform.position;
+            tempHead = new Vector3(tempHead.x, head.position.y, tempHead.z);
+            Vector3 dir = MC.transform.forward;
+            //Debug.Log("head dir = " + dir);
+            newPosition = tempHead;
+            //Debug.Log("head dir pos = " + newPosition);
+            lookAtHead = true;
+        }
+
+        // Instantiate new tail and add to list
+        GameObject newTail = Instantiate(tailPrefab, newPosition, Quaternion.identity);
+        if (lookAtHead) newTail.transform.eulerAngles = MC.transform.eulerAngles;
+        else newTail.transform.eulerAngles = oldAngles;
+        segments.Add(newTail);
+        newTail.GetComponent<SnakeSegment>().index = segments.Count - 1;
     }
 }

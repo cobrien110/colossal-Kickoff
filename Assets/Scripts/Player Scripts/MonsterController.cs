@@ -128,7 +128,7 @@ public class MonsterController : MonoBehaviour
         transform.position = monsterSpawner.transform.position;
         //wallTimer = wallCooldown;
         spriteScale = spriteObject.transform.localScale;
-        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        
 
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
@@ -148,6 +148,7 @@ public class MonsterController : MonoBehaviour
         pickupBallTimer = pickupBallCooldown;
         chargeSpeed = GM.monsterKickChargeSpeed;
         Debug.Log("CHARGE SPEED" + chargeSpeed);
+        transform.rotation = Quaternion.Euler(0, 90, 0);
     }
 
     // Temp Controller Scheme Swap
@@ -794,7 +795,7 @@ public class MonsterController : MonoBehaviour
     public void ResetPlayer()
     {
         gameObject.transform.position = monsterSpawner.transform.position;
-        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0, 90, 0);
 
         isIntangible = false;
         ResetAbilities();

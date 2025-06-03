@@ -577,6 +577,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &2811240823691365473
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,6 +813,7 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  kickingSensitivity: 0.9
   callForPassCooldown: 1
   passWindowDuration: 1
   gravityFieldDuration: 0.5
@@ -908,7 +911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Snake Mines
   abilityNum: 0
-  cooldown: 2
+  cooldown: 6
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -921,9 +924,13 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  radius: 0.65
+  radius: 0.7
   delayBeforeExplosion: 0.1
-  centerOffset: {x: 0, y: -0.25, z: 0}
+  centerOffset: {x: 0, y: -0.325, z: 0}
+  willTeleport: 0
+  teleEffect: {fileID: 1950382900719152646, guid: ecfcaa3e7ec4ebe43b8c624ad6082f24, type: 3}
+  slamParticlesTransform: {fileID: 747046912622594473}
+  telePortTime: 0.25
   soundName: quetzExplode
 --- !u!114 &7204633629675209748
 MonoBehaviour:
@@ -2064,6 +2071,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &5729600064576123401
 GameObject:
   m_ObjectHideFlags: 0
