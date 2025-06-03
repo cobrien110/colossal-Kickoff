@@ -14,6 +14,7 @@ public class IceCrystal : MonoBehaviour
     public GameObject attackVisualizer;
     private bool isEchoing = false;
     public bool firstPointSet = false;
+    public GameObject iceWavePrefab;
 
     public void Awake()
     {
@@ -75,6 +76,9 @@ public class IceCrystal : MonoBehaviour
                 // Debug.Log("Stunned Warrior: " + obj.name);
             }
         }
+
+        // spawn Ice wave
+        Instantiate(iceWavePrefab, transform.position, Quaternion.identity);
     }
 
     public void SetNewPoint(Vector3 newPoint)

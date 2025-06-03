@@ -1468,7 +1468,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -6352,6 +6352,10 @@ PrefabInstance:
       propertyPath: warriorControls.m_SingletonActionBindings.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6036234689166383242, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.25
@@ -6366,6 +6370,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569405878269380464, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

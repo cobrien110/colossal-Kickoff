@@ -87,6 +87,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
+    [SerializeField] private ParticleSystem PSCurse;
     //public Sprite[] ringColors;
     public SpriteRenderer ring;
     public SpriteRenderer transparentRing;
@@ -211,6 +212,7 @@ public class WarriorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        InvincibilityFlash();
         if (GM.isPlaying && !isDead && !GM.isPaused)
         {
             //if (GetComponent<WarriorAiController>() != null) return;
@@ -221,7 +223,7 @@ public class WarriorController : MonoBehaviour
             //if (Input.GetKey(KeyCode.E)) {
             //    Sliding();
             //}
-            InvincibilityFlash();
+            
 
             if ((isStunned) && BP.ballOwner == this.gameObject)
             {
@@ -256,13 +258,20 @@ public class WarriorController : MonoBehaviour
         Respawn();
         FancyRespawnAnimation();
         //Particles
-        if ((health < healthMax || isCursed) && !isDead && PS != null)
+        if (health < healthMax && !isDead && PS != null)
         {
             if (!PS.isPlaying) PS.Play();
         } else if (PS != null)
         {
             PS.time = 0;
             PS.Stop();
+        }
+        if (isCursed)
+        {
+            if (!PSCurse.isPlaying) PSCurse.Play();
+        } else
+        {
+            PSCurse.Stop();
         }
 
         //Temp Controller Scheme Swap
@@ -1348,6 +1357,13 @@ public class WarriorController : MonoBehaviour
     public void InvincibilityFlash()
     {
         if (spriteObject == null) return;
+
+        if (isDead)
+        {
+            spriteObject.transform.localScale = spriteScale;
+            return;
+        }
+
         if (isStunned && Time.frameCount % 2 == 0)
         {
             spriteObject.transform.localScale = Vector3.zero;
@@ -1463,5 +1479,10 @@ public class WarriorController : MonoBehaviour
             BP.ballOwner = gameObject;
             BP.SetOwner(BP.ballOwner);
         }
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }

@@ -16,9 +16,11 @@ public class AbilityAkhlutPassive : PassiveAbility
     public bool usesBloodsense;
     public LayerMask affectedLayers;
     public float speedBonus = 5f;
+    public float activeSpeedBonus = 0.5f;
     public float senseRadius = 1f;
     private float baseSpeed;
     public Transform senseOriginTransform;
+    public ParticleSystem PS;
 
     // Start is called before the first frame update
     void Start()
@@ -40,17 +42,25 @@ public class AbilityAkhlutPassive : PassiveAbility
             bool hitThing = false;
             foreach (Collider col in colliders)
             {
-                if (col.gameObject.CompareTag("Ball") && MC.BP.ballOwner == null)
+                if (hitThing) return;
+                WarriorController WC = col.GetComponent<WarriorController>();
+                if (WC != null && WC.GetHealth() < WC.healthMax && MC.BP.ballOwner != gameObject)
                 {
                     Debug.Log("bloodsense hit" + col.name);
-                    MC.monsterSpeed = baseSpeed + speedBonus;
+                    MC.monsterSpeed = isActive ? baseSpeed + activeSpeedBonus : baseSpeed + speedBonus;
                     hitThing = true;
+                    if (!PS.isPlaying) PS.Play();
                 }
             }
             if (!hitThing)
             {
                 MC.monsterSpeed = baseSpeed;
+                PS.Stop();
             }
+        }
+        if (usesBloodsense && MC.isIntangible && PS.isPlaying)
+        {
+            PS.Stop();
         }
 
 

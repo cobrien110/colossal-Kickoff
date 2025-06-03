@@ -73,7 +73,7 @@ MonoBehaviour:
   ballPosition: {fileID: 2737137768588858997}
   healthMax: 2
   health: 2
-  respawnTime: 2
+  respawnTime: 2.5
   respawnInvincibilityTime: 1.25
   damageInvincibilityTime: 0.35
   willBeStunnedOnHit: 0
@@ -123,6 +123,7 @@ MonoBehaviour:
   spriteObject: {fileID: 4913074640812958036}
   ANIM: {fileID: 7200901245418876538}
   PS: {fileID: 8640153958670802855}
+  PSCurse: {fileID: 6569405878269380464}
   ring: {fileID: 5541382916214441110}
   transparentRing: {fileID: 1769564852655765584}
   callForPass: {fileID: 5836625512663820800}
@@ -1295,7 +1296,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -6576,12 +6577,12 @@ GameObject:
   - component: {fileID: 6569405878269380464}
   - component: {fileID: 6868750057785393215}
   m_Layer: 7
-  m_Name: Particles (1)
+  m_Name: Particles Curse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6701817909960656394
 Transform:
   m_ObjectHideFlags: 0
@@ -6614,7 +6615,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
