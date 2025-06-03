@@ -386,6 +386,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &3111699188201841635
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +512,7 @@ Transform:
   - {fileID: 6558373449549645104}
   - {fileID: 2510212114477865929}
   - {fileID: 7937905905488063424}
+  - {fileID: 935590542359661392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3703359982807322521
@@ -532,7 +535,7 @@ MonoBehaviour:
   canUseAbilities: 1
   passiveAbilities: []
   monsterType: 1
-  monsterSpeed: 3.2
+  monsterSpeed: 3.1
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
   usingNewScheme: 0
@@ -569,6 +572,7 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  kickingSensitivity: 0.9
   callForPassCooldown: 1
   passWindowDuration: 1
   gravityFieldDuration: 0.5
@@ -596,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02aeaf95cb93e764f93f7e973bca8902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: WintersWrath
+  abilityName: Bloodsense
   hasCooldown: 0
   cooldown: 0
   counterMax: 2
@@ -612,6 +616,13 @@ MonoBehaviour:
   chargeRate: 1.2
   decayRate: 0.15
   isCharging: 0
+  usesBloodsense: 1
+  affectedLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  speedBonus: 0.2
+  senseRadius: 3
+  senseOriginTransform: {fileID: 935590542359661392}
 --- !u!114 &8496617740474720550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,7 +720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Dive
   abilityNum: 2
-  cooldown: 3
+  cooldown: 5
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -723,9 +734,9 @@ MonoBehaviour:
   UM: {fileID: 0}
   ST: {fileID: 0}
   isActive: 0
-  initialSpeed: 6.75
+  initialSpeed: 9
   speed: 2.85
-  durationOfSpeedBoost: 2.5
+  durationOfSpeedBoost: 0.8
   inputBufferTime: 0.45
   isAttack: 0
   delayBeforeAttack: 0.3
@@ -1539,6 +1550,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &5745008436615568873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 935590542359661392}
+  m_Layer: 10
+  m_Name: BloodSenseOriginTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &935590542359661392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5745008436615568873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1718773609196591379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6293691269305156714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2139,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &8594616185550195459
 GameObject:
   m_ObjectHideFlags: 0

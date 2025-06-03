@@ -844,7 +844,7 @@ MonoBehaviour:
   abilityName: Thunderheart
   hasCooldown: 0
   cooldown: 0
-  counterMax: 4
+  counterMax: 15
   counterAmount: 0
   visualizer: {fileID: 0}
   chargeBarCol: {r: 0.22766048, g: 0.8962264, b: 0, a: 1}
@@ -861,8 +861,8 @@ MonoBehaviour:
   minCloudAmount: 1
   xSpawnRange: 3
   zSpawnRange: 2
-  timeBetweenSpawns: 10
-  maxClouds: 20
+  timeBetweenSpawns: 6
+  maxClouds: 6
   yOffset: -1
 --- !u!114 &5236233889971040232
 MonoBehaviour:
@@ -964,7 +964,7 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  chargeRate: 1.05
+  chargeRate: 0.85
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 0
   chargeSoundName: minotaurAxeCharge
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Fly
   abilityNum: 2
-  cooldown: 4
+  cooldown: 5
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}

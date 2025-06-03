@@ -13,6 +13,13 @@ public class AbilityAkhlutPassive : PassiveAbility
     public float decayRate = .25f;
     public bool isCharging = false;
 
+    public bool usesBloodsense;
+    public LayerMask affectedLayers;
+    public float speedBonus = 5f;
+    public float senseRadius = 1f;
+    private float baseSpeed;
+    public Transform senseOriginTransform;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +27,33 @@ public class AbilityAkhlutPassive : PassiveAbility
         SR = MC.spriteObject.GetComponent<SpriteRenderer>();
         ASA = GetComponent<AbilitySphericalAttack>();
         baseRadius = ASA.attackBaseRadius;
+        baseSpeed = MC.monsterSpeed;
+        if (senseOriginTransform == null) senseOriginTransform = transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (usesBloodsense && !MC.isIntangible && !MC.isStunned)
+        {
+            Collider[] colliders = Physics.OverlapSphere(senseOriginTransform.position, senseRadius, affectedLayers);
+            bool hitThing = false;
+            foreach (Collider col in colliders)
+            {
+                if (col.gameObject.CompareTag("Ball") && MC.BP.ballOwner == null)
+                {
+                    Debug.Log("bloodsense hit" + col.name);
+                    MC.monsterSpeed = baseSpeed + speedBonus;
+                    hitThing = true;
+                }
+            }
+            if (!hitThing)
+            {
+                MC.monsterSpeed = baseSpeed;
+            }
+        }
+
+
         // add counter when charging, decrease after activation
         if (isCharging && counterAmount < counterMax && !isActive)
         {
@@ -55,5 +84,14 @@ public class AbilityAkhlutPassive : PassiveAbility
         }
 
         UpdateChargeBar();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        if (senseOriginTransform == null) return;
+        Vector3 origin = senseOriginTransform.position;
+        float radius = senseRadius;
+        Gizmos.DrawWireSphere(origin, radius);
     }
 }

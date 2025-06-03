@@ -19,10 +19,14 @@ public class AbilityMinotaurWall : AbilityScript
     public bool willSpawnWallAtGoal = true;
     public Vector3 goalWallSpawnPos;
 
+    public GameObject spawnVisual;
+    private GameObject goalSpawnVisual;
+
     private void Start()
     {
         Setup();
         goalWallSpawnPos = new Vector3(-6.5f, transform.position.y, transform.position.z);
+        goalSpawnVisual = Instantiate(spawnVisual, goalWallSpawnPos, Quaternion.LookRotation(new Vector3(-1, 0, 0), Vector3.up));
     }
 
     public override void Activate()
@@ -54,6 +58,20 @@ public class AbilityMinotaurWall : AbilityScript
             UM.UpdateMonsterAbilitiesSB();
             ANIM.Play(activatedAnimationName);
             StartCoroutine(MC.MoveDelay());
+        }
+    }
+
+    private void Update()
+    {
+        UpdateSetup();
+        if (timer < cooldown)
+        {
+            attackVisHolder.gameObject.SetActive(false);
+            goalSpawnVisual.gameObject.SetActive(false);
+        } else
+        {
+            attackVisHolder.gameObject.SetActive(true);
+            goalSpawnVisual.gameObject.SetActive(true);
         }
     }
 

@@ -66,7 +66,7 @@ public class AbilityDive : AbilityScript
         } else
         {
             activeDuration = 0;
-            MC.monsterSpeed = baseMonsterSpeed;
+            
             MC.isIntangible = false;
             timerPaused = false;
             AAP.isCharging = false;
@@ -122,6 +122,7 @@ public class AbilityDive : AbilityScript
     {
         isActive = false;
         inputBuffer = 0f;
+        MC.monsterSpeed = baseMonsterSpeed;
 
         // create crystal if passive is charged
         if (GM.isPlaying && AAP.GetActive() && crystalPrefab != null && AH != null && AH.currentCrystal == null)
