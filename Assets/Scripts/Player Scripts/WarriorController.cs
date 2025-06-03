@@ -1270,7 +1270,7 @@ public class WarriorController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
-        if (!canSpawnText) return;
+        if (!canSpawnText || GM.isGameOver) return;
         string tauntNum = context.control.displayName;
         int tauntStyle = 0;
         switch (tauntNum)

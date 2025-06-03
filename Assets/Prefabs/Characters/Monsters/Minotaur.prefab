@@ -680,6 +680,11 @@ MonoBehaviour:
   kickingSensitivity: 0.9
   callForPassCooldown: 1
   passWindowDuration: 1
+  tauntTextPrefabs:
+  - {fileID: 8968736743966840250, guid: 21104113bd2a9174b99f1b723fd89c02, type: 3}
+  - {fileID: 8968736743966840250, guid: 3bf1bfe6df8649640b87705ad87a351f, type: 3}
+  - {fileID: 8968736743966840250, guid: 41eb2764328fa9740bab0cc71e0974a9, type: 3}
+  - {fileID: 8968736743966840250, guid: 5413b0a4b582da84faf2c5e2858995e2, type: 3}
   gravityFieldDuration: 0.5
   gravityForce: 20
   gravityRadius: 5
@@ -761,7 +766,6 @@ MonoBehaviour:
   willSpawnWallAtGoal: 1
   goalWallSpawnPos: {x: 0, y: 0, z: 0}
   spawnVisual: {fileID: 3193020851480383029, guid: fc328823dea1e484b949cc534e5fde33, type: 3}
-  goalSpawnVisualPos: {x: 0, y: 0, z: 0}
 --- !u!114 &2061249857265671894
 MonoBehaviour:
   m_ObjectHideFlags: 0

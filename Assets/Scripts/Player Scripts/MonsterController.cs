@@ -79,6 +79,10 @@ public class MonsterController : MonoBehaviour
     private float passWindowTimer;
     [SerializeField] private float passWindowDuration = 1f;
 
+    // taunts
+    [SerializeField] private GameObject[] tauntTextPrefabs;
+    private bool canSpawnText = true;
+
     // Call For Pass - Gravity
     [SerializeField] private float gravityFieldDuration = 0.5f; // How long the field lasts
     [SerializeField] private float gravityForce = 20f; // Strength of pull
@@ -1027,25 +1031,42 @@ public class MonsterController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
+        if (!canSpawnText || GM.isGameOver) return;
         string tauntNum = context.control.displayName;
+        int tauntStyle = 0;
         switch (tauntNum)
         {
             case "D-Pad Up":
                 Debug.Log("Taunt 1 Active");
+                tauntStyle = 0;
                 break;
             case "D-Pad Right":
                 Debug.Log("Taunt 2 Active");
+                tauntStyle = 1;
                 break;
             case "D-Pad Down":
                 Debug.Log("Taunt 3 Active");
+                tauntStyle = 2;
                 break;
             case "D-Pad Left":
                 Debug.Log("Taunt 4 Active");
+                tauntStyle = 3;
                 break;
             default:
                 Debug.Log("Unknown Taunt");
+                tauntStyle = 0;
                 break;
         }
+
+        Instantiate(tauntTextPrefabs[tauntStyle], transform.position, Quaternion.identity);
+        canSpawnText = false;
+        StartCoroutine(TextSpawnReset(1f));
+    }
+
+    private IEnumerator TextSpawnReset(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canSpawnText = true;
     }
 
     private IEnumerator PassWindowCheck()
