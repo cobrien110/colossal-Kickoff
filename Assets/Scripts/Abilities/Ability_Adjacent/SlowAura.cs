@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlowAura : MonoBehaviour
 {
-    [SerializeField] private float slowAmount = 0.4f;
+    public float slowAmount = 0.4f;
     [SerializeField] private float auraLifespan = 3f;
     [SerializeField] private bool hasLifespan = true;
 

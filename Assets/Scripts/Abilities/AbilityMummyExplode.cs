@@ -214,7 +214,8 @@ public class AbilityMummyExplode : AbilityScript
         Vector3 slowAuraPos = new Vector3(pursuer.gameObject.transform.position.x, slowAuraOffSetY, pursuer.transform.position.z);
 
         // Create slow aura at point of explosion
-        Instantiate(slowAura, slowAuraPos, Quaternion.identity);
+        SlowAura aura = Instantiate(slowAura, slowAuraPos, Quaternion.identity).GetComponent<SlowAura>();
+        aura.slowAmount = MC.GetComponent<AbilitySphinxPassive>().slowRate;
 
         // Destroy the mummy after exploding
         pursuer.Die(true);

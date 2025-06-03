@@ -9,6 +9,8 @@ public class AbilitySphinxPassive : PassiveAbility
     public float sizePerStack = 1f;
     private Vector3 baseScale;
     public float timeBeforeCounterLoss = 6f;
+    private SlowAura aura;
+    public float slowRate = 0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +20,9 @@ public class AbilitySphinxPassive : PassiveAbility
         {
             auraObject = Instantiate(auraPrefab, transform);
         }
+        aura = auraObject.GetComponent<SlowAura>();
         baseScale = auraObject.transform.localScale;
+        aura.slowAmount = slowRate;
     }
 
     // Update is called once per frame
@@ -44,6 +48,6 @@ public class AbilitySphinxPassive : PassiveAbility
     {
         counterAmount++;
         if (counterAmount > counterMax) counterAmount = counterMax;
-        timer = 0;
+        //timer = 0;
     }
 }

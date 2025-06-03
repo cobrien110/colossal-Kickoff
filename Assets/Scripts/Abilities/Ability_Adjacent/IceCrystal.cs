@@ -15,6 +15,7 @@ public class IceCrystal : MonoBehaviour
     private bool isEchoing = false;
     public bool firstPointSet = false;
     public GameObject iceWavePrefab;
+    public GameObject visual;
 
     public void Awake()
     {
@@ -79,6 +80,7 @@ public class IceCrystal : MonoBehaviour
 
         // spawn Ice wave
         Instantiate(iceWavePrefab, transform.position, Quaternion.identity);
+        visual.transform.localScale = Vector3.zero;
     }
 
     public void SetNewPoint(Vector3 newPoint)

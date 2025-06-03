@@ -1503,7 +1503,7 @@ MonoBehaviour:
   abilityName: Sandstorm
   hasCooldown: 0
   cooldown: 0
-  counterMax: 3
+  counterMax: 4
   counterAmount: 0
   visualizer: {fileID: 0}
   chargeBarCol: {r: 1, g: 0.7603417, b: 0, a: 1}
@@ -1513,8 +1513,9 @@ MonoBehaviour:
   UM: {fileID: 0}
   auraObject: {fileID: 8369059525387553625}
   auraPrefab: {fileID: 8369059525387553625}
-  sizePerStack: 1.25
-  timeBeforeCounterLoss: 6
+  sizePerStack: 1.05
+  timeBeforeCounterLoss: 3
+  slowRate: 0.75
 --- !u!114 &1368558541276869668
 MonoBehaviour:
   m_ObjectHideFlags: 0
