@@ -844,7 +844,7 @@ MonoBehaviour:
   abilityName: Thunderheart
   hasCooldown: 0
   cooldown: 0
-  counterMax: 10
+  counterMax: 4
   counterAmount: 0
   visualizer: {fileID: 0}
   chargeBarCol: {r: 0.22766048, g: 0.8962264, b: 0, a: 1}
@@ -852,9 +852,10 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  speedBonusPerPoint: 0.18
-  rangeBonusPerPoint: 0.18
-  passiveTickTime: 5
+  speedBonusPerPoint: 0.1
+  rangeBonusPerPoint: 0.11
+  passiveTickTime: 2.5
+  fullBonusExtraMeter: 3
   rainCloudPrefab: {fileID: 2830204344427194864, guid: 097235db1018a1a4c838ed57d63df1ee, type: 3}
   startingCloudAmount: 3
   minCloudAmount: 1
@@ -886,7 +887,9 @@ MonoBehaviour:
   audioPlayer: {fileID: 0}
   ANIM: {fileID: 0}
   UM: {fileID: 0}
-  numOfSpawnSegments: 4
+  numOfSpawnSegments: 15
+  numOfBonusSegments: 1
+  willSpawnBonus: 0
   segmentPrefab: {fileID: 1034161283862982796, guid: 7037b862cc1445b43962c0855081c622, type: 3}
   tailPrefab: {fileID: 1034161283862982796, guid: fa461cbe2e68f874ea080459cfec966f, type: 3}
   cutSegmentPrefab: {fileID: 2830204344427194864, guid: 88d806be7f6e72e42b478326a7c5e3c3, type: 3}
@@ -909,9 +912,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113bf162c2a8a5a439b770f022c2b062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: Snake Mines
+  abilityName: StormMines
   abilityNum: 0
-  cooldown: 6
+  cooldown: 7
   usableWhileIntangible: 1
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -931,6 +934,8 @@ MonoBehaviour:
   teleEffect: {fileID: 1950382900719152646, guid: ecfcaa3e7ec4ebe43b8c624ad6082f24, type: 3}
   slamParticlesTransform: {fileID: 747046912622594473}
   telePortTime: 0.25
+  willPushBall: 1
+  ballPushForce: 250
   soundName: quetzExplode
 --- !u!114 &7204633629675209748
 MonoBehaviour:
@@ -944,7 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365f2855722ded3408bb22c8bdc54a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityName: MinotaurAttack
+  abilityName: LightningLash
   abilityNum: 1
   cooldown: 1.2
   usableWhileIntangible: 0
@@ -959,13 +964,13 @@ MonoBehaviour:
   ANIM: {fileID: 0}
   UM: {fileID: 0}
   ST: {fileID: 0}
-  chargeRate: 0.75
+  chargeRate: 1.05
   maxChargeSeconds: 1
   slowsDownCharacterWhileCharging: 0
   chargeSoundName: minotaurAxeCharge
   hasChargeUpAnimation: 1
   willStopWhenDribbling: 1
-  canHitBall: 1
+  canHitBall: 0
   attackHitForce: 150
   autoCharge: 0
   inputBuffer: 0.4

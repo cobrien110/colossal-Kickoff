@@ -300,7 +300,7 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator Kickoff()
     {
-        if (MC != null) MC.ResetAbilities();
+        //if (MC != null) MC.ResetAbilities();
         AbilityScript.canActivate = true;
         yield return new WaitForSeconds(0.75f);
         StartCoroutine(UM.Countdown());

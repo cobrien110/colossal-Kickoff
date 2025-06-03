@@ -5,6 +5,8 @@ using UnityEngine;
 public class AbilitySnakeSegments : PassiveAbility
 {
     public int numOfSpawnSegments = 3;
+    public int numOfBonusSegments = 2;
+    public bool willSpawnBonus = false;
     public GameObject segmentPrefab;
     public GameObject tailPrefab;
     public GameObject cutSegmentPrefab;
@@ -34,11 +36,6 @@ public class AbilitySnakeSegments : PassiveAbility
         {
             AddSegment();
         }
-    }
-
-    private void Awake()
-    {
-        
     }
 
     // Update is called once per frame
@@ -188,9 +185,11 @@ public class AbilitySnakeSegments : PassiveAbility
         // Re add new segments
         lastHeadPosition = head.position;
 
-        for (int i = 0; i < numOfSpawnSegments; i++)
+        int segmentNum = willSpawnBonus ? numOfBonusSegments + numOfSpawnSegments : numOfSpawnSegments;
+        for (int i = 0; i < segmentNum; i++)
         {
             AddSegment();
+            willSpawnBonus = false;
         }
     }
 

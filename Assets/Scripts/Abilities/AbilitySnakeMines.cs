@@ -13,6 +13,8 @@ public class AbilitySnakeMines : AbilityScript
     public Transform slamParticlesTransform;
     public float telePortTime = 1f;
     private bool hasTeleported = false;
+    public bool willPushBall = false;
+    public float ballPushForce = 50f;
 
     public string soundName;
 
@@ -61,10 +63,11 @@ public class AbilitySnakeMines : AbilityScript
                 {
                     SnakeBomb bombToDestroy = ASS.cutSegments[i].GetComponent<SnakeBomb>();
                     bombToDestroy.radius = radius;
+                    bombToDestroy.pushForce = ballPushForce;
                     bombToDestroy.delay = delayBeforeExplosion;
                     bombToDestroy.centerOffset = centerOffset;
                     ASS.cutSegments.RemoveAt(i);
-                    bombToDestroy.PrimeExplosion();
+                    bombToDestroy.PrimeExplosion(willPushBall);
                 }
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
                 ST.UpdateMAbUsed();
@@ -80,9 +83,10 @@ public class AbilitySnakeMines : AbilityScript
     {
         ASS.cutSegments.Remove(SB.gameObject);
         SB.radius = radius;
+        SB.pushForce = ballPushForce;
         SB.delay = delayBeforeExplosion;
         SB.centerOffset = centerOffset;
-        SB.PrimeExplosion();
+        SB.PrimeExplosion(willPushBall);
     }
 
     private void OnDrawGizmos()

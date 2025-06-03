@@ -12,6 +12,8 @@ public class AbilityQuetzPassive : PassiveAbility
     private float baseRange;
     public float passiveTickTime = 5f;
     private float passiveTickTimer = 0f;
+    public int fullBonusExtraMeter = 3;
+    private bool hasMaxedOutCounter = false;
 
     [Header("PassiveClouds")]
     public GameObject rainCloudPrefab;
@@ -46,6 +48,14 @@ public class AbilityQuetzPassive : PassiveAbility
     // Update is called once per frame
     void Update()
     {
+        if (counterAmount > counterMax)
+        {
+            counterAmount = counterMax;
+        }
+        if (counterAmount == counterMax)
+        {
+            hasMaxedOutCounter = true;
+        }
         //Debug.Log("speed increase: " + (speedBonusPerPoint * counterAmount));
         AF.baseSpeed = baseSpeed + (speedBonusPerPoint * counterAmount);
         //Debug.Log("new speed: " + (baseSpeed + (speedBonusPerPoint * counterAmount)));
@@ -59,7 +69,7 @@ public class AbilityQuetzPassive : PassiveAbility
 
         UpdateChargeBar();
 
-        if (MC.GM.isPlaying)
+        if (MC.GM.isPlaying && !hasMaxedOutCounter && counterAmount > 0)
         {
             passiveTickTimer += Time.deltaTime;
             if (passiveTickTimer > passiveTickTime)
@@ -97,11 +107,24 @@ public class AbilityQuetzPassive : PassiveAbility
         if (counterAmount < counterMax) counterAmount++;
         ASS.AddSegment();
         //cloudCount--;
-        //passiveTickTimer = 0;
+        passiveTickTimer = 0;
     }
 
     public override void Deactivate()
     {
-        counterAmount = 0;
+        // check to see if meter was full
+        if (hasMaxedOutCounter)
+        {
+            counterAmount = fullBonusExtraMeter;
+            ASS.willSpawnBonus = true;
+            passiveTickTimer = -5;
+            hasMaxedOutCounter = false;
+            Debug.Log("passive tick timer " + passiveTickTimer);
+        }
+        else if (passiveTickTimer >= 0)
+        {
+            Debug.Log("resetting quetz passive due to tick timer " + passiveTickTimer);
+            counterAmount = 0;
+        }
     }
 }

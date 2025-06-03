@@ -37,7 +37,8 @@ public class AbilitySquareAttack : AbilityChargeable
             //Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
 
             Vector3 direction = transform.forward;
-            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize + chargeAmount * chargeRate);
+            //Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize + chargeAmount * chargeRate);
+            Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
             Vector3 origin = new Vector3(transform.position.x + direction.x * (attackRange + (chargeAmount * chargeRate)),
             transform.position.y + direction.y + attackVisualOffsetY,
             (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
@@ -90,7 +91,7 @@ public class AbilitySquareAttack : AbilityChargeable
                 if (col.gameObject.CompareTag("Bomb"))
                 {
                     Debug.Log("hitBomb");
-                    AQP.counterAmount++;
+                    //AQP.counterAmount++;
                     SnakeBomb SB = col.GetComponent<SnakeBomb>();
                     AbilitySnakeMines ASM = GetComponent<AbilitySnakeMines>();
                     ASM.ExplodeSpecificBomb(SB);
@@ -181,6 +182,7 @@ public class AbilitySquareAttack : AbilityChargeable
             transform.position.y + direction.y + attackVisualOffsetY,
             (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
         Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
+        //Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize + chargeAmount * chargeRate);
         Quaternion rot = transform.rotation * Quaternion.Euler(0, 90, 0);
 
         Mesh boxMesh = attackVisualizer.GetComponent<MeshFilter>().GetComponent<Mesh>();
