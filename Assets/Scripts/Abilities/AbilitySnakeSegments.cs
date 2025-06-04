@@ -117,7 +117,7 @@ public class AbilitySnakeSegments : PassiveAbility
 
     public void CutSegments(int index)
     {
-        if (index < minNumOfSegmentsToSplit || MC.isIntangible) return;
+        if (index < minNumOfSegmentsToSplit || MC.isIntangible || MC.isStunned) return;
         for (int i = segments.Count - 1; i >= index; i--)
         {
             RemoveSegment(i);

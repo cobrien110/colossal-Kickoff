@@ -97,6 +97,7 @@ public class MonsterController : MonoBehaviour
     private StatTracker ST = null;
 
     public Animator ANIM;
+    public String stunSoundName;
     private AudioPlayer audioPlayer;
     public GameObject monsterSpawner = null;
     public LayerMask layerMask;
@@ -730,14 +731,14 @@ public class MonsterController : MonoBehaviour
                 idleAnim = "SphinxIdle";
                 break;
             case MonsterType.Quetzalcaotl:
-                idleAnim = "MinotaurIdle";
+                idleAnim = "QuetzIdle";
                 break;
             default:
                 idleAnim = "MinotaurIdle";
                 break;
         }
         ANIM.Play(idleAnim, 0, 0f); // force it into idle immediately
-        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("minotaurStun"), 0.5f);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(stunSoundName), 0.7f);
         CSM.PlayDeathSound(false);
         StartCoroutine(ResetStun());
     }
