@@ -1031,7 +1031,7 @@ public class MonsterController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
-        if (!canSpawnText || GM.isGameOver) return;
+        if (!canSpawnText || GM.isGameOver || isIntangible) return;
         string tauntNum = context.control.displayName;
         int tauntStyle = 0;
         switch (tauntNum)
