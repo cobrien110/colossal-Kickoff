@@ -599,6 +599,10 @@ public class MenuController : MonoBehaviour
             default:
                 Debug.Log("Error: unknown menu option");
                 break;
+            case 9:
+                string discordInviteURL = "https://discord.gg/GN4nFMNC";
+                Application.OpenURL(discordInviteURL);
+                break;
         }
     }
 
