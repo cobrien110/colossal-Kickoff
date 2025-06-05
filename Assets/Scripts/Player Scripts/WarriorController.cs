@@ -52,7 +52,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] private float auraLingerDuration = 1f;
 
     //Add setting to adjust this, replace deadzone?
-    public float kickingSensitivity = 0.90f;
+    private float kickingSensitivity = 0.90f;
 
     private float slideCooldown = 2f;
     [SerializeField] private float slideSpeedRegular = 230f;
@@ -195,6 +195,8 @@ public class WarriorController : MonoBehaviour
         {
             Debug.LogWarning("No GameObject with tag 'Monster' found.");
         }
+
+        kickingSensitivity = PlayerPrefs.GetFloat("kicksens");
     }
 
     // Temp Controller Scheme Swap
@@ -1340,6 +1342,16 @@ public class WarriorController : MonoBehaviour
     public Color GetColor()
     {
         return ring.color;
+    }
+
+    public void SetKickSen(float sens)
+    {
+        kickingSensitivity = sens;
+    }
+
+    public float GetKickSens()
+    {
+        return kickingSensitivity;
     }
 
     IEnumerator SetInvincibility(bool invin, float time)

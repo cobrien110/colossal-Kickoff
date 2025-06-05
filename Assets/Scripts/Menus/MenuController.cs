@@ -222,6 +222,24 @@ public class MenuController : MonoBehaviour
         lastStageNavi = settingsBackButton.navigation;
         lastStageNavi.mode = Navigation.Mode.Explicit;
 
+        //Player Prefs set on start
+        //Settings
+        goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
+        screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
+        outlineToggle.isOn = (PlayerPrefs.GetInt("ballOutlineMatchesTeam", 1) != 0);
+        controlsToggle.isOn = (PlayerPrefs.GetInt("showControls", 1) != 0);
+        deadzoneSlider.value = PlayerPrefs.GetFloat("kicksens", .7f) * 10;
+
+        effectsSlider.value = PlayerPrefs.GetFloat("effectsVolume", 100) * 100;
+        musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 100) * 100;
+        comVolumeSlider.value = PlayerPrefs.GetFloat("commentaryVolume", 100) * 100;
+        comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
+        
+        //Match Settings
+        goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
+        overtimeDropdown.value = PlayerPrefs.GetInt("overtime", 0);
+        kickchargeDropdown.value = PlayerPrefs.GetInt("kickcharge", 0);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         TVT.WarningStart();
@@ -460,9 +478,6 @@ public class MenuController : MonoBehaviour
                 TVT.WarningEnd();
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
-                
-                //settings to prefs
-                goalDropdown.value = PlayerPrefs.GetInt("goalBarriers", 0);
 
                 //sound
                 if (AP != null) AP.setUseComVol(false);
@@ -481,17 +496,7 @@ public class MenuController : MonoBehaviour
                 settingsButtons.SetActive(true);
 
                 mainMenuButtons.SetActive(false);
-                goreDropdown.value = PlayerPrefs.GetInt("goreMode", 0);
-                musicSlider.value = PlayerPrefs.GetFloat("musicVolume", 100) * 100;
-                effectsSlider.value = PlayerPrefs.GetFloat("effectsVolume", 100) * 100;
-                comVolumeSlider.value = PlayerPrefs.GetFloat("commentaryVolume", 100) * 100;
-                comFreqSlider.value = PlayerPrefs.GetFloat("commentaryFrequency", 100) * 100;
-                screenshakeToggle.isOn = (PlayerPrefs.GetInt("screenshake", 1) != 0);
-                controlsToggle.isOn = (PlayerPrefs.GetInt("showControls", 1) != 0);
-                outlineToggle.isOn = (PlayerPrefs.GetInt("ballOutlineMatchesTeam", 1) != 0);
-                deadzoneSlider.value = PlayerPrefs.GetFloat("deadzoneValue", .3f) * 10;
-
-                Debug.Log(PlayerPrefs.GetFloat("commentaryVolume"));
+                //Debug.Log(PlayerPrefs.GetFloat("commentaryVolume"));
 
                 //sound
                 if (AP != null) AP.setUseComVol(false);
@@ -996,7 +1001,7 @@ public class MenuController : MonoBehaviour
 
     public void setDeadzoneAdjustment()
     {
-        PlayerPrefs.SetFloat("deadzoneValue", deadzoneSlider.value / 10);
+        PlayerPrefs.SetFloat("kicksens", deadzoneSlider.value / 10);
         DeadzoneAdjNum.text = (deadzoneSlider.value / 10).ToString();
         //sound
         if (AP != null) AP.setUseComVol(false);

@@ -154,6 +154,8 @@ public class MonsterController : MonoBehaviour
         chargeSpeed = GM.monsterKickChargeSpeed;
         Debug.Log("CHARGE SPEED" + chargeSpeed);
         transform.rotation = Quaternion.Euler(0, 90, 0);
+
+        kickingSensitivity = PlayerPrefs.GetFloat("kicksens");
     }
 
     // Temp Controller Scheme Swap

@@ -118,7 +118,7 @@ public class GameplayManager : MonoBehaviour
             GetBarrierPrefs();
             GetOvertimePrefs();
             GetChargePrefs();
-            GetInputPrefs();
+            //GetInputPrefs();
         }
         SetPlayerColors();
 
@@ -545,10 +545,10 @@ public class GameplayManager : MonoBehaviour
 
     private void GetInputPrefs()
     {
-        deadzoneValue = PlayerPrefs.GetFloat("deadzoneValue");
-        inputMaster.FindActionMap("Player").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
-        inputMaster.FindActionMap("Monster").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
-        Debug.Log("DEADZONE VALUE: " + inputMaster.FindActionMap("Player").FindAction("Aim").GetParameterValue("StickDeadzone:min"));
+        //deadzoneValue = PlayerPrefs.GetFloat("deadzoneValue");
+        //inputMaster.FindActionMap("Player").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
+        //inputMaster.FindActionMap("Monster").FindAction("Aim").ApplyParameterOverride("StickDeadzone:min", deadzoneValue);
+        //Debug.Log("DEADZONE VALUE: " + inputMaster.FindActionMap("Player").FindAction("Aim").GetParameterValue("StickDeadzone:min"));
     }
 
     public void AddPlayer(GameObject playerPrefab, int playerID, int warriorPosition, Gamepad gamepad)
