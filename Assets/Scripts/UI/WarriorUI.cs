@@ -52,8 +52,10 @@ public class WarriorUI : MonoBehaviour
 
     public void ShowCallForPass(bool state)
     {
+        // Debug.Log("ShowCallForPass start. callForPass.enabled: " + callForPass.enabled);
         if (!isAI) Debug.Log(gameObject.transform.parent.name + " Showing call for pass arrow, is AI = " + isAI + ", setting to " + state);
         if (!isAI) callForPass.enabled = state;
+        // Debug.Log("ShowCallForPass end. callForPass.enabled: " + callForPass.enabled);
     }
 
     public void SetAI()

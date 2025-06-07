@@ -136,6 +136,7 @@ public class WarriorController : MonoBehaviour
     private float passWindowTimer;
     [SerializeField] private float passWindowDuration = 1f;
     private static bool kickHappened;
+    private Coroutine callForPassWindowCheck = null;
 
     // Call For Pass - Gravity
     [SerializeField] private float gravityFieldDuration = 0.5f; // How long the field lasts
@@ -1081,6 +1082,13 @@ public class WarriorController : MonoBehaviour
         isStunned = false;
     }
 
+    private bool CanCallForPass()
+    {
+        return
+            ((Time.time - lastCallForPassTime) >= callForPassCooldown) // Ensure call for pass is off cooldown
+            && callForPassWindowCheck == null; // Ensure callForPassWindow check coroutine isn't already going
+    }
+
     /**
      *  The Following Code Is For Controller Inputs
      **/
@@ -1126,7 +1134,7 @@ public class WarriorController : MonoBehaviour
     public void OnCallForPass(InputAction.CallbackContext context)
     {
         if (!GM.isPlaying || isDead || GM.isPaused // Ensure game is playing
-            || ((Time.time - lastCallForPassTime) < callForPassCooldown) // Ensure call for pass is off cooldown
+            || !CanCallForPass()
             || BP == null || BP.ballOwner == null|| BP.ballOwner.GetComponent<WarriorController>() == null // Ensure a warrior has the ball
             || BP.ballOwner.Equals(gameObject)) // and ballowner isn't itself
             return;
@@ -1144,7 +1152,7 @@ public class WarriorController : MonoBehaviour
         {
             Debug.Log("Ball owner is a warrior teammate");
 
-            StartCoroutine(PassWindowCheck());
+            callForPassWindowCheck = StartCoroutine(PassWindowCheck());
 
             // For AI teammates...
             // If ball owner is a teammate, have them pass me the ball
@@ -1160,6 +1168,8 @@ public class WarriorController : MonoBehaviour
     private IEnumerator PassWindowCheck()
     {
         // Debug.Log("Start PassWindowCheck");
+        // Debug.Log("passWindowTimer: " + passWindowTimer);
+        // Debug.Log("passWindowDuration: " + passWindowDuration);
         while (passWindowTimer < passWindowDuration)
         {
             Debug.Log("pass window timer: " + passWindowTimer + ", duration: " + passWindowDuration);
@@ -1179,6 +1189,7 @@ public class WarriorController : MonoBehaviour
 
         passWindowTimer = 0f;
         WUI.ShowCallForPass(false);
+        callForPassWindowCheck = null;
     }
 
     private IEnumerator ResetKickHappened()
