@@ -14,7 +14,6 @@ public class MenuController : MonoBehaviour
     #region Variables
     //selected is updated by buttons when they become selected
     //public int selected;
-
     [Header("Managers and Controllers")]
     [SerializeField] private AsyncLoadManager ALM;
     [SerializeField] private MenuCamera menuCamera;
@@ -77,6 +76,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject gameplaySettings;
     [SerializeField] private GameObject audioSettings;
     [SerializeField] private GameObject controlSettings;
+    [SerializeField] private GameObject settingsButtonsMenu;
     [SerializeField] private GameObject warriorControls;
     [SerializeField] private GameObject monsterControls;
     [SerializeField] private TMP_Text teamControlsText;
@@ -135,6 +135,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button settingsAudioButton;
     [SerializeField] private Button settingsGameplayButton;
     [SerializeField] private Button settingsBackButton;
+
     public bool skipMain = false;
     private bool canEnterGame = false;
 
@@ -166,6 +167,18 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider deadzoneSlider;
     [SerializeField] private TMP_Text DeadzoneAdjNum;
 
+    [Header("Player Profile Settings")]
+    [SerializeField] private GameObject playerProfileEditor;
+    [SerializeField] private GameObject bindingsMenu;
+    [SerializeField] private GameObject configMenu;
+    [SerializeField] private GameObject shirtColorMenu;
+    [SerializeField] private GameObject skinColorMenu;
+    [SerializeField] private GameObject playerProfilesFirstButton;
+
+    [SerializeField] private CanvasGroup playerProfileCanvasGroup;
+    [SerializeField] private TMP_Dropdown bindingsFirstButton;
+    [SerializeField] private TMP_Dropdown configFirstButton;
+
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
     [SerializeField] private GameObject p2Connected;
@@ -181,6 +194,7 @@ public class MenuController : MonoBehaviour
     private int numPlayersConfirmed = 0; 
     public bool canMoveToGame = false;
     public bool deselectOccured = false;
+    public bool playerRebinding = false;
 
     // Tracks the stage the game will move to when it starts
     public int stageSelection;
@@ -263,32 +277,6 @@ public class MenuController : MonoBehaviour
     void Update()
     {
         if (startAlpha < 1 && fadeStart) SplashFadeIn();
-        //if (Input.GetMouseButtonDown(0)) {
-        //    switch (selected) {
-        //        //VERSUS MATCH
-        //        case 0:
-        //        menuCamera.goToVersusSetup();
-        //        mainMenuButtons.SetActive(false);
-        //        characterSelect.SetActive(true);
-        //        break;
-
-        //        //SETTINGS
-        //        case 1:
-        //        menuCamera.goToSettings();
-        //        mainMenuButtons.SetActive(false);
-        //        break;
-
-        //        //QUIT GAME
-        //        case 2:
-        //        Debug.Log("Quitting game. Goodbye!");
-        //        Application.Quit();
-        //        break;
-
-        //        default:
-        //        Debug.Log("Error: unknown menu option");
-        //        break;
-        //    }
-        //}
         Gamepad gamepad = Gamepad.current;
         if (splashScreen.activeInHierarchy && gamepad != null)
         {
@@ -304,49 +292,55 @@ public class MenuController : MonoBehaviour
 
         if (gamepad != null)
         {
-            if (gamepad.buttonEast.wasPressedThisFrame && !splashScreen.activeInHierarchy)
+            if (gamepad.buttonEast.wasPressedThisFrame && !splashScreen.activeInHierarchy && !playerRebinding)
             {
                 switch (currentScreen)
                 {
-                    case (1):
+                    case (1): //settings Menu
                         returnToTop();
                         break;
-                    case (2):
+                    case (2): //character Select Screen
                         if (!deselectOccured)
                         {
                             backToStageSelect();
                         }
                         break;
-                    case (3):
+                    case (3): //Stage Select Screen
                         if (stageSettings.activeSelf)
                         {
-                            ShowStageSettings(false);
+                            ShowStageSettings(false); //IFF stage settings open
                         }
                         else
                         {
                             returnToTop();
                         }
                         break;
-                    case (4):
+                    case (4): // Quit Confirmation Menu
                         returnToTop();
                         break;
-                    case (5):
+                    case (5): // Credits
                         returnToTop();
                         break;
-                    case (6):
+                    case (6): // Extras Menu
                         returnToTop();
                         break;
-                    case (7):
+                    case (7): // Sandbox Mode
                         backToExtras();
                         break;
-                    case (8):
+                    case (8): // Tutorial
                         backToExtras();
                         break;
-                    case (9):
+                    case (9): // Stats
                         backToExtras();
                         break;
-                    case (10):
+                    case (10): // Changelog
                         returnToTop();
+                        break;
+                    case (11): // Player Profile Editor
+                        backToSettings();
+                        break;
+                    case (12): // Player Profile Submenu (bindings, config, etc.)
+                        disablePPWindow();
                         break;
                     default:
                         break;
@@ -467,10 +461,10 @@ public class MenuController : MonoBehaviour
         //findAllCursors();
         switch (optionID)
         {
-            //VERSUS MATCH
+            // VERSUS MATCH
             case 0:
                 Debug.Log("OptionSelectVersus");
-                currentScreen = 3;
+                currentScreen = 3; // Stage Select
                 menuCamera.goToVersusSetup();
                 CC.SwitchToEarth();
                 stageSelect.SetActive(true);
@@ -479,98 +473,93 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
 
-                //sound
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
-            //SETTINGS
+            // SETTINGS
             case 1:
-                currentScreen = 1;
+                currentScreen = 1; // Settings Menu
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(settingsFirstButton);
                 menuCamera.goToSettings();
                 TVT.WarningEnd();
-
-                // Swapping Between Settings Here?
                 settingsButtons.SetActive(true);
-
                 mainMenuButtons.SetActive(false);
-                //Debug.Log(PlayerPrefs.GetFloat("commentaryVolume"));
 
-                //sound
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
 
-            //QUIT GAME
+            // QUIT GAME
             case 2:
-                currentScreen = 4;
+                currentScreen = 4; // Quit Confirmation
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(quitFirstButton);
                 menuCamera.goToQuitting();
                 quitGameButtons.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 TVT.WarningEnd();
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
-                
-            //CREDITS
+
+            // CREDITS
             case 3:
-                currentScreen = 5;
+                currentScreen = 5; // Credits Screen
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(creditsBackButton);
                 menuCamera.goToCredits();
                 CC.SwitchToCredits();
                 CSU.CreditsStart();
                 TVT.WarningEnd();
-                //creditsContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
 
-                // Steam Achievement Stuff
                 if (SteamManager.Initialized)
                 {
                     Debug.Log("Getting Stats: " + SteamUserStats.RequestCurrentStats());
                     Debug.Log("Setting Achievement: " + SteamUserStats.SetAchievement("CREDITS_VIEWED"));
                     Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
                 }
-
                 break;
 
-            //EXTRAS
+            // EXTRAS MENU
             case 4:
-                currentScreen = 6;
+                currentScreen = 6; // Extras Main
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(extrasFirstButton);
                 menuCamera.goToExtras();
                 TVT.WarningEnd();
                 extrasContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
                 break;
+
+            // SANDBOX
             case 5:
-                currentScreen = 7;
+                currentScreen = 7; // Sandbox
                 menuCamera.goToSandbox();
                 extrasContent.SetActive(false);
                 sandboxContent.SetActive(true);
                 TVT.WarningEnd();
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
+
+            // TUTORIAL
             case 6:
-                currentScreen = 8;
+                currentScreen = 8; // Tutorial
                 menuCamera.goToHowToZoom();
                 tutorialIndex = 0;
                 extrasContent.SetActive(false);
-                
+
                 tutorialContent.SetActive(true);
                 tutorialSwapImage.sprite = tutorialImages[0];
                 tutorialHeaderText.text = tutorialHeaders[0];
@@ -578,35 +567,53 @@ public class MenuController : MonoBehaviour
 
                 mainCanvasTutorial.SetActive(true);
                 TVT.WarningEnd();
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
+
+            // STATS
             case 7:
-                currentScreen = 9;
+                currentScreen = 9; // Stats
                 menuCamera.goToStatsZoom();
                 extrasContent.SetActive(false);
                 statsContent.SetActive(true);
                 TVT.WarningEnd();
-                //sound
+
                 if (AP != null) AP.setUseComVol(false);
                 if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuOpen"));
                 break;
+
+            // CHANGELOG
             case 8:
-                currentScreen = 10;
+                currentScreen = 10; // Changelog
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(changelogBackButton);
-                
                 changelogContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 break;
 
-            default:
-                Debug.Log("Error: unknown menu option");
-                break;
+            // DISCORD LINK
             case 9:
                 string discordInviteURL = "https://discord.gg/GN4nFMNC";
                 Application.OpenURL(discordInviteURL);
+                break;
+
+            // PLAYER PROFILE EDITOR
+            case 10:
+                currentScreen = 11; // Player Profile Editor
+                playerProfileEditor.SetActive(true);
+                settingsButtons.SetActive(false);
+
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
+
+                if (AP != null) AP.setUseComVol(false);
+                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+                break;
+
+            default:
+                Debug.Log("Error: unknown menu option");
                 break;
         }
     }
@@ -655,6 +662,38 @@ public class MenuController : MonoBehaviour
         //sound
         if (AP != null) AP.setUseComVol(false);
         if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+    }
+
+    public void backToSettings()
+    {
+        Debug.Log("BackToSettings");
+        currentScreen = 6;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(extrasFirstButton);
+        extrasContent.SetActive(true);
+        sandboxContent.SetActive(false);
+        tutorialContent.SetActive(false);
+        mainCanvasTutorial.SetActive(false);
+        statsContent.SetActive(false);
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+    }
+
+    public void disablePPWindow()
+    {
+        //Disable all player profile submenus
+        bindingsMenu.SetActive(false);
+        configMenu.SetActive(false);
+        shirtColorMenu.SetActive(false);
+        skinColorMenu.SetActive(false);
+
+        //Reactivate the player profile editor root screen
+        playerProfileEditor.SetActive(true);
+
+        //Reset selection to a safe default (e.g. first button in the profile editor)
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
     }
 
     public void moveToStageSelect()
@@ -860,6 +899,57 @@ public class MenuController : MonoBehaviour
         wAssistsText.text = "Assists: " + ST.saveData.assists;
         wStealsText.text = "Steals: " + ST.saveData.steals;
         wWinsText.text = "Wins: " + ST.saveData.wWins;
+    }
+
+    #endregion
+
+    #region Player Profile Logic
+
+    public void OpenBindingsMenu()
+    {
+        TogglePPCanvasGroup();
+
+        bindingsMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(bindingsFirstButton.gameObject);
+    }
+
+    public void OpenConfigMenu()
+    {
+        TogglePPCanvasGroup();
+
+        configMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+    }
+
+    public void OpenShirtColorMenu()
+    {
+        TogglePPCanvasGroup();
+
+        configMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+    }
+
+    public void OpenSkinColorMenu()
+    {
+        TogglePPCanvasGroup();
+
+        configMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+    }
+
+    public void ReturnToSettings()
+    {
+        playerProfileEditor.SetActive(false);
+        settingsButtons.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
+    }
+
+    private void TogglePPCanvasGroup()
+    {
+        playerProfileCanvasGroup.interactable = false;
+        playerProfileCanvasGroup.blocksRaycasts = false;
     }
 
     #endregion

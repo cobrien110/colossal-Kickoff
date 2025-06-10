@@ -13,7 +13,7 @@ public class RandomizeProfileName : MonoBehaviour
     public TMP_Text textField;
 
     [Header("Name Parts")]
-    private string[] firstParts = { "Quick", "Brave", "Wacky", "Sneaky", "Mighty", "Tiny", "Cranky", "Zany", "Red", "Colossal", "Brilliant", "Ferocious", "Immortal" };
+    private string[] firstParts = { "Quick", "Brave", "Wacky", "Sneaky", "Mighty", "Tiny", "Cranky", "Zany", "Red", "Colossal", "Brilliant", "Ferocious", "Immortal", "stupid" };
     private string[] secondParts = { "Lizard", "Wizard", "Panther", "Knight", "Robot", "Dragon", "Slug", "Falcon", "Mino", "Akhlut", "Quetz", "Gasha", "Sphinx", "Warrior", "Commentator", "Offence", "Defence", "Goalie", "Combatant" };
 
     void Start()
