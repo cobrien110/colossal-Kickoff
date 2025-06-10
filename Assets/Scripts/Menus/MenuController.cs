@@ -983,6 +983,7 @@ public class MenuController : MonoBehaviour
         characterInfos[playerSlot].confirm();
         numPlayersConfirmed++;
         Debug.Log("players confirmed: " + numPlayersConfirmed + " - Time: " + Time.fixedTime);
+        findAllCursors();
         Debug.Log("players needed: " + cursors.Length);
         if (numPlayersConfirmed == cursors.Length)
         {
