@@ -20,6 +20,7 @@ public class BallProperties : MonoBehaviour
     public float passBonus = 0.25f;
     public bool isSuperKick = false;
     public bool isFullSuperKick = false;
+    public bool canFullSuperKick = false;
     public bool isInSingleOutMode = false;
     public float passTimeFrame = .5f;
     private float passTimer = 0f;
@@ -156,6 +157,24 @@ public class BallProperties : MonoBehaviour
             SetBallColor(Color.blue);
         }
         */
+        if (GM.passMeter == GM.passMeterMax && !canFullSuperKick)
+        {
+            canFullSuperKick = true;
+            UM.isSuperKickWindow = true;
+            Debug.Log("SUPER KICK: WINDOW ACTIVE");
+        }
+        else if (GM.passMeter <= 0.0f && canFullSuperKick)
+        {
+            GM.passMeter = 0.0f;
+            canFullSuperKick = false;
+            UM.isSuperKickWindow = false;
+            UM.UpdateWarriorContestBar(0.0f);
+            Debug.Log("SUPER KICK: WINDOW INACTIVE");
+            if (ballOwner.GetComponent<WarriorController>() != null)
+            {
+                ballOwner.GetComponent<WarriorController>().StopSuperKick();
+            }
+        }
 
         if (isInSingleOutMode && GM.isPlaying)
         {
@@ -852,5 +871,4 @@ public class BallProperties : MonoBehaviour
     {
         return superKickMinStunSpeed;
     }
-
 }

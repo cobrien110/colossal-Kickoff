@@ -234,7 +234,8 @@ public class WarriorController : MonoBehaviour
                 BP.ballOwner = null;
             }
 
-            if (superKicking && isCharging && GM.passMeter == GM.passMeterMax)
+            //if (superKicking && isCharging && GM.passMeter == GM.passMeterMax)
+            if (superKicking && isCharging && BP.canFullSuperKick)
             {
                 Debug.Log("Should start glowing");
                 float glowAmount = kickCharge - 1.0f;
@@ -481,7 +482,7 @@ public class WarriorController : MonoBehaviour
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
                 if (superKicking && GM.passMeter > 0f)
                 {
-                    if (GM.passMeter == GM.passMeterMax)
+                    if (BP.canFullSuperKick)
                     {
                         kickForce = kickForce * (2f);
                         BP.isSuperKick = true;
@@ -572,7 +573,8 @@ public class WarriorController : MonoBehaviour
                 float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
                 if (superKicking && GM.passMeter > 0f)
                 {
-                    if (GM.passMeter == GM.passMeterMax)
+                    //if (GM.passMeter == GM.passMeterMax)
+                    if (BP.canFullSuperKick)
                     {
                         Debug.Log("passMeter: " + GM.passMeter + ", " + "passMeterMax: " + GM.passMeterMax);
                         kickForce = kickForce * (2f);
@@ -1264,7 +1266,8 @@ public class WarriorController : MonoBehaviour
             superKicking = true;
             aura.SetActive(true);
             AV.SuperKickColor(Color.red);
-            if (GM.passMeter < 1)
+            //if (GM.passMeter < 1)
+            if (!BP.canFullSuperKick)
             {
                 Instantiate(superTextPrefab, transform.position, Quaternion.identity);
                 canSpawnText = false;

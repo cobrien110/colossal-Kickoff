@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image chargeBarFill = null;
     [SerializeField] private TMP_Text chargeBarText = null;
 
+    
+
     //PassMeter
     //[SerializeField] private TMP_Text passMeterText = null;
     /*[SerializeField] private GameObject passMeter = null;
@@ -124,6 +126,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject RBgo = null;
     private bool isSuperFlashing = false;
     //private int[] playerIds = new int[4];
+
+    public bool isSuperKickWindow = false;
+    [SerializeField] private float superKickWindowTime = 10.0f;
 
     [SerializeField] private AudioPlayer AP;
 
@@ -233,6 +238,12 @@ public class UIManager : MonoBehaviour
             //        ShowStatsScoreboard(false);
             //    }
             //}
+        }
+
+        if (isSuperKickWindow)
+        {
+            GM.passMeter -= Time.deltaTime / superKickWindowTime;
+            UpdateWarriorContestBar(GM.passMeter);
         }
     }
 
@@ -674,7 +685,8 @@ public class UIManager : MonoBehaviour
     {
         warriorContestFill.fillAmount = charge;
         
-        if (warriorContestFill.fillAmount == 1 && !isSuperFlashing)
+        //if (warriorContestFill.fillAmount == 1 && !isSuperFlashing)
+        if (isSuperKickWindow && !isSuperFlashing)
         {
             Debug.Log("STARTING SUPER KICK FLASH");
             isSuperFlashing = true;
@@ -687,7 +699,8 @@ public class UIManager : MonoBehaviour
         //    ShowMiddleContestBar(true);
         //}
 
-        if (warriorContestFill.fillAmount < 1.0f)
+        //if (warriorContestFill.fillAmount < 1.0f)
+        if (!isSuperKickWindow && isSuperFlashing)
         {
             //ShowMiddleContestBar(false);
             Debug.Log("STOPPING SUPER KICK FLASH");

@@ -345,6 +345,7 @@ public class GameplayManager : MonoBehaviour
         StartCoroutine(Kickoff());
         BP.isSuperKick = false;
         BP.isFullSuperKick = false;
+        BP.canFullSuperKick = false;
         passMeter = 0;
         UM.UpdateWarriorContestBar(passMeter);
         UM.ShowOvertime(false);
