@@ -72,11 +72,11 @@ public class MenuController : MonoBehaviour
 
     [Header("Settings Menu Elements")]
     [SerializeField] private TMP_Text settingsHeader;
-    [SerializeField] private GameObject settingsButtons;
+    [SerializeField] private GameObject SettingsMenu;
+    [SerializeField] private GameObject SettingsButtons;
     [SerializeField] private GameObject gameplaySettings;
     [SerializeField] private GameObject audioSettings;
     [SerializeField] private GameObject controlSettings;
-    [SerializeField] private GameObject settingsButtonsMenu;
     [SerializeField] private GameObject warriorControls;
     [SerializeField] private GameObject monsterControls;
     [SerializeField] private TMP_Text teamControlsText;
@@ -188,6 +188,22 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject p2Disconnected;
     [SerializeField] private GameObject p3Disconnected;
     [SerializeField] private GameObject p4Disconnected;
+
+    [Header("Menu Navigation Elements")]
+    [SerializeField] private Selectable[] mainMenuNav;
+    [SerializeField] private Selectable[] quitMenuNav;
+    [SerializeField] private Selectable[] settingsTabButtons;       
+    [SerializeField] private Selectable[] gameplaySettingsNav;
+    [SerializeField] private Selectable[] audioSettingsNav;
+    [SerializeField] private Selectable[] controlsSettingsNav;
+    [SerializeField] private Selectable[] playerProfileNav;
+    [SerializeField] private Selectable[] stageSelectNav;
+    [SerializeField] private Selectable[] stageSettingsNav;
+    [SerializeField] private Selectable[] extrasNav;
+    [SerializeField] private Selectable[] sandboxNav;
+    [SerializeField] private Selectable[] tutorialNav;
+    [SerializeField] private Selectable[] statsNav;
+    [SerializeField] private Selectable[] changelogNav;
 
     [Header("Game State Tracking")]
     public int currentScreen = 0;
@@ -348,7 +364,7 @@ public class MenuController : MonoBehaviour
                 deselectOccured = false;
             }
 
-            if (settingsButtons.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame)
+            if (SettingsMenu.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame)
             {
                 if (gameplaySettings.activeInHierarchy)
                 {
@@ -362,7 +378,7 @@ public class MenuController : MonoBehaviour
                 }
             }
 
-            if (settingsButtons.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame)
+            if (SettingsMenu.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame)
             {
                 if (gameplaySettings.activeInHierarchy)
                 {
@@ -484,7 +500,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(settingsFirstButton);
                 menuCamera.goToSettings();
                 TVT.WarningEnd();
-                settingsButtons.SetActive(true);
+                SettingsMenu.SetActive(true);
                 mainMenuButtons.SetActive(false);
 
                 if (AP != null) AP.setUseComVol(false);
@@ -603,7 +619,7 @@ public class MenuController : MonoBehaviour
             case 10:
                 currentScreen = 11; // Player Profile Editor
                 playerProfileEditor.SetActive(true);
-                settingsButtons.SetActive(false);
+                SettingsButtons.SetActive(false);
 
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
@@ -632,7 +648,7 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(false); 
         extrasContent.SetActive(false);
         quitGameButtons.SetActive(false);
-        settingsButtons.SetActive(false);
+        SettingsMenu.SetActive(false);
         creditsContent.SetActive(false);
         sandboxContent.SetActive(false);
         tutorialContent.SetActive(false);
@@ -839,7 +855,6 @@ public class MenuController : MonoBehaviour
             gameplayNavi.selectOnDown = goreDropdown;
             settingsGameplayButton.navigation = gameplayNavi;
 
-            backNavi.selectOnUp = deadzoneSlider;
             backNavi.selectOnDown = settingsGameplayButton;
             settingsBackButton.navigation = backNavi;
         }
@@ -940,7 +955,7 @@ public class MenuController : MonoBehaviour
     public void ReturnToSettings()
     {
         playerProfileEditor.SetActive(false);
-        settingsButtons.SetActive(true);
+        SettingsButtons.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
@@ -1331,4 +1346,119 @@ public class MenuController : MonoBehaviour
     //}
 
     #endregion
+
+    //If manual navigation is needed to setup. Set it up here
+    private void SetupManualNavigation(int navID, bool useAutomatic = false)
+    {
+        switch (navID)
+        {
+            case 0: // Main Menu (Versus, Settings, Quit, etc.)
+                /*if (useAutomatic)
+                {
+                    foreach (Selectable s in mainMenuNav)
+                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+                }
+                else
+                {
+                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
+                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
+                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
+                }*/
+                break;
+
+            case 1: // Settings Top Bar (Gameplay, Audio, Player)
+                if (useAutomatic)
+                {
+                    foreach (Selectable s in mainMenuNav)
+                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+                }
+                else
+                {
+                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
+                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
+                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
+                }
+                break;
+
+            case 2: // Gameplay Settings Panel
+                if (useAutomatic)
+                {
+                    foreach (Selectable s in mainMenuNav)
+                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+                }
+                else
+                {
+                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
+                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
+                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
+                }
+                break;
+
+            case 3: // Audio Settings Panel
+                if (useAutomatic)
+                {
+                    foreach (Selectable s in mainMenuNav)
+                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
+                }
+                else
+                {
+                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
+                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
+                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
+                }
+                break;
+
+            case 4: // Controls Settings Panel
+                    // TODO: setup controlsSettingsNav[] vertical nav
+                break;
+
+            case 5: // Player Profile Editor Menu
+                    // TODO: setup playerProfileNav[] vertical or mixed nav
+                break;
+
+            case 6: // Stage Select Screen
+                    // TODO: setup stageSelectNav[]
+                break;
+
+            case 7: // Stage Settings Overlay
+                    // TODO: setup stageSettingsNav[]
+                break;
+
+            case 8: // Extras Menu
+                    // TODO: setup extrasNav[]
+                break;
+
+            case 9: // Sandbox Mode Menu
+                    // TODO: setup sandboxNav[]
+                break;
+
+            case 10: // Tutorial Panel
+                     // TODO: setup tutorialNav[]
+                break;
+
+            case 11: // Stats Screen
+                     // TODO: setup statsNav[]
+                break;
+
+            case 12: // Changelog Screen
+                     // TODO: setup changelogNav[]
+                break;
+
+            default:
+                Debug.LogWarning("No navigation case defined for navID: " + navID);
+                break;
+        }
+    }
+
+    private Navigation BuildNav(Selectable up, Selectable down, Selectable left, Selectable right)
+    {
+        return new Navigation
+        {
+            mode = Navigation.Mode.Explicit,
+            selectOnUp = up,
+            selectOnDown = down,
+            selectOnLeft = left,
+            selectOnRight = right
+        };
+    }
 }
