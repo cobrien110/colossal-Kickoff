@@ -1040,7 +1040,8 @@ public class WarriorController : MonoBehaviour
             }
             //Debug.Log("AIMING DIR " + aimingDirection);
             //Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
-        } else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
+        }
+        else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
         {
             isKickCharging = false;
         }
@@ -1450,10 +1451,6 @@ public class WarriorController : MonoBehaviour
 
     public void SetControlScheme()
     {
-        PlayerInput PI = gameObject.GetComponent<PlayerInput>();
-        InputActionMap IAP = PI.currentActionMap;
-        InputAction IA = IAP.FindAction("Kick");
-
         switch (PH.controlScheme)
         {
             case 0:

@@ -586,6 +586,8 @@ public class GameplayManager : MonoBehaviour
                 }
             }
 
+            MC.SetControlScheme();
+
             playerList.Add(player);
             //UM.ShowMonsterUI(true);
         } else if (player.tag.Equals("Warrior"))

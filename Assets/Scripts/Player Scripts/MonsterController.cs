@@ -17,6 +17,19 @@ public class MonsterController : MonoBehaviour
 
     #endregion
 
+    #region Control Scheme Variables
+
+    [SerializeField] private bool invertControls = false;
+
+    /*
+     * 0: Hold and release Right-Stick to Kick
+     * 1: Hold and release Right-Trigger to Kick
+     */
+    [SerializeField] private int kickMode = 0;
+    private bool isKickCharging = false;
+
+    #endregion
+
     [HideInInspector] public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
@@ -45,7 +58,6 @@ public class MonsterController : MonoBehaviour
 
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
-    public bool invertControls = false;
 
     [SerializeField] private GameObject ballPosition;
 
@@ -423,8 +435,9 @@ public class MonsterController : MonoBehaviour
 
         if (isStunned) return;
 
-        
-        if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+
+        //if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+        if (isKickCharging == false && BP.ballOwner == gameObject && kickCharge != 1)
         {
             Debug.Log("Kick!");
 
@@ -457,7 +470,8 @@ public class MonsterController : MonoBehaviour
             ANIM.SetBool("isWindingUp", false);
             ANIM.Play("MinotaurAttack");
         }
-        if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
+        //if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
+        if (isKickCharging && BP.ballOwner == gameObject)
         {
             if (kickCharge <= maxCharge)
             {
@@ -843,6 +857,15 @@ public class MonsterController : MonoBehaviour
         if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
+
+            if (kickMode == 0)
+            {
+                isKickCharging = true;
+            }
+        }
+        else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
+        {
+            isKickCharging = false;
         }
         usingKeyboard = false;
     }
@@ -889,6 +912,18 @@ public class MonsterController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (kickMode == 1)
+        {
+            if (context.started)
+            {
+                isKickCharging = true;
+            }
+            if (context.canceled)
+            {
+                isKickCharging = false;
+            }
+        }
+
         if (!canUseAbilities) return; 
 
         // Ignore input if monster is ai
@@ -1133,6 +1168,23 @@ public class MonsterController : MonoBehaviour
         {
             if (pa == null) continue;
             pa.Deactivate();
+        }
+    }
+
+    public void SetControlScheme()
+    {
+        switch (PH.controlScheme)
+        {
+            case 0:
+                invertControls = false;
+                kickMode = 0;
+                break;
+            case 1:
+                invertControls = true;
+                kickMode = 1;
+                break;
+            default:
+                break;
         }
     }
 }
