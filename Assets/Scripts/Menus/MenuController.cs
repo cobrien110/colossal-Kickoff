@@ -768,7 +768,6 @@ public class MenuController : MonoBehaviour
         lastStageButton.GetComponent<Selectable>().Select();
 
         //sound
-
         PlayMenuClick("menuClose");
     }
 
@@ -893,6 +892,7 @@ public class MenuController : MonoBehaviour
     public void OpenBindingsMenu()
     {
         TogglePPCanvasGroup();
+        playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         currentScreen = 12;
 
         bindingsMenu.SetActive(true);
@@ -903,6 +903,7 @@ public class MenuController : MonoBehaviour
     public void OpenConfigMenu()
     {
         TogglePPCanvasGroup();
+        playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         currentScreen = 12;
         configMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
@@ -912,33 +913,37 @@ public class MenuController : MonoBehaviour
     public void OpenShirtColorMenu()
     {
         TogglePPCanvasGroup();
+        playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         currentScreen = 12;
 
         shirtColorMenu.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(gameObject);
+        EventSystem.current.SetSelectedGameObject(shirtFirstButton.gameObject);
         PlayMenuClick("menuClick2");
     }
 
     public void OpenSkinColorMenu()
     {
         TogglePPCanvasGroup();
+        playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         currentScreen = 12;
 
         skinColorMenu.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+        EventSystem.current.SetSelectedGameObject(skinFirstButton.gameObject);
         PlayMenuClick("menuClick2");
     }
 
     public void ReturnToSettings()
     {
+        playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         playerProfileEditor.SetActive(false);
         SettingsButtons.SetActive(true);
+
+        currentScreen = 1;
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
 
         //sound
-
         PlayMenuClick();
     }
 
