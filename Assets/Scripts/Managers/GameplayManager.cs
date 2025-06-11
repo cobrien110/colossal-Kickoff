@@ -572,16 +572,46 @@ public class GameplayManager : MonoBehaviour
         {
             MC = player.GetComponent<MonsterController>();
             MC.playerID = playerID;
+
+            // Find this player's PlayerHolder
+            GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+            for (int i = 0; i < playerHolders.Length; i++)
+            {
+                PlayerHolder tempPH = playerHolders[i].GetComponent<PlayerHolder>();
+                Debug.Log("ID CHECKS || TEMPPH: " + tempPH.playerID + " PLAYERID: " + playerID);
+                if (tempPH.playerID == playerID)
+                {
+                    MC.PH = tempPH;
+                    break;
+                }
+            }
+
             playerList.Add(player);
             //UM.ShowMonsterUI(true);
         } else if (player.tag.Equals("Warrior"))
         {
             GameObject[] warriors = GameObject.FindGameObjectsWithTag("Warrior");
             WC = player.GetComponent<WarriorController>();
+
             WC.playerID = playerID;
+
+            // Find this player's PlayerHolder
+            GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
+            for (int i = 0; i < playerHolders.Length; i++)
+            {
+                PlayerHolder tempPH = playerHolders[i].GetComponent<PlayerHolder>();
+                Debug.Log("ID CHECKS || TEMPPH: " + tempPH.playerID + " PLAYERID: " + playerID);
+                if (tempPH.playerID == playerID)
+                {
+                    WC.PH = tempPH;
+                    break;
+                }
+            }
+
             WC.warriorPosition = warriorPosition;
             //WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;
+
             playerList.Add(player);
             
 

@@ -10,7 +10,12 @@ using UnityEngine.InputSystem;
 
 public class MonsterController : MonoBehaviour
 {
+    #region PlayerHolder Variables
+
     public int playerID;
+    public PlayerHolder PH = null;
+
+    #endregion
 
     [HideInInspector] public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
@@ -138,7 +143,6 @@ public class MonsterController : MonoBehaviour
         abilities = new List<AbilityScript> { null, null, null };
         passiveAbilities = GetComponents<PassiveAbility>();
         StartCoroutine(RemoveNullAbilities());
-        
     }
 
     void Start()
@@ -1194,5 +1198,4 @@ public class MonsterController : MonoBehaviour
             pa.Deactivate();
         }
     }
-
 }

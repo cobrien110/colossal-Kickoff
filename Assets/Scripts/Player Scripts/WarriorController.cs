@@ -9,8 +9,13 @@ using Steamworks;
 
 public class WarriorController : MonoBehaviour
 {
+    #region PlayerHolder Variables
+
     public int playerID;
     public int warriorPosition;
+    public PlayerHolder PH = null;
+
+    #endregion
 
     public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
@@ -551,7 +556,9 @@ public class WarriorController : MonoBehaviour
                 aimingDirection = Vector3.zero;
                 ANIM.SetBool("isChargingKick", false);
             }
-        } // --- Different Control Scheme ---
+        }
+
+        // --- Different Control Scheme ---
         else
         {
             if ((warriorControls.phase == InputActionPhase.Canceled || warriorControls.WasReleasedThisFrame()) && BP.ballOwner == gameObject && kickCharge != 1)

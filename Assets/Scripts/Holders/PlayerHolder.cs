@@ -16,6 +16,12 @@ public class PlayerHolder : MonoBehaviour
     public Gamepad thisGamepad;
     public string gamepadName;
 
+    /*
+     * 0: Default. Right-Stick inverted to aim and release to kick.
+     * 1: Right-Stick to aim. Hold Right-Trigger to charge and release to kick.
+     */
+    public int controlScheme;
+
     public Color warriorColor;
 
     // Which of the three warriors was selected on the Main Menu. Keeping it separate from PlayerNum cause that whole thing is a mess.
