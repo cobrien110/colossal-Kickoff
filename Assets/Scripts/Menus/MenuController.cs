@@ -1328,49 +1328,6 @@ public class MenuController : MonoBehaviour
 
     #endregion
 
-    //If manual navigation is needed to setup. Set it up here
-    private void SetupManualNavigation(int navID)
-    {
-        switch (navID)
-        {
-            case 0: // Main Menu (Versus, Settings, Quit, etc.)
-                /*if (useAutomatic)
-                {
-                    foreach (Selectable s in mainMenuNav)
-                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
-                }
-                else
-                {
-                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
-                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
-                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
-                }*/
-                break;
-            case 2: // Gameplay Settings Panel
-                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
-                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
-                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
-                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, gameplaySettingsNav[2], null, null, null);
-                break;
-
-            case 3: // Audio Settings Panel
-                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
-                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
-                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
-                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, audioSettingsNav[3], null, null, null);
-                break;
-            case 4: // Controls Settings Panel
-                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
-                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
-                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
-                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, controlsSettingsNav[0], null, null, null);
-                break;
-            default:
-                Debug.LogWarning("No navigation case defined for navID: " + navID);
-                break;
-        }
-    }
-
     private Navigation BuildNav(Navigation baseNav, Selectable up = null, Selectable down = null, Selectable left = null, Selectable right = null)
     {
         baseNav.mode = Navigation.Mode.Explicit;
