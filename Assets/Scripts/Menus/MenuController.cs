@@ -178,6 +178,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private CanvasGroup playerProfileCanvasGroup;
     [SerializeField] private TMP_Dropdown bindingsFirstButton;
     [SerializeField] private TMP_Dropdown configFirstButton;
+    [SerializeField] private Slider shirtFirstButton;
+    [SerializeField] private Slider skinFirstButton;
 
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
@@ -190,20 +192,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject p4Disconnected;
 
     [Header("Menu Navigation Elements")]
-    [SerializeField] private Selectable[] mainMenuNav;
-    [SerializeField] private Selectable[] quitMenuNav;
     [SerializeField] private Selectable[] settingsTabButtons;       
     [SerializeField] private Selectable[] gameplaySettingsNav;
     [SerializeField] private Selectable[] audioSettingsNav;
     [SerializeField] private Selectable[] controlsSettingsNav;
-    [SerializeField] private Selectable[] playerProfileNav;
-    [SerializeField] private Selectable[] stageSelectNav;
-    [SerializeField] private Selectable[] stageSettingsNav;
-    [SerializeField] private Selectable[] extrasNav;
-    [SerializeField] private Selectable[] sandboxNav;
-    [SerializeField] private Selectable[] tutorialNav;
-    [SerializeField] private Selectable[] statsNav;
-    [SerializeField] private Selectable[] changelogNav;
+    //[SerializeField] private Selectable[] playerProfileNav;
 
     [Header("Game State Tracking")]
     public int currentScreen = 0;
@@ -301,8 +294,7 @@ public class MenuController : MonoBehaviour
                 Debug.Log("Game Enter");
                 splashScreen.SetActive(false);
                 mainMenuButtons.SetActive(true);
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+                PlayMenuClick();
             }
         }
 
@@ -353,7 +345,7 @@ public class MenuController : MonoBehaviour
                         returnToTop();
                         break;
                     case (11): // Player Profile Editor
-                        backToSettings();
+                        ReturnToSettings();
                         break;
                     case (12): // Player Profile Submenu (bindings, config, etc.)
                         disablePPWindow();
@@ -489,8 +481,8 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
                 break;
 
             // SETTINGS
@@ -503,8 +495,8 @@ public class MenuController : MonoBehaviour
                 SettingsMenu.SetActive(true);
                 mainMenuButtons.SetActive(false);
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
                 break;
 
             // QUIT GAME
@@ -517,8 +509,8 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 TVT.WarningEnd();
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
                 break;
 
             // CREDITS
@@ -532,8 +524,8 @@ public class MenuController : MonoBehaviour
                 TVT.WarningEnd();
                 mainMenuButtons.SetActive(false);
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
 
                 if (SteamManager.Initialized)
                 {
@@ -553,8 +545,8 @@ public class MenuController : MonoBehaviour
                 extrasContent.SetActive(true);
                 mainMenuButtons.SetActive(false);
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
                 break;
 
             // SANDBOX
@@ -624,8 +616,8 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
 
-                if (AP != null) AP.setUseComVol(false);
-                if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+                PlayMenuClick();
                 break;
 
             default:
@@ -659,8 +651,8 @@ public class MenuController : MonoBehaviour
         TVT.WarningStart();
 
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+        PlayMenuClick();
     }
 
     public void backToExtras() {
@@ -676,8 +668,8 @@ public class MenuController : MonoBehaviour
         mainCanvasTutorial.SetActive(false);
         statsContent.SetActive(false);
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+        PlayMenuClick();
     }
 
     public void backToSettings()
@@ -692,8 +684,8 @@ public class MenuController : MonoBehaviour
         mainCanvasTutorial.SetActive(false);
         statsContent.SetActive(false);
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+
+        PlayMenuClick();
     }
 
     public void disablePPWindow()
@@ -706,6 +698,7 @@ public class MenuController : MonoBehaviour
 
         //Reactivate the player profile editor root screen
         playerProfileEditor.SetActive(true);
+        TogglePPCanvasGroup();
 
         //Reset selection to a safe default (e.g. first button in the profile editor)
         EventSystem.current.SetSelectedGameObject(null);
@@ -727,8 +720,8 @@ public class MenuController : MonoBehaviour
         stageSelect.SetActive(true);
         stageFirstButton.gameObject.GetComponent<Selectable>().Select();
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick2"));
+        
+                PlayMenuClick();
     }
 
     /**public void backToCharSelect() {
@@ -775,90 +768,67 @@ public class MenuController : MonoBehaviour
         lastStageButton.GetComponent<Selectable>().Select();
 
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClose"));
+
+        PlayMenuClick("menuClose");
     }
 
     //Change this to flip between screens with Dpad at some point
     public void SettingsSwap(int type)
     {
-        //Add controller menu nav
-
-        //if (settingsBackButton != null && settingsHeaderButton != null)
-
-        //backNavi = settingsBackButton.navigation;
-        //headerNavi = settingsHeaderButton.navigation;
-        //Navigation navigation = new Navigation();
-
-        //weird bug where if this isnt present, header on select up gets set to toggle screen shake???
+        // Add controller menu nav
+        // Weird bug where if this isn't present, header on select up gets set to toggle screen shake???
         controlsNavi.selectOnUp = settingsBackButton;
         audioNavi.selectOnUp = settingsBackButton;
         gameplayNavi.selectOnUp = settingsBackButton;
         backNavi.selectOnDown = settingsGameplayButton;
 
-        //Audio
-        if (type == 0)
+        switch (type)
         {
-            gameplaySettings.SetActive(false);
-            controlSettings.SetActive(false);
-            audioSettings.SetActive(true);
+            case 0: // Audio
+                gameplaySettings.SetActive(false);
+                controlSettings.SetActive(false);
+                audioSettings.SetActive(true);
 
-            EventSystem.current.SetSelectedGameObject(settingsAudioButton.gameObject);
-            //settingsHeader.text = "AUDIO";
+                EventSystem.current.SetSelectedGameObject(settingsAudioButton.gameObject);
+                //settingsHeader.text = "AUDIO";
 
-            controlsNavi.selectOnDown = effectsSlider;
-            settingsControlsButton.navigation = controlsNavi;
-            audioNavi.selectOnDown = effectsSlider;
-            settingsAudioButton.navigation = audioNavi;
-            gameplayNavi.selectOnDown = effectsSlider;
-            settingsGameplayButton.navigation = gameplayNavi;
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, down: audioSettingsNav[1]);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[1].navigation, down: audioSettingsNav[1]);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[2].navigation, down: audioSettingsNav[1]);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[3].navigation, up: audioSettingsNav[3]);
+                break;
 
-            backNavi.selectOnUp = comFreqSlider;
-            backNavi.selectOnDown = settingsAudioButton;
-            settingsBackButton.navigation = backNavi;
+            case 1: // Controls
+                audioSettings.SetActive(false);
+                gameplaySettings.SetActive(false);
+                controlSettings.SetActive(true);
+
+                EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
+                //settingsHeader.text = "CONTROLS";
+
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, down: controlsSettingsNav[0]);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[1].navigation, down: controlsSettingsNav[0]);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[2].navigation, down: controlsSettingsNav[0]);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[3].navigation, up: controlsSettingsNav[0]);
+                break;
+
+            case 2: // Gameplay
+                controlSettings.SetActive(false);
+                audioSettings.SetActive(false);
+                gameplaySettings.SetActive(true);
+
+                EventSystem.current.SetSelectedGameObject(settingsGameplayButton.gameObject);
+                //settingsHeader.text = "GAMEPLAY";
+
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, down: gameplaySettingsNav[0]);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[1].navigation, down: gameplaySettingsNav[0]);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[2].navigation, down: gameplaySettingsNav[0]);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[3].navigation, up: gameplaySettingsNav[2]);
+                break;
+            default:
+                Debug.LogWarning("Unknown settings tab type: " + type);
+                break;
         }
-        //Controls
-        else if (type == 1)
-        {
-            audioSettings.SetActive(false);
-            gameplaySettings.SetActive(false);
-            controlSettings.SetActive(true);
-
-            EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
-            //settingsHeader.text = "CONTROLS";
-
-            controlsNavi.selectOnDown = controlTypeSwap;
-            settingsControlsButton.navigation = controlsNavi;
-            audioNavi.selectOnDown = controlTypeSwap;
-            settingsAudioButton.navigation = audioNavi;
-            gameplayNavi.selectOnDown = controlTypeSwap;
-            settingsGameplayButton.navigation = gameplayNavi;
-
-            backNavi.selectOnUp = controlTypeSwap;
-            backNavi.selectOnDown = settingsControlsButton;
-            settingsBackButton.navigation = backNavi;
-        }
-        //Gameplay
-        else if (type == 2)
-        {
-            controlSettings.SetActive(false);
-            audioSettings.SetActive(false);
-            gameplaySettings.SetActive(true);
-
-            EventSystem.current.SetSelectedGameObject(settingsGameplayButton.gameObject);
-            //settingsHeader.text = "GAMEPLAY";
-
-            controlsNavi.selectOnDown = goreDropdown;
-            settingsControlsButton.navigation = controlsNavi;
-            audioNavi.selectOnDown = goreDropdown;
-            settingsAudioButton.navigation = audioNavi;
-            gameplayNavi.selectOnDown = goreDropdown;
-            settingsGameplayButton.navigation = gameplayNavi;
-
-            backNavi.selectOnDown = settingsGameplayButton;
-            settingsBackButton.navigation = backNavi;
-        }
-
     }
 
     public void SwapSettingsControlType()
@@ -923,33 +893,40 @@ public class MenuController : MonoBehaviour
     public void OpenBindingsMenu()
     {
         TogglePPCanvasGroup();
+        currentScreen = 12;
 
         bindingsMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(bindingsFirstButton.gameObject);
+        PlayMenuClick("menuClick2");
     }
 
     public void OpenConfigMenu()
     {
         TogglePPCanvasGroup();
-
+        currentScreen = 12;
         configMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+        PlayMenuClick("menuClick2");
     }
 
     public void OpenShirtColorMenu()
     {
         TogglePPCanvasGroup();
+        currentScreen = 12;
 
-        configMenu.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+        shirtColorMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(gameObject);
+        PlayMenuClick("menuClick2");
     }
 
     public void OpenSkinColorMenu()
     {
         TogglePPCanvasGroup();
+        currentScreen = 12;
 
-        configMenu.SetActive(true);
+        skinColorMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(configFirstButton.gameObject);
+        PlayMenuClick("menuClick2");
     }
 
     public void ReturnToSettings()
@@ -959,12 +936,16 @@ public class MenuController : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
+
+        //sound
+
+        PlayMenuClick();
     }
 
     private void TogglePPCanvasGroup()
     {
-        playerProfileCanvasGroup.interactable = false;
-        playerProfileCanvasGroup.blocksRaycasts = false;
+        playerProfileCanvasGroup.interactable = !playerProfileCanvasGroup.interactable;
+        playerProfileCanvasGroup.blocksRaycasts = !playerProfileCanvasGroup.blocksRaycasts;
     }
 
     #endregion
@@ -1084,9 +1065,7 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
-
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        PlayMenuClick("menuClick");
     }
 
     public void SetBallOutline()
@@ -1101,8 +1080,8 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+
+        PlayMenuClick("menuClick");
     }
 
     public void setDeadzoneAdjustment()
@@ -1193,24 +1172,21 @@ public class MenuController : MonoBehaviour
         }
 
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        PlayMenuClick("menuClick");
     }
 
     public void SetOvertime()
     {
         PlayerPrefs.SetInt("overtime", overtimeDropdown.value);
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        PlayMenuClick("menuClick");
     }
 
     public void SetKickCharge()
     {
         PlayerPrefs.SetInt("kickcharge", kickchargeDropdown.value);
         //sound
-        if (AP != null) AP.setUseComVol(false);
-        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        PlayMenuClick("menuClick");
     }
     #endregion
 
@@ -1348,7 +1324,7 @@ public class MenuController : MonoBehaviour
     #endregion
 
     //If manual navigation is needed to setup. Set it up here
-    private void SetupManualNavigation(int navID, bool useAutomatic = false)
+    private void SetupManualNavigation(int navID)
     {
         switch (navID)
         {
@@ -1365,100 +1341,48 @@ public class MenuController : MonoBehaviour
                     mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
                 }*/
                 break;
-
-            case 1: // Settings Top Bar (Gameplay, Audio, Player)
-                if (useAutomatic)
-                {
-                    foreach (Selectable s in mainMenuNav)
-                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
-                }
-                else
-                {
-                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
-                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
-                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
-                }
-                break;
-
             case 2: // Gameplay Settings Panel
-                if (useAutomatic)
-                {
-                    foreach (Selectable s in mainMenuNav)
-                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
-                }
-                else
-                {
-                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
-                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
-                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
-                }
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, gameplaySettingsNav[0], null, null);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, gameplaySettingsNav[2], null, null, null);
                 break;
 
             case 3: // Audio Settings Panel
-                if (useAutomatic)
-                {
-                    foreach (Selectable s in mainMenuNav)
-                        s.navigation = new Navigation { mode = Navigation.Mode.Automatic };
-                }
-                else
-                {
-                    mainMenuNav[0].navigation = BuildNav(null, mainMenuNav[1], null, null);
-                    mainMenuNav[1].navigation = BuildNav(mainMenuNav[0], mainMenuNav[2], null, null);
-                    mainMenuNav[2].navigation = BuildNav(mainMenuNav[1], null, null, null);
-                }
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, audioSettingsNav[1], null, null);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, audioSettingsNav[3], null, null, null);
                 break;
-
             case 4: // Controls Settings Panel
-                    // TODO: setup controlsSettingsNav[] vertical nav
+                settingsTabButtons[0].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
+                settingsTabButtons[1].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
+                settingsTabButtons[2].navigation = BuildNav(settingsTabButtons[0].navigation, null, controlsSettingsNav[0], null, null);
+                settingsTabButtons[3].navigation = BuildNav(settingsTabButtons[0].navigation, controlsSettingsNav[0], null, null, null);
                 break;
-
-            case 5: // Player Profile Editor Menu
-                    // TODO: setup playerProfileNav[] vertical or mixed nav
-                break;
-
-            case 6: // Stage Select Screen
-                    // TODO: setup stageSelectNav[]
-                break;
-
-            case 7: // Stage Settings Overlay
-                    // TODO: setup stageSettingsNav[]
-                break;
-
-            case 8: // Extras Menu
-                    // TODO: setup extrasNav[]
-                break;
-
-            case 9: // Sandbox Mode Menu
-                    // TODO: setup sandboxNav[]
-                break;
-
-            case 10: // Tutorial Panel
-                     // TODO: setup tutorialNav[]
-                break;
-
-            case 11: // Stats Screen
-                     // TODO: setup statsNav[]
-                break;
-
-            case 12: // Changelog Screen
-                     // TODO: setup changelogNav[]
-                break;
-
             default:
                 Debug.LogWarning("No navigation case defined for navID: " + navID);
                 break;
         }
     }
 
-    private Navigation BuildNav(Selectable up, Selectable down, Selectable left, Selectable right)
+    private Navigation BuildNav(Navigation baseNav, Selectable up = null, Selectable down = null, Selectable left = null, Selectable right = null)
     {
-        return new Navigation
-        {
-            mode = Navigation.Mode.Explicit,
-            selectOnUp = up,
-            selectOnDown = down,
-            selectOnLeft = left,
-            selectOnRight = right
-        };
+        baseNav.mode = Navigation.Mode.Explicit;
+
+        if (up != null) baseNav.selectOnUp = up;
+        if (down != null) baseNav.selectOnDown = down;
+        if (left != null) baseNav.selectOnLeft = left;
+        if (right != null) baseNav.selectOnRight = right;
+
+        return baseNav;
+    }
+
+    private void PlayMenuClick(string soundName = "menuClick2", bool useComVol = false)
+    {
+        if (AP == null) return;
+
+        AP.setUseComVol(useComVol);
+        AP.PlaySoundRandomPitch(AP.Find(soundName));
     }
 }

@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using TMPro;
 public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-    private Button button;
-    public Color startColor;
-    public Color endColor;
-    public float time = 1f;
+    private Selectable selectable;
+    public Color startColor = new Color(245f / 255f, 81f / 255f, 0f / 255f);   // #F55100
+    public Color endColor = new Color(233f / 255f, 189f / 255f, 69f / 255f);   // #E9BD45
+    public float time = 0.35f;
+    public bool isSelected = false;
+
     bool goingForward;
     bool isCycling;
-    public bool isSelected = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        selectable = GetComponent<Selectable>();
+        if (selectable == null)
+        {
+            Debug.LogWarning("No Selectable component (Button, Dropdown, Slider) found on " + gameObject.name);
+            enabled = false;
+            return;
+        }
+
         goingForward = true;
         isCycling = false;
-        button = GetComponent<Button>();
-        startColor = button.colors.selectedColor;
+
+        startColor = selectable.colors.selectedColor;
     }
 
     // Update is called once per frame
@@ -30,58 +39,40 @@ public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
         if (!isCycling && isActiveAndEnabled)
         {
             if (goingForward)
-            {
-                StartCoroutine(CycleMaterial(startColor, endColor, time));
-            }
+                StartCoroutine(CycleColor(startColor, endColor, time));
             else
-            {
-                StartCoroutine(CycleMaterial(endColor, startColor, time));
-            }
+                StartCoroutine(CycleColor(endColor, startColor, time));
         }
     }
 
-    private IEnumerator CycleMaterial(Color startColor, Color endColor, float cycleTime)
+    private IEnumerator CycleColor(Color from, Color to, float duration)
     {
         isCycling = true;
-        float currentTime = 0;
+        float t = 0f;
 
-        // lerp between start color and final color
-        while (currentTime < cycleTime)
+        while (t < duration)
         {
-            currentTime += Time.deltaTime;
-            float t = currentTime / cycleTime;
-            Color currentColor = Color.Lerp(startColor, endColor, t);
-            ColorBlock cb = button.colors;
-            cb.selectedColor = currentColor;
-            button.colors = cb;
+            t += Time.deltaTime;
+            float lerpT = t / duration;
+            Color current = Color.Lerp(from, to, lerpT);
+            ColorBlock cb = selectable.colors;
+            cb.selectedColor = current;
+            selectable.colors = cb;
             yield return null;
         }
 
-        // tell code that the cycle has ended and switch direction
         isCycling = false;
         goingForward = !goingForward;
     }
 
-    public void OnDeselect(BaseEventData eventData)
-    {
-        // stop cycling
-        //isCycling = false;
-        //isSelected = false;
-        //StopAllCoroutines();
-
-        /*
-        // reset color
-        ColorBlock cb = button.colors;
-        cb.selectedColor = startColor;
-        button.colors = cb;
-        */
-    }
-
     public void OnSelect(BaseEventData eventData)
     {
-        //Debug.Log("button has been selected");
-        //isCycling = false;
-        //isSelected = true;
+        isSelected = true;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        isSelected = false;
     }
 
     private void OnEnable()
