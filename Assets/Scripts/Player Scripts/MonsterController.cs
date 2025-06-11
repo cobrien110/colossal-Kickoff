@@ -41,7 +41,6 @@ public class MonsterController : MonoBehaviour
     private Vector3 rightStickInput;
 
     //Temp Controller Scheme Swap
-    public bool usingNewScheme = false;
     public InputAction monsterControls;
 
     //Make True If Using Keyboard For Movement
@@ -240,13 +239,6 @@ public class MonsterController : MonoBehaviour
             BP.ballOwner = null;
         }
 
-        //Temp Controller Scheme Swap
-        //if (Input.GetKeyDown(KeyCode.LeftAlt))
-        //{
-        //    usingNewScheme = !usingNewScheme;
-        //    invertControls = !invertControls;
-        //}
-
 
         //if (kickCharge >= maxChargeSeconds)
         //{
@@ -431,115 +423,63 @@ public class MonsterController : MonoBehaviour
 
         if (isStunned) return;
 
-        if (!usingNewScheme)
+        
+        if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
         {
-            if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
-            {
-                Debug.Log("Kick!");
+            Debug.Log("Kick!");
 
-                // Prevent ball from getting kicked "through" walls
-                if (BP != null && IsWallBetweenBallAndPlayer())
-                {
-                    Debug.Log("Correcting ball position before kick");
-                    BP.gameObject.transform.position =
-                        new Vector3(transform.position.x, BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
-                }
+            // Prevent ball from getting kicked "through" walls
+            if (BP != null && IsWallBetweenBallAndPlayer())
+            {
+                Debug.Log("Correcting ball position before kick");
+                BP.gameObject.transform.position =
+                    new Vector3(transform.position.x, BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+            }
 
                 
-                BP.ballOwner = null;
-                BP.lastKicker = gameObject;
-                BP.previousKicker = gameObject;
-                Debug.Log(kickCharge);
-                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-                Vector3 forceToAdd = aimingDirection * kickForce;
-                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+            BP.ballOwner = null;
+            BP.lastKicker = gameObject;
+            BP.previousKicker = gameObject;
+            Debug.Log(kickCharge);
+            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+            Vector3 forceToAdd = aimingDirection * kickForce;
+            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
-                //PAUI.ShowChargeBar(false);
-                MUI.UpdateChargeBar(0f);
+            //PAUI.ShowChargeBar(false);
+            MUI.UpdateChargeBar(0f);
 
-                //Outdated
-                //UM.ShowChargeBar(false);
-                //UM.UpdateChargeBar(0f);
+            //Outdated
+            //UM.ShowChargeBar(false);
+            //UM.UpdateChargeBar(0f);
 
-                PlayKickSound(kickCharge);
-                StartCoroutine(KickDelay());
-                ANIM.SetBool("isWindingUp", false);
-                ANIM.Play("MinotaurAttack");
-            }
-            if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
-            {
-                if (kickCharge <= maxCharge)
-                {
-                    //Debug.Log(kickCharge);
-                    MUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
-
-                    //Charge Speed
-                    kickCharge += Time.deltaTime * chargeSpeed;
-                    isCharging = true;
-                    ANIM.SetBool("isWindingUp", true);
-                }
-
-                if (kickCharge > maxCharge)
-                {
-                    MUI.UpdateChargeBar(1f);
-                }
-            }
-            else
-            {
-                kickCharge = 1f;
-                isCharging = false;
-                aimingDirection = Vector3.zero;
-            }
-        } else
+            PlayKickSound(kickCharge);
+            StartCoroutine(KickDelay());
+            ANIM.SetBool("isWindingUp", false);
+            ANIM.Play("MinotaurAttack");
+        }
+        if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
         {
-            if (((monsterControls.phase == InputActionPhase.Canceled || monsterControls.WasReleasedThisFrame()) || /*Input.GetKeyUp(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+            if (kickCharge <= maxCharge)
             {
-                Debug.Log("Kick!");
+                //Debug.Log(kickCharge);
+                MUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
 
-                // Debug.Log("ballOwner set to null");
-                BP.ballOwner = null;
-                BP.lastKicker = gameObject;
-                BP.previousKicker = gameObject;
-                Debug.Log(kickCharge);
-                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-                Vector3 forceToAdd = aimingDirection * kickForce;
-                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-
-                MUI.UpdateChargeBar(0f);
-
-                PlayKickSound(kickCharge);
-                StartCoroutine(KickDelay());
-                ANIM.SetBool("isWindingUp", false);
-                ANIM.Play("MinotaurAttack");
+                //Charge Speed
+                kickCharge += Time.deltaTime * chargeSpeed;
+                isCharging = true;
+                ANIM.SetBool("isWindingUp", true);
             }
-            if ((monsterControls.IsInProgress() || /*Input.GetKey(KeyCode.KeypadEnter)*/false) && BP.ballOwner == gameObject)
-            {
-                if (kickCharge <= maxCharge)
-                {
-                    //Debug.Log(kickCharge);
-                    MUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
 
-                    //Charge Speed
-                    kickCharge += Time.deltaTime * chargeSpeed;
-                    isCharging = true;
-                    ANIM.SetBool("isWindingUp", true);
-                }
-
-                if (kickCharge > maxCharge)
-                {
-                    MUI.UpdateChargeBar(1f);
-                }
-            }
-            else
+            if (kickCharge > maxCharge)
             {
-                kickCharge = 1f;
-                isCharging = false;
-                //aimingDirection = Vector3.zero;
+                MUI.UpdateChargeBar(1f);
             }
         }
-        if (BP.ballOwner != null && BP.ballOwner.gameObject != gameObject && !isChargingAbility)
+        else
         {
-            ANIM.SetBool("isWindingUp", false);
+            kickCharge = 1f;
+            isCharging = false;
+            aimingDirection = Vector3.zero;
         }
     }
 
@@ -998,10 +938,7 @@ public class MonsterController : MonoBehaviour
 
     public void OnInvert(InputAction.CallbackContext context)
     {
-        /* Old Invert code if we still want it */
-        //invertControls = !invertControls;
-        //usingNewScheme = !usingNewScheme;
-
+        // Method is now used for Pausing the game. Renaming would cause greater issues not worth the effort.
         if (GM.isPlaying)
         {
             GM.PauseGame(playerID);

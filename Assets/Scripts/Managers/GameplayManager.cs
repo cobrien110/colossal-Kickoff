@@ -608,6 +608,8 @@ public class GameplayManager : MonoBehaviour
                 }
             }
 
+            WC.SetControlScheme();
+
             WC.warriorPosition = warriorPosition;
             //WC.SetColor(warriors.Length);
             WC.playerNum = warriors.Length;

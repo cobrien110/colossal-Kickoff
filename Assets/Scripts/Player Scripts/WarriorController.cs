@@ -17,6 +17,19 @@ public class WarriorController : MonoBehaviour
 
     #endregion
 
+    #region Control Scheme Variables
+
+    [SerializeField] private bool invertControls = false;
+
+    /*
+     * 0: Hold and release Right-Stick to Kick
+     * 1: Hold and release Right-Trigger to Kick
+     */
+    [SerializeField] private int kickMode = 0;
+    private bool isKickCharging = false;
+
+    #endregion
+
     public Rigidbody rb;
     [SerializeField] public GameObject Ball = null;
     public BallProperties BP = null;
@@ -73,12 +86,10 @@ public class WarriorController : MonoBehaviour
     [HideInInspector] public bool isStunned = false;
 
     //Temp Controller Scheme Swap
-    public bool usingNewScheme = false;
     public InputAction warriorControls;
 
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
-    public bool invertControls = false;
 
     [SerializeField] private GameplayManager GM = null;
     private WarriorUI WUI = null;
@@ -283,13 +294,6 @@ public class WarriorController : MonoBehaviour
             PSCurse.Stop();
         }
 
-        //Temp Controller Scheme Swap
-        //if (Input.GetKeyDown(KeyCode.LeftAlt))
-        //{
-        //    usingNewScheme = !usingNewScheme;
-        //    invertControls = !invertControls;
-        //}
-
         //Bomb Curse
         if (isBomb)
         {
@@ -452,203 +456,107 @@ public class WarriorController : MonoBehaviour
 
     void Kicking()
     {
-
-        // ---Flick to Kick --- 
-        if (!usingNewScheme)
+        //if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.Space)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+        if (isKickCharging == false && BP.ballOwner == gameObject && kickCharge != 1)
         {
-            if (((rightStickInput.magnitude < kickingSensitivity && !usingKeyboard) || /*Input.GetKeyUp(KeyCode.Space)*/false) && BP.ballOwner == gameObject && kickCharge != 1)
+            Debug.Log("Kick!");
+
+            // Prevent ball from getting kicked "through" walls
+            if (BP != null && IsWallBetweenBallAndPlayer())
             {
-                Debug.Log("Kick!");
-
-                // Prevent ball from getting kicked "through" walls
-                if (BP != null && IsWallBetweenBallAndPlayer())
-                {
-                    Debug.Log("Correcting ball position before kick");
-                    BP.gameObject.transform.position =
-                        new Vector3(transform.position.x, BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
-                }
-
-                // Debug.Log("ballOwner set to null");
-                BP.ballOwner = null;
-                BP.lastKicker = gameObject;
-                BP.previousKicker = gameObject;
-                //GM.isPassing = true;
-
-                // For CallForPass gravity field
-                kickHappened = true;
-                StartCoroutine(ResetKickHappened());
-
-                if (GM.passIndicator)
-                {
-                    //BP.SetBallColor(Color.blue);
-                }
-                
-                Debug.Log(kickCharge);
-                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-                if (superKicking && GM.passMeter > 0f)
-                {
-                    if (BP.canFullSuperKick)
-                    {
-                        kickForce = kickForce * (2f);
-                        BP.isSuperKick = true;
-                        BP.isFullSuperKick = true;
-                        GM.passMeter = 0f;
-                        UM.UpdateWarriorContestBar(0f);
-                    }
-                    else
-                    {
-                        kickForce = kickForce * (0.9f + GM.passMeter);
-                        BP.isSuperKick = true;
-                        GM.passMeter = 0f;
-                        UM.UpdateWarriorContestBar(0f);
-                    }
-                    StopSuperKick();
-                }
-
-                //Juke Kick
-                if (jukeKickReady)
-                {
-                    kickForce = kickForce * (1.3f);
-                    jukeKickReady = false;
-                }
-                //Debug.Log(kickForce);
-                Vector3 forceToAdd = aimingDirection * kickForce;
-                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-
-                ANIM.Play("WarriorKick");
-
-                WUI.UpdateChargeBar(0f);
-                PlayKickSound(kickCharge);
-
-                StartCoroutine(KickDelay());
+                Debug.Log("Correcting ball position before kick");
+                BP.gameObject.transform.position =
+                    new Vector3(transform.position.x, BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
             }
-            if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.Space)*/false) && BP.ballOwner == gameObject)
+
+            // Debug.Log("ballOwner set to null");
+            BP.ballOwner = null;
+            BP.lastKicker = gameObject;
+            BP.previousKicker = gameObject;
+            //GM.isPassing = true;
+
+            // For CallForPass gravity field
+            kickHappened = true;
+            StartCoroutine(ResetKickHappened());
+
+            if (GM.passIndicator)
             {
-                if (kickCharge <= maxCharge)
-                {
-                    //Juke Kick Var
-                    if (isJuking && !jukeKickReady)
-                    {
-                        jukeKickReady = true;
-                        Invoke("UpdateJukeKickReady", 1.0f);
-                        Debug.Log("JUKE KICK CHARGING");
-                    }
-
-                    //Debug.Log(kickCharge);
-                    WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
-                    
-                    //Charge Speed
-                    kickCharge += Time.deltaTime * chargeSpeed;
-                    isCharging = true;
-                    ANIM.SetBool("isChargingKick", true);
-                }
-
-                if (kickCharge > maxCharge)
-                {
-                    //UM.UpdateChargeBar(1f);
-                }
-
+                //BP.SetBallColor(Color.blue);
             }
-            else
+
+            Debug.Log(kickCharge);
+            float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+            if (superKicking && GM.passMeter > 0f)
             {
-                kickCharge = 1f;
-                isCharging = false;
-                aimingDirection = Vector3.zero;
-                ANIM.SetBool("isChargingKick", false);
+                if (BP.canFullSuperKick)
+                {
+                    kickForce = kickForce * (2f);
+                    BP.isSuperKick = true;
+                    BP.isFullSuperKick = true;
+                    GM.passMeter = 0f;
+                    UM.UpdateWarriorContestBar(0f);
+                }
+                else
+                {
+                    kickForce = kickForce * (0.9f + GM.passMeter);
+                    BP.isSuperKick = true;
+                    GM.passMeter = 0f;
+                    UM.UpdateWarriorContestBar(0f);
+                }
+                StopSuperKick();
             }
+
+            //Juke Kick
+            if (jukeKickReady)
+            {
+                kickForce = kickForce * (1.3f);
+                jukeKickReady = false;
+            }
+            //Debug.Log(kickForce);
+            Vector3 forceToAdd = aimingDirection * kickForce;
+            BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
+
+            ANIM.Play("WarriorKick");
+
+            WUI.UpdateChargeBar(0f);
+            PlayKickSound(kickCharge);
+
+            StartCoroutine(KickDelay());
         }
+        //if (((rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard) || /*Input.GetKey(KeyCode.Space)*/false) && BP.ballOwner == gameObject)
+        if (isKickCharging && BP.ballOwner == gameObject)
+        {
+            if (kickCharge <= maxCharge)
+            {
+                //Juke Kick Var
+                if (isJuking && !jukeKickReady)
+                {
+                    jukeKickReady = true;
+                    Invoke("UpdateJukeKickReady", 1.0f);
+                    Debug.Log("JUKE KICK CHARGING");
+                }
 
-        // --- Different Control Scheme ---
+                //Debug.Log(kickCharge);
+                WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
+
+                //Charge Speed
+                kickCharge += Time.deltaTime * chargeSpeed;
+                isCharging = true;
+                ANIM.SetBool("isChargingKick", true);
+            }
+
+            if (kickCharge > maxCharge)
+            {
+                //UM.UpdateChargeBar(1f);
+            }
+
+        }
         else
         {
-            if ((warriorControls.phase == InputActionPhase.Canceled || warriorControls.WasReleasedThisFrame()) && BP.ballOwner == gameObject && kickCharge != 1)
-            {
-                Debug.Log("Kick!");
-
-                // Debug.Log("ballOwner set to null");
-                BP.ballOwner = null;
-                BP.lastKicker = gameObject;
-                BP.previousKicker = gameObject;
-                //GM.isPassing = true;
-
-                if (GM.passIndicator)
-                {
-                    BP.SetBallColor(Color.blue);
-                }
-
-                Debug.Log(kickCharge);
-                float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
-                if (superKicking && GM.passMeter > 0f)
-                {
-                    //if (GM.passMeter == GM.passMeterMax)
-                    if (BP.canFullSuperKick)
-                    {
-                        Debug.Log("passMeter: " + GM.passMeter + ", " + "passMeterMax: " + GM.passMeterMax);
-                        kickForce = kickForce * (2f);
-                        BP.isSuperKick = true;
-                        BP.isFullSuperKick = true;
-                        GM.passMeter = 0f;
-                    }
-                    else
-                    {
-                        kickForce = kickForce * (0.9f + GM.passMeter);
-                        BP.isSuperKick = true;
-                        GM.passMeter = 0f;
-                    }
-                    StopSuperKick();
-                }
-
-                //Juke Kick
-                if (jukeKickReady)
-                {
-                    kickForce = kickForce * (1.3f);
-                    jukeKickReady = false;
-                }
-                //Debug.Log(kickForce);
-
-                Vector3 forceToAdd = aimingDirection * kickForce;
-                BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
-                ANIM.Play("WarriorKick");
-
-                WUI.UpdateChargeBar(0f);
-                PlayKickSound(kickCharge);
-
-                StartCoroutine(KickDelay());
-            }
-            if (warriorControls.IsInProgress() && BP.ballOwner == gameObject)
-            {
-                if (kickCharge <= maxCharge)
-                {
-                    //Juke Kick Var
-                    if (isJuking && !jukeKickReady)
-                    {
-                        jukeKickReady = true;
-                        Invoke("UpdateJukeKickReady", 1.0f);
-                        Debug.Log("JUKE KICK CHARGING");
-                    }
-
-                    //Debug.Log(kickCharge);
-                    WUI.UpdateChargeBar((kickCharge - 1) / (maxCharge - 1));
-                    
-                    //Charge Speed
-                    kickCharge += Time.deltaTime * chargeSpeed;
-                    isCharging = true;
-                    ANIM.SetBool("isChargingKick", true);
-                }
-
-                if (kickCharge > maxCharge)
-                {
-                    //UM.UpdateChargeBar(1f);
-                }
-
-            }
-            else
-            {
-                kickCharge = 1f;
-                isCharging = false;
-                //aimingDirection = Vector3.zero;
-                ANIM.SetBool("isChargingKick", false);
-            }
+            kickCharge = 1f;
+            isCharging = false;
+            aimingDirection = Vector3.zero;
+            ANIM.SetBool("isChargingKick", false);
         }
     }
 
@@ -1113,6 +1021,7 @@ public class WarriorController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         if (!canReadAimInput) return;
+        
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
         if (invertControls)
@@ -1124,8 +1033,16 @@ public class WarriorController : MonoBehaviour
         if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
+
+            if (kickMode == 0)
+            {
+                isKickCharging = true;
+            }
             //Debug.Log("AIMING DIR " + aimingDirection);
             //Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
+        } else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
+        {
+            isKickCharging = false;
         }
         usingKeyboard = false;
     }
@@ -1253,16 +1170,28 @@ public class WarriorController : MonoBehaviour
 
     public void OnInvert(InputAction.CallbackContext context)
     {
-        /* Old Invert code if we still want it */
-        //invertControls = !invertControls;
-        //usingNewScheme = !usingNewScheme;
-
+        // Method is now used for Pausing the game. Renaming would cause greater issues not worth the effort.
         if (GM.isPlaying)
         {
             GM.PauseGame(playerID);
         } else if (UM.GetTimeRemaining() < 0)
         {
             GM.MenuReturn();
+        }
+    }
+
+    public void OnKick(InputAction.CallbackContext context)
+    {
+        if (kickMode == 1)
+        {
+            if (context.started)
+            {
+                isKickCharging = true;
+            }
+            if (context.canceled)
+            {
+                isKickCharging = false;
+            }
         }
     }
 
@@ -1517,5 +1446,26 @@ public class WarriorController : MonoBehaviour
     public int GetHealth()
     {
         return health;
+    }
+
+    public void SetControlScheme()
+    {
+        PlayerInput PI = gameObject.GetComponent<PlayerInput>();
+        InputActionMap IAP = PI.currentActionMap;
+        InputAction IA = IAP.FindAction("Kick");
+
+        switch (PH.controlScheme)
+        {
+            case 0:
+                invertControls = false;
+                kickMode = 0;
+                break;
+            case 1:
+                invertControls = true;
+                kickMode = 1;
+                break;
+            default:
+                break;
+        }
     }
 }
