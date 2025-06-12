@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private ChangeChannel CC;
     [SerializeField] private StageTextBoxCrawl STBC;
     [SerializeField] private StatTracker ST;
+    [SerializeField] private PlayerProfileManager PPM;
     private SceneManager SM;
     private AudioPlayer AP;
 
@@ -607,18 +608,7 @@ public class MenuController : MonoBehaviour
                 Application.OpenURL(discordInviteURL);
                 break;
 
-            // PLAYER PROFILE EDITOR
-            case 10:
-                currentScreen = 11; // Player Profile Editor
-                playerProfileEditor.SetActive(true);
-                SettingsButtons.SetActive(false);
-
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
-
-
-                PlayMenuClick();
-                break;
+            
 
             default:
                 Debug.Log("Error: unknown menu option");
@@ -888,6 +878,34 @@ public class MenuController : MonoBehaviour
     #endregion
 
     #region Player Profile Logic
+
+    public void OpenNewPPMenu()
+    {
+        currentScreen = 11;
+        playerProfileEditor.SetActive(true);
+        SettingsButtons.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
+
+        PPM.CreateNewProfile();
+
+        PlayMenuClick();
+    }
+
+    public void OpenExistingPPMenu()
+    {
+        currentScreen = 11;
+        playerProfileEditor.SetActive(true);
+        SettingsButtons.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
+
+        PPM.CreateNewProfile();
+
+        PlayMenuClick();
+    }
 
     public void OpenBindingsMenu()
     {

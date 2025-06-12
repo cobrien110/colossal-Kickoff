@@ -28,19 +28,24 @@ public class RandomizeProfileName : MonoBehaviour
 
     public void GenerateRandomName()
     {
+        textField.text = GenerateAndGiveName();
+    }
+
+    public string GenerateAndGiveName()
+    {
+        string stichedName = "";
         if (firstParts.Length == 0 || secondParts.Length == 0)
         {
             Debug.LogWarning("Name part arrays are empty.");
-            profileName = "DefaultName";
-            return;
+            return "DefaultName";
         }
 
         string first = firstParts[Random.Range(0, firstParts.Length)];
         string second = secondParts[Random.Range(0, secondParts.Length)];
-        profileName = first + second;
+        stichedName = first + second;
 
-        Debug.Log("Generated profile name: " + profileName);
+        Debug.Log("Generated profile name: " + stichedName);
 
-        textField.text = profileName;
+        return stichedName;
     }
 }
