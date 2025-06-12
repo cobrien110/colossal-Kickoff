@@ -150,6 +150,7 @@ public class PlayerProfileManager : MonoBehaviour
         List<PlayerProfile> profiles = new List<PlayerProfile>();
         string[] profileFiles = Directory.GetFiles(folderPath, "*.txt");
 
+        //Start looking through and filling out
         foreach (string file in profileFiles)
         {
             string[] lines = File.ReadAllLines(file);
@@ -176,6 +177,70 @@ public class PlayerProfileManager : MonoBehaviour
 
         Debug.Log($"Loaded {profiles.Count} player profiles from disk.");
         return profiles;
+    }
+
+    /// <summary>
+    /// Synchronizes UI buttons under a parent based on the provided PlayerProfile list.
+    /// Adds missing buttons and removes buttons that no longer match any profile.
+    /// </summary>
+    /// <param name="profileList">The up-to-date list of PlayerProfile instances.</param>
+    /// <param name="buttonParent">The transform under which profile buttons are placed.</param>
+    /// <param name="buttonPrefab">A prefab that represents a profile button UI element.</param>
+    public void SyncProfileButtonsWithList(List<PlayerProfile> profileList, Transform buttonParent, GameObject buttonPrefab)
+    {
+        if (buttonPrefab == null || buttonParent == null)
+        {
+            Debug.LogError("Missing buttonPrefab or buttonParent.");
+            return;
+        }
+
+        //Build a hash set of current profile names
+        HashSet<string> incomingNames = new HashSet<string>();
+        foreach (var profile in profileList)
+        {
+            incomingNames.Add(profile.Profile_Name);
+        }
+
+        //Remove buttons that no longer match any known profile
+        List<Transform> childrenToRemove = new List<Transform>();
+        foreach (Transform child in buttonParent)
+        {
+            string childName = child.name;
+            if (!incomingNames.Contains(childName))
+            {
+                childrenToRemove.Add(child);
+            }
+        }
+        foreach (Transform child in childrenToRemove)
+        {
+            Destroy(child.gameObject);
+        }
+
+        //Track existing button names to avoid duplicates
+        HashSet<string> existingNames = new HashSet<string>();
+        foreach (Transform child in buttonParent)
+        {
+            existingNames.Add(child.name);
+        }
+
+        //Add new buttons for profiles that don't yet have one
+        foreach (var profile in profileList)
+        {
+            if (!existingNames.Contains(profile.Profile_Name))
+            {
+                GameObject newButton = Instantiate(buttonPrefab, buttonParent);
+                newButton.name = profile.Profile_Name;
+
+                TMP_Text label = newButton.GetComponentInChildren<TMP_Text>();
+                if (label != null)
+                {
+                    label.text = profile.Profile_Name;
+                }
+
+            }
+        }
+
+        Debug.Log("Profile UI sync complete. Total: " + profileList.Count + " profiles, " + buttonParent.childCount + "buttons.");
     }
 
     /// <summary>
