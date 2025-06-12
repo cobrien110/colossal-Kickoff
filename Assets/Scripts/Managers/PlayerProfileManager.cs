@@ -134,17 +134,17 @@ public class PlayerProfileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Scans the profile directory and loads each profile into MenuController's savedProfiles list.
+    /// Scans the profile directory and returns a list of all saved PlayerProfile objects found.
     /// </summary>
-    /// <param name="menuController">Reference to the MenuController to populate.</param>
-    public void RefreshProfileList(MenuController menuController)
+    /// <returns>List of loaded PlayerProfile instances.</returns>
+    public List<PlayerProfile> LoadAllProfiles()
     {
         string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
+
         if (!Directory.Exists(folderPath))
         {
             Debug.Log("No Player Profiles folder found.");
-            menuController.savedProfiles = new List<PlayerProfile>();
-            return;
+            return new List<PlayerProfile>();
         }
 
         List<PlayerProfile> profiles = new List<PlayerProfile>();
@@ -174,8 +174,8 @@ public class PlayerProfileManager : MonoBehaviour
             profiles.Add(profile);
         }
 
-        menuController.savedProfiles = profiles;
-        Debug.Log($"Loaded {profiles.Count} player profiles into MenuController.");
+        Debug.Log($"Loaded {profiles.Count} player profiles from disk.");
+        return profiles;
     }
 
     /// <summary>
