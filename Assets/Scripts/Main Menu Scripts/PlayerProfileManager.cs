@@ -22,7 +22,9 @@ public class PlayerProfileManager : MonoBehaviour
     public string profileFolderName = "Player Profiles";
 
     private string currentProfilePath;
-    private PlayerProfile currentProfile;
+    public PlayerProfile currentProfile;
+
+    private Dictionary<ProfileButton, PlayerProfile> activeButtons = new Dictionary<ProfileButton, PlayerProfile>();
 
     /// <summary>
     /// Returns true if a profile is currently loaded and active.
@@ -194,53 +196,30 @@ public class PlayerProfileManager : MonoBehaviour
             return;
         }
 
-        //Build a hash set of current profile names
-        HashSet<string> incomingNames = new HashSet<string>();
-        foreach (var profile in profileList)
-        {
-            incomingNames.Add(profile.Profile_Name);
-        }
-
-        //Remove buttons that no longer match any known profile
-        List<Transform> childrenToRemove = new List<Transform>();
+        // Clean existing buttons
         foreach (Transform child in buttonParent)
-        {
-            string childName = child.name;
-            if (!incomingNames.Contains(childName))
-            {
-                childrenToRemove.Add(child);
-            }
-        }
-        foreach (Transform child in childrenToRemove)
         {
             Destroy(child.gameObject);
         }
 
-        //Track existing button names to avoid duplicates
-        HashSet<string> existingNames = new HashSet<string>();
-        foreach (Transform child in buttonParent)
-        {
-            existingNames.Add(child.name);
-        }
+        activeButtons.Clear();
 
-        //Add new buttons for profiles that don't yet have one
         foreach (var profile in profileList)
         {
-            if (!existingNames.Contains(profile.Profile_Name))
+            GameObject buttonObj = Instantiate(buttonPrefab, buttonParent);
+            ProfileButton profileButton = buttonObj.GetComponent<ProfileButton>();
+            if (profileButton != null)
             {
-                GameObject newButton = Instantiate(buttonPrefab, buttonParent);
-                newButton.name = profile.Profile_Name;
-
-                TMP_Text label = newButton.GetComponentInChildren<TMP_Text>();
-                if (label != null)
-                {
-                    label.text = profile.Profile_Name;
-                }
-
+                profileButton.Setup(profile, this);
+                activeButtons.Add(profileButton, profile);
+            }
+            else
+            {
+                Debug.LogWarning("Profile prefab missing ProfileButton component.");
             }
         }
 
-        Debug.Log("Profile UI sync complete. Total: " + profileList.Count + " profiles, " + buttonParent.childCount + "buttons.");
+        Debug.Log($"Synced {activeButtons.Count} profile buttons.");
     }
 
     /// <summary>
@@ -266,5 +245,21 @@ public class PlayerProfileManager : MonoBehaviour
     public PlayerProfile GetActiveProfile()
     {
         return currentProfile;
+    }
+
+    /// <summary>
+    /// Loads the given profile as the active profile.
+    /// </summary>
+    /// <param name="profile">Profile to load into memory.</param>
+    public void LoadProfile(PlayerProfile profile)
+    {
+        if (profile == null)
+        {
+            Debug.LogWarning("Tried to load null profile.");
+            return;
+        }
+
+        currentProfile = profile;
+        Debug.Log($"Loaded profile: {profile.Profile_Name}");
     }
 }
