@@ -7623,6 +7623,8 @@ GameObject:
   - component: {fileID: 310073397}
   - component: {fileID: 310073399}
   - component: {fileID: 310073398}
+  - component: {fileID: 310073402}
+  - component: {fileID: 310073401}
   - component: {fileID: 310073400}
   m_Layer: 5
   m_Name: MenuController
@@ -7670,6 +7672,7 @@ MonoBehaviour:
   CC: {fileID: 310073400}
   STBC: {fileID: 2120336778}
   ST: {fileID: 651345220}
+  PPM: {fileID: 0}
   splashScreen: {fileID: 394604614}
   splashLogo: {fileID: 1096297420}
   splashText: {fileID: 1661777944}
@@ -7992,6 +7995,36 @@ MonoBehaviour:
   creditsMat: {fileID: 2100000, guid: 68dcf7f92553d7b4d913eab7fb1006b9, type: 2}
   staticMat: {fileID: 2100000, guid: e22550e0cfd499e4a9fb3df6b1f8a5f4, type: 2}
   timeToChange: 0.2
+--- !u!114 &310073401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310073395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d29d7c027ec9d1444ac9d5b5fac6a1d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generateButton: {fileID: 0}
+  profileName: 
+  textField: {fileID: 0}
+--- !u!114 &310073402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310073395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8675f39785c5446be8552188af74ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RPN: {fileID: 310073401}
+  defaultProfileTemplate: {fileID: 4900000, guid: 36b6f5ccb171f5e47b0ad8168895dccd, type: 3}
+  profileFolderName: Player Profiles
 --- !u!1 &317290149
 GameObject:
   m_ObjectHideFlags: 0
@@ -26907,7 +26940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1092031900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36706,7 +36739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1464252470
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68184,21 +68217,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2069832375132626660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370120882327658938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d29d7c027ec9d1444ac9d5b5fac6a1d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generateButton: {fileID: 0}
-  profileName: 
-  textField: {fileID: 6246092169110183530}
 --- !u!1 &2073278356900246663
 GameObject:
   m_ObjectHideFlags: 0
@@ -83913,7 +83931,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2069832375132626660}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RandomizeProfileName, Assembly-CSharp
         m_MethodName: GenerateRandomName
         m_Mode: 1
@@ -113053,7 +113071,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6495129426677299183}
-  - component: {fileID: 2069832375132626660}
   - component: {fileID: 8370120882327658939}
   m_Layer: 5
   m_Name: Player Profiles
@@ -113061,7 +113078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!225 &8370120882327658939
 CanvasGroup:
   m_ObjectHideFlags: 0

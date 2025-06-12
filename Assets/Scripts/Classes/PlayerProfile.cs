@@ -2,19 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a single player profile for input configuration, visual customization, and preferences.
+/// Stores editable values such as control bindings, colors, and gameplay settings.
+/// </summary>
 [System.Serializable]
 public class PlayerProfile
 {
-    // Basic Info
+    /// <summary>The visible name of this profile.</summary>
     public string Profile_Name = "Default";
+
+    /// <summary>Hex color used for the player's shirt.</summary>
     public string Shirt_Color = "#FF0000";
+
+    /// <summary>Hex color used for the player's skin tone.</summary>
     public string Skin_Color = "#FABBA7";
 
-    // Settings
+    /// <summary>Deadzone sensitivity for analog input (range: 0 to 1).</summary>
     public float Deadzone = 0.3f;
+
+    /// <summary>Kick mode type (0 = tap, 1 = charge, etc.).</summary>
     public int Kick_Mode = 0;
 
-    // Bindings
     public string Pause = "selectButton";
     public string Move = "leftStick";
     public string Aim = "rightStick";
@@ -30,7 +39,9 @@ public class PlayerProfile
     public string Taunt_3 = "dpad.down";
     public string Taunt_4 = "dpad.left";
 
-    // Convert to dictionary for saving
+    /// <summary>
+    /// Converts this PlayerProfile into a key-value dictionary, used for saving to text files.
+    /// </summary>
     public Dictionary<string, string> ToDictionary()
     {
         return new Dictionary<string, string>
@@ -57,7 +68,10 @@ public class PlayerProfile
         };
     }
 
-    //Populate fields from dictionary (loading)
+    /// <summary>
+    /// Populates the PlayerProfile's fields from a dictionary (parsed from a saved .txt file).
+    /// </summary>
+    /// <param name="data">Dictionary of key-value string pairs matching field names.</param>
     public void FromDictionary(Dictionary<string, string> data)
     {
         if (data.TryGetValue("Profile_Name", out var val)) Profile_Name = val;

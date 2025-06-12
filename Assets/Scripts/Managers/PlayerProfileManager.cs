@@ -5,18 +5,33 @@ using UnityEngine;
 using UnityEditor.UI;
 using TMPro;
 
+/// <summary>
+/// Manages the creation, loading, saving, and editing of player profiles using a template file.
+/// Handles disk persistence and communicates profile data with MenuController.
+/// </summary>
 public class PlayerProfileManager : MonoBehaviour
 {
     [Header("Template & Storage")]
+    [Tooltip("Script that generates randomized profile names.")]
     public RandomizeProfileName RPN;
+
+    [Tooltip("Default profile template to base new profiles on.")]
     public TextAsset defaultProfileTemplate;
+
+    [Tooltip("Subfolder under persistentDataPath where profiles are stored.")]
     public string profileFolderName = "Player Profiles";
 
     private string currentProfilePath;
     private PlayerProfile currentProfile;
 
+    /// <summary>
+    /// Returns true if a profile is currently loaded and active.
+    /// </summary>
     public bool IsProfileLoaded => currentProfile != null;
 
+    /// <summary>
+    /// Creates a new profile using the default template and saves it to disk.
+    /// </summary>
     public void CreateNewProfile()
     {
         if (defaultProfileTemplate == null)
@@ -31,14 +46,18 @@ public class PlayerProfileManager : MonoBehaviour
 
         currentProfilePath = Path.Combine(folderPath, profileName + ".txt");
 
-        //Create and populate profile
         currentProfile = new PlayerProfile();
         Dictionary<string, string> parsedData = ParseTextToDict(defaultProfileTemplate.text);
         currentProfile.FromDictionary(parsedData);
 
-        SaveProfile(); //Save to disk immediately
+        SaveProfile();
     }
 
+    /// <summary>
+    /// Parses a block of text into a dictionary of key-value pairs.
+    /// Used for reading template or profile file contents.
+    /// </summary>
+    /// <param name="text">The raw template or file content.</param>
     private Dictionary<string, string> ParseTextToDict(string text)
     {
         var dict = new Dictionary<string, string>();
@@ -61,9 +80,13 @@ public class PlayerProfileManager : MonoBehaviour
         return dict;
     }
 
+    /// <summary>
+    /// Saves the current profile to its assigned file path.
+    /// </summary>
     private void SaveProfile()
     {
-        if (!IsProfileLoaded || string.IsNullOrEmpty(currentProfilePath)) return;
+        if (!IsProfileLoaded || string.IsNullOrEmpty(currentProfilePath))
+            return;
 
         var lines = new List<string>();
         foreach (var pair in currentProfile.ToDictionary())
@@ -74,11 +97,16 @@ public class PlayerProfileManager : MonoBehaviour
         File.WriteAllLines(currentProfilePath, lines);
     }
 
+    /// <summary>
+    /// Updates a specific field in the profile and immediately saves the change to disk.
+    /// </summary>
+    /// <param name="fieldName">The field name to update (must match profile key).</param>
+    /// <param name="newValue">The new value to assign to the field.</param>
     public void UpdateProfileField(string fieldName, string newValue)
     {
-        if (!IsProfileLoaded) return;
+        if (!IsProfileLoaded)
+            return;
 
-        //Update dictionary and reload back into class
         var dict = currentProfile.ToDictionary();
         if (dict.ContainsKey(fieldName))
         {
@@ -92,6 +120,11 @@ public class PlayerProfileManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Retrieves the current value of a field from the active profile.
+    /// </summary>
+    /// <param name="fieldName">The key to look up.</param>
+    /// <returns>Field value as a string, or empty if not found.</returns>
     public string GetProfileField(string fieldName)
     {
         if (!IsProfileLoaded) return "";
@@ -100,17 +133,71 @@ public class PlayerProfileManager : MonoBehaviour
         return dict.TryGetValue(fieldName, out var val) ? val : "";
     }
 
+    /// <summary>
+    /// Scans the profile directory and loads each profile into MenuController's savedProfiles list.
+    /// </summary>
+    /// <param name="menuController">Reference to the MenuController to populate.</param>
+    public void RefreshProfileList(MenuController menuController)
+    {
+        string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.Log("No Player Profiles folder found.");
+            menuController.savedProfiles = new List<PlayerProfile>();
+            return;
+        }
+
+        List<PlayerProfile> profiles = new List<PlayerProfile>();
+        string[] profileFiles = Directory.GetFiles(folderPath, "*.txt");
+
+        foreach (string file in profileFiles)
+        {
+            string[] lines = File.ReadAllLines(file);
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            foreach (string line in lines)
+            {
+                if (line.Contains(":"))
+                {
+                    var parts = line.Split(':');
+                    if (parts.Length >= 2)
+                    {
+                        string key = parts[0].Trim();
+                        string value = string.Join(":", parts, 1, parts.Length - 1).Trim();
+                        data[key] = value;
+                    }
+                }
+            }
+
+            PlayerProfile profile = new PlayerProfile();
+            profile.FromDictionary(data);
+            profiles.Add(profile);
+        }
+
+        menuController.savedProfiles = profiles;
+        Debug.Log($"Loaded {profiles.Count} player profiles into MenuController.");
+    }
+
+    /// <summary>
+    /// Returns the current profile's name, or "None" if no profile is loaded.
+    /// </summary>
     public string GetCurrentProfileName()
     {
         return IsProfileLoaded ? currentProfile.Profile_Name : "None";
     }
 
+    /// <summary>
+    /// Clears the active profile and unloads the current file path.
+    /// </summary>
     public void CloseProfile()
     {
         currentProfile = null;
         currentProfilePath = null;
     }
 
+    /// <summary>
+    /// Returns the currently active PlayerProfile object.
+    /// </summary>
     public PlayerProfile GetActiveProfile()
     {
         return currentProfile;

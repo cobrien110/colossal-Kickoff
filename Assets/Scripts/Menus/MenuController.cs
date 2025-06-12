@@ -182,6 +182,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider shirtFirstButton;
     [SerializeField] private Slider skinFirstButton;
 
+    public List<PlayerProfile> savedProfiles = new List<PlayerProfile>();
+
     [Header("Player Connection Status")]
     [SerializeField] private GameObject p1Connected;
     [SerializeField] private GameObject p2Connected;
