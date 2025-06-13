@@ -351,6 +351,7 @@ public class MenuController : MonoBehaviour
                         break;
                     case (11): // Player Profile Editor
                         ReturnToSettings();
+                        UpdateProfileOptions();
                         break;
                     case (12): // Player Profile Submenu (bindings, config, etc.)
                         disablePPWindow();
@@ -499,7 +500,7 @@ public class MenuController : MonoBehaviour
                 TVT.WarningEnd();
                 SettingsMenu.SetActive(true);
                 mainMenuButtons.SetActive(false);
-
+                UpdateProfileOptions();
 
                 PlayMenuClick();
                 break;
@@ -1269,6 +1270,12 @@ public class MenuController : MonoBehaviour
                 Debug.Log("Player Num Error");
                 break;
         }
+    }
+
+    private void UpdateProfileOptions()
+    {
+        savedProfiles = PPM.LoadAllProfiles();
+        PPM.SyncProfileButtonsWithList(savedProfiles, PPButtonParent, PPButtonPrefab);
     }
 
     #endregion

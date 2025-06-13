@@ -7194,7 +7194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &306173559
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43359,7 +43359,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1838930783
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53213,8 +53213,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 310073397}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: OptionSelect
-        m_Mode: 3
+        m_MethodName: OpenNewPPMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

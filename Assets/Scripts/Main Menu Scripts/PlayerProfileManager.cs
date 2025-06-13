@@ -52,6 +52,10 @@ public class PlayerProfileManager : MonoBehaviour
         Dictionary<string, string> parsedData = ParseTextToDict(defaultProfileTemplate.text);
         currentProfile.FromDictionary(parsedData);
 
+        //Save new name
+        currentProfile.Profile_Name = profileName;
+
+        //Save to disk
         SaveProfile();
     }
 
