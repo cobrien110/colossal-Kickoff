@@ -15,6 +15,7 @@ public class PlayerProfileManager : MonoBehaviour
     [Header("Template & Storage")]
     [Tooltip("Script that generates randomized profile names.")]
     public RandomizeProfileName RPN;
+    public MenuController MC;
 
     [Tooltip("Default profile template to base new profiles on.")]
     public TextAsset defaultProfileTemplate;
@@ -221,7 +222,7 @@ public class PlayerProfileManager : MonoBehaviour
             ProfileButton profileButton = buttonObj.GetComponent<ProfileButton>();
             if (profileButton != null)
             {
-                profileButton.Setup(profile, this);
+                profileButton.Setup(profile, this, MC);
                 activeButtons.Add(profileButton, profile);
                 
                 Selectable sel = buttonObj.GetComponent<Selectable>();

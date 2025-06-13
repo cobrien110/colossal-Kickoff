@@ -6,7 +6,8 @@ using TMPro;
 
 public class ProfileButton : MonoBehaviour
 {
-    public PlayerProfileManager manager;
+    public PlayerProfileManager PPManager;
+    public MenuController MC;
     public PlayerProfile profile;
 
     public TMP_Text label;
@@ -21,16 +22,17 @@ public class ProfileButton : MonoBehaviour
             button.onClick.AddListener(OnClick);
     }
 
-    public void Setup(PlayerProfile p, PlayerProfileManager mgr)
+    public void Setup(PlayerProfile p, PlayerProfileManager PPMgr, MenuController menuMgr)
     {
         profile = p;
-        manager = mgr;
+        PPManager = PPMgr;
+        MC = menuMgr;
         if (label != null)
             label.text = p.Profile_Name;
     }
 
     private void OnClick()
     {
-        manager.LoadProfile(profile);
+        MC.OpenExistingPPMenu(profile);
     }
 }

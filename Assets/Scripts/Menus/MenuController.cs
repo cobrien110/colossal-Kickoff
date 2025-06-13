@@ -909,7 +909,7 @@ public class MenuController : MonoBehaviour
         PlayMenuClick();
     }
 
-    public void OpenExistingPPMenu()
+    public void OpenExistingPPMenu(PlayerProfile profile)
     {
         currentScreen = 11;
         playerProfileEditor.SetActive(true);
@@ -918,7 +918,7 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
 
-        PPM.CreateNewProfile();
+        PPM.LoadProfile(profile); //Load the selected profile into the system
 
         PlayMenuClick();
     }
