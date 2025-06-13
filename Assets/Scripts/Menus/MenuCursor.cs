@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Text.RegularExpressions;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
@@ -30,6 +32,8 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private PlayerHolder PH;
     [SerializeField] private GameObject[] playerHolders;
     [SerializeField] private int colorIndex = -1;
+
+    [SerializeField] private TMP_Dropdown thisDropdown = null;
 
     public InputAction cursorMove;
     public string hoveringItem = "null";
@@ -175,12 +179,15 @@ public class MenuCursor : MonoBehaviour
         } else if (playerSlot == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
+            thisDropdown = MC.warriorDrop1;
         } else if (playerSlot == 2)
         {
             WD = GameObject.Find("Warrior2Color").GetComponent<WarriorDesc>();
+            thisDropdown = MC.warriorDrop2;
         } else if (playerSlot == 3)
         {
             WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
+            thisDropdown = MC.warriorDrop3;
         }
 
         if (playerSlot != 0)
@@ -221,7 +228,8 @@ public class MenuCursor : MonoBehaviour
             if (MC.currentScreen == 2) {
                 //Character Select
                 if (!MC.canMoveToGame) {
-                    if (!hasSelected) {
+                    if (!hasSelected)
+                    {
                         if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
                         {
                             if (!playerMarkerIcons[hoveringID].isAssigned)
@@ -231,7 +239,26 @@ public class MenuCursor : MonoBehaviour
                             }
                         }
                     }
-                    else if (!charConfirmed) {
+                    else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject == thisDropdown.gameObject)
+                    {
+                        thisDropdown.Show();
+                    }
+                    else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
+                    {
+                        Debug.Log("Item!");
+
+                        List<TMP_Dropdown.OptionData> options = thisDropdown.options;
+
+                        string itemName = PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name;
+                        string resultString = Regex.Match(itemName, @"\d+").Value;
+                        int itemInt = int.Parse(resultString);
+
+                        thisDropdown.value = itemInt;
+
+                        Debug.Log("ITEM NAME: " + itemName);
+                    }
+                    else if (!charConfirmed)
+                    {
                         charConfirmed = true;
                         MC.confirmCharacter(playerSlot);
                         // play sound
@@ -356,6 +383,11 @@ public class MenuCursor : MonoBehaviour
         playerSlot = -1;
         PH.warriorPosition = -1;
         WD = null;
+        if (thisDropdown != null)
+        {
+            thisDropdown.Hide();
+        }
+        thisDropdown = null;
         MC.deselectOccured = true;
     }
 

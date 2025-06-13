@@ -122,6 +122,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private WarriorDesc WD3;
     public bool monsterAbilityCanHover = true;
 
+    public TMP_Dropdown warriorDrop1;
+    public TMP_Dropdown warriorDrop2;
+    public TMP_Dropdown warriorDrop3;
+    public TMP_Dropdown monsterDrop;
+
     [SerializeField] private GameObject[] monsterImages;
     [SerializeField] private MonsterName monsterNameScript;
 
@@ -760,6 +765,9 @@ public class MenuController : MonoBehaviour
             currentCursor.Leave();
         }
         Debug.Log("going back to stage select");
+
+
+
         characterSelect.SetActive(false);
 
         GameObject[] playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
@@ -1287,6 +1295,17 @@ public class MenuController : MonoBehaviour
     {
         savedProfiles = PPM.LoadAllProfiles();
         PPM.SyncProfileButtonsWithList(savedProfiles, PPButtonParent, PPButtonPrefab);
+
+        // Below code is for Player dropdown options on Character Select
+        warriorDrop1.ClearOptions();
+
+        List<string> allProfileNames = new List<string>();
+        for (int i = 0; i < savedProfiles.Count; i++)
+        {
+            allProfileNames.Add(savedProfiles[i].Profile_Name);
+        }
+
+        warriorDrop1.AddOptions(allProfileNames);
     }
 
     #endregion

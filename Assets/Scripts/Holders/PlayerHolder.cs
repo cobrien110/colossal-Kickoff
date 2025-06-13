@@ -16,6 +16,10 @@ public class PlayerHolder : MonoBehaviour
     public Gamepad thisGamepad;
     public string gamepadName;
 
+    // The loaded playerProfile the player has selected.
+    // If null, uses default values.
+    public PlayerProfile playerProfile = null;
+
     /*
      * 0: Default. Right-Stick inverted to aim and release to kick.
      * 1: Right-Stick to aim. Hold Right-Trigger to charge and release to kick.
