@@ -7659,6 +7659,9 @@ MonoBehaviour:
     Taunt_2: dpad.right
     Taunt_3: dpad.down
     Taunt_4: dpad.left
+  createNewProfileButton: {fileID: 320329902560300380}
+  playerTabButton: {fileID: 2118786094}
+  backButton: {fileID: 483561423}
 --- !u!1 &317290149
 GameObject:
   m_ObjectHideFlags: 0
@@ -27910,7 +27913,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 180, y: 30}
   m_Spacing: {x: 62.84, y: 45.38}
   m_Constraint: 2
@@ -53189,9 +53192,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.9254902, g: 0.30588236, b: 0, a: 1}
+    m_PressedColor: {r: 0.9254902, g: 0.30588236, b: 0, a: 1}
+    m_SelectedColor: {r: 0.9254902, g: 0.30588236, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -85511,17 +85514,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Create new
+  m_text: CREATE NEW
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
+  m_sharedMaterial: {fileID: -1698889853656761225, guid: 0b99011ca963d2746b0b7f86eaa7c306, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -85538,8 +85541,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -90338,6 +90341,7 @@ GameObject:
   - component: {fileID: 574908005768120277}
   - component: {fileID: 121271573423475275}
   - component: {fileID: 320329902560300380}
+  - component: {fileID: 5480751496672780387}
   m_Layer: 5
   m_Name: CreateNewProfileButton
   m_TagString: Untagged
@@ -90345,6 +90349,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5480751496672780387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480751496672780386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4530e8407aeff314690cc5d3069dc98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0.9607843, g: 0.31764707, b: 0, a: 1}
+  endColor: {r: 0.9137255, g: 0.7411765, b: 0.27058825, a: 1}
+  time: 0.35
+  isSelected: 0
 --- !u!33 &5481270511157612006
 MeshFilter:
   m_ObjectHideFlags: 0

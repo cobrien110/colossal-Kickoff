@@ -81,6 +81,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject warriorControls;
     [SerializeField] private GameObject monsterControls;
     [SerializeField] private TMP_Text teamControlsText;
+    
+    //For building initial NAV
+    private bool hasOpenedSettingsOnce = false;
 
     [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
@@ -319,6 +322,7 @@ public class MenuController : MonoBehaviour
                         }
                         break;
                     case (3): //Stage Select Screen
+                        UpdateProfileOptions();
                         if (stageSettings.activeSelf)
                         {
                             ShowStageSettings(false); //IFF stage settings open
@@ -487,6 +491,7 @@ public class MenuController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(stageFirstButton);
 
+                UpdateProfileOptions();
 
                 PlayMenuClick();
                 break;
@@ -501,6 +506,12 @@ public class MenuController : MonoBehaviour
                 SettingsMenu.SetActive(true);
                 mainMenuButtons.SetActive(false);
                 UpdateProfileOptions();
+
+                if (!hasOpenedSettingsOnce)
+                {
+                    SettingsSwap(0);
+                    hasOpenedSettingsOnce = true;
+                }
 
                 PlayMenuClick();
                 break;

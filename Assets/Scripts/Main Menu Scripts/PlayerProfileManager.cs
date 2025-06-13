@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor.UI;
 using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manages the creation, loading, saving, and editing of player profiles using a template file.
@@ -25,6 +26,11 @@ public class PlayerProfileManager : MonoBehaviour
     public PlayerProfile currentProfile;
 
     private Dictionary<ProfileButton, PlayerProfile> activeButtons = new Dictionary<ProfileButton, PlayerProfile>();
+
+    [Header("UI Content Updating")]
+    [SerializeField] Selectable createNewProfileButton;
+    [SerializeField] Selectable playerTabButton;
+    [SerializeField] Selectable backButton;
 
     /// <summary>
     /// Returns true if a profile is currently loaded and active.
@@ -207,6 +213,7 @@ public class PlayerProfileManager : MonoBehaviour
         }
 
         activeButtons.Clear();
+        List<Selectable> buttonSelectables = new List<Selectable>();
 
         foreach (var profile in profileList)
         {
@@ -216,14 +223,84 @@ public class PlayerProfileManager : MonoBehaviour
             {
                 profileButton.Setup(profile, this);
                 activeButtons.Add(profileButton, profile);
+                
+                Selectable sel = buttonObj.GetComponent<Selectable>();
+                if (sel != null)
+                {
+                    buttonSelectables.Add(sel);
+                }
             }
             else
             {
                 Debug.LogWarning("Profile prefab missing ProfileButton component.");
             }
         }
-
+        //build nav
+        UpdateButtonNav(buttonSelectables);
         Debug.Log($"Synced {activeButtons.Count} profile buttons.");
+    }
+
+    private void UpdateButtonNav(List<Selectable> buttons)
+    {
+        if (buttons == null || buttons.Count == 0) return;
+
+        int columnCount = buttons.Count / 3 + (buttons.Count % 3 == 0 ? 0 : 1);
+
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            var nav = new Navigation { mode = Navigation.Mode.Explicit };
+
+            // Determine column and row
+            int col = i / 3;
+            int row = i % 3;
+
+            // Horizontal
+            // LEFT
+            if (col == 0)
+            {
+                nav.selectOnLeft = createNewProfileButton;
+            }
+            else
+            {
+                int leftIndex = (col - 1) * 3 + row;
+                if (leftIndex < buttons.Count)
+                    nav.selectOnLeft = buttons[leftIndex];
+            }
+
+            // RIGHT
+            int rightIndex = (col + 1) * 3 + row;
+            if (rightIndex < buttons.Count)
+            {
+                nav.selectOnRight = buttons[rightIndex];
+            }
+
+            // Vertical
+            if (row == 0)
+            {
+                nav.selectOnUp = playerTabButton;
+                if (i + 1 < buttons.Count) nav.selectOnDown = buttons[i + 1];
+            }
+            else if (row == 1)
+            {
+                nav.selectOnUp = buttons[i - 1];
+                if (i + 1 < buttons.Count) nav.selectOnDown = buttons[i + 1];
+            }
+            else if (row == 2)
+            {
+                nav.selectOnUp = buttons[i - 1];
+                nav.selectOnDown = backButton;
+            }
+
+            buttons[i].navigation = nav;
+        }
+
+        //sets the button that can interact with profiles first
+        var createNav = createNewProfileButton.navigation;
+        createNav.mode = Navigation.Mode.Explicit;
+        createNav.selectOnRight = buttons[0]; //Point to first button in list
+        createNewProfileButton.navigation = createNav;
+
+        Debug.Log("Profile button navigation updated.");
     }
 
     /// <summary>
