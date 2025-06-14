@@ -168,9 +168,37 @@ public class PlayerHolder : MonoBehaviour
         GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(WD.getRedSlider().gameObject);
     }
 
+    public void SetEvents(GameObject selectedObject)
+    {
+        GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(selectedObject.gameObject);
+    }
+
     public void RemoveEvents()
     {
+        Debug.Log("REMOVE EVENTS PLAYER HOLDER: " + playerID);
         GetComponentInChildren<MultiplayerEventSystem>().playerRoot = null;
         GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(null);
+    }
+
+    public void LoadProfile(PlayerProfile profile)
+    {
+        Debug.Log("Loading Profile: " + profile.Profile_Name + ", for PlayerHolder: " + playerID);
+
+        // Setting Control Scheme
+        controlScheme = profile.Kick_Mode;
+
+        // Setting Jersey Color
+        ColorUtility.TryParseHtmlString(profile.Shirt_Color, out warriorColor);
+    }
+
+    public void DefaultProfile()
+    {
+        Debug.Log("Loading Profile: Default, for PlayerHolder: " + playerID);
+
+        // Setting Control Scheme
+        controlScheme = 0;
+
+        // Setting Jersey Color
+        warriorColor = Color.red;
     }
 }

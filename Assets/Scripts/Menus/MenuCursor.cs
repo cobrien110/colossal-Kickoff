@@ -155,6 +155,7 @@ public class MenuCursor : MonoBehaviour
     }
 
     public void PlayerSelected(int value) {
+        Debug.Log("PLAYER SELECTED CALLED");
         playerSlot = value;
         hasSelected = true;
 
@@ -241,21 +242,43 @@ public class MenuCursor : MonoBehaviour
                     }
                     else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject == thisDropdown.gameObject)
                     {
+                        //If Player clicks dropdown box, open dropdown box
                         thisDropdown.Show();
+
+                        PH.SetEvents(thisDropdown.gameObject.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject);
                     }
                     else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
                     {
+                        //If Player selects an item, do the following:
                         Debug.Log("Item!");
-
+                        
+                        //...find the selected item's int value...
                         List<TMP_Dropdown.OptionData> options = thisDropdown.options;
-
+                        
                         string itemName = PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name;
                         string resultString = Regex.Match(itemName, @"\d+").Value;
                         int itemInt = int.Parse(resultString);
 
+                        //...set the item as active...
                         thisDropdown.value = itemInt;
+                        thisDropdown.Hide();
+                        string profileName = thisDropdown.captionText.text;
 
-                        Debug.Log("ITEM NAME: " + itemName);
+                        //...if item is "No Profile", set Default options. Otherwise...
+                        if (profileName.Equals("No Profile"))
+                        {
+                            PH.DefaultProfile();
+                            return;
+                        }
+
+                        //...load the profile to the correct PlayerHolder
+                        for (int i = 0; i < MC.savedProfiles.Count; i++)
+                        {
+                            if (MC.savedProfiles[i].Profile_Name.Equals(profileName))
+                            {
+                                PH.LoadProfile(MC.savedProfiles[i]);
+                            }
+                        }
                     }
                     else if (!charConfirmed)
                     {
@@ -376,7 +399,7 @@ public class MenuCursor : MonoBehaviour
             MN.unselectName(MN.monsterNames[MN.monsterIndex]);
         }
 
-        PH.RemoveEvents();
+        //PH.RemoveEvents();
         PH.teamName = "";
         hasSelected = false;
         this.GetComponent<Image>().enabled = true;
@@ -385,9 +408,13 @@ public class MenuCursor : MonoBehaviour
         WD = null;
         if (thisDropdown != null)
         {
+            thisDropdown.value = 0;
             thisDropdown.Hide();
         }
         thisDropdown = null;
+        PH.RemoveEvents();
+        PH.DefaultProfile();
+        
         MC.deselectOccured = true;
     }
 
@@ -505,6 +532,8 @@ public class MenuCursor : MonoBehaviour
     {
         return PH.gamepadName;
     }
+
+    
 
     /**public void enterAudio(int optionSelected) {
         hasSelected = true;

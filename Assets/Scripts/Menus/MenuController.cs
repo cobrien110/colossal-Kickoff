@@ -1296,16 +1296,21 @@ public class MenuController : MonoBehaviour
         savedProfiles = PPM.LoadAllProfiles();
         PPM.SyncProfileButtonsWithList(savedProfiles, PPButtonParent, PPButtonPrefab);
 
-        // Below code is for Player dropdown options on Character Select
+        // Below code is for adding Profile options on Character Select dropdowns
         warriorDrop1.ClearOptions();
+        warriorDrop2.ClearOptions();
+        warriorDrop3.ClearOptions();
 
         List<string> allProfileNames = new List<string>();
+        allProfileNames.Add("No Profile");
         for (int i = 0; i < savedProfiles.Count; i++)
         {
             allProfileNames.Add(savedProfiles[i].Profile_Name);
         }
 
         warriorDrop1.AddOptions(allProfileNames);
+        warriorDrop2.AddOptions(allProfileNames);
+        warriorDrop3.AddOptions(allProfileNames);
     }
 
     #endregion
