@@ -43,7 +43,9 @@ public class MenuCursor : MonoBehaviour
     public bool charConfirmed = false;
     private Vector3 savedPosition;
     private Vector3 screenMidpoint;
-    private bool selectedHighlightingAbilities = false;
+    [SerializeField] private bool selectedHighlightingAbilities = false;
+
+    [SerializeField] private bool selectingProfile = false;
 
     //sounds
     [SerializeField] private AudioPlayer AP;
@@ -178,6 +180,7 @@ public class MenuCursor : MonoBehaviour
         {
             //MC.monsterAbilityCanHover = false;
             MN.selectName(MN.monsterNames[MN.monsterIndex]);
+            thisDropdown = MC.monsterDrop;
         } else if (playerSlot == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
@@ -268,7 +271,7 @@ public class MenuCursor : MonoBehaviour
 
                         PH.SetEvents(thisDropdown.gameObject.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject);
                     }
-                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
+                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject != null && PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
                     {
                         //If Player selects an item, do the following:
                         Debug.Log("Item!");
@@ -472,10 +475,13 @@ public class MenuCursor : MonoBehaviour
                 }
             }
         }
+
         thisDropdown = null;
         PH.RemoveEvents();
         PH.DefaultProfile();
-        
+
+        selectingProfile = false;
+
         MC.deselectOccured = true;
     }
 
@@ -511,7 +517,7 @@ public class MenuCursor : MonoBehaviour
                 if (Mathf.Abs(lrChangeDir) > Mathf.Abs(udChangeDir)) {
                     if (selectedHighlightingAbilities)
                     {
-                        if (playerSlot == 0)
+                        if (playerSlot == 0 && !selectingProfile)
                         {
                             if (lrChangeDir > 0)
                             {
@@ -524,7 +530,7 @@ public class MenuCursor : MonoBehaviour
                         }
                     } else
                     {
-                        if (playerSlot == 0)
+                        if (playerSlot == 0 && !selectingProfile)
                         {
                             if (lrChangeDir > 0)
                             {
@@ -558,8 +564,39 @@ public class MenuCursor : MonoBehaviour
                     //Debug.Log(udChangeDir);
                     if (playerSlot == 0)
                     {
-                        selectedHighlightingAbilities = !selectedHighlightingAbilities;
-                        monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                        if (!selectedHighlightingAbilities && udChangeDir > 0 && !selectingProfile)
+                        {
+                            // Going up to profiles
+                            selectingProfile = true;
+                            MN.unselectName();
+                            
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
+                        }
+                        else if (selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
+                        {
+                            // Coming Up or Down from profiles
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
+                            selectingProfile = false;
+
+                            if (udChangeDir > 0)
+                            {
+                                selectedHighlightingAbilities = true;
+                            }
+                            else
+                            {
+                                selectedHighlightingAbilities = false;
+                            }
+                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                        }
+                        else if (!selectingProfile)
+                        {
+                            //Swapping between highlighting abilities or not
+                            selectedHighlightingAbilities = !selectedHighlightingAbilities;
+                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                        }
+
                         /**if (selectedHighlightingAbilities) {
                             abilityBlurb.selectBlurbs();
                             MN.unselectName();

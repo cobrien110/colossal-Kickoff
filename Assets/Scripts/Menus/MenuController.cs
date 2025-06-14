@@ -1013,6 +1013,7 @@ public class MenuController : MonoBehaviour
         //todo: reverse that thing from the last comment
         //playerOptions[playerSlot].SetActive(false);
         if (playerSlot == 0) monsterAbilityCanHover = true;
+        playerOptions[playerSlot].SetActive(false);
         //if (confirm)
         if (confirmedInfos.Contains(characterInfos[playerSlot]))
         {
@@ -1300,6 +1301,7 @@ public class MenuController : MonoBehaviour
         warriorDrop1.ClearOptions();
         warriorDrop2.ClearOptions();
         warriorDrop3.ClearOptions();
+        monsterDrop.ClearOptions();
 
         List<string> allProfileNames = new List<string>();
         allProfileNames.Add("No Profile");
@@ -1311,6 +1313,7 @@ public class MenuController : MonoBehaviour
         warriorDrop1.AddOptions(allProfileNames);
         warriorDrop2.AddOptions(allProfileNames);
         warriorDrop3.AddOptions(allProfileNames);
+        monsterDrop.AddOptions(allProfileNames);
     }
 
     #endregion
