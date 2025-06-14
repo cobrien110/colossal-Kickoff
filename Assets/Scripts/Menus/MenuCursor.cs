@@ -180,14 +180,17 @@ public class MenuCursor : MonoBehaviour
         } else if (playerSlot == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
+            Debug.Log("Player Selected: 1");
             thisDropdown = MC.warriorDrop1;
         } else if (playerSlot == 2)
         {
             WD = GameObject.Find("Warrior2Color").GetComponent<WarriorDesc>();
+            Debug.Log("Player Selected: 2");
             thisDropdown = MC.warriorDrop2;
         } else if (playerSlot == 3)
         {
             WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
+            Debug.Log("Player Selected: 3");
             thisDropdown = MC.warriorDrop3;
         }
 
@@ -261,7 +264,10 @@ public class MenuCursor : MonoBehaviour
 
                         //...set the item as active...
                         thisDropdown.value = itemInt;
+
                         thisDropdown.Hide();
+                        PH.SetEvents(thisDropdown.gameObject);
+
                         string profileName = thisDropdown.captionText.text;
 
                         //...if item is "No Profile", set Default options. Otherwise...
