@@ -170,7 +170,9 @@ public class PlayerHolder : MonoBehaviour
 
     public void SetEvents(GameObject selectedObject)
     {
-        GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(selectedObject.gameObject);
+        gameObject.GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(selectedObject.gameObject);
+
+        //EventSystem.current = GetComponentInChildren<MultiplayerEventSystem>();
     }
 
     public void RemoveEvents()

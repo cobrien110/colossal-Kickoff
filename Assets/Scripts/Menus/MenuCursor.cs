@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Text.RegularExpressions;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.EventSystems;
 
 public class MenuCursor : MonoBehaviour
@@ -243,14 +244,31 @@ public class MenuCursor : MonoBehaviour
                             }
                         }
                     }
-                    else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject == thisDropdown.gameObject)
+                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject)
                     {
+                        List<GameObject> allSelected = new List<GameObject>();
+
+                        for (int i = 0; i < playerHolders.Length; i++)
+                        {
+                            Debug.Log("Player Holder " + i + ": " + playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+                            allSelected.Add(playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+                        }
+
                         //If Player clicks dropdown box, open dropdown box
                         thisDropdown.Show();
 
+                        for (int i = 0; i < playerHolders.Length; i++)
+                        {
+                            if (playerHolders[i] != PH.gameObject)
+                            {
+                                Debug.Log("Player Holder " + i + ": " + allSelected[i]);
+                                playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(allSelected[i]);
+                            }
+                        }
+
                         PH.SetEvents(thisDropdown.gameObject.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject);
                     }
-                    else if (PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
+                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
                     {
                         //If Player selects an item, do the following:
                         Debug.Log("Item!");
@@ -258,16 +276,34 @@ public class MenuCursor : MonoBehaviour
                         //...find the selected item's int value...
                         List<TMP_Dropdown.OptionData> options = thisDropdown.options;
                         
-                        string itemName = PH.thisES.GetComponent<EventSystem>().currentSelectedGameObject.name;
+                        string itemName = PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name;
                         string resultString = Regex.Match(itemName, @"\d+").Value;
                         int itemInt = int.Parse(resultString);
 
                         //...set the item as active...
                         thisDropdown.value = itemInt;
 
-                        thisDropdown.Hide();
-                        PH.SetEvents(thisDropdown.gameObject);
+                        List<GameObject> allSelected = new List<GameObject>();
 
+                        for (int i = 0; i < playerHolders.Length; i++)
+                        {
+                            Debug.Log("Player Holder " + i + ": " + playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+                            allSelected.Add(playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+                        }
+
+                        thisDropdown.Hide();
+
+                        for (int i = 0; i < playerHolders.Length; i++)
+                        {
+                            if (playerHolders[i] != PH.gameObject)
+                            {
+                                Debug.Log("Player Holder " + i + ": " + allSelected[i]);
+                                playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(allSelected[i]);
+                            }
+                        }
+
+                        PH.SetEvents(thisDropdown.gameObject);
+                        
                         string profileName = thisDropdown.captionText.text;
 
                         //...if item is "No Profile", set Default options. Otherwise...
@@ -412,10 +448,29 @@ public class MenuCursor : MonoBehaviour
         playerSlot = -1;
         PH.warriorPosition = -1;
         WD = null;
+
         if (thisDropdown != null)
         {
             thisDropdown.value = 0;
+
+            List<GameObject> allSelected = new List<GameObject>();
+
+            for (int i = 0; i < playerHolders.Length; i++)
+            {
+                Debug.Log("Player Holder " + i + ": " + playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+                allSelected.Add(playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
+            }
+
             thisDropdown.Hide();
+
+            for (int i = 0; i < playerHolders.Length; i++)
+            {
+                if (playerHolders[i] != PH.gameObject)
+                {
+                    Debug.Log("Player Holder " + i + ": " + allSelected[i]);
+                    playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(allSelected[i]);
+                }
+            }
         }
         thisDropdown = null;
         PH.RemoveEvents();
