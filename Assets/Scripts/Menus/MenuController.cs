@@ -191,7 +191,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Slider skinFirstButton;
 
     [SerializeField] private GameObject PPButtonPrefab;
-    [SerializeField] private Transform PPButtonParent; 
+    [SerializeField] private Transform PPButtonParent;
+    [SerializeField] private GamepadScrolling GSScript;
+    [SerializeField] private GridLayoutGroup playerButtonGrid;
     public List<PlayerProfile> savedProfiles = new List<PlayerProfile>();
 
     [Header("Player Connection Status")]
@@ -512,9 +514,10 @@ public class MenuController : MonoBehaviour
                 mainMenuButtons.SetActive(false);
                 UpdateProfileOptions();
 
+                //GSScript.ResizeGridContent(playerButtonGrid, savedProfiles.Count);
                 if (!hasOpenedSettingsOnce)
                 {
-                    SettingsSwap(0);
+                    SettingsSwap(1);
                     hasOpenedSettingsOnce = true;
                 }
 
@@ -710,6 +713,8 @@ public class MenuController : MonoBehaviour
         //Reactivate the player profile editor root screen
         playerProfileEditor.SetActive(true);
         TogglePPCanvasGroup();
+
+        currentScreen = 11;
 
         //Reset selection to a safe default (e.g. first button in the profile editor)
         EventSystem.current.SetSelectedGameObject(null);
@@ -984,6 +989,8 @@ public class MenuController : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
+
+        //GSScript.ResizeGridContent(playerButtonGrid, savedProfiles.Count);
 
         //sound
         PlayMenuClick();
