@@ -15,6 +15,9 @@ public class GamepadScrolling : MonoBehaviour
     public bool smoothScroll = true;
     public float scrollSpeed = 10f;
 
+    [Header("Padding")]
+    public Vector2 scrollPadding = Vector2.zero;
+
     private GameObject lastSelected;
 
     void Update()
@@ -60,8 +63,15 @@ public class GamepadScrolling : MonoBehaviour
     /// <param name="selectedRect">The RectTransform of the selected UI element.</param>
     private void MoveTargetTo(RectTransform selectedRect)
     {
+        //Convert world position of selected to local space of the content
         Vector3 worldPos = selectedRect.position;
         Vector3 localPos = content.InverseTransformPoint(worldPos);
+
+        //Apply directional padding
+        if (horizontal)
+            localPos.x += scrollPadding.x;
+        else
+            localPos.y += scrollPadding.y;
 
         targetTransform.localPosition = localPos;
     }
