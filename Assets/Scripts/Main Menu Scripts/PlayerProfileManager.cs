@@ -44,6 +44,8 @@ public class PlayerProfileManager : MonoBehaviour
     [SerializeField] private Slider sliderDeadzoneAdjustment;
     [SerializeField] private TMP_Text deadzoneAdjNum;
 
+    [SerializeField] private List<RebindingUI> rebindButtons;
+
 
     /// <summary>
     /// Returns true if a profile is currently loaded and active.
@@ -384,6 +386,25 @@ public class PlayerProfileManager : MonoBehaviour
 
     #region button mechanics
 
+    public void ChangeBinding(string field, string newValue)
+    {
+        UpdateProfileField(field, newValue);
+
+
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetBindingsFromProfile()
+    {
+        foreach (var rebind in rebindButtons)
+        {
+            string input = GetProfileField(rebind.bindingKey);
+            rebind.SetBindingDisplay(input);
+        }
+    }
+
     public void SetShirtColor()
     {
         if (ColorUtility.TryParseHtmlString(currentProfile.Shirt_Color, out Color shirtColor))
@@ -400,6 +421,10 @@ public class PlayerProfileManager : MonoBehaviour
     {
         string hex = "#" + ColorUtility.ToHtmlStringRGB(newColor);
         UpdateProfileField("Shirt_Color", hex);
+
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
     public void SetSkinColor()
@@ -418,6 +443,10 @@ public class PlayerProfileManager : MonoBehaviour
     {
         string hex = "#" + ColorUtility.ToHtmlStringRGB(newColor);
         UpdateProfileField("Skin_Color", hex);
+
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
     public void ChangeProfileName()
