@@ -384,6 +384,42 @@ public class PlayerProfileManager : MonoBehaviour
 
     #region button mechanics
 
+    public void SetShirtColor()
+    {
+        if (ColorUtility.TryParseHtmlString(currentProfile.Shirt_Color, out Color shirtColor))
+        {
+            shirtColorScript.SetColor(shirtColor);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid shirt color in profile: " + currentProfile.Shirt_Color);
+        }
+    }
+
+    public void ChangeShirtColor(Color newColor)
+    {
+        string hex = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+        UpdateProfileField("Shirt_Color", hex);
+    }
+
+    public void SetSkinColor()
+    {
+        if (ColorUtility.TryParseHtmlString(currentProfile.Skin_Color, out Color skinColor))
+        {
+            skinColorScript.SetColor(skinColor);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid skin color in profile: " + currentProfile.Skin_Color);
+        }
+    }
+
+    public void ChangeSkinColor(Color newColor)
+    {
+        string hex = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+        UpdateProfileField("Skin_Color", hex);
+    }
+
     public void ChangeProfileName()
     {
         string newName = RPN.GenerateAndGiveName();

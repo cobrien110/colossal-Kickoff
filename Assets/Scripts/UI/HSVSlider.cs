@@ -7,6 +7,7 @@ using TMPro;
 public class HSVSlider : MonoBehaviour
 {
     public enum ColorMode { Shirt, Skin }
+
     [Header("Mode")]
     public ColorMode colorMode = ColorMode.Shirt;
 
@@ -35,18 +36,43 @@ public class HSVSlider : MonoBehaviour
     private bool isUpdating = false;
     private float lastHue = -1f;
 
-    void Start()
+    private void Start()
     {
         hueSlider.onValueChanged.AddListener(_ => UpdateColorFromSliders());
         saturationSlider.onValueChanged.AddListener(_ => UpdateColorFromSliders());
         valueSlider.onValueChanged.AddListener(_ => UpdateColorFromSliders());
         hexInputField.onEndEdit.AddListener(UpdateColorFromHex);
 
-        SetColor(defaultColor);
         GenerateHueGradient();
     }
+    /// <summary>
+    /// Call this from PlayerProfileManager to prepare the HSVSlider with a color.
+    /// Does not save to profile, only updates UI.
+    /// </summary>
+    /// 
+    public void InitialSetup(Color color)
+    {
+        SetColor(color);
+    }
 
-    void UpdateColorFromSliders()
+    public void SetColor(Color color)
+    {
+        selectedColor = color;
+        Color.RGBToHSV(color, out float h, out float s, out float v);
+
+        isUpdating = true;
+        hueSlider.value = h;
+        saturationSlider.value = s;
+        valueSlider.value = v;
+        hexInputField.text = "#" + ColorUtility.ToHtmlStringRGB(color);
+
+        ApplyColorToShader(color);
+        UpdateSliderBackgrounds(h, s, v);
+        lastHue = h;
+        isUpdating = false;
+    }
+
+    private void UpdateColorFromSliders()
     {
         if (isUpdating) return;
         isUpdating = true;
@@ -67,7 +93,7 @@ public class HSVSlider : MonoBehaviour
         isUpdating = false;
     }
 
-    void UpdateColorFromHex(string hex)
+    private void UpdateColorFromHex(string hex)
     {
         if (isUpdating) return;
         isUpdating = true;
@@ -84,7 +110,7 @@ public class HSVSlider : MonoBehaviour
             valueSlider.value = v;
 
             ApplyColorToShader(newColor);
-            UpdateProfileColor(newColor);
+            UpdateProfileColor(newColor); 
             UpdateSliderBackgrounds(h, s, v);
             lastHue = h;
         }
@@ -92,26 +118,19 @@ public class HSVSlider : MonoBehaviour
         isUpdating = false;
     }
 
-    public void SetColor(Color color)
+    private void UpdateProfileColor(Color color)
     {
-        selectedColor = color;
-        Color.RGBToHSV(color, out float h, out float s, out float v);
-
-        isUpdating = true;
-        hueSlider.value = h;
-        saturationSlider.value = s;
-        valueSlider.value = v;
-        hexInputField.text = "#" + ColorUtility.ToHtmlStringRGB(color);
-
-        ApplyColorToShader(color);
-        UpdateProfileColor(color);
-        UpdateSliderBackgrounds(h, s, v);
-        lastHue = h;
-
-        isUpdating = false;
+        if (profileManager != null && profileManager.IsProfileLoaded)
+        {
+            string hex = "#" + ColorUtility.ToHtmlStringRGB(color);
+            if (colorMode == ColorMode.Shirt)
+                profileManager.ChangeShirtColor(color);
+            else
+                profileManager.ChangeSkinColor(color);
+        }
     }
 
-    void ApplyColorToShader(Color color)
+    private void ApplyColorToShader(Color color)
     {
         if (previewImage != null && previewImage.material != null)
         {
@@ -120,19 +139,7 @@ public class HSVSlider : MonoBehaviour
         }
     }
 
-    void UpdateProfileColor(Color color)
-    {
-        if (profileManager != null && profileManager.IsProfileLoaded)
-        {
-            string hex = "#" + ColorUtility.ToHtmlStringRGB(color);
-            if (colorMode == ColorMode.Shirt)
-                profileManager.UpdateProfileField("Shirt_Color", hex);
-            else
-                profileManager.UpdateProfileField("Skin_Color", hex);
-        }
-    }
-
-    void UpdateSliderBackgrounds(float h, float s, float v)
+    private void UpdateSliderBackgrounds(float h, float s, float v)
     {
         // Saturation
         if (saturationBackground != null)
@@ -143,7 +150,6 @@ public class HSVSlider : MonoBehaviour
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.SetPixels(new[] { left, right });
             tex.Apply();
-
             saturationBackground.sprite = Sprite.Create(tex, new Rect(0, 0, 2, 1), new Vector2(0.5f, 0.5f));
         }
 
@@ -156,12 +162,11 @@ public class HSVSlider : MonoBehaviour
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.SetPixels(new[] { left, right });
             tex.Apply();
-
             valueBackground.sprite = Sprite.Create(tex, new Rect(0, 0, 2, 1), new Vector2(0.5f, 0.5f));
         }
     }
 
-    void GenerateHueGradient()
+    private void GenerateHueGradient()
     {
         if (hueBackground == null) return;
 
