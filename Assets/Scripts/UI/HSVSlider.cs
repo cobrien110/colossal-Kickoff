@@ -6,6 +6,13 @@ using TMPro;
 
 public class HSVSlider : MonoBehaviour
 {
+    public enum ColorMode { Shirt, Skin }
+    [Header("Mode")]
+    public ColorMode colorMode = ColorMode.Shirt;
+
+    [Header("References")]
+    public PlayerProfileManager profileManager;
+
     [Header("UI References")]
     public Slider hueSlider;
     public Slider saturationSlider;
@@ -50,7 +57,9 @@ public class HSVSlider : MonoBehaviour
 
         selectedColor = Color.HSVToRGB(h, s, v);
         hexInputField.text = ColorUtility.ToHtmlStringRGB(selectedColor);
+
         ApplyColorToShader(selectedColor);
+        UpdateProfileColor(selectedColor);
 
         UpdateSliderBackgrounds(h, s, v);
         lastHue = h;
@@ -63,8 +72,7 @@ public class HSVSlider : MonoBehaviour
         if (isUpdating) return;
         isUpdating = true;
 
-        if (!hex.StartsWith("#"))
-            hex = "#" + hex;
+        if (!hex.StartsWith("#")) hex = "#" + hex;
 
         if (ColorUtility.TryParseHtmlString(hex, out Color newColor))
         {
@@ -76,6 +84,7 @@ public class HSVSlider : MonoBehaviour
             valueSlider.value = v;
 
             ApplyColorToShader(newColor);
+            UpdateProfileColor(newColor);
             UpdateSliderBackgrounds(h, s, v);
             lastHue = h;
         }
@@ -95,6 +104,7 @@ public class HSVSlider : MonoBehaviour
         hexInputField.text = "#" + ColorUtility.ToHtmlStringRGB(color);
 
         ApplyColorToShader(color);
+        UpdateProfileColor(color);
         UpdateSliderBackgrounds(h, s, v);
         lastHue = h;
 
@@ -105,7 +115,20 @@ public class HSVSlider : MonoBehaviour
     {
         if (previewImage != null && previewImage.material != null)
         {
-            previewImage.material.SetColor("_ShirtColor", color);
+            string shaderProperty = colorMode == ColorMode.Shirt ? "_ShirtColor" : "_SkinColor";
+            previewImage.material.SetColor(shaderProperty, color);
+        }
+    }
+
+    void UpdateProfileColor(Color color)
+    {
+        if (profileManager != null && profileManager.IsProfileLoaded)
+        {
+            string hex = "#" + ColorUtility.ToHtmlStringRGB(color);
+            if (colorMode == ColorMode.Shirt)
+                profileManager.UpdateProfileField("Shirt_Color", hex);
+            else
+                profileManager.UpdateProfileField("Skin_Color", hex);
         }
     }
 
@@ -116,19 +139,12 @@ public class HSVSlider : MonoBehaviour
         {
             Color left = Color.HSVToRGB(h, 0f, v);
             Color right = Color.HSVToRGB(h, 1f, v);
-
-            var tex = new Texture2D(2, 1);
+            Texture2D tex = new Texture2D(2, 1);
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.SetPixels(new[] { left, right });
             tex.Apply();
 
             saturationBackground.sprite = Sprite.Create(tex, new Rect(0, 0, 2, 1), new Vector2(0.5f, 0.5f));
-            saturationBackground.type = Image.Type.Simple;
-            saturationBackground.preserveAspect = false;
-            saturationBackground.rectTransform.anchorMin = new Vector2(0, 0);
-            saturationBackground.rectTransform.anchorMax = new Vector2(1, 1);
-            saturationBackground.rectTransform.offsetMin = Vector2.zero;
-            saturationBackground.rectTransform.offsetMax = Vector2.zero;
         }
 
         // Value
@@ -136,19 +152,12 @@ public class HSVSlider : MonoBehaviour
         {
             Color left = Color.black;
             Color right = Color.HSVToRGB(h, s, 1f);
-
-            var tex = new Texture2D(2, 1);
+            Texture2D tex = new Texture2D(2, 1);
             tex.wrapMode = TextureWrapMode.Clamp;
             tex.SetPixels(new[] { left, right });
             tex.Apply();
 
             valueBackground.sprite = Sprite.Create(tex, new Rect(0, 0, 2, 1), new Vector2(0.5f, 0.5f));
-            valueBackground.type = Image.Type.Simple;
-            valueBackground.preserveAspect = false;
-            valueBackground.rectTransform.anchorMin = new Vector2(0, 0);
-            valueBackground.rectTransform.anchorMax = new Vector2(1, 1);
-            valueBackground.rectTransform.offsetMin = Vector2.zero;
-            valueBackground.rectTransform.offsetMax = Vector2.zero;
         }
     }
 
@@ -171,11 +180,5 @@ public class HSVSlider : MonoBehaviour
         tex.Apply();
 
         hueBackground.sprite = Sprite.Create(tex, new Rect(0, 0, width, 1), new Vector2(0.5f, 0.5f));
-        hueBackground.type = Image.Type.Simple;
-        hueBackground.preserveAspect = false;
-        hueBackground.rectTransform.anchorMin = new Vector2(0, 0);
-        hueBackground.rectTransform.anchorMax = new Vector2(1, 1);
-        hueBackground.rectTransform.offsetMin = Vector2.zero;
-        hueBackground.rectTransform.offsetMax = Vector2.zero;
     }
 }
