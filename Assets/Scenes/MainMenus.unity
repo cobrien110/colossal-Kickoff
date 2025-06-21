@@ -8452,7 +8452,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29d7c027ec9d1444ac9d5b5fac6a1d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateButton: {fileID: 4231956931888597925}
   profileName: 
   textField: {fileID: 6246092169110183530}
 --- !u!114 &310073402
@@ -8494,6 +8493,12 @@ MonoBehaviour:
   createNewProfileButton: {fileID: 320329902560300380}
   playerTabButton: {fileID: 2118786094}
   backButton: {fileID: 483561423}
+  profileNameButton: {fileID: 0}
+  shirtColorScript: {fileID: 0}
+  skinColorScript: {fileID: 0}
+  kickModeDropdown: {fileID: 0}
+  sliderDeadzoneAdjustment: {fileID: 0}
+  deadzoneAdjNum: {fileID: 0}
 --- !u!1 &317290149
 GameObject:
   m_ObjectHideFlags: 0
@@ -28718,7 +28723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1092031900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38429,7 +38434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1464252470
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45707,9 +45712,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 310073397}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: setDeadzoneAdjustment
+      - m_Target: {fileID: 310073402}
+        m_TargetAssemblyTypeName: PlayerProfileManager, Assembly-CSharp
+        m_MethodName: ChangeDeadzoneAdjustment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -58767,7 +58772,7 @@ GameObject:
   - component: {fileID: 1137074635567829827}
   - component: {fileID: 1644671727740371482}
   m_Layer: 5
-  m_Name: Randomize Name Button
+  m_Name: Randomize Name Dice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83417,7 +83422,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 310073402}
+        m_TargetAssemblyTypeName: PlayerProfileManager, Assembly-CSharp
+        m_MethodName: ChangeKickModeDropdown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!33 &3901699500837409130
 MeshFilter:
@@ -85700,9 +85717,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RandomizeProfileName, Assembly-CSharp
-        m_MethodName: GenerateRandomName
+      - m_Target: {fileID: 310073402}
+        m_TargetAssemblyTypeName: PlayerProfileManager, Assembly-CSharp
+        m_MethodName: ChangeProfileName
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -90379,8 +90396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 10.6955, y: 0}
+  m_SizeDelta: {x: -34.5847, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4908767525588006164
 MeshRenderer:
@@ -100397,7 +100414,7 @@ MonoBehaviour:
   m_fontSizeBase: 16.2
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 9.4
+  m_fontSizeMin: 6.29
   m_fontSizeMax: 16.9
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -114189,7 +114206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!225 &8370120882327658939
 CanvasGroup:
   m_ObjectHideFlags: 0

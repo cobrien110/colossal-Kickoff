@@ -16,6 +16,7 @@ public class PlayerProfileManager : MonoBehaviour
     [Tooltip("Script that generates randomized profile names.")]
     public RandomizeProfileName RPN;
     public MenuController MC;
+    private AudioPlayer AP;
 
     [Tooltip("Default profile template to base new profiles on.")]
     public TextAsset defaultProfileTemplate;
@@ -33,6 +34,17 @@ public class PlayerProfileManager : MonoBehaviour
     [SerializeField] Selectable playerTabButton;
     [SerializeField] Selectable backButton;
 
+    [Header("Player Profile Menu Elements")]
+    [SerializeField] private GameObject profileNameButton;
+
+    [SerializeField] private HSVSlider shirtColorScript;
+    [SerializeField] private HSVSlider skinColorScript;
+
+    [SerializeField] private GameObject kickModeDropdown;
+    [SerializeField] private Slider sliderDeadzoneAdjustment;
+    [SerializeField] private TMP_Text deadzoneAdjNum;
+
+
     /// <summary>
     /// Returns true if a profile is currently loaded and active.
     /// </summary>
@@ -49,7 +61,7 @@ public class PlayerProfileManager : MonoBehaviour
             return;
         }
 
-        string profileName = RPN.GenerateAndGiveName();
+        string profileName = RPN.NewProfileName();
         string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
         Directory.CreateDirectory(folderPath);
 
@@ -344,4 +356,114 @@ public class PlayerProfileManager : MonoBehaviour
         currentProfile = profile;
         Debug.Log($"Loaded profile: {profile.Profile_Name}");
     }
+
+    //changes loaded in name
+    private void LoadInName()
+    {
+
+    }
+
+    //loads in shirt and skin colors
+    private void LoadInColors()
+    {
+
+    }
+
+    //Load in config menu elements 
+    private void LoadInConfig()
+    {
+
+    }
+
+
+    //changes binding for each button element
+    private void LoadInBindings()
+    {
+
+    }
+
+    #region button mechanics
+
+    public void ChangeProfileName()
+    {
+        string newName = RPN.GenerateAndGiveName();
+        UpdateProfileField("Profile_Name", newName);
+        profileNameButton.GetComponentInChildren<TMP_Text>().text = newName;
+
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetProfileName(string newName)
+    {
+        profileNameButton.GetComponentInChildren<TMP_Text>().text = newName;
+    }
+
+    public void ChangeDeadzoneAdjustment()
+    {
+        float newVale = sliderDeadzoneAdjustment.value / 10;
+        UpdateProfileField("Deadzone", newVale.ToString());
+        deadzoneAdjNum.text = (newVale).ToString();
+
+        //sound
+        if (AP != null) AP.setUseComVol(false);
+        if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+    }
+
+    public void SetDeadzoneAdjustment(string newVal)
+    {
+        if (float.TryParse(newVal, out float parsedVal))
+        {
+            float sliderVal = Mathf.Clamp(parsedVal * 10f, sliderDeadzoneAdjustment.minValue, sliderDeadzoneAdjustment.maxValue);
+            sliderDeadzoneAdjustment.value = sliderVal;
+
+            if (deadzoneAdjNum != null)
+            {
+                deadzoneAdjNum.text = parsedVal.ToString("0.0");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Invalid input for SetDeadzoneAdjustment: " + newVal);
+        }
+    }
+
+    public void ChangeKickModeDropdown()
+    {
+        if (kickModeDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        {
+            int selectedMode = dropdown.value;
+            UpdateProfileField("Kick_Mode", selectedMode.ToString());
+
+            // sound
+            if (AP != null) AP.setUseComVol(false);
+            if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        }
+        else
+        {
+            Debug.LogWarning("KickModeDropdown does not have a TMP_Dropdown component.");
+        }
+    }
+
+    public void SetKickModeDropdown(string modeValue)
+    {
+        if (kickModeDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        {
+            if (int.TryParse(modeValue, out int parsedMode))
+            {
+                dropdown.value = Mathf.Clamp(parsedMode, 0, dropdown.options.Count - 1);
+            }
+            else
+            {
+                Debug.LogWarning("Invalid kick mode value: " + modeValue);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("KickModeDropdown does not have a TMP_Dropdown component.");
+        }
+    }
+
+    #endregion
 }
