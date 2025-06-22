@@ -81,6 +81,8 @@ public class PlayerProfileManager : MonoBehaviour
 
         //Save to disk
         SaveProfile();
+
+        LoadInProfileUI();
     }
 
     /// <summary>
@@ -360,13 +362,7 @@ public class PlayerProfileManager : MonoBehaviour
 
         currentProfile = profile;
 
-        SetBindingsFromProfile();
-        SetShirtColor();
-        SetSkinColor();
-        SetProfileName();
-        SetDeadzoneAdjustment();
-        SetKickModeDropdown();
-        SetMovementStickDropdown();
+        LoadInProfileUI();
 
         Debug.Log($"Loaded profile: {profile.Profile_Name}");
     }
@@ -581,6 +577,17 @@ public class PlayerProfileManager : MonoBehaviour
                 otherDropdown.value = index == 0 ? 1 : 0;
             }
         }
+    }
+
+    public void LoadInProfileUI()
+    {
+        SetBindingsFromProfile();
+        SetShirtColor();
+        SetSkinColor();
+        SetProfileName();
+        SetDeadzoneAdjustment();
+        SetKickModeDropdown();
+        SetMovementStickDropdown();
     }
 
     #endregion
