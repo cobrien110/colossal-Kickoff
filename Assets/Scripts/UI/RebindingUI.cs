@@ -81,8 +81,8 @@ public class RebindingUI : MonoBehaviour
             if (CheckButton(gamepad.leftShoulder, "leftShoulder")) yield break;
             if (CheckButton(gamepad.rightShoulder, "rightShoulder")) yield break;
 
-            if (CheckButton(gamepad.leftStickButton, "leftStick")) yield break;
-            if (CheckButton(gamepad.rightStickButton, "rightStick")) yield break;
+            if (CheckButton(gamepad.leftStickButton, "leftStickButton")) yield break;
+            if (CheckButton(gamepad.rightStickButton, "rightStickButton")) yield break;
 
             if (CheckButton(gamepad.leftTrigger, "leftTrigger")) yield break;
             if (CheckButton(gamepad.rightTrigger, "rightTrigger")) yield break;
@@ -112,10 +112,5 @@ public class RebindingUI : MonoBehaviour
         MC.playerRebinding = false;
         profileManager.ChangeBinding(bindingKey, newInput);
         SetBindingDisplay(newInput);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        StartRebinding();
     }
 }

@@ -363,6 +363,7 @@ public class MenuController : MonoBehaviour
                     case (11): // Player Profile Editor
                         ReturnToSettings();
                         UpdateProfileOptions();
+                        PPM.CloseProfile();
                         break;
                     case (12): // Player Profile Submenu (bindings, config, etc.)
                         disablePPWindow();
@@ -373,7 +374,7 @@ public class MenuController : MonoBehaviour
                 deselectOccured = false;
             }
 
-            if (SettingsMenu.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame)
+            if (SettingsMenu.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame && !playerRebinding)
             {
                 if (gameplaySettings.activeInHierarchy)
                 {
@@ -387,7 +388,7 @@ public class MenuController : MonoBehaviour
                 }
             }
 
-            if (SettingsMenu.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame)
+            if (SettingsMenu.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame && !playerRebinding)
             {
                 if (gameplaySettings.activeInHierarchy)
                 {

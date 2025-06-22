@@ -44,6 +44,9 @@ public class PlayerProfileManager : MonoBehaviour
     [SerializeField] private Slider sliderDeadzoneAdjustment;
     [SerializeField] private TMP_Text deadzoneAdjNum;
 
+    [SerializeField] private GameObject movementStickDropdown;
+    [SerializeField] private GameObject aimingStickDropdown;
+
     [SerializeField] private List<RebindingUI> rebindButtons;
 
 
@@ -356,32 +359,16 @@ public class PlayerProfileManager : MonoBehaviour
         }
 
         currentProfile = profile;
+
+        SetBindingsFromProfile();
+        SetShirtColor();
+        SetSkinColor();
+        SetProfileName();
+        SetDeadzoneAdjustment();
+        SetKickModeDropdown();
+        SetMovementStickDropdown();
+
         Debug.Log($"Loaded profile: {profile.Profile_Name}");
-    }
-
-    //changes loaded in name
-    private void LoadInName()
-    {
-
-    }
-
-    //loads in shirt and skin colors
-    private void LoadInColors()
-    {
-
-    }
-
-    //Load in config menu elements 
-    private void LoadInConfig()
-    {
-
-    }
-
-
-    //changes binding for each button element
-    private void LoadInBindings()
-    {
-
     }
 
     #region button mechanics
@@ -460,9 +447,12 @@ public class PlayerProfileManager : MonoBehaviour
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void SetProfileName(string newName)
+    public void SetProfileName()
     {
-        profileNameButton.GetComponentInChildren<TMP_Text>().text = newName;
+        if (currentProfile != null && profileNameButton != null)
+        {
+            profileNameButton.GetComponentInChildren<TMP_Text>().text = currentProfile.Profile_Name;
+        }
     }
 
     public void ChangeDeadzoneAdjustment()
@@ -476,21 +466,18 @@ public class PlayerProfileManager : MonoBehaviour
         if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
     }
 
-    public void SetDeadzoneAdjustment(string newVal)
+    public void SetDeadzoneAdjustment()
     {
-        if (float.TryParse(newVal, out float parsedVal))
+        if (currentProfile != null && sliderDeadzoneAdjustment != null)
         {
-            float sliderVal = Mathf.Clamp(parsedVal * 10f, sliderDeadzoneAdjustment.minValue, sliderDeadzoneAdjustment.maxValue);
+            float deadzone = Mathf.Clamp01(currentProfile.Deadzone);
+            float sliderVal = Mathf.Clamp(deadzone * 10f, sliderDeadzoneAdjustment.minValue, sliderDeadzoneAdjustment.maxValue);
             sliderDeadzoneAdjustment.value = sliderVal;
 
             if (deadzoneAdjNum != null)
             {
-                deadzoneAdjNum.text = parsedVal.ToString("0.0");
+                deadzoneAdjNum.text = deadzone.ToString("0.0");
             }
-        }
-        else
-        {
-            Debug.LogWarning("Invalid input for SetDeadzoneAdjustment: " + newVal);
         }
     }
 
@@ -511,22 +498,88 @@ public class PlayerProfileManager : MonoBehaviour
         }
     }
 
-    public void SetKickModeDropdown(string modeValue)
+    public void SetKickModeDropdown()
     {
-        if (kickModeDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        if (currentProfile != null && kickModeDropdown.TryGetComponent(out TMP_Dropdown dropdown))
         {
-            if (int.TryParse(modeValue, out int parsedMode))
+            int mode = Mathf.Clamp(currentProfile.Kick_Mode, 0, dropdown.options.Count - 1);
+            dropdown.value = mode;
+        }
+    }
+
+    public void ChangeMovementStickDropdown()
+    {
+        if (movementStickDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        {
+            int selected = dropdown.value;
+            string selectedValue = selected == 0 ? "leftStick" : "rightStick";
+            string otherValue = selected == 0 ? "rightStick" : "leftStick";
+
+            UpdateProfileField("Move", selectedValue);
+
+            //Update aiming dropdown to opposite
+            if (aimingStickDropdown.TryGetComponent(out TMP_Dropdown otherDropdown))
             {
-                dropdown.value = Mathf.Clamp(parsedMode, 0, dropdown.options.Count - 1);
+                otherDropdown.value = selected == 0 ? 1 : 0;
+                UpdateProfileField("Aim", otherValue);
             }
-            else
+
+            //sound
+            if (AP != null) AP.setUseComVol(false);
+            if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        }
+    }
+
+    public void ChangeAimingStickDropdown()
+    {
+        if (aimingStickDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        {
+            int selected = dropdown.value;
+            string selectedValue = selected == 0 ? "leftStick" : "rightStick";
+            string otherValue = selected == 0 ? "rightStick" : "leftStick";
+
+            UpdateProfileField("Aim", selectedValue);
+
+            //Update movement dropdown to opposite
+            if (movementStickDropdown.TryGetComponent(out TMP_Dropdown otherDropdown))
             {
-                Debug.LogWarning("Invalid kick mode value: " + modeValue);
+                otherDropdown.value = selected == 0 ? 1 : 0;
+                UpdateProfileField("Move", otherValue);
+            }
+
+            //sound
+            if (AP != null) AP.setUseComVol(false);
+            if (AP != null && !AP.isPlaying()) AP.PlaySoundRandomPitch(AP.Find("menuClick"));
+        }
+    }
+
+    public void SetMovementStickDropdown()
+    {
+        if (currentProfile != null && movementStickDropdown.TryGetComponent(out TMP_Dropdown dropdown))
+        {
+            int index = currentProfile.Move == "leftStick" ? 0 : 1;
+            dropdown.value = index;
+
+            // Also update aiming stick to opposite
+            if (aimingStickDropdown.TryGetComponent(out TMP_Dropdown otherDropdown))
+            {
+                otherDropdown.value = index == 0 ? 1 : 0;
             }
         }
-        else
+    }
+
+    public void SetAimingStickDropdown()
+    {
+        if (currentProfile != null && aimingStickDropdown.TryGetComponent(out TMP_Dropdown dropdown))
         {
-            Debug.LogWarning("KickModeDropdown does not have a TMP_Dropdown component.");
+            int index = currentProfile.Aim == "leftStick" ? 0 : 1;
+            dropdown.value = index;
+
+            // Also update movement stick to opposite
+            if (movementStickDropdown.TryGetComponent(out TMP_Dropdown otherDropdown))
+            {
+                otherDropdown.value = index == 0 ? 1 : 0;
+            }
         }
     }
 
