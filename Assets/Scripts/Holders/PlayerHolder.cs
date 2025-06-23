@@ -66,6 +66,11 @@ public class PlayerHolder : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+        else if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial"))
+        {
+            teamName = "Warrior";
+            GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
+        }
         else
         {
             if (thisES != null)

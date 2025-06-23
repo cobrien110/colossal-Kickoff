@@ -126,7 +126,7 @@ public class GameplayManager : MonoBehaviour
         SetPlayerColors();
 
         // Steam stat debugging
-        if (SteamManager.Initialized)
+        if (SteamManager.Initialized && WTM == null)
         {
             SteamUserStats.RequestCurrentStats();
             Debug.Log("___STEAM STAT DEBUG___");
@@ -259,7 +259,7 @@ public class GameplayManager : MonoBehaviour
         if (aiMummymanager != null) aiMummymanager.ResetMummies();
 
         // Sets end-of-game Steam stats
-        if (SteamManager.Initialized)
+        if (SteamManager.Initialized && WTM == null)
         {
             SteamUserStats.RequestCurrentStats();
 

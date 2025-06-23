@@ -702,7 +702,10 @@ public class BallProperties : MonoBehaviour
                 if (aiMummyManager != null) aiMummyManager.ResetMummies();
             }
 
-            mc.ResetAbilities();
+            if (mc != null)
+            {
+                mc.ResetAbilities();
+            }
 
             AbilityScript.canActivate = false;
         } 

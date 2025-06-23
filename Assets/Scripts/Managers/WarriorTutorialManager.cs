@@ -31,5 +31,7 @@ public class WarriorTutorialManager : MonoBehaviour
 
         Debug.Log("WARRIOR TUTORIAL INITIALIZED");
         initialized = true;
+
+        // All Tutorial scripting can occur after this point.
     }
 }
