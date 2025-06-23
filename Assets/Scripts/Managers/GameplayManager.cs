@@ -79,6 +79,9 @@ public class GameplayManager : MonoBehaviour
     private AiMummyManager aiMummymanager;
     public WarriorHolder WH = null;
 
+    [Header("Tutorial Stuff")]
+    [SerializeField] private GameObject WTM = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -135,6 +138,12 @@ public class GameplayManager : MonoBehaviour
             int monsterKills = 0;
             SteamUserStats.GetStat("monster_kills", out monsterKills);
             Debug.Log("Kills: " + monsterKills);
+        }
+
+        WTM = GameObject.Find("WarriorTutorialManager");
+        if (WTM != null)
+        {
+            WTM.GetComponent<WarriorTutorialManager>().Initiate();
         }
     }
 
