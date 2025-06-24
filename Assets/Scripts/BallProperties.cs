@@ -170,7 +170,7 @@ public class BallProperties : MonoBehaviour
             UM.isSuperKickWindow = false;
             UM.UpdateWarriorContestBar(0.0f);
             Debug.Log("SUPER KICK: WINDOW INACTIVE");
-            if (ballOwner.GetComponent<WarriorController>() != null)
+            if (ballOwner != null && ballOwner.GetComponent<WarriorController>() != null)
             {
                 ballOwner.GetComponent<WarriorController>().StopSuperKick();
             }

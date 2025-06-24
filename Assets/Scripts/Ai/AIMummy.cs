@@ -27,6 +27,7 @@ public class AIMummy : MonoBehaviour
     [SerializeField] private float mummyLifeSpan = 12f;
     [SerializeField] private float shootDelay = 0.5f;
     [SerializeField] private float passDelay = 0.1f;
+    [SerializeField] private float forceKickDelay = 0.5f;
     private bool isPreparingKick = false;
     private float timer = 0f;
     private bool isSliding = false;
@@ -261,39 +262,53 @@ public class AIMummy : MonoBehaviour
     // The pass and shoot method for Ai Warriors
     private IEnumerator DelayedKick(float kickDelay)
     {
+        // Call the full version with the default direction
+        return DelayedKick(kickDelay, transform.forward);
+    }
+
+    private IEnumerator DelayedKick(float kickDelay, Vector3 direction)
+    {
         isPreparingKick = true;
         yield return new WaitForSeconds(kickDelay);
         isPreparingKick = false;
+
         if (mc.BP.ballOwner == gameObject)
         {
             Debug.Log("Kick!");
 
-            // For CallForPass gravity field
             kickHappened = true;
             StartCoroutine(ResetKickHappened());
 
-            // Prevent ball from getting kicked "through" walls
             if (mc != null && mc.BP != null && IsWallBetweenBallAndPlayer())
             {
                 Debug.Log("Correcting ball position before kick");
-                mc.BP.gameObject.transform.position =
-                    new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
+                mc.BP.gameObject.transform.position = new Vector3(
+                    transform.position.x,
+                    mc.BP.gameObject.transform.position.y,
+                    transform.position.z
+                );
             }
 
-            // Debug.Log("ballOwner set to null");
             mc.BP.ballOwner = null;
             mc.BP.previousKicker = gameObject;
-            //Debug.Log(transform.forward);
-            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiKickSpeed);
+
+            mc.BP.GetComponent<Rigidbody>().AddForce(direction * aiKickSpeed);
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
             ANIM.Play("WarriorKick");
         }
     }
 
+
     private void Kick(float kickDelay = 0f) // Defaults to no kick delay
     {
         // Debug.Log("Kicking - Delay: " + kickDelay);
         StartCoroutine(DelayedKick(kickDelay));
+    }
+
+    // Mummy calls this to call for kick
+    public void ForceKick(Vector3 kickDirection)
+    {
+        StartCoroutine(DelayedKick(forceKickDelay, kickDirection));
     }
 
     void HasBall()

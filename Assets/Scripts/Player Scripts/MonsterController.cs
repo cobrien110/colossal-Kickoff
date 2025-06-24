@@ -132,6 +132,8 @@ public class MonsterController : MonoBehaviour
     private float pickupBallCooldown = 0.25f;
     [SerializeField] private float pickupBallTimer = 0f;
 
+    private float mummyKickingBuffer = 1f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -201,6 +203,7 @@ public class MonsterController : MonoBehaviour
             Dribbling();
             Passing();
             Kicking();
+            MummyKicking();
             RotateWhileCharging();
             Dash();
             
@@ -422,6 +425,36 @@ public class MonsterController : MonoBehaviour
         }
 
         return false; // No obstacles in the way
+    }
+
+
+    void MummyKicking()
+    {
+        if (mummyKickingBuffer < 0.2f)
+        {
+            // Prevent this method from being called multiple times in small time window
+            mummyKickingBuffer += Time.deltaTime;
+            return;
+        }
+
+        // If player is sphinx, mummy has the ball, and aimDirection is not 0
+        if (monsterType == MonsterType.Sphinx
+            && rightStickInput.normalized.magnitude > 0.1f
+            && BP != null && BP.ballOwner != null && BP.ballOwner.GetComponent<AIMummy>() != null) 
+        {
+            Debug.Log("Make mummy kick ball");
+            // Make mummy kick ball
+            AIMummy kickingMummy = BP.ballOwner.GetComponent<AIMummy>();
+            // Debug.Log("rightStickInput.normalized: " + rightStickInput.normalized);
+            kickingMummy.ForceKick(rightStickInput.normalized);
+
+            mummyKickingBuffer = 0f;
+        } else
+        {
+            //Debug.Log("monsterType: " + monsterType);
+            //Debug.Log("rightStickInput.normalized.magnitude: " + rightStickInput.normalized.magnitude);
+            //Debug.Log("BP.ballOwner: " + BP.ballOwner);
+        }
     }
 
 
@@ -845,6 +878,8 @@ public class MonsterController : MonoBehaviour
     {
         // Ignore input if monster is ai
         if (GetComponent<AiMonsterController>() != null) return;
+
+        // Debug.Log("Monster OnAim");
 
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
