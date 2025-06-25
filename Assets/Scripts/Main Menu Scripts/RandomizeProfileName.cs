@@ -19,12 +19,28 @@ public class RandomizeProfileName : MonoBehaviour
         textField.text = GenerateAndGiveName();
     }
 
-    public string NewProfileName()
+    public string NewProfileName(List<PlayerProfile> savedProfiles)
     {
+        HashSet<string> existingNames = new HashSet<string>();
+        foreach (var profile in savedProfiles)
+        {
+            existingNames.Add(profile.Profile_Name);
+        }
 
-        string profName = GenerateAndGiveName();
-        textField.text = profName;
-        return profName;
+        string baseName = GenerateAndGiveName();
+        string finalName = baseName;
+
+        int suffix = 2;
+        while (existingNames.Contains(finalName))
+        {
+            finalName = baseName + suffix;
+            suffix++;
+        }
+
+        if (textField != null)
+            textField.text = finalName;
+
+        return finalName;
     }
 
     public string GenerateAndGiveName()

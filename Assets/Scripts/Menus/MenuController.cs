@@ -922,7 +922,8 @@ public class MenuController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
 
-        PPM.CreateNewProfile();
+        var savedProfiles = PPM.LoadAllProfiles();
+        PPM.CreateNewProfile(savedProfiles);
 
         PlayMenuClick();
     }

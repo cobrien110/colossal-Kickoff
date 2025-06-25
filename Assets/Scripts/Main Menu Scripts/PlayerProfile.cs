@@ -9,6 +9,10 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerProfile
 {
+    /// <summary>The file path on disk where this profile is stored (not saved in the file itself).</summary>
+    [System.NonSerialized]
+    public string FilePath;
+
     /// <summary>The visible name of this profile.</summary>
     public string Profile_Name = "Default";
 

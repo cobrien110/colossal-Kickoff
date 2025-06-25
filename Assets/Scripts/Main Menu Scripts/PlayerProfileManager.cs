@@ -58,7 +58,7 @@ public class PlayerProfileManager : MonoBehaviour
     /// <summary>
     /// Creates a new profile using the default template and saves it to disk.
     /// </summary>
-    public void CreateNewProfile()
+    public void CreateNewProfile(List<PlayerProfile> savedProfiles)
     {
         if (defaultProfileTemplate == null)
         {
@@ -66,13 +66,17 @@ public class PlayerProfileManager : MonoBehaviour
             return;
         }
 
-        string profileName = RPN.NewProfileName();
+        string fileID = GenerateUniqueFilename();
+        string profileName = RPN.NewProfileName(savedProfiles);
+
         string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
         Directory.CreateDirectory(folderPath);
 
-        currentProfilePath = Path.Combine(folderPath, profileName + ".txt");
+        string fullPath = Path.Combine(folderPath, fileID + ".txt");
 
         currentProfile = new PlayerProfile();
+        currentProfile.FilePath = fullPath;
+
         Dictionary<string, string> parsedData = ParseTextToDict(defaultProfileTemplate.text);
         currentProfile.FromDictionary(parsedData);
 
@@ -182,7 +186,6 @@ public class PlayerProfileManager : MonoBehaviour
         List<PlayerProfile> profiles = new List<PlayerProfile>();
         string[] profileFiles = Directory.GetFiles(folderPath, "*.txt");
 
-        //Start looking through and filling out
         foreach (string file in profileFiles)
         {
             string[] lines = File.ReadAllLines(file);
@@ -204,6 +207,7 @@ public class PlayerProfileManager : MonoBehaviour
 
             PlayerProfile profile = new PlayerProfile();
             profile.FromDictionary(data);
+            profile.FilePath = file;
             profiles.Add(profile);
         }
 
@@ -329,6 +333,36 @@ public class PlayerProfileManager : MonoBehaviour
     public string GetCurrentProfileName()
     {
         return IsProfileLoaded ? currentProfile.Profile_Name : "None";
+    }
+
+    private string GenerateUniqueFilename()
+    {
+        string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
+        Directory.CreateDirectory(folderPath);
+
+        const int length = 16;
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        int attempts = 0;
+        string filename;
+
+        do
+        {
+            filename = "";
+            for (int i = 0; i < length; i++)
+            {
+                filename += chars[Random.Range(0, chars.Length)];
+            }
+
+            attempts++;
+            if (attempts > 1000)
+            {
+                Debug.LogError("Could not generate a unique filename after 1000 attempts.");
+                return null;
+            }
+
+        } while (File.Exists(Path.Combine(folderPath, filename + ".txt")));
+
+        return filename;
     }
 
     /// <summary>
