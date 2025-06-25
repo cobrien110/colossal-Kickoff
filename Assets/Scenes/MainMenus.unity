@@ -30884,7 +30884,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1145518472
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38241,7 +38241,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- Updated version info to \"1.1\"\n- \n"
+  m_text: "- Updated version info to \"1.1\"\n- Added Discord button to Main Menu\n-
+    Added Player Profile creation to Settings Menu, which can be used for additional
+    customization:\n\t> Jersey Colors\n\t> Skin Tones\n\t> Control Schemes\n- Player
+    Profiles can be selected in the Character Select\n- Sphinx tweaks:\n\t> Now able
+    to control a Mummy's kick when a Mummy has the ball\n- Gashadokuro tweaks:\n\t>
+    \n- Super Kick meter now starts decaying when full:\n\t> 10 Seconds until fully
+    depleted\n\t> A full Super Kick can be used at any point during the decay\n-
+    Added an in-game Warrior Tutorial to Extras Menu\n- Additional Bug Fixes"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
   m_sharedMaterial: {fileID: -2205983582761376483, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
@@ -38268,8 +38275,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 17
+  m_fontSizeBase: 17
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -115032,7 +115039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!225 &8370120882327658939
 CanvasGroup:
   m_ObjectHideFlags: 0
