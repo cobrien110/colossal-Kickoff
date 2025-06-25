@@ -81,9 +81,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject warriorControls;
     [SerializeField] private GameObject monsterControls;
     [SerializeField] private TMP_Text teamControlsText;
-    
+    [SerializeField] private Selectable createNewProfileButton;
+
     //For building initial NAV
     private bool hasOpenedSettingsOnce = false;
+    private const int MaxProfiles = 16;
 
     [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
@@ -1323,6 +1325,7 @@ public class MenuController : MonoBehaviour
     {
         savedProfiles = PPM.LoadAllProfiles();
         PPM.SyncProfileButtonsWithList(savedProfiles, PPButtonParent, PPButtonPrefab);
+        UpdateCreateButtonState();
 
         // Below code is for adding Profile options on Character Select dropdowns
         warriorDrop1.ClearOptions();
@@ -1341,6 +1344,20 @@ public class MenuController : MonoBehaviour
         warriorDrop2.AddOptions(allProfileNames);
         warriorDrop3.AddOptions(allProfileNames);
         monsterDrop.AddOptions(allProfileNames);
+    }
+
+    public void UpdateCreateButtonState()
+    {
+        bool limitReached = savedProfiles.Count >= MaxProfiles;
+
+        if (createNewProfileButton != null)
+        {
+            var button = createNewProfileButton.GetComponent<Button>();
+            if (button != null)
+            {
+                button.interactable = !limitReached;
+            }
+        }
     }
 
     #endregion

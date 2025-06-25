@@ -24,7 +24,6 @@ public class PlayerProfileManager : MonoBehaviour
     [Tooltip("Subfolder under persistentDataPath where profiles are stored.")]
     public string profileFolderName = "Player Profiles";
 
-    private string currentProfilePath;
     public PlayerProfile currentProfile;
 
     private Dictionary<ProfileButton, PlayerProfile> activeButtons = new Dictionary<ProfileButton, PlayerProfile>();
@@ -123,7 +122,7 @@ public class PlayerProfileManager : MonoBehaviour
     /// </summary>
     private void SaveProfile()
     {
-        if (!IsProfileLoaded || string.IsNullOrEmpty(currentProfilePath))
+        if (!IsProfileLoaded || string.IsNullOrEmpty(currentProfile.FilePath))
             return;
 
         var lines = new List<string>();
@@ -132,7 +131,7 @@ public class PlayerProfileManager : MonoBehaviour
             lines.Add($"{pair.Key}: {pair.Value}");
         }
 
-        File.WriteAllLines(currentProfilePath, lines);
+        File.WriteAllLines(currentProfile.FilePath, lines);
     }
 
     /// <summary>
@@ -374,7 +373,6 @@ public class PlayerProfileManager : MonoBehaviour
     public void CloseProfile()
     {
         currentProfile = null;
-        currentProfilePath = null;
     }
 
     /// <summary>
