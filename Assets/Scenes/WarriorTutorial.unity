@@ -12853,6 +12853,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2490224662829959856, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2529909992509541054, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -12933,6 +12937,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2948776051319683051, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4098190150570766116, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -12949,12 +12957,24 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1538291288}
+    - target: {fileID: 6408904238343001617, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6614040425193241741, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1538291288}
+    - target: {fileID: 6954552776700434253, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8211218969717980131, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
       propertyPath: monsterScore
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8575601393713420484, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8976037514821593561, guid: 5c3bfbd4d66a6cc42bf326c372922a71, type: 3}
@@ -14586,7 +14606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GM: {fileID: 0}
   UM: {fileID: 0}
-  PlayerHolderPrefab: {fileID: 8335599723838171983, guid: 27b49cc9baa52b64f8d93176046f5c73, type: 3}
+  PHPrefab: {fileID: 8335599723838171983, guid: 27b49cc9baa52b64f8d93176046f5c73, type: 3}
 --- !u!1 &1414440580
 GameObject:
   m_ObjectHideFlags: 0

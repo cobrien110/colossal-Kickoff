@@ -68,6 +68,8 @@ public class PlayerHolder : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial"))
         {
+            thisGamepad = Gamepad.all[0];
+            gamepadName = thisGamepad.name;
             teamName = "Warrior";
             GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
         }

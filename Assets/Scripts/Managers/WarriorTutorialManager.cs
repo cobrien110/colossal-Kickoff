@@ -8,6 +8,7 @@ public class WarriorTutorialManager : MonoBehaviour
 
     [SerializeField] private GameplayManager GM;
     [SerializeField] private UIManager UM;
+    [SerializeField] private GameObject PHPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,8 @@ public class WarriorTutorialManager : MonoBehaviour
 
         Debug.Log("WARRIOR TUTORIAL INITIALIZED");
         initialized = true;
-
         // All Tutorial scripting can occur after this point.
+
+        Instantiate(PHPrefab);
     }
 }
