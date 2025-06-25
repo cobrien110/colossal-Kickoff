@@ -49,6 +49,8 @@ public class PlayerProfileManager : MonoBehaviour
 
     [SerializeField] private List<RebindingUI> rebindButtons;
 
+    private const int fileCharsLength = 16;
+    private const string fileChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     /// <summary>
     /// Returns true if a profile is currently loaded and active.
@@ -340,20 +342,21 @@ public class PlayerProfileManager : MonoBehaviour
         string folderPath = Path.Combine(Application.persistentDataPath, profileFolderName);
         Directory.CreateDirectory(folderPath);
 
-        const int length = 16;
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         int attempts = 0;
+        string randomID;
         string filename;
 
         do
         {
-            filename = "";
-            for (int i = 0; i < length; i++)
+            randomID = "";
+            for (int i = 0; i < fileCharsLength; i++)
             {
-                filename += chars[Random.Range(0, chars.Length)];
+                randomID += fileChars[Random.Range(0, fileChars.Length)];
             }
 
+            filename = "CK_Profile_" + randomID;
             attempts++;
+
             if (attempts > 1000)
             {
                 Debug.LogError("Could not generate a unique filename after 1000 attempts.");
