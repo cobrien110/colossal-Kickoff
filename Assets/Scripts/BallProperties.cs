@@ -55,6 +55,8 @@ public class BallProperties : MonoBehaviour
 
     private float intangibleTime = 0.3f;
 
+    // WarriorTutorialManager
+    private GameObject WTM = null;
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +107,8 @@ public class BallProperties : MonoBehaviour
         /*MonsterController MC = GameObject.FindGameObjectWithTag("Monster").GetComponent<MonsterController>();
         MC.Ball = this.gameObject;
         MC.BP = this;*/
+
+        WTM = GameObject.Find("WarriorTutorialManager");
     }
 
     // Update is called once per frame
@@ -384,7 +388,8 @@ public class BallProperties : MonoBehaviour
                         UM.UpdatePlayerScoredText(i + 1, Color.white);
 
                         // Add to "goals_scored" Steam stat
-                        if (SteamManager.Initialized)
+                        
+                        if (SteamManager.Initialized & WTM == null)
                         {
                             SteamUserStats.RequestCurrentStats();
 
@@ -490,7 +495,7 @@ public class BallProperties : MonoBehaviour
                         UM.UpdatePlayerScoredText(i + 1, playerTest.GetComponent<WarriorController>().GetColor());
 
                         // Add to "goals_scored" Steam stat
-                        if (SteamManager.Initialized)
+                        if (SteamManager.Initialized && WTM == null)
                         {
                             SteamUserStats.RequestCurrentStats();
 
