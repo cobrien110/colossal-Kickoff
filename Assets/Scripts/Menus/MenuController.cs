@@ -85,7 +85,6 @@ public class MenuController : MonoBehaviour
 
     //For building initial NAV
     private bool hasOpenedSettingsOnce = false;
-    private const int MaxProfiles = 16;
 
     [Header("Stage Selection")]
     [SerializeField] private GameObject characterSelect;
@@ -177,6 +176,14 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Toggle outlineToggle;
     [SerializeField] private Slider deadzoneSlider;
     [SerializeField] private TMP_Text DeadzoneAdjNum;
+
+    [Header("Profile UI Limit Message")]
+    [SerializeField] private TMP_Text limitReachedMessageText;
+    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float messageDisplayTime = 2f;
+    [SerializeField] private int MaxProfiles = 16;
+
+    private Coroutine limitMessageCoroutine;
 
     [Header("Player Profile Settings")]
     [SerializeField] private GameObject playerProfileEditor;
@@ -917,17 +924,62 @@ public class MenuController : MonoBehaviour
 
     public void OpenNewPPMenu()
     {
-        currentScreen = 11;
-        playerProfileEditor.SetActive(true);
-        SettingsButtons.SetActive(false);
-
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
-
         var savedProfiles = PPM.LoadAllProfiles();
-        PPM.CreateNewProfile(savedProfiles);
 
+        if (savedProfiles.Count < MaxProfiles)
+        {
+            currentScreen = 11;
+            playerProfileEditor.SetActive(true);
+            SettingsButtons.SetActive(false);
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
+
+            PPM.CreateNewProfile(savedProfiles);
+        }
+        else
+        {
+            if (limitMessageCoroutine != null) 
+                StopCoroutine(limitMessageCoroutine);
+            limitMessageCoroutine = StartCoroutine(ShowLimitReachedMessage());
+        }
         PlayMenuClick();
+    }
+
+    private IEnumerator ShowLimitReachedMessage()
+    {
+        if (limitReachedMessageText == null) yield break;
+
+        CanvasGroup canvasGroup = limitReachedMessageText.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = limitReachedMessageText.gameObject.AddComponent<CanvasGroup>();
+        }
+
+        canvasGroup.alpha = 0f;
+        limitReachedMessageText.gameObject.SetActive(true);
+
+        //Fade in
+        float t = 0;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Clamp01(t / fadeDuration);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(messageDisplayTime);
+
+        //Fade out
+        t = 0;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = 1f - Mathf.Clamp01(t / fadeDuration);
+            yield return null;
+        }
+
+        limitReachedMessageText.gameObject.SetActive(false);
     }
 
     public void OpenExistingPPMenu(PlayerProfile profile)
@@ -1325,7 +1377,7 @@ public class MenuController : MonoBehaviour
     {
         savedProfiles = PPM.LoadAllProfiles();
         PPM.SyncProfileButtonsWithList(savedProfiles, PPButtonParent, PPButtonPrefab);
-        UpdateCreateButtonState();
+        
 
         // Below code is for adding Profile options on Character Select dropdowns
         warriorDrop1.ClearOptions();
@@ -1346,7 +1398,8 @@ public class MenuController : MonoBehaviour
         monsterDrop.AddOptions(allProfileNames);
     }
 
-    public void UpdateCreateButtonState()
+    //DEFUNCT NOW
+    /*public void UpdateCreateButtonState()
     {
         bool limitReached = savedProfiles.Count >= MaxProfiles;
 
@@ -1358,7 +1411,7 @@ public class MenuController : MonoBehaviour
                 button.interactable = !limitReached;
             }
         }
-    }
+    }*/
 
     #endregion
 
