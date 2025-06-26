@@ -69,8 +69,8 @@ public class AIMummy : MonoBehaviour
     private Animator ANIM;
 
     // If there is no ball owner yet a warrior or monster is on top of ball, OnTriggerStay will wait this long until making that character pick up ball
-    private float pickupBallCooldown = 0.25f;
-    [SerializeField] private float pickupBallTimer = 0f;
+    [SerializeField]  private float pickupBallCooldown = 0.25f;
+    private float pickupBallTimer = 0f;
 
     private void Awake()
     {
