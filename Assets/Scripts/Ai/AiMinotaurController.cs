@@ -12,28 +12,15 @@ public class AiMinotaurController : AiMonsterController
     // Basic Attack - 1
     // Dash - 2
 
-    [Header("AI Mino Stats & Behaviour")]
-    [SerializeField] private float redirectionInterval = 0.5f; // Time interval in seconds
-    private float redirectionTimer = 0f;      // Timer to track redirection intervals
-    private Vector3 currentRandomOffset = Vector3.zero;
+    // [Header("AI Mino Stats & Behaviour")]
     
-    private Coroutine defendGoalCoroutine;
-    [SerializeField] private float wiggleOffset = 1f;
-    [SerializeField] private float waitInPlaceTime = 1f;
-    private const float stoppingDistance = 0.5f;
-    private const float rotationSpeed = 2f;
     
-    [SerializeField] private float pursueDelay = 1f;
-    [SerializeField] private float minPursueDistance = 2f;
-    private float pursuitSmoothingFactor = 1f;
-    [SerializeField] private float defendGoalDelay = 0.5f;
     
-    [SerializeField] private float redirectionSmoothness = 0.2f; // Adjust how quickly the wiggle offset transitions to the next offset. A value between 0.1 - 0.5 should work well
+ 
+    
     //private float pursueDelayFrequency;
 
     // private bool shouldPerformAbility1 = false;
-    private bool isCharging = false;
-    private bool canPickUpBall = true;
     // private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
 
     
@@ -167,7 +154,7 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    private void WarriorHasBall()
+    protected override void WarriorHasBall()
     {
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
@@ -269,7 +256,7 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    private void MonsterHasBall()
+    protected override void MonsterHasBall()
     {
         // Default behaviour
         if (!isPerformingAbility)
@@ -311,7 +298,7 @@ public class AiMinotaurController : AiMonsterController
 
     }
 
-    private void BallNotPossessed()
+    protected override void BallNotPossessed()
     {
         // ResetAbilities();
 
@@ -350,287 +337,6 @@ public class AiMinotaurController : AiMonsterController
         dashMode = DashMode.Ball; // Dash at ball
 
         // Debug.Log("BallNotPossessed");
-    }
-
-    protected override void Shoot()
-    {
-        if (mc.BP.ballOwner == gameObject)
-        {
-            Debug.Log("Shoot!");
-
-            // Prevent ball from getting kicked "through" walls
-            if (mc != null && mc.BP != null && mc.IsWallBetweenBallAndPlayer())
-            {
-                Debug.Log("Correcting ball position before kick");
-                mc.BP.gameObject.transform.position =
-                    new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
-            }
-
-            // Make minotaur look at goal
-            Quaternion newRotation = 
-                Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);
-            transform.rotation = newRotation;
-
-            // Debug.Log("ballOwner set to null");
-            mc.BP.ballOwner = null;
-            mc.BP.previousKicker = gameObject;
-            mc.BP.lastKicker = gameObject;
-            canPickUpBall = false;
-            StartCoroutine(SetPickUpBallTrue());
-            // Debug.Log(transform.forward);
-            float distFromGoalMultiplier = Vector3.Distance(warriorGoal.transform.position, transform.position) / (maxShootingRange / 2f);
-            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiShootSpeed);// * distFromGoalMultiplier);
-            //audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
-        }
-    }
-
-    void MoveTo(Vector2 targetPos)
-    {
-        // Debug.Log("MoveTo: " + targetPos);
-        if (targetPos != Vector2.zero)
-        {
-            //usingKeyboard = true;
-            mc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
-            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-            mc.aimingDirection = mc.movementDirection;
-        }
-
-
-        rb.velocity = GM.isPlaying ? mc.movementDirection * mc.monsterSpeed : Vector3.zero;
-        //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(mc.movementDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
-        }
-
-        if (mc.movementDirection != Vector3.zero && GM.isPlaying)
-        {
-            mc.ANIM.SetBool("isWalking", true);
-        }
-        else
-        {
-            mc.ANIM.SetBool("isWalking", false);
-        }
-
-    }
-
-    private void WiggleTowardGoal()
-    {
-        // Debug.Log("WiggleTowardGoal");
-        Vector3 goalPosition = warriorGoal.transform.position;
-
-        // Update the timer
-        redirectionTimer += Time.deltaTime;
-
-        // Check if it's time to update the random offset
-        if (redirectionTimer >= redirectionInterval)
-        {
-            // Debug.Log("new offset");
-            // Reset the timer
-            redirectionTimer = 0f;
-
-            // Generate a new random offset for "wiggle" effect
-            Vector3 newRandomOffset = new Vector3(
-                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset),  // Random x offset
-                0,                          // Keep y as zero for ground-based movement
-                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset)   // Random z offset
-            );
-
-            // Smooth transition to the new offset
-            currentRandomOffset = Vector3.Lerp(currentRandomOffset, newRandomOffset, redirectionSmoothness);
-        }
-
-        // Calculate the base direction toward the goal
-        Vector3 toGoal = (goalPosition - transform.position).normalized;
-        Vector3 toGoalIgnoreY = new Vector3(toGoal.x, 0, toGoal.z);
-
-        // Apply smoothed offset to movement direction
-        mc.movementDirection = Vector3.Lerp(mc.movementDirection, (toGoalIgnoreY + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
-        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-
-        // Update walking animation if applicable
-        mc.ANIM.SetBool("isWalking", rb.velocity != Vector3.zero);
-    }
-
-
-    private float GetDistanceToNearestWarrior()
-    {
-        float distToNearestWarrior = maxProximityRange;
-        foreach (GameObject warrior in warriors)
-        {
-            float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);
-            if (distanceToWarrior < distToNearestWarrior)
-            {
-                distToNearestWarrior = distanceToWarrior;
-            }
-        }
-        return distToNearestWarrior;
-    }
-
-    
-
-    // ROAM METHODS
-    IEnumerator Roam()
-    {
-        while (true)
-        {
-            Debug.Log("Monster roaming");
-
-            // Determine a random position within the left half of the field
-            float randomX = UnityEngine.Random.Range(leftBoundary, midFieldPoint);
-            float randomZ = UnityEngine.Random.Range(-fieldDepth, fieldDepth);
-            Vector3 randomTargetPosition = new Vector3(randomX, transform.position.y, randomZ);
-
-            // If there is a ball owner, bias the random target position toward it
-            if (mc.BP.ballOwner != null)
-            {
-                Vector3 ballOwnerPosition = mc.BP.ballOwner.transform.position;
-
-                // Calculate the bias factor (range: 0 = no bias, 1 = full bias)
-                float biasFactor = 0.35f; // Adjust this value to control how strongly it biases toward the ball owner
-                randomTargetPosition = Vector3.Lerp(randomTargetPosition, new Vector3(ballOwnerPosition.x, transform.position.y, ballOwnerPosition.z), biasFactor);
-                randomTargetPosition = new Vector3(randomTargetPosition.x, transform.position.y, randomTargetPosition.z); // Ignore y
-            }
-
-            // Move toward the random target position
-            while (Vector3.Distance(transform.position, randomTargetPosition) > stoppingDistance)
-            {
-                if (mc.isStunned) yield break;
-
-                // Calculate direction and move toward the target position
-                Vector3 directionToTarget = (randomTargetPosition - transform.position).normalized;
-                Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
-                mc.movementDirection = directionToTargetIgnoreY;
-                rb.velocity = mc.movementDirection * mc.monsterSpeed;
-                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-
-                // Rotate the minotaur to face the direction it's moving
-                Quaternion newRotation = Quaternion.LookRotation(directionToTargetIgnoreY, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
-
-                yield return null;
-            }
-
-            // Prevent mino from moving once it reached its spot
-            mc.movementDirection = Vector3.zero;
-            rb.velocity = Vector3.zero;
-
-            // Pause briefly before picking a new random position
-            yield return new WaitForSeconds(waitInPlaceTime);
-        }
-    }
-
-    private void StartRoaming()
-    {
-        if (isPerformingAbility) return;
-        if (roamCoroutine == null)
-        {
-            Debug.Log("Start roaming");
-            roamCoroutine = StartCoroutine(Roam());
-        }
-    }
-
-    
-
-    private void StartPursuing()
-    {
-        if (isPerformingAbility) return;
-        if (pursueCoroutine == null)
-        {
-            Debug.Log("Start pursuing");
-            pursueCoroutine = StartCoroutine(PursuePlayer());
-        }
-    }
-
-    
-
-    private void StartDefendGoal()
-    {
-        // if (isPerformingAbility) return;
-        if (defendGoalCoroutine == null)
-        {
-            Debug.Log("Start Defend Goal");
-            defendGoalCoroutine = StartCoroutine(DefendGoal());
-        }
-    }
-
-    
-
-    
-    
-
-    
-
-
-
-    IEnumerator SetPickUpBallTrue()
-    {
-        yield return new WaitForSeconds(0.2f);
-        canPickUpBall = true;
-    }
-
-    public bool GetCanPickUpBall()
-    {
-        return canPickUpBall;
-    }
-
-    IEnumerator PursuePlayer()
-    {
-        while (true)
-        {
-            Debug.Log("Pursuing player");
-            yield return new WaitForSeconds(pursueDelay);
-
-            // Ensure the ball owner is valid before pursuing
-            if (mc.BP.ballOwner != null)
-            {
-                Debug.Log("Pursuing player, ball owner is valid");
-                Vector3 targetPosition = mc.BP.ballOwner.transform.position;
-                targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z); // Ignore y
-                float distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
-
-                // Check if the monster is too close; stop if within minimum distance
-                if (distanceToPlayer > minPursueDistance)
-                {
-                    // Calculate target direction
-                    Vector3 targetDirection = (targetPosition - transform.position).normalized;
-                    Vector3 targetDirectionIgnoreY = new Vector3(targetDirection.x, 0, targetDirection.z);
-
-                    // Smoothly update the movement direction using linear interpolation
-                    mc.movementDirection = targetDirectionIgnoreY;
-                    //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-                    //Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
-                }
-                else
-                {
-                    // Stop moving if too close to the player
-                    mc.movementDirection = Vector3.zero;
-                }
-            }
-            else
-            {
-                // If ball owner is null, stop movement
-                mc.movementDirection = Vector3.zero;
-            }
-
-            yield return null; // Continue to next frame
-        }
-    }
-    
-
-    // Defend goal position is in the middle of the ballOwner and the goal
-    private Vector3 GetDefendGoalPosition()
-    {
-        if (mc.BP == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if (mc.BP.ballOwner == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        Vector3 vec = mc.BP.ballOwner.transform.position - monsterGoal.transform.position;
-        Vector3 dir = vec.normalized;
-        float distance = vec.magnitude;
-        Vector3 defendPos = monsterGoal.transform.position + (dir * distance / 2);
-        Vector3 defendPosIgnoreY = new Vector3(defendPos.x, transform.position.y, defendPos.z);
-        // Debug.Log(defendPos);
-        return defendPosIgnoreY;
     }
 
     // WALL METHODS
@@ -983,47 +689,9 @@ public class AiMinotaurController : AiMonsterController
 
     }
 
-    private void ResetAbilities()
-    {
-        // Debug.Log("Reset Abilities");
-        if (isPerformingAbility) isPerformingAbility = false;
-        
-        if (mc.abilities[2] is AbilityBullrush)
-        {
-            AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-            if (abr.GetIsCharging() || abr.GetIsAutoCharging())
-            {
-                abr.SetIsAutoCharging(false);
-                abr.ChargeDown();
-                abr.SetInputBufferTimer(0);
-                abr.SetIsCharging(false);
-                //abr.SetTimer(0);
-            }
-        }
+    
 
-        if (mc.abilities[1] is AbilitySphericalAttack)
-        {
-            AbilitySphericalAttack attack = (AbilitySphericalAttack)mc.abilities[1];
-
-            if (attack.GetIsAutoCharging() || attack.GetIsCharging())
-            {
-                attack.SetIsAutoCharging(false);
-                attack.SetIsCharging(false);
-                attack.SetInputBufferTimer(0);
-                attack.ChargeDown();
-                //attack.SetTimer(0);
-            }
-        }
-    }
-
-    IEnumerator DefendGoal()
-    {
-        yield return new WaitForSeconds(defendGoalDelay);
-        Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
-        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-        defendGoalCoroutine = null;
-    }
+    
 
     private void FixedUpdate()
     {
@@ -1037,18 +705,6 @@ public class AiMinotaurController : AiMonsterController
     {
         // Sets up variable assignments for this gameobject
         Setup();
-    }
-
-    private void EnsureBallOwnerValid()
-    {
-        if (mc == null) GetComponent<MonsterController>();
-
-        if (mc.BP == null)
-        {
-            mc.BP = FindObjectOfType<BallProperties>();
-        }
-
-        if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
     }
 
     // Update is called once per frame
@@ -1089,9 +745,9 @@ public class AiMinotaurController : AiMonsterController
      * 
      * Make ability chances based on math rather than set values
      * 
-     * Fix bug where monster can't pickup ball if he is on top of ball when he kills warrior with ball (Doesn't cue OnTriggerEnter)
+     * Fixed: Fix bug where monster can't pickup ball if he is on top of ball when he kills warrior with ball (Doesn't cue OnTriggerEnter)
      * 
-     * If mino starts charging and picks up ball, he keeps going slow. Charge needs to be charged down
+     * Fixed: If mino starts charging and picks up ball, he keeps going slow. Charge needs to be charged down
      * 
      */
 
