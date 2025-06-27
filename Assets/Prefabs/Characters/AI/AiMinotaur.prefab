@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1718773609196591379, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.25
+      value: -5.2499995
       objectReference: {fileID: 0}
     - target: {fileID: 1718773609196591379, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1718773609196591379, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.29465854
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1718773609196591379, guid: 6d6ebc3e3f1ce1143bd5fe4ace892292, type: 3}
       propertyPath: m_LocalRotation.w
@@ -101,12 +101,12 @@ MonoBehaviour:
   midFieldPoint: 0
   leftBoundary: -6
   fieldDepth: 3
+  attackMinimumCharge: 0.3
+  smoothFactor: 8
   redirectionInterval: 0.25
   wiggleOffset: 1.5
   waitInPlaceTime: 1
-  asaMinimumCharge: 0.3
   pursueDelay: 1
   minPursueDistance: 2
   defendGoalDelay: 1
-  smoothFactor: 8
   redirectionSmoothness: 0.5

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,24 @@ public abstract class AiMonsterController : MonoBehaviour
     [SerializeField] protected float leftBoundary = -4f; // Left boundary for monster roaming purposes
     [SerializeField] protected float fieldDepth = 3f; // field depth for monster roaming purposes
 
+    // Variables Transferred Over From AiMinotaurController
+
+    [SerializeField] protected float attackMinimumCharge = 0.3f;
+    [SerializeField] protected float smoothFactor = 3f; // Controls how smoothly the movement direction adjusts. Try values between 3 - 7 for best results
+
+    // Non-Stats
+    protected Coroutine roamCoroutine;
+    protected Coroutine pursueCoroutine;
+
+    protected enum AttackMode
+    {
+        BallOwner,
+        NearestWarrior
+    }
+
+    // Used to track current Ability Modes
+    protected AttackMode attackMode = AttackMode.BallOwner;
+
     // Not necessarily all of these will use the chargeAmount
     protected abstract void PerformAbility1Chance();
     protected abstract void PerformAbility2Chance();
@@ -48,9 +67,9 @@ public abstract class AiMonsterController : MonoBehaviour
             if (GM.IsPlayingGet() && mc != null && mc.BP != null && mc.BP.isInteractable)
             {
                 // Debug.Log("isPlaying");
-                if (!isPerformingAbility) PerformAbility1Chance();
+                //if (!isPerformingAbility) PerformAbility1Chance();
                 if (!isPerformingAbility) PerformAbility2Chance();
-                if (!isPerformingAbility) PerformAbility3Chance();
+                //if (!isPerformingAbility) PerformAbility3Chance();
                 PerformShootChance();
             } else if (mc != null)
             {
@@ -91,6 +110,318 @@ public abstract class AiMonsterController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         this.isPerformingAbility = isPerformingAbility;
+    }
+
+    // Methods Transferred Over From AiMinotaurController
+
+    // SPEHRICAL ATTACK METHODS
+    //protected IEnumerator SphericalAttackNearestWarrior()
+    //{
+    //    Debug.Log("SphericalAttackNearestWarrior");
+    //    WarriorController nearestWarrior = null;
+    //    try
+    //    {
+    //        nearestWarrior = GetNearestWarrior(transform.position);
+    //    }
+    //    catch
+    //    {
+    //        nearestWarrior = null;
+    //    }
+    //    if (nearestWarrior == null)
+    //    {
+    //        Debug.Log("No warrior close enough to attack");
+    //        isPerformingAbility = false;  // not performing ability so reset bool
+    //        yield break;
+    //    }
+
+    //    StopCoroutines();
+    //    while (isPerformingAbility)
+    //    {
+    //        // If targeted warrior died during ability charge, go to next warrior
+    //        if (nearestWarrior == null)
+    //        {
+    //            Debug.Log("nearestWarrior: " + nearestWarrior);
+    //            nearestWarrior = GetNearestWarrior(transform.position);
+    //        }
+    //        if (nearestWarrior == null)
+    //        {
+    //            Debug.Log("Break");
+    //            break; // If going to next warrior didn't work because there are none, break
+    //        }
+
+    //        SphericalAttackHelper();
+    //        Vector3 dir = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
+    //        // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+    //        mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+    //        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
+
+    //        yield return null;
+    //    }
+
+    //    // In case where break happened, just flush ability stuff by using it
+    //    if (isPerformingAbility)
+    //    {
+    //        Debug.Log("Flush spherical attack");
+    //        //SphericalAttackHelper();
+    //        AbilitySphericalAttack attack = (AbilitySphericalAttack)mc.abilities[1];
+    //        attack.ChargeDown();
+    //        isPerformingAbility = false;
+    //        mc.movementDirection = Vector3.zero;
+    //    }
+
+    //}
+
+    //protected void SphericalAttackHelper()
+    //{
+    //    // Debug.Log("SphericalAttack");
+    //    // Make sure first ability is an AbilityChargable
+    //    if (!(mc.abilities[1] is AbilitySphericalAttack)) return;
+
+    //    AbilitySphericalAttack attack = (AbilitySphericalAttack)mc.abilities[1];
+
+    //    // Check if off cooldown
+    //    if (attack.GetTimer() < attack.GetCooldown()) return;
+
+    //    attack.SetIsCharging(true);
+
+    //    // If input is no longer true, attack
+    //    if (ShouldSphericalAttack(attack) && attack.GetChargeAmount() > attackMinimumCharge)
+    //    {
+    //        // Debug.Log("Activate");
+    //        attack.Activate();
+    //        attack.ANIM.SetBool("isWindingUp", false);
+    //        isPerformingAbility = false;
+    //    }
+    //    else if (attack.GetIsCharging() && attack.GetTimer() >= attack.GetCooldown()) // If it still is true, keep charging
+    //    {
+    //        // Debug.Log("ChargeUp");
+    //        attack.ChargeUp();
+    //    }
+    //    else
+    //    {
+    //        // Debug.Log("ChargeDown");
+    //        attack.ChargeDown();
+    //    }
+    //}
+
+    protected void HandleChargeableAttack(AbilityChargeableAttack ability)
+    {
+        Debug.Log("HandleChargeableAttack");
+        if (ability.GetTimer() < ability.GetCooldown()) return;
+
+        ability.SetIsCharging(true);
+
+        if (ShouldAttack(ability) && ability.GetChargeAmount() > attackMinimumCharge)
+        {
+            Debug.Log("Activate");
+            ability.Activate();
+            ability.ANIM.SetBool("isWindingUp", false);
+            isPerformingAbility = false;
+        }
+        else if (ability.GetIsCharging() && ability.GetTimer() >= ability.GetCooldown())
+        {
+            ability.ChargeUp();
+        }
+        else
+        {
+            ability.ChargeDown();
+        }
+    }
+
+
+    //protected IEnumerator SphericalAttackBallController()
+    //{
+
+    //    // Ensure ball owner is not null
+    //    if (mc.BP == null || mc.BP.ballOwner == null)
+    //    {
+    //        Debug.Log("BP or BP.ballOwner is null - don't attack");
+    //        isPerformingAbility = false;  // not performing ability so reset bool
+    //        yield break;
+    //    }
+    //    // Ensure ballOwner is in range
+    //    if (Vector3.Distance(mc.BP.ballOwner.transform.position, transform.position) > maxProximityRange)
+    //    {
+    //        Debug.Log("Ball owner not close enough to attack");
+    //        isPerformingAbility = false;  // not performing ability so reset bool
+    //        yield break;
+    //    }
+    //    GameObject ballController = mc.BP.ballOwner;
+
+    //    StopCoroutines();
+
+    //    while (isPerformingAbility)
+    //    {
+    //        // If ballOwner died, just retarget to nearest warrior
+    //        if (ballController == null) ballController = GetNearestWarrior(transform.position).gameObject;
+
+    //        SphericalAttackHelper();
+    //        Vector3 dir = (ballController.transform.position - transform.position).normalized;
+    //        //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+    //        mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+    //        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
+    //        yield return null;
+    //    }
+    //}
+
+    protected IEnumerator ChargeableAttackController(Func<Transform, GameObject> targetSelector, AbilityChargeableAttack ability)
+    {
+        Debug.Log("ChargeableAttackController");
+        GameObject target = targetSelector(transform);
+
+        if (target == null)
+        {
+            Debug.Log("No target to attack");
+            isPerformingAbility = false;
+            yield break;
+        }
+
+        StopCoroutines();
+
+        while (isPerformingAbility)
+        {
+            Debug.Log("Target: " + target.name);
+            if (target == null)
+            {
+                target = targetSelector(transform);
+                if (target == null) break;
+            }
+
+            HandleChargeableAttack(ability);
+            Vector3 dir = (target.transform.position - transform.position).normalized;
+            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+
+            yield return null;
+        }
+
+        if (isPerformingAbility)
+        {
+            ability.ChargeDown();
+            isPerformingAbility = false;
+            mc.movementDirection = Vector3.zero;
+        }
+    }
+
+
+    protected bool WarriorIsInAttackSphereRadius(AbilitySphericalAttack attack)
+    {
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + attack.attackVisualOffsetY, transform.position.z);
+        Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attack.attackRange, attack.attackBaseRadius
+            + attack.GetChargeAmount() * attack.chargeRate, attack.affectedLayers);
+
+        foreach (Collider col in colliders)
+        {
+            // Handle collision with each collider
+            // Debug.Log("SphereCast hit " + col.gameObject.name);
+            if (col.gameObject.CompareTag("Warrior"))
+            {
+                Debug.Log("Warrior in attack sphere radius");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //private bool ShouldSphericalAttack(AbilitySphericalAttack attack)
+    //{
+    //    // Should attack either if at full charge, or anytime a warrior is in attack radius
+    //    return attack.GetChargeAmount() >= attack.maxChargeSeconds || WarriorIsInAttackSphereRadius(attack);
+    //}
+
+    private bool ShouldAttack(AbilityChargeableAttack ability)
+    {
+        return ability.GetChargeAmount() >= ability.maxChargeSeconds || ability.IsEnemyInRange(transform);
+    }
+
+
+    //protected void SphericalAttack(AttackMode mode)
+    //{
+    //    if (mode == AttackMode.BallOwner)
+    //    {
+    //        StartCoroutine(SphericalAttackBallController());
+    //    }
+    //    else if (mode == AttackMode.NearestWarrior)
+    //    {
+    //        StartCoroutine(SphericalAttackNearestWarrior());
+    //    }
+    //}
+
+    protected void StartChargeableAttack(AttackMode mode)
+    {
+        Debug.Log("StartChargeableAttack");
+        AbilityChargeableAttack ability = mc.abilities[1] as AbilityChargeableAttack;
+        if (ability == null) return;
+
+        if (mode == AttackMode.BallOwner)
+        {
+            Debug.Log("StartChargeableAttack: AttackMode BallOwner");
+            StartCoroutine(ChargeableAttackController(
+                (Transform t) => mc.BP?.ballOwner != null &&
+                                 Vector3.Distance(mc.BP.ballOwner.transform.position, t.position) <= maxProximityRange
+                                 ? mc.BP.ballOwner
+                                 : null, ability));
+        }
+        else if (mode == AttackMode.NearestWarrior)
+        {
+            Debug.Log("StartChargeableAttack: AttackMode NearestWarrior");
+            StartCoroutine(ChargeableAttackController(
+                (Transform t) =>
+                {
+                    WarriorController nearest = GetNearestWarrior(t.position);
+                    return nearest != null ? nearest.gameObject : null;
+                }, ability));
+        } else
+        {
+            Debug.Log("StartChargeableAttack: ERROR - No AttackMode");
+        }
+    }
+
+
+    // GENERAL METHODS
+
+    protected WarriorController GetNearestWarrior(Vector3 pos)
+    {
+        GameObject nearestWarrior = null;
+        float distToNearestWarrior = maxProximityRange;
+
+        foreach (GameObject warrior in warriors)
+        {
+            float distanceToWarrior = Vector3.Distance(pos, warrior.transform.position);
+            if (distanceToWarrior < distToNearestWarrior)
+            {
+                nearestWarrior = warrior;
+                distToNearestWarrior = distanceToWarrior;
+            }
+        }
+
+        if (nearestWarrior != null && nearestWarrior.GetComponent<WarriorController>().GetIsDead()) Debug.LogWarning("Targeting dead warrior!");
+        return nearestWarrior?.GetComponent<WarriorController>();
+    }
+
+    protected void StopCoroutines()
+    {
+        StopPursuing();
+        StopRoaming();
+    }
+
+    protected void StopPursuing()
+    {
+        if (pursueCoroutine != null)
+        {
+            Debug.Log("Stop pursuing");
+            StopCoroutine(pursueCoroutine);
+            pursueCoroutine = null;
+        }
+    }
+
+    protected void StopRoaming()
+    {
+        if (roamCoroutine != null)
+        {
+            Debug.Log("Stop roaming");
+            StopCoroutine(roamCoroutine);
+            roamCoroutine = null;
+        }
     }
 
     // Start is called before the first frame update

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AbilitySquareAttack : AbilityChargeable
+public class AbilitySquareAttack : AbilityChargeableAttack
 {
     [Header("Attack Stats")]
     public float attackRange = 1f;
@@ -145,6 +146,16 @@ public class AbilitySquareAttack : AbilityChargeable
         WS.damage = projectileDamage;
         WS.speed = projectileSpeed;
     }
+
+    public override bool IsEnemyInRange(Transform attacker)
+    {
+        Vector3 center = attacker.position + attacker.forward * attackRange;
+        Vector3 halfExtents = new Vector3(attackBaseRadius, attackBaseRadius, attackBaseRadius); // adjust based on shape
+        Collider[] colliders = Physics.OverlapBox(center, halfExtents, attacker.rotation, affectedLayers);
+
+        return colliders.Any(c => c.CompareTag("Warrior"));
+    }
+
 
     public override void ResizeAttackVisual()
     {
