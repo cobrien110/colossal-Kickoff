@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class ProfileButton : MonoBehaviour
+public class ProfileButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public PlayerProfileManager PPManager;
     public MenuController MC;
@@ -12,6 +14,8 @@ public class ProfileButton : MonoBehaviour
 
     public TMP_Text label;
     public Button button;
+
+    private bool isSelected = false;
 
     private void Awake()
     {
@@ -35,4 +39,28 @@ public class ProfileButton : MonoBehaviour
     {
         MC.OpenExistingPPMenu(profile);
     }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+
+        isSelected = true;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+
+        isSelected = false;
+    }
+
+    private void Update()
+    {
+
+        if (!isSelected) return;
+        //X button on controller
+        if (Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame)
+        {
+            MC.PromptDeleteProfile(profile);
+        }
+    }
+
 }

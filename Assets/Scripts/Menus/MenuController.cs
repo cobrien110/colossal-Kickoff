@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using Steamworks;
+using System.IO;
 
 public class MenuController : MonoBehaviour
 {
@@ -184,6 +185,13 @@ public class MenuController : MonoBehaviour
     [SerializeField] private int MaxProfiles = 16;
 
     private Coroutine limitMessageCoroutine;
+
+    [Header("Profile Delete UI")]
+    [SerializeField] private GameObject deleteConfirmationScreen;
+    [SerializeField] private GameObject deleteYesButton;
+    [SerializeField] private GameObject deleteNoButton;
+    [SerializeField] private CanvasGroup profileSelectionScreen;
+    private PlayerProfile profileToDelete;
 
     [Header("Player Profile Settings")]
     [SerializeField] private GameObject playerProfileEditor;
@@ -376,6 +384,9 @@ public class MenuController : MonoBehaviour
                         break;
                     case (12): // Player Profile Submenu (bindings, config, etc.)
                         disablePPWindow();
+                        break;
+                    case (13):
+                        CancelDeleteProfile();
                         break;
                     default:
                         break;
@@ -733,6 +744,55 @@ public class MenuController : MonoBehaviour
         //Reset selection to a safe default (e.g. first button in the profile editor)
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(playerProfilesFirstButton);
+    }
+
+    public void PromptDeleteProfile(PlayerProfile profile)
+    {
+        profileToDelete = profile;
+        deleteConfirmationScreen.SetActive(true);
+        currentScreen = 13;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(deleteYesButton);
+
+        PlayMenuClick();
+    }
+
+    public void ConfirmDeleteProfile()
+    {
+        if (profileToDelete != null && File.Exists(profileToDelete.FilePath))
+        {
+            File.Delete(profileToDelete.FilePath);
+            Debug.Log("Deleted profile: " + profileToDelete.Profile_Name);
+        }
+
+        profileToDelete = null;
+
+        deleteConfirmationScreen.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(createNewProfileButton.gameObject);
+        currentScreen = 1;
+        UpdateProfileOptions();
+        PlayMenuClick();
+    }
+
+    public void CancelDeleteProfile()
+    {
+        profileToDelete = null;
+
+        deleteConfirmationScreen.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(createNewProfileButton.gameObject);
+        currentScreen = 1;
+        PlayMenuClick();
+    }
+
+    private void SetCanvasGroupActive(CanvasGroup group, bool active)
+    {
+        group.interactable = active;
+        group.blocksRaycasts = active;
     }
 
     public void moveToStageSelect()
