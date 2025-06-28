@@ -44,8 +44,8 @@ public abstract class AbilityScript : MonoBehaviour
         MC = GetComponent<MonsterController>();
         audioPlayer = GetComponent<AudioPlayer>();
         ANIM = MC.GetAnimator();
-        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-
+        //UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM = FindObjectOfType<UIManager>();
         MUI = GetComponentInChildren<MonsterUI>();
         if (MUI != null) Debug.Log("Dots can be read");
 

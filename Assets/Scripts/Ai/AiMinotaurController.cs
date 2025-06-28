@@ -95,15 +95,6 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    protected override void PerformShootChance()
-    {
-        if (UnityEngine.Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
-        {
-            Debug.Log("PerformShoot");
-            Shoot();
-        }
-    }
-
     /*
      * Decides the overall logic for the AiMonster.
      * Accounts for movement of monster, and chances
@@ -292,10 +283,6 @@ public class AiMinotaurController : AiMonsterController
 
         // Stop roaming if its happening
         StopCoroutines();
-
-        // Debug.Log("MonsterHasBall");
-        // Debug.Log("shootChance: " + shootChance);
-
     }
 
     protected override void BallNotPossessed()
@@ -467,25 +454,6 @@ public class AiMinotaurController : AiMonsterController
             WallBlockGoal();
         }
         isPerformingAbility = false;
-    }
-
-    private bool BallGoingTowardOwnGoal()
-    {
-        GameObject ball = mc.BP.gameObject;
-        if (ball == null) return false;
-
-        Rigidbody ballRB = ball.GetComponent<Rigidbody>();
-        Vector3 ballToGoal = (monsterGoal.transform.position - ball.transform.position).normalized;
-
-        // If ball velocity is higher enough, is within certain distance to own goal, and velocity is toward own goal, return true
-        if (ballRB.velocity.magnitude > 2f && Vector3.Distance(ball.transform.position, monsterGoal.transform.position) < 8f
-            && Vector3.Dot(ballRB.velocity.normalized, ballToGoal) > 0.7f)
-        {
-            // Debug.Log("Ball is going toward monster goal");
-            return true;
-        }
-
-        return false;
     }
 
     private List<GameObject> GetWarriorsToBlock()

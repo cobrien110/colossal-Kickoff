@@ -68,7 +68,14 @@ public abstract class AiMonsterController : MonoBehaviour
     protected abstract void PerformAbility1Chance();
     protected abstract void PerformAbility2Chance();
     protected abstract void PerformAbility3Chance();
-    protected abstract void PerformShootChance();
+    protected void PerformShootChance()
+    {
+        if (UnityEngine.Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
+        {
+            Debug.Log("PerformShoot");
+            Shoot();
+        }
+    }
     protected abstract void MonsterBehaviour();
     protected abstract void BallNotPossessed();
     protected abstract void MonsterHasBall();
@@ -97,12 +104,6 @@ public abstract class AiMonsterController : MonoBehaviour
             
             yield return new WaitForSeconds(performActionChanceFrequency);
         }
-    }
-
-    private void StartPerformActionChances()
-    {
-        Debug.Log("Start PerformActionChances");
-        StartCoroutine(PerformActionChances());
     }
 
     protected void Setup()
@@ -576,6 +577,25 @@ public abstract class AiMonsterController : MonoBehaviour
     public bool GetCanPickUpBall()
     {
         return canPickUpBall;
+    }
+
+    protected bool BallGoingTowardOwnGoal()
+    {
+        GameObject ball = mc.BP.gameObject;
+        if (ball == null) return false;
+
+        Rigidbody ballRB = ball.GetComponent<Rigidbody>();
+        Vector3 ballToGoal = (monsterGoal.transform.position - ball.transform.position).normalized;
+
+        // If ball velocity is higher enough, is within certain distance to own goal, and velocity is toward own goal, return true
+        if (ballRB.velocity.magnitude > 2f && Vector3.Distance(ball.transform.position, monsterGoal.transform.position) < 8f
+            && Vector3.Dot(ballRB.velocity.normalized, ballToGoal) > 0.7f)
+        {
+            // Debug.Log("Ball is going toward monster goal");
+            return true;
+        }
+
+        return false;
     }
 
     #endregion General Methods

@@ -1861,6 +1861,35 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2688482914333936948, guid: 5f820f51e16922e47b9232faaab2fbc5, type: 3}
   m_PrefabInstance: {fileID: 115243206}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &287519606
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 594246345722230943, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+      propertyPath: m_Name
+      value: AiMinotaur
+      objectReference: {fileID: 0}
+    - target: {fileID: 3742949299317217119, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3742949299317217119, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3742949299317217119, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
 --- !u!4 &288413901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5778590384064825116, guid: 28488de8e144c334aba781fc1e503248, type: 3}
@@ -9667,6 +9696,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2688482914333936948, guid: 5f820f51e16922e47b9232faaab2fbc5, type: 3}
   m_PrefabInstance: {fileID: 936151883}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1298222570 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5882805123228267082, guid: 3a605e756ce7b5746b16e1775607d726, type: 3}
+  m_PrefabInstance: {fileID: 8299729398360405385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1305073266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11442,6 +11476,43 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37507bc790762a04da2ed89069ccad85, type: 3}
+--- !u!1001 &1448546606
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_Name
+      value: Warrior
+      objectReference: {fileID: 0}
+    - target: {fileID: 1063518855127335618, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: WarriorSpawner
+      value: 
+      objectReference: {fileID: 1298222570}
+    - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
 --- !u!1001 &1450265423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23012,7 +23083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1424756211342827487, guid: 3a605e756ce7b5746b16e1775607d726, type: 3}
       propertyPath: automaticAISpawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3860763143987501385, guid: 3a605e756ce7b5746b16e1775607d726, type: 3}
       propertyPath: loadBar
@@ -23672,3 +23743,5 @@ SceneRoots:
   - {fileID: 2052538589}
   - {fileID: 8299729398360405385}
   - {fileID: 4251995760836463001}
+  - {fileID: 287519606}
+  - {fileID: 1448546606}

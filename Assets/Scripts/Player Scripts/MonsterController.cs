@@ -160,7 +160,8 @@ public class MonsterController : MonoBehaviour
 
     void Start()
     {
-        UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        //UM = GameObject.Find("Canvas").GetComponent<UIManager>();
+        UM = FindObjectOfType<UIManager>();
         MUI = GetComponentInChildren<MonsterUI>();
         if (this.gameObject.GetComponent<AiMinotaurController>() != null)
         {

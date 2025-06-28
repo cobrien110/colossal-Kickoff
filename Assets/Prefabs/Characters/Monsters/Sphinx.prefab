@@ -1412,6 +1412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  PH: {fileID: 0}
+  invertControls: 0
+  kickMode: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -1422,7 +1425,6 @@ MonoBehaviour:
   monsterSpeed: 2.2
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
-  usingNewScheme: 0
   monsterControls:
     m_Name: Monster Controls
     m_Type: 1
@@ -1441,7 +1443,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   usingKeyboard: 0
-  invertControls: 0
   ballPosition: {fileID: 6245648677962512036}
   passSpeed: 400
   kickSpeed: 475
