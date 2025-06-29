@@ -653,7 +653,7 @@ public class MenuController : MonoBehaviour
 
             // DISCORD LINK
             case 9:
-                string discordInviteURL = "https://discord.gg/GN4nFMNC";
+                string discordInviteURL = "https://discord.gg/yHKMHjEU9k";
                 Application.OpenURL(discordInviteURL);
                 break;
 
