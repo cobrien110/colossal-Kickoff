@@ -132,7 +132,7 @@ public abstract class AiMonsterController : MonoBehaviour
         this.isPerformingAbility = isPerformingAbility;
     }
 
-    // Methods Transferred Over From AiMinotaurController
+    // Methods Transferred Over From AimonstertaurController
 
     #region Basic Attack
     // SPEHRICAL ATTACK METHODS
@@ -550,7 +550,7 @@ public abstract class AiMonsterController : MonoBehaviour
                     new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
             }
 
-            // Make minotaur look at goal
+            // Make monstertaur look at goal
             Quaternion newRotation =
                 Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);
             transform.rotation = newRotation;
@@ -723,14 +723,14 @@ public abstract class AiMonsterController : MonoBehaviour
                 rb.velocity = mc.movementDirection * mc.monsterSpeed;
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
-                // Rotate the minotaur to face the direction it's moving
+                // Rotate the monstertaur to face the direction it's moving
                 Quaternion newRotation = Quaternion.LookRotation(directionToTargetIgnoreY, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
 
                 yield return null;
             }
 
-            // Prevent mino from moving once it reached its spot
+            // Prevent monster from moving once it reached its spot
             mc.movementDirection = Vector3.zero;
             rb.velocity = Vector3.zero;
 

@@ -5,8 +5,22 @@ using UnityEngine.Rendering;
 
 public class AiSphinxController : AiMonsterController
 {
+    private State state = State.BallNotPossessed;
+    private enum State
+    {
+        BallNotPossessed,
+        MonsterHasBall,
+        WarriorHasBall,
+        MummyHasBall
+    }
     protected override void BallNotPossessed()
     {
+        if (state != State.BallNotPossessed)
+        {
+            Debug.Log("BallNotPossessed");
+            state = State.BallNotPossessed;
+        }
+
         // Stop roaming and pursuing if its happening
         StopCoroutines();
 
@@ -22,17 +36,14 @@ public class AiSphinxController : AiMonsterController
             MoveTo(toBall);
         }
 
-        // Set Wall chance and behavior
-        // If ball is going toward own goal at a high enough speed
-        if (BallGoingTowardOwnGoal())
+        // If ball and warrior nearest ball are in monster half
+        if (!IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position).gameObject))
         {
-            ability1Chance = 0.4f;
-            //wallMode = WallMode.BlockGoal;
+            ability1Chance = 0.3f;
         }
         else
         {
-            ability1Chance = 0.3f;
-            //wallMode = WallMode.BlockWarrior; // Try to block warrior from getting to ball
+            ability1Chance = 0.1f;
         }
 
         // Set Spherical attack chance
@@ -46,6 +57,12 @@ public class AiSphinxController : AiMonsterController
 
     protected override void MonsterHasBall()
     {
+        if (state != State.MonsterHasBall)
+        {
+            Debug.Log("WarriorHasBall");
+            state = State.MonsterHasBall;
+        }
+
         // Default behaviour
         if (!isPerformingAbility)
         {
@@ -73,8 +90,8 @@ public class AiSphinxController : AiMonsterController
             ResetAbilities();
         }
 
-        // Monster should not use abilities
-        ability1Chance = 0.0f;
+        // Monster should not use abilities, unless they can be activated while dribbling
+        ability1Chance = 0.1f; // Mummy Explode
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
 
@@ -84,19 +101,24 @@ public class AiSphinxController : AiMonsterController
 
     protected override void WarriorHasBall()
     {
+        if (state != State.WarriorHasBall)
+        {
+            Debug.Log("WarriorHasBall");
+            state = State.WarriorHasBall;
+        }
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
-        // If mino in mino half, warrior with ball in warrior half...
+        // If monster in monster half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
             StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
-            // Set Wall chance and behavior
-            ability1Chance = 0.2f; // Wall
-            //wallMode = WallMode.Offensive;
+            // Set Mummy Explode chance and behavior
+            ability1Chance = 0.1f; // Mummy Explode
 
             // Set Spherical Attack chance and behavior
             ability2Chance = 0.1f; // Spherical Attack
@@ -108,7 +130,7 @@ public class AiSphinxController : AiMonsterController
 
         }
 
-        // If mino and warrior with ball in mino half...
+        // If monster and warrior with ball in monster half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
             StopCoroutines();
@@ -117,12 +139,11 @@ public class AiSphinxController : AiMonsterController
                 // Default behavior
                 StartDefendGoal();
 
-                // Set Wall chance and behavior
-                ability1Chance = 0.1f;
-                //wallMode = WallMode.BlockGoal;
+                // Set Mummy Explode chance and behavior
+                ability1Chance = 0.3f;
 
                 // Set Spherical Attack chance and behavior
-                ability2Chance = 0.1f;
+                ability2Chance = 0.2f;
                 attackMode = AttackMode.BallOwner;
 
                 // Set Dash chance and behavior
@@ -131,10 +152,10 @@ public class AiSphinxController : AiMonsterController
             }
         }
 
-        // If mino and warrior in warrior half...
+        // If monster and warrior in warrior half...
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // Debug.Log("mino and warrior in warrior half");
+            // Debug.Log("monster and warrior in warrior half");
             StopRoaming();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
@@ -143,9 +164,8 @@ public class AiSphinxController : AiMonsterController
                 // Default behavior
                 StartPursuing();
 
-                // Set Wall chance and behavior
-                ability1Chance = 0.1f;
-                //wallMode = WallMode.Offensive;
+                // Set Mummy Explode chance and behavior
+                ability1Chance = 0.1f; // Mummy Explode
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
@@ -157,7 +177,7 @@ public class AiSphinxController : AiMonsterController
             }
         }
 
-        // If mino in warrior half, warrior in mino half...
+        // If monster in warrior half, warrior in monster half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
             StopCoroutines();
@@ -169,9 +189,8 @@ public class AiSphinxController : AiMonsterController
                 mc.movementDirection.y = 0;
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
-                // Set Wall chance and behavior
-                ability1Chance = 0.1f;
-                //wallMode = WallMode.BlockGoal;
+                // Set Mummy Explode chance and behavior
+                ability1Chance = 0.4f; // Mummy Explode
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
@@ -184,6 +203,29 @@ public class AiSphinxController : AiMonsterController
         }
     }
 
+    private void MummyHasBall()
+    {
+        if (state != State.MummyHasBall)
+        {
+            Debug.Log("MummyHasBall");
+            state = State.MummyHasBall;
+        }
+        //StopPursuing();
+        //StopCoroutines();
+        //mc.movementDirection = Vector3.zero;
+
+        ability1Chance = 0.1f; // Mummy Explode
+
+        if (!IsInWarriorHalf(mc.BP.ballOwner))
+        {
+            // Mummy in monster half, position safely
+            StartCoroutine(DefendGoal());
+        } else
+        {
+            // Mummy in warrior half, support mummy attack
+            StartRoaming();
+        }
+    }
     protected override void MonsterBehaviour()
     {
         // If goal was scored, stop movement and behavior
@@ -219,12 +261,19 @@ public class AiSphinxController : AiMonsterController
             // Logic
             WarriorHasBall();
         }
+        // If mummy has ball
+        else if (mc.BP.ballOwner.GetComponent<AIMummy>() != null)
+        {
+            // Logic
+            MummyHasBall();
+        }
         else
         {
             Debug.Log("Error in MonsterBehaviour logic");
         }
     }
 
+    // Mummy Explode
     protected override void PerformAbility1Chance()
     {
         if (mc.abilities[0] == null) return;
@@ -237,10 +286,12 @@ public class AiSphinxController : AiMonsterController
             isPerformingAbility = true;
 
             StopCoroutines();
-            //Wall(wallMode);
+            mc.abilities[0].Activate();
+            isPerformingAbility = false;
         }
     }
 
+    // Spherical Attack
     protected override void PerformAbility2Chance()
     {
         if (mc.abilities[1] == null) return;
@@ -257,8 +308,10 @@ public class AiSphinxController : AiMonsterController
         }
     }
 
+    // Curse
     protected override void PerformAbility3Chance()
     {
+        return;
         if (mc.abilities[2] == null) return;
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
