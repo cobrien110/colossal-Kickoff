@@ -29,6 +29,7 @@ public class PlayerHolder : MonoBehaviour
     public string profileName;
 
     public Color warriorColor;
+    public Color skinColor;
 
     // Which of the three warriors was selected on the Main Menu. Keeping it separate from PlayerNum cause that whole thing is a mess.
     public int warriorPosition = -1;
@@ -38,6 +39,8 @@ public class PlayerHolder : MonoBehaviour
     public InputActionAsset InputMaster;
     public GameObject sceneES;
     public GameObject thisES;
+
+    private WarriorDesc WD = null;
 
     // Start is called before the first frame update
     void Awake()
@@ -196,10 +199,17 @@ public class PlayerHolder : MonoBehaviour
         // Setting Jersey Color
         ColorUtility.TryParseHtmlString(profile.Shirt_Color, out warriorColor);
 
-        WarriorDesc WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
+        WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
         if (WD != null)
         {
             WD.SetColors(warriorColor);
+        }
+
+        // Setting Skin Color
+        ColorUtility.TryParseHtmlString(profile.Skin_Color, out skinColor);
+        if (WD != null)
+        {
+            WD.SetSkinColors(skinColor);
         }
     }
 
@@ -215,13 +225,17 @@ public class PlayerHolder : MonoBehaviour
         // Setting Jersey Color
         warriorColor = Color.red;
 
-        if (thisES.GetComponent<EventSystem>().currentSelectedGameObject != null)
+        // Setting Skin Color
+        skinColor = Color.white;
+
+        if (WD != null)
         {
-            WarriorDesc WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
-            if (WD != null)
-            {
-                WD.SetColors(warriorColor);
-            }
+            WD.SetColors(warriorColor);
+        }
+            
+        if (WD != null)
+        {
+            WD.SetSkinColors(skinColor);
         }
     }
 }

@@ -17,6 +17,10 @@ public class WarriorDesc : MonoBehaviour
     [SerializeField] private float greenValue;
     [SerializeField] private float blueValue;
 
+    [SerializeField] private float skinRedValue;
+    [SerializeField] private float skinGreenValue;
+    [SerializeField] private float skinBlueValue;
+
     [SerializeField] private WarriorCharSelectOption WCSO;
 
     //public int warriorColorIndex;
@@ -73,6 +77,11 @@ public class WarriorDesc : MonoBehaviour
         WCSO.updateColor(redValue, greenValue, blueValue);
     }
 
+    public void UpdateSkinColor()
+    {
+        WCSO.updateSkinColor(skinRedValue, skinGreenValue, skinBlueValue);
+    }
+
     public void SetColors(Color color)
     {
         redValue = color.r;
@@ -81,30 +90,43 @@ public class WarriorDesc : MonoBehaviour
         UpdateColor();
     }
 
+    public void SetSkinColors(Color color)
+    {
+        skinRedValue = color.r;
+        skinGreenValue = color.g;
+        skinBlueValue = color.b;
+        UpdateSkinColor();
+    }
+
     public void ResetColor()
     {
-        //WCSO.updateColor(0.0f, 0.0f, 0.0f);
+        WCSO.updateColor(1.0f, 0.0f, 0.0f);
 
-        switch (playerSlot)
-        {
-            case 1:
-                Debug.Log("RESETING COLORS FOR 1");
-                WCSO.updateColor(1.0f, 0.0f, 0.0f);
-                break;
-            case 2:
-                WCSO.updateColor(0.0f, 1.0f, 0.0f);
-                break;
-            case 3:
-                WCSO.updateColor(0.0f, 0.0f, 1.0f);
-                break;
-            default:
-                WCSO.updateColor(0.0f, 0.0f, 0.0f);
-                break;
-        }
+        //switch (playerSlot)
+        //{
+        //    case 1:
+        //        Debug.Log("RESETING COLORS FOR 1");
+        //        WCSO.updateColor(1.0f, 0.0f, 0.0f);
+        //        break;
+        //    case 2:
+        //        WCSO.updateColor(0.0f, 1.0f, 0.0f);
+        //        break;
+        //    case 3:
+        //        WCSO.updateColor(0.0f, 0.0f, 1.0f);
+        //        break;
+        //    default:
+        //        WCSO.updateColor(0.0f, 0.0f, 0.0f);
+        //        break;
+        //}
     }
 
     public Color getCurrentColor()
     {
         return new Color(redValue, greenValue, blueValue);
+    }
+
+    public Color getCurrentSkinColor()
+    {
+        return new Color(skinRedValue, skinGreenValue, skinBlueValue);
     }
 }
