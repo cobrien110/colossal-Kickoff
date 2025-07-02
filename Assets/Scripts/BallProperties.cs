@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Steamworks;
 
 public class BallProperties : MonoBehaviour
@@ -423,12 +424,17 @@ public class BallProperties : MonoBehaviour
                 else {
                     UM.UpdatePlayerScoredText(12, Color.white);
                 }
+                
                 UM.ShowPlayerScoredText(true);
-
                 ScoreBall(true, other.transform);
-
                 AudioPlayer goalAudio = other.GetComponent<AudioPlayer>();
                 if (!goalAudio.isPlaying()) goalAudio.PlaySoundRandom();
+
+                if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial"))
+                {
+
+                }
+
             }
             else if (GWB != null && !GWB.canBeScoredIn)
             {

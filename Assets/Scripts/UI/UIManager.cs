@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
 {
     //InGameUI
     [SerializeField] private GameObject allInGameUI = null;
+    [SerializeField] private GameObject hideDuringTutorial = null;
+    private bool inTutorial;
 
     //CenterScreenMessages
     [Header("CenterScreenMessages")]
@@ -160,6 +162,12 @@ public class UIManager : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
+        if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial"))
+        {
+            inTutorial = true;
+            hideDuringTutorial.SetActive(false);
+        }
+
         timeRemainingSeconds = GM.gameSeconds;
         warriorBarStartColor = warriorContestFill.color;
         ShowChargeBar(false);
@@ -291,6 +299,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerScoredText(int player, Color color)
     {
+        if (inTutorial)
+        {
+            playerScoredText.text = "PLAYER SCORED";
+            return;
+        }
+
         string hex = ColorUtility.ToHtmlStringRGBA(color);
         Debug.Log("HEX: " + hex);
 
