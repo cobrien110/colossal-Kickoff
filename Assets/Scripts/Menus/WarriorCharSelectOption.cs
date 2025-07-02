@@ -17,6 +17,6 @@ public class WarriorCharSelectOption: MonoBehaviour
 
     public void updateColor(float red, float green, float blue)
     {
-        gameObject.GetComponent<Image>().material.color = new Color(red, green, blue);
+        gameObject.GetComponent<Image>().material.SetColor("ShirtColor", new Color(red, green, blue));
     }
 }

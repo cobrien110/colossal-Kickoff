@@ -26,6 +26,8 @@ public class PlayerHolder : MonoBehaviour
      */
     public int controlScheme;
 
+    public string profileName;
+
     public Color warriorColor;
 
     // Which of the three warriors was selected on the Main Menu. Keeping it separate from PlayerNum cause that whole thing is a mess.
@@ -186,22 +188,40 @@ public class PlayerHolder : MonoBehaviour
     public void LoadProfile(PlayerProfile profile)
     {
         Debug.Log("Loading Profile: " + profile.Profile_Name + ", for PlayerHolder: " + playerID);
+        playerProfile = profile;
 
         // Setting Control Scheme
         controlScheme = profile.Kick_Mode;
 
         // Setting Jersey Color
         ColorUtility.TryParseHtmlString(profile.Shirt_Color, out warriorColor);
+
+        WarriorDesc WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
+        if (WD != null)
+        {
+            WD.SetColors(warriorColor);
+        }
     }
 
     public void DefaultProfile()
     {
+        // Loading Profile
         Debug.Log("Loading Profile: Default, for PlayerHolder: " + playerID);
+        playerProfile = null;
 
         // Setting Control Scheme
         controlScheme = 0;
 
         // Setting Jersey Color
         warriorColor = Color.red;
+
+        if (thisES.GetComponent<EventSystem>().currentSelectedGameObject != null)
+        {
+            WarriorDesc WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
+            if (WD != null)
+            {
+                WD.SetColors(warriorColor);
+            }
+        }
     }
 }

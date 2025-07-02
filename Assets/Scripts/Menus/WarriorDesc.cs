@@ -73,6 +73,14 @@ public class WarriorDesc : MonoBehaviour
         WCSO.updateColor(redValue, greenValue, blueValue);
     }
 
+    public void SetColors(Color color)
+    {
+        redValue = color.r;
+        greenValue = color.g;
+        blueValue = color.b;
+        UpdateColor();
+    }
+
     public void ResetColor()
     {
         //WCSO.updateColor(0.0f, 0.0f, 0.0f);

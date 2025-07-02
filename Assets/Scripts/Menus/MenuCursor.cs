@@ -568,7 +568,7 @@ public class MenuCursor : MonoBehaviour
                             PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
                             PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
                         }
-                        else if (selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
+                        else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
                         {
                             // Coming Up or Down from profiles
                             PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);

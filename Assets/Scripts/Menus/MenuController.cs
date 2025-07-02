@@ -1133,6 +1133,7 @@ public class MenuController : MonoBehaviour
         if (playerSlot == 0)
         { 
             monsterAbilityCanHover = false;
+            monsterDrop.gameObject.SetActive(true);
         }
         
         else
@@ -1149,6 +1150,7 @@ public class MenuController : MonoBehaviour
         if (playerSlot == 0)
         {
             monsterAbilityCanHover = true;
+            monsterDrop.gameObject.SetActive(false);
         }
         
         else
