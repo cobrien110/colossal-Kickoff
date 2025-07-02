@@ -300,8 +300,11 @@ public class MenuCursor : MonoBehaviour
                             }
                         }
 
-                        PH.SetEvents(thisDropdown.gameObject);
-                        
+                        //PH.SetEvents(thisDropdown.gameObject);
+                        PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
+                        PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
+                        selectingProfile = false;
+
                         string profileName = thisDropdown.captionText.text;
 
                         //...if item is "No Profile", set Default options. Otherwise...

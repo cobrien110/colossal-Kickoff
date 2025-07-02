@@ -199,7 +199,23 @@ public class PlayerHolder : MonoBehaviour
         // Setting Jersey Color
         ColorUtility.TryParseHtmlString(profile.Shirt_Color, out warriorColor);
 
-        WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
+        if (warriorPosition == 1)
+        {
+            WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
+        } else if (warriorPosition == 2)
+        {
+            WD = GameObject.Find("Warrior2Color").GetComponent<WarriorDesc>();
+        }
+        else if (warriorPosition == 3)
+        {
+            WD = GameObject.Find("Warrior3Color").GetComponent<WarriorDesc>();
+        }
+        else
+        {
+            WD = null;
+        }
+
+            //WD = thisES.GetComponent<EventSystem>().currentSelectedGameObject.transform.parent.GetComponent<WarriorDesc>();
         if (WD != null)
         {
             WD.SetColors(warriorColor);
