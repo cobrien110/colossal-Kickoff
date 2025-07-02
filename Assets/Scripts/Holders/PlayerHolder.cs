@@ -169,12 +169,6 @@ public class PlayerHolder : MonoBehaviour
         }
     }
 
-    public void SetEvents(WarriorDesc WD)
-    {
-        GetComponentInChildren<MultiplayerEventSystem>().playerRoot = WD.getRedSlider().gameObject.transform.parent.gameObject;
-        GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(WD.getRedSlider().gameObject);
-    }
-
     public void SetEvents(GameObject selectedObject)
     {
         gameObject.GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(selectedObject.gameObject);

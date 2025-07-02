@@ -13,9 +13,6 @@ public class WarriorDesc : MonoBehaviour
     [SerializeField] private MenuController MC;
     [SerializeField] private int playerSlot;
 
-    [SerializeField] private Slider redSlider;
-    [SerializeField] private Slider greenSlider;
-    [SerializeField] private Slider blueSlider;
     [SerializeField] private float redValue;
     [SerializeField] private float greenValue;
     [SerializeField] private float blueValue;
@@ -71,36 +68,6 @@ public class WarriorDesc : MonoBehaviour
     //    }
     //}
 
-    public Slider getRedSlider()
-    {
-        return redSlider;
-    }
-
-    public Slider getGreenSlider()
-    {
-        return greenSlider;
-    }
-
-    public Slider getBlueSlider()
-    {
-        return blueSlider;
-    }
-
-    public void changeRed()
-    {
-        redValue = redSlider.value / 25;
-    }
-
-    public void changeGreen()
-    {
-        greenValue = greenSlider.value / 25;
-    }
-
-    public void changeBlue()
-    {
-        blueValue = blueSlider.value / 25;
-    }
-
     public void UpdateColor()
     {
         WCSO.updateColor(redValue, greenValue, blueValue);
@@ -124,39 +91,6 @@ public class WarriorDesc : MonoBehaviour
                 break;
             default:
                 WCSO.updateColor(0.0f, 0.0f, 0.0f);
-                break;
-        }
-        ResetSliders();
-    }
-
-    public void ResetSliders()
-    {
-        //redSlider.value = 0;
-        //greenSlider.value = 0;
-        //blueSlider.value = 0;
-
-        switch (playerSlot)
-        {
-            case 1:
-                Debug.Log("RESETING SLIDERS FOR 1");
-                redSlider.value = 25;
-                greenSlider.value = 0;
-                blueSlider.value = 0;
-                break;
-            case 2:
-                redSlider.value = 0;
-                greenSlider.value = 25;
-                blueSlider.value = 0;
-                break;
-            case 3:
-                redSlider.value = 0;
-                greenSlider.value = 0;
-                blueSlider.value = 25;
-                break;
-            default:
-                redSlider.value = 0;
-                greenSlider.value = 0;
-                blueSlider.value = 0;
                 break;
         }
     }

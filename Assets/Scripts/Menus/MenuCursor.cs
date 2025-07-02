@@ -197,11 +197,6 @@ public class MenuCursor : MonoBehaviour
             Debug.Log("Player Selected: 3");
             thisDropdown = MC.warriorDrop3;
         }
-
-        if (playerSlot != 0)
-        {
-            PH.SetEvents(WD);
-        }
     }
 
     public void StartHovering(string item, int ID)
@@ -604,6 +599,23 @@ public class MenuCursor : MonoBehaviour
                             abilityBlurb.unselectBlurbs();
                             MN.selectName();
                         }**/
+                    }
+                    else
+                    {
+                        if (!selectingProfile)
+                        {
+                            selectingProfile = true;
+
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
+                        }
+                        else
+                        {
+                            // Coming Up or Down from profiles
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
+                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
+                            selectingProfile = false;
+                        }
                     }
                 }
             }   
