@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class TutorialUIHelper : MonoBehaviour
 {
     [SerializeField] private TMP_Text[] objText;
+
+    //Fade to black setup
+    [SerializeField] private Image fadeToBlack;
+    private float startAlpha = 0f;
+    private float endAlpha = .7f;
+    private Color fadeCol = new Color(0, 0, 0);
+    private bool fadeStart = false;
+    private bool fadeEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +28,7 @@ public class TutorialUIHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (fadeStart) FadeToBlack();
     }
 
     public void SetActiveObjective(int obj)
@@ -42,4 +50,38 @@ public class TutorialUIHelper : MonoBehaviour
             }
         }
     }
+
+    public void FadeToBlack()
+    {
+        startAlpha = Mathf.MoveTowards(startAlpha, endAlpha, Time.deltaTime);
+        fadeCol.a = startAlpha;
+        fadeToBlack.color = fadeCol;
+
+        if (startAlpha >= endAlpha)
+        {
+            startAlpha = endAlpha;
+            Time.timeScale = 0f;
+            fadeStart = false;
+            fadeEnd = true;
+        }
+    }
+
+    public void FadeStart(bool input)
+    {
+        fadeStart = input;
+    }
+
+    public void ResumeGame()
+    {
+        fadeCol.a = 0f;
+        fadeToBlack.color = fadeCol;
+        fadeEnd = false;
+    }
+
+    public bool GetFadeEnd()
+    {
+        return fadeEnd;
+    }
+
+
 }

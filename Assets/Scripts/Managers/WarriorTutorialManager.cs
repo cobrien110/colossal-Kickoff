@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class WarriorTutorialManager : MonoBehaviour
@@ -37,6 +38,13 @@ public class WarriorTutorialManager : MonoBehaviour
         }
 
         if (!endTutorial) CurrentObjective();
+
+        Gamepad gamepad = Gamepad.current;
+        if (gamepad.startButton.wasPressedThisFrame && TUI.GetFadeEnd())
+        {
+            Time.timeScale = 1.0f;
+            TUI.ResumeGame();
+        }
     }
 
     public void Initiate()
@@ -86,6 +94,7 @@ public class WarriorTutorialManager : MonoBehaviour
             { 
                 currentObj++;
                 TUI.SetActiveObjective(currentObj);
+                TUI.FadeStart(true);
             }
         }
 
