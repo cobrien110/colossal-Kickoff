@@ -113,6 +113,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite humanSpriteDead = null;
     [SerializeField] private Sprite robotSpriteAlive = null;
     [SerializeField] private Sprite robotSpriteDead = null;
+
+    [SerializeField] private Shader playerShader = null;
     //I might change how this looks to just change the image component and color instead of having different objects (I will at some point)
 
     [SerializeField] private Image monsterAbility1Icon = null;
@@ -1060,13 +1062,13 @@ public class UIManager : MonoBehaviour
 
         icon.sprite = aliveSprite;
         dead.sprite = deadSprite;
-
-        Material iconMat = new Material(icon.material);
-        iconMat.color = playerColor;
+        
+        Material iconMat = new Material(playerShader);
+        iconMat.SetColor("_ShirtColor", playerColor);
         icon.material = iconMat;
 
-        Material deadMat = new Material(dead.material);
-        deadMat.color = playerColor;
+        Material deadMat = new Material(playerShader);
+        deadMat.SetColor("_ShirtColor", playerColor);
         dead.material = deadMat;
     }
 
