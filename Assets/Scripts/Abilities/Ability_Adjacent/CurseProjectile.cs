@@ -10,10 +10,16 @@ public class CurseProjectile : MonoBehaviour
     //public int index = 0;
     //public float spreadVert = 15f;
     private Rigidbody rb;
+    private Vector3 dir; // Added this to fix issue I was having with inaccurate direction of projecetile with ai sphinx
 
     //List<WarriorController> hitPlayers = new List<WarriorController>();
 
     //bool hasCollided = false;
+
+    private void Awake()
+    {
+        dir = transform.forward;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +29,7 @@ public class CurseProjectile : MonoBehaviour
         //transform.Rotate(0f, hSpread, 0f);
         rb = GetComponent<Rigidbody>();
 
-        rb.AddForce(transform.forward * speed);
+        rb.AddForce(dir * speed);
     }
 
     // Update is called once per frame

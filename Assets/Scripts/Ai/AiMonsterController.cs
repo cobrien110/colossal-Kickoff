@@ -83,6 +83,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
     protected bool IsInWarriorHalf(GameObject gameObject)
     {
+        if (gameObject == null) return false;
         return gameObject.transform.position.x > midFieldPoint;
     }
 
@@ -408,6 +409,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
         foreach (GameObject warrior in warriors)
         {
+            if (!warrior.activeSelf) continue;
             float distanceToWarrior = Vector3.Distance(pos, warrior.transform.position);
             if (distanceToWarrior < distToNearestWarrior)
             {
@@ -424,6 +426,7 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         StopPursuing();
         StopRoaming();
+        StopDefendGoal();
     }
 
     protected void StopPursuing()
@@ -443,6 +446,16 @@ public abstract class AiMonsterController : MonoBehaviour
             Debug.Log("Stop roaming");
             StopCoroutine(roamCoroutine);
             roamCoroutine = null;
+        }
+    }
+
+    protected void StopDefendGoal()
+    {
+        if (defendGoalCoroutine != null)
+        {
+            Debug.Log("Stop defending goal");
+            StopCoroutine(defendGoalCoroutine);
+            defendGoalCoroutine = null;
         }
     }
 
@@ -598,6 +611,13 @@ public abstract class AiMonsterController : MonoBehaviour
         return false;
     }
 
+    protected void LookInDirection(Vector3 dir)
+    {
+        Debug.Log("LookInDirection: " + dir);
+        Quaternion newRotation = Quaternion.LookRotation(dir, Vector3.up);
+        transform.rotation = newRotation;
+    }
+
     #endregion General Methods
 
     #region Default Behavior Methods
@@ -751,6 +771,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
     protected void WiggleTowardGoal()
     {
+        if (isPerformingAbility) return;
         // Debug.Log("WiggleTowardGoal");
         Vector3 goalPosition = warriorGoal.transform.position;
 

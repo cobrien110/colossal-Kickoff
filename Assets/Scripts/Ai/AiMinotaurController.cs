@@ -276,8 +276,8 @@ public class AiMinotaurController : AiMonsterController
             ResetAbilities();
         }
 
-        // Monster should not use abilities
-        ability1Chance = 0.0f;
+        // Monster should not use abilities, except wall
+        ability1Chance = 0.1f; // Wall
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
 
@@ -348,7 +348,8 @@ public class AiMinotaurController : AiMonsterController
 
         // Look toward ball
         Vector3 dir = (ball.transform.position - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        LookInDirection(dir);
         //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall
@@ -403,7 +404,8 @@ public class AiMinotaurController : AiMonsterController
                 // Wall would be between warrior and ball, thus blocking warrior
 
                 // Look toward warrior
-                mc.movementDirection = toWarriorIgnoreY;
+                //mc.movementDirection = toWarriorIgnoreY;
+                LookInDirection(toWarriorIgnoreY);
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
                 // Summon wall
@@ -433,7 +435,8 @@ public class AiMinotaurController : AiMonsterController
 
         // Look toward own goal
         Vector3 dir = (monsterGoal.transform.position - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        LookInDirection(new Vector3(dir.x, 0, dir.z));
         //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall

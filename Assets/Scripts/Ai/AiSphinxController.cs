@@ -36,8 +36,23 @@ public class AiSphinxController : AiMonsterController
             MoveTo(toBall);
         }
 
+
+        if (mc == null)
+        {
+            Debug.Log("mc: " + mc);
+        } else if (mc.BP == null)
+        {
+            Debug.Log("mc.BP: " + mc.BP);
+        } else if (mc.BP.gameObject == null)
+        {
+            Debug.Log("mc.BP.gameObject: " + mc.BP.gameObject);
+        } else if (mc.BP.gameObject.transform.position == null)
+        {
+            Debug.Log("mc.BP.gameObject.transform.position: " + mc.BP.gameObject.transform.position);
+        }
         // If ball and warrior nearest ball are in monster half
-        if (!IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position).gameObject))
+        if (mc != null && mc.BP != null &&
+            !IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position)?.gameObject))
         {
             ability1Chance = 0.3f;
         }
@@ -50,9 +65,8 @@ public class AiSphinxController : AiMonsterController
         ability2Chance = 0.1f;
         attackMode = AttackMode.NearestWarrior;
 
-        // Set Dash chance and behavior
+        // Set Curse chance and behavior
         ability3Chance = 0.1f;
-        //dashMode = DashMode.Ball; // Dash at ball
     }
 
     protected override void MonsterHasBall()
@@ -124,10 +138,8 @@ public class AiSphinxController : AiMonsterController
             ability2Chance = 0.1f; // Spherical Attack
             attackMode = AttackMode.NearestWarrior; // Target nearest warrior because you don't want to overextend to get ball owner
 
-            // Set Dash chance and behavior
-            ability3Chance = 0.1f; // Dash
-            //dashMode = DashMode.Nearest; // Don't want to overextend so target nearest
-
+            // Set Curse chance and behavior
+            ability3Chance = 0.1f; // Curse
         }
 
         // If monster and warrior with ball in monster half...
@@ -215,11 +227,13 @@ public class AiSphinxController : AiMonsterController
         //mc.movementDirection = Vector3.zero;
 
         ability1Chance = 0.1f; // Mummy Explode
+        ability2Chance = 0.1f; // Spherical Attack
+        ability3Chance = 0.1f; // Curse
 
         if (!IsInWarriorHalf(mc.BP.ballOwner))
         {
             // Mummy in monster half, position safely
-            StartCoroutine(DefendGoal());
+            StartDefendGoal();
         } else
         {
             // Mummy in warrior half, support mummy attack
@@ -311,19 +325,33 @@ public class AiSphinxController : AiMonsterController
     // Curse
     protected override void PerformAbility3Chance()
     {
-        return;
         if (mc.abilities[2] == null) return;
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
 
-        if (UnityEngine.Random.value < ability3Chance)
+        if (UnityEngine.Random.value < ability3Chance || true)
         {
             Debug.Log("PerformAbility3");
             isPerformingAbility = true;
 
             StopCoroutines();
-            //Dash(dashMode);
+            Curse();
+            isPerformingAbility = false;
         }
+    }
+
+    private void Curse()
+    {
+        // Look toward nearest warrior
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
+        if (nearestWarrior == null) return;
+        Vector3 nearestWarriorPos = nearestWarrior.transform.position;
+        Vector3 dir = (nearestWarriorPos - transform.position).normalized;
+
+        LookInDirection(dir);
+
+        // Activate curse
+        mc.abilities[2].Activate();
     }
 
 
