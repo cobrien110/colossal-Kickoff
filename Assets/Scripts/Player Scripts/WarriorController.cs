@@ -253,7 +253,7 @@ public class WarriorController : MonoBehaviour
             //if (superKicking && isCharging && GM.passMeter == GM.passMeterMax)
             if (superKicking && isCharging && BP.canFullSuperKick)
             {
-                Debug.Log("Should start glowing");
+                //Debug.Log("Should start glowing");
                 float glowAmount = kickCharge - 1.0f;
                 BP.StartBallGlow(glowAmount);
                 if (kickCharge >= maxCharge && shouldShake2)

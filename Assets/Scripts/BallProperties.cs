@@ -58,6 +58,7 @@ public class BallProperties : MonoBehaviour
 
     // WarriorTutorialManager
     private GameObject WTM = null;
+    public bool isResettingBall = false;
 
     // Start is called before the first frame update
     void Start()
@@ -151,6 +152,8 @@ public class BallProperties : MonoBehaviour
 
     private void Update()
     {
+
+        //Debug.Log(ballOwner);
         /*
         if (isFullSuperKick && GM.passIndicator && passTimer <= passTimeFrame)
         {
@@ -733,6 +736,7 @@ public class BallProperties : MonoBehaviour
         //SR = GetComponentInChildren<SpriteRenderer>();
         if (SR != null) SR.enabled = false;
         Invoke("DestroyDelay", 3.05f);
+        isResettingBall = true;
 
         //GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         GM.Reset();
@@ -773,6 +777,7 @@ public class BallProperties : MonoBehaviour
     private void DestroyDelay()
     {
         Destroy(this.gameObject);
+        isResettingBall = false;
     }
 
     public void SetOwner(GameObject player)
@@ -787,9 +792,9 @@ public class BallProperties : MonoBehaviour
         }
     }
 
-    private GameObject GetOwner()
+    public GameObject GetOwner()
     {
-        return playerTest;
+        return ballOwner;
     }
 
     private void LockHeight()

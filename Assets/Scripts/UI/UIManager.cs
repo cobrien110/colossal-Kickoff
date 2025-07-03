@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     [Header("CenterScreenMessages")]
     //[SerializeField] private TMP_Text countdown = null;
     [SerializeField] private Countdown countdown;
+    public bool isCountdownPlaying = false;
     [SerializeField] private TMP_Text gameoverText = null;
     [SerializeField] private TMP_Text playerScoredText = null;
     [SerializeField] private GameObject pauseScreen = null;
@@ -260,9 +261,11 @@ public class UIManager : MonoBehaviour
     public IEnumerator Countdown()
     {
         countdown.Reset();
+        isCountdownPlaying = true;
         countdown.gameObject.SetActive(true);
         countdown.Play();
         yield return new WaitForSeconds(3.5f);
+        isCountdownPlaying = false;
         countdown.gameObject.SetActive(false);
     }
 

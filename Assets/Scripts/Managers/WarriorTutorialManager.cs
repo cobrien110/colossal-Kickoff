@@ -8,6 +8,7 @@ public class WarriorTutorialManager : MonoBehaviour
 {
     bool initialized = false;
     private int currentObj = 1;
+    private int currentSubset = 0;
 
     //Objective Flags
     private bool endTutorial = false;
@@ -42,8 +43,16 @@ public class WarriorTutorialManager : MonoBehaviour
         Gamepad gamepad = Gamepad.current;
         if (gamepad.startButton.wasPressedThisFrame && TUI.GetFadeEnd())
         {
-            Time.timeScale = 1.0f;
-            TUI.ResumeGame();
+            if (!endTutorial)
+            {
+                Time.timeScale = 1.0f;
+                TUI.ShowSubset(currentSubset);
+                TUI.ResumeGame();
+            }
+            else
+            {
+                GM.MenuReturn();
+            }
         }
     }
 
@@ -67,8 +76,8 @@ public class WarriorTutorialManager : MonoBehaviour
         //Run
         if (currentObj == 1)
         {
-            Debug.Log("ON OBJECTIVE #1");
-            if (WC.movementDirection != Vector3.zero)
+            //Debug.Log("ON OBJECTIVE #1");
+            if (WC.movementDirection != Vector3.zero && GM.isPlaying)
             {
                 currentObj++;
                 TUI.SetActiveObjective(currentObj);
@@ -78,7 +87,7 @@ public class WarriorTutorialManager : MonoBehaviour
         //Grab the ball
         if (currentObj == 2)
         {
-            Debug.Log("ON OBJECTIVE #2");
+            //Debug.Log("ON OBJECTIVE #2");
             if (Ball.ballOwner != null)
             {
                 currentObj++;
@@ -89,19 +98,23 @@ public class WarriorTutorialManager : MonoBehaviour
         //Kick the ball
         if (currentObj == 3)
         {
-            Debug.Log("ON OBJECTIVE #3");
+            //Debug.Log(Ball.ballOwner);
+            //Debug.Log("ON OBJECTIVE #3");
             if (Ball.lastKicker != null)
             { 
                 currentObj++;
                 TUI.SetActiveObjective(currentObj);
-                TUI.FadeStart(true);
+
+                currentSubset++;
+                //TUI.UpdateSupsetHolder();
+                TUI.FadeStart();
             }
         }
 
         //Score a goal
         if (currentObj == 4)
         {
-            Debug.Log("ON OBJECTIVE #4");
+            //Debug.Log("ON OBJECTIVE #4");
             goalsScored = ST.GetWGoals(1) + ST.GetMGoals();
             //Debug.Log("Current Goals" + (goalsScored1));
 
@@ -109,14 +122,55 @@ public class WarriorTutorialManager : MonoBehaviour
             {
                 currentObj++;
                 TUI.SetActiveObjective(currentObj);
+
+                currentSubset++;
+                //TUI.UpdateSupsetHolder();
+                TUI.DelayedFade();
             }
         }
 
+        if (currentObj == 5)
+        {
+            if (WC.isSliding == true && !Ball.isResettingBall)
+            {
+                currentObj++;
+                TUI.SetActiveObjective(currentObj);
+                GM.passMeter = GM.passMeterMax;
+            }
+        }
+
+        if (currentObj == 6)
+        {
+            //Debug.Log(Ball.ballOwner);
+            if (WC.superKicking == true)
+            {
+                currentObj++;
+                TUI.SetActiveObjective(currentObj);
+                //TUI.UpdateSupsetHolder();
+            }
+        }
+
+        //ball owner refs differ from this script to bp script?
+        //bp is correct but this script says 'Null' capital N
+
+        //if (currentObj == 7)
+        //{
+        //    Debug.Log("WAITING TO SUPER KICK");
+        //    Debug.Log(Ball.ballOwner);
+        //    if (Ball.lastKicker != null)
+        //    {
+        //        currentObj++;
+        //    }
+        //}
+
         //End Tutorial
-        if (currentObj == 5 && !endTutorial)
+        if (currentObj == 7 && !endTutorial)
         {
             Debug.Log("END");
             endTutorial = true;
+
+            //Run Ending Sequence
+            TUI.DelayedFade();
         }
     }
 }
