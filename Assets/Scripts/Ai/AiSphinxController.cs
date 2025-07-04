@@ -228,6 +228,13 @@ public class AiSphinxController : AiMonsterController
     }
     protected override void MonsterBehaviour()
     {
+        if (mc.isStunned)
+        {
+            mc.movementDirection = Vector3.zero;
+            mc.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            return;
+        }
+
         // If goal was scored, stop movement and behavior
         if (mc != null && mc.BP != null && !mc.BP.isInteractable)
         {
