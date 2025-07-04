@@ -36,20 +36,6 @@ public class AiSphinxController : AiMonsterController
             MoveTo(toBall);
         }
 
-
-        if (mc == null)
-        {
-            Debug.Log("mc: " + mc);
-        } else if (mc.BP == null)
-        {
-            Debug.Log("mc.BP: " + mc.BP);
-        } else if (mc.BP.gameObject == null)
-        {
-            Debug.Log("mc.BP.gameObject: " + mc.BP.gameObject);
-        } else if (mc.BP.gameObject.transform.position == null)
-        {
-            Debug.Log("mc.BP.gameObject.transform.position: " + mc.BP.gameObject.transform.position);
-        }
         // If ball and warrior nearest ball are in monster half
         if (mc != null && mc.BP != null &&
             !IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position)?.gameObject))
@@ -329,7 +315,7 @@ public class AiSphinxController : AiMonsterController
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
 
-        if (UnityEngine.Random.value < ability3Chance || true)
+        if (UnityEngine.Random.value < ability3Chance)
         {
             Debug.Log("PerformAbility3");
             isPerformingAbility = true;
@@ -345,8 +331,9 @@ public class AiSphinxController : AiMonsterController
         // Look toward nearest warrior
         WarriorController nearestWarrior = GetNearestWarrior(transform.position);
         if (nearestWarrior == null) return;
-        Vector3 nearestWarriorPos = nearestWarrior.transform.position;
-        Vector3 dir = (nearestWarriorPos - transform.position).normalized;
+        Vector3 targetPos = nearestWarrior.GetAnticipatedPosition(0.5f);
+        //Vector3 nearestWarriorPos = nearestWarrior.transform.position;
+        Vector3 dir = (targetPos - transform.position).normalized;
 
         LookInDirection(dir);
 
