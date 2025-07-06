@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SoulOrb : MonoBehaviour
 {
+    public int maxOrbs = 10;
     public int damage = 1;
     public float sizeScaler = 0.05f;
     private Vector3 baseScale;
@@ -32,6 +33,13 @@ public class SoulOrb : MonoBehaviour
         Invoke("SetLaunchable", timeBeforeCanBeLaunched);
         MR = innerOrb.GetComponent<MeshRenderer>();
         //SR = innerOrb.GetComponentInChildren<SpriteRenderer>();
+
+        SoulOrb[] orbs = GameObject.FindObjectsByType<SoulOrb>(FindObjectsSortMode.InstanceID);
+
+        if (orbs.Length > maxOrbs)
+        {
+            Destroy(orbs[0]);
+        }
     }
 
     // Update is called once per frame

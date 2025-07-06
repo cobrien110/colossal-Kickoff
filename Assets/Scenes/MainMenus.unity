@@ -3827,6 +3827,9 @@ MonoBehaviour:
   redValue: 0
   greenValue: 0
   blueValue: 0
+  skinRedValue: 0
+  skinGreenValue: 0
+  skinBlueValue: 0
   WCSO: {fileID: 1400965416}
 --- !u!114 &150872588
 MonoBehaviour:
@@ -8009,7 +8012,7 @@ MonoBehaviour:
   deleteConfirmationScreen: {fileID: 356523675}
   deleteYesButton: {fileID: 572567769}
   deleteNoButton: {fileID: 72756542}
-  profileSelectionScreen: {fileID: 1092031899}
+  profileSelectionScreen: {fileID: 1092031901}
   playerProfileEditor: {fileID: 8370120882327658938}
   bindingsMenu: {fileID: 3668406342477991891}
   configMenu: {fileID: 6711308879959039163}
@@ -26154,6 +26157,9 @@ MonoBehaviour:
   redValue: 0
   greenValue: 0
   blueValue: 0
+  skinRedValue: 0
+  skinGreenValue: 0
+  skinBlueValue: 0
   WCSO: {fileID: 459076904}
 --- !u!114 &1003768157
 MonoBehaviour:
@@ -37048,6 +37054,9 @@ MonoBehaviour:
   redValue: 0
   greenValue: 0
   blueValue: 0
+  skinRedValue: 0
+  skinGreenValue: 0
+  skinBlueValue: 0
   WCSO: {fileID: 600327715}
 --- !u!1 &1425451918
 GameObject:
@@ -47570,13 +47579,13 @@ MonoBehaviour:
   - Molten Ichor. Bull Rush a Wall or become stunned to activate this power! Your
     speed and shrapnel output will increase greatly!
   akhlutAbilityBlurbs:
-  - Howl. Charge up, then howl to stun Warriors and stop the ball! Crystals copy
-    the sound.
+  - Howl. Charge up, then howl to stun Warriors and stop the ball! Also shatters
+    crystals.
   - Crunch. A biting attack. Hold the button to charge and increase its range.
   - Dive. Dive under the ground for fast movement, then emerge with another tap of
     the button.
-  - Winter's Wrath. Charges while diving. When it's full, you'll summon an icy crystal
-    when you emerge, and your attacks will have greater range.
+  - Bloodsense. Charges while diving. When it's full, you'll summon an icy crystal
+    when you emerge, crunch gains range, and you'll move faster towards hurt warriors.
   gashaAbilityBlurbs:
   - Fire Breath. Breath fire in a line across the whole arena. The fire stays burning
     on the field for a short time!
