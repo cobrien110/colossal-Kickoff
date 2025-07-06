@@ -889,7 +889,7 @@ public class MonsterController : MonoBehaviour
             rightStickInput.z = -rightStickInput.z;
         }
 
-        if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
+        if (rightStickInput.magnitude > kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
 
@@ -898,7 +898,7 @@ public class MonsterController : MonoBehaviour
                 isKickCharging = true;
             }
         }
-        else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
+        else if (kickMode == 0 && rightStickInput.magnitude <= kickingSensitivity && !usingKeyboard)
         {
             isKickCharging = false;
         }

@@ -1030,7 +1030,7 @@ public class WarriorController : MonoBehaviour
             rightStickInput.z = -rightStickInput.z;
         }
 
-        if (rightStickInput.magnitude >= kickingSensitivity && !usingKeyboard)
+        if (rightStickInput.magnitude > kickingSensitivity && !usingKeyboard)
         {
             aimingDirection = rightStickInput.normalized;
 
@@ -1041,7 +1041,7 @@ public class WarriorController : MonoBehaviour
             //Debug.Log("AIMING DIR " + aimingDirection);
             //Debug.Log("RIGHT STICK MAG " + rightStickInput.magnitude);
         }
-        else if (kickMode == 0 && rightStickInput.magnitude < kickingSensitivity && !usingKeyboard)
+        else if (kickMode == 0 && rightStickInput.magnitude <= kickingSensitivity && !usingKeyboard)
         {
             isKickCharging = false;
         }
