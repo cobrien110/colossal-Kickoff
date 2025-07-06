@@ -14,7 +14,7 @@ public class TutorialUIHelper : MonoBehaviour
     {
         "Welcome to Colossal Kickoff!\n\nHere, you will be learning how to play as a warrior. We will begin with basic movement and kicking.",
         "Great job!\n\nNext, kick the ball towards the goals to score. When playing, the team with the most points wins!  Goals will also have barriers, which need to be hit by the ball a few times to break down. Give it a try!",
-        "The warriors have a few ways to fight back against the monsters. Each warrior can slide to steal and ball and dodge incoming attacks.\n\nWarriors can also pass to each other to charge their SUPER KICK METER, which allows you kick with much more power. This powerful kick stuns monsters and breaks down goal barriers with ease!\n\nYou can also press (A) while your teammate is dribbling to call for a pass.",
+        "The warriors have a few ways to fight back against the monsters. Each warrior can slide to steal the ball and dodge incoming attacks.\n\nWarriors can also pass to each other to charge their SUPER KICK METER, which allows you kick with much more power. This powerful kick stuns monsters and breaks down goal barriers with ease!\n\nYou can also press (A) while your teammate is dribbling to call for a pass.",
         "Congratulations!\n\nYou are now ready to take on the monsters. See you on the pitch!"
     };
     private int mainMessageIndex = 0;
