@@ -40,7 +40,7 @@ public class PlayerHolder : MonoBehaviour
     public GameObject sceneES;
     public GameObject thisES;
 
-    private WarriorDesc WD = null;
+    public WarriorDesc WD = null;
 
     // Start is called before the first frame update
     void Awake()
@@ -76,7 +76,7 @@ public class PlayerHolder : MonoBehaviour
             thisGamepad = Gamepad.all[0];
             gamepadName = thisGamepad.name;
             teamName = "Warrior";
-            GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
+            GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor, skinColor);
         }
         else
         {
@@ -91,7 +91,7 @@ public class PlayerHolder : MonoBehaviour
             } else
             {
                 teamName = "Warrior";
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor, skinColor);
 
             }
         }
@@ -147,7 +147,7 @@ public class PlayerHolder : MonoBehaviour
             }
             else
             {
-                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor);
+                GameObject.Find("WarriorHolder").GetComponent<WarriorHolder>().spawnWarrior(playerID, warriorPosition, thisGamepad, warriorColor, skinColor);
 
             }
         }
@@ -236,7 +236,7 @@ public class PlayerHolder : MonoBehaviour
         playerProfile = null;
 
         // Setting Control Scheme
-        controlScheme = 0;
+        controlScheme = 1;
 
         // Setting Jersey Color
         warriorColor = Color.red;

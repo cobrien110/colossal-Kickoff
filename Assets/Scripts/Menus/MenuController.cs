@@ -467,8 +467,12 @@ public class MenuController : MonoBehaviour
         for (int i = 0; i < cursors.Length; i++)
             {
                 string currentPlayer = "Player" + i;
-                MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
-                PlayerPrefs.SetInt(currentPlayer, currentCursor.playerSlot);
+                if (cursors[i].GetComponent<MenuCursor>() != null)
+                {
+                    MenuCursor currentCursor = cursors[i].GetComponent<MenuCursor>();
+                    PlayerPrefs.SetInt(currentPlayer, currentCursor.playerSlot);
+                }
+                
             }
             switch (targetScene) {
                 case 0:

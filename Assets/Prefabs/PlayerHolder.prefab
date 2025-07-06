@@ -276,8 +276,30 @@ MonoBehaviour:
   teamName: 
   monsterIndex: 0
   gamepadName: 
-  controlScheme: 0
-  warriorColor: {r: 0, g: 0, b: 0, a: 0}
+  playerProfile:
+    Profile_Name: Default
+    Shirt_Color: '#FF0000'
+    Skin_Color: '#FABBA7'
+    Deadzone: 0.3
+    Kick_Mode: 1
+    Pause: selectButton
+    Move: leftStick
+    Aim: rightStick
+    Kick: rightTrigger
+    Super_Kick: bButton
+    Call_For_Pass: aButton
+    Dodge: rightShoulder
+    Attack: rightTrigger
+    Ability_1: leftTrigger
+    Ability_2: leftShoulder
+    Taunt_1: dpad.up
+    Taunt_2: dpad.right
+    Taunt_3: dpad.down
+    Taunt_4: dpad.left
+  controlScheme: 1
+  profileName: 
+  warriorColor: {r: 1, g: 0, b: 0, a: 0}
+  skinColor: {r: 1, g: 1, b: 1, a: 0}
   warriorPosition: -1
   gameplaySceneName: 
   InputMaster: {fileID: -944628639613478452, guid: 5532d40cda199504296a9fb20ff172a7, type: 3}

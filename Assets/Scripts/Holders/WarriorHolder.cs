@@ -11,6 +11,7 @@ public class WarriorHolder : MonoBehaviour
     private int warriorCount = 1;
 
     public List<Color> warriorColors;
+    public List<Color> skinColors;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,7 @@ public class WarriorHolder : MonoBehaviour
 
     }
 
-    public void spawnWarrior(int playerID, int warriorPosition, Gamepad gamepad, Color color)
+    public void spawnWarrior(int playerID, int warriorPosition, Gamepad gamepad, Color color, Color skinColor)
     {
         //Debug.Log(warriorCount);
         warriorCount++;
@@ -39,6 +40,7 @@ public class WarriorHolder : MonoBehaviour
         //warriorPrefab.GetComponentInChildren<SpriteRenderer>().SetPropertyBlock(MPB);
 
         warriorColors.Add(color);
+        skinColors.Add(skinColor);
 
         GM.AddPlayer(warriorPrefab, playerID, warriorPosition, gamepad);
     }

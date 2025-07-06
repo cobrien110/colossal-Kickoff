@@ -305,6 +305,7 @@ public class TutorialManager : MonoBehaviour
 
             MaterialPropertyBlock MPB = new MaterialPropertyBlock();
             MPB.SetColor("_ShirtColor", WH.warriorColors[warriors.Length - 1]);
+            MPB.SetColor("_SkinColor", WH.skinColors[warriors.Length - 1]);
             player.GetComponentInChildren<SpriteRenderer>().SetPropertyBlock(MPB);
 
             try
