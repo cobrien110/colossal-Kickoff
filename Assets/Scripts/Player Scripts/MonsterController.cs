@@ -491,7 +491,7 @@ public class MonsterController : MonoBehaviour
 
             if (aimingDirection == Vector3.zero)
             {
-                aimingDirection = movementDirection;
+                aimingDirection = gameObject.transform.forward;
             }
 
             Vector3 forceToAdd = aimingDirection * kickForce;
