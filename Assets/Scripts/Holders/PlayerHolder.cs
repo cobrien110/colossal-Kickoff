@@ -28,6 +28,8 @@ public class PlayerHolder : MonoBehaviour
 
     public string profileName;
 
+    public float deadzoneSensitivity;
+
     public Color warriorColor;
     public Color skinColor;
 
@@ -199,6 +201,9 @@ public class PlayerHolder : MonoBehaviour
         // Setting Jersey Color
         ColorUtility.TryParseHtmlString(profile.Shirt_Color, out warriorColor);
 
+        // Setting Deadzone
+        deadzoneSensitivity = profile.Deadzone;
+
         if (warriorPosition == 1)
         {
             WD = GameObject.Find("Warrior1Color").GetComponent<WarriorDesc>();
@@ -243,6 +248,9 @@ public class PlayerHolder : MonoBehaviour
 
         // Setting Skin Color
         skinColor = Color.white;
+
+        // Setting Deadzone
+        deadzoneSensitivity = 0.3f;
 
         if (WD != null)
         {

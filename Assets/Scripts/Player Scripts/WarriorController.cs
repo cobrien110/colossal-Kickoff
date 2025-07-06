@@ -213,7 +213,7 @@ public class WarriorController : MonoBehaviour
             Debug.LogWarning("No GameObject with tag 'Monster' found.");
         }
 
-        kickingSensitivity = PlayerPrefs.GetFloat("kicksens");
+        SetKickSen(PH.deadzoneSensitivity);
     }
 
     // Temp Controller Scheme Swap
