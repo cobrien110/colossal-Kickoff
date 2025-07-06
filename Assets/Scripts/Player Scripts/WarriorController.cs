@@ -513,6 +513,12 @@ public class WarriorController : MonoBehaviour
                 jukeKickReady = false;
             }
             //Debug.Log(kickForce);
+
+            if (aimingDirection == Vector3.zero)
+            {
+                aimingDirection = movementDirection;
+            }
+
             Vector3 forceToAdd = aimingDirection * kickForce;
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 

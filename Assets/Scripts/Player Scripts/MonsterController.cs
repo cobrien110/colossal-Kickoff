@@ -488,6 +488,12 @@ public class MonsterController : MonoBehaviour
             BP.previousKicker = gameObject;
             Debug.Log(kickCharge);
             float kickForce = kickSpeed * (kickCharge * chargeMultiplier);
+
+            if (aimingDirection == Vector3.zero)
+            {
+                aimingDirection = movementDirection;
+            }
+
             Vector3 forceToAdd = aimingDirection * kickForce;
             BP.GetComponent<Rigidbody>().AddForce(forceToAdd);
 
