@@ -486,6 +486,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "79af483d05f44fb3aa8bccc12692ca8a"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "d4b46221508647faa40a0324e7b5511c"
+                },
+                "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "7c516ca7b15647c08bf332a6dccbf791"
                 },
                 "m_SlotId": 0
@@ -647,20 +661,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "79af483d05f44fb3aa8bccc12692ca8a"
-                },
-                "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "bf23517ab4e64dc98842fc66df512b36"
-                },
-                "m_SlotId": 1
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "d4b46221508647faa40a0324e7b5511c"
                 },
                 "m_SlotId": 1
             }
@@ -1609,7 +1609,7 @@
         "m_Guid": ""
     },
     "isMainTexture": false,
-    "useTilingAndOffset": false,
+    "useTilingAndOffset": true,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -3729,7 +3729,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Range",
     "m_StageCapability": 3,
-    "m_Value": 0.25999999046325686,
+    "m_Value": 0.20000000298023225,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }

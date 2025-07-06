@@ -40,8 +40,12 @@ Material:
         m_Texture: {fileID: 2800000, guid: 04f21a80f4555a843bdf96806021b285, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ShirtMask:
+        m_Texture: {fileID: 2800000, guid: 646af5e97d711a94a892abb4d33e00af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Shirt_Socks:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 646af5e97d711a94a892abb4d33e00af, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -61,6 +65,6 @@ Material:
     - _DBZ: 0
     m_Colors:
     - _Color: {r: 0, g: 1, b: 1, a: 1}
-    - _ShirtColor: {r: 0.6800003, g: 1, b: 0.6000001, a: 1}
-    - _SkinColor: {r: 0.98039216, g: 0.16470581, b: 0.9469783, a: 1}
+    - _ShirtColor: {r: 0, g: 1, b: 1, a: 1}
+    - _SkinColor: {r: 0.98039216, g: 0.73333335, b: 0.654902, a: 1}
   m_BuildTextureStacks: []
