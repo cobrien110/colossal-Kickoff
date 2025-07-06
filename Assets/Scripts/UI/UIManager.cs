@@ -1053,6 +1053,7 @@ public class UIManager : MonoBehaviour
         }
 
         Color playerColor = WC.GetColor();
+        Color skinColor = WC.GetSkinColor();
 
         Debug.Log("Set Player" + WC.playerNum + " icon to: " + playerColor);
 
@@ -1082,10 +1083,12 @@ public class UIManager : MonoBehaviour
         
         Material iconMat = new Material(playerShader);
         iconMat.SetColor("_ShirtColor", playerColor);
+        iconMat.SetColor("_SkinColor", playerColor);
         icon.material = iconMat;
 
         Material deadMat = new Material(playerShader);
         deadMat.SetColor("_ShirtColor", playerColor);
+        deadMat.SetColor("_SkinColor", playerColor);
         dead.material = deadMat;
     }
 

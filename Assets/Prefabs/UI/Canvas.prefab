@@ -1151,7 +1151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allInGameUI: {fileID: 4098190150570766116}
+  hideDuringTutorial: {fileID: 0}
   countdown: {fileID: 6568399561329312820}
+  isCountdownPlaying: 0
   gameoverText: {fileID: 7243115537449547734}
   playerScoredText: {fileID: 6350761049453079688}
   pauseScreen: {fileID: 1921743462187787651}
@@ -1214,6 +1216,7 @@ MonoBehaviour:
   humanSpriteDead: {fileID: 21300000, guid: fc2952a23506aa047acfe1c1734fcc68, type: 3}
   robotSpriteAlive: {fileID: 21300000, guid: 302e94c067ed8664f89757931e0ba5b4, type: 3}
   robotSpriteDead: {fileID: 21300000, guid: aa75347bc5025d54493baa6eab5ca738, type: 3}
+  playerShader: {fileID: 0}
   monsterAbility1Icon: {fileID: 6660988973124126689}
   monsterAbility2Icon: {fileID: 1048327641819170221}
   monsterAbility3Icon: {fileID: 1776619388613594550}
@@ -3675,7 +3678,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 1
   m_UseSpriteMesh: 0

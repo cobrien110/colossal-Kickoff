@@ -1295,6 +1295,11 @@ public class WarriorController : MonoBehaviour
         return ring.color;
     }
 
+    public Color GetSkinColor()
+    {
+        return PH.skinColor;
+    }
+
     public void SetKickSen(float sens)
     {
         kickingSensitivity = sens;
