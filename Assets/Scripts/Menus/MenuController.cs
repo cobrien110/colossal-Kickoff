@@ -379,7 +379,6 @@ public class MenuController : MonoBehaviour
                         break;
                     case (11): // Player Profile Editor
                         ReturnToSettings();
-                        UpdateProfileOptions();
                         PPM.CloseProfile();
                         break;
                     case (12): // Player Profile Submenu (bindings, config, etc.)
@@ -1105,12 +1104,12 @@ public class MenuController : MonoBehaviour
 
     public void ReturnToSettings()
     {
+        UpdateProfileOptions();
         playerProfilesFirstButton = EventSystem.current.currentSelectedGameObject ?? playerProfilesFirstButton;
         playerProfileEditor.SetActive(false);
         SettingsButtons.SetActive(true);
 
         currentScreen = 1;
-
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsControlsButton.gameObject);
 

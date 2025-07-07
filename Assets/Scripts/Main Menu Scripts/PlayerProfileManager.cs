@@ -15,7 +15,7 @@ public class PlayerProfileManager : MonoBehaviour
     [Tooltip("Script that generates randomized profile names.")]
     public RandomizeProfileName RPN;
     public MenuController MC;
-    private AudioPlayer AP;
+    public AudioPlayer AP;
 
     [Tooltip("Default profile template to base new profiles on.")]
     public TextAsset defaultProfileTemplate;
