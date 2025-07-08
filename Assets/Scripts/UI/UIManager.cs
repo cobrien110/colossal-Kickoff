@@ -1040,6 +1040,8 @@ public class UIManager : MonoBehaviour
     {
         Sprite aliveSprite;
         Sprite deadSprite;
+        Color playerColor = Color.red;
+        Color skinColor = Color.white;
 
         if (isAI)
         {
@@ -1050,12 +1052,10 @@ public class UIManager : MonoBehaviour
         {
             aliveSprite = humanSpriteAlive;
             deadSprite = humanSpriteDead;
+            playerColor = WC.GetColor();
+            skinColor = WC.GetSkinColor();
         }
-
-        Color playerColor = WC.GetColor();
-        Color skinColor = WC.GetSkinColor();
-
-        Debug.Log("Set Player" + WC.playerNum + " icon to: " + playerColor);
+        //Debug.Log("Set Player" + WC.playerNum + " icon to: " + playerColor);
 
         Image icon;
         Image dead;
@@ -1083,12 +1083,12 @@ public class UIManager : MonoBehaviour
         
         Material iconMat = new Material(playerShader);
         iconMat.SetColor("_ShirtColor", playerColor);
-        iconMat.SetColor("_SkinColor", playerColor);
+        iconMat.SetColor("_SkinColor", skinColor);
         icon.material = iconMat;
 
         Material deadMat = new Material(playerShader);
         deadMat.SetColor("_ShirtColor", playerColor);
-        deadMat.SetColor("_SkinColor", playerColor);
+        deadMat.SetColor("_SkinColor", skinColor);
         dead.material = deadMat;
     }
 
