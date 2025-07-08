@@ -306,6 +306,7 @@ public class BallProperties : MonoBehaviour
             Debug.Log("Ball owner being set to: " + other.gameObject);
             RB.velocity = Vector3.zero;
             ballOwner = other.gameObject;
+            if (ballOwner.CompareTag("Monster")) previousKicker = ballOwner;
             SetOwner(ballOwner);
 
             if (wc != null && wc.IsSliding() && isASteal)
@@ -342,6 +343,7 @@ public class BallProperties : MonoBehaviour
                 }
                 if (passTimer <= passTimeFrame)
                 {
+                    Debug.Log(ballOwner.name + " got ball from" + previousKicker.name);
                     GM.passMeter += passBonus;
                     UM.UpdateWarriorContestBar(GM.passMeter);
                     //GM.isPassing = false;
