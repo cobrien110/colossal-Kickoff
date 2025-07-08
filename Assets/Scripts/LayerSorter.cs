@@ -9,7 +9,9 @@ public class LayerSorter : MonoBehaviour
     void Start()
     {
         MeshRenderer MR = GetComponent<MeshRenderer>();
-        MR.sortingOrder = layerNum;
+        if (MR != null) MR.sortingOrder = layerNum;
+        SpriteRenderer SR = GetComponent<SpriteRenderer>();
+        if (SR != null) SR.sortingOrder = layerNum;
     }
 
     // Update is called once per frame

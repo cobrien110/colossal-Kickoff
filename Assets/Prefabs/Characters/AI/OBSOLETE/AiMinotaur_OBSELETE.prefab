@@ -150,6 +150,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &1894681035896483037
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +201,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  isContinuous: 0
+  detatchAndFollowParent: 0
 --- !u!1 &2363259124776298315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,6 +1231,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  PH: {fileID: 0}
+  invertControls: 0
+  kickMode: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -1237,7 +1244,6 @@ MonoBehaviour:
   monsterSpeed: 3.1
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
-  usingNewScheme: 0
   monsterControls:
     m_Name: Monster Controls
     m_Type: 1
@@ -1256,7 +1262,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   usingKeyboard: 0
-  invertControls: 0
   ballPosition: {fileID: 3290178174555864937}
   passSpeed: 400
   kickSpeed: 475
@@ -1271,14 +1276,17 @@ MonoBehaviour:
   isStunned: 0
   canBeStunned: 1
   isIntangible: 0
+  kickingSensitivity: 0.9
   callForPassCooldown: 1
   passWindowDuration: 1
+  tauntTextPrefabs: []
   gravityFieldDuration: 0.5
   gravityForce: 20
   gravityRadius: 5
   canMove: 1
   GM: {fileID: 0}
   ANIM: {fileID: 0}
+  stunSoundName: 
   monsterSpawner: {fileID: 0}
   layerMask:
     serializedVersion: 2
@@ -1353,6 +1361,7 @@ MonoBehaviour:
   chargeShrapnelMult: 3
   willSpawnWallAtGoal: 1
   goalWallSpawnPos: {x: 0, y: 0, z: 0}
+  spawnVisual: {fileID: 0}
 --- !u!114 &4277748527226991521
 MonoBehaviour:
   m_ObjectHideFlags: 0
