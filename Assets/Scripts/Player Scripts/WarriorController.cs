@@ -213,7 +213,7 @@ public class WarriorController : MonoBehaviour
             Debug.LogWarning("No GameObject with tag 'Monster' found.");
         }
 
-        SetKickSen(PH.deadzoneSensitivity);
+        if (PH != null) SetKickSen(PH.deadzoneSensitivity);
     }
 
     // Temp Controller Scheme Swap
@@ -1303,6 +1303,7 @@ public class WarriorController : MonoBehaviour
 
     public Color GetSkinColor()
     {
+        if (PH == null) return Color.white;
         return PH.skinColor;
     }
 

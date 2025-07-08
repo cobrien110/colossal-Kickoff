@@ -172,7 +172,7 @@ public class MonsterController : MonoBehaviour
         Debug.Log("CHARGE SPEED" + chargeSpeed);
         transform.rotation = Quaternion.Euler(0, 90, 0);
 
-        kickingSensitivity = PH.deadzoneSensitivity;
+        if (PH != null) kickingSensitivity = PH.deadzoneSensitivity;
     }
 
     // Temp Controller Scheme Swap
