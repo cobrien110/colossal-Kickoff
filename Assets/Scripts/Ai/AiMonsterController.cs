@@ -25,7 +25,7 @@ public abstract class AiMonsterController : MonoBehaviour
     [SerializeField] protected float aiShootSpeed;
     [SerializeField] private float performActionChanceFrequency = 0.25f; // How often monster checks to perform ability
     [SerializeField] protected float maxShootingRange = 16f; // 16 is an estimate of the width of the whole field
-    [SerializeField] protected float maxProximityRange = 8f; // Distance from nearest warrior that is considered "absolutely safe to shoot from"
+    [SerializeField] protected float maxProximityRange = 8f; // Max distance monster will target a warrior from
     [SerializeField] protected float midFieldPoint = 0f; // Represent the value on x axis that is midfield
     [SerializeField] protected float leftBoundary = -4f; // Left boundary for monster roaming purposes
     [SerializeField] protected float fieldDepth = 3f; // field depth for monster roaming purposes
@@ -249,6 +249,7 @@ public abstract class AiMonsterController : MonoBehaviour
             ability.Activate();
             ability.ANIM.SetBool("isWindingUp", false);
             isPerformingAbility = false;
+            attackCoroutine = null;
         }
         else if (ability.GetIsCharging() && ability.GetTimer() >= ability.GetCooldown())
         {
@@ -256,6 +257,7 @@ public abstract class AiMonsterController : MonoBehaviour
         }
         else
         {
+            attackCoroutine = null;
             ability.ChargeDown();
         }
     }
@@ -296,10 +298,10 @@ public abstract class AiMonsterController : MonoBehaviour
     //    }
     //}
 
-    protected IEnumerator ChargeableAttackController(Func<Transform, GameObject> targetSelector, AbilityChargeableAttack ability)
+    protected IEnumerator ChargeableAttackController(GameObject target, AbilityChargeableAttack ability)
     {
         Debug.Log("ChargeableAttackController");
-        GameObject target = targetSelector(transform);
+        //GameObject target = targetSelector(transform);
 
         if (target == null)
         {
@@ -315,13 +317,25 @@ public abstract class AiMonsterController : MonoBehaviour
             Debug.Log("Target: " + target.name);
             if (target == null)
             {
-                target = targetSelector(transform);
+                //target = targetSelector(transform);
+                target = GetNearestWarrior(transform.position).gameObject;
                 if (target == null) break;
             }
 
             HandleChargeableAttack(ability);
-            Vector3 dir = (target.transform.position - transform.position).normalized;
-            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+
+            if (Vector3.Distance(transform.position, target.transform.position) > ability.GetMinAttackDist())
+            {
+                Vector3 dir = (target.transform.position - transform.position).normalized;
+                mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+            } else
+            {
+                Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+                dirToTarget = new Vector3(dirToTarget.x, 0, dirToTarget.z);
+                Quaternion newRotation = Quaternion.LookRotation(dirToTarget, Vector3.up);
+                transform.rotation = newRotation;
+                mc.movementDirection = Vector3.zero;
+            }
 
             yield return null;
         }
@@ -388,21 +402,18 @@ public abstract class AiMonsterController : MonoBehaviour
         if (mode == AttackMode.BallOwner)
         {
             Debug.Log("StartChargeableAttack: AttackMode BallOwner");
-            attackCoroutine = StartCoroutine(ChargeableAttackController(
-                (Transform t) => mc.BP?.ballOwner != null &&
-                                 Vector3.Distance(mc.BP.ballOwner.transform.position, t.position) <= maxProximityRange
+            GameObject target = mc.BP?.ballOwner != null &&
+                                 Vector3.Distance(mc.BP.ballOwner.transform.position, transform.position) <= maxProximityRange
                                  ? mc.BP.ballOwner
-                                 : null, ability));
+                                 : null;
+            attackCoroutine = StartCoroutine(ChargeableAttackController(target, ability));
         }
         else if (mode == AttackMode.NearestWarrior)
         {
             Debug.Log("StartChargeableAttack: AttackMode NearestWarrior");
-            attackCoroutine = StartCoroutine(ChargeableAttackController(
-                (Transform t) =>
-                {
-                    WarriorController nearest = GetNearestWarrior(t.position);
-                    return nearest != null ? nearest.gameObject : null;
-                }, ability));
+            WarriorController nearest = GetNearestWarrior(transform.position);
+            GameObject target = nearest != null && Vector3.Distance(nearest.transform.position, transform.position) < maxProximityRange ? nearest.gameObject : null;
+            attackCoroutine = StartCoroutine(ChargeableAttackController(target, ability));
         } else
         {
             Debug.Log("StartChargeableAttack: ERROR - No AttackMode");
@@ -435,7 +446,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected WarriorController GetNearestWarrior(Vector3 pos)
     {
         GameObject nearestWarrior = null;
-        float distToNearestWarrior = maxProximityRange;
+        float distToNearestWarrior = float.MaxValue;
 
         foreach (GameObject warrior in warriors)
         {
@@ -537,7 +548,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
     protected float GetDistanceToNearestWarrior()
     {
-        float distToNearestWarrior = maxProximityRange;
+        float distToNearestWarrior = float.MaxValue;
         foreach (GameObject warrior in warriors)
         {
             float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);

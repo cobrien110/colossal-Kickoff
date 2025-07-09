@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2061249857265671894, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: minAttackDist
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_Name
       value: AiAhklut
@@ -61,9 +65,9 @@ MonoBehaviour:
   aiShootSpeed: 400
   performActionChanceFrequency: 0.25
   maxShootingRange: 16
-  maxProximityRange: 8
+  maxProximityRange: 9
   midFieldPoint: 0
-  leftBoundary: -4
+  leftBoundary: -6
   fieldDepth: 3
   attackMinimumCharge: 0.3
   smoothFactor: 8

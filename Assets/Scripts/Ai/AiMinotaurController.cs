@@ -231,10 +231,10 @@ public class AiMinotaurController : AiMonsterController
         // If mino in warrior half, warrior in mino half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
-
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
+                StopCoroutines();
+
                 // Default behavior
                 mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized; // Retreat to own goal
                 mc.movementDirection.y = 0;

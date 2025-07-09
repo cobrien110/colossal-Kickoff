@@ -122,7 +122,6 @@ public class AbilitySquareAttack : AbilityChargeableAttack
             StartCoroutine(MC.MoveDelay());
         }
     }
-
     private void LateUpdate()
     {
         if (chargeOrb == null) return;
@@ -149,11 +148,34 @@ public class AbilitySquareAttack : AbilityChargeableAttack
 
     public override bool IsEnemyInRange(Transform attacker)
     {
-        Vector3 center = attacker.position + attacker.forward * attackRange;
-        Vector3 halfExtents = new Vector3(attackBaseRadius, attackBaseRadius, attackBaseRadius); // adjust based on shape
-        Collider[] colliders = Physics.OverlapBox(center, halfExtents, attacker.rotation, affectedLayers);
+        //Vector3 center = attacker.position + attacker.forward * attackRange;
+        //Vector3 halfExtents = new Vector3(attackBaseRadius, attackBaseRadius, attackBaseRadius); // adjust based on shape
+        //Collider[] colliders = Physics.OverlapBox(center, halfExtents, attacker.rotation, affectedLayers);
+
+        //return colliders.Any(c => c.CompareTag("Warrior"));
+        Vector3 direction = transform.forward;
+        //Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate, 0.05f, attackBaseSize + chargeAmount * chargeRate);
+        Vector3 size = new Vector3(attackBaseSize + chargeAmount * chargeRate * 2f, 0.05f, attackBaseSize);
+        Vector3 origin = new Vector3(transform.position.x + direction.x * (attackRange + (chargeAmount * chargeRate)),
+        transform.position.y + direction.y + attackVisualOffsetY,
+        (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
+        Collider[] colliders = Physics.OverlapBox(origin, size / 2, transform.rotation * Quaternion.Euler(0, 90, 0), affectedLayers);
 
         return colliders.Any(c => c.CompareTag("Warrior"));
+
+        //foreach (Collider col in colliders)
+        //{
+        //    // Handle collision with each collider
+        //    if (col.gameObject.CompareTag("Warrior"))
+        //    {
+        //        WarriorController WC = col.GetComponent<WarriorController>();
+        //        if (!WC.isInvincible)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //}
+        //return false;
     }
 
 
