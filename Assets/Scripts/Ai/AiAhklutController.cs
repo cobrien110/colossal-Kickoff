@@ -124,7 +124,6 @@ public class AiAhklutController : AiMonsterController
             Debug.Log("MonsterHasBall");
             state = State.MonsterHasBall;
             stateChanged = true;
-            StopCoroutines();
         }
 
         // Default behaviour
@@ -336,6 +335,7 @@ public class AiAhklutController : AiMonsterController
         while (Vector3.Distance(transform.position, target) > diveToTargetThreshold
             && diveTimer < maxDiveDuration)
         {
+            Debug.Log("target: " + target);
             Debug.Log("Vector3.Distance(transform.position, target.transform.position): " + Vector3.Distance(transform.position, target));
             Debug.Log("diveToTargetThreshold: " + diveToTargetThreshold);
             Debug.Log("diveTimer: " + diveTimer);
@@ -399,8 +399,18 @@ public class AiAhklutController : AiMonsterController
     {
         if (diveCoroutine != null)
         {
+            Debug.Log("StopDive");
             StopCoroutine(diveCoroutine);
             diveCoroutine = null;
+
+            // Flush & Reset ability
+            AbilityDive abilityDive = mc.abilities[2] as AbilityDive;
+            if (abilityDive != null)
+            {
+                abilityDive.Activate();
+                isPerformingAbility = false;
+                abilityDive.Deactivate();
+            }
         }
     }
 

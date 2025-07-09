@@ -81,9 +81,6 @@ public class AiSphinxController : AiMonsterController
         ability1Chance = 0.1f; // Mummy Explode
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
-
-        // Stop roaming if its happening
-        StopCoroutines();
     }
 
     protected override void WarriorHasBall()

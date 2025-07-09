@@ -164,7 +164,6 @@ public class AiMinotaurController : AiMonsterController
         // If mino in mino half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
@@ -185,7 +184,6 @@ public class AiMinotaurController : AiMonsterController
         // If mino and warrior with ball in mino half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
@@ -209,7 +207,6 @@ public class AiMinotaurController : AiMonsterController
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
             // Debug.Log("mino and warrior in warrior half");
-            StopRoaming();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
@@ -287,6 +284,9 @@ public class AiMinotaurController : AiMonsterController
             shootChance = Mathf.Pow((distToGoalFactor/* + proximityToWarriorFactor*/) / 2f, 2);
 
             // If shooting, chargeAmount depends on distance to goal
+
+            // Stop roaming if its happening
+            StopCoroutines();
         }
         // If dash is being charged, charge is down
         else
@@ -298,9 +298,6 @@ public class AiMinotaurController : AiMonsterController
         ability1Chance = 0.1f; // Wall
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
-
-        // Stop roaming if its happening
-        StopCoroutines();
     }
 
     protected override void BallNotPossessed()
@@ -314,14 +311,14 @@ public class AiMinotaurController : AiMonsterController
 
         // ResetAbilities();
 
-        // Stop roaming and pursuing if its happening
-        StopCoroutines();
-
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         if (!isPerformingAbility)
         {
+            // Stop roaming and pursuing if its happening
+            StopCoroutines();
+
             // Default behaviour
             Vector2 toBall = new Vector2(
                     mc.BP.gameObject.transform.position.x - transform.position.x,

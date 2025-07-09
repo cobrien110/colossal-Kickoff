@@ -413,9 +413,18 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         if (attackCoroutine != null)
         {
+            Debug.Log("StopChargeableAttack");
             StopCoroutine(attackCoroutine);
             attackCoroutine = null;
-            isPerformingAbility = false;
+
+            // Flush & Reset ability
+            AbilityChargeableAttack ACA = GetComponent<AbilityChargeableAttack>();
+            if (ACA != null)
+            {
+                ACA.Activate();
+                isPerformingAbility = false;
+                ACA.ChargeDown();
+            }
         }
     }
     #endregion Basic Attack
@@ -645,7 +654,7 @@ public abstract class AiMonsterController : MonoBehaviour
         if (stateChanged)
         {
             Debug.Log("State changed");
-            StopCoroutines();
+            //StopCoroutines();
             stateChanged = false;
         }
     }
@@ -658,12 +667,12 @@ public abstract class AiMonsterController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(defendGoalDelay);
             Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
             mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
             //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
             //defendGoalCoroutine = null;
             yield return null;
+            yield return new WaitForSeconds(defendGoalDelay);
         }
     }
 
