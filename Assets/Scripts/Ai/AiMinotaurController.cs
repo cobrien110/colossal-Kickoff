@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AiMinotaurController : AiMonsterController
@@ -154,6 +151,13 @@ public class AiMinotaurController : AiMonsterController
 
     protected override void WarriorHasBall()
     {
+        if (state != State.WarriorHasBall)
+        {
+            Debug.Log("WarriorHasBall");
+            state = State.WarriorHasBall;
+            stateChanged = true;
+        }
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
@@ -256,6 +260,13 @@ public class AiMinotaurController : AiMonsterController
 
     protected override void MonsterHasBall()
     {
+        if (state != State.MonsterHasBall)
+        {
+            Debug.Log("MonsterHasBall");
+            state = State.MonsterHasBall;
+            stateChanged = true;
+        }
+
         // Default behaviour
         if (!isPerformingAbility)
         {
@@ -294,6 +305,13 @@ public class AiMinotaurController : AiMonsterController
 
     protected override void BallNotPossessed()
     {
+        if (state != State.BallNotPossessed)
+        {
+            Debug.Log("BallNotPossessed");
+            state = State.BallNotPossessed;
+            stateChanged = true;
+        }
+
         // ResetAbilities();
 
         // Stop roaming and pursuing if its happening
@@ -686,37 +704,37 @@ public class AiMinotaurController : AiMonsterController
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        //AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-        //Debug.Log("isAutoCharging: " + abr.GetIsAutoCharging());
-        //Debug.Log("autoCharge: " + abr.autoCharge);
+    //void Update()
+    //{
+    //    //AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
+    //    //Debug.Log("isAutoCharging: " + abr.GetIsAutoCharging());
+    //    //Debug.Log("autoCharge: " + abr.autoCharge);
 
-        if (mc.abilities[1] != null && (mc.abilities[1].attackVisualizer.transform.position.y > 0
-            || mc.abilities[1].attackVisualizer.transform.position.x > 0))
-        {
-            // Debug.Log("Attack visual change position!!!!");
-        }
+    //    if (mc.abilities[1] != null && (mc.abilities[1].attackVisualizer.transform.position.y > 0
+    //        || mc.abilities[1].attackVisualizer.transform.position.x > 0))
+    //    {
+    //        // Debug.Log("Attack visual change position!!!!");
+    //    }
 
-        if (isPerformingAbility)
-        {
-            // Debug.Log("IsPerformingAbility: " + isPerformingAbility);
-        }
+    //    if (isPerformingAbility)
+    //    {
+    //        // Debug.Log("IsPerformingAbility: " + isPerformingAbility);
+    //    }
 
-        //Debug.Log("ability1Chance: " + ability1Chance);
-        //Debug.Log("ability2Chance: " + ability2Chance);
-        //Debug.Log("ability3Chance: " + ability3Chance);
+    //    //Debug.Log("ability1Chance: " + ability1Chance);
+    //    //Debug.Log("ability2Chance: " + ability2Chance);
+    //    //Debug.Log("ability3Chance: " + ability3Chance);
 
-        // To fix issue where mino can't pickup ball if he killed a warrior with the ball while he was already in the ball colider
-        if (mc.BP != null && mc.BP.gameObject != null && mc.BP.ballOwner == null
-            && Vector3.Distance(transform.position, mc.BP.gameObject.transform.position) < 0.1f)
-        {
-            Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
-            mc.BP.ballOwner = gameObject;
-        }
+    //    // To fix issue where mino can't pickup ball if he killed a warrior with the ball while he was already in the ball colider
+    //    if (mc.BP != null && mc.BP.gameObject != null && mc.BP.ballOwner == null
+    //        && Vector3.Distance(transform.position, mc.BP.gameObject.transform.position) < 0.1f)
+    //    {
+    //        Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
+    //        mc.BP.ballOwner = gameObject;
+    //    }
 
-        // Debug.Log("AiMinoController update");
-    }
+    //    // Debug.Log("AiMinoController update");
+    //}
     
     /*
      * TODO

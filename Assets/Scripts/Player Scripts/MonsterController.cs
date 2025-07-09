@@ -129,8 +129,8 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private float shakeIntensity = 1.0f;
 
     // If there is no ball owner yet a warrior or monster is on top of wall, OnTriggerStay will wait this long until making that character pick up ball
-    private float pickupBallCooldown = 0.25f;
-    [SerializeField] private float pickupBallTimer = 0f;
+    [SerializeField] private float pickupBallCooldown = 0.25f;
+    private float pickupBallTimer = 0f;
 
     private float mummyKickingBuffer = 1f;
 
@@ -1182,6 +1182,11 @@ public class MonsterController : MonoBehaviour
         {
             // if you were last kicker and ball is in singleMode, return
             if (BP.isInSingleOutMode && BP.previousKicker == gameObject) return;
+            if (GetComponent<AbilityDive>() != null && GetComponent<AbilityDive>().GetIsActive())
+            {
+                pickupBallTimer = pickupBallCooldown;
+                return;
+            }
             // Pick up ball
             Debug.Log("Pick up ball");
             pickupBallTimer = pickupBallCooldown;

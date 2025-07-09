@@ -53,6 +53,16 @@ public abstract class AiMonsterController : MonoBehaviour
     protected Coroutine pursueCoroutine;
     private Coroutine defendGoalCoroutine;
     private bool canPickUpBall = true;
+    protected State state = State.BallNotPossessed;
+    protected bool stateChanged = false;
+    private Coroutine attackCoroutine = null;
+    protected enum State
+    {
+        BallNotPossessed,
+        MonsterHasBall,
+        WarriorHasBall,
+        MummyHasBall
+    }
 
     protected enum AttackMode
     {
@@ -133,7 +143,7 @@ public abstract class AiMonsterController : MonoBehaviour
         this.isPerformingAbility = isPerformingAbility;
     }
 
-    // Methods Transferred Over From AimonstertaurController
+    // Methods Transferred Over From AimonsterController
 
     #region Basic Attack
     // SPEHRICAL ATTACK METHODS
@@ -298,7 +308,7 @@ public abstract class AiMonsterController : MonoBehaviour
             yield break;
         }
 
-        StopCoroutines();
+        // StopCoroutines();
 
         while (isPerformingAbility)
         {
@@ -373,11 +383,12 @@ public abstract class AiMonsterController : MonoBehaviour
         Debug.Log("StartChargeableAttack");
         AbilityChargeableAttack ability = mc.abilities[1] as AbilityChargeableAttack;
         if (ability == null) return;
+        StopCoroutines();
 
         if (mode == AttackMode.BallOwner)
         {
             Debug.Log("StartChargeableAttack: AttackMode BallOwner");
-            StartCoroutine(ChargeableAttackController(
+            attackCoroutine = StartCoroutine(ChargeableAttackController(
                 (Transform t) => mc.BP?.ballOwner != null &&
                                  Vector3.Distance(mc.BP.ballOwner.transform.position, t.position) <= maxProximityRange
                                  ? mc.BP.ballOwner
@@ -386,7 +397,7 @@ public abstract class AiMonsterController : MonoBehaviour
         else if (mode == AttackMode.NearestWarrior)
         {
             Debug.Log("StartChargeableAttack: AttackMode NearestWarrior");
-            StartCoroutine(ChargeableAttackController(
+            attackCoroutine = StartCoroutine(ChargeableAttackController(
                 (Transform t) =>
                 {
                     WarriorController nearest = GetNearestWarrior(t.position);
@@ -395,6 +406,16 @@ public abstract class AiMonsterController : MonoBehaviour
         } else
         {
             Debug.Log("StartChargeableAttack: ERROR - No AttackMode");
+        }
+    }
+
+    private void StopChargeableAttack()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+            isPerformingAbility = false;
         }
     }
     #endregion Basic Attack
@@ -422,11 +443,12 @@ public abstract class AiMonsterController : MonoBehaviour
         return nearestWarrior?.GetComponent<WarriorController>();
     }
 
-    protected void StopCoroutines()
+    protected virtual void StopCoroutines()
     {
         StopPursuing();
         StopRoaming();
         StopDefendGoal();
+        StopChargeableAttack();
     }
 
     protected void StopPursuing()
@@ -563,7 +585,7 @@ public abstract class AiMonsterController : MonoBehaviour
                     new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
             }
 
-            // Make monstertaur look at goal
+            // Make monster look at goal
             Quaternion newRotation =
                 Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);
             transform.rotation = newRotation;
@@ -600,7 +622,7 @@ public abstract class AiMonsterController : MonoBehaviour
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
         Vector3 ballToGoal = (monsterGoal.transform.position - ball.transform.position).normalized;
 
-        // If ball velocity is higher enough, is within certain distance to own goal, and velocity is toward own goal, return true
+        // If ball velocity is high enough, is within certain distance to own goal, and velocity is toward own goal, return true
         if (ballRB.velocity.magnitude > 2f && Vector3.Distance(ball.transform.position, monsterGoal.transform.position) < 8f
             && Vector3.Dot(ballRB.velocity.normalized, ballToGoal) > 0.7f)
         {
@@ -618,17 +640,31 @@ public abstract class AiMonsterController : MonoBehaviour
         transform.rotation = newRotation;
     }
 
+    protected void SetupFixedUpdate()
+    {
+        if (stateChanged)
+        {
+            Debug.Log("State changed");
+            StopCoroutines();
+            stateChanged = false;
+        }
+    }
+
     #endregion General Methods
 
     #region Default Behavior Methods
 
     protected IEnumerator DefendGoal()
     {
-        yield return new WaitForSeconds(defendGoalDelay);
-        Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
-        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-        defendGoalCoroutine = null;
+        while (true)
+        {
+            yield return new WaitForSeconds(defendGoalDelay);
+            Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
+            mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
+            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
+            //defendGoalCoroutine = null;
+            yield return null;
+        }
     }
 
     // Defend goal position is in the middle of the ballOwner and the goal
@@ -651,6 +687,7 @@ public abstract class AiMonsterController : MonoBehaviour
         if (defendGoalCoroutine == null)
         {
             Debug.Log("Start Defend Goal");
+            StopCoroutines();
             defendGoalCoroutine = StartCoroutine(DefendGoal());
         }
     }
@@ -661,6 +698,7 @@ public abstract class AiMonsterController : MonoBehaviour
         if (pursueCoroutine == null)
         {
             Debug.Log("Start pursuing");
+            StopCoroutines();
             pursueCoroutine = StartCoroutine(PursuePlayer());
         }
     }
@@ -670,8 +708,7 @@ public abstract class AiMonsterController : MonoBehaviour
         while (true)
         {
             Debug.Log("Pursuing player");
-            yield return new WaitForSeconds(pursueDelay);
-
+            
             // Ensure the ball owner is valid before pursuing
             if (mc.BP.ballOwner != null)
             {
@@ -705,6 +742,7 @@ public abstract class AiMonsterController : MonoBehaviour
             }
 
             yield return null; // Continue to next frame
+            yield return new WaitForSeconds(pursueDelay);
         }
     }
 
@@ -743,7 +781,7 @@ public abstract class AiMonsterController : MonoBehaviour
                 rb.velocity = mc.movementDirection * mc.monsterSpeed;
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
-                // Rotate the monstertaur to face the direction it's moving
+                // Rotate the monster to face the direction it's moving
                 Quaternion newRotation = Quaternion.LookRotation(directionToTargetIgnoreY, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
 
@@ -765,6 +803,7 @@ public abstract class AiMonsterController : MonoBehaviour
         if (roamCoroutine == null)
         {
             Debug.Log("Start roaming");
+            StopCoroutines();
             roamCoroutine = StartCoroutine(Roam());
         }
     }

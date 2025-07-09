@@ -1,23 +1,44 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class AiAhklutController : AiMonsterController
 {
+    [Header("AiAhklutController Specific Variables")]
+    private float diveTimer;
+    [SerializeField] private float maxDiveDuration; // Max duration that dive ability can be active
+    [SerializeField] private float diveToTargetThreshold = 0.5f; // How close is considered "close enough" when diving to target position
+    private DiveMode diveMode = DiveMode.Ball;
+    private Coroutine diveCoroutine = null;
+    [SerializeField] private float minDiveDistance; // min distance Ahklut must be from target to use dive
+    [SerializeField] private float diveToTargetPosOffset = 1f;
+
+    private enum DiveMode
+    {
+        BallOwner,
+        Ball
+    }
 
     protected override void BallNotPossessed()
     {
+        if (state != State.BallNotPossessed)
+        {
+            Debug.Log("BallNotPossessed");
+            state = State.BallNotPossessed;
+            stateChanged = true;
+            // StopCoroutines();
+        }
+
         // ResetAbilities();
 
         // Stop roaming and pursuing if its happening
-        StopCoroutines();
+        // StopCoroutines();
 
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         if (!isPerformingAbility)
         {
+            StopCoroutines();
             // Default behaviour
             Vector2 toBall = new Vector2(
                     mc.BP.gameObject.transform.position.x - transform.position.x,
@@ -25,12 +46,25 @@ public class AiAhklutController : AiMonsterController
             MoveTo(toBall);
         }
 
+        // Higher chance to howl to stop ball from going toward goal
+        if (BallGoingTowardOwnGoal())
+        {
+            // Set Howl chance
+            ability1Chance = 0.3f;
+        }
+        else
+        {
+            // Set Howl chance
+            ability1Chance = 0.1f;
+        }
+
         // Set Spherical attack chance
         ability2Chance = 0.1f;
         attackMode = AttackMode.NearestWarrior;
 
-        // Set Dash chance and behavior
-        ability3Chance = 0.1f;
+        // Set Dive chance and behavior
+        ability3Chance = 0.2f;
+        diveMode = DiveMode.Ball;
 
         // Debug.Log("BallNotPossessed");
     }
@@ -85,9 +119,18 @@ public class AiAhklutController : AiMonsterController
 
     protected override void MonsterHasBall()
     {
+        if (state != State.MonsterHasBall)
+        {
+            Debug.Log("MonsterHasBall");
+            state = State.MonsterHasBall;
+            stateChanged = true;
+            StopCoroutines();
+        }
+
         // Default behaviour
         if (!isPerformingAbility)
         {
+            StopCoroutines();
             ResetAbilities();
 
             // "Wiggle" your way towards the goal
@@ -106,19 +149,11 @@ public class AiAhklutController : AiMonsterController
 
             // If shooting, chargeAmount depends on distance to goal
         }
-        // If dash is being charged, charge is down
-        else
-        {
-            ResetAbilities();
-        }
 
-        // Monster should not use abilities, except wall
-        ability1Chance = 0.1f; // Wall
+        // Monster should not use abilities, except howl
+        ability1Chance = 0.1f; // Howl
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
-
-        // Stop roaming if its happening
-        StopCoroutines();
     }
 
     // Howl
@@ -128,7 +163,7 @@ public class AiAhklutController : AiMonsterController
 
         if (!mc.abilities[0].AbilityOffCooldown()) return;
 
-        if (UnityEngine.Random.value < ability1Chance)
+        if (UnityEngine.Random.value < ability1Chance && ShouldHowl())
         {
             Debug.Log("PerformAbility1");
             isPerformingAbility = true;
@@ -159,7 +194,6 @@ public class AiAhklutController : AiMonsterController
     // Dive
     protected override void PerformAbility3Chance()
     {
-        return;
         if (mc.abilities[2] == null) return;
 
         if (!mc.abilities[2].AbilityOffCooldown()) return;
@@ -167,56 +201,63 @@ public class AiAhklutController : AiMonsterController
         if (UnityEngine.Random.value < ability3Chance)
         {
             Debug.Log("PerformAbility3");
-            isPerformingAbility = true;
 
             StopCoroutines();
-            //Dash(dashMode);
-            //DashHelper();
+            Dive();
         }
     }
 
     protected override void WarriorHasBall()
     {
+        if (state != State.WarriorHasBall)
+        {
+            Debug.Log("WarriorHasBall");
+            state = State.WarriorHasBall;
+            stateChanged = true;
+            //StopCoroutines();
+        }
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
+
+        diveMode = DiveMode.BallOwner; // Warrior is current ballOwner, so target it
 
         // If ahklut in ahklut half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
-            // Set Wall chance and behavior
-            ability1Chance = 0.2f; // Wall
+            // Set Howl chance
+            ability1Chance = 0.05f; // Howl
 
             // Set Spherical Attack chance and behavior
             ability2Chance = 0.1f; // Spherical Attack
             attackMode = AttackMode.NearestWarrior; // Target nearest warrior because you don't want to overextend to get ball owner
 
-            // Set Dash chance and behavior
-            ability3Chance = 0.1f; // Dash
+            // Set Dive chance
+            ability3Chance = 0.1f; // Dive
 
         }
 
         // If ahklut and warrior with ball in ahklut half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
                 StartDefendGoal();
 
-                // Set Wall chance and behavior
-                ability1Chance = 0.1f;
+                // Set Howl chance
+                ability1Chance = 0.2f;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
                 attackMode = AttackMode.BallOwner;
 
-                // Set Dash chance and behavior
-                ability3Chance = 0.1f;
+                // Set Dive chance
+                ability3Chance = 0.3f;
+
             }
         }
 
@@ -224,7 +265,6 @@ public class AiAhklutController : AiMonsterController
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
             // Debug.Log("ahklut and warrior in warrior half");
-            StopRoaming();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
@@ -232,43 +272,171 @@ public class AiAhklutController : AiMonsterController
                 // Default behavior
                 StartPursuing();
 
-                // Set Wall chance and behavior
-                ability1Chance = 0.1f;
+                // Set Howl chance
+                ability1Chance = 0.2f;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
                 attackMode = AttackMode.BallOwner; // Be aggressive, try to get ball
 
-                // Set Dash chance and behavior
-                ability3Chance = 0.1f;
+                // Set Dive chance
+                ability3Chance = 0.2f;
             }
         }
 
         // If ahklut in warrior half, warrior in ahklut half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
+                StopCoroutines();
+
                 // Default behavior
                 mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized; // Retreat to own goal
                 mc.movementDirection.y = 0;
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
-                // Set Wall chance and behavior
+                // Set Howl chance
                 ability1Chance = 0.1f;
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
                 attackMode = AttackMode.BallOwner; // Hurry to kill ball owner to stop goal
 
-                // Set Dash chance and behavior
-                ability3Chance = 0.1f;
+                // Set Dive chance
+                ability3Chance = 0.4f;
             }
         }
     }
 
+    private bool ShouldHowl()
+    {
+        AbilityHowl abilityHowl = mc.abilities[0] as AbilityHowl;
+        if (abilityHowl == null)
+        {
+            Debug.Log("Cast to AbilityHowl Failed");
+            return false;
+        }
+
+        return abilityHowl.WarriorInRadius() // Would hit a warrior
+            || (abilityHowl.BallInRadius() && BallGoingTowardOwnGoal()); // Or the ball while its going toward own goal
+    }
+
+    private IEnumerator DiveToTarget()
+    {
+        if (mc == null || mc.abilities[2] == null) yield break; // Ensure dive ability is valid
+        Vector3 target = GetDiveTargetPosition();
+
+        // Activate dive to go underground
+        mc.abilities[2].Activate();
+
+        // While distance between Ahklut and target is greater than diveToTargetThreshold
+        // AND the dive hasn't been active for too long (because the speed boost rapidly diminishes)
+        while (Vector3.Distance(transform.position, target) > diveToTargetThreshold
+            && diveTimer < maxDiveDuration)
+        {
+            Debug.Log("Vector3.Distance(transform.position, target.transform.position): " + Vector3.Distance(transform.position, target));
+            Debug.Log("diveToTargetThreshold: " + diveToTargetThreshold);
+            Debug.Log("diveTimer: " + diveTimer);
+            Debug.Log("maxDiveDuration: " + maxDiveDuration);
+            diveTimer += Time.deltaTime;
+            Vector3 dirToTarget = (target - transform.position).normalized;
+            dirToTarget = new Vector3(dirToTarget.x, 0, dirToTarget.z); // Ignore Y
+            
+
+            // Set movement direction while diving to be towards target
+            mc.movementDirection = dirToTarget;
+
+            yield return null;
+        }
+
+        // Reset inputBuffer on AbilityDive (to fix an issue that prevents proper second activation)
+        AbilityDive abilityDive = mc.abilities[2] as AbilityDive;
+        abilityDive.ResetBuffer();
+
+        // Target has been reached, or we've reached maxDiveDuration
+        // Activate ability again to go above ground
+        mc.abilities[2].Activate();
+        
+        diveCoroutine = null;
+        isPerformingAbility = false;
+        diveTimer = 0f;
+    }
+
+    private void Dive()
+    {
+        if (mc == null || mc.BP == null) return;
+        if (diveCoroutine != null) return; // Dive already active
+        if (!ShouldDive()) return;
+        isPerformingAbility = true;
+        //Vector3 targetLocation = GetBallTargetPosition(diveMode);
+        //diveCoroutine = StartCoroutine(DiveToTarget(targetLocation));
+        diveCoroutine = StartCoroutine(DiveToTarget());
+    }
+
+    private Vector3 GetDiveTargetPosition()
+    {
+        if (mc == null || mc.BP == null) return transform.position;
+        if (diveMode == DiveMode.BallOwner && mc.BP.ballOwner != null)
+        {
+            Vector3 ballOwnerPos = mc.BP.ballOwner.transform.position;
+            Vector3 ballOwnerToGoalDir = (monsterGoal.transform.position - ballOwnerPos).normalized;
+            Vector3 targetPos = ballOwnerPos + (ballOwnerToGoalDir * diveToTargetPosOffset);
+            Vector3 targetPosFinal = new Vector3(Mathf.Clamp(targetPos.x, -8, 8), targetPos.y, targetPos.z);
+            return targetPosFinal;
+        } else
+        {
+            Vector3 ballPos = mc.BP.transform.position;
+            Vector3 ballToGoalDir = (monsterGoal.transform.position - ballPos).normalized;
+            Vector3 targetPos = ballPos + (ballToGoalDir * diveToTargetPosOffset);
+            Vector3 targetPosFinal = new Vector3(Mathf.Clamp(targetPos.x, -8, 8), targetPos.y, targetPos.z);
+            return targetPosFinal;
+        }
+    }
+
+    private void StopDive()
+    {
+        if (diveCoroutine != null)
+        {
+            StopCoroutine(diveCoroutine);
+            diveCoroutine = null;
+        }
+    }
+
+
+    protected override void StopCoroutines()
+    {
+        base.StopCoroutines();
+        StopDive();
+    }
+
+    private bool ShouldDive()
+    {
+        GameObject target = null;
+        if (diveMode == DiveMode.BallOwner && mc.BP.ballOwner != null)
+            target = mc.BP.ballOwner;
+        else
+            target = mc.BP.gameObject;
+        //else
+        //{
+        //    Debug.LogError("target incorrectly assigned due to diveMode error");
+        //    target = gameObject;
+        //}
+
+        Debug.Log("target: " + target);
+
+        // If distance between here and target is too little
+        if (Vector3.Distance(transform.position, target.transform.position) < minDiveDistance)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -278,6 +446,7 @@ public class AiAhklutController : AiMonsterController
     // Update is called once per frame
     void FixedUpdate()
     {
+        //SetupFixedUpdate();
         MonsterBehaviour();
     }
 }

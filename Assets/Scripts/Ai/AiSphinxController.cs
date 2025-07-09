@@ -1,34 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class AiSphinxController : AiMonsterController
-{
-    private State state = State.BallNotPossessed;
-    private enum State
-    {
-        BallNotPossessed,
-        MonsterHasBall,
-        WarriorHasBall,
-        MummyHasBall
-    }
+{   
     protected override void BallNotPossessed()
     {
         if (state != State.BallNotPossessed)
         {
             Debug.Log("BallNotPossessed");
             state = State.BallNotPossessed;
+            stateChanged = true;
         }
-
-        // Stop roaming and pursuing if its happening
-        StopCoroutines();
 
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         if (!isPerformingAbility)
         {
+            // Stop roaming and pursuing if its happening
+            StopCoroutines();
+
             // Default behaviour
             Vector2 toBall = new Vector2(
                     mc.BP.gameObject.transform.position.x - transform.position.x,
@@ -61,11 +51,13 @@ public class AiSphinxController : AiMonsterController
         {
             Debug.Log("WarriorHasBall");
             state = State.MonsterHasBall;
+            stateChanged = true;
         }
 
         // Default behaviour
         if (!isPerformingAbility)
         {
+            StopCoroutines();
             ResetAbilities();
 
             // "Wiggle" your way towards the goal
@@ -84,11 +76,6 @@ public class AiSphinxController : AiMonsterController
 
             // If shooting, chargeAmount depends on distance to goal
         }
-        // If dash is being charged, charge is down
-        else
-        {
-            ResetAbilities();
-        }
 
         // Monster should not use abilities, unless they can be activated while dribbling
         ability1Chance = 0.1f; // Mummy Explode
@@ -105,6 +92,7 @@ public class AiSphinxController : AiMonsterController
         {
             Debug.Log("WarriorHasBall");
             state = State.WarriorHasBall;
+            stateChanged = true;
         }
 
         // Reset shootChance to 0.0
@@ -113,7 +101,6 @@ public class AiSphinxController : AiMonsterController
         // If monster in monster half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
@@ -131,7 +118,7 @@ public class AiSphinxController : AiMonsterController
         // If monster and warrior with ball in monster half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
+            
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
@@ -153,8 +140,6 @@ public class AiSphinxController : AiMonsterController
         // If monster and warrior in warrior half...
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // Debug.Log("monster and warrior in warrior half");
-            StopRoaming();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
@@ -178,10 +163,12 @@ public class AiSphinxController : AiMonsterController
         // If monster in warrior half, warrior in monster half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
+            
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
+                StopCoroutines();
+
                 // Default behavior
                 mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized; // Retreat to own goal
                 mc.movementDirection.y = 0;
@@ -207,6 +194,7 @@ public class AiSphinxController : AiMonsterController
         {
             Debug.Log("MummyHasBall");
             state = State.MummyHasBall;
+            stateChanged = true;
         }
         //StopPursuing();
         //StopCoroutines();

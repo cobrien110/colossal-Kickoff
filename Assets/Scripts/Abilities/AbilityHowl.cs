@@ -35,6 +35,7 @@ public class AbilityHowl : AbilityScript
 
     private void DelayedActivate()
     {
+        Debug.Log("ActivateVisualizer");
         attackVisualizer.SetActive(true);
         // Schedule the deactivation after 1 second
         Invoke(nameof(DeactivateVisualizer), 1f);
@@ -87,6 +88,38 @@ public class AbilityHowl : AbilityScript
         }
     }
 
+    public bool BallInRadius()
+    {
+        Collider[] objectsInRange = Physics.OverlapSphere(transform.position, howlRadius);
+        foreach (Collider obj in objectsInRange)
+        {
+            // Debug.Log("Objects in range of howl:" + obj.name);
+
+            // Check for ball
+            if (obj.GetComponent<BallProperties>() != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool WarriorInRadius()
+    {
+        Collider[] objectsInRange = Physics.OverlapSphere(transform.position, howlRadius);
+        foreach (Collider obj in objectsInRange)
+        {
+            // Debug.Log("Objects in range of howl:" + obj.name);
+
+            // Check for warrior
+            if (obj.GetComponent<WarriorController>() != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -105,7 +138,7 @@ public class AbilityHowl : AbilityScript
         //Debug.Log("Timer: " + timer);
         if (attackVisualizer.activeSelf)
         {
-            Debug.Log("Attack Visual Active");
+            //Debug.Log("Attack Visual Active");
         }
      
     }
@@ -113,6 +146,7 @@ public class AbilityHowl : AbilityScript
     // Method to deactivate the visualizer
     private void DeactivateVisualizer()
     {
+        Debug.Log("DeactivateVisualizer");
         attackVisualizer.SetActive(false);
     }
 
@@ -129,5 +163,11 @@ public class AbilityHowl : AbilityScript
     public override void Deactivate()
     {
         CancelInvoke();
+    }
+
+    public override void AbilityReset()
+    {
+        base.AbilityReset();
+        DeactivateVisualizer();
     }
 }

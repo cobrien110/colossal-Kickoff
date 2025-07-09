@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1718773609196591379, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718773609196591379, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.29465854
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718773609196591379, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -22,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_Name
-      value: Akhlut Variant
+      value: AiAhklut
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49,3 +57,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd6bb7a7813ed34c8fbaf3fb2f3cbfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warriors: []
+  aiShootSpeed: 400
+  performActionChanceFrequency: 0.25
+  maxShootingRange: 16
+  maxProximityRange: 8
+  midFieldPoint: 0
+  leftBoundary: -4
+  fieldDepth: 3
+  attackMinimumCharge: 0.3
+  smoothFactor: 8
+  defendGoalDelay: 0.5
+  pursueDelay: 1
+  minPursueDistance: 0.25
+  waitInPlaceTime: 1
+  redirectionInterval: 0.25
+  redirectionSmoothness: 0.5
+  wiggleOffset: 1.5
+  maxDiveDuration: 1.75
+  diveToTargetThreshold: 0.8
+  minDiveDistance: 2
+  diveToTargetPosOffset: 1.5
