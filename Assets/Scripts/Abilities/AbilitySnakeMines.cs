@@ -68,6 +68,7 @@ public class AbilitySnakeMines : AbilityScript
                     bombToDestroy.centerOffset = centerOffset;
                     ASS.cutSegments.RemoveAt(i);
                     bombToDestroy.PrimeExplosion(willPushBall);
+                    bombToDestroy.ResetObjectsInRadius();
                 }
                 audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(soundName), 0.85f);
                 ST.UpdateMAbUsed();

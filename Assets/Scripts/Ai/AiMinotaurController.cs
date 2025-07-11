@@ -137,7 +137,7 @@ public class AiMinotaurController : AiMonsterController
             MonsterHasBall();
         }
         // If warrior has ball...
-        else if (mc.BP.ballOwner.GetComponent<WarriorController>() != null)
+        else if (mc.BP.ballOwner.CompareTag("Warrior"))
         {
             // Debug.Log("WarriorHasBall");
             // Logic
