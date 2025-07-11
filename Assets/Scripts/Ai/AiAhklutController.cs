@@ -201,8 +201,7 @@ public class AiAhklutController : AiMonsterController
         {
             Debug.Log("PerformAbility3");
 
-            StopCoroutines();
-            Dive();
+            StartDive();
         }
     }
 
@@ -364,11 +363,12 @@ public class AiAhklutController : AiMonsterController
         diveTimer = 0f;
     }
 
-    private void Dive()
+    private void StartDive()
     {
         if (mc == null || mc.BP == null) return;
         if (diveCoroutine != null) return; // Dive already active
         if (!ShouldDive()) return;
+        StopCoroutines();
         isPerformingAbility = true;
         //Vector3 targetLocation = GetBallTargetPosition(diveMode);
         //diveCoroutine = StartCoroutine(DiveToTarget(targetLocation));

@@ -131,17 +131,33 @@ public class SnakeBomb : MonoBehaviour
     {
         if (other.CompareTag("Warrior"))
         {
-            Debug.Log("SnakeBomb OnTriggerEnter: " + other.gameObject.name);
+            // Debug.Log("SnakeBomb OnTriggerStay: " + other.gameObject.name);
+            Vector3 center = transform.position + centerOffset;
+            Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
             WarriorController wc = other.GetComponent<WarriorController>();
             if (wc != null)
             {
-                Vector3 center = transform.position + centerOffset;
-                Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
-                if (objectsInRange.Any(c => c.gameObject == wc.gameObject)) warriorsInRadius.Add(wc);
+                if (objectsInRange.Any(c => c.gameObject == wc.gameObject)) // Warrior is in hitbox
+                {
+                    warriorsInRadius.Add(wc);
+                } else // Warrior is NOT in hitbox
+                {
+                    warriorsInRadius.Remove(wc);
+                }
             }
         } else if (other.CompareTag("Ball"))
         {
-            isBallInRadius = true;
+            // Debug.Log("SnakeBomb OnTriggerStay: " + other.gameObject.name);
+            Vector3 center = transform.position + centerOffset;
+            Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
+            if (objectsInRange.Any(c => c.gameObject == other.gameObject)) // Ball is in hitbox
+            {
+                isBallInRadius = true;
+            }
+            else // Ball is NOT in hitbox
+            {
+                isBallInRadius = true;
+            }
         }
     }
 
@@ -149,16 +165,14 @@ public class SnakeBomb : MonoBehaviour
     {
         if (other.CompareTag("Warrior"))
         {
-            Debug.Log("SnakeBomb OnTriggerExit: " + other.gameObject.name);
+            // Debug.Log("SnakeBomb OnTriggerExit: " + other.gameObject.name);
             WarriorController wc = other.GetComponent<WarriorController>();
             if (wc != null)
             {
-                Vector3 center = transform.position + centerOffset;
-                Collider[] objectsInRange = Physics.OverlapSphere(center, radius);
-                //if (!objectsInRange.Any(c => c.gameObject == wc.gameObject)) warriorsInRadius.Remove(wc);
                 warriorsInRadius.Remove(wc);
             }
-        } else if (other.CompareTag("Ball"))
+        }
+        else if (other.CompareTag("Ball"))
         {
             isBallInRadius = false;
         }

@@ -690,12 +690,13 @@ public abstract class AiMonsterController : MonoBehaviour
         }
     }
 
-    // Defend goal position is in the middle of the ballOwner and the goal
-    private Vector3 GetDefendGoalPosition()
+    // Defend goal position is in the middle of the ballOwner/ball and the goal
+    protected Vector3 GetDefendGoalPosition()
     {
         if (mc.BP == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if (mc.BP.ballOwner == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        Vector3 vec = mc.BP.ballOwner.transform.position - monsterGoal.transform.position;
+        GameObject targetToDefend = mc.BP.ballOwner;
+        if (targetToDefend == null) targetToDefend = mc.BP.gameObject;
+        Vector3 vec = targetToDefend.transform.position - monsterGoal.transform.position;
         Vector3 dir = vec.normalized;
         float distance = vec.magnitude;
         Vector3 defendPos = monsterGoal.transform.position + (dir * distance / 2);

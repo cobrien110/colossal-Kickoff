@@ -5,13 +5,17 @@ using UnityEngine.Rendering;
 
 public class AiQuetzalcaotlController : AiMonsterController
 {
+    private Coroutine flyCoroutine = null;
+    [SerializeField] private float minFlyDistance; // min distance Quetz must be from target to use fly
+    private FlyMode flyMode = FlyMode.Ball;
+    [SerializeField] private float flyToTargetThreshold; // How close is considered "close enough" when flying to target position
+
     private enum FlyMode
     {
         Ball,
-        BallOwner
+        BallOwner,
+        Offensive
     }
-
-    private FlyMode flyMode = FlyMode.Ball;
 
     // Start is called before the first frame update
     void Start()
@@ -63,8 +67,16 @@ public class AiQuetzalcaotlController : AiMonsterController
     // Fly
     protected override void PerformAbility3Chance()
     {
-        return;
-        throw new System.NotImplementedException();
+        if (mc.abilities[2] == null) return;
+
+        if (!mc.abilities[2].AbilityOffCooldown()) return;
+
+        if (UnityEngine.Random.value < ability3Chance)
+        {
+            Debug.Log("PerformAbility3");
+
+            StartFly();
+        }
     }
 
     protected override void MonsterBehaviour()
@@ -145,9 +157,35 @@ public class AiQuetzalcaotlController : AiMonsterController
         ability2Chance = 0.4f;
         attackMode = AttackMode.NearestWarrior;
 
-        // Set Fly chance and behavior
-        ability3Chance = 0.1f;
-        flyMode = FlyMode.Ball; // Fly at ball
+        // If ball in warrior half, and warrior nearest ball in warrior half
+        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        {
+            // Set Fly chance and behavior
+            ability3Chance = 0.2f;
+            flyMode = FlyMode.Offensive; // Go after warrior nearest ball
+        }
+        // If ball in warrior half, and warrior nearest ball in monster half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        {
+            // Set Fly chance and behavior
+            ability3Chance = 0.2f;
+            flyMode = FlyMode.Ball; // Fly at ball
+        }
+        // If ball in monster half, and warrior nearest ball in monster half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        {
+            // Set Fly chance and behavior
+            ability3Chance = 0.3f;
+            flyMode = FlyMode.Offensive; // Go after warrior nearest ball
+        }
+        // If ball in monster half, and warrior nearest ball in warrior half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        {
+            // Set Fly chance and behavior
+            ability3Chance = 0.1f;
+            flyMode = FlyMode.Ball; // Go after warrior nearest ball
+        }
+
 
         // Debug.Log("BallNotPossessed");
     }
@@ -179,7 +217,7 @@ public class AiQuetzalcaotlController : AiMonsterController
             // float pathToGoalFactor = 0.0f;
 
             // Calculate shootChance based on these factors
-            shootChance = Mathf.Pow((distToGoalFactor/* + proximityToWarriorFactor*/) / 2f, 2);
+            shootChance = Mathf.Pow((distToGoalFactor/* + proximityToWarriorFactor*/) / 1f, 2);
 
             // If shooting, chargeAmount depends on distance to goal
 
@@ -205,9 +243,9 @@ public class AiQuetzalcaotlController : AiMonsterController
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
-        flyMode = FlyMode.BallOwner; // Warrior has the ball, so target ballOwner
+        flyMode = FlyMode.BallOwner; // ballOwner is warrior, so target ballOwner
 
-        // If mino in mino half, warrior with ball in warrior half...
+        // If quetz in quetz half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
             // Default behavior
@@ -224,7 +262,7 @@ public class AiQuetzalcaotlController : AiMonsterController
             ability3Chance = 0.1f; // Fly
         }
 
-        // If mino and warrior with ball in mino half...
+        // If quetz and warrior with ball in quetz half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
             if (!isPerformingAbility) // Allow ability to finish if one is happening
@@ -244,10 +282,10 @@ public class AiQuetzalcaotlController : AiMonsterController
             }
         }
 
-        // If mino and warrior in warrior half...
+        // If quetz and warrior in warrior half...
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            // Debug.Log("mino and warrior in warrior half");
+            // Debug.Log("quetz and warrior in warrior half");
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
@@ -267,7 +305,7 @@ public class AiQuetzalcaotlController : AiMonsterController
             }
         }
 
-        // If mino in warrior half, warrior in mino half...
+        // If quetz in warrior half, warrior in quetz half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
             if (!isPerformingAbility) // Allow ability to finish if one is happening
@@ -316,16 +354,22 @@ public class AiQuetzalcaotlController : AiMonsterController
                 SnakeBomb snakeBomb = bombObj.GetComponent<SnakeBomb>();
                 if (!snakeBomb.GetIsBallInRadius() || mc.BP.ballOwner != null) continue; // Ignore if ball isn't in radius, or if it is possessed
 
+                GameObject ball = mc.BP.gameObject;
                 Vector3 bombToMonsterGoal = (monsterGoal.transform.position - bombObj.transform.position).normalized;
-                Vector3 bombToBall = (mc.BP.gameObject.transform.position - bombObj.transform.position).normalized;
+                Vector3 bombToBall = (ball.transform.position - bombObj.transform.position).normalized;
                 Vector3 bombToWarriorGoal = (warriorGoal.transform.position - bombObj.transform.position).normalized;
+                
+                float minDefensiveBombDist = 5f;
 
-                // Check if ball is moving toward own goal, but is positioned by bomb opposite said goal (so bomb will hit ball away from monster goal)
-                bool shouldBombDefensive = BallGoingTowardOwnGoal() && Vector3.Dot(bombToBall, bombToMonsterGoal) < 0;
+                // Check if ball is moving toward own goal, and is positioned by bomb opposite said goal (so bomb will hit ball away from monster goal)
+                bool shouldBombDefensive = BallGoingTowardOwnGoal() && Vector3.Dot(bombToBall, bombToMonsterGoal) < 0
+                    && Vector3.Distance(ball.transform.position, monsterGoal.transform.position) > minDefensiveBombDist;
 
                 // Check if ball is by bomb, positioned on side near warrior goal (so bomb will hit ball toward warrior goal)
                 float directionalAlignmentThreshold = 0.3f;
-                bool shouldBombOffensive = Vector3.Dot(bombToBall, bombToWarriorGoal) > directionalAlignmentThreshold;
+                float maxOffensiveBombDist = 5f;
+                bool shouldBombOffensive = Vector3.Dot(bombToBall, bombToWarriorGoal) > directionalAlignmentThreshold
+                    && Vector3.Distance(ball.transform.position, warriorGoal.transform.position) < maxOffensiveBombDist;
 
 
                 if (shouldBombDefensive || shouldBombOffensive)
@@ -344,5 +388,121 @@ public class AiQuetzalcaotlController : AiMonsterController
         Debug.Log("IsWarriorInBomb(): " + IsWarriorInBomb());
         Debug.Log("ShouldBombBall(): " + ShouldBombBall());
         return IsWarriorInBomb() || ShouldBombBall();
+    }
+
+    private void StartFly()
+    {
+        if (mc == null || mc.BP == null) return;
+        if (flyCoroutine != null) return; // fly already active
+        if (!ShouldFly()) return;
+        StopCoroutines();
+        isPerformingAbility = true;
+        //Vector3 targetLocation = GetBallTargetPosition(flyMode);
+        //flyCoroutine = StartCoroutine(flyToTarget(targetLocation));
+        flyCoroutine = StartCoroutine(FlyToTarget());
+    }
+
+    private bool ShouldFly()
+    {
+        GameObject target = null;
+        if (flyMode == FlyMode.BallOwner && mc.BP.ballOwner != null)
+            target = mc.BP.ballOwner;
+        else
+            target = mc.BP.gameObject;
+        //else
+        //{
+        //    Debug.LogError("target incorrectly assigned due to flyMode error");
+        //    target = gameObject;
+        //}
+
+        Debug.Log("target: " + target);
+
+        // If distance between here and target is too little
+        if (Vector3.Distance(transform.position, target.transform.position) < minFlyDistance)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private IEnumerator FlyToTarget()
+    {
+        if (mc == null || mc.abilities[2] == null) yield break; // Ensure fly ability is valid
+
+        // Activate fly to go underground
+        mc.abilities[2].Activate();
+
+        AbilityFly abilityfly = mc.abilities[2] as AbilityFly;
+
+        while (abilityfly.GetIsActive())
+        {
+            Vector3 target = GetFlyTargetPosition();
+
+            if (Vector3.Distance(transform.position, target) < flyToTargetThreshold)
+            {
+                yield return null;
+                mc.movementDirection = Vector3.zero;
+                continue;
+            }
+            Debug.Log("target: " + target);
+            Debug.Log("Vector3.Distance(transform.position, target.transform.position): " + Vector3.Distance(transform.position, target));
+            Debug.Log("flyToTargetThreshold: " + flyToTargetThreshold);
+            Vector3 dirToTarget = (target - transform.position).normalized;
+            dirToTarget = new Vector3(dirToTarget.x, 0, dirToTarget.z); // Ignore Y
+
+
+            // Set movement direction while diving to be towards target
+            mc.movementDirection = dirToTarget;
+
+            yield return null;
+        }
+
+        flyCoroutine = null;
+        isPerformingAbility = false;
+    }
+
+    private Vector3 GetFlyTargetPosition()
+    {
+        if (mc == null || mc.BP == null) return transform.position;
+        if (flyMode == FlyMode.BallOwner && mc.BP.ballOwner != null)
+        {
+            return mc.BP.ballOwner.transform.position;
+        } else if (flyMode == FlyMode.Offensive)
+        {
+            // Target warrior nearest ball
+            WarriorController target = GetNearestWarrior(mc.BP.gameObject.transform.position);
+            return target != null ? target.transform.position : Vector3.zero;
+        } else // flyMode == Ball
+        {
+            return mc.BP.transform.position;
+        }
+    }
+
+    private void StopFly()
+    {
+        if (flyCoroutine != null)
+        {
+            Debug.Log("StopFly");
+            StopCoroutine(flyCoroutine);
+            flyCoroutine = null;
+
+            // Flush & Reset ability
+            AbilityFly abilityFly = mc.abilities[2] as AbilityFly;
+            if (abilityFly != null)
+            {
+                abilityFly.Activate();
+                isPerformingAbility = false;
+                abilityFly.Deactivate();
+            }
+        }
+    }
+
+    protected override void StopCoroutines()
+    {
+        base.StopCoroutines();
+        StopFly();
     }
 }
