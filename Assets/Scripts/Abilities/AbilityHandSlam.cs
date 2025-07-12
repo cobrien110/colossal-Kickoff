@@ -232,96 +232,95 @@ public class AbilityHandSlam : AbilityDelayed
         
     }
 
+    public void TryStartSlam()
+    {
+        if (!ShouldAttemptSlam()) return;
+
+        if (canSlam)
+        {
+            Debug.Log("Hand slam - Ability pressed");
+            slamWasPressed = true;
+            canSlam = false;
+
+            attackPosStart = transform.position;
+            attackPosEnd = transform.transform.position + Vector3.right * slamLength;
+
+            // Detach hand and visualizer, show visualizer
+
+            // Show attack visual
+            attackVisualizer.SetActive(true);
+
+            // Choose hand based on if monster movement direction, up or down
+            float zDirection = monsterRB.velocity.z;
+
+            // If hand1 is not available
+            if (!abilityCreateHands.hand1.activeSelf)
+            {
+                // Use hand2
+                chosenHand = abilityCreateHands.hand2;
+                chosenHandIndex = 2;
+            }
+            else if (!abilityCreateHands.hand2.activeSelf) // If hand2 is not available
+            {
+                // Use hand1
+                chosenHand = abilityCreateHands.hand1;
+                chosenHandIndex = 1;
+            }
+            else // Both hands are available, so choose based on zDirection
+            {
+                if (zDirection > 0)
+                {
+                    chosenHand = abilityCreateHands.hand2;
+                    chosenHandIndex = 2;
+                }
+                else
+                {
+                    chosenHand = abilityCreateHands.hand1;
+                    chosenHandIndex = 1;
+                }
+            }
+
+            // Detach hand
+            chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
+        }
+    }
+
+    public void TryReleaseSlam()
+    {
+        if (!ShouldAttemptSlam()) return;
+
+        if (slamWasPressed)
+        {
+            slamWasPressed = false;
+            Debug.Log("Hand slam - Ability released");
+
+            StartCoroutine(TriggerSlam());
+        }
+        
+    }
+
+    private bool ShouldAttemptSlam()
+    {
+        if((!GM.isPlaying || MC.isStunned)
+            || (timer < cooldown)
+            || (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
+            || (abilityCreateHands == null))
+        {
+            return false;
+        }
+        return true;
+    }
+
     public override void CheckInputsDelayed(InputAction.CallbackContext context)
     {
         // Debug.Log("Ability delayed input action: " + context);
 
-        if (!GM.isPlaying || MC.isStunned)
-        {
-            return;
-        }
-
-        if (timer < cooldown)
-        {
-            Debug.Log("Hand slam not off cooldown");
-            Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
-            return; // Ability not off cooldown
-        }
-
-        if (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
-        {
-            Debug.Log("No hand is active");
-            return; // No hand is active
-        }
-
-        // Ensure that we have reference to the hands
-        if (abilityCreateHands == null)
-        {
-            Debug.LogError("AbilityCreateHands reference is missing.");
-            return;
-        }
-
         if (context.action.WasPressedThisFrame())
         {
-            if (canSlam)
-            {
-                Debug.Log("Hand slam - Ability pressed");
-                slamWasPressed = true;
-                canSlam = false;
-
-                attackPosStart = transform.position;
-                attackPosEnd = transform.transform.position + Vector3.right * slamLength;
-
-                // Detach hand and visualizer, show visualizer
-
-                // Show attack visual
-                attackVisualizer.SetActive(true);
-
-                // Choose hand based on if monster movement direction, up or down
-                float zDirection = monsterRB.velocity.z;
-
-                // If hand1 is not available
-                if (!abilityCreateHands.hand1.activeSelf)
-                {
-                    // Use hand2
-                    chosenHand = abilityCreateHands.hand2;
-                    chosenHandIndex = 2;
-                }
-                else if (!abilityCreateHands.hand2.activeSelf) // If hand2 is not available
-                {
-                    // Use hand1
-                    chosenHand = abilityCreateHands.hand1;
-                    chosenHandIndex = 1;
-                }
-                else // Both hands are available, so choose based on zDirection
-                {
-                    if (zDirection > 0)
-                    {
-                        chosenHand = abilityCreateHands.hand2;
-                        chosenHandIndex = 2;
-                    }
-                    else
-                    {
-                        chosenHand = abilityCreateHands.hand1;
-                        chosenHandIndex = 1;
-                    }
-                }
-
-                // Detach hand
-                chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
-            }
-            
-
+            TryStartSlam();
         } else if (context.action.WasReleasedThisFrame())
         {
-            if (slamWasPressed)
-            {
-                slamWasPressed = false;
-                Debug.Log("Hand slam - Ability released");
-
-                StartCoroutine(TriggerSlam());
-            }
-
+            TryReleaseSlam();
         }
     }
 
