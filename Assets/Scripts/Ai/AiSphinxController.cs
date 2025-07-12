@@ -28,7 +28,7 @@ public class AiSphinxController : AiMonsterController
 
         // If ball and warrior nearest ball are in monster half
         if (mc != null && mc.BP != null &&
-            !IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position)?.gameObject))
+            !IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.gameObject.transform.position)))
         {
             ability1Chance = 0.3f;
         }
@@ -295,7 +295,6 @@ public class AiSphinxController : AiMonsterController
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
-            StopCoroutines();
             StartChargeableAttack(attackMode);
         }
     }
@@ -321,7 +320,7 @@ public class AiSphinxController : AiMonsterController
     private void Curse()
     {
         // Look toward nearest warrior
-        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
         if (nearestWarrior == null) return;
         Vector3 targetPos = nearestWarrior.GetAnticipatedPosition(0.5f);
         //Vector3 nearestWarriorPos = nearestWarrior.transform.position;

@@ -185,7 +185,6 @@ public class AiAhklutController : AiMonsterController
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
-            StopCoroutines();
             StartChargeableAttack(attackMode);
         }
     }

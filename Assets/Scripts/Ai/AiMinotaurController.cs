@@ -70,7 +70,6 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
-            StopCoroutines();
             StartChargeableAttack(attackMode);
         }
     }
@@ -586,7 +585,7 @@ public class AiMinotaurController : AiMonsterController
             yield break;
         }
 
-        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
         if (nearestWarrior == null) yield break;
 
         while (isPerformingAbility)

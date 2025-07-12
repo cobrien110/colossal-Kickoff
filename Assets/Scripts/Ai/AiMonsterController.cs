@@ -318,7 +318,7 @@ public abstract class AiMonsterController : MonoBehaviour
             if (target == null)
             {
                 //target = targetSelector(transform);
-                target = GetNearestWarrior(transform.position).gameObject;
+                target = GetNearestWarrior(transform.position);
                 if (target == null) break;
             }
 
@@ -395,6 +395,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected void StartChargeableAttack(AttackMode mode)
     {
         Debug.Log("StartChargeableAttack");
+        StopCoroutines();
         AbilityChargeableAttack ability = mc.abilities[1] as AbilityChargeableAttack;
         if (ability == null) return;
         StopCoroutines();
@@ -411,7 +412,7 @@ public abstract class AiMonsterController : MonoBehaviour
         else if (mode == AttackMode.NearestWarrior)
         {
             Debug.Log("StartChargeableAttack: AttackMode NearestWarrior");
-            WarriorController nearest = GetNearestWarrior(transform.position);
+            WarriorController nearest = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
             GameObject target = nearest != null && Vector3.Distance(nearest.transform.position, transform.position) < maxProximityRange ? nearest.gameObject : null;
             attackCoroutine = StartCoroutine(ChargeableAttackController(target, ability));
         } else
@@ -443,14 +444,14 @@ public abstract class AiMonsterController : MonoBehaviour
     // GENERAL METHODS
 
     #region General Methods
-    protected WarriorController GetNearestWarrior(Vector3 pos)
+    protected GameObject GetNearestWarrior(Vector3 pos)
     {
         GameObject nearestWarrior = null;
         float distToNearestWarrior = float.MaxValue;
 
         foreach (GameObject warrior in warriors)
         {
-            if (!warrior.activeSelf) continue;
+            if (!warrior.activeSelf || !warrior.CompareTag("Warrior")) continue;
             float distanceToWarrior = Vector3.Distance(pos, warrior.transform.position);
             if (distanceToWarrior < distToNearestWarrior)
             {
@@ -459,8 +460,8 @@ public abstract class AiMonsterController : MonoBehaviour
             }
         }
 
-        if (nearestWarrior != null && nearestWarrior.GetComponent<WarriorController>().GetIsDead()) Debug.LogWarning("Targeting dead warrior!");
-        return nearestWarrior?.GetComponent<WarriorController>();
+        if (nearestWarrior != null && nearestWarrior.TryGetComponent<WarriorController>(out var wc) && wc.GetIsDead()) Debug.LogWarning("Targeting dead warrior!");
+        return nearestWarrior;
     }
 
     protected virtual void StopCoroutines()

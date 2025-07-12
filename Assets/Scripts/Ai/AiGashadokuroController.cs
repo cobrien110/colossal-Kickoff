@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AiGashadokuroController : AiMonsterController
 {
+    private Coroutine releaseSlamCoroutine = null;
+    AbilityHandSlam abilityHandSlam;
     protected override void BallNotPossessed()
     {
         if (state != State.BallNotPossessed)
@@ -230,8 +231,21 @@ public class AiGashadokuroController : AiMonsterController
     // Hand Slam
     protected override void PerformAbility2Chance()
     {
-        return;
-        throw new System.NotImplementedException();
+        if (mc.abilities[1] == null) return;
+
+        if (!mc.abilities[1].AbilityOffCooldown()) return;
+
+        if (UnityEngine.Random.value < ability2Chance && ShouldSlam())
+        {
+            Debug.Log("PerformAbility2");
+            isPerformingAbility = true;
+
+            if (abilityHandSlam != null)
+            {
+                abilityHandSlam.TryStartSlam();
+                StartReleaseSlam();
+            }
+        }
     }
 
     // Shrine
@@ -241,17 +255,76 @@ public class AiGashadokuroController : AiMonsterController
         throw new System.NotImplementedException();
     }
 
+    private IEnumerator ReleaseSlam()
+    {
+        while (abilityHandSlam.GetSlamWasPressed())
+        {
+            abilityHandSlam.TryReleaseSlam();
+            yield return null;
+        }
+        isPerformingAbility = false;
+    }
+
+    private void StartReleaseSlam()
+    {
+        if (releaseSlamCoroutine == null)
+        {
+            Debug.Log("Start ReleaseSlam");
+            StopCoroutines();
+            releaseSlamCoroutine = StartCoroutine(ReleaseSlam());
+        }
+    }
+
+    private void StopReleaseSlam()
+    {
+        if (releaseSlamCoroutine != null)
+        {
+            Debug.Log("Stop ReleaseSlam");
+            StopCoroutine(releaseSlamCoroutine);
+            releaseSlamCoroutine = null;
+
+            if (abilityHandSlam != null)
+            {
+                abilityHandSlam.AbilityReset();
+            }
+        }
+    }
+
+    protected override void StopCoroutines()
+    {
+        base.StopCoroutines();
+        StopReleaseSlam();
+    }
     
 
     // Start is called before the first frame update
     void Start()
     {
         Setup();
+        //abilityHandSlam = mc.abilities.OfType<AbilityHandSlam>().FirstOrDefault();
+        //Debug.Log("mc.abilities.Count: " + mc.abilities.Count);
+        //mc.abilities.ForEach(item => Debug.Log(item));
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         MonsterBehaviour();
+    }
+
+    private bool IsWarriorInSlamRange()
+    {
+        float distToNearestWarrior = Vector3.Distance(transform.position, GetNearestWarrior(transform.position).transform.position);
+        return distToNearestWarrior <= maxProximityRange;
+    }
+
+    private bool ShouldSlam()
+    {
+        if (abilityHandSlam == null) abilityHandSlam = mc.abilities[1] as AbilityHandSlam; // Instaniate handSlam on first call of this method
+        if (abilityHandSlam != null)
+        {
+            return IsWarriorInSlamRange() && abilityHandSlam.ObjectsInStunRange().Length > 0;
+        }
+        return false;
     }
 }

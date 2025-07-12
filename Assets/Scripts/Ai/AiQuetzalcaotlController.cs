@@ -59,7 +59,6 @@ public class AiQuetzalcaotlController : AiMonsterController
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
-            StopCoroutines();
             StartChargeableAttack(attackMode);
         }
     }
@@ -158,28 +157,28 @@ public class AiQuetzalcaotlController : AiMonsterController
         attackMode = AttackMode.NearestWarrior;
 
         // If ball in warrior half, and warrior nearest ball in warrior half
-        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.2f;
             flyMode = FlyMode.Offensive; // Go after warrior nearest ball
         }
         // If ball in warrior half, and warrior nearest ball in monster half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.2f;
             flyMode = FlyMode.Ball; // Fly at ball
         }
         // If ball in monster half, and warrior nearest ball in monster half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.3f;
             flyMode = FlyMode.Offensive; // Go after warrior nearest ball
         }
         // If ball in monster half, and warrior nearest ball in warrior half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)?.gameObject))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.1f;
@@ -473,7 +472,8 @@ public class AiQuetzalcaotlController : AiMonsterController
         } else if (flyMode == FlyMode.Offensive)
         {
             // Target warrior nearest ball
-            WarriorController target = GetNearestWarrior(mc.BP.gameObject.transform.position);
+            WarriorController target = null;
+            GetNearestWarrior(mc.BP.gameObject.transform.position).TryGetComponent<WarriorController>(out target);
             return target != null ? target.transform.position : Vector3.zero;
         } else // flyMode == Ball
         {
