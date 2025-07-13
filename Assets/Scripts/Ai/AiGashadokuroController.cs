@@ -264,8 +264,19 @@ public class AiGashadokuroController : AiMonsterController
     // Shrine
     protected override void PerformAbility3Chance()
     {
-        return;
-        throw new System.NotImplementedException();
+        if (mc.abilities[2] == null) return;
+
+        if (!mc.abilities[2].AbilityOffCooldown()) return;
+
+        if (UnityEngine.Random.value < ability3Chance)
+        {
+            Debug.Log("PerformAbility3");
+            isPerformingAbility = true;
+
+            StopCoroutines();
+            mc.abilities[2].Activate();
+            isPerformingAbility= false;
+        }
     }
 
     private IEnumerator ReleaseSlam()
