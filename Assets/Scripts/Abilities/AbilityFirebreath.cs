@@ -239,4 +239,9 @@ public class AbilityFirebreath : AbilityScript
             shotsFired = 0;
         }
     }
+
+    public float GetBaseFirebreathWidth()
+    {
+        return baseFireBreathWidth;
+    }
 }

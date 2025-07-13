@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AiGashadokuroController : AiMonsterController
 {
@@ -224,8 +226,19 @@ public class AiGashadokuroController : AiMonsterController
     // Fire breath
     protected override void PerformAbility1Chance()
     {
-        return;
-        throw new System.NotImplementedException();
+        if (mc.abilities[0] == null) return;
+
+        if (!mc.abilities[0].AbilityOffCooldown()) return;
+
+        if (UnityEngine.Random.value < ability1Chance && ShouldFireBreath())
+        {
+            Debug.Log("PerformAbility1");
+            isPerformingAbility = true;
+
+            StopCoroutines();
+            mc.abilities[0].Activate();
+            isPerformingAbility = false;
+        }
     }
 
     // Hand Slam
@@ -314,7 +327,10 @@ public class AiGashadokuroController : AiMonsterController
 
     private bool IsWarriorInSlamRange()
     {
-        float distToNearestWarrior = Vector3.Distance(transform.position, GetNearestWarrior(transform.position).transform.position);
+        GameObject nearestWarrior = GetNearestWarrior(transform.position);
+        if (nearestWarrior == null) return false;
+
+        float distToNearestWarrior = Vector3.Distance(transform.position, nearestWarrior.transform.position);
         return distToNearestWarrior <= maxProximityRange;
     }
 
@@ -324,6 +340,18 @@ public class AiGashadokuroController : AiMonsterController
         if (abilityHandSlam != null)
         {
             return IsWarriorInSlamRange() && abilityHandSlam.ObjectsInStunRange().Length > 0;
+        }
+        return false;
+    }
+
+    private bool ShouldFireBreath()
+    {
+        // If warrior is in relatively same z range as Gasha
+        if (mc.abilities[0] is AbilityFirebreath abilityFirebreath)
+        {
+            float proximityRangeZ = abilityFirebreath.GetBaseFirebreathWidth();
+
+            return warriors.Any(w => Mathf.Abs(w.transform.position.z - transform.position.z) < proximityRangeZ);
         }
         return false;
     }
