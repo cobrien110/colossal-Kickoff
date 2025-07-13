@@ -222,9 +222,9 @@ public class AbilityHandSlam : AbilityDelayed
         Activate();
     }
 
-    public void TryStartSlam()
+    public bool TryStartSlam()
     {
-        if (!ShouldAttemptSlam()) return;
+        if (!ShouldAttemptSlam()) return false;
 
         if (canSlam)
         {
@@ -272,7 +272,11 @@ public class AbilityHandSlam : AbilityDelayed
 
             // Detach hand
             chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
+
+            return true;
         }
+
+        return false;
     }
 
     public void TryReleaseSlam()

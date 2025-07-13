@@ -174,7 +174,7 @@ public class SoulOrb : MonoBehaviour
     public void SetTeam(bool b)
     {
         isMonsterTeam = b;
-        if (b)
+        if (b && MR != null)
         {
             MR.material = monMat;
             //SR.color = monCol;

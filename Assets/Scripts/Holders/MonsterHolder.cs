@@ -24,6 +24,7 @@ public class MonsterHolder : MonoBehaviour
 
     public void spawnMonster(int playerID, Gamepad gamepad)
     {
+        Debug.Log("Spawn Monster");
         GM.AddPlayer(monsterPrefabs[monsterIndex], playerID, -1, gamepad);
         CheckMonsterAchievement(monsterIndex);
     }

@@ -156,29 +156,31 @@ public class AiQuetzalcaotlController : AiMonsterController
         ability2Chance = 0.4f;
         attackMode = AttackMode.NearestWarrior;
 
+        GameObject nearestWarriorToBall = GetNearestWarrior(mc.BP.transform.position);
+
         // If ball in warrior half, and warrior nearest ball in warrior half
-        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
+        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(nearestWarriorToBall))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.2f;
             flyMode = FlyMode.Offensive; // Go after warrior nearest ball
         }
         // If ball in warrior half, and warrior nearest ball in monster half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.2f;
             flyMode = FlyMode.Ball; // Fly at ball
         }
         // If ball in monster half, and warrior nearest ball in monster half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.3f;
             flyMode = FlyMode.Offensive; // Go after warrior nearest ball
         }
         // If ball in monster half, and warrior nearest ball in warrior half
-        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(GetNearestWarrior(mc.BP.transform.position)))
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
         {
             // Set Fly chance and behavior
             ability3Chance = 0.1f;
@@ -395,7 +397,6 @@ public class AiQuetzalcaotlController : AiMonsterController
         if (flyCoroutine != null) return; // fly already active
         if (!ShouldFly()) return;
         StopCoroutines();
-        isPerformingAbility = true;
         //Vector3 targetLocation = GetBallTargetPosition(flyMode);
         //flyCoroutine = StartCoroutine(flyToTarget(targetLocation));
         flyCoroutine = StartCoroutine(FlyToTarget());
@@ -431,6 +432,7 @@ public class AiQuetzalcaotlController : AiMonsterController
     {
         if (mc == null || mc.abilities[2] == null) yield break; // Ensure fly ability is valid
 
+        isPerformingAbility = true;
         // Activate fly to go underground
         mc.abilities[2].Activate();
 
@@ -488,13 +490,13 @@ public class AiQuetzalcaotlController : AiMonsterController
             Debug.Log("StopFly");
             StopCoroutine(flyCoroutine);
             flyCoroutine = null;
+            isPerformingAbility = false;
 
             // Flush & Reset ability
             AbilityFly abilityFly = mc.abilities[2] as AbilityFly;
             if (abilityFly != null)
             {
                 abilityFly.Activate();
-                isPerformingAbility = false;
                 abilityFly.Deactivate();
             }
         }

@@ -251,7 +251,7 @@ public abstract class AiMonsterController : MonoBehaviour
             isPerformingAbility = false;
             attackCoroutine = null;
         }
-        else if (ability.GetIsCharging() && ability.GetTimer() >= ability.GetCooldown())
+        else if (ability.GetIsCharging() && ability.GetTimer() >= ability.GetCooldown() && mc.BP.ballOwner != gameObject)
         {
             ability.ChargeUp();
         }
@@ -259,6 +259,7 @@ public abstract class AiMonsterController : MonoBehaviour
         {
             attackCoroutine = null;
             ability.ChargeDown();
+            isPerformingAbility = false;
         }
     }
 
@@ -412,9 +413,12 @@ public abstract class AiMonsterController : MonoBehaviour
         else if (mode == AttackMode.NearestWarrior)
         {
             Debug.Log("StartChargeableAttack: AttackMode NearestWarrior");
-            WarriorController nearest = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
-            GameObject target = nearest != null && Vector3.Distance(nearest.transform.position, transform.position) < maxProximityRange ? nearest.gameObject : null;
-            attackCoroutine = StartCoroutine(ChargeableAttackController(target, ability));
+            WarriorController nearest = GetNearestWarrior(transform.position)?.GetComponent<WarriorController>();
+            if (nearest != null)
+            {
+                GameObject target = nearest != null && Vector3.Distance(nearest.transform.position, transform.position) < maxProximityRange ? nearest.gameObject : null;
+                attackCoroutine = StartCoroutine(ChargeableAttackController(target, ability));
+            }
         } else
         {
             Debug.Log("StartChargeableAttack: ERROR - No AttackMode");
@@ -519,30 +523,45 @@ public abstract class AiMonsterController : MonoBehaviour
         // Debug.Log("Reset Abilities");
         if (isPerformingAbility) isPerformingAbility = false;
 
-        if (mc.abilities[2] is AbilityBullrush)
-        {
-            AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-            if (abr.GetIsCharging() || abr.GetIsAutoCharging())
-            {
-                abr.SetIsAutoCharging(false);
-                abr.ChargeDown();
-                abr.SetInputBufferTimer(0);
-                abr.SetIsCharging(false);
-                //abr.SetTimer(0);
-            }
-        }
+        //if (mc.abilities[2] is AbilityBullrush)
+        //{
+        //    AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
+        //    if (abr.GetIsCharging() || abr.GetIsAutoCharging())
+        //    {
+        //        abr.SetIsAutoCharging(false);
+        //        abr.ChargeDown();
+        //        abr.SetInputBufferTimer(0);
+        //        abr.SetIsCharging(false);
+        //        //abr.SetTimer(0);
+        //    }
+        //}
 
-        if (mc.abilities[1] is AbilitySphericalAttack)
-        {
-            AbilitySphericalAttack attack = (AbilitySphericalAttack)mc.abilities[1];
+        //if (mc.abilities[1] is AbilityChargeableAttack)
+        //{
+        //    AbilityChargeableAttack attack = (AbilityChargeableAttack)mc.abilities[1];
 
-            if (attack.GetIsAutoCharging() || attack.GetIsCharging())
+        //    if (attack.GetIsAutoCharging() || attack.GetIsCharging())
+        //    {
+        //        attack.SetIsAutoCharging(false);
+        //        attack.SetIsCharging(false);
+        //        attack.SetInputBufferTimer(0);
+        //        attack.ChargeDown();
+        //        //attack.SetTimer(0);
+        //    }
+        //}
+
+        foreach (AbilityScript ab in mc.abilities)
+        {
+            if (ab is AbilityChargeable abc)
             {
-                attack.SetIsAutoCharging(false);
-                attack.SetIsCharging(false);
-                attack.SetInputBufferTimer(0);
-                attack.ChargeDown();
-                //attack.SetTimer(0);
+                if (abc.GetIsCharging() || abc.GetIsAutoCharging())
+                {
+                    abc.SetIsAutoCharging(false);
+                    abc.ChargeDown();
+                    abc.SetInputBufferTimer(0);
+                    abc.SetIsCharging(false);
+                    //abr.SetTimer(0);
+                }
             }
         }
     }

@@ -320,7 +320,7 @@ public class AiSphinxController : AiMonsterController
     private void Curse()
     {
         // Look toward nearest warrior
-        WarriorController nearestWarrior = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position)?.GetComponent<WarriorController>();
         if (nearestWarrior == null) return;
         Vector3 targetPos = nearestWarrior.GetAnticipatedPosition(0.5f);
         //Vector3 nearestWarriorPos = nearestWarrior.transform.position;
@@ -342,5 +342,7 @@ public class AiSphinxController : AiMonsterController
     void FixedUpdate()
     {
         MonsterBehaviour();
+
+        if (isPerformingAbility) Debug.Log("isPerformingAbility: " + isPerformingAbility);
     }
 }

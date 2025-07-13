@@ -44,7 +44,7 @@ public class GashadokuroHand : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         if (monster == null) return;
-        Debug.Log("GashaHand OnTriggerEnter");
+        // Debug.Log("GashaHand OnTriggerEnter");
         if (BP == null)
         {
             // Ensure BP is assigned a valid value
@@ -56,7 +56,7 @@ public class GashadokuroHand : MonoBehaviour
             BP = mc.BP;
         }
 
-        Debug.Log("BP: " + BP);
+        // Debug.Log("BP: " + BP);
 
         SoulOrb SO = collider.gameObject.GetComponent<SoulOrb>();
 
@@ -64,7 +64,7 @@ public class GashadokuroHand : MonoBehaviour
         if (!collider.isTrigger && collider.gameObject.GetComponent<BallProperties>() != null
             && BP.ballOwner == null)
         {
-            Debug.Log("Hand hit ball: " + collider.name);
+            // Debug.Log("Hand hit ball: " + collider.name);
 
             Vector3 hitballDirection =
                 (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)
@@ -100,7 +100,7 @@ public class GashadokuroHand : MonoBehaviour
         }
         else if (SO != null)
         {
-            Debug.Log("Hand hit orb: " + collider.name);
+            // Debug.Log("Hand hit orb: " + collider.name);
 
             Vector3 hitballDirection =
                 (new Vector3(collider.gameObject.transform.position.x, 0, collider.gameObject.transform.position.z)

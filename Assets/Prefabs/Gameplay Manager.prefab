@@ -76,6 +76,7 @@ MonoBehaviour:
   barrierBounceAngle: 45
   warriorPrefab: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   UM: {fileID: 0}
+  ST: {fileID: 0}
   SceneIM: {fileID: 8763404523313503605}
   Ball: {fileID: 1062614423232293857, guid: 1d777bd6ecaa08c419180d6c406cc015, type: 3}
   ALM: {fileID: 0}
@@ -84,10 +85,17 @@ MonoBehaviour:
   WC: {fileID: 0}
   WarriorAI: {fileID: 1101757611482615993, guid: dff29dc4b08ae114c8616134173f65d5, type: 3}
   MonsterAI: {fileID: 594246345722230943, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+  monsterAiPrefabs:
+  - {fileID: 594246345722230943, guid: 85bc1cadb8867eb4989c5266e1505da8, type: 3}
+  - {fileID: 5866878772919023589, guid: 442ce09cf30ad9040bcb0d6c64a30eac, type: 3}
+  - {fileID: 2465152835613607627, guid: 65bf0957785ed2c469e0d08138822ff3, type: 3}
+  - {fileID: 7862488812758586519, guid: bf7a1dedddb424048a729e11c11b6634, type: 3}
+  - {fileID: 8209194378696706349, guid: 6679310a1696e864884d7b04596b803f, type: 3}
   MonsterPlayer: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
   MP: {fileID: 0}
   WarriorSpawners: []
   WH: {fileID: 0}
+  WTM: {fileID: 0}
 --- !u!114 &8763404523313503605
 MonoBehaviour:
   m_ObjectHideFlags: 0

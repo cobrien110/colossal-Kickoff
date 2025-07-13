@@ -45,10 +45,6 @@ public class SnakeBomb : MonoBehaviour
         transform.position = new Vector3(transform.position.x, baseHeight, transform.position.z);
         sprite.transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
-        foreach (WarriorController wc in warriorsInRadius)
-        {
-            Debug.Log("warriorsInRadius: " + wc.name);
-        }
     }
 
     public void PrimeExplosion(bool willPushBall)

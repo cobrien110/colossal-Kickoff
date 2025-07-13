@@ -44,6 +44,8 @@ public class PlayerHolder : MonoBehaviour
 
     public WarriorDesc WD = null;
 
+    private MonsterName monsterName;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -97,6 +99,8 @@ public class PlayerHolder : MonoBehaviour
 
             }
         }
+
+        monsterName = FindObjectOfType<MonsterName>();
     }
 
     private void OnEnable()
@@ -121,7 +125,7 @@ public class PlayerHolder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (monsterName != null) monsterIndex = monsterName.monsterIndex;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

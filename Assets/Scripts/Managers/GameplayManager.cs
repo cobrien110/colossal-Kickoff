@@ -69,6 +69,7 @@ public class GameplayManager : MonoBehaviour
     //[SerializeField] private MultipleTargetCamera MTC = null;
     [SerializeField] private GameObject WarriorAI = null;
     [SerializeField] private GameObject MonsterAI = null;
+    [SerializeField] private List<GameObject> monsterAiPrefabs;
     [SerializeField] private GameObject MonsterPlayer = null;
     private PlayerInputManager PIM = null;
     [SerializeField] private MusicPlayer MP = null;
@@ -78,6 +79,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private GameObject[] WarriorSpawners = null;
     private AiMummyManager aiMummymanager;
     public WarriorHolder WH = null;
+    
 
     [Header("Tutorial Stuff")]
     [SerializeField] private GameObject WTM = null;
@@ -654,8 +656,19 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
+    private void AssignMonsterAI()
+    {
+        GameObject playerHolder = GameObject.FindGameObjectWithTag("PlayerHolder");
+        if (playerHolder != null)
+        {
+            PlayerHolder PH = playerHolder.GetComponent<PlayerHolder>();
+            MonsterAI = monsterAiPrefabs[PH.monsterIndex];
+        }
+    }
+
     public void SpawnAI()
     {
+        Debug.Log("Spawn AI");
         int playerNumberInput;
         for (int i = playerList.Count; i < 4; i++)
         {
@@ -663,6 +676,8 @@ public class GameplayManager : MonoBehaviour
 
             if (GameObject.FindGameObjectWithTag("Monster") == null)
             {
+                AssignMonsterAI();
+                Debug.Log("AssignMonsterAI - MonsterAI: " + MonsterAI.name);
                 MonsterAI.name = "MonsterAI";
                 Debug.Log(i);
                 GameObject newMon = Instantiate(MonsterAI, new Vector3(5.25f, 0f, -2f), Quaternion.identity);

@@ -92,16 +92,16 @@ public class AbilitySnakeMines : AbilityScript
 
     private void OnDrawGizmos()
     {
-        // Set the color of the gizmo
-        Gizmos.color = Color.red;
+        //// Set the color of the gizmo
+        //Gizmos.color = Color.red;
 
-        // Draw a wireframe sphere at the object's position with the radius
-        if (ASS == null) return;
-        if (ASS.cutSegments == null) return;
-        for (int i = 0; i < ASS.cutSegments.Count; i++)
-        {
-            Vector3 pos = ASS.cutSegments[i].transform.position + centerOffset;
-            Gizmos.DrawWireSphere(pos + centerOffset, radius);
-        }      
+        //// Draw a wireframe sphere at the object's position with the radius
+        //if (ASS == null) return;
+        //if (ASS.cutSegments == null) return;
+        //for (int i = 0; i < ASS.cutSegments.Count; i++)
+        //{
+        //    Vector3 pos = ASS.cutSegments[i].transform.position + centerOffset;
+        //    Gizmos.DrawWireSphere(pos + centerOffset, radius);
+        //}      
     }
 }

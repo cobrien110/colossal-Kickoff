@@ -33,8 +33,14 @@ public class AiGashadokuroController : AiMonsterController
             MoveTo(toBall);
         }
 
+        // Fire breath
+        ability1Chance = 0.2f;
+
         // Set Hand Slam chance
         ability2Chance = 0.4f;
+
+        // Shrine
+        ability3Chance = 0.2f;
 
         // Debug.Log("BallNotPossessed");
     }
@@ -251,12 +257,11 @@ public class AiGashadokuroController : AiMonsterController
         if (UnityEngine.Random.value < ability2Chance && ShouldSlam())
         {
             Debug.Log("PerformAbility2");
-            isPerformingAbility = true;
 
             if (abilityHandSlam != null)
             {
-                abilityHandSlam.TryStartSlam();
-                StartReleaseSlam();
+                if (abilityHandSlam.TryStartSlam()) 
+                    StartReleaseSlam();
             }
         }
     }
@@ -281,12 +286,17 @@ public class AiGashadokuroController : AiMonsterController
 
     private IEnumerator ReleaseSlam()
     {
+        Debug.Log("ReleaseSlam Start");
         while (abilityHandSlam.GetSlamWasPressed())
         {
+            Debug.Log("slamWasPressed: " + abilityHandSlam.GetSlamWasPressed() + ", isPerformaingAbility: " + isPerformingAbility);
+            isPerformingAbility = true;
             abilityHandSlam.TryReleaseSlam();
             yield return null;
         }
         isPerformingAbility = false;
+        releaseSlamCoroutine = null;
+        Debug.Log("ReleaseSlam End. isPerformingAbility: " + isPerformingAbility);
     }
 
     private void StartReleaseSlam()
@@ -306,6 +316,7 @@ public class AiGashadokuroController : AiMonsterController
             Debug.Log("Stop ReleaseSlam");
             StopCoroutine(releaseSlamCoroutine);
             releaseSlamCoroutine = null;
+            isPerformingAbility = false;
 
             if (abilityHandSlam != null)
             {
