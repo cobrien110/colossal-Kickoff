@@ -42,6 +42,7 @@ public class AbilityDive : AbilityScript
     {
         UpdateSetup();
         // Input buffer prevents ability from being activated and deactivated with a single press
+        //Debug.Log("inputBuffer: " + inputBuffer);
         if (inputBuffer < inputBufferTime) inputBuffer += Time.deltaTime;
 
         float t = activeDuration / durationOfSpeedBoost;
@@ -83,8 +84,12 @@ public class AbilityDive : AbilityScript
     {
         if (!canActivate) return;
 
+        Debug.Log("Activate - Dive");
+
         if (isActive && inputBuffer >= inputBufferTime)
         {
+            Debug.Log("Activate - Dive: isActive");
+            MC.isIntangible = false;
             isActive = false;
             inputBuffer = 0f;
             audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find(emergeSound), 0.7f);
@@ -102,11 +107,17 @@ public class AbilityDive : AbilityScript
             {
                 AH.currentCrystal.SetNewPoint(transform.position);
             }
+        } else
+        {
+            Debug.Log("isActive: " + isActive);
+            Debug.Log("inputBuffer >= inputBufferTime: " + (inputBuffer >= inputBufferTime));
         }
         if (timer >= cooldown && inputBuffer >= inputBufferTime)
         {
             if (!isActive)
             {
+                Debug.Log("Activate - Dive: not Active");
+                MC.isIntangible = true;
                 isActive = true;
                 timer = 0;
                 inputBuffer = 0f;
@@ -143,5 +154,15 @@ public class AbilityDive : AbilityScript
             AH.currentCrystal.SetNewPoint(transform.position);
         }
         */
+    }
+
+    public bool GetIsActive()
+    {
+        return isActive;
+    }
+
+    public void ResetBuffer()
+    {
+        inputBuffer = inputBufferTime;
     }
 }

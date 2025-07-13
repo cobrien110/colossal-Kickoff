@@ -1477,4 +1477,16 @@ public class WarriorController : MonoBehaviour
                 break;
         }
     }
+
+    public Vector3 GetAnticipatedPosition(float inSeconds)
+    {
+        // Get the object's Rigidbody component
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        // If no Rigidbody is found, return the current position as a fallback
+        if (rb == null) return transform.position;
+
+        // Predict the future position based on rb velocity
+        return transform.position + (rb.velocity * inSeconds);
+    }
 }

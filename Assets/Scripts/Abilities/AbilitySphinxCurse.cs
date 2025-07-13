@@ -28,6 +28,9 @@ public class AbilitySphinxCurse : AbilityScript
         {
             timer = 0;
             CurseProjectile c = Instantiate(projectilePrefab, transform.position, Quaternion.LookRotation(transform.forward, Vector3.up)).GetComponent<CurseProjectile>();
+            Debug.Log("transform.forward: " + transform.forward);
+            Debug.Log("Quaternion.LookRotation(transform.forward, Vector3.up): " + Quaternion.LookRotation(transform.forward, Vector3.up));
+            Debug.Log("c.transform.forward" + c.transform.forward);
             c.speed = projectileSpeed;
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find(soundName));
             ANIM.Play(activatedAnimationName);

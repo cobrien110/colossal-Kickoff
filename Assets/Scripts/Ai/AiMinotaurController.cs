@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AiMinotaurController : AiMonsterController
@@ -12,36 +9,18 @@ public class AiMinotaurController : AiMonsterController
     // Basic Attack - 1
     // Dash - 2
 
-    [Header("AI Mino Stats & Behaviour")]
-    [SerializeField] private float redirectionInterval = 0.5f; // Time interval in seconds
-    private float redirectionTimer = 0f;      // Timer to track redirection intervals
-    private Vector3 currentRandomOffset = Vector3.zero;
-    private Coroutine roamCoroutine;
-    private Coroutine pursueCoroutine;
-    private Coroutine defendGoalCoroutine;
-    [SerializeField] private float wiggleOffset = 1f;
-    [SerializeField] private float waitInPlaceTime = 1f;
-    private const float stoppingDistance = 0.5f;
-    private const float rotationSpeed = 2f;
-    [SerializeField] private float asaMinimumCharge = 0.3f;
-    [SerializeField] private float pursueDelay = 1f;
-    [SerializeField] private float minPursueDistance = 2f;
-    private float pursuitSmoothingFactor = 1f;
-    [SerializeField] private float defendGoalDelay = 0.5f;
-    [SerializeField] private float smoothFactor = 3f; // Controls how smoothly the movement direction adjusts. Try values between 3 - 7 for best results
-    [SerializeField] private float redirectionSmoothness = 0.2f; // Adjust how quickly the wiggle offset transitions to the next offset. A value between 0.1 - 0.5 should work well
+    // [Header("AI Mino Stats & Behaviour")]
+    
+    
+    
+ 
+    
     //private float pursueDelayFrequency;
 
     // private bool shouldPerformAbility1 = false;
-    private bool isCharging = false;
-    private bool canPickUpBall = true;
     // private bool targetBallController = true; // Used to determine if attack will target ball controller or nearest warrior
 
-    private enum SphericalAttackMode
-   {
-       BallOwner,
-       NearestWarrior
-   }
+    
 
     private enum WallMode
     {
@@ -58,7 +37,7 @@ public class AiMinotaurController : AiMonsterController
     }
 
     // Used to track current Ability Modes
-    SphericalAttackMode asaMode = SphericalAttackMode.BallOwner;
+    
     WallMode wallMode = WallMode.BlockGoal;
     DashMode dashMode = DashMode.BallOwner;
 
@@ -91,8 +70,7 @@ public class AiMinotaurController : AiMonsterController
             Debug.Log("PerformAbility2");
             isPerformingAbility = true;
 
-            StopCoroutines();
-            SphericalAttack(asaMode);
+            StartChargeableAttack(attackMode);
         }
     }
 
@@ -113,15 +91,6 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    protected override void PerformShootChance()
-    {
-        if (UnityEngine.Random.value < shootChance && mc.BP != null && mc.BP.ballOwner != null && mc.BP.ballOwner == gameObject)
-        {
-            Debug.Log("PerformShoot");
-            Shoot();
-        }
-    }
-
     /*
      * Decides the overall logic for the AiMonster.
      * Accounts for movement of monster, and chances
@@ -133,6 +102,13 @@ public class AiMinotaurController : AiMonsterController
      */
     protected override void MonsterBehaviour()
     {
+        if (mc.isStunned)
+        {
+            mc.movementDirection = Vector3.zero;
+            mc.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            return;
+        }
+
         // If goal was scored, stop movement and behavior
         if (mc != null && mc.BP != null && !mc.BP.isInteractable)
         {
@@ -160,7 +136,7 @@ public class AiMinotaurController : AiMonsterController
             MonsterHasBall();
         }
         // If warrior has ball...
-        else if (mc.BP.ballOwner.GetComponent<WarriorController>() != null)
+        else if (mc.BP.ballOwner.CompareTag("Warrior"))
         {
             // Debug.Log("WarriorHasBall");
             // Logic
@@ -172,15 +148,21 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    private void WarriorHasBall()
+    protected override void WarriorHasBall()
     {
+        if (state != State.WarriorHasBall)
+        {
+            Debug.Log("WarriorHasBall");
+            state = State.WarriorHasBall;
+            stateChanged = true;
+        }
+
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         // If mino in mino half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopPursuing();
             // Default behavior
             if (!isPerformingAbility) StartRoaming();
 
@@ -190,7 +172,7 @@ public class AiMinotaurController : AiMonsterController
 
             // Set Spherical Attack chance and behavior
             ability2Chance = 0.1f; // Spherical Attack
-            asaMode = SphericalAttackMode.NearestWarrior; // Target nearest warrior because you don't want to overextend to get ball owner
+            attackMode = AttackMode.NearestWarrior; // Target nearest warrior because you don't want to overextend to get ball owner
 
             // Set Dash chance and behavior
             ability3Chance = 0.1f; // Dash
@@ -201,7 +183,6 @@ public class AiMinotaurController : AiMonsterController
         // If mino and warrior with ball in mino half...
         else if (!IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
                 // Default behavior
@@ -213,7 +194,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
-                asaMode = SphericalAttackMode.BallOwner; 
+                attackMode = AttackMode.BallOwner; 
 
                 // Set Dash chance and behavior
                 ability3Chance = 0.1f;
@@ -225,7 +206,6 @@ public class AiMinotaurController : AiMonsterController
         else if (IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
             // Debug.Log("mino and warrior in warrior half");
-            StopRoaming();
 
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
@@ -239,7 +219,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
-                asaMode = SphericalAttackMode.BallOwner; // Be aggressive, try to get ball
+                attackMode = AttackMode.BallOwner; // Be aggressive, try to get ball
 
                 // Set Dash chance and behavior
                 ability3Chance = 0.1f;
@@ -250,10 +230,10 @@ public class AiMinotaurController : AiMonsterController
         // If mino in warrior half, warrior in mino half...
         else if (IsInWarriorHalf(gameObject) && !IsInWarriorHalf(mc.BP.ballOwner))
         {
-            StopCoroutines();
-
             if (!isPerformingAbility) // Allow ability to finish if one is happening
             {
+                StopCoroutines();
+
                 // Default behavior
                 mc.movementDirection = (monsterGoal.transform.position - transform.position).normalized; // Retreat to own goal
                 mc.movementDirection.y = 0;
@@ -265,7 +245,7 @@ public class AiMinotaurController : AiMonsterController
 
                 // Set Spherical Attack chance and behavior
                 ability2Chance = 0.1f;
-                asaMode = SphericalAttackMode.BallOwner; // Hurry to kill ball owner to stop goal
+                attackMode = AttackMode.BallOwner; // Hurry to kill ball owner to stop goal
 
                 // Set Dash chance and behavior
                 ability3Chance = 0.1f;
@@ -274,8 +254,15 @@ public class AiMinotaurController : AiMonsterController
         }
     }
 
-    private void MonsterHasBall()
+    protected override void MonsterHasBall()
     {
+        if (state != State.MonsterHasBall)
+        {
+            Debug.Log("MonsterHasBall");
+            state = State.MonsterHasBall;
+            stateChanged = true;
+        }
+
         // Default behaviour
         if (!isPerformingAbility)
         {
@@ -296,6 +283,9 @@ public class AiMinotaurController : AiMonsterController
             shootChance = Mathf.Pow((distToGoalFactor/* + proximityToWarriorFactor*/) / 2f, 2);
 
             // If shooting, chargeAmount depends on distance to goal
+
+            // Stop roaming if its happening
+            StopCoroutines();
         }
         // If dash is being charged, charge is down
         else
@@ -303,31 +293,31 @@ public class AiMinotaurController : AiMonsterController
             ResetAbilities();
         }
 
-        // Monster should not use abilities
-        ability1Chance = 0.0f;
+        // Monster should not use abilities, except wall
+        ability1Chance = 0.1f; // Wall
         ability2Chance = 0.0f;
         ability3Chance = 0.0f;
-
-        // Stop roaming if its happening
-        StopCoroutines();
-
-        // Debug.Log("MonsterHasBall");
-        // Debug.Log("shootChance: " + shootChance);
-
     }
 
-    private void BallNotPossessed()
+    protected override void BallNotPossessed()
     {
-        // ResetAbilities();
+        if (state != State.BallNotPossessed)
+        {
+            Debug.Log("BallNotPossessed");
+            state = State.BallNotPossessed;
+            stateChanged = true;
+        }
 
-        // Stop roaming and pursuing if its happening
-        StopCoroutines();
+        // ResetAbilities();
 
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
         if (!isPerformingAbility)
         {
+            // Stop roaming and pursuing if its happening
+            StopCoroutines();
+
             // Default behaviour
             Vector2 toBall = new Vector2(
                     mc.BP.gameObject.transform.position.x - transform.position.x,
@@ -348,484 +338,13 @@ public class AiMinotaurController : AiMonsterController
 
         // Set Spherical attack chance
         ability2Chance = 0.1f;
-        asaMode = SphericalAttackMode.NearestWarrior;
+        attackMode = AttackMode.NearestWarrior;
 
         // Set Dash chance and behavior
         ability3Chance = 0.1f;
         dashMode = DashMode.Ball; // Dash at ball
 
         // Debug.Log("BallNotPossessed");
-    }
-
-    protected override void Shoot()
-    {
-        if (mc.BP.ballOwner == gameObject)
-        {
-            Debug.Log("Shoot!");
-
-            // Prevent ball from getting kicked "through" walls
-            if (mc != null && mc.BP != null && mc.IsWallBetweenBallAndPlayer())
-            {
-                Debug.Log("Correcting ball position before kick");
-                mc.BP.gameObject.transform.position =
-                    new Vector3(transform.position.x, mc.BP.gameObject.transform.position.y, transform.position.z); // Ignore Y axis
-            }
-
-            // Make minotaur look at goal
-            Quaternion newRotation = 
-                Quaternion.LookRotation((warriorGoal.transform.position - transform.position).normalized, Vector3.up);
-            transform.rotation = newRotation;
-
-            // Debug.Log("ballOwner set to null");
-            mc.BP.ballOwner = null;
-            mc.BP.previousKicker = gameObject;
-            mc.BP.lastKicker = gameObject;
-            canPickUpBall = false;
-            StartCoroutine(SetPickUpBallTrue());
-            // Debug.Log(transform.forward);
-            float distFromGoalMultiplier = Vector3.Distance(warriorGoal.transform.position, transform.position) / (maxShootingRange / 2f);
-            mc.BP.GetComponent<Rigidbody>().AddForce(transform.forward * aiShootSpeed);// * distFromGoalMultiplier);
-            //audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("pass"));
-        }
-    }
-
-    void MoveTo(Vector2 targetPos)
-    {
-        // Debug.Log("MoveTo: " + targetPos);
-        if (targetPos != Vector2.zero)
-        {
-            //usingKeyboard = true;
-            mc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
-            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-            mc.aimingDirection = mc.movementDirection;
-        }
-
-
-        rb.velocity = GM.isPlaying ? mc.movementDirection * mc.monsterSpeed : Vector3.zero;
-        //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(mc.movementDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
-        }
-
-        if (mc.movementDirection != Vector3.zero && GM.isPlaying)
-        {
-            mc.ANIM.SetBool("isWalking", true);
-        }
-        else
-        {
-            mc.ANIM.SetBool("isWalking", false);
-        }
-
-    }
-
-    private void WiggleTowardGoal()
-    {
-        // Debug.Log("WiggleTowardGoal");
-        Vector3 goalPosition = warriorGoal.transform.position;
-
-        // Update the timer
-        redirectionTimer += Time.deltaTime;
-
-        // Check if it's time to update the random offset
-        if (redirectionTimer >= redirectionInterval)
-        {
-            // Debug.Log("new offset");
-            // Reset the timer
-            redirectionTimer = 0f;
-
-            // Generate a new random offset for "wiggle" effect
-            Vector3 newRandomOffset = new Vector3(
-                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset),  // Random x offset
-                0,                          // Keep y as zero for ground-based movement
-                UnityEngine.Random.Range(-wiggleOffset, wiggleOffset)   // Random z offset
-            );
-
-            // Smooth transition to the new offset
-            currentRandomOffset = Vector3.Lerp(currentRandomOffset, newRandomOffset, redirectionSmoothness);
-        }
-
-        // Calculate the base direction toward the goal
-        Vector3 toGoal = (goalPosition - transform.position).normalized;
-        Vector3 toGoalIgnoreY = new Vector3(toGoal.x, 0, toGoal.z);
-
-        // Apply smoothed offset to movement direction
-        mc.movementDirection = Vector3.Lerp(mc.movementDirection, (toGoalIgnoreY + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
-        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-
-        // Update walking animation if applicable
-        mc.ANIM.SetBool("isWalking", rb.velocity != Vector3.zero);
-    }
-
-
-    private float GetDistanceToNearestWarrior()
-    {
-        float distToNearestWarrior = maxProximityRange;
-        foreach (GameObject warrior in warriors)
-        {
-            float distanceToWarrior = Vector3.Distance(transform.position, warrior.transform.position);
-            if (distanceToWarrior < distToNearestWarrior)
-            {
-                distToNearestWarrior = distanceToWarrior;
-            }
-        }
-        return distToNearestWarrior;
-    }
-
-    private WarriorController GetNearestWarrior(Vector3 pos)
-    {
-        GameObject nearestWarrior = null;
-        float distToNearestWarrior = maxProximityRange;
-
-        foreach (GameObject warrior in warriors)
-        {
-            float distanceToWarrior = Vector3.Distance(pos, warrior.transform.position);
-            if (distanceToWarrior < distToNearestWarrior)
-            {
-                nearestWarrior = warrior;
-                distToNearestWarrior = distanceToWarrior;
-            }
-        }
-
-        if (nearestWarrior != null && nearestWarrior.GetComponent<WarriorController>().GetIsDead()) Debug.LogWarning("Targeting dead warrior!");
-        return nearestWarrior.GetComponent<WarriorController>();
-    }
-
-    // ROAM METHODS
-    IEnumerator Roam()
-    {
-        while (true)
-        {
-            Debug.Log("Monster roaming");
-
-            // Determine a random position within the left half of the field
-            float randomX = UnityEngine.Random.Range(leftBoundary, midFieldPoint);
-            float randomZ = UnityEngine.Random.Range(-fieldDepth, fieldDepth);
-            Vector3 randomTargetPosition = new Vector3(randomX, transform.position.y, randomZ);
-
-            // If there is a ball owner, bias the random target position toward it
-            if (mc.BP.ballOwner != null)
-            {
-                Vector3 ballOwnerPosition = mc.BP.ballOwner.transform.position;
-
-                // Calculate the bias factor (range: 0 = no bias, 1 = full bias)
-                float biasFactor = 0.35f; // Adjust this value to control how strongly it biases toward the ball owner
-                randomTargetPosition = Vector3.Lerp(randomTargetPosition, new Vector3(ballOwnerPosition.x, transform.position.y, ballOwnerPosition.z), biasFactor);
-                randomTargetPosition = new Vector3(randomTargetPosition.x, transform.position.y, randomTargetPosition.z); // Ignore y
-            }
-
-            // Move toward the random target position
-            while (Vector3.Distance(transform.position, randomTargetPosition) > stoppingDistance)
-            {
-                if (mc.isStunned) yield break;
-
-                // Calculate direction and move toward the target position
-                Vector3 directionToTarget = (randomTargetPosition - transform.position).normalized;
-                Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
-                mc.movementDirection = directionToTargetIgnoreY;
-                rb.velocity = mc.movementDirection * mc.monsterSpeed;
-                //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-
-                // Rotate the minotaur to face the direction it's moving
-                Quaternion newRotation = Quaternion.LookRotation(directionToTargetIgnoreY, Vector3.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
-
-                yield return null;
-            }
-
-            // Prevent mino from moving once it reached its spot
-            mc.movementDirection = Vector3.zero;
-            rb.velocity = Vector3.zero;
-
-            // Pause briefly before picking a new random position
-            yield return new WaitForSeconds(waitInPlaceTime);
-        }
-    }
-
-    private void StartRoaming()
-    {
-        if (isPerformingAbility) return;
-        if (roamCoroutine == null)
-        {
-            Debug.Log("Start roaming");
-            roamCoroutine = StartCoroutine(Roam());
-        }
-    }
-
-    private void StopRoaming()
-    {
-        if (roamCoroutine != null)
-        {
-            Debug.Log("Stop roaming");
-            StopCoroutine(roamCoroutine);
-            roamCoroutine = null;
-        }
-    }
-
-    private void StartPursuing()
-    {
-        if (isPerformingAbility) return;
-        if (pursueCoroutine == null)
-        {
-            Debug.Log("Start pursuing");
-            pursueCoroutine = StartCoroutine(PursuePlayer());
-        }
-    }
-
-    private void StopPursuing()
-    {
-        if (pursueCoroutine != null)
-        {
-            Debug.Log("Stop pursuing");
-            StopCoroutine(pursueCoroutine);
-            pursueCoroutine = null;
-        }
-    }
-
-    private void StartDefendGoal()
-    {
-        // if (isPerformingAbility) return;
-        if (defendGoalCoroutine == null)
-        {
-            Debug.Log("Start Defend Goal");
-            defendGoalCoroutine = StartCoroutine(DefendGoal());
-        }
-    }
-
-    private void StopCoroutines()
-    {
-        StopPursuing();
-        StopRoaming();
-    }
-
-    // SPEHRICAL ATTACK METHODS
-    private void SphericalAttackHelper()
-    {
-        // Debug.Log("SphericalAttack");
-        // Make sure first ability is an AbilityChargable
-        if (!(mc.abilities[1] is AbilitySphericalAttack)) return;
-
-        AbilitySphericalAttack asa = (AbilitySphericalAttack)mc.abilities[1];
-
-        // Check if off cooldown
-        if (asa.GetTimer() < asa.GetCooldown()) return;
-
-        asa.SetIsCharging(true);
-
-        // If input is no longer true, attack
-        if (ShouldSphericalAttack(asa) && asa.GetChargeAmount() > asaMinimumCharge)
-        {
-            // Debug.Log("Activate");
-            asa.Activate();
-            asa.ANIM.SetBool("isWindingUp", false);
-            isPerformingAbility = false;
-        }
-        else if (asa.GetIsCharging() && asa.GetTimer() >= asa.GetCooldown()) // If it still is true, keep charging
-        {
-            // Debug.Log("ChargeUp");
-            asa.ChargeUp();
-        }
-        else
-        {
-            // Debug.Log("ChargeDown");
-            asa.ChargeDown();
-        }
-    }
-
-    private bool WarriorIsInAttackSphereRadius(AbilitySphericalAttack asa)
-    {
-        Vector3 origin = new Vector3(transform.position.x, transform.position.y + asa.attackVisualOffsetY, transform.position.z);
-        Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * asa.attackRange, asa.attackBaseRadius
-            + asa.GetChargeAmount() * asa.chargeRate, asa.affectedLayers);
-
-        foreach (Collider col in colliders)
-        {
-            // Handle collision with each collider
-            // Debug.Log("SphereCast hit " + col.gameObject.name);
-            if (col.gameObject.CompareTag("Warrior"))
-            {
-                Debug.Log("Warrior in attack sphere radius");
-                return true;
-            }
-        }
-        return false;
-    }
-
-    IEnumerator SphericalAttackNearestWarrior()
-    {
-        Debug.Log("SphericalAttackNearestWarrior");
-        WarriorController nearestWarrior = null;
-        try
-        {
-            nearestWarrior = GetNearestWarrior(transform.position);
-        }
-        catch
-        {
-            nearestWarrior = null;
-        }
-        if (nearestWarrior == null)
-        {
-            Debug.Log("No warrior close enough to attack");
-            isPerformingAbility = false;  // not performing ability so reset bool
-            yield break;
-        }
-
-        StopCoroutines();
-        while (isPerformingAbility)
-        {
-            // If targeted warrior died during ability charge, go to next warrior
-            if (nearestWarrior == null)
-            {
-                Debug.Log("nearestWarrior: " + nearestWarrior);
-                nearestWarrior = GetNearestWarrior(transform.position);
-            }
-            if (nearestWarrior == null)
-            {
-                Debug.Log("Break");
-                break; // If going to next warrior didn't work because there are none, break
-            }
-
-            SphericalAttackHelper();
-            Vector3 dir = (nearestWarrior.gameObject.transform.position - transform.position).normalized;
-            // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
-            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
-            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-
-            yield return null;
-        }
-
-        // In case where break happened, just flush ability stuff by using it
-        if (isPerformingAbility)
-        {
-            Debug.Log("Flush spherical attack");
-            //SphericalAttackHelper();
-            AbilitySphericalAttack asa = (AbilitySphericalAttack) mc.abilities[1];
-            asa.ChargeDown();
-            isPerformingAbility = false;
-            mc.movementDirection = Vector3.zero;
-        }
-            
-    }
-
-    IEnumerator SphericalAttackBallController()
-    {
-
-        // Ensure ball owner is not null
-        if (mc.BP == null || mc.BP.ballOwner == null)
-        {
-            Debug.Log("BP or BP.ballOwner is null - don't attack");
-            isPerformingAbility = false;  // not performing ability so reset bool
-            yield break;
-        }
-        // Ensure ballOwner is in range
-        if (Vector3.Distance(mc.BP.ballOwner.transform.position, transform.position) > maxProximityRange)
-        {
-            Debug.Log("Ball owner not close enough to attack");
-            isPerformingAbility = false;  // not performing ability so reset bool
-            yield break;
-        }
-        GameObject ballController = mc.BP.ballOwner;
-
-        StopCoroutines();
-
-        while (isPerformingAbility)
-        {
-            // If ballOwner died, just retarget to nearest warrior
-            if (ballController == null) ballController = GetNearestWarrior(transform.position).gameObject;
-
-            SphericalAttackHelper();
-            Vector3 dir = (ballController.transform.position - transform.position).normalized;
-            //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
-            mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
-            //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-            yield return null;
-        }
-    }
-
-    private void SphericalAttack(SphericalAttackMode mode)
-    {
-        if (mode == SphericalAttackMode.BallOwner)
-        {
-            StartCoroutine(SphericalAttackBallController());
-        }
-        else if (mode == SphericalAttackMode.NearestWarrior)
-        {
-            StartCoroutine(SphericalAttackNearestWarrior());
-        }
-    }
-
-    IEnumerator SetPickUpBallTrue()
-    {
-        yield return new WaitForSeconds(0.2f);
-        canPickUpBall = true;
-    }
-
-    public bool GetCanPickUpBall()
-    {
-        return canPickUpBall;
-    }
-
-    IEnumerator PursuePlayer()
-    {
-        while (true)
-        {
-            Debug.Log("Pursuing player");
-            yield return new WaitForSeconds(pursueDelay);
-
-            // Ensure the ball owner is valid before pursuing
-            if (mc.BP.ballOwner != null)
-            {
-                Debug.Log("Pursuing player, ball owner is valid");
-                Vector3 targetPosition = mc.BP.ballOwner.transform.position;
-                targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z); // Ignore y
-                float distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
-
-                // Check if the monster is too close; stop if within minimum distance
-                if (distanceToPlayer > minPursueDistance)
-                {
-                    // Calculate target direction
-                    Vector3 targetDirection = (targetPosition - transform.position).normalized;
-                    Vector3 targetDirectionIgnoreY = new Vector3(targetDirection.x, 0, targetDirection.z);
-
-                    // Smoothly update the movement direction using linear interpolation
-                    mc.movementDirection = targetDirectionIgnoreY;
-                    //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-                    //Vector3.Lerp(mc.movementDirection, targetDirection, Time.deltaTime * pursuitSmoothingFactor);
-                }
-                else
-                {
-                    // Stop moving if too close to the player
-                    mc.movementDirection = Vector3.zero;
-                }
-            }
-            else
-            {
-                // If ball owner is null, stop movement
-                mc.movementDirection = Vector3.zero;
-            }
-
-            yield return null; // Continue to next frame
-        }
-    }
-    private bool ShouldSphericalAttack(AbilitySphericalAttack asa)
-    {
-        // Should attack either if at full charge, or anytime a warrior is in attack radius
-        return asa.GetChargeAmount() >= asa.maxChargeSeconds || WarriorIsInAttackSphereRadius(asa);
-    }
-
-    // Defend goal position is in the middle of the ballOwner and the goal
-    private Vector3 GetDefendGoalPosition()
-    {
-        if (mc.BP == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        if (mc.BP.ballOwner == null) return new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        Vector3 vec = mc.BP.ballOwner.transform.position - monsterGoal.transform.position;
-        Vector3 dir = vec.normalized;
-        float distance = vec.magnitude;
-        Vector3 defendPos = monsterGoal.transform.position + (dir * distance / 2);
-        Vector3 defendPosIgnoreY = new Vector3(defendPos.x, transform.position.y, defendPos.z);
-        // Debug.Log(defendPos);
-        return defendPosIgnoreY;
     }
 
     // WALL METHODS
@@ -850,7 +369,8 @@ public class AiMinotaurController : AiMonsterController
 
         // Look toward ball
         Vector3 dir = (ball.transform.position - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        // mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        LookInDirection(dir);
         //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall
@@ -905,7 +425,8 @@ public class AiMinotaurController : AiMonsterController
                 // Wall would be between warrior and ball, thus blocking warrior
 
                 // Look toward warrior
-                mc.movementDirection = toWarriorIgnoreY;
+                //mc.movementDirection = toWarriorIgnoreY;
+                LookInDirection(toWarriorIgnoreY);
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
                 // Summon wall
@@ -935,7 +456,8 @@ public class AiMinotaurController : AiMonsterController
 
         // Look toward own goal
         Vector3 dir = (monsterGoal.transform.position - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        //mc.movementDirection = new Vector3(dir.x, 0, dir.z);
+        LookInDirection(new Vector3(dir.x, 0, dir.z));
         //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Summon wall
@@ -956,25 +478,6 @@ public class AiMinotaurController : AiMonsterController
             WallBlockGoal();
         }
         isPerformingAbility = false;
-    }
-
-    private bool BallGoingTowardOwnGoal()
-    {
-        GameObject ball = mc.BP.gameObject;
-        if (ball == null) return false;
-
-        Rigidbody ballRB = ball.GetComponent<Rigidbody>();
-        Vector3 ballToGoal = (monsterGoal.transform.position - ball.transform.position).normalized;
-
-        // If ball velocity is higher enough, is within certain distance to own goal, and velocity is toward own goal, return true
-        if (ballRB.velocity.magnitude > 2f && Vector3.Distance(ball.transform.position, monsterGoal.transform.position) < 8f
-            && Vector3.Dot(ballRB.velocity.normalized, ballToGoal) > 0.7f)
-        {
-            // Debug.Log("Ball is going toward monster goal");
-            return true;
-        }
-
-        return false;
     }
 
     private List<GameObject> GetWarriorsToBlock()
@@ -1082,7 +585,7 @@ public class AiMinotaurController : AiMonsterController
             yield break;
         }
 
-        WarriorController nearestWarrior = GetNearestWarrior(transform.position);
+        WarriorController nearestWarrior = GetNearestWarrior(transform.position).GetComponent<WarriorController>();
         if (nearestWarrior == null) yield break;
 
         while (isPerformingAbility)
@@ -1178,47 +681,9 @@ public class AiMinotaurController : AiMonsterController
 
     }
 
-    private void ResetAbilities()
-    {
-        // Debug.Log("Reset Abilities");
-        if (isPerformingAbility) isPerformingAbility = false;
-        
-        if (mc.abilities[2] is AbilityBullrush)
-        {
-            AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-            if (abr.GetIsCharging() || abr.GetIsAutoCharging())
-            {
-                abr.SetIsAutoCharging(false);
-                abr.ChargeDown();
-                abr.SetInputBufferTimer(0);
-                abr.SetIsCharging(false);
-                //abr.SetTimer(0);
-            }
-        }
+    
 
-        if (mc.abilities[1] is AbilitySphericalAttack)
-        {
-            AbilitySphericalAttack asa = (AbilitySphericalAttack)mc.abilities[1];
-
-            if (asa.GetIsAutoCharging() || asa.GetIsCharging())
-            {
-                asa.SetIsAutoCharging(false);
-                asa.SetIsCharging(false);
-                asa.SetInputBufferTimer(0);
-                asa.ChargeDown();
-                //asa.SetTimer(0);
-            }
-        }
-    }
-
-    IEnumerator DefendGoal()
-    {
-        yield return new WaitForSeconds(defendGoalDelay);
-        Vector3 dir = (GetDefendGoalPosition() - transform.position).normalized;
-        mc.movementDirection = new Vector3(dir.x, 0, dir.z); // Stand in between goal and ball owner
-        //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
-        defendGoalCoroutine = null;
-    }
+    
 
     private void FixedUpdate()
     {
@@ -1234,59 +699,47 @@ public class AiMinotaurController : AiMonsterController
         Setup();
     }
 
-    private void EnsureBallOwnerValid()
-    {
-        if (mc == null) GetComponent<MonsterController>();
-
-        if (mc.BP == null)
-        {
-            mc.BP = FindObjectOfType<BallProperties>();
-        }
-
-        if (mc.Ball == null) mc.Ball = mc.BP.gameObject;
-    }
-
     // Update is called once per frame
-    void Update()
-    {
-        //AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
-        //Debug.Log("isAutoCharging: " + abr.GetIsAutoCharging());
-        //Debug.Log("autoCharge: " + abr.autoCharge);
+    //void Update()
+    //{
+    //    //AbilityBullrush abr = (AbilityBullrush)mc.abilities[2];
+    //    //Debug.Log("isAutoCharging: " + abr.GetIsAutoCharging());
+    //    //Debug.Log("autoCharge: " + abr.autoCharge);
 
-        if (mc.abilities[1] != null && (mc.abilities[1].attackVisualizer.transform.position.y > 0
-            || mc.abilities[1].attackVisualizer.transform.position.x > 0))
-        {
-            // Debug.Log("Attack visual change position!!!!");
-        }
+    //    if (mc.abilities[1] != null && (mc.abilities[1].attackVisualizer.transform.position.y > 0
+    //        || mc.abilities[1].attackVisualizer.transform.position.x > 0))
+    //    {
+    //        // Debug.Log("Attack visual change position!!!!");
+    //    }
 
-        if (isPerformingAbility)
-        {
-            // Debug.Log("IsPerformingAbility: " + isPerformingAbility);
-        }
+    //    if (isPerformingAbility)
+    //    {
+    //        // Debug.Log("IsPerformingAbility: " + isPerformingAbility);
+    //    }
 
-        //Debug.Log("ability1Chance: " + ability1Chance);
-        //Debug.Log("ability2Chance: " + ability2Chance);
-        //Debug.Log("ability3Chance: " + ability3Chance);
+    //    //Debug.Log("ability1Chance: " + ability1Chance);
+    //    //Debug.Log("ability2Chance: " + ability2Chance);
+    //    //Debug.Log("ability3Chance: " + ability3Chance);
 
-        // To fix issue where mino can't pickup ball if he killed a warrior with the ball while he was already in the ball colider
-        if (mc.BP != null && mc.BP.gameObject != null && mc.BP.ballOwner == null
-            && Vector3.Distance(transform.position, mc.BP.gameObject.transform.position) < 0.1f)
-        {
-            Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
-            mc.BP.ballOwner = gameObject;
-        }
+    //    // To fix issue where mino can't pickup ball if he killed a warrior with the ball while he was already in the ball colider
+    //    if (mc.BP != null && mc.BP.gameObject != null && mc.BP.ballOwner == null
+    //        && Vector3.Distance(transform.position, mc.BP.gameObject.transform.position) < 0.1f)
+    //    {
+    //        Debug.Log("Mino on top of ballOwner that is just killed, manually set it to be ballOwner");
+    //        mc.BP.ballOwner = gameObject;
+    //    }
 
-        // Debug.Log("AiMinoController update");
-    }
+    //    // Debug.Log("AiMinoController update");
+    //}
     
     /*
      * TODO
      * 
      * Make ability chances based on math rather than set values
      * 
-     * Fix bug where monster can't pickup ball if he is on top of ball when he kills warrior with ball (Doesn't cue OnTriggerEnter)
+     * Fixed: Fix bug where monster can't pickup ball if he is on top of ball when he kills warrior with ball (Doesn't cue OnTriggerEnter)
      * 
-     * If mino starts charging and picks up ball, he keeps going slow. Charge needs to be charged down
+     * Fixed: If mino starts charging and picks up ball, he keeps going slow. Charge needs to be charged down
      * 
      */
 

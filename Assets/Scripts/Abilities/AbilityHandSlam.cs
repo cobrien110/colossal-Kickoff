@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -67,12 +67,8 @@ public class AbilityHandSlam : AbilityDelayed
             AGP.counterAmount = 0;
         }
 
-        // Perform the hand slam effect
-        Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
-        Vector3 point2 = attackPosEnd;   // End of the capsule (right sphere)
-
         bool ejectBall = false;
-        Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, slamRadius);
+        Collider[] hitColliders = ObjectsInKillRange();
         foreach (Collider obj in hitColliders)
         {
             // Debug.Log("Hit: " + obj.name);
@@ -83,7 +79,7 @@ public class AbilityHandSlam : AbilityDelayed
                 if (BP.ballOwner == obj.gameObject) ejectBall = true;
 
                 // Kill Warrior
-                warrior.Die(); // Destroys the warrior game object
+                warrior.Die();
             }
             else if (ball != null)
             {
@@ -98,11 +94,7 @@ public class AbilityHandSlam : AbilityDelayed
         }
 
         // Apply the stun effect in a larger capsule
-        float stunRadius = slamRadius * stunRadiusMult; // Adjust stun radius as needed
-        Vector3 stunPoint1 = point1 - new Vector3(1f, 0, 0); // Slightly offset points for the larger capsule
-        Vector3 stunPoint2 = point2 + new Vector3(1f, 0, 0);
-
-        Collider[] stunColliders = Physics.OverlapCapsule(stunPoint1, stunPoint2, stunRadius);
+        Collider[] stunColliders = ObjectsInStunRange();
         foreach (Collider obj in stunColliders)
         {
             WarriorController warrior = obj.GetComponent<WarriorController>();
@@ -228,100 +220,97 @@ public class AbilityHandSlam : AbilityDelayed
         Debug.Log("attackPosEnd: " + attackPosEnd);
 
         Activate();
+    }
 
+    public void TryStartSlam()
+    {
+        if (!ShouldAttemptSlam()) return;
+
+        if (canSlam)
+        {
+            Debug.Log("Hand slam - Ability pressed");
+            slamWasPressed = true;
+            canSlam = false;
+
+            attackPosStart = transform.position;
+            attackPosEnd = transform.transform.position + Vector3.right * slamLength;
+
+            // Detach hand and visualizer, show visualizer
+
+            // Show attack visual
+            attackVisualizer.SetActive(true);
+
+            // Choose hand based on if monster movement direction, up or down
+            float zDirection = monsterRB.velocity.z;
+
+            // If hand1 is not available
+            if (!abilityCreateHands.hand1.activeSelf)
+            {
+                // Use hand2
+                chosenHand = abilityCreateHands.hand2;
+                chosenHandIndex = 2;
+            }
+            else if (!abilityCreateHands.hand2.activeSelf) // If hand2 is not available
+            {
+                // Use hand1
+                chosenHand = abilityCreateHands.hand1;
+                chosenHandIndex = 1;
+            }
+            else // Both hands are available, so choose based on zDirection
+            {
+                if (zDirection > 0)
+                {
+                    chosenHand = abilityCreateHands.hand2;
+                    chosenHandIndex = 2;
+                }
+                else
+                {
+                    chosenHand = abilityCreateHands.hand1;
+                    chosenHandIndex = 1;
+                }
+            }
+
+            // Detach hand
+            chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
+        }
+    }
+
+    public void TryReleaseSlam()
+    {
+        if (!ShouldAttemptSlam()) return;
+
+        if (slamWasPressed)
+        {
+            slamWasPressed = false;
+            Debug.Log("Hand slam - Ability released");
+
+            StartCoroutine(TriggerSlam());
+        }
         
+    }
+
+    private bool ShouldAttemptSlam()
+    {
+        if((!GM.isPlaying || MC.isStunned)
+            || (timer < cooldown)
+            || (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
+            || (abilityCreateHands == null))
+        {
+            return false;
+        }
+        return true;
     }
 
     public override void CheckInputsDelayed(InputAction.CallbackContext context)
     {
         // Debug.Log("Ability delayed input action: " + context);
 
-        if (!GM.isPlaying || MC.isStunned)
-        {
-            return;
-        }
-
-        if (timer < cooldown)
-        {
-            Debug.Log("Hand slam not off cooldown");
-            Debug.Log("Timer: " + timer + ", Cooldown: " + cooldown);
-            return; // Ability not off cooldown
-        }
-
-        if (!abilityCreateHands.hand1IsActive && !abilityCreateHands.hand2IsActive)
-        {
-            Debug.Log("No hand is active");
-            return; // No hand is active
-        }
-
-        // Ensure that we have reference to the hands
-        if (abilityCreateHands == null)
-        {
-            Debug.LogError("AbilityCreateHands reference is missing.");
-            return;
-        }
-
         if (context.action.WasPressedThisFrame())
         {
-            if (canSlam)
-            {
-                Debug.Log("Hand slam - Ability pressed");
-                slamWasPressed = true;
-                canSlam = false;
-
-                attackPosStart = transform.position;
-                attackPosEnd = transform.transform.position + Vector3.right * slamLength;
-
-                // Detach hand and visualizer, show visualizer
-
-                // Show attack visual
-                attackVisualizer.SetActive(true);
-
-                // Choose hand based on if monster movement direction, up or down
-                float zDirection = monsterRB.velocity.z;
-
-                // If hand1 is not available
-                if (!abilityCreateHands.hand1.activeSelf)
-                {
-                    // Use hand2
-                    chosenHand = abilityCreateHands.hand2;
-                    chosenHandIndex = 2;
-                }
-                else if (!abilityCreateHands.hand2.activeSelf) // If hand2 is not available
-                {
-                    // Use hand1
-                    chosenHand = abilityCreateHands.hand1;
-                    chosenHandIndex = 1;
-                }
-                else // Both hands are available, so choose based on zDirection
-                {
-                    if (zDirection > 0)
-                    {
-                        chosenHand = abilityCreateHands.hand2;
-                        chosenHandIndex = 2;
-                    }
-                    else
-                    {
-                        chosenHand = abilityCreateHands.hand1;
-                        chosenHandIndex = 1;
-                    }
-                }
-
-                // Detach hand
-                chosenHand.GetComponent<GashadokuroHand>().SetIsDetached(true);
-            }
-            
-
+            TryStartSlam();
         } else if (context.action.WasReleasedThisFrame())
         {
-            if (slamWasPressed)
-            {
-                slamWasPressed = false;
-                Debug.Log("Hand slam - Ability released");
-
-                StartCoroutine(TriggerSlam());
-            }
-
+            TryReleaseSlam();
         }
     }
 
@@ -342,6 +331,33 @@ public class AbilityHandSlam : AbilityDelayed
 
         // Reset cooldown
         timer = cooldown;
+    }
+
+    public bool GetSlamWasPressed()
+    {
+        return slamWasPressed;
+    }
+
+    public Collider[] ObjectsInStunRange()
+    {
+        Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
+        Vector3 point2 = attackPosEnd;   // End of the capsule (right sphere)
+
+        float stunRadius = slamRadius * stunRadiusMult; // Adjust stun radius as needed
+        Vector3 stunPoint1 = point1 - new Vector3(1f, 0, 0); // Slightly offset points for the larger capsule
+        Vector3 stunPoint2 = point2 + new Vector3(1f, 0, 0);
+
+        Collider[] stunColliders = Physics.OverlapCapsule(stunPoint1, stunPoint2, stunRadius);
+        return stunColliders;
+    }
+
+    public Collider[] ObjectsInKillRange() // Includes range ball is affected by slam
+    {
+        Vector3 point1 = attackPosStart; // Start of the capsule (left sphere)
+        Vector3 point2 = attackPosEnd;   // End of the capsule (right sphere)
+
+        Collider[] hitColliders = Physics.OverlapCapsule(point1, point2, slamRadius);
+        return hitColliders.Where(c => c.CompareTag("Warrior")).ToArray();
     }
 
 }

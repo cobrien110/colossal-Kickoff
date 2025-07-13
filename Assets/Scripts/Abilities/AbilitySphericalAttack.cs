@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AbilitySphericalAttack : AbilityChargeable
+public class AbilitySphericalAttack : AbilityChargeableAttack
 {
     [Header("Attack Stats")]
     public float attackRange = 1f;
@@ -145,6 +146,17 @@ public class AbilitySphericalAttack : AbilityChargeable
         }
         
     }
+
+    public override bool IsEnemyInRange(Transform attacker)
+    {
+        Vector3 origin = new Vector3(attacker.position.x, attacker.position.y + attackVisualOffsetY, attacker.position.z);
+        Collider[] colliders = Physics.OverlapSphere(origin + attacker.forward * attackRange,
+            attackBaseRadius + GetChargeAmount() * chargeRate, affectedLayers);
+
+        // if (colliders.Any(c => c.CompareTag("Warrior"))) Debug.Log("IsEnemyInRange - true");
+        return colliders.Any(c => c.CompareTag("Warrior"));
+    }
+
 
     public override void ResizeAttackVisual()
     {

@@ -177,4 +177,10 @@ public class AbilityFly : AbilityScript
     {
         return maxSpriteYOffset;
     }
+
+    public bool GetIsActive()
+    {
+        return isActive;
+    }
+
 }
