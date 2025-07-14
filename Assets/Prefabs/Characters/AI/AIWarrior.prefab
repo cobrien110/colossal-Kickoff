@@ -6431,19 +6431,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiKickSpeed: 300
   aiShootRange: 7
-  aiPassRange: 8
-  aiPassRangeMin: 1
+  aiPassRange: 9
+  aiPassRangeMin: 2.5
   passChance: 0.1
   stoppingDistanceFromGoal: 5
   waitInPlaceTime: 2
   randomZRange: 10
   distanceToTravelMultiplierFloor: 0.4
+  distanceToTravelMultiplierCeiling: 0.7
   slideRange: 1.2
   slideRangeMin: 0.35
-  dodgeChance: 0.3
+  dodgeChance: 0.15
   kickCooldown: 0.75
-  actionDelay: 0.2
-  anticipationSeconds: 0.25
+  actionDelay: 0.4
+  anticipationSeconds: 0.1
+  flockWeight: 0.45
   checkForPassFrequency: 0.5
   GM: {fileID: 0}
   warriors: []

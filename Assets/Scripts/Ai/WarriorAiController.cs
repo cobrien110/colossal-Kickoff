@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -34,6 +35,8 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField]
     private float distanceToTravelMultiplierFloor = 0.4f;
     [SerializeField]
+    private float distanceToTravelMultiplierCeiling = 0.7f;
+    [SerializeField]
     private float slideRange = 3f;
     [SerializeField]
     private float slideRangeMin = 0.35f;
@@ -43,6 +46,7 @@ public class WarriorAiController : MonoBehaviour
     private static float kickTimer = 0f;
     [SerializeField] private float actionDelay = 0.25f;
     [SerializeField] private float anticipationSeconds = 0.5f;
+    [SerializeField] private float flockWeight = 0.4f;
 
 
     private Coroutine aiCoroutine;
@@ -174,7 +178,8 @@ public class WarriorAiController : MonoBehaviour
             Vector2 toBall = new Vector2(
                 wc.BP.gameObject.transform.position.x - transform.position.x,
                 wc.BP.gameObject.transform.position.z - transform.position.z).normalized;
-            BaseMovement(toBall);
+
+            BaseMovement(toBall, true);
         }
         // If this warrior has the ball
         else if (wc.BP.ballOwner == gameObject)
@@ -187,14 +192,14 @@ public class WarriorAiController : MonoBehaviour
             HasBall();
         }
         // If a teammate has the ball (start roaming)
-        else if (wc.BP.ballOwner.GetComponent<WarriorController>() != null)
+        else if (wc.BP.ballOwner.CompareTag("Warrior"))
         {
             //Debug.Log("Roaming");
             StartRoaming();
         }
         // If a monster has the ball (do something else, e.g., tackle)
-        else if (wc.BP.ballOwner.GetComponent<MonsterController>() != null
-            || wc.BP.ballOwner.GetComponent<AIMummy>() != null)
+        else if (wc.BP.ballOwner.CompareTag("Monster")
+            || wc.BP.ballOwner.CompareTag("Mummy"))
         {
             //Debug.Log("Monster has ball");
             // Stop roaming if it's happening
@@ -210,7 +215,8 @@ public class WarriorAiController : MonoBehaviour
                 Vector2 toBall = new Vector2(
                     anticipatedBallPos.x - transform.position.x,
                     anticipatedBallPos.z - transform.position.z).normalized;
-                BaseMovement(toBall);
+
+                BaseMovement(toBall, true);
             } else if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRangeMin // Ensure not too close too slide
                 && Vector3.Dot(wc.movementDirection, (wc.BP.transform.position - transform.position).normalized) > 0.75f) // Ensure warrior is actually moving toward ball
             {
@@ -252,7 +258,18 @@ public class WarriorAiController : MonoBehaviour
 
     void BaseMovement(Vector2 targetPos)
     {
+        BaseMovement(targetPos, false);
+    }
+
+    void BaseMovement(Vector2 targetPos, bool useBoidMovement)
+    {
         if (wc.isSliding) return;
+
+        if (useBoidMovement)
+        {
+            Vector2 flockingOffset = GetFlockingOffset();
+            targetPos = (targetPos + flockingOffset * flockWeight).normalized;
+        }
 
         if (targetPos != Vector2.zero)
         {
@@ -329,16 +346,17 @@ public class WarriorAiController : MonoBehaviour
             // Pass
 
             // Determine target
-            float distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude;
-            float distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude;
+            WarriorController target = GetWarriorPassTarget();
 
-            if (distanceToWarrior1 < distanceToWarrior2)
-            {
-                Pass(teammates[0]);
-            } else
-            {
-                Pass(teammates[1]);
-            }
+            Pass(target);
+
+            //if (distanceToWarrior1 < distanceToWarrior2)
+            //{
+            //    Pass(teammates[0]);
+            //} else
+            //{
+            //    Pass(teammates[1]);
+            //}
             return;
         }
 
@@ -350,6 +368,12 @@ public class WarriorAiController : MonoBehaviour
             //Debug.Log("Moving to goal");
             Vector2 toMonsterGoal = new Vector2(monsterGoal.transform.position.x - transform.position.x,
             monsterGoal.transform.position.z - transform.position.z).normalized;
+
+            //Vector2 flockingOffset = GetFlockingOffset();
+            //Vector2 blendedDirection = (toMonsterGoal + flockingOffset * flockWeight).normalized;
+
+            //BaseMovement(blendedDirection);
+
             BaseMovement(toMonsterGoal);
         } // When close enough, shoot 
         else
@@ -385,16 +409,37 @@ public class WarriorAiController : MonoBehaviour
         // Debug.Log(warrior.name + ": " + warrior.transform.position);
         float distanceToWarrior1 = 100f;
         float distanceToWarrior2 = 100f;
-        if (teammates[0] != null) { distanceToWarrior1 = (teammates[0].gameObject.transform.position - transform.position).magnitude; }
-        if (teammates[1] != null) { distanceToWarrior2 = (teammates[1].gameObject.transform.position - transform.position).magnitude; }
+        if (teammates[0] != null) { distanceToWarrior1 = Vector3.Distance(teammates[0].transform.position, transform.position); }
+        if (teammates[1] != null) { distanceToWarrior2 = Vector3.Distance(teammates[1].transform.position, transform.position); }
 
-        if (Mathf.Min(distanceToWarrior1, distanceToWarrior2) <= aiPassRange // Ensure range is less than max
-            && Mathf.Min(distanceToWarrior1, distanceToWarrior2) > aiPassRangeMin) // and greater than min
+        if (IsInPassRange(distanceToWarrior1) || IsInPassRange(distanceToWarrior2))
         {
             return true;
         }
         
         return false;
+    }
+
+    private WarriorController GetWarriorPassTarget()
+    {
+        WarriorController target = null;
+        float maxDistInRage = 0f;
+        foreach (WarriorController wc in teammates)
+        {
+            float distToWarrior = Vector3.Distance(wc.transform.position, transform.position);
+            if (IsInPassRange(distToWarrior)
+                && distToWarrior > maxDistInRage)
+            {
+                maxDistInRage = distToWarrior;
+                target = wc;
+            }
+        }
+        return target;
+    }
+
+    private bool IsInPassRange(float dist)
+    {
+        return dist > aiPassRangeMin && dist < aiPassRange;
     }
 
     private void Shoot()
@@ -486,22 +531,33 @@ public class WarriorAiController : MonoBehaviour
 
             // Add random z-axis offset to make the movement less linear
             float randomZOffset = Random.Range(-randomZRange, randomZRange); // Random Z offset in the given range
-            Vector3 targetWithOffset = new Vector3(targetGoalPosition.x, targetGoalPosition.y, targetGoalPosition.z + randomZOffset);
+            Vector3 targetWithOffset = new Vector3(targetGoalPosition.x, 0, targetGoalPosition.z + randomZOffset);
 
-            float distanceToTravelMultiplier = Random.Range(distanceToTravelMultiplierFloor, 1f);
+            float distanceToTravelMultiplier = Random.Range(distanceToTravelMultiplierFloor, distanceToTravelMultiplierCeiling);
+            if (!roamForward) distanceToTravelMultiplier /= 2f; // Don't want to travel too far backward
+
+            //float maxDistFromCenterField = 5f;
+            float distToTarget = Vector3.Distance(transform.position, targetWithOffset);
+
+            Debug.Log(name + " roam target: " + targetWithOffset);
+
             // Move towards the current goal
-            while (Vector3.Distance(transform.position, targetWithOffset) * distanceToTravelMultiplier > stoppingDistanceFromGoal)
+            while (distToTarget * distanceToTravelMultiplier > stoppingDistanceFromGoal)
             {
                 if (wc.isStunned) break;
                 Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
                 //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
-                BaseMovement(new Vector2(directionToGoal.x, directionToGoal.z));
+
+                Vector2 dirToGoal = new Vector2(directionToGoal.x, directionToGoal.z);
+
+                BaseMovement(dirToGoal, true);
 
                 yield return null;
             }
 
             // Wait after reaching the goal
             Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
+            wc.movementDirection = Vector3.zero;
             yield return new WaitForSeconds(waitInPlaceTime);
 
             // Reverse the direction (toggle the goal)
@@ -538,6 +594,38 @@ public class WarriorAiController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         disableBehavior = false;
     }
+
+    // Boid Methods
+    private Vector2 GetFlockingOffset()
+    {
+        Vector2 offset = Vector2.zero;
+        int count = 0;
+
+        foreach (var teammate in teammates)
+        {
+            if (teammate == null || teammate == this) continue;
+
+            float dist = Vector3.Distance(transform.position, teammate.transform.position);
+
+            if (dist < 4f) // Adjust range based on tuning
+            {
+                // Separation (push away from close teammates)
+                Vector3 away = transform.position - teammate.transform.position;
+                offset += new Vector2(away.x, away.z).normalized / Mathf.Max(dist, 0.01f);
+                count++;
+            }
+
+            if (dist < 10f)
+            {
+                // Cohesion (move slightly toward team average position)
+                Vector3 to = teammate.transform.position - transform.position;
+                offset += new Vector2(to.x, to.z).normalized * 0.1f; // Weaker weight
+            }
+        }
+
+        return count > 0 ? offset.normalized : Vector2.zero;
+    }
+
 }
 
 
