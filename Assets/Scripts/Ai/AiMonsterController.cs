@@ -328,7 +328,8 @@ public abstract class AiMonsterController : MonoBehaviour
             if (Vector3.Distance(transform.position, target.transform.position) > ability.GetMinAttackDist())
             {
                 Vector3 dir = (target.transform.position - transform.position).normalized;
-                mc.movementDirection = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+                Vector3 finalLerp = Vector3.Lerp(mc.movementDirection, new Vector3(dir.x, 0, dir.z), Time.deltaTime * smoothFactor);
+                mc.movementDirection = new Vector3(finalLerp.x, 0, finalLerp.z);
             } else
             {
                 Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
@@ -819,7 +820,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
                 // Calculate direction and move toward the target position
                 Vector3 directionToTarget = (randomTargetPosition - transform.position).normalized;
-                Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, transform.position.y, directionToTarget.z);
+                Vector3 directionToTargetIgnoreY = new Vector3(directionToTarget.x, 0, directionToTarget.z);
                 mc.movementDirection = directionToTargetIgnoreY;
                 rb.velocity = mc.movementDirection * mc.monsterSpeed;
                 //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
@@ -880,10 +881,10 @@ public abstract class AiMonsterController : MonoBehaviour
 
         // Calculate the base direction toward the goal
         Vector3 toGoal = (goalPosition - transform.position).normalized;
-        Vector3 toGoalIgnoreY = new Vector3(toGoal.x, 0, toGoal.z);
+        Vector3 toGoalLerp = Vector3.Lerp(mc.movementDirection, (toGoal + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
 
         // Apply smoothed offset to movement direction
-        mc.movementDirection = Vector3.Lerp(mc.movementDirection, (toGoalIgnoreY + currentRandomOffset).normalized, Time.deltaTime * smoothFactor);
+        mc.movementDirection = new Vector3(toGoalLerp.x, 0, toGoalLerp.z);
         //Debug.Log("GROUND CLIP TEST: DIR = " + mc.movementDirection);
 
         // Update walking animation if applicable

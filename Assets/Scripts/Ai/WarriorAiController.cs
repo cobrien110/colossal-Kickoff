@@ -131,9 +131,9 @@ public class WarriorAiController : MonoBehaviour
 
     private void PerformMovement()
     {
-        if (wc.isStunned)
+        if (wc.isStunned || GM.GetPodiumSequenceStarted())
         {
-            wc.movementDirection = Vector3.zero;
+            StopMovement();
             return;
         }
 
@@ -149,6 +149,8 @@ public class WarriorAiController : MonoBehaviour
         {
             wc.movementDirection = Vector3.zero;
         }
+
+        if (wc.movementDirection == Vector3.zero) wc.ANIM.SetBool("isWalking", false);
     }
 
     public void AiBehavior()
@@ -159,7 +161,7 @@ public class WarriorAiController : MonoBehaviour
         if (wc != null && wc.BP != null && !wc.BP.isInteractable
             || disableBehavior) 
         {
-            wc.movementDirection = Vector3.zero;
+            StopMovement();
             return;
         }
 
@@ -348,7 +350,7 @@ public class WarriorAiController : MonoBehaviour
             // Determine target
             WarriorController target = GetWarriorPassTarget();
 
-            Pass(target);
+            if (target != null) Pass(target);
 
             //if (distanceToWarrior1 < distanceToWarrior2)
             //{
@@ -394,7 +396,7 @@ public class WarriorAiController : MonoBehaviour
         }
     }
 
-    bool ShouldPass()
+    private bool ShouldPass()
     {
         if (!checkToPass) return false; // Shouldn't even consider passing
         
@@ -407,12 +409,12 @@ public class WarriorAiController : MonoBehaviour
         // Check if nearest teammate is close enough for a pass
 
         // Debug.Log(warrior.name + ": " + warrior.transform.position);
-        float distanceToWarrior1 = 100f;
-        float distanceToWarrior2 = 100f;
-        if (teammates[0] != null) { distanceToWarrior1 = Vector3.Distance(teammates[0].transform.position, transform.position); }
-        if (teammates[1] != null) { distanceToWarrior2 = Vector3.Distance(teammates[1].transform.position, transform.position); }
+        //float distanceToWarrior1 = 100f;
+        //float distanceToWarrior2 = 100f;
+        //if (teammates[0] != null) { distanceToWarrior1 = Vector3.Distance(teammates[0].transform.position, transform.position); }
+        //if (teammates[1] != null) { distanceToWarrior2 = Vector3.Distance(teammates[1].transform.position, transform.position); }
 
-        if (IsInPassRange(distanceToWarrior1) || IsInPassRange(distanceToWarrior2))
+        if (ValidWarriorPassTargets().Count > 0)
         {
             return true;
         }
@@ -420,15 +422,39 @@ public class WarriorAiController : MonoBehaviour
         return false;
     }
 
+    private HashSet<WarriorController> ValidWarriorPassTargets()
+    {
+        HashSet<WarriorController> validTargets = new HashSet<WarriorController>();
+
+        // Use a properly constructed LayerMask (assumes you have a "Warrior" layer)
+        int layerMask = LayerMask.GetMask("Warrior", "Monster");
+
+        foreach (var target in teammates)
+        {
+            Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+
+            if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, Mathf.Infinity, layerMask))
+            {
+                if (IsInPassRange(target) && hit.collider.gameObject == target.gameObject)
+                {
+                    validTargets.Add(target);
+                }
+            }
+        }
+
+        return validTargets;
+    }
+
+
     private WarriorController GetWarriorPassTarget()
     {
         WarriorController target = null;
         float maxDistInRage = 0f;
-        foreach (WarriorController wc in teammates)
+        HashSet<WarriorController> potentialTargets = ValidWarriorPassTargets();
+        foreach (WarriorController wc in potentialTargets)
         {
             float distToWarrior = Vector3.Distance(wc.transform.position, transform.position);
-            if (IsInPassRange(distToWarrior)
-                && distToWarrior > maxDistInRage)
+            if (distToWarrior > maxDistInRage)
             {
                 maxDistInRage = distToWarrior;
                 target = wc;
@@ -437,8 +463,9 @@ public class WarriorAiController : MonoBehaviour
         return target;
     }
 
-    private bool IsInPassRange(float dist)
+    private bool IsInPassRange(WarriorController wc)
     {
+        float dist = Vector3.Distance(transform.position, wc.transform.position);
         return dist > aiPassRangeMin && dist < aiPassRange;
     }
 
@@ -529,8 +556,25 @@ public class WarriorAiController : MonoBehaviour
             // Determine the goal based on isMovingTowardsGoal1
             Vector3 targetGoalPosition = roamForward ? monsterGoal.transform.position : warriorGoal.transform.position;
 
-            // Add random z-axis offset to make the movement less linear
-            float randomZOffset = Random.Range(-randomZRange, randomZRange); // Random Z offset in the given range
+            float goalPosOffsetX = roamForward ? 2f : -2f;
+            targetGoalPosition = new Vector3(targetGoalPosition.x + goalPosOffsetX, 0, targetGoalPosition.z);
+
+            // Determine relative z position of this warrior to warrior with ball
+            float zDiff = 0;
+            if (wc.BP != null && wc.BP.ballOwner != null) zDiff = transform.position.z - wc.BP.ballOwner.transform.position.z;
+
+            float randomZOffset = 0;
+
+            // Add random z-axis offset (away from ballOwner for spacing) to make the movement less linear
+            if (zDiff > 0)
+            {
+                randomZOffset = Random.Range(0, randomZRange); // Random Z offset in the given range
+                
+            } else if (zDiff < 0)
+            {
+                randomZOffset = Random.Range(-randomZRange, 0); // Random Z offset in the given range
+            }
+
             Vector3 targetWithOffset = new Vector3(targetGoalPosition.x, 0, targetGoalPosition.z + randomZOffset);
 
             float distanceToTravelMultiplier = Random.Range(distanceToTravelMultiplierFloor, distanceToTravelMultiplierCeiling);
@@ -557,13 +601,20 @@ public class WarriorAiController : MonoBehaviour
 
             // Wait after reaching the goal
             Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
-            wc.movementDirection = Vector3.zero;
+            StopMovement();
             yield return new WaitForSeconds(waitInPlaceTime);
 
             // Reverse the direction (toggle the goal)
             roamForward = !roamForward;
 
         }
+    }
+
+    private void StopMovement()
+    {
+        wc.movementDirection = Vector3.zero;
+        rb.velocity = Vector3.zero;
+        wc.ANIM.SetBool("isWalking", false);
     }
 
     private void StartRoaming()
