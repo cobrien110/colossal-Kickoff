@@ -307,12 +307,12 @@ public abstract class AiMonsterController : MonoBehaviour
         if (target == null)
         {
             Debug.Log("No target to attack");
-            isPerformingAbility = false;
             yield break;
         }
 
         // StopCoroutines();
 
+        isPerformingAbility = true;
         while (isPerformingAbility)
         {
             Debug.Log("Target: " + target.name);
@@ -396,7 +396,6 @@ public abstract class AiMonsterController : MonoBehaviour
     protected void StartChargeableAttack(AttackMode mode)
     {
         Debug.Log("StartChargeableAttack");
-        StopCoroutines();
         AbilityChargeableAttack ability = mc.abilities[1] as AbilityChargeableAttack;
         if (ability == null) return;
         StopCoroutines();

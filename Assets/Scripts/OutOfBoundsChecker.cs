@@ -9,6 +9,7 @@ public class OutOfBoundsChecker : MonoBehaviour
         BallProperties BP = other.GetComponent<BallProperties>();
         if (BP != null && BP.isInteractable)
         {
+            Debug.Log("Ball out of bounds. Ball hit " + name + ". " + other.name + " position: " + other.transform.position);
             BP.ResetBall();
         }
     }

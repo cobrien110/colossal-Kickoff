@@ -183,7 +183,6 @@ public class AiAhklutController : AiMonsterController
         if (UnityEngine.Random.value < ability2Chance)
         {
             Debug.Log("PerformAbility2");
-            isPerformingAbility = true;
 
             StartChargeableAttack(attackMode);
         }
