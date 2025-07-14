@@ -50,21 +50,46 @@ public class AiAhklutController : AiMonsterController
         if (BallGoingTowardOwnGoal())
         {
             // Set Howl chance
-            ability1Chance = 0.3f;
+            ability1Chance = 0.4f;
         }
         else
         {
             // Set Howl chance
-            ability1Chance = 0.1f;
+            ability1Chance = 0.2f;
+        }
+
+        diveMode = DiveMode.Ball;
+        GameObject nearestWarriorToBall = GetNearestWarrior(mc.BP.transform.position);
+
+        // If ball in warrior half, and warrior nearest ball in warrior half
+        if (IsInWarriorHalf(mc.BP.gameObject) && IsInWarriorHalf(nearestWarriorToBall))
+        {
+            // Set Dive chance and behavior
+            ability3Chance = 0.2f;
+        }
+        // If ball in warrior half, and warrior nearest ball in monster half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
+        {
+            // Set Dive chance and behavior
+            ability3Chance = 0.4f;
+        }
+        // If ball in monster half, and warrior nearest ball in monster half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
+        {
+            // Set Dive chance and behavior
+            ability3Chance = 0.2f;
+        }
+        // If ball in monster half, and warrior nearest ball in warrior half
+        else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
+        {
+            // Set Dive chance and behavior
+            ability3Chance = 0.1f;
         }
 
         // Set Spherical attack chance
-        ability2Chance = 0.1f;
+        ability2Chance = 0.3f;
         attackMode = AttackMode.NearestWarrior;
-
-        // Set Dive chance and behavior
-        ability3Chance = 0.2f;
-        diveMode = DiveMode.Ball;
+        
 
         // Debug.Log("BallNotPossessed");
     }
