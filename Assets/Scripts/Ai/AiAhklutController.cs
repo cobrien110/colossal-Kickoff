@@ -15,7 +15,8 @@ public class AiAhklutController : AiMonsterController
     private enum DiveMode
     {
         BallOwner,
-        Ball
+        Ball,
+        Defensive
     }
 
     protected override void BallNotPossessed()
@@ -77,7 +78,8 @@ public class AiAhklutController : AiMonsterController
         else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
         {
             // Set Dive chance and behavior
-            ability3Chance = 0.2f;
+            ability3Chance = 0.4f;
+            diveMode = DiveMode.Defensive;
         }
         // If ball in monster half, and warrior nearest ball in warrior half
         else if (IsInWarriorHalf(mc.BP.gameObject) && !IsInWarriorHalf(nearestWarriorToBall))
@@ -96,6 +98,8 @@ public class AiAhklutController : AiMonsterController
 
     protected override void MonsterBehaviour()
     {
+        if (!ShouldPerformMonsterBehaviour()) return;
+
         if (mc.isStunned)
         {
             mc.movementDirection = Vector3.zero;
@@ -241,8 +245,6 @@ public class AiAhklutController : AiMonsterController
         // Reset shootChance to 0.0
         if (shootChance != 0.0f) shootChance = 0.0f;
 
-        diveMode = DiveMode.BallOwner; // Warrior is current ballOwner, so target it
-
         // If ahklut in ahklut half, warrior with ball in warrior half...
         if (!IsInWarriorHalf(gameObject) && IsInWarriorHalf(mc.BP.ballOwner))
         {
@@ -257,7 +259,8 @@ public class AiAhklutController : AiMonsterController
             attackMode = AttackMode.NearestWarrior; // Target nearest warrior because you don't want to overextend to get ball owner
 
             // Set Dive chance
-            ability3Chance = 0.1f; // Dive
+            ability3Chance = 0.2f; // Dive
+            diveMode = DiveMode.BallOwner;
 
         }
 
@@ -278,6 +281,7 @@ public class AiAhklutController : AiMonsterController
 
                 // Set Dive chance
                 ability3Chance = 0.3f;
+                diveMode = DiveMode.Defensive;
 
             }
         }
@@ -301,7 +305,8 @@ public class AiAhklutController : AiMonsterController
                 attackMode = AttackMode.BallOwner; // Be aggressive, try to get ball
 
                 // Set Dive chance
-                ability3Chance = 0.2f;
+                ability3Chance = 0.3f;
+                diveMode = DiveMode.BallOwner;
             }
         }
 
@@ -326,7 +331,7 @@ public class AiAhklutController : AiMonsterController
                 attackMode = AttackMode.BallOwner; // Hurry to kill ball owner to stop goal
 
                 // Set Dive chance
-                ability3Chance = 0.4f;
+                ability3Chance = 0.5f;
             }
         }
     }
@@ -408,13 +413,16 @@ public class AiAhklutController : AiMonsterController
             Vector3 targetPos = ballOwnerPos + (ballOwnerToGoalDir * diveToTargetPosOffset);
             Vector3 targetPosFinal = new Vector3(Mathf.Clamp(targetPos.x, -8, 8), targetPos.y, targetPos.z);
             return targetPosFinal;
-        } else
+        } else if (diveMode == DiveMode.Ball)
         {
             Vector3 ballPos = mc.BP.transform.position;
             Vector3 ballToGoalDir = (monsterGoal.transform.position - ballPos).normalized;
             Vector3 targetPos = ballPos + (ballToGoalDir * diveToTargetPosOffset);
             Vector3 targetPosFinal = new Vector3(Mathf.Clamp(targetPos.x, -8, 8), targetPos.y, targetPos.z);
             return targetPosFinal;
+        } else
+        {
+            return GetDefendGoalPosition();
         }
     }
 
@@ -446,6 +454,7 @@ public class AiAhklutController : AiMonsterController
 
     private bool ShouldDive()
     {
+        if (!mc.GetCanMove()) return false;
         GameObject target = null;
         if (diveMode == DiveMode.BallOwner && mc.BP.ballOwner != null)
             target = mc.BP.ballOwner;

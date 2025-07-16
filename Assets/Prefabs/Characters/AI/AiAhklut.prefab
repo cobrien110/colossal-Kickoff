@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2061249857265671894, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: minAttackDist
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_Name
@@ -80,5 +80,5 @@ MonoBehaviour:
   wiggleOffset: 1.5
   maxDiveDuration: 1.35
   diveToTargetThreshold: 0.8
-  minDiveDistance: 3
-  diveToTargetPosOffset: 1.5
+  minDiveDistance: 2
+  diveToTargetPosOffset: 1

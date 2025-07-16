@@ -1234,4 +1234,9 @@ public class MonsterController : MonoBehaviour
                 break;
         }
     }
+
+    public bool GetCanMove()
+    {
+        return canMove;
+    }
 }

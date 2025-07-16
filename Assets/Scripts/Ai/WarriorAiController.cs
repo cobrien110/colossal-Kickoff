@@ -47,6 +47,7 @@ public class WarriorAiController : MonoBehaviour
     [SerializeField] private float actionDelay = 0.25f;
     [SerializeField] private float anticipationSeconds = 0.5f;
     [SerializeField] private float flockWeight = 0.4f;
+    bool reachedLocation = false;
 
 
     private Coroutine aiCoroutine;
@@ -118,6 +119,12 @@ public class WarriorAiController : MonoBehaviour
         PerformMovement();
 
         if (kickTimer > 0) kickTimer -= Time.deltaTime;
+
+        if (GM.GetPodiumSequenceStarted())
+        {
+            if (roamCoroutine == null) StopMovement(); // Stop movement initially once podium sequence start
+            StartRoaming();
+        }
     }
 
     private IEnumerator AiBehaviorCoroutine()
@@ -131,7 +138,7 @@ public class WarriorAiController : MonoBehaviour
 
     private void PerformMovement()
     {
-        if (wc.isStunned || GM.GetPodiumSequenceStarted())
+        if (wc.isStunned)
         {
             StopMovement();
             return;
@@ -550,6 +557,7 @@ public class WarriorAiController : MonoBehaviour
 
     IEnumerator Roam()
     {
+        reachedLocation = false;
         while (true)
         {
             
@@ -583,12 +591,20 @@ public class WarriorAiController : MonoBehaviour
             //float maxDistFromCenterField = 5f;
             float distToTarget = Vector3.Distance(transform.position, targetWithOffset);
 
-            Debug.Log(name + " roam target: " + targetWithOffset);
+            // Debug.Log(name + " roam target: " + targetWithOffset);
+
+            float maxRoamDistFromMidfield = 6f;
+            Invoke("ResetReachedLocation", 0.5f);
 
             // Move towards the current goal
             while (distToTarget * distanceToTravelMultiplier > stoppingDistanceFromGoal)
             {
-                if (wc.isStunned) break;
+                if ((Vector3.Distance(transform.position, Vector3.zero) > maxRoamDistFromMidfield && !reachedLocation)  // Prevent warrior from roaming too far from midfield
+                || wc.isStunned)
+                {
+                    break;
+                }
+                
                 Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
                 //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
 
@@ -599,8 +615,10 @@ public class WarriorAiController : MonoBehaviour
                 yield return null;
             }
 
+            reachedLocation = true;
+
             // Wait after reaching the goal
-            Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
+            // Debug.Log($"Reached {(roamForward ? "Monster goal" : "Warrior goal")}, waiting...");
             StopMovement();
             yield return new WaitForSeconds(waitInPlaceTime);
 
@@ -608,6 +626,11 @@ public class WarriorAiController : MonoBehaviour
             roamForward = !roamForward;
 
         }
+    }
+
+    private void ResetReachedLocation()
+    {
+        reachedLocation = false;
     }
 
     private void StopMovement()

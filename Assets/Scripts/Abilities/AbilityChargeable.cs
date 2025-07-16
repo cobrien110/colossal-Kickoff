@@ -115,7 +115,7 @@ public abstract class AbilityChargeable : AbilityScript
     public virtual void ChargeUp()
     {
         if (!canActivate) return;
-        Debug.Log("ChargeUp: " + abilityName);
+        // Debug.Log("ChargeUp: " + abilityName);
         // Debug.Log("Is Charging Attack");
         isCharging = true;
         if (slowsDownCharacterWhileCharging) MC.isChargingAbility = true;
@@ -123,7 +123,7 @@ public abstract class AbilityChargeable : AbilityScript
 
     public virtual void ChargeDown()
     {
-        Debug.Log("ChargeDown: " + abilityName);
+        // Debug.Log("ChargeDown: " + abilityName);
         // Debug.Log("Not attack and not charging");
         isCharging = false;
         if (slowsDownCharacterWhileCharging) MC.isChargingAbility = false;

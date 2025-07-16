@@ -213,6 +213,8 @@ public class AiSphinxController : AiMonsterController
     }
     protected override void MonsterBehaviour()
     {
+        if (!ShouldPerformMonsterBehaviour()) return;
+
         if (mc.isStunned)
         {
             mc.movementDirection = Vector3.zero;

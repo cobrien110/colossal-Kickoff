@@ -79,6 +79,8 @@ public class AiQuetzalcaotlController : AiMonsterController
 
     protected override void MonsterBehaviour()
     {
+        if (!ShouldPerformMonsterBehaviour()) return;
+
         if (mc.isStunned)
         {
             mc.movementDirection = Vector3.zero;

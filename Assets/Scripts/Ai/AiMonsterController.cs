@@ -56,6 +56,7 @@ public abstract class AiMonsterController : MonoBehaviour
     protected State state = State.BallNotPossessed;
     protected bool stateChanged = false;
     private Coroutine attackCoroutine = null;
+    private Coroutine rampageCoroutine = null;
     protected enum State
     {
         BallNotPossessed,
@@ -238,7 +239,7 @@ public abstract class AiMonsterController : MonoBehaviour
 
     protected void HandleChargeableAttack(AbilityChargeableAttack ability)
     {
-        Debug.Log("HandleChargeableAttack");
+        // Debug.Log("HandleChargeableAttack");
         if (ability.GetTimer() < ability.GetCooldown()) return;
 
         ability.SetIsCharging(true);
@@ -315,7 +316,7 @@ public abstract class AiMonsterController : MonoBehaviour
         isPerformingAbility = true;
         while (isPerformingAbility)
         {
-            Debug.Log("Target: " + target.name);
+            // Debug.Log("Target: " + target.name);
             if (target == null)
             {
                 //target = targetSelector(transform);
@@ -904,6 +905,10 @@ public abstract class AiMonsterController : MonoBehaviour
     void Update()
     {
         // Debug.Log("AiMonsterController update");
+        if (GM.GetPodiumSequenceStarted())
+        {
+            StartRampage();
+        }
     }
 
     IEnumerator PrintWarriors()
@@ -914,5 +919,80 @@ public abstract class AiMonsterController : MonoBehaviour
             yield return new WaitForSeconds(1f);
             Debug.Log("Warriors: " + warriors.Count);
         }
+    }
+
+    private void StartRampage()
+    {
+        if (rampageCoroutine == null)
+        {
+            Debug.Log("Podium Sequence Started");
+            StopCoroutines();
+            foreach (AbilityScript ab in mc.abilities)
+            {
+                ab.Deactivate();
+                ab.AbilityReset();
+            }
+            rampageCoroutine = StartCoroutine(Rampage());
+        }
+    }
+
+    private IEnumerator Rampage()
+    {
+        // Prevent movement until podium lowers
+        mc.movementDirection = Vector3.zero;
+        rb.velocity = Vector3.zero;
+
+        while (true)
+        {
+            if (!mc.canUseAbilities)
+            {
+                yield return null;
+                continue; // Prevent actions until podium moves to the ground
+            }
+                    
+            if (!isPerformingAbility)
+            {
+                // Default behavior, go toward nearest warrior if there are any
+                GameObject nearestWarriorPos = GetNearestWarrior(transform.position);
+                if (nearestWarriorPos != null)
+                {
+                    Vector3 toNearestWarrior = (nearestWarriorPos.transform.position - transform.position).normalized;
+                    Vector3 toNearestWarriorIgnoreY = new Vector3(toNearestWarrior.x, 0, toNearestWarrior.z);
+                    mc.movementDirection = toNearestWarriorIgnoreY;
+                }
+
+                AbilityChargeableAttack chargeable = mc.abilities
+                    .OfType<AbilityChargeableAttack>()
+                    .FirstOrDefault();
+
+                if (chargeable != null && chargeable.AbilityOffCooldown())
+                {
+                    Debug.Log("Use ability");
+                    // You have a valid AbilityChargeableAttack reference
+                    StartChargeableAttack(AttackMode.NearestWarrior);
+                }
+
+                AbilityHandSlam handSlam = mc.abilities
+                    .OfType<AbilityHandSlam>()
+                    .FirstOrDefault();
+
+                AiGashadokuroController aiGashaController = this as AiGashadokuroController;
+
+                if (aiGashaController != null && aiGashaController.ShouldSlam()
+                    && handSlam != null && handSlam.AbilityOffCooldown())
+                {
+                    Debug.Log("Use ability");
+
+                    if (handSlam.TryStartSlam())
+                        aiGashaController.StartReleaseSlam();
+                }
+            }
+            yield return null;
+        }
+    }
+
+    protected bool ShouldPerformMonsterBehaviour()
+    {
+        return !GM.GetPodiumSequenceStarted();
     }
 }

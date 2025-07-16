@@ -47,6 +47,8 @@ public class AiGashadokuroController : AiMonsterController
 
     protected override void MonsterBehaviour()
     {
+        if (!ShouldPerformMonsterBehaviour()) return;
+
         if (mc.isStunned)
         {
             mc.movementDirection = Vector3.zero;
@@ -299,7 +301,7 @@ public class AiGashadokuroController : AiMonsterController
         Debug.Log("ReleaseSlam End. isPerformingAbility: " + isPerformingAbility);
     }
 
-    private void StartReleaseSlam()
+    public void StartReleaseSlam()
     {
         if (releaseSlamCoroutine == null)
         {
@@ -356,7 +358,7 @@ public class AiGashadokuroController : AiMonsterController
         return distToNearestWarrior <= maxProximityRange;
     }
 
-    private bool ShouldSlam()
+    public bool ShouldSlam()
     {
         if (abilityHandSlam == null) abilityHandSlam = mc.abilities[1] as AbilityHandSlam; // Instaniate handSlam on first call of this method
         if (abilityHandSlam != null)
