@@ -88,7 +88,7 @@ public class AbilityBullrush : AbilityChargeable
         if (lastMagmaSpawn == null || Vector3.Distance(lastMagmaSpawn, transform.position) >= magmaSpawnDistance)
         {
             Vector3 spawnPos = transform.position;
-            spawnPos.y = -0.312f;
+            spawnPos.y = -0.312f; //Why is this an arbitruary number :(
             Instantiate(magmaPrefab, spawnPos, transform.rotation);
             lastMagmaSpawn = transform.position;
         }
