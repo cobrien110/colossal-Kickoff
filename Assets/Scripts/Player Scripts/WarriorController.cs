@@ -91,7 +91,7 @@ public class WarriorController : MonoBehaviour
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
 
-    [SerializeField] private GameplayManager GM = null;
+    public GameplayManager GM = null;
     private WarriorUI WUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
@@ -166,25 +166,25 @@ public class WarriorController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        GM = GameObject.Find("Gameplay Manager")?.GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
+        ST = GameObject.Find("Stat Tracker")?.GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         AV = GetComponentInChildren<AimVisualizer>();
-        BP = (BallProperties)Ball.GetComponent("BallProperties");
-        MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        MTC.AddTarget(transform);
-        CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        BP = (BallProperties)Ball?.GetComponent("BallProperties");
+        MTC = GameObject.Find("Main Camera")?.GetComponent<MultipleTargetCamera>();
+        MTC?.AddTarget(transform);
+        CSM = GameObject.Find("CommentatorSounds")?.GetComponent<CommentatorSoundManager>();
         WUI = GetComponentInChildren<WarriorUI>();
         audioPlayer = GetComponent<AudioPlayer>();
-        respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
+        respawnBox = GameObject.FindGameObjectWithTag("RespawnBox")?.transform;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
         baseHitboxRadius = capsuleCollider.radius;
 
         // fancy respawn
-        jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
+        jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint")?.transform;
         jumpInTime = 1f;
     }
 
@@ -196,7 +196,7 @@ public class WarriorController : MonoBehaviour
         }
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         pickupBallTimer = pickupBallCooldown;
-        chargeSpeed = GM.warriorKickChargeSpeed;
+        if (GM != null) chargeSpeed = GM.warriorKickChargeSpeed;
 
         // Instantiate mummy manager variable
         GameObject monsterObj = GameObject.FindGameObjectWithTag("Monster");
@@ -232,7 +232,7 @@ public class WarriorController : MonoBehaviour
     void Update()
     {
         InvincibilityFlash();
-        if (GM.isPlaying && !isDead && !GM.isPaused)
+        if (GM!= null && GM.isPlaying && !isDead && !GM.isPaused)
         {
             //if (GetComponent<WarriorAiController>() != null) return;
             Dribbling();
@@ -319,7 +319,7 @@ public class WarriorController : MonoBehaviour
         }
 
         // If warrior from getting pushed up by wall
-        if (!isDead && transform.position.y != 0 && !GM.isGameOver)
+        if (!isDead && transform.position.y != 0 && GM != null && !GM.isGameOver)
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             //Debug.Log("Fixed warrior y position");

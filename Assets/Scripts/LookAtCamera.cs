@@ -9,7 +9,7 @@ public class LookAtCamera : MonoBehaviour
     //[SerializeField] private bool isPlayerSprite = false;
     void Start()
     {
-        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        if (cam == null) cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
