@@ -73,12 +73,12 @@ public class WarriorController : MonoBehaviour
     private float kickingSensitivity = 0.90f;
 
     private float slideCooldown = 2f;
-    [SerializeField] private float slideSpeedRegular = 230f;
+    [SerializeField] public float slideSpeedRegular = 230f;
     [SerializeField] private float slideCooldownRegular = 2f;
-    [SerializeField] private float slideDurationRegular = 1f;
-    [SerializeField] private float slideSpeedDodge = 100f;
+    [SerializeField] public float slideDurationRegular = 1f;
+    [SerializeField] public float slideSpeedDodge = 100f;
     [SerializeField] private float slideCooldownDodge = 3f;
-    [SerializeField] private float slideDurationDodge = 0.5f;
+    [SerializeField] public float slideDurationDodge = 0.5f;
     public bool isSliding = false;
     private bool isJuking = false;
     private bool jukeKickReady = false;

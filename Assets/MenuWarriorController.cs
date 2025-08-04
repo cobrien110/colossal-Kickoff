@@ -6,17 +6,32 @@ public class MenuWarriorController : MonoBehaviour
 {
     WarriorController wc;
     Rigidbody rb;
+    AudioPlayer audioPlayer;
     //[SerializeField] Vector3 targetPoint = Vector3.zero;
 
-    [Header("Roam Variables")]
-    [SerializeField] private bool shouldRoam = false;
+    [Header("Roam Cycle Variables")]
+    [SerializeField] private bool shouldRoamCycle = false;
+    [SerializeField] private float roamWaitTime = 0;
     [SerializeField] List<Transform> targetPoints = new List<Transform>();
-    [SerializeField] private float waitTime = 0;
+
+    [Space]
+
+    [Header("Dodge Cycle Variables")]
+    [SerializeField] private bool shouldDodgeCycle = false;
+    [SerializeField] private float dodgeWaitTime = 0;
+    [SerializeField] private SlideMode slideMode = SlideMode.Dodge;
+    private enum SlideMode
+    {
+        Dodge,
+        Regular
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         wc = GetComponent<WarriorController>();
         rb = GetComponent<Rigidbody>();
+        audioPlayer = GetComponent<AudioPlayer>();
         wc.GM = new GameplayManager();
         wc.GM.isPlaying = true;
         wc.GM.isPaused = false;
@@ -27,7 +42,8 @@ public class MenuWarriorController : MonoBehaviour
         wc.GM.automaticStart = false;
         wc.GM.barriersAreOn = false;
         wc.GM.usePlayerPrefs = false;
-        if (shouldRoam) StartCoroutine(Roam());
+        if (shouldRoamCycle) StartCoroutine(RoamCycle());
+        else if (shouldDodgeCycle) StartCoroutine(DodgeCycle());
         //targetLocation = transform.position;
     }
 
@@ -47,7 +63,110 @@ public class MenuWarriorController : MonoBehaviour
         //PerformMovement();
     }
 
-    private IEnumerator Roam()
+    private IEnumerator DodgeCycle()
+    {
+        while (true)
+        {
+            // Dodge
+            wc.movementDirection = new Vector3(1, 0, 0);
+            Slide();
+            wc.movementDirection = Vector3.zero;
+
+            // Wait
+            yield return new WaitForSeconds(dodgeWaitTime);
+        }
+    }
+
+    private void Slide()
+    {
+
+        Debug.Log(gameObject.name + ": Sliding");
+        wc.isSliding = true;
+        wc.isInvincible = true;
+
+        // Increase hitbox for sliding
+        //capsuleCollider.radius *= slideHitboxRadius;
+
+        // Check if this is a dodge slide or a regular slide
+        float slideDuration;
+        float slideSpeed;
+        // AudioClip audioClip;
+        string anim;
+        ForceMode forceMode;
+        if (slideMode == SlideMode.Dodge)
+        {
+            Debug.Log("Dodge slide");
+            // Dodge slide
+            slideDuration = wc.slideDurationDodge;
+            slideSpeed = wc.slideSpeedDodge;
+            forceMode = ForceMode.Force;
+            //ANIM.SetBool("isJuking", true);
+            //isJuking = true;
+
+            // audioClip = ???
+            anim = "isJuking";
+            wc.ANIM.Play(anim);
+        }
+        else
+        {
+            Debug.Log("Regular slide");
+            // Regular slide
+            slideDuration = wc.slideDurationRegular;
+            slideSpeed = wc.slideSpeedRegular;
+            forceMode = ForceMode.Force;
+
+            // audioClip = ???
+            anim = "isSliding";
+        }
+
+        //Debug.Log("slideSpeed: " + slideSpeed);
+
+        // Add force in direction of the player input for this warrior (movementDirection)
+        Vector3 slideVelocity = wc.movementDirection.normalized * slideSpeed;
+        rb.AddForce(slideVelocity, forceMode);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("slide"), 0.5f); // Maybe replace argument with "audioClip" variable
+
+        // Set isSliding to false after a delay
+        Invoke("StopSliding", slideDuration);
+
+        // If owner is kicking, if kicking
+        //if (BP.ballOwner != null && BP.ballOwner == gameObject && kickCharge > 1)
+        //{
+        //    Debug.Log("Cancel Kick");
+
+        //    // Cancel kick
+        //    isCharging = false;
+        //    kickCharge = 1;
+        //    aimingDirection = Vector3.zero;
+        //    WUI.UpdateChargeBar(0f); // Update ui
+        //    rightStickInput = Vector3.zero;
+        //    superKicking = false; // Reset superKicking if true
+
+        //    // Disable aim input for a moment to allow the right stick to be released without causing a kick to occur
+        //    canReadAimInput = false;
+        //    Invoke("ResetCanReadAimInput", 0.45f);
+
+        //}
+
+        // Update the last slide time
+        //lastSlideTime = Time.time;
+        wc.ANIM.SetBool(anim, true); // Maybe replace argument with "anim" variable
+
+    }
+
+    private void StopSliding()
+    {
+        // Debug.Log("No longer sliding");
+        wc.ANIM.SetBool("isSliding", false);
+        wc.ANIM.SetBool("isJuking", false);
+        // ANIM.SetBool("isDodging", false);
+        //isSliding = false;
+        //isJuking = false;
+        //isInvincible = false;
+        //capsuleCollider.radius = baseHitboxRadius;
+    }
+
+    private IEnumerator RoamCycle()
     {
         int i = 0;
         while (true)
@@ -72,7 +191,7 @@ public class MenuWarriorController : MonoBehaviour
                 i = 0;
             }
 
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(roamWaitTime);
         }
     }
 
@@ -88,15 +207,6 @@ public class MenuWarriorController : MonoBehaviour
             Debug.Log("MovementDirection: " +  wc.movementDirection + ", targetPos: " + targetDir);
         }
 
-
-        //rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
-        //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        //if (rb.velocity != Vector3.zero)
-        //{
-        //    Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
-        //    transform.rotation = newRotation;
-        //}
-
         if (wc.movementDirection != Vector3.zero && !wc.GetIsDead())
         {
             wc.ANIM.SetBool("isWalking", true);
@@ -105,6 +215,5 @@ public class MenuWarriorController : MonoBehaviour
         {
             wc.ANIM.SetBool("isWalking", false);
         }
-
     }
 }
