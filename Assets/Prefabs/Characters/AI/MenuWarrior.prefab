@@ -250,7 +250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6704148271226979897
 Transform:
   m_ObjectHideFlags: 0
@@ -656,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6446541335137490798
 Transform:
   m_ObjectHideFlags: 0
@@ -5713,7 +5713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5701411520611244259
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6358,27 +6358,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1841548018822893374, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6020660202166532150, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6036234689166383242, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.25
+      value: 5.981777
       objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.043
       objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -24.875332
       objectReference: {fileID: 0}
     - target: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6412,7 +6412,10 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4397885869346942917, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+    - {fileID: 4719727711758374099, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
+    - {fileID: 141275760485196338, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1580947081061120883, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
     - {fileID: 6615970132435757234, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
@@ -6446,7 +6449,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 374918639718418792}
+      addedObject: {fileID: 7659580101854141391}
   m_SourcePrefab: {fileID: 100100000, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
 --- !u!136 &2897371372992843546 stripped
 CapsuleCollider:
@@ -6458,38 +6461,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 453280044256401214, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
   m_PrefabInstance: {fileID: 3583732545077674020}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &374918639718418792
+--- !u!114 &7659580101854141391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4031185726219589402}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ab610addb352e14ea70741a48a293ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 43f9c3dedbce8614e8515796ad8ebe4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiKickSpeed: 300
-  aiShootRange: 7
-  aiPassRange: 9
-  aiPassRangeMin: 2.5
-  passChance: 0.2
-  stoppingDistanceFromGoal: 2
-  waitInPlaceTime: 0.5
-  randomZRange: 5
-  distanceToTravelMultiplierFloor: 0.7
-  distanceToTravelMultiplierCeiling: 1
-  slideRange: 1.4
-  slideRangeMin: 0.1
-  dodgeChance: 0.15
-  kickCooldown: 0.75
-  actionDelay: 0.25
-  anticipationSeconds: 0.15
-  flockWeight: 0.45
-  checkForPassFrequency: 0.5
-  GM: {fileID: 0}
-  warriors: []
+  shouldRoam: 1
+  targetPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  waitTime: 2
 --- !u!4 &7279066345801408576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6106750825581961316, guid: a47cf480d0bf04646941a1a853d59fbd, type: 3}
