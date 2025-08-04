@@ -6,7 +6,12 @@ public class MenuWarriorController : MonoBehaviour
 {
     WarriorController wc;
     Rigidbody rb;
-    [SerializeField] Vector3 targetLocation = Vector3.zero;
+    //[SerializeField] Vector3 targetPoint = Vector3.zero;
+
+    [Header("Roam Variables")]
+    [SerializeField] private bool shouldRoam = false;
+    [SerializeField] List<Transform> targetPoints = new List<Transform>();
+    [SerializeField] private float waitTime = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,53 +27,65 @@ public class MenuWarriorController : MonoBehaviour
         wc.GM.automaticStart = false;
         wc.GM.barriersAreOn = false;
         wc.GM.usePlayerPrefs = false;
-        targetLocation = transform.position;
+        if (shouldRoam) StartCoroutine(Roam());
+        //targetLocation = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"transform.position: {transform.position}, targetLocation: {targetLocation}, distance: {Vector3.Distance(transform.position, targetLocation)}");
-        if (Vector3.Distance(transform.position, targetLocation) > 0.1f) 
-        {
-            BaseMovement(new Vector2(targetLocation.x, targetLocation.z));
-        } else
-        {
-            wc.movementDirection = Vector3.zero;
-        }
+        //Debug.Log($"transform.position: {transform.position}, targetPoint: {targetPoint}, distance: {Vector3.Distance(transform.position, targetPoint)}");
+        //if (Vector3.Distance(transform.position, targetPoint) > 0.1f) 
+        //{
+        //    Vector3 dirToTarget = (targetPoint - transform.position).normalized;
+        //    BaseMovement(new Vector2(dirToTarget.x, dirToTarget.z));
+        //} else
+        //{
+        //    wc.movementDirection = Vector3.zero;
+        //}
 
         //PerformMovement();
     }
 
-    private void PerformMovement()
+    private IEnumerator Roam()
     {
-
-        if (!wc.IsSliding()) rb.velocity = wc.movementDirection * wc.warriorSpeed;
-
-        if (rb.velocity != Vector3.zero && !wc.IsSliding())
+        int i = 0;
+        while (true)
         {
-            Quaternion newRotation = Quaternion.LookRotation(wc.movementDirection.normalized, Vector3.up);
-            transform.rotation = newRotation;
-        }
+            Vector3 targetPoint = targetPoints[i].position; // Temporary code. Should choose next point
+            while (Vector3.Distance(transform.position, targetPoint) > 0.1f)
+            {
+                Vector3 dirToTarget = (targetPoint - transform.position).normalized;
+                BaseMovement(new Vector2(dirToTarget.x, dirToTarget.z));
+                yield return null;
+            }
 
-        if (rb.velocity.magnitude < 1)
-        {
+            // targetPoint reached
+
             wc.movementDirection = Vector3.zero;
-        }
 
-        if (wc.movementDirection == Vector3.zero) wc.ANIM.SetBool("isWalking", false);
+            if (i < targetPoints.Count - 1)
+            {
+                i++;
+            } else
+            {
+                i = 0;
+            }
+
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 
-    void BaseMovement(Vector2 targetPos)
+    void BaseMovement(Vector2 targetDir)
     {
         if (wc.isSliding) return;
 
-        if (targetPos != Vector2.zero)
+        if (targetDir != Vector2.zero)
         {
             //usingKeyboard = true;
-            wc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
+            wc.movementDirection = new Vector3(targetDir.x, 0, targetDir.y).normalized;
             wc.aimingDirection = wc.movementDirection;
-            //Debug.Log("MovementDirection: " +  wc.movementDirection);
+            Debug.Log("MovementDirection: " +  wc.movementDirection + ", targetPos: " + targetDir);
         }
 
 

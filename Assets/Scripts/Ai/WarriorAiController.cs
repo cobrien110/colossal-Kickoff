@@ -270,20 +270,20 @@ public class WarriorAiController : MonoBehaviour
         BaseMovement(targetPos, false);
     }
 
-    void BaseMovement(Vector2 targetPos, bool useBoidMovement)
+    void BaseMovement(Vector2 targetDir, bool useBoidMovement)
     {
         if (wc.isSliding) return;
 
         if (useBoidMovement)
         {
             Vector2 flockingOffset = GetFlockingOffset();
-            targetPos = (targetPos + flockingOffset * flockWeight).normalized;
+            targetDir = (targetDir + flockingOffset * flockWeight).normalized;
         }
 
-        if (targetPos != Vector2.zero)
+        if (targetDir != Vector2.zero)
         {
             //usingKeyboard = true;
-            wc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
+            wc.movementDirection = new Vector3(targetDir.x, 0, targetDir.y).normalized;
             wc.aimingDirection = wc.movementDirection;
             //Debug.Log("MovementDirection: " +  wc.movementDirection);
         }
