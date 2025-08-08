@@ -7350,6 +7350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267317405}
   - component: {fileID: 267317406}
+  - component: {fileID: 267317407}
   m_Layer: 0
   m_Name: Akhlut_idlel1
   m_TagString: Untagged
@@ -7425,6 +7426,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &267317407
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267317404}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dbe8456537e77a64cb280fa84efb7f17, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &269748101
 GameObject:
   m_ObjectHideFlags: 0
@@ -7710,7 +7732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &276594776
 Transform:
   m_ObjectHideFlags: 0
@@ -42013,11 +42035,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterObjects:
+  - {fileID: 276594775}
   - {fileID: 267317404}
+  - {fileID: 1837285994}
   - {fileID: 1946484196}
   - {fileID: 1915765751}
-  - {fileID: 1837285994}
-  - {fileID: 276594775}
 --- !u!1 &1472660706
 GameObject:
   m_ObjectHideFlags: 0
@@ -60259,11 +60281,11 @@ Transform:
   m_LocalScale: {x: 6.16233, y: 6.16233, z: 6.16233}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 276594776}
   - {fileID: 267317405}
+  - {fileID: 1837285995}
   - {fileID: 1946484197}
   - {fileID: 1915765752}
-  - {fileID: 1837285995}
-  - {fileID: 276594776}
   m_Father: {fileID: 1958012805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2147375669
