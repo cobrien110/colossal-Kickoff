@@ -7,14 +7,23 @@ public class CharacterSelectOption : MonoBehaviour
 {
     [SerializeField] public int characterID;
     [SerializeField] private int cursorsOver = 0;
-    [SerializeField] private GameObject highlightObject;
+
+    //Shadows to enable/disable on hover
+    private List<GameObject> activeShadows = new List<GameObject>();
 
     public bool canBeSelected = true;
 
-    void Start()
+    public void SetActiveShadows(List<SpriteShadow> shadowComponents)
     {
-        if (highlightObject != null)
-            highlightObject.SetActive(false);
+        activeShadows.Clear();
+        foreach (var shadow in shadowComponents)
+        {
+            if (shadow != null)
+                activeShadows.Add(shadow.gameObject);
+        }
+
+        // Ensure shadows start off
+        LoopThroughShadows(false);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -24,8 +33,7 @@ public class CharacterSelectOption : MonoBehaviour
             other.GetComponent<MenuCursor>().StartHovering("playerSelect", characterID);
             cursorsOver++;
 
-            if (highlightObject != null)
-                highlightObject.SetActive(true);
+            LoopThroughShadows(true);
         }
     }
 
@@ -36,8 +44,20 @@ public class CharacterSelectOption : MonoBehaviour
             other.GetComponent<MenuCursor>().StopHovering();
             cursorsOver--;
 
-            if (cursorsOver <= 0 && highlightObject != null)
-                highlightObject.SetActive(false);
+            if (cursorsOver <= 0)
+            {
+                LoopThroughShadows(false);
+            }
         }
     }
+    
+    private void LoopThroughShadows(bool state)
+    {
+        foreach (var shadowGO in activeShadows)
+        {
+            if (shadowGO != null)
+                shadowGO.SetActive(state);
+        }
+    }
+
 }
