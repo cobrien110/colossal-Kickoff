@@ -10,46 +10,54 @@ using UnityEngine.EventSystems;
 
 public class MenuCursor : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D body;
+    [Header("Movement")]
+    [SerializeField] private Rigidbody2D body;
     private float horizontal;
     private float vertical;
-    //private float moveLimiter = 0.7f;
+    //private float moveLimiter = 0.7f; //REDUNDENT
     [SerializeField] private float speed = 500.0f;
+    private Vector3 savedPosition;
+    private Vector3 screenMidpoint;
+
+    [Header("Player Info")]
     public int playerNumber = -1;
     public int playerSlot = -1;
     public WarriorDesc WD = null;
-    [SerializeField] private int menuSlot = -1;
-    [SerializeField] private int warriorColor = -1;
-    [SerializeField] private MenuController MC = null;
-    [SerializeField] private InputManager IM = null;
-    //[SerializeField] private VolumeManager VM = null;
-    [SerializeField] private MonsterName MN = null;
-    [SerializeField] private MonsterAbilityBlurb abilityBlurb = null;
-    [SerializeField] private MonsterAbilityViewController monsterAbilityViewController = null;
-    //[SerializeField] private WarriorDesc[] WDarr = null;
-    [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
-    [SerializeField] private Sprite[] cursorSprites;
-
+    [SerializeField] private int menuSlot = -1; //REDUNDENT
+    [SerializeField] private int warriorColor = -1; //REDUNDENT
     [SerializeField] private PlayerHolder PH;
     [SerializeField] private GameObject[] playerHolders;
-    [SerializeField] private int colorIndex = -1;
+    [SerializeField] private int colorIndex = -1; //REDUNDENT
 
+    [Header("Scene References")]
+    [SerializeField] private MenuController MC = null;
+    [SerializeField] private InputManager IM = null;
+    //[SerializeField] private VolumeManager VM = null; //REDUNDENT
+    [SerializeField] private MonsterName MN = null;
+    [SerializeField] private MonsterAbilityBlurb abilityBlurb = null; //REDUNDENT
+    [SerializeField] private MonsterAbilityViewController monsterAbilityViewController = null;
+    //[SerializeField] private WarriorDesc[] WDarr = null; //REDUNDENT
+
+    [Header("UI")]
+    [SerializeField] private Image cursorImage;
+    [SerializeField] private PlayerSelectedDisplay[] playerMarkerIcons;
+    [SerializeField] private Sprite[] cursorSprites;
     [SerializeField] private TMP_Dropdown thisDropdown = null;
 
+    [Header("Input & Hover")]
     public InputAction cursorMove;
     public string hoveringItem = "null";
     public int hoveringID = -1;
+
+    [Header("State Flags")]
     public bool hasSelected = false;
     public bool charConfirmed = false;
-    private Vector3 savedPosition;
-    private Vector3 screenMidpoint;
     [SerializeField] private bool selectedHighlightingAbilities = false;
-
     [SerializeField] private bool selectingProfile = false;
 
-    //sounds
+    [Header("Audio")]
     [SerializeField] private AudioPlayer AP;
-    //private bool willPlaySelectSound = false;
+    //private bool willPlaySelectSound = false; //REDUNDENT
 
     private void Start()
     {
@@ -79,7 +87,7 @@ public class MenuCursor : MonoBehaviour
         } else {
             hideCursor();
         }
-        GetComponent<Image>().sprite = cursorSprites[playerNumber - 1];
+        cursorImage.sprite = cursorSprites[playerNumber - 1];
 
         playerHolders = GameObject.FindGameObjectsWithTag("PlayerHolder");
         PlayerHolder temp = null;
@@ -113,12 +121,7 @@ public class MenuCursor : MonoBehaviour
         cursorMove.Disable();
     }
 
-    void Update()
-    {
-        // Gives a value between -1 and 1
-        //horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
-        //vertical = Input.GetAxisRaw("Vertical"); // -1 is down
-    }
+    
 
     void FixedUpdate()
     {
@@ -148,13 +151,13 @@ public class MenuCursor : MonoBehaviour
     }
 
     public void hideCursor() {
-        this.GetComponent<Image>().enabled = false;
+        cursorImage.enabled = false;
         body.velocity = new Vector2(0, 0);
     }
 
     public void showCursor() {
         transform.position = screenMidpoint;
-        this.GetComponent<Image>().enabled = true;
+        cursorImage.enabled = true;
     }
 
     public void PlayerSelected(int value) {
@@ -334,28 +337,6 @@ public class MenuCursor : MonoBehaviour
                         //Temp Color code
                         if (playerSlot != 0)
                         {
-                            //colorIndex = WDarr[playerSlot - 1].warriorColorIndex;
-                            //switch (colorIndex)
-                            //{
-                            //    case 0:
-                            //        PH.warriorColor = Color.red;
-                            //        break;
-                            //    case 1:
-                            //        PH.warriorColor = Color.green;
-                            //        break;
-                            //    case 2:
-                            //        PH.warriorColor = Color.blue;
-                            //        break;
-                            //    case 3:
-                            //        PH.warriorColor = Color.yellow;
-                            //        break;
-                            //    case 4:
-                            //        PH.warriorColor = Color.magenta;
-                            //        break;
-                            //    default:
-                            //        PH.warriorColor = Color.black;
-                            //        break;
-                            //}
                             PH.warriorColor = WD.getCurrentColor();
                         }
                     }
@@ -369,25 +350,6 @@ public class MenuCursor : MonoBehaviour
                 // play sound
                 //AP.PlaySoundRandomPitch(AP.Find("menuClick"));
             }
-            
-            /**else if (MC.currentScreen == 3) {
-                //Stage Select
-                if (hoveringItem.Equals("stageSelect") && playerNumber == 1) {
-                    //TODO: Loading Gameplay and grabbing controller info and all that junk
-                    MC.loadGameplay(hoveringID);
-                }
-            } else if (MC.currentScreen == 1) {
-                //Options Menu
-                if (hoveringItem.Equals("goreSelect") && playerNumber == 1) {
-                    MC.setGore(hoveringID);
-                }
-                if (hoveringItem.Equals("audioOptions") && playerNumber == 1) {
-                    if (!hasSelected) {
-                        enterAudio(hoveringID);
-                    }
-                }
-            }
-            **/
         }
     }
 
@@ -445,7 +407,7 @@ public class MenuCursor : MonoBehaviour
         //PH.RemoveEvents();
         PH.teamName = "";
         hasSelected = false;
-        this.GetComponent<Image>().enabled = true;
+        cursorImage.enabled = true;
         playerSlot = -1;
         PH.warriorPosition = -1;
         WD = null;
@@ -494,19 +456,7 @@ public class MenuCursor : MonoBehaviour
 
     public void OnChange(InputAction.CallbackContext action)
     {
-        /**if (MC.currentScreen == 1) { //OPTIONS MENU
-            if (hasSelected && action.started) {
-                float changeDir = action.ReadValue<Vector2>().x;
-                if (changeDir > 0)
-                {
-                    VM.pageRight();
-                }
-                else if (changeDir < 0)
-                {
-                    VM.pageLeft();
-                }
-            }
-        } else**/ if (MC.currentScreen == 2) { //CHARACTER SELECT
+        if (MC.currentScreen == 2) { //CHARACTER SELECT
             if (hasSelected && action.started)
             {
                 float lrChangeDir = action.ReadValue<Vector2>().x;
@@ -594,14 +544,6 @@ public class MenuCursor : MonoBehaviour
                             selectedHighlightingAbilities = !selectedHighlightingAbilities;
                             monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
                         }
-
-                        /**if (selectedHighlightingAbilities) {
-                            abilityBlurb.selectBlurbs();
-                            MN.unselectName();
-                        } else {
-                            abilityBlurb.unselectBlurbs();
-                            MN.selectName();
-                        }**/
                     }
                     else
                     {
@@ -645,13 +587,4 @@ public class MenuCursor : MonoBehaviour
     {
         return PH.gamepadName;
     }
-
-    
-
-    /**public void enterAudio(int optionSelected) {
-        hasSelected = true;
-        this.GetComponent<Image>().enabled = false;
-        body.velocity = new Vector2(0, 0);
-        VM.select(optionSelected);
-    }**/
 }
