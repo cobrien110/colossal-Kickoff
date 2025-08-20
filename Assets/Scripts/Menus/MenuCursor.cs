@@ -64,20 +64,7 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private AudioPlayer AP;
     //private bool willPlaySelectSound = false; //REDUNDENT
 
-    [Header("Player Input Actions")]
-    [SerializeField] private InputAction moveAction;
-    [SerializeField] private InputAction selectAction;
-    [SerializeField] private InputAction deselectAction;
-    [SerializeField] private InputAction leaveAction;
-    [SerializeField] private InputAction changeAction;
-
-    // Cached input values
-    private Vector2 moveInput = Vector2.zero;
-    private bool selectPressed = false;
-    private bool deselectPressed = false;
-    private bool leavePressed = false;
-    private Vector2 changeInput = Vector2.zero;
-
+    private MultiplayerEventSystem playerES;
 
     #endregion
 
@@ -126,6 +113,8 @@ public class MenuCursor : MonoBehaviour
             }
         }
 
+        playerES = PH.thisES.GetComponentInChildren<MultiplayerEventSystem>(); 
+
         Debug.Log("Cursor " + playerNumber + " with PlayerHolder " + PH.playerID);
         transform.position = new Vector3(325, 185, 0);
 
@@ -173,20 +162,6 @@ public class MenuCursor : MonoBehaviour
         }
     }
 
-    /*private void Update()
-    {
-        // Only process input if this player's event system is active
-        if (PH.thisES != null && PH.thisES.GetComponent<MultiplayerEventSystem>().currentPlayerNumber == playerNumber)
-        {
-            ReadInputs();
-
-            HandleMovement();
-            HandleSelect();
-            HandleDeselect();
-            HandleLeave();
-            HandleChange();
-        }
-    }*/
     #endregion
 
     #region Cursor Control
@@ -347,131 +322,129 @@ public class MenuCursor : MonoBehaviour
 
     public void OnSelect(InputAction.CallbackContext action)
     {
+        if (!action.started) return;
+        if (MC.currentScreen != 2) return;
+
         bool justSelectedChar = false;
-        if (action.started)
+
+        // Character Select
+        if (!MC.canMoveToGame)
         {
-            if (MC.currentScreen == 2)
+            // Initial selection
+            if (!hasSelected && hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
             {
-                //Character Select
-                if (!MC.canMoveToGame)
+                if (!playerMarkerIcons[hoveringID].isAssigned)
                 {
-                    if (!hasSelected)
-                    {
-                        if (hoveringItem.Equals("playerSelect") && !IM.IsSelected(hoveringID))
-                        {
-                            if (!playerMarkerIcons[hoveringID].isAssigned)
-                            {
-                                PlayerSelected(hoveringID);
-                                playerMarkerIcons[hoveringID].changeSprite(playerNumber);
-                            }
-                        }
-                    }
-                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject)
-                    {
-                        List<GameObject> allSelected = new List<GameObject>();
-
-                        for (int i = 0; i < playerHolders.Length; i++)
-                        {
-                            Debug.Log("Player Holder " + i + ": " + playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
-                            allSelected.Add(playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
-                        }
-
-                        //If Player clicks dropdown box, open dropdown box
-                        thisDropdown.Show();
-
-                        for (int i = 0; i < playerHolders.Length; i++)
-                        {
-                            if (playerHolders[i] != PH.gameObject)
-                            {
-                                Debug.Log("Player Holder " + i + ": " + allSelected[i]);
-                                playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(allSelected[i]);
-                            }
-                        }
-
-                        PH.SetEvents(thisDropdown.gameObject.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject);
-                    }
-                    else if (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject != null && PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name.StartsWith("Item"))
-                    {
-                        //If Player selects an item, do the following:
-                        Debug.Log("Item!");
-
-                        //...find the selected item's int value...
-                        List<TMP_Dropdown.OptionData> options = thisDropdown.options;
-
-                        string itemName = PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject.name;
-                        string resultString = Regex.Match(itemName, @"\d+").Value;
-                        int itemInt = int.Parse(resultString);
-
-                        //...set the item as active...
-                        thisDropdown.value = itemInt;
-
-                        List<GameObject> allSelected = new List<GameObject>();
-
-                        for (int i = 0; i < playerHolders.Length; i++)
-                        {
-                            Debug.Log("Player Holder " + i + ": " + playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
-                            allSelected.Add(playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().currentSelectedGameObject);
-                        }
-
-                        thisDropdown.Hide();
-
-                        for (int i = 0; i < playerHolders.Length; i++)
-                        {
-                            if (playerHolders[i] != PH.gameObject)
-                            {
-                                Debug.Log("Player Holder " + i + ": " + allSelected[i]);
-                                playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>().SetSelectedGameObject(allSelected[i]);
-                            }
-                        }
-                        PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
-                        PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
-                        selectingProfile = false;
-
-                        string profileName = thisDropdown.captionText.text;
-
-                        //...if item is "No Profile", set Default options. Otherwise...
-                        if (profileName.Equals("No Profile"))
-                        {
-                            PH.DefaultProfile();
-                            return;
-                        }
-
-                        //...load the profile to the correct PlayerHolder
-                        for (int i = 0; i < MC.savedProfiles.Count; i++)
-                        {
-                            if (MC.savedProfiles[i].Profile_Name.Equals(profileName))
-                            {
-                                PH.LoadProfile(MC.savedProfiles[i]);
-                            }
-                        }
-                    }
-                    else if (!charConfirmed)
-                    {
-                        charConfirmed = true;
-                        MC.confirmCharacter(playerSlot);
-                        // play sound
-                        AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
-                        justSelectedChar = true;
-                        AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
-                        //Temp Color code
-                        if (playerSlot != 0)
-                        {
-                            PH.warriorColor = WD.getCurrentColor();
-                        }
-                    }
+                    PlayerSelected(hoveringID);
+                    playerMarkerIcons[hoveringID].changeSprite(playerNumber);
                 }
-                else if (playerNumber == 1)
-                {
-                    MC.loadGameplay(MC.stageSelection);
-                }
-                // play sound
+                return;
             }
-            else
+
+            // Dropdown selected
+            if (playerES.currentSelectedGameObject == thisDropdown.gameObject)
             {
-                // play sound
+                List<GameObject> allSelected = new List<GameObject>();
+
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    var es = playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>();
+                    Debug.Log($"Player Holder {i}: {es.currentSelectedGameObject}");
+                    allSelected.Add(es.currentSelectedGameObject);
+                }
+
+                thisDropdown.Show();
+
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    if (playerHolders[i] != PH.gameObject)
+                    {
+                        var es = playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>();
+                        Debug.Log($"Restoring Player Holder {i}: {allSelected[i]}");
+                        es.SetSelectedGameObject(allSelected[i]);
+                    }
+                }
+
+                PH.SetEvents(thisDropdown.transform.GetChild(3).GetChild(0).GetChild(0).GetChild(1).gameObject);
+                return;
+            }
+
+            // Item selected from dropdown
+            if (playerES.currentSelectedGameObject != null &&
+                playerES.currentSelectedGameObject.name.StartsWith("Item"))
+            {
+                Debug.Log("Item!");
+
+                string itemName = playerES.currentSelectedGameObject.name;
+                string resultString = Regex.Match(itemName, @"\d+").Value;
+                int itemInt = int.Parse(resultString);
+
+                thisDropdown.value = itemInt;
+
+                List<GameObject> allSelected = new List<GameObject>();
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    var es = playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>();
+                    Debug.Log($"Player Holder {i}: {es.currentSelectedGameObject}");
+                    allSelected.Add(es.currentSelectedGameObject);
+                }
+
+                thisDropdown.Hide();
+
+                for (int i = 0; i < playerHolders.Length; i++)
+                {
+                    if (playerHolders[i] != PH.gameObject)
+                    {
+                        var es = playerHolders[i].GetComponentInChildren<MultiplayerEventSystem>();
+                        Debug.Log($"Restoring Player Holder {i}: {allSelected[i]}");
+                        es.SetSelectedGameObject(allSelected[i]);
+                    }
+                }
+
+                playerES.SetSelectedGameObject(null);
+                playerES.playerRoot = null;
+                selectingProfile = false;
+
+                string profileName = thisDropdown.captionText.text;
+
+                if (profileName.Equals("No Profile"))
+                {
+                    PH.DefaultProfile();
+                    return;
+                }
+
+                foreach (var profile in MC.savedProfiles)
+                {
+                    if (profile.Profile_Name.Equals(profileName))
+                    {
+                        PH.LoadProfile(profile);
+                    }
+                }
+                return;
+            }
+
+            // Character confirm
+            if (!charConfirmed)
+            {
+                charConfirmed = true;
+                MC.confirmCharacter(playerSlot);
+
+                AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
+                justSelectedChar = true;
+                AP.PlaySoundRandomPitch(AP.Find("menuSelect"));
+
+                if (playerSlot != 0)
+                {
+                    PH.warriorColor = WD.getCurrentColor();
+                }
             }
         }
+        else if (playerNumber == 1)
+        {
+            MC.loadGameplay(MC.stageSelection);
+        }
     }
+
 
     public void OnDeselect(InputAction.CallbackContext action)
     {
@@ -633,91 +606,6 @@ public class MenuCursor : MonoBehaviour
 
     #endregion
 
-    #region beta input handling
-    /// <summary>
-    /// Reads raw input values from assigned InputActions.
-    /// </summary>
-    private void ReadInputs()
-    {
-        moveInput = moveAction.ReadValue<Vector2>();
-        changeInput = changeAction.ReadValue<Vector2>();
-        selectPressed = selectAction.triggered;
-        deselectPressed = deselectAction.triggered;
-        leavePressed = leaveAction.triggered;
-    }
-
-    /// <summary>
-    /// Handles cursor movement input.
-    /// </summary>
-    private void HandleMovement()
-    {
-        horizontal = moveInput.x;
-        vertical = moveInput.y;
-        // Apply cursor movement logic here if needed
-    }
-
-    /// <summary>
-    /// Handles selection input logic.
-    /// </summary>
-    private void HandleSelect()
-    {
-        if (!selectPressed) return;
-
-        // Character select screen check
-        if (MC.currentScreen == 2)
-        {
-            if (!MC.canMoveToGame)
-            {
-                // Add your character/profile/item selection logic here
-            }
-            else if (playerNumber == 1)
-            {
-                MC.loadGameplay(MC.stageSelection);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Handles deselect/back input logic.
-    /// </summary>
-    private void HandleDeselect()
-    {
-        if (!deselectPressed) return;
-
-        if (hasSelected && MC.currentScreen == 2)
-        {
-            charConfirmed = false;
-            deselect();
-        }
-        else if (playerNumber == 1 && MC.currentScreen == 3)
-        {
-            MC.returnToTop();
-        }
-    }
-
-    /// <summary>
-    /// Handles leave input logic.
-    /// </summary>
-    private void HandleLeave()
-    {
-        if (!leavePressed) return;
-        Leave();
-    }
-
-    /// <summary>
-    /// Handles horizontal/vertical page changes or ability highlighting.
-    /// </summary>
-    private void HandleChange()
-    {
-        if (MC.currentScreen != 2 || !hasSelected) return;
-
-        float lr = changeInput.x;
-        float ud = changeInput.y;
-
-        // Add your horizontal/vertical navigation logic here
-    }
-
-    #endregion
 
     #region Player State / Exit
 
@@ -735,6 +623,29 @@ public class MenuCursor : MonoBehaviour
     public string GetGamepadName()
     {
         return PH.gamepadName;
+    }
+
+    private void SwitchMonster(int direction)
+    {
+        if (direction != -1 && direction != 1)
+            return;
+
+        if (playerSlot == 0 && !selectingProfile)
+        {
+            if (direction > 0) // right
+            {
+                MN.pageRight();
+                monsterAbilityViewController.pageRight();
+            }
+            else if (direction < 0) // left
+            {
+                MN.pageLeft();
+                monsterAbilityViewController.pageLeft();
+            }
+
+            PH.monsterIndex = MN.monsterIndex;
+            AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
+        }
     }
 
     #endregion

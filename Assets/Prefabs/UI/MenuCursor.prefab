@@ -333,6 +333,7 @@ MonoBehaviour:
   PH: {fileID: 0}
   playerHolders: []
   colorIndex: -1
+  currentSelection: 0
   MC: {fileID: 0}
   IM: {fileID: 0}
   MN: {fileID: 0}
@@ -366,6 +367,51 @@ MonoBehaviour:
   selectedHighlightingAbilities: 0
   selectingProfile: 0
   AP: {fileID: 3573016551086209570}
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9d090170-095a-4891-8553-f609e9a67729
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  selectAction:
+    m_Name: Select
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: be2bee84-95e3-4b95-a345-34941c89f7a3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  deselectAction:
+    m_Name: Deselect
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 83cbee52-496c-455b-82df-e2879971d8d2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  leaveAction:
+    m_Name: Leave
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b49216a9-8f64-4bc5-8ce6-c01765de79d6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  changeAction:
+    m_Name: Change
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fd90dd51-0891-4e67-9b3a-641753db2a12
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!50 &1060536525743962686
 Rigidbody2D:
   serializedVersion: 4
