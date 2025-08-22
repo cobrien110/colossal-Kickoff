@@ -119,9 +119,6 @@ public class MenuController : MonoBehaviour
     [SerializeField] private CharacterInfo[] characterInfos;
     private List<CharacterInfo> confirmedInfos = new List<CharacterInfo>();
 
-    [SerializeField] private WarriorDesc WD1;
-    [SerializeField] private WarriorDesc WD2;
-    [SerializeField] private WarriorDesc WD3;
     public bool monsterAbilityCanHover = true;
 
     public TMP_Dropdown warriorDrop1;
@@ -1496,15 +1493,6 @@ public class MenuController : MonoBehaviour
         STBC.TurnOff();
         stageSelect.SetActive(false);
         characterSelect.SetActive(true);
-
-        // Code for reseting sprite colors to black
-        WD1.ResetColor();
-        //WD1.ResetSliders();
-        WD2.ResetColor();
-        //WD2.ResetSliders();
-        WD3.ResetColor();
-        //WD3.ResetSliders();
-
 
         findAllCursors();
         for (int i = 0; i < cursors.Length; i++) {

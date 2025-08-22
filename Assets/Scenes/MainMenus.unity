@@ -9532,9 +9532,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 150872588}
   - {fileID: 1003768157}
-  WD1: {fileID: 0}
-  WD2: {fileID: 150872587}
-  WD3: {fileID: 1003768156}
   monsterAbilityCanHover: 1
   warriorDrop1: {fileID: 342471660}
   warriorDrop2: {fileID: 2140978284}
@@ -13428,8 +13425,6 @@ GameObject:
   - component: {fileID: 412537983}
   - component: {fileID: 412537987}
   - component: {fileID: 412537986}
-  - component: {fileID: 412537985}
-  - component: {fileID: 412537984}
   m_Layer: 5
   m_Name: MonsterAbilityTextShadow
   m_TagString: Untagged
@@ -13448,95 +13443,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1868987597}
-  m_Father: {fileID: 560220029}
+  m_Children: []
+  m_Father: {fileID: 432037400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.8, y: 89.60003}
+  m_AnchoredPosition: {x: 0, y: -0.000022888184}
   m_SizeDelta: {x: 233.06, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &412537984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412537982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a06e248d840e3184f91b13a30fefa028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blurb: {fileID: 412537985}
-  abilityIcons:
-  - {fileID: 1973189053}
-  - {fileID: 2084334156}
-  - {fileID: 1353615196}
-  - {fileID: 1379474241}
-  name: {fileID: 1828370529}
-  monsterBlurbs:
-  - Strike with the force of the Labyrinth! A powerful all-rounder.
-  - Dive and howl with the force of winter! A brutal speedster.
-  - Extract and exploit the souls of your enemies! A towering powerhouse.
-  - Devour Warriors and clouds to grow your body! A zoner that places mines.
-  - Command and grow your Mummy army! A strategic puppeteer.
-  minotaurAbilityBlurbs:
-  - Labyrinth Walls. Summon the walls of the Labyrinth! One spawns in front of you,
-    another at the goal. Ram them to spray shrapnel!
-  - Axe Swing. Strike with your axe! Hold the button to charge and extend its range.
-  - Bull Rush. Charge up, then dash forward! You'll leave pools of lava in your path!
-  - Molten Ichor. Bull Rush a Wall or become stunned to activate this power! Your
-    speed and shrapnel output will increase greatly!
-  akhlutAbilityBlurbs:
-  - Howl. Charge up, then howl to stun Warriors and stop the ball! Also shatters
-    crystals.
-  - Crunch. A biting attack. Hold the button to charge and increase its range.
-  - Dive. Dive under the ground for fast movement, then emerge with another tap of
-    the button.
-  - Bloodsense. Charges while diving. When it's full, you'll summon an icy crystal
-    when you emerge, crunch gains range, and you'll move faster towards hurt warriors.
-  gashaAbilityBlurbs:
-  - Fire Breath. Breath fire in a line across the whole arena. The fire stays burning
-    on the field for a short time!
-  - Slam. Strike with one of your hands to kill or stun warriors. Hold the button
-    to delay the attack.
-  - Shrine. Spend a hand to place a Shrine, which summons fiery Spirit Orbs on the
-    field! When enhanced, place an orb-launching Gate instead.
-  - Soul Devourer. Kill Warriors to fill your meter. When full, your next ability
-    will be enhanced!
-  quetzalAbilityBlurbs:
-  - Explosion. Detonate all Storm Mines on the field. Summon Storm Mines by eating
-    your tail!
-  - Lightning Lash. Attack in a line straight ahead. Charge to increase its range.
-    Attack a Storm Mine to detonate it!
-  - Fly. Soar into the air for a speed boost and to eat airborne clouds, then slam
-    back down to kill Warriors.
-  - Thunderheart. Eat clouds and Warriors to charge your meter and increase your
-    speed and power. Respawn with a longer tail by filling it.
-  sphinxAbilityBlurbs:
-  - Mummy Bomb. Your active Mummy will chase down the ball carrying Warrior and explode,
-    leaving behind a slowing aura.
-  - Swipe. A claw strike. Charge it to increase its range.
-  - Pharaoh's Curse. A slow moving projectile that curses its target. Their controls
-    are reversed, and they'll become a Mummy!
-  - Sandstorm. When Mummies are created or die, this ability charges. Grows a slowing,
-    cursing aura around you.
-  selectedHighlightingAbilities: 0
---- !u!114 &412537985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412537982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea6801e837f4ad49afc326663d2c6c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayedBlurb: {fileID: 412537986}
 --- !u!114 &412537986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14052,6 +13966,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c5de52fec1c954ab38423e57a48dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &432037399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 432037400}
+  - component: {fileID: 432037401}
+  m_Layer: 5
+  m_Name: Monster Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &432037400
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432037399}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 412537983}
+  - {fileID: 1868987597}
+  m_Father: {fileID: 560220029}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.800003, y: 89.60004}
+  m_SizeDelta: {x: 233.06, y: 80.00001}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &432037401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432037399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea6801e837f4ad49afc326663d2c6c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayedBlurb:
+  - {fileID: 412537986}
+  - {fileID: 1868987598}
 --- !u!1 &434046183
 GameObject:
   m_ObjectHideFlags: 0
@@ -18238,7 +18205,7 @@ RectTransform:
   - {fileID: 1828370526}
   - {fileID: 1471685017}
   - {fileID: 1535920809}
-  - {fileID: 412537983}
+  - {fileID: 432037400}
   - {fileID: 776393815}
   - {fileID: 1762633932}
   - {fileID: 1522063073}
@@ -36868,7 +36835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1210647834
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39659,7 +39626,6 @@ GameObject:
   - component: {fileID: 1353615192}
   - component: {fileID: 1353615194}
   - component: {fileID: 1353615193}
-  - component: {fileID: 1353615196}
   - component: {fileID: 1353615197}
   - component: {fileID: 1353615198}
   m_Layer: 5
@@ -39727,25 +39693,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353615191}
   m_CullTransparentMesh: 1
---- !u!114 &1353615196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353615191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7332e1dd2b4888d48b340c951976474c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightVisual: {fileID: 972302187}
-  abilityIcons:
-  - {fileID: 21300000, guid: 7a7f58f015098d149a9b97ec347dacca, type: 3}
-  - {fileID: 21300000, guid: 8d0ab78596deb814a8fb293c1446a819, type: 3}
-  - {fileID: 21300000, guid: 75d78d331793f3340aa081b0f82ed218, type: 3}
-  - {fileID: 21300000, guid: ac908fa37e751e94a83ab65f0647cda6, type: 3}
-  - {fileID: 21300000, guid: 8f35240139e451448ac86267d3a92eea, type: 3}
 --- !u!114 &1353615197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39787,8 +39734,15 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1353615193}
-  blurb: {fileID: 1868987600}
-  controller: {fileID: 1868987601}
+  highlightVisual: {fileID: 972302187}
+  abilityIcons:
+  - {fileID: 21300000, guid: 7a7f58f015098d149a9b97ec347dacca, type: 3}
+  - {fileID: 21300000, guid: 8d0ab78596deb814a8fb293c1446a819, type: 3}
+  - {fileID: 21300000, guid: 75d78d331793f3340aa081b0f82ed218, type: 3}
+  - {fileID: 21300000, guid: ac908fa37e751e94a83ab65f0647cda6, type: 3}
+  - {fileID: 21300000, guid: 8f35240139e451448ac86267d3a92eea, type: 3}
+  blurb: {fileID: 0}
+  controller: {fileID: 0}
   name: {fileID: 1828370529}
   abilityIndex: 2
   MC: {fileID: 310073397}
@@ -40529,7 +40483,6 @@ GameObject:
   - component: {fileID: 1379474237}
   - component: {fileID: 1379474239}
   - component: {fileID: 1379474238}
-  - component: {fileID: 1379474241}
   - component: {fileID: 1379474242}
   - component: {fileID: 1379474243}
   m_Layer: 5
@@ -40597,25 +40550,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379474236}
   m_CullTransparentMesh: 1
---- !u!114 &1379474241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1379474236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7332e1dd2b4888d48b340c951976474c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightVisual: {fileID: 2047884213}
-  abilityIcons:
-  - {fileID: 21300000, guid: 26e61b3baf85eff4fbbc1d526bffcf42, type: 3}
-  - {fileID: 21300000, guid: e32c4c0eefca1cf4ca70810f87b16f1f, type: 3}
-  - {fileID: 21300000, guid: c2fdd27e249e2ed4897b293e798765e6, type: 3}
-  - {fileID: 21300000, guid: f60391c978cc9ff42a718935e0ac01f0, type: 3}
-  - {fileID: 21300000, guid: ebb4bff537f27cb47870237fbaeb2801, type: 3}
 --- !u!114 &1379474242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40657,8 +40591,15 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1379474238}
-  blurb: {fileID: 1868987600}
-  controller: {fileID: 1868987601}
+  highlightVisual: {fileID: 2047884213}
+  abilityIcons:
+  - {fileID: 21300000, guid: 26e61b3baf85eff4fbbc1d526bffcf42, type: 3}
+  - {fileID: 21300000, guid: e32c4c0eefca1cf4ca70810f87b16f1f, type: 3}
+  - {fileID: 21300000, guid: c2fdd27e249e2ed4897b293e798765e6, type: 3}
+  - {fileID: 21300000, guid: f60391c978cc9ff42a718935e0ac01f0, type: 3}
+  - {fileID: 21300000, guid: ebb4bff537f27cb47870237fbaeb2801, type: 3}
+  blurb: {fileID: 0}
+  controller: {fileID: 0}
   name: {fileID: 1828370529}
   abilityIndex: 3
   MC: {fileID: 310073397}
@@ -43430,6 +43371,7 @@ GameObject:
   - component: {fileID: 1471685020}
   - component: {fileID: 1471685021}
   - component: {fileID: 1471685024}
+  - component: {fileID: 1471685025}
   m_Layer: 5
   m_Name: Monster
   m_TagString: Untagged
@@ -43572,6 +43514,73 @@ MonoBehaviour:
   - {fileID: 1837285994}
   - {fileID: 1946484196}
   - {fileID: 1915765751}
+--- !u!114 &1471685025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471685016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06e248d840e3184f91b13a30fefa028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blurb: {fileID: 432037401}
+  abilityIcons:
+  - {fileID: 1973189055}
+  - {fileID: 2084334157}
+  - {fileID: 1353615197}
+  - {fileID: 1379474242}
+  name: {fileID: 1828370529}
+  monsterBlurbs:
+  - Strike with the force of the Labyrinth! A powerful all-rounder.
+  - Dive and howl with the force of winter! A brutal speedster.
+  - Extract and exploit the souls of your enemies! A towering powerhouse.
+  - Devour Warriors and clouds to grow your body! A zoner that places mines.
+  - Command and grow your Mummy army! A strategic puppeteer.
+  minotaurAbilityBlurbs:
+  - Labyrinth Walls. Summon the walls of the Labyrinth! One spawns in front of you,
+    another at the goal. Ram them to spray shrapnel!
+  - Axe Swing. Strike with your axe! Hold the button to charge and extend its range.
+  - Bull Rush. Charge up, then dash forward! You'll leave pools of lava in your path!
+  - Molten Ichor. Bull Rush a Wall or become stunned to activate this power! Your
+    speed and shrapnel output will increase greatly!
+  akhlutAbilityBlurbs:
+  - Howl. Charge up, then howl to stun Warriors and stop the ball! Also shatters
+    crystals.
+  - Crunch. A biting attack. Hold the button to charge and increase its range.
+  - Dive. Dive under the ground for fast movement, then emerge with another tap of
+    the button.
+  - Bloodsense. Charges while diving. When it's full, you'll summon an icy crystal
+    when you emerge, crunch gains range, and you'll move faster towards hurt warriors.
+  gashaAbilityBlurbs:
+  - Fire Breath. Breath fire in a line across the whole arena. The fire stays burning
+    on the field for a short time!
+  - Slam. Strike with one of your hands to kill or stun warriors. Hold the button
+    to delay the attack.
+  - Shrine. Spend a hand to place a Shrine, which summons fiery Spirit Orbs on the
+    field! When enhanced, place an orb-launching Gate instead.
+  - Soul Devourer. Kill Warriors to fill your meter. When full, your next ability
+    will be enhanced!
+  quetzalAbilityBlurbs:
+  - Explosion. Detonate all Storm Mines on the field. Summon Storm Mines by eating
+    your tail!
+  - Lightning Lash. Attack in a line straight ahead. Charge to increase its range.
+    Attack a Storm Mine to detonate it!
+  - Fly. Soar into the air for a speed boost and to eat airborne clouds, then slam
+    back down to kill Warriors.
+  - Thunderheart. Eat clouds and Warriors to charge your meter and increase your
+    speed and power. Respawn with a longer tail by filling it.
+  sphinxAbilityBlurbs:
+  - Mummy Bomb. Your active Mummy will chase down the ball carrying Warrior and explode,
+    leaving behind a slowing aura.
+  - Swipe. A claw strike. Charge it to increase its range.
+  - Pharaoh's Curse. A slow moving projectile that curses its target. Their controls
+    are reversed, and they'll become a Mummy!
+  - Sandstorm. When Mummies are created or die, this ability charges. Grows a slowing,
+    cursing aura around you.
+  selectedHighlightingAbilities: 0
 --- !u!1 &1472660706
 GameObject:
   m_ObjectHideFlags: 0
@@ -54384,8 +54393,6 @@ GameObject:
   - component: {fileID: 1868987597}
   - component: {fileID: 1868987599}
   - component: {fileID: 1868987598}
-  - component: {fileID: 1868987600}
-  - component: {fileID: 1868987601}
   m_Layer: 5
   m_Name: MonsterAbilityText
   m_TagString: Untagged
@@ -54405,11 +54412,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 412537983}
+  m_Father: {fileID: 432037400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.7999573, y: 1.7999954}
+  m_AnchoredPosition: {x: 1.7999573, y: 1.7999704}
   m_SizeDelta: {x: 233.06, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1868987598
@@ -54509,86 +54516,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868987596}
   m_CullTransparentMesh: 1
---- !u!114 &1868987600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1868987596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea6801e837f4ad49afc326663d2c6c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayedBlurb: {fileID: 1868987598}
---- !u!114 &1868987601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1868987596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a06e248d840e3184f91b13a30fefa028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blurb: {fileID: 1868987600}
-  abilityIcons:
-  - {fileID: 1973189053}
-  - {fileID: 2084334156}
-  - {fileID: 1353615196}
-  - {fileID: 1379474241}
-  name: {fileID: 1828370529}
-  monsterBlurbs:
-  - Strike with the force of the Labyrinth! A powerful all-rounder.
-  - Dive and howl with the force of winter! A brutal speedster.
-  - Extract and exploit the souls of your enemies! A towering powerhouse.
-  - Devour Warriors and clouds to grow your body! A zoner that places mines.
-  - Command and grow your Mummy army! A strategic puppeteer.
-  minotaurAbilityBlurbs:
-  - Labyrinth Walls. Summon the walls of the Labyrinth! One spawns in front of you,
-    another at the goal. Ram them to spray shrapnel!
-  - Axe Swing. Strike with your axe! Hold the button to charge and extend its range.
-  - Bull Rush. Charge up, then dash forward! You'll leave pools of lava in your path!
-  - Molten Ichor. Bull Rush a Wall or become stunned to activate this power! Your
-    speed and shrapnel output will increase greatly!
-  akhlutAbilityBlurbs:
-  - Howl. Charge up, then howl to stun Warriors and stop the ball! Also shatters
-    crystals.
-  - Crunch. A biting attack. Hold the button to charge and increase its range.
-  - Dive. Dive under the ground for fast movement, then emerge with another tap of
-    the button.
-  - Bloodsense. Charges while diving. When it's full, you'll summon an icy crystal
-    when you emerge, crunch gains range, and you'll move faster towards hurt warriors.
-  gashaAbilityBlurbs:
-  - Fire Breath. Breath fire in a line across the whole arena. The fire stays burning
-    on the field for a short time!
-  - Slam. Strike with one of your hands to kill or stun warriors. Hold the button
-    to delay the attack.
-  - Shrine. Spend a hand to place a Shrine, which summons fiery Spirit Orbs on the
-    field! When enhanced, place an orb-launching Gate instead.
-  - Soul Devourer. Kill Warriors to fill your meter. When full, your next ability
-    will be enhanced!
-  quetzalAbilityBlurbs:
-  - Explosion. Detonate all Storm Mines on the field. Summon Storm Mines by eating
-    your tail!
-  - Lightning Lash. Attack in a line straight ahead. Charge to increase its range.
-    Attack a Storm Mine to detonate it!
-  - Fly. Soar into the air for a speed boost and to eat airborne clouds, then slam
-    back down to kill Warriors.
-  - Thunderheart. Eat clouds and Warriors to charge your meter and increase your
-    speed and power. Respawn with a longer tail by filling it.
-  sphinxAbilityBlurbs:
-  - Mummy Bomb. Your active Mummy will chase down the ball carrying Warrior and explode,
-    leaving behind a slowing aura.
-  - Swipe. A claw strike. Charge it to increase its range.
-  - Pharaoh's Curse. A slow moving projectile that curses its target. Their controls
-    are reversed, and they'll become a Mummy!
-  - Sandstorm. When Mummies are created or die, this ability charges. Grows a slowing,
-    cursing aura around you.
-  selectedHighlightingAbilities: 0
 --- !u!1 &1871319050
 GameObject:
   m_ObjectHideFlags: 0
@@ -57464,7 +57391,6 @@ GameObject:
   - component: {fileID: 1973189049}
   - component: {fileID: 1973189051}
   - component: {fileID: 1973189050}
-  - component: {fileID: 1973189053}
   - component: {fileID: 1973189055}
   - component: {fileID: 1973189054}
   m_Layer: 5
@@ -57532,25 +57458,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1973189048}
   m_CullTransparentMesh: 1
---- !u!114 &1973189053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1973189048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7332e1dd2b4888d48b340c951976474c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightVisual: {fileID: 895039686}
-  abilityIcons:
-  - {fileID: 21300000, guid: b4854dd850b9b2840aadb19cb3f71464, type: 3}
-  - {fileID: 21300000, guid: fa0990577b01b88428e8015b30568696, type: 3}
-  - {fileID: 21300000, guid: 4ac07b9f383c86c429420c8f6f5eb92d, type: 3}
-  - {fileID: 21300000, guid: d6c9bb14f27cd5246b3d28395cff5203, type: 3}
-  - {fileID: 21300000, guid: c31af7b89a5dac14c82290106c8922d2, type: 3}
 --- !u!61 &1973189054
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -57637,8 +57544,15 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1973189050}
-  blurb: {fileID: 1868987600}
-  controller: {fileID: 1868987601}
+  highlightVisual: {fileID: 895039686}
+  abilityIcons:
+  - {fileID: 21300000, guid: b4854dd850b9b2840aadb19cb3f71464, type: 3}
+  - {fileID: 21300000, guid: fa0990577b01b88428e8015b30568696, type: 3}
+  - {fileID: 21300000, guid: 4ac07b9f383c86c429420c8f6f5eb92d, type: 3}
+  - {fileID: 21300000, guid: d6c9bb14f27cd5246b3d28395cff5203, type: 3}
+  - {fileID: 21300000, guid: c31af7b89a5dac14c82290106c8922d2, type: 3}
+  blurb: {fileID: 0}
+  controller: {fileID: 0}
   name: {fileID: 1828370529}
   abilityIndex: 0
   MC: {fileID: 310073397}
@@ -59976,7 +59890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 194}
+  m_AnchoredPosition: {x: 0, y: 201}
   m_SizeDelta: {x: 230, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2063858532
@@ -60584,7 +60498,6 @@ GameObject:
   - component: {fileID: 2084334152}
   - component: {fileID: 2084334154}
   - component: {fileID: 2084334153}
-  - component: {fileID: 2084334156}
   - component: {fileID: 2084334157}
   - component: {fileID: 2084334158}
   m_Layer: 5
@@ -60652,25 +60565,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084334151}
   m_CullTransparentMesh: 1
---- !u!114 &2084334156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084334151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7332e1dd2b4888d48b340c951976474c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightVisual: {fileID: 1675511902}
-  abilityIcons:
-  - {fileID: 21300000, guid: c44fcbd5f44812f4cb6a0d09aab63cec, type: 3}
-  - {fileID: 21300000, guid: 0d6abb585b9c15443aa92fa2faa039c6, type: 3}
-  - {fileID: 21300000, guid: 402c9ad269091b045a2cf725612668cd, type: 3}
-  - {fileID: 21300000, guid: 58eff230ec2a380448353407de2c73a3, type: 3}
-  - {fileID: 21300000, guid: 0c43a7aa41ce7c94fbe6ba777297dfed, type: 3}
 --- !u!114 &2084334157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60712,8 +60606,15 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2084334153}
-  blurb: {fileID: 1868987600}
-  controller: {fileID: 1868987601}
+  highlightVisual: {fileID: 1675511902}
+  abilityIcons:
+  - {fileID: 21300000, guid: c44fcbd5f44812f4cb6a0d09aab63cec, type: 3}
+  - {fileID: 21300000, guid: 0d6abb585b9c15443aa92fa2faa039c6, type: 3}
+  - {fileID: 21300000, guid: 402c9ad269091b045a2cf725612668cd, type: 3}
+  - {fileID: 21300000, guid: 58eff230ec2a380448353407de2c73a3, type: 3}
+  - {fileID: 21300000, guid: 0c43a7aa41ce7c94fbe6ba777297dfed, type: 3}
+  blurb: {fileID: 0}
+  controller: {fileID: 0}
   name: {fileID: 1828370529}
   abilityIndex: 1
   MC: {fileID: 310073397}

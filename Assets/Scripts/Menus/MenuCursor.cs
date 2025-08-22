@@ -487,119 +487,103 @@ public class MenuCursor : MonoBehaviour
 
     public void OnChange(InputAction.CallbackContext action)
     {
-        if (MC.currentScreen == 2)
-        { //CHARACTER SELECT
-            if (hasSelected && action.started)
+        if (MC.currentScreen == 2) return;
+        if (hasSelected && action.started) return;
+
+        float lrChangeDir = action.ReadValue<Vector2>().x;
+        float udChangeDir = action.ReadValue<Vector2>().y;
+
+        if (Mathf.Abs(lrChangeDir) > Mathf.Abs(udChangeDir))
+        {
+            if (selectedHighlightingAbilities)
             {
-                float lrChangeDir = action.ReadValue<Vector2>().x;
-                float udChangeDir = action.ReadValue<Vector2>().y;
-
-                if (Mathf.Abs(lrChangeDir) > Mathf.Abs(udChangeDir))
+                /*if (playerSlot == 0 && !selectingProfile)
                 {
-                    if (selectedHighlightingAbilities)
+                    if (lrChangeDir > 0)
                     {
-                        if (playerSlot == 0 && !selectingProfile)
-                        {
-                            if (lrChangeDir > 0)
-                            {
-                                monsterAbilityViewController.scrollRight();
-                            }
-                            else if (lrChangeDir < 0)
-                            {
-                                monsterAbilityViewController.scrollLeft();
-                            }
-                        }
+                        monsterAbilityViewController.scrollRight();
                     }
-                    else
+                    else if (lrChangeDir < 0)
                     {
-                        if (playerSlot == 0 && !selectingProfile)
-                        {
-                            if (lrChangeDir > 0)
-                            {
-                                MN.pageRight();
-                                monsterAbilityViewController.pageRight();
-                            }
-                            else if (lrChangeDir < 0)
-                            {
-                                MN.pageLeft();
-                                monsterAbilityViewController.pageLeft();
-                            }
-                            PH.monsterIndex = MN.monsterIndex;
-                            AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
-                        }
-                        else
-                        {
-                            int i = playerSlot - 1;
-                            if (lrChangeDir > 0)
-                            {
-                                //WDarr[i].pageRight();
-                            }
-                            else if (lrChangeDir < 0)
-                            {
-                                //WDarr[i].pageLeft();
-                            }
-                            //AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
-                        }
+                        monsterAbilityViewController.scrollLeft();
                     }
-                }
-                else
+                }*/
+            }
+            else
+            {
+                if (playerSlot == 0 && !selectingProfile)
                 {
-                    //UP & DOWN
-                    //Debug.Log(udChangeDir);
-                    if (playerSlot == 0)
+                    if (lrChangeDir > 0)
                     {
-                        if (!selectedHighlightingAbilities && udChangeDir > 0 && !selectingProfile)
-                        {
-                            // Going up to profiles
-                            selectingProfile = true;
-                            MN.unselectName();
-
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
-                        }
-                        else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
-                        {
-                            // Coming Up or Down from profiles
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
-                            selectingProfile = false;
-
-                            if (udChangeDir > 0)
-                            {
-                                selectedHighlightingAbilities = true;
-                            }
-                            else
-                            {
-                                selectedHighlightingAbilities = false;
-                            }
-                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
-                        }
-                        else if (!selectingProfile)
-                        {
-                            //Swapping between highlighting abilities or not
-                            selectedHighlightingAbilities = !selectedHighlightingAbilities;
-                            monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
-                        }
+                        MN.pageRight();
+                        monsterAbilityViewController.pageRight();
                     }
-                    else
+                    else if (lrChangeDir < 0)
                     {
-                        if (udChangeDir > 0 && !selectingProfile)
-                        {
-                            selectingProfile = true;
-
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
-                        }
-                        else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
-                        {
-                            // Coming Up or Down from profiles
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
-                            PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
-                            selectingProfile = false;
-                        }
+                        MN.pageLeft();
+                        monsterAbilityViewController.pageLeft();
                     }
+                    PH.monsterIndex = MN.monsterIndex;
+                    AP.PlaySoundRandomPitch(AP.Find("menuSwitch"));
                 }
             }
+        }
+        else
+        {
+            //UP & DOWN
+            //Debug.Log(udChangeDir);
+            /*if (playerSlot == 0)
+            {
+                if (!selectedHighlightingAbilities && udChangeDir > 0 && !selectingProfile)
+                {
+                    // Going up to profiles
+                    selectingProfile = true;
+                    MN.unselectName();
+
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
+                }
+                else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
+                {
+                    // Coming Up or Down from profiles
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
+                    selectingProfile = false;
+
+                    if (udChangeDir > 0)
+                    {
+                        selectedHighlightingAbilities = true;
+                    }
+                    else
+                    {
+                        selectedHighlightingAbilities = false;
+                    }
+                    monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                }
+                else if (!selectingProfile)
+                {
+                    //Swapping between highlighting abilities or not
+                    selectedHighlightingAbilities = !selectedHighlightingAbilities;
+                    monsterAbilityViewController.pageUpDown(selectedHighlightingAbilities);
+                }
+            }*/
+            /*else
+            {
+                if (udChangeDir > 0 && !selectingProfile)
+                {
+                    selectingProfile = true;
+
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
+                }
+                else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
+                {
+                    // Coming Up or Down from profiles
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
+                    PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
+                    selectingProfile = false;
+                }
+            }*/
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterAbilityViewController : MonoBehaviour
 {
     [SerializeField] private MonsterAbilityBlurb blurb;
-    [SerializeField] private MonsterAbilityIcon[] abilityIcons;
+    [SerializeField] private MonsterAbilityHover[] abilityIcons;
     [SerializeField] private MonsterName name;
     [SerializeField] public string[] monsterBlurbs;
     [SerializeField] public string[] minotaurAbilityBlurbs;
@@ -78,23 +78,23 @@ public class MonsterAbilityViewController : MonoBehaviour
             highlightIcon(abilityHighlighted);
             switch (name.monsterIndex) {
                 case 0:
-                blurb.setText(minotaurAbilityBlurbs[abilityHighlighted]);
-                break;
+                    blurb.setText(minotaurAbilityBlurbs[abilityHighlighted]);
+                    break;
                 case 1:
-                blurb.setText(akhlutAbilityBlurbs[abilityHighlighted]);
-                break;
+                    blurb.setText(akhlutAbilityBlurbs[abilityHighlighted]);
+                    break;
                 case 2:
-                blurb.setText(gashaAbilityBlurbs[abilityHighlighted]);
-                break;
+                    blurb.setText(gashaAbilityBlurbs[abilityHighlighted]);
+                    break;
                 case 3:
-                blurb.setText(quetzalAbilityBlurbs[abilityHighlighted]);
-                break;
+                    blurb.setText(quetzalAbilityBlurbs[abilityHighlighted]);
+                    break;
                 case 4:
-                blurb.setText(sphinxAbilityBlurbs[abilityHighlighted]);
-                break;
+                    blurb.setText(sphinxAbilityBlurbs[abilityHighlighted]);
+                    break;
                 default:
-                Debug.Log("Error: unknown monster index");
-                break;
+                    Debug.Log("Error: unknown monster index");
+                    break;
             }
         }
     }

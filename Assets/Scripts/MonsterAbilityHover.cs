@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class MonsterAbilityHover : Selectable
 {
+    [SerializeField] private GameObject highlightVisual;
+    [SerializeField] private Sprite[] abilityIcons;
+
     [SerializeField] private MonsterAbilityBlurb blurb;
     [SerializeField] private MonsterAbilityViewController controller;
     [SerializeField] private MonsterName name;
@@ -89,4 +92,20 @@ public class MonsterAbilityHover : Selectable
         controller.unhighlightAll();
         blurb.setText(controller.monsterBlurbs[name.monsterIndex]);
     }
+
+    public void setVisual(int input)
+    {
+        GetComponent<Image>().sprite = abilityIcons[input];
+    }
+
+    public void highlight()
+    {
+        highlightVisual.SetActive(true);
+    }
+
+    public void unhighlight()
+    {
+        highlightVisual.SetActive(false);
+    }
+
 }
