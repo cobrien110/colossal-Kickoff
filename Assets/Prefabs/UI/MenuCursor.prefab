@@ -274,6 +274,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eb816d07-ad6f-48c2-889e-d3130ba10562
     m_ActionName: Monster/CallForPass[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 197278f2-9049-4745-b564-5c138f8a7cab
+    m_ActionName: Player/Taunt1
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7bb751e6-6745-493a-9b3e-101b9b1c89e6
+    m_ActionName: Player/Taunt2
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f5b140a-83c8-4c18-a568-8a0008dc1a0c
+    m_ActionName: Player/Taunt3
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a4ccfac-3c07-41bf-ae58-9b12a208e591
+    m_ActionName: Player/Taunt4
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac6af0c6-188b-4588-8c3c-70b4fc775f54
+    m_ActionName: Monster/Taunt1
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4f4b4207-9a62-48bd-87a9-06a59907c870
+    m_ActionName: Monster/Taunt2
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 418310f4-d43a-465a-85f0-631e1b5b90e1
+    m_ActionName: Monster/Taunt3
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b39db285-8abd-411c-8527-02d2efbfe203
+    m_ActionName: Monster/Taunt4
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Xbox Control Scheme
   m_DefaultActionMap: Cursor
@@ -298,11 +330,16 @@ MonoBehaviour:
   WD: {fileID: 0}
   menuSlot: -1
   warriorColor: -1
+  PH: {fileID: 0}
+  playerHolders: []
+  colorIndex: -1
+  currentSelection: 0
   MC: {fileID: 0}
   IM: {fileID: 0}
   MN: {fileID: 0}
   abilityBlurb: {fileID: 0}
   monsterAbilityViewController: {fileID: 0}
+  cursorImage: {fileID: 2207748422208765405}
   playerMarkerIcons:
   - {fileID: 0}
   - {fileID: 0}
@@ -311,11 +348,9 @@ MonoBehaviour:
   cursorSprites:
   - {fileID: 21300000, guid: 3b23fe445d12dd14598825f50fbff2e2, type: 3}
   - {fileID: 21300000, guid: 987e6a9a89a8ee945bc3c88666142cb2, type: 3}
-  - {fileID: 21300000, guid: 5aae4059969c2f74485f48c80af0f76a, type: 3}
   - {fileID: 21300000, guid: 6b4d5e02441dcfc489785e0e643767e4, type: 3}
-  PH: {fileID: 0}
-  playerHolders: []
-  colorIndex: -1
+  - {fileID: 21300000, guid: 5aae4059969c2f74485f48c80af0f76a, type: 3}
+  thisDropdown: {fileID: 0}
   cursorMove:
     m_Name: Cursor Move
     m_Type: 0
@@ -329,7 +364,54 @@ MonoBehaviour:
   hoveringID: -1
   hasSelected: 0
   charConfirmed: 0
+  selectedHighlightingAbilities: 0
+  selectingProfile: 0
   AP: {fileID: 3573016551086209570}
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9d090170-095a-4891-8553-f609e9a67729
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  selectAction:
+    m_Name: Select
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: be2bee84-95e3-4b95-a345-34941c89f7a3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  deselectAction:
+    m_Name: Deselect
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 83cbee52-496c-455b-82df-e2879971d8d2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  leaveAction:
+    m_Name: Leave
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b49216a9-8f64-4bc5-8ce6-c01765de79d6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  changeAction:
+    m_Name: Change
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fd90dd51-0891-4e67-9b3a-641753db2a12
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!50 &1060536525743962686
 Rigidbody2D:
   serializedVersion: 4

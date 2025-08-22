@@ -46,7 +46,7 @@ public class MonsterName : MonoBehaviour
             }
             Debug.Log("PAGE LEFT SET ARROWS");
             displayedName.text = "< " + monsterNames[monsterIndex] + " >";
-            visual.updateSprite(monsterIndex);
+            visual.UpdateMonster(monsterIndex);
         }
     }
 
@@ -59,7 +59,7 @@ public class MonsterName : MonoBehaviour
             }
             Debug.Log("PAGE RIGHT SET ARROWS");
             displayedName.text = "< " + monsterNames[monsterIndex] + " >";
-            visual.updateSprite(monsterIndex);
+            visual.UpdateMonster(monsterIndex);
         }
     }
 

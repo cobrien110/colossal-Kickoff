@@ -5,27 +5,59 @@ using UnityEngine.UI;
 
 public class MonsterCharSelectOption: MonoBehaviour
 {
-    [SerializeField] private Sprite[] monsterSprites;
-    [SerializeField] private float[] monsterScales;
-    [SerializeField] private Vector3[] monsterPositions;
-    [SerializeField] private Image image;
-    private BoxCollider2D BC;
-    private Vector2 sizeBC;
+    [SerializeField] private GameObject[] monsterObjects;
+    private CharacterSelectOption characterSelectOption;
 
-    void Start() {
-        image = GetComponent<Image>();
-        BC = GetComponent<BoxCollider2D>();
-        sizeBC = BC.size;
-        image.sprite = monsterSprites[0];
-        image.transform.localScale = new Vector3(monsterScales[0], monsterScales[0], 1f);
-        BC.size = new Vector2(sizeBC.x / monsterScales[0], sizeBC.y / monsterScales[0]);
-        //image.transform.position = monsterPositions[0];
+    private List<SpriteShadow>[] shadowObjects; // One list per monster
+    private int currentIndex = 0;
+
+    void Start()
+    {
+        characterSelectOption = GetComponent<CharacterSelectOption>();
+        PopulateShadowObjects();
+        UpdateMonster(currentIndex);
     }
 
-    public void updateSprite(int index) {
-        image.sprite = monsterSprites[index];
-        image.transform.localScale = new Vector3(monsterScales[index], monsterScales[index], 1f);
-        BC.size = new Vector2(sizeBC.x / monsterScales[index], sizeBC.y / monsterScales[index]);
-        //image.transform.localPosition = monsterPositions[index];
+    private void PopulateShadowObjects()
+    {
+        shadowObjects = new List<SpriteShadow>[monsterObjects.Length];
+
+        for (int i = 0; i < monsterObjects.Length; i++)
+        {
+            if (monsterObjects[i] != null)
+            {
+                SpriteShadow[] shadows = monsterObjects[i].GetComponentsInChildren<SpriteShadow>(true);
+                shadowObjects[i] = new List<SpriteShadow>(shadows);
+            }
+            else
+            {
+                shadowObjects[i] = new List<SpriteShadow>();
+            }
+        }
+    }
+
+    public void UpdateMonster(int index)
+    {
+        if (index < 0 || index >= monsterObjects.Length)
+        {
+            Debug.LogWarning("Monster index out of range.");
+            return;
+        }
+
+        for (int i = 0; i < monsterObjects.Length; i++)
+        {
+            if (monsterObjects[i] != null)
+                monsterObjects[i].SetActive(false);
+        }
+
+        if (monsterObjects[index] != null)
+        {
+            monsterObjects[index].SetActive(true);
+            currentIndex = index;
+
+            // Update the character select with new shadow set
+            if (characterSelectOption != null)
+                characterSelectOption.SetActiveShadows(shadowObjects[index]);
+        }
     }
 }
