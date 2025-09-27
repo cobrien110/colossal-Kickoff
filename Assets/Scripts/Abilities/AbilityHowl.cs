@@ -75,7 +75,11 @@ public class AbilityHowl : AbilityScript
             if (wc != null)
             {
                 // Stun warrior
-                wc.Stun(stunTime);
+                if (!wc.isStunned)
+                {
+                    wc.Stun(stunTime);
+                }
+                if (wc.GetHealth() == wc.healthMax) wc.Damage(1);
                 // Debug.Log("Stunned Warrior: " + obj.name);
             }
         }

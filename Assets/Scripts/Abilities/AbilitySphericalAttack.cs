@@ -9,6 +9,7 @@ public class AbilitySphericalAttack : AbilityChargeableAttack
     [Header("Attack Stats")]
     public float attackRange = 1f;
     public float attackBaseRadius = 1f;
+    public float secondaryRadius = 1f;
 
     [Header("Ability Specific Variables")]
     public float attackVisualOffsetY;
@@ -44,9 +45,10 @@ public class AbilitySphericalAttack : AbilityChargeableAttack
             Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
             Instantiate(attackParticles,  new Vector3(0, 0.216f, 0) + origin + transform.forward * attackRange, Quaternion.identity);
             Collider[] colliders = Physics.OverlapSphere(origin + transform.forward * attackRange, attackBaseRadius + chargeAmount * chargeRate, affectedLayers);
-            
+            Collider[] secondaryCols = Physics.OverlapSphere(origin, secondaryRadius);
+            Collider[] both = colliders.Concat(secondaryCols).Distinct().ToArray();
 
-            foreach (Collider col in colliders)
+            foreach (Collider col in both)
             {
                 // Handle collision with each collider
                 Debug.Log("SphereCast hit " + col.gameObject.name);
@@ -177,5 +179,6 @@ public class AbilitySphericalAttack : AbilityChargeableAttack
         Gizmos.color = Color.red;
         Vector3 origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
         Gizmos.DrawWireSphere(origin + direction * attackRange, attackBaseRadius + chargeAmount * chargeRate);
+        Gizmos.DrawWireSphere(origin, secondaryRadius);
     }
 }

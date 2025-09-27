@@ -10,6 +10,7 @@ public class AbilitySquareAttack : AbilityChargeableAttack
     public float attackRange = 1f;
     public float attackBaseRadius = 1f;
     public float attackBaseSize = 1f;
+    public float secondaryRadius = 1f;
 
     [Header("Ability Specific Variables")]
     public float attackVisualOffsetY;
@@ -44,13 +45,16 @@ public class AbilitySquareAttack : AbilityChargeableAttack
             transform.position.y + direction.y + attackVisualOffsetY,
             (transform.position.z + direction.z * (attackRange + (chargeAmount * chargeRate))));
             Collider[] colliders = Physics.OverlapBox(origin, size / 2, transform.rotation * Quaternion.Euler(0, 90, 0), affectedLayers);
+            Collider[] secondary = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y
+                    + attackVisualOffsetY, transform.position.z), secondaryRadius);
+            Collider[] both = colliders.Concat(secondary).Distinct().ToArray();
             if (attackParticles != null)
             {
                 ParticleSystem particleInstance = Instantiate(attackParticles, attackParticlesTransform.position, transform.rotation ).GetComponent<ParticleSystem>();
                 particleInstance.startLifetime = (chargeAmount / maxChargeSeconds) / 10; //10 means it goes from 0-1 to 0-.1
             }
 
-            foreach (Collider col in colliders)
+            foreach (Collider col in both)
             {
                 // Handle collision with each collider
                 Debug.Log("SquareCast hit " + col.gameObject.name);
@@ -60,17 +64,19 @@ public class AbilitySquareAttack : AbilityChargeableAttack
                     WarriorController WC = col.GetComponent<WarriorController>();
                     if (!WC.isInvincible)
                     {
+                        if (AQP != null && !WC.GetIsDead())
+                        {
+                            AQP.EatWarrior();
+                        }
+                        else
+                            Debug.Log("Warrior can't be eaten");
+
                         WC.Die();
                         hitWarrior = true;
                     }
                     //Code for Quetz to get bigger on kill
                     //AbilitySnakeSegments ASS = this.gameObject.GetComponent<AbilitySnakeSegments>();
-                    if (AQP != null)
-                    {
-                        AQP.EatWarrior();
-                    }
-                    else
-                        Debug.Log("Warrior is invincible");
+                    
                 }
                 if (col.gameObject.CompareTag("Ball") && BP.ballOwner == null && !hitWarrior)
                 {
@@ -221,6 +227,9 @@ public class AbilitySquareAttack : AbilityChargeableAttack
         Mesh boxMesh = attackVisualizer.GetComponent<MeshFilter>().GetComponent<Mesh>();
         Gizmos.DrawWireMesh(M, 0, origin, rot, size);
         //Gizmos.DrawWireCube(origin, size);
+
+        origin = new Vector3(transform.position.x, transform.position.y + attackVisualOffsetY, transform.position.z);
+        Gizmos.DrawWireSphere(origin, secondaryRadius);
     }
 
     private void Start()

@@ -113,6 +113,8 @@ public class AbilitySnakeSegments : PassiveAbility
         else newTail.transform.eulerAngles = oldAngles;
         segments.Add(newTail);
         newTail.GetComponent<SnakeSegment>().index = segments.Count - 1;
+
+        Debug.Log("SEGMENT ADDED");
     }
 
     public void CutSegments(int index)

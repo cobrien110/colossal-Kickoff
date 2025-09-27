@@ -528,6 +528,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
+  PH: {fileID: 0}
+  invertControls: 0
+  kickMode: 0
   rb: {fileID: 0}
   Ball: {fileID: 0}
   BP: {fileID: 0}
@@ -538,7 +541,6 @@ MonoBehaviour:
   monsterSpeed: 3.1
   movementDirection: {x: 0, y: 0, z: 0}
   aimingDirection: {x: 0, y: 0, z: 0}
-  usingNewScheme: 0
   monsterControls:
     m_Name: Monster Controls
     m_Type: 1
@@ -557,7 +559,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   usingKeyboard: 0
-  invertControls: 0
   ballPosition: {fileID: 1764291824864585042}
   passSpeed: 400
   kickSpeed: 475
@@ -593,7 +594,7 @@ MonoBehaviour:
     m_Bits: 129
   spriteObject: {fileID: 7581612499400799079}
   shakeIntensity: 1
-  pickupBallTimer: 0
+  pickupBallCooldown: 0.25
 --- !u!114 &5376546492087455979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,9 +627,9 @@ MonoBehaviour:
   affectedLayers:
     serializedVersion: 2
     m_Bits: 128
-  speedBonus: 0.2
-  activeSpeedBonus: 0.5
-  senseRadius: 3
+  speedBonus: 0.3
+  activeSpeedBonus: 0.55
+  senseRadius: 3.2
   senseOriginTransform: {fileID: 935590542359661392}
   PS: {fileID: 7215580906102298959}
 --- !u!114 &8496617740474720550
@@ -645,7 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Howl
   abilityNum: 0
-  cooldown: 8
+  cooldown: 9
   usableWhileIntangible: 0
   usableWhileDribbling: 1
   attackVisualizer: {fileID: 0}
@@ -702,8 +703,10 @@ MonoBehaviour:
   attackHitForce: 150
   autoCharge: 0
   inputBuffer: 0.4
+  minAttackDist: 0
   attackRange: 0.8
   attackBaseRadius: 0.75
+  secondaryRadius: 1
   attackVisualOffsetY: -0.3
   affectedLayers:
     serializedVersion: 2
@@ -742,9 +745,9 @@ MonoBehaviour:
   UM: {fileID: 0}
   ST: {fileID: 0}
   isActive: 0
-  initialSpeed: 9
-  speed: 2.85
-  durationOfSpeedBoost: 0.8
+  initialSpeed: 9.25
+  speed: 2.9
+  durationOfSpeedBoost: 1
   inputBufferTime: 0.45
   isAttack: 0
   delayBeforeAttack: 0.3
