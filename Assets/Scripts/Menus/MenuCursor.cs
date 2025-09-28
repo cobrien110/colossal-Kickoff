@@ -51,6 +51,8 @@ public class MenuCursor : MonoBehaviour
     [SerializeField] private AudioPlayer AP;
     //private bool willPlaySelectSound = false;
 
+    private bool monsterSelected = false;
+
     private void Start()
     {
         //Debug.Log("Height:" + Screen.height);
@@ -239,6 +241,25 @@ public class MenuCursor : MonoBehaviour
                             {
                                 PlayerSelected(hoveringID);
                                 playerMarkerIcons[hoveringID].changeSprite(playerNumber);
+                            }
+                            //hide monster buttons
+                            if (hoveringID == 0)
+                            {
+                                monsterAbilityViewController.ChangeButtonsState(false);
+                                monsterSelected = true;
+                            }
+                        }
+                        else if (hoveringItem.Equals("monsterChange"))
+                        {
+                            if (hoveringID == 1)
+                            {
+                                MN.pageRight();
+                                monsterAbilityViewController.pageRight();
+                            }
+                            else if (hoveringID == 0)
+                            {
+                                MN.pageLeft();
+                                monsterAbilityViewController.pageLeft();
                             }
                         }
                     }
@@ -441,7 +462,11 @@ public class MenuCursor : MonoBehaviour
             MC.characterUnselected(playerNumber, playerSlot);
             MN.unselectName(MN.monsterNames[MN.monsterIndex]);
         }
-
+        if (monsterSelected)
+        {
+            monsterAbilityViewController.ChangeButtonsState(true);
+            monsterSelected = false;
+        }
         //PH.RemoveEvents();
         PH.teamName = "";
         hasSelected = false;

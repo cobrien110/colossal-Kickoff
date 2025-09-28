@@ -7,6 +7,7 @@ public class MonsterAbilityViewController : MonoBehaviour
     [SerializeField] private MonsterAbilityBlurb blurb;
     [SerializeField] private MonsterAbilityIcon[] abilityIcons;
     [SerializeField] private MonsterName name;
+    [SerializeField] private GameObject[] monsterButtons;
     [SerializeField] public string[] monsterBlurbs;
     [SerializeField] public string[] minotaurAbilityBlurbs;
     [SerializeField] public string[] akhlutAbilityBlurbs;
@@ -52,6 +53,14 @@ public class MonsterAbilityViewController : MonoBehaviour
     }
     public void pageRight() {
         updateVisuals();
+    }
+
+    public void ChangeButtonsState(bool state) 
+    {
+        foreach (GameObject buttons in monsterButtons)
+        {
+            buttons.SetActive(state);
+        }
     }
 
     public void pageUpDown(bool highlightingAbilities) {

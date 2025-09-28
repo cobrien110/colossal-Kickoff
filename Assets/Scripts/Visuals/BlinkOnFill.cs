@@ -8,7 +8,10 @@ public class BlinkOnFill : MonoBehaviour
     [SerializeField] private Image targetImage;
     [SerializeField] private Color colorA = Color.white;
     [SerializeField] private Color colorB = new Color(1f, 0.5f, 0f);
-    [SerializeField] private float blinkSpeed = 2f; //cycles per second
+    [SerializeField] private float blinkSpeed = 4f; //how fast it ping-pongs (cycles per second)
+
+    private float lerpValue = 0f;
+    private int direction = 1;
 
     private void Reset()
     {
@@ -21,12 +24,28 @@ public class BlinkOnFill : MonoBehaviour
 
         if (targetImage.fillAmount > 0f)
         {
-            float t = (Mathf.Sin(Time.deltaTime * blinkSpeed * Mathf.PI * 2f) + 1f) * 0.5f;
-            targetImage.color = Color.Lerp(colorA, colorB, t);
+            lerpValue += direction * blinkSpeed * Time.deltaTime;
+
+            //Ping-pong control
+            if (lerpValue >= 1f)
+            {
+                lerpValue = 1f;
+                direction = -1;
+            }
+            else if (lerpValue <= 0f)
+            {
+                lerpValue = 0f;
+                direction = 1;
+            }
+
+            //Apply color based on lerp
+            targetImage.color = Color.Lerp(colorA, colorB, lerpValue);
         }
         else
         {
-            targetImage.color = colorA; //reset to base color when not blinking
+            lerpValue = 0f;
+            direction = 1;
+            targetImage.color = colorA;
         }
     }
 }
