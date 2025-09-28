@@ -132,6 +132,14 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject[] monsterImages;
     [SerializeField] private MonsterName monsterNameScript;
 
+    //Back button Util
+    [SerializeField] private Image backButtonFillImage;
+    [SerializeField] private float currentBackButtonFill = 0f;
+    [SerializeField] private float maxBackButtonFill = 5f;
+
+    private bool progressionActive = false;
+    private Gamepad lockedGamepad = null;
+
     [Header("Menu Navigation Controls")]
     [SerializeField] private GameObject topFirstButton;
     [SerializeField] private GameObject settingsFirstButton;
@@ -340,9 +348,9 @@ public class MenuController : MonoBehaviour
                         returnToTop();
                         break;
                     case (2): //character Select Screen
-                        if (!deselectOccured)
+                        if (!deselectOccured && !progressionActive && lockedGamepad == null)
                         {
-                            backToStageSelect();
+                             StartCoroutine(CharacterSelectProgression(gamepad));
                         }
                         break;
                     case (3): //Stage Select Screen
@@ -457,6 +465,57 @@ public class MenuController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         fadeStart = true;
     }
+
+    private IEnumerator CharacterSelectProgression(Gamepad gamepad)
+    {
+        progressionActive = true;
+        lockedGamepad = gamepad;
+
+        while (progressionActive)
+        {
+            // Reset progress if the UI object is inactive
+            if (backButtonFillImage != null && !backButtonFillImage.gameObject.activeInHierarchy)
+            {
+                currentBackButtonFill = 0f;
+            }
+
+            bool eastHeld = gamepad != null && gamepad.buttonEast.isPressed && !playerRebinding;
+
+            if (eastHeld)
+            {
+                currentBackButtonFill += Time.deltaTime; // +1 per second
+            }
+            else
+            {
+                currentBackButtonFill -= 1.5f * Time.deltaTime; // -1.5 per second
+            }
+
+            currentBackButtonFill = Mathf.Clamp(currentBackButtonFill, 0f, maxBackButtonFill);
+
+            // Update radial fill
+            if (backButtonFillImage != null)
+            {
+                backButtonFillImage.fillAmount = currentBackButtonFill / maxBackButtonFill;
+            }
+
+            // Trigger when filled
+            if (currentBackButtonFill >= maxBackButtonFill && !deselectOccured)
+            {
+                deselectOccured = true;
+                backToStageSelect();
+            }
+
+            // Unlock if released AND progression hits zero
+            if (!eastHeld && currentBackButtonFill <= 0f)
+            {
+                progressionActive = false;
+                lockedGamepad = null;
+            }
+
+            yield return null;
+        }
+    }
+
 
     #endregion
 
