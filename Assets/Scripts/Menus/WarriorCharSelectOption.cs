@@ -8,12 +8,14 @@ public class WarriorCharSelectOption: MonoBehaviour
     [SerializeField] private Sprite[] warriorSprites;
     [SerializeField] private Shader thisShader;
     [SerializeField] private Material thisMaterial;
+    [SerializeField] private Image fightScreenImage;
 
     void Awake() {
         GetComponent<Image>().sprite = warriorSprites[0];
 
         thisMaterial = new Material(thisShader);
         gameObject.GetComponent<Image>().material = thisMaterial;
+        fightScreenImage.GetComponent<Image>().material = thisMaterial;
     }
 
     public void updateSprite(int index) {

@@ -316,6 +316,7 @@ MonoBehaviour:
   PH: {fileID: 0}
   playerHolders: []
   colorIndex: -1
+  thisDropdown: {fileID: 0}
   cursorMove:
     m_Name: Cursor Move
     m_Type: 0
@@ -329,6 +330,8 @@ MonoBehaviour:
   hoveringID: -1
   hasSelected: 0
   charConfirmed: 0
+  selectedHighlightingAbilities: 0
+  selectingProfile: 0
   AP: {fileID: 3573016551086209570}
 --- !u!50 &1060536525743962686
 Rigidbody2D:
@@ -400,7 +403,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10.836484, y: 10.3233795}
+  m_Size: {x: 4.84, y: 10.3233795}
   m_EdgeRadius: 0
 --- !u!114 &3573016551086209570
 MonoBehaviour:
