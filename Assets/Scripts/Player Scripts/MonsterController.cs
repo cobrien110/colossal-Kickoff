@@ -726,6 +726,9 @@ public class MonsterController : MonoBehaviour
                 break;
             case MonsterType.Gashadokuro:
                 idleAnim = "GashaIdle";
+                AbilityCreateHands ACH = GetComponent<AbilityCreateHands>();
+                ACH.KillHand(1);
+                ACH.KillHand(0);
                 break;
             case MonsterType.Sphinx:
                 idleAnim = "SphinxIdle";
@@ -1052,7 +1055,7 @@ public class MonsterController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
-        if (!canSpawnText || GM.isGameOver || isIntangible) return;
+        if (!canSpawnText || GM.isPaused || Time.timeScale == 0 || isIntangible) return;
         string tauntNum = context.control.displayName;
         int tauntStyle = 0;
         switch (tauntNum)

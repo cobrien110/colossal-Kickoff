@@ -844,6 +844,8 @@ public class WarriorController : MonoBehaviour
                     Debug.Log("Storing Stats: " + SteamUserStats.StoreStats());
                 }
             }
+            health = healthMax;
+            SetInvincibility(true, 0.5f);
         }
         if (isInvincible || isWinner) return;
 
@@ -1244,7 +1246,7 @@ public class WarriorController : MonoBehaviour
 
     public void OnTaunt(InputAction.CallbackContext context)
     {
-        if (!canSpawnText || GM.isGameOver) return;
+        if (!canSpawnText || GM.isPaused || Time.timeScale == 0) return;
         string tauntNum = context.control.displayName;
         int tauntStyle = 0;
         switch (tauntNum)

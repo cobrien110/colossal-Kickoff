@@ -166,7 +166,7 @@ public class AbilityCreateHands : PassiveAbility
     public void KillHand(int handNum)
     {
         SetHandActive(handNum, false);
-        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("gashaHandDeath"), 1f);
+        audioPlayer.PlaySoundVolumeRandomPitch(audioPlayer.Find("gashaHandDeath"), .9f);
     }
 
     public bool AHandIsDetached()
