@@ -67,7 +67,7 @@ public class WarriorAiController : MonoBehaviour
     private AudioPlayer audioPlayer;
 
     // Get all WarriorController components
-    [SerializeField]    
+    [SerializeField]
     WarriorController[] warriors;
 
     private bool disableBehavior = false;
@@ -166,7 +166,7 @@ public class WarriorAiController : MonoBehaviour
 
         // If goal was scored, stop movement and behavior
         if (wc != null && wc.BP != null && !wc.BP.isInteractable
-            || disableBehavior) 
+            || disableBehavior)
         {
             StopMovement();
             return;
@@ -226,14 +226,16 @@ public class WarriorAiController : MonoBehaviour
                     anticipatedBallPos.z - transform.position.z).normalized;
 
                 BaseMovement(toBall, true);
-            } else if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRangeMin // Ensure not too close too slide
+            }
+            else if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) > slideRangeMin // Ensure not too close too slide
                 && Vector3.Dot(wc.movementDirection, (wc.BP.transform.position - transform.position).normalized) > 0.75f) // Ensure warrior is actually moving toward ball
             {
                 isBackingUpTimer = 0;
 
                 // Close enough to slide, but not too close
                 AnticipateSlide();
-            } else // if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) <= slideRangeMin)
+            }
+            else // if (Vector3.Distance(transform.position, wc.BP.ballOwner.transform.position) <= slideRangeMin)
             {
                 if (isBackingUpTimer >= 1f)
                 {
@@ -270,24 +272,24 @@ public class WarriorAiController : MonoBehaviour
         BaseMovement(targetPos, false);
     }
 
-    void BaseMovement(Vector2 targetPos, bool useBoidMovement)
+    void BaseMovement(Vector2 targetDir, bool useBoidMovement)
     {
         if (wc.isSliding) return;
 
         if (useBoidMovement)
         {
             Vector2 flockingOffset = GetFlockingOffset();
-            targetPos = (targetPos + flockingOffset * flockWeight).normalized;
+            targetDir = (targetDir + flockingOffset * flockWeight).normalized;
         }
 
-        if (targetPos != Vector2.zero)
+        if (targetDir != Vector2.zero)
         {
             //usingKeyboard = true;
-            wc.movementDirection = new Vector3(targetPos.x, 0, targetPos.y).normalized;
+            wc.movementDirection = new Vector3(targetDir.x, 0, targetDir.y).normalized;
             wc.aimingDirection = wc.movementDirection;
             //Debug.Log("MovementDirection: " +  wc.movementDirection);
         }
-        
+
 
         //rb.velocity = GM.isPlaying ? wc.movementDirection * wc.warriorSpeed : Vector3.zero;
         //rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
@@ -406,7 +408,7 @@ public class WarriorAiController : MonoBehaviour
     private bool ShouldPass()
     {
         if (!checkToPass) return false; // Shouldn't even consider passing
-        
+
         // Should consider passing, reset bool
         checkToPass = false;
 
@@ -425,7 +427,7 @@ public class WarriorAiController : MonoBehaviour
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -560,7 +562,7 @@ public class WarriorAiController : MonoBehaviour
         reachedLocation = false;
         while (true)
         {
-            
+
             // Determine the goal based on isMovingTowardsGoal1
             Vector3 targetGoalPosition = roamForward ? monsterGoal.transform.position : warriorGoal.transform.position;
 
@@ -577,8 +579,9 @@ public class WarriorAiController : MonoBehaviour
             if (zDiff > 0)
             {
                 randomZOffset = Random.Range(0, randomZRange); // Random Z offset in the given range
-                
-            } else if (zDiff < 0)
+
+            }
+            else if (zDiff < 0)
             {
                 randomZOffset = Random.Range(-randomZRange, 0); // Random Z offset in the given range
             }
@@ -604,7 +607,7 @@ public class WarriorAiController : MonoBehaviour
                 {
                     break;
                 }
-                
+
                 Vector3 directionToGoal = (targetWithOffset - transform.position).normalized;
                 //transform.position += directionToGoal * warriorSpeed * Time.deltaTime;
 

@@ -9,14 +9,14 @@ public class LookAtCamera : MonoBehaviour
     //[SerializeField] private bool isPlayerSprite = false;
     void Start()
     {
-        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        if (cam == null) cam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         //if (isPlayerSprite) return;
-        transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
+        if (cam != null) transform.LookAt(transform.position + cam.transform.rotation * Vector3.forward, cam.transform.rotation * Vector3.up);
         transform.rotation = new Quaternion(0f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
         if (transform.parent == null) return;
         if (transform.parent.rotation.eulerAngles.y >= 180f)

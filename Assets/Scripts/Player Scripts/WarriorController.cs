@@ -73,12 +73,12 @@ public class WarriorController : MonoBehaviour
     private float kickingSensitivity = 0.90f;
 
     private float slideCooldown = 2f;
-    [SerializeField] private float slideSpeedRegular = 230f;
+    [SerializeField] public float slideSpeedRegular = 230f;
     [SerializeField] private float slideCooldownRegular = 2f;
-    [SerializeField] private float slideDurationRegular = 1f;
-    [SerializeField] private float slideSpeedDodge = 100f;
+    [SerializeField] public float slideDurationRegular = 1f;
+    [SerializeField] public float slideSpeedDodge = 100f;
     [SerializeField] private float slideCooldownDodge = 3f;
-    [SerializeField] private float slideDurationDodge = 0.5f;
+    [SerializeField] public float slideDurationDodge = 0.5f;
     public bool isSliding = false;
     private bool isJuking = false;
     private bool jukeKickReady = false;
@@ -91,7 +91,7 @@ public class WarriorController : MonoBehaviour
     //Make True If Using Keyboard For Movement
     public bool usingKeyboard = false;
 
-    [SerializeField] private GameplayManager GM = null;
+    public GameplayManager GM = null;
     private WarriorUI WUI = null;
     private UIManager UM = null;
     private StatTracker ST = null;
@@ -166,25 +166,25 @@ public class WarriorController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
+        GM = GameObject.Find("Gameplay Manager")?.GetComponent<GameplayManager>();
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
-        ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
+        ST = GameObject.Find("Stat Tracker")?.GetComponent<StatTracker>();
         Ball = GameObject.Find("Ball");
         AV = GetComponentInChildren<AimVisualizer>();
-        BP = (BallProperties)Ball.GetComponent("BallProperties");
-        MTC = GameObject.Find("Main Camera").GetComponent<MultipleTargetCamera>();
-        MTC.AddTarget(transform);
-        CSM = GameObject.Find("CommentatorSounds").GetComponent<CommentatorSoundManager>();
+        BP = (BallProperties)Ball?.GetComponent("BallProperties");
+        MTC = GameObject.Find("Main Camera")?.GetComponent<MultipleTargetCamera>();
+        MTC?.AddTarget(transform);
+        CSM = GameObject.Find("CommentatorSounds")?.GetComponent<CommentatorSoundManager>();
         WUI = GetComponentInChildren<WarriorUI>();
         audioPlayer = GetComponent<AudioPlayer>();
-        respawnBox = GameObject.FindGameObjectWithTag("RespawnBox").transform;
+        respawnBox = GameObject.FindGameObjectWithTag("RespawnBox")?.transform;
         health = healthMax;
         spriteScale = spriteObject.transform.localScale;
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
         baseHitboxRadius = capsuleCollider.radius;
 
         // fancy respawn
-        jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint").transform;
+        jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint")?.transform;
         jumpInTime = 1f;
     }
 
@@ -196,7 +196,7 @@ public class WarriorController : MonoBehaviour
         }
         UM = GameObject.Find("Canvas").GetComponent<UIManager>();
         pickupBallTimer = pickupBallCooldown;
-        chargeSpeed = GM.warriorKickChargeSpeed;
+        if (GM != null) chargeSpeed = GM.warriorKickChargeSpeed;
 
         // Instantiate mummy manager variable
         GameObject monsterObj = GameObject.FindGameObjectWithTag("Monster");
@@ -232,7 +232,7 @@ public class WarriorController : MonoBehaviour
     void Update()
     {
         InvincibilityFlash();
-        if (GM.isPlaying && !isDead && !GM.isPaused)
+        if (GM != null && GM.isPlaying && !isDead && !GM.isPaused)
         {
             //if (GetComponent<WarriorAiController>() != null) return;
             Dribbling();
@@ -242,7 +242,7 @@ public class WarriorController : MonoBehaviour
             //if (Input.GetKey(KeyCode.E)) {
             //    Sliding();
             //}
-            
+
 
             if ((isStunned) && BP.ballOwner == this.gameObject)
             {
@@ -281,7 +281,8 @@ public class WarriorController : MonoBehaviour
         if (health < healthMax && !isDead && PS != null)
         {
             if (!PS.isPlaying) PS.Play();
-        } else if (PS != null)
+        }
+        else if (PS != null)
         {
             PS.time = 0;
             PS.Stop();
@@ -289,7 +290,8 @@ public class WarriorController : MonoBehaviour
         if (isCursed)
         {
             if (!PSCurse.isPlaying) PSCurse.Play();
-        } else
+        }
+        else
         {
             PSCurse.Stop();
         }
@@ -311,7 +313,7 @@ public class WarriorController : MonoBehaviour
                         obj.GetComponent<WarriorController>().Damage(1);
                         Debug.Log("Player was hurt by bomb");
                     }
-                    
+
                 }
                 bombTimer = 0;
                 isBomb = false;
@@ -319,7 +321,7 @@ public class WarriorController : MonoBehaviour
         }
 
         // If warrior from getting pushed up by wall
-        if (!isDead && transform.position.y != 0 && !GM.isGameOver)
+        if (!isDead && transform.position.y != 0 && GM != null && !GM.isGameOver)
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             //Debug.Log("Fixed warrior y position");
@@ -381,10 +383,11 @@ public class WarriorController : MonoBehaviour
             usingKeyboard = true;
             movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
             aimingDirection = movementDirection;
-        } else if (usingKeyboard) 
+        }
+        else if (usingKeyboard)
         {
             movementDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
-        } 
+        }
         if (isCursed)
         {
             //movementDirection *= -1;
@@ -392,7 +395,7 @@ public class WarriorController : MonoBehaviour
 
         rb.velocity = GM.isPlaying ? movementDirection * warriorSpeed : Vector3.zero;
         rb.velocity = isCharging ? rb.velocity * chargeMoveSpeedMult : rb.velocity;
-        if (rb.velocity != Vector3.zero && !isCharging) 
+        if (rb.velocity != Vector3.zero && !isCharging)
         {
             Quaternion newRotation = Quaternion.LookRotation(movementDirection.normalized, Vector3.up);
             transform.rotation = newRotation;
@@ -401,7 +404,8 @@ public class WarriorController : MonoBehaviour
         if (movementDirection != Vector3.zero && GM.isPlaying)
         {
             ANIM.SetBool("isWalking", true);
-        } else
+        }
+        else
         {
             ANIM.SetBool("isWalking", false);
         }
@@ -415,7 +419,8 @@ public class WarriorController : MonoBehaviour
             WUI.ShowChargeBar(true);
             UM.UpdateChargeBarText("Warrior");
             Ball.transform.position = ballPosition.transform.position; // new Vector3(transform.position.x, 2, transform.position.z);
-        } else
+        }
+        else
         {
             // BP.ballOwner = null; // this code was messing up the monsters ability to dribble
             WUI.ShowChargeBar(false);
@@ -425,7 +430,7 @@ public class WarriorController : MonoBehaviour
 
     void Passing()
     {
-        if(Input.GetKeyDown(KeyCode.P) && BP.ballOwner == gameObject)
+        if (Input.GetKeyDown(KeyCode.P) && BP.ballOwner == gameObject)
         {
             Debug.Log("Pass!");
 
@@ -591,7 +596,7 @@ public class WarriorController : MonoBehaviour
             Debug.Log("Cannot Slide");
             return;
         }
-  
+
         Debug.Log(gameObject.name + ": Sliding");
         isSliding = true;
         isInvincible = true;
@@ -619,7 +624,8 @@ public class WarriorController : MonoBehaviour
             // audioClip = ???
             anim = "isJuking";
             ANIM.Play(anim);
-        } else
+        }
+        else
         {
             Debug.Log("Regular slide");
             // Regular slide
@@ -724,7 +730,8 @@ public class WarriorController : MonoBehaviour
             //UM.UpdatePlayerRespawnBar(1 - (respawnTimer / respawnTime), playerNum);
 
 
-        } else if (isDead && canRespawn)
+        }
+        else if (isDead && canRespawn)
         {
             isDead = false;
             canSpawnText = true;
@@ -804,7 +811,8 @@ public class WarriorController : MonoBehaviour
 
             // Apply the arc to the Y-axis
             transform.position = new Vector3(horizontalPosition.x, horizontalPosition.y + arc, horizontalPosition.z);
-        } else
+        }
+        else
         {
             ANIM.SetBool("isDead", false);
         }
@@ -822,7 +830,8 @@ public class WarriorController : MonoBehaviour
         if (isInvincible && isJuking && canSpawnText && GetComponent<WarriorAiController>() == null)
         {
             // TRIGGER "SMOOTH" flair text if a player dodges an instant death attack
-            if (canSpawnText) {
+            if (canSpawnText)
+            {
                 Instantiate(dodgeTextPrefab, transform.position, Quaternion.identity);
                 canSpawnText = false;
                 StartCoroutine(TextSpawnReset());
@@ -837,7 +846,7 @@ public class WarriorController : MonoBehaviour
             }
         }
         if (isInvincible || isWinner) return;
-        
+
         // Chance for AiWarrior to dodge if slide is off cooldown
         if (GetComponent<WarriorAiController>() != null // Ensure this is an AI Warrior
             && Random.value < GetComponent<WarriorAiController>().GetDodgeChance() // Get chance to dodge
@@ -850,7 +859,7 @@ public class WarriorController : MonoBehaviour
 
         Debug.Log("PLAYER THAT DIED: (" + this + ")");
         //ST.UpdateWDeaths(int.Parse(this.name.Substring(0,1)));
-        
+
 
         if (playerNum == 1)
         {
@@ -892,11 +901,14 @@ public class WarriorController : MonoBehaviour
 
         // Gore
         int goreMode = PlayerPrefs.GetInt("goreMode", 0);
-        if (goreParticleObj != null && goreMode == 0) {
+        if (goreParticleObj != null && goreMode == 0)
+        {
             GameObject obj = Instantiate(goreParticleObj, transform.position, Quaternion.identity);
             SpriteBurst burst = obj.GetComponent<SpriteBurst>();
             if (burst != null) burst.spriteColor = GetColor();
-        } else if (goreParticleObj != null && goreMode == 1) {
+        }
+        else if (goreParticleObj != null && goreMode == 1)
+        {
             Instantiate(pinataParticleObj, transform.position, Quaternion.identity);
         }
         //Instantiate(particleObj, transform.position, Quaternion.identity);
@@ -921,7 +933,7 @@ public class WarriorController : MonoBehaviour
         PlayDeathSound();
         CSM.PlayDeathSound(true);
         StopAllCoroutines();
-        
+
         //Curse
         if (isCursed)
         {
@@ -957,7 +969,8 @@ public class WarriorController : MonoBehaviour
         if (health <= 0)
         {
             Die();
-        } else
+        }
+        else
         {
             audioPlayer.PlaySoundRandomPitch(audioPlayer.Find("damage"));
             StartCoroutine(SetInvincibility(true, 0.1f));
@@ -1027,7 +1040,7 @@ public class WarriorController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         if (!canReadAimInput) return;
-        
+
         rightStickInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
         if (invertControls)
@@ -1068,7 +1081,7 @@ public class WarriorController : MonoBehaviour
     {
         if (!GM.isPlaying || isDead || GM.isPaused // Ensure game is playing
             || !CanCallForPass()
-            || BP == null || BP.ballOwner == null|| BP.ballOwner.GetComponent<WarriorController>() == null // Ensure a warrior has the ball
+            || BP == null || BP.ballOwner == null || BP.ballOwner.GetComponent<WarriorController>() == null // Ensure a warrior has the ball
             || BP.ballOwner.Equals(gameObject)) // and ballowner isn't itself
             return;
 
@@ -1095,7 +1108,7 @@ public class WarriorController : MonoBehaviour
             }
 
         }
-        
+
     }
 
     private IEnumerator PassWindowCheck()
@@ -1181,7 +1194,8 @@ public class WarriorController : MonoBehaviour
         if (GM.isPlaying)
         {
             GM.PauseGame(playerID);
-        } else if (UM.GetTimeRemaining() < 0)
+        }
+        else if (UM.GetTimeRemaining() < 0)
         {
             GM.MenuReturn();
         }
@@ -1215,7 +1229,8 @@ public class WarriorController : MonoBehaviour
                 Instantiate(superTextPrefab, transform.position, Quaternion.identity);
                 canSpawnText = false;
                 StartCoroutine(TextSpawnReset());
-            } else
+            }
+            else
             {
 
                 Instantiate(superTextFullPrefab, transform.position, Quaternion.identity);
@@ -1223,7 +1238,7 @@ public class WarriorController : MonoBehaviour
                 StartCoroutine(TextSpawnReset());
 
             }
-            
+
         }
     }
 
@@ -1346,7 +1361,8 @@ public class WarriorController : MonoBehaviour
         else if (isInvincible && Time.frameCount % 4 == 0 && !isSliding && canRespawn)
         {
             spriteObject.transform.localScale = Vector3.zero;
-        } else 
+        }
+        else
         {
             spriteObject.transform.localScale = spriteScale;
         }

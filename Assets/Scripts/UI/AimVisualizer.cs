@@ -34,7 +34,7 @@ public class AimVisualizer : MonoBehaviour
         if (wc != null)
         {
             aimDir = wc.GetAimDirection();
-            if (aimDir != Vector3.zero && BP.ballOwner == transform.parent.gameObject)
+            if (aimDir != Vector3.zero && BP?.ballOwner == transform.parent.gameObject)
             {
                 arrow.SetActive(true);
                 transform.rotation = Quaternion.LookRotation(aimDir, Vector3.up);
@@ -71,7 +71,7 @@ public class AimVisualizer : MonoBehaviour
     void NewBall()
     {
         Ball = GameObject.FindGameObjectWithTag("Ball");
-        BP = (BallProperties)Ball.GetComponent("BallProperties");
+        BP = (BallProperties)Ball?.GetComponent("BallProperties");
     }
 
     public void SuperKickColor(Color newColor)
