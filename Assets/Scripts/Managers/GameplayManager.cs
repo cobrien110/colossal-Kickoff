@@ -83,6 +83,7 @@ public class GameplayManager : MonoBehaviour
 
     [Header("Tutorial Stuff")]
     [SerializeField] private GameObject WTM = null;
+    [SerializeField] private GameObject MTM = null;
 
 
     // Start is called before the first frame update
@@ -143,9 +144,14 @@ public class GameplayManager : MonoBehaviour
         }
 
         WTM = GameObject.Find("WarriorTutorialManager");
+        MTM = GameObject.Find("MonsterTutorialManager");
         if (WTM != null)
         {
             WTM.GetComponent<WarriorTutorialManager>().Initiate();
+        }
+        if (MTM != null)
+        {
+            MTM.GetComponent<MonsterTutorialManager>().Initiate();
         }
     }
 
