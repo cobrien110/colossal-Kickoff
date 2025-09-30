@@ -5541,6 +5541,8 @@ GameObject:
   - component: {fileID: 2410382189053125004}
   - component: {fileID: 6112699671076818573}
   - component: {fileID: 6614040425193241741}
+  - component: {fileID: 509738216743429860}
+  - component: {fileID: 6630385801155667459}
   m_Layer: 5
   m_Name: ButtonResume
   m_TagString: Untagged
@@ -5596,7 +5598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4b533dfdcd46bc4184064f6b7a20d16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5662,6 +5664,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &509738216743429860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623561265589124371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4530e8407aeff314690cc5d3069dc98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0.9607843, g: 0.31764707, b: 0, a: 1}
+  endColor: {r: 0.9137255, g: 0.7411765, b: 0.27058825, a: 1}
+  time: 0.35
+  isSelected: 0
+--- !u!114 &6630385801155667459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3623561265589124371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab01f476963b4b41807a778e1c4a17c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3659009346827451977
 GameObject:
   m_ObjectHideFlags: 0
@@ -5808,6 +5838,7 @@ GameObject:
   - component: {fileID: 7022391816943693062}
   - component: {fileID: 8605845952143680546}
   - component: {fileID: 8976037514821593561}
+  - component: {fileID: 3881414418333952569}
   m_Layer: 5
   m_Name: ButtonMenu
   m_TagString: Untagged
@@ -5862,7 +5893,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4b533dfdcd46bc4184064f6b7a20d16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5952,6 +5983,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3881414418333952569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693662044323341125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4530e8407aeff314690cc5d3069dc98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0.9607843, g: 0.31764707, b: 0, a: 1}
+  endColor: {r: 0.9137255, g: 0.7411765, b: 0.27058825, a: 1}
+  time: 0.35
+  isSelected: 0
 --- !u!1 &3707182307622308874
 GameObject:
   m_ObjectHideFlags: 0
@@ -8422,6 +8469,8 @@ GameObject:
   - component: {fileID: 2235326640784212111}
   - component: {fileID: 2524591055404600195}
   - component: {fileID: 5834789582512642526}
+  - component: {fileID: 1117095098161867062}
+  - component: {fileID: 570206147482346012}
   m_Layer: 5
   m_Name: ButtonReturn
   m_TagString: Untagged
@@ -8477,7 +8526,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4b533dfdcd46bc4184064f6b7a20d16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8567,6 +8616,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1117095098161867062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6205870103994934598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4530e8407aeff314690cc5d3069dc98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0.9607843, g: 0.31764707, b: 0, a: 1}
+  endColor: {r: 0.9137255, g: 0.7411765, b: 0.27058825, a: 1}
+  time: 0.35
+  isSelected: 0
+--- !u!114 &570206147482346012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6205870103994934598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab01f476963b4b41807a778e1c4a17c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6273538689935205058
 GameObject:
   m_ObjectHideFlags: 0
@@ -10809,6 +10886,7 @@ GameObject:
   - component: {fileID: 8488259187464490050}
   - component: {fileID: 4805302798781705171}
   - component: {fileID: 8912268599612340}
+  - component: {fileID: 1693350580447338162}
   m_Layer: 5
   m_Name: ButtonRematch
   m_TagString: Untagged
@@ -10863,7 +10941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4b533dfdcd46bc4184064f6b7a20d16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10929,6 +11007,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1693350580447338162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7999733883450555218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4530e8407aeff314690cc5d3069dc98c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0.9607843, g: 0.31764707, b: 0, a: 1}
+  endColor: {r: 0.9137255, g: 0.7411765, b: 0.27058825, a: 1}
+  time: 0.35
+  isSelected: 0
 --- !u!1 &8069160147737830008
 GameObject:
   m_ObjectHideFlags: 0

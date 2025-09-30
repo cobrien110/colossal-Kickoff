@@ -52,7 +52,7 @@ public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         while (t < duration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float lerpT = t / duration;
             Color current = Color.Lerp(from, to, lerpT);
             ColorBlock cb = selectable.colors;
