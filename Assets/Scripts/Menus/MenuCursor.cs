@@ -587,18 +587,24 @@ public class MenuCursor : MonoBehaviour
                     //Debug.Log(udChangeDir);
                     if (playerSlot == 0)
                     {
-                        if (!selectedHighlightingAbilities && udChangeDir > 0 && !selectingProfile)
+                        if ((!selectedHighlightingAbilities && udChangeDir > 0 || selectedHighlightingAbilities && udChangeDir < 0) && !selectingProfile)
                         {
-                            // Going up to profiles
+                            // Going up or down to profiles
                             selectingProfile = true;
                             MN.unselectName();
-                            
+
+                            if (selectedHighlightingAbilities)
+                            {
+                                selectedHighlightingAbilities = false;
+                                monsterAbilityViewController.unhighlightAbilities();
+                            }
+
                             PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(thisDropdown.gameObject);
                             PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = thisDropdown.gameObject;
                         }
-                        else if (udChangeDir < 0 && selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
+                        else if (selectingProfile && (PH.thisES.GetComponent<MultiplayerEventSystem>().currentSelectedGameObject == thisDropdown.gameObject))
                         {
-                            // Coming Up or Down from profiles
+                            // Coming up or down from profiles
                             PH.thisES.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(null);
                             PH.thisES.GetComponent<MultiplayerEventSystem>().playerRoot = null;
                             selectingProfile = false;

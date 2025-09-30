@@ -73,6 +73,13 @@ public class MonsterAbilityViewController : MonoBehaviour
         updateVisuals();
     }
 
+    public void unhighlightAbilities()
+    {
+        selectedHighlightingAbilities = false;
+        name.unselectName(name.monsterNames[name.monsterIndex]);
+        updateVisuals();
+    }
+
     // Update is called once per frame
     void updateVisuals()
     {
