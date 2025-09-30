@@ -103,6 +103,7 @@ public class WarriorController : MonoBehaviour
     [SerializeField] public Animator ANIM;
     private MultipleTargetCamera MTC;
     [SerializeField] private ParticleSystem PS;
+    [SerializeField] private ParticleSystem PSAlt;
     [SerializeField] private ParticleSystem PSCurse;
     //public Sprite[] ringColors;
     public SpriteRenderer ring;
