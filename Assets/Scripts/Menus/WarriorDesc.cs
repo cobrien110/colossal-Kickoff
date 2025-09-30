@@ -13,13 +13,13 @@ public class WarriorDesc : MonoBehaviour
     [SerializeField] private MenuController MC;
     [SerializeField] private int playerSlot;
 
-    [SerializeField] private float redValue;
-    [SerializeField] private float greenValue;
-    [SerializeField] private float blueValue;
+    [SerializeField] private float redValue = 0.0f;
+    [SerializeField] private float greenValue = 0.0f;
+    [SerializeField] private float blueValue = 0.0f;
 
-    [SerializeField] private float skinRedValue;
-    [SerializeField] private float skinGreenValue;
-    [SerializeField] private float skinBlueValue;
+    [SerializeField] private float skinRedValue = 1.0f;
+    [SerializeField] private float skinGreenValue = 1.0f;
+    [SerializeField] private float skinBlueValue = 1.0f;
 
     [SerializeField] private WarriorCharSelectOption WCSO;
 
@@ -100,7 +100,8 @@ public class WarriorDesc : MonoBehaviour
 
     public void ResetColor()
     {
-        WCSO.updateColor(1.0f, 0.0f, 0.0f);
+        WCSO.updateColor(0.0f, 0.0f, 1.0f);
+        WCSO.updateSkinColor(1.0f, 1.0f, 1.0f);
 
         //switch (playerSlot)
         //{

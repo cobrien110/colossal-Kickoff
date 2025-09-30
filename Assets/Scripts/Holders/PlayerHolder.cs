@@ -28,7 +28,7 @@ public class PlayerHolder : MonoBehaviour
 
     public string profileName;
 
-    public float deadzoneSensitivity;
+    public float deadzoneSensitivity = 0.3f;
 
     public Color warriorColor;
     public Color skinColor;
@@ -248,7 +248,7 @@ public class PlayerHolder : MonoBehaviour
         controlScheme = 1;
 
         // Setting Jersey Color
-        warriorColor = Color.red;
+        warriorColor = Color.blue;
 
         // Setting Skin Color
         skinColor = Color.white;
