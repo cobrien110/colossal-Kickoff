@@ -325,39 +325,46 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
-        if (startAlpha < 1 && fadeStart) SplashFadeIn();
-        Gamepad gamepad = Gamepad.current;
-        if (splashScreen.activeInHierarchy && gamepad != null)
-        {
-            if (gamepad.buttonSouth.wasPressedThisFrame && canEnterGame)
-            {
-                Debug.Log("Game Enter");
-                splashScreen.SetActive(false);
-                mainMenuButtons.SetActive(true);
-                PlayMenuClick();
-            }
-        }
+        if (startAlpha < 1 && fadeStart)
+            SplashFadeIn();
 
-        if (gamepad != null)
+        // Loop through all connected gamepads
+        foreach (var gamepad in Gamepad.all)
         {
+            if (gamepad == null) continue;
+
+            // Splash screen enter
+            if (splashScreen.activeInHierarchy)
+            {
+                if (gamepad.buttonSouth.wasPressedThisFrame && canEnterGame)
+                {
+                    Debug.Log("Game Enter");
+                    splashScreen.SetActive(false);
+                    mainMenuButtons.SetActive(true);
+                    PlayMenuClick();
+                    return; // prevent double-input this frame
+                }
+            }
+
+            // Back button actions
             if (gamepad.buttonEast.wasPressedThisFrame && !splashScreen.activeInHierarchy && !playerRebinding)
             {
                 switch (currentScreen)
                 {
-                    case (1): //settings Menu
+                    case (1): // Settings Menu
                         returnToTop();
                         break;
-                    case (2): //character Select Screen
+                    case (2): // Character Select Screen
                         if (!deselectOccured && !progressionActive && lockedGamepad == null)
                         {
-                             StartCoroutine(CharacterSelectProgression(gamepad));
+                            StartCoroutine(CharacterSelectProgression(gamepad));
                         }
                         break;
-                    case (3): //Stage Select Screen
+                    case (3): // Stage Select Screen
                         UpdateProfileOptions();
                         if (stageSettings.activeSelf)
                         {
-                            ShowStageSettings(false); //IFF stage settings open
+                            ShowStageSettings(false); // IFF stage settings open
                         }
                         else
                         {
@@ -392,48 +399,53 @@ public class MenuController : MonoBehaviour
                     case (12): // Player Profile Submenu (bindings, config, etc.)
                         disablePPWindow();
                         break;
-                    case (13):
+                    case (13): // Delete Profile Confirmation
                         CancelDeleteProfile();
                         break;
                     default:
                         break;
                 }
                 deselectOccured = false;
+                return; // prevent double-input this frame
             }
 
-            if (SettingsMenu.activeInHierarchy && gamepad.rightShoulder.wasPressedThisFrame && !playerRebinding)
+            // Shoulder navigation
+            if (SettingsMenu.activeInHierarchy && !playerRebinding)
             {
-                if (gameplaySettings.activeInHierarchy)
+                if (gamepad.rightShoulder.wasPressedThisFrame)
                 {
-                    SettingsSwap(0);
-                } else if (audioSettings.activeInHierarchy)
+                    if (gameplaySettings.activeInHierarchy)
+                        SettingsSwap(0);
+                    else if (audioSettings.activeInHierarchy)
+                        SettingsSwap(1);
+                    else
+                        SettingsSwap(2);
+
+                    return; // prevent double-input this frame
+                }
+
+                if (gamepad.leftShoulder.wasPressedThisFrame)
                 {
-                    SettingsSwap(1);
-                } else
-                {
-                    SettingsSwap(2);
+                    if (gameplaySettings.activeInHierarchy)
+                        SettingsSwap(1);
+                    else if (audioSettings.activeInHierarchy)
+                        SettingsSwap(2);
+                    else
+                        SettingsSwap(0);
+
+                    return; // prevent double-input this frame
                 }
             }
 
-            if (SettingsMenu.activeInHierarchy && gamepad.leftShoulder.wasPressedThisFrame && !playerRebinding)
+            // Tutorial swap
+            if (tutorialContent.activeInHierarchy)
             {
-                if (gameplaySettings.activeInHierarchy)
-                {
-                    SettingsSwap(1);
-                }
-                else if (audioSettings.activeInHierarchy)
-                {
-                    SettingsSwap(2);
-                }
-                else
-                {
-                    SettingsSwap(0);
-                }
+                TutorialImageSwap(gamepad);
+                return;
             }
         }
-        
-        if (tutorialContent.activeInHierarchy) TutorialImageSwap(gamepad);
 
+        // Non-gamepad input
         if (statsContent.activeInHierarchy && Input.GetKeyDown(KeyCode.R) && !resetThisScene)
         {
             ST.ResetSaveData();
