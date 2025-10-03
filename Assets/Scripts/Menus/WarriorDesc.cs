@@ -39,13 +39,13 @@ public class WarriorDesc : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.DownArrow)) {
         //    pageRight();
         //}
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        /*if (Input.GetKeyDown(KeyCode.Space)) {
             if (charInfo.confirmed) {
                 MC.unconfirmCharacter(playerSlot);
             } else {
                 MC.confirmCharacter(playerSlot);
             }
-        }
+        }*/
     }
 
     //public void pageLeft() {

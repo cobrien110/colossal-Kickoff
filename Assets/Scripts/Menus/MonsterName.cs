@@ -22,7 +22,7 @@ public class MonsterName : MonoBehaviour
 
     //this is all placeholder, get rid of it when we have real controller input
     void Update() {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        /*if (Input.GetKeyDown(KeyCode.UpArrow)) {
             pageLeft();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
@@ -34,7 +34,7 @@ public class MonsterName : MonoBehaviour
             } else {
                 MC.confirmCharacter(playerSlot);
             }
-        }
+        }*/
     }
 
     public void pageLeft() {

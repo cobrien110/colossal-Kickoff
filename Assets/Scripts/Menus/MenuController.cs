@@ -140,6 +140,10 @@ public class MenuController : MonoBehaviour
     private bool progressionActive = false;
     private Gamepad lockedGamepad = null;
 
+    private Dictionary<int, int> slotToHoveringID = new Dictionary<int, int>();
+    [SerializeField] private GameObject[] botElements;
+    [SerializeField] private GameObject[] playerElements;
+
     [Header("Menu Navigation Controls")]
     [SerializeField] private GameObject topFirstButton;
     [SerializeField] private GameObject settingsFirstButton;
@@ -1238,14 +1242,17 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void confirmCharacter(int playerSlot)
+    public void confirmCharacter(int playerSlot, int hoveringID)
     {
+        slotToHoveringID[playerSlot] = hoveringID;
+
         confirmedInfos.Add(characterInfos[playerSlot]);
         characterInfos[playerSlot].confirm();
         numPlayersConfirmed++;
         Debug.Log("players confirmed: " + numPlayersConfirmed + " - Time: " + Time.fixedTime);
         findAllCursors();
         Debug.Log("players needed: " + cursors.Length);
+
         if (numPlayersConfirmed == cursors.Length)
         {
             canMoveToGame = true;
@@ -1253,15 +1260,24 @@ public class MenuController : MonoBehaviour
             hideWhenReady.SetActive(false);
             monsterImages[monsterNameScript.monsterIndex].SetActive(true);
             showWhenReady.SetActive(true);
+
+            //Update UI elements all at once
+            UpdateBotAndPlayerElements();
         }
     }
 
     public void unconfirmCharacter(int playerSlot)
     {
+        if (!slotToHoveringID.ContainsKey(playerSlot))
+            return;
+
         confirmedInfos.Remove(characterInfos[playerSlot]);
         characterInfos[playerSlot].unconfirm();
         numPlayersConfirmed--;
         Debug.Log("players confirmed: " + numPlayersConfirmed + "Time: " + Time.fixedTime);
+
+        slotToHoveringID.Remove(playerSlot);
+
         if (canMoveToGame)
         {
             canMoveToGame = false;
@@ -1269,6 +1285,47 @@ public class MenuController : MonoBehaviour
             hideWhenReady.SetActive(true);
             monsterImages[monsterNameScript.monsterIndex].SetActive(false);
             showWhenReady.SetActive(false);
+
+            ResetBotAndPlayerElements();
+        }
+    }
+
+    /// <summary>
+    /// Sets the active states of botElements and playerElements
+    /// based on which hoveringIDs are assigned.
+    /// </summary>
+    private void UpdateBotAndPlayerElements()
+    {
+        //First, default everything to bot
+        for (int i = 0; i < botElements.Length; i++)
+        {
+            botElements[i].SetActive(true);
+            playerElements[i].SetActive(false);
+        }
+
+        // Always force playerElements[0] on
+        playerElements[0].SetActive(true);
+
+        foreach (var kvp in slotToHoveringID)
+        {
+            int hoveringID = kvp.Value;
+            if (hoveringID >= 0 && hoveringID < playerElements.Length)
+            {
+                botElements[hoveringID].SetActive(false);
+                playerElements[hoveringID].SetActive(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets to "all bots" but keeps playerElements[0] on.
+    /// </summary>
+    private void ResetBotAndPlayerElements()
+    {
+        for (int i = 0; i < botElements.Length; i++)
+        {
+            botElements[i].SetActive(true);
+            playerElements[i].SetActive(false);
         }
     }
 

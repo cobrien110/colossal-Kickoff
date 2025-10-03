@@ -347,7 +347,7 @@ public class MenuCursor : MonoBehaviour
                     else if (!charConfirmed)
                     {
                         charConfirmed = true;
-                        MC.confirmCharacter(playerSlot);
+                        MC.confirmCharacter(playerSlot, hoveringID);
                         // play sound
                         AP.PlaySoundRandomPitch(AP.Find("menuStart2"));
                         justSelectedChar = true;
