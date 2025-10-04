@@ -328,8 +328,8 @@ public class MenuCursor : MonoBehaviour
 
                         string profileName = thisDropdown.captionText.text;
 
-                        //...if item is "No Profile", set Default options. Otherwise...
-                        if (profileName.Equals("No Profile"))
+                        //...if item is "Default", set Default options. Otherwise...
+                        if (profileName.Equals("Default"))
                         {
                             PH.DefaultProfile();
                             return;

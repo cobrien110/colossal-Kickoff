@@ -1579,7 +1579,7 @@ public class MenuController : MonoBehaviour
         monsterDrop.ClearOptions();
 
         List<string> allProfileNames = new List<string>();
-        allProfileNames.Add("No Profile");
+        allProfileNames.Add("Default");
         for (int i = 0; i < savedProfiles.Count; i++)
         {
             allProfileNames.Add(savedProfiles[i].Profile_Name);
