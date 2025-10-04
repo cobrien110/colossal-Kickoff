@@ -14,10 +14,14 @@ public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     bool goingForward;
     bool isCycling;
+    private MenuController MC;
+    AudioPlayer AP;
 
     // Start is called before the first frame update
     void Start()
     {
+        MC = GameObject.FindFirstObjectByType<MenuController>();
+        AP = MC.GetComponent<AudioPlayer>();
         selectable = GetComponent<Selectable>();
         if (selectable == null)
         {
@@ -68,6 +72,7 @@ public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void OnSelect(BaseEventData eventData)
     {
         isSelected = true;
+        if (AP != null) AP.PlaySoundRandomPitch(AP.Find("menuMove2"));
     }
 
     public void OnDeselect(BaseEventData eventData)
