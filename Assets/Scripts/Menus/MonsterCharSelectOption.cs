@@ -1,34 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class MonsterCharSelectOption: MonoBehaviour
 {
-    [SerializeField] private Sprite[] monsterSprites;
-    [SerializeField] private float[] monsterScales;
-    [SerializeField] private float[] monsterOffsets;
-    [SerializeField] private Vector3[] monsterPositions;
-    [SerializeField] private Image image;
-    private BoxCollider2D BC;
-    private Vector2 sizeBC;
+    [SerializeField] private GameObject[] monsterElements;
 
-    void Start() {
-        image = GetComponent<Image>();
-        BC = GetComponent<BoxCollider2D>();
-        sizeBC = BC.size;
-        image.sprite = monsterSprites[0];
-        image.transform.localScale = new Vector3(monsterScales[0], monsterScales[0], 1f);
-        BC.size = new Vector2(sizeBC.x / (monsterScales[0] * 1.75f), sizeBC.y / (monsterScales[0] * 1.25f));
-        BC.offset = new Vector2(monsterOffsets[0], -3.0f);
-        //image.transform.position = monsterPositions[0];
+    void Awake() {
+        changeMonster(0);
+        StartCoroutine(AttackCycle());
     }
 
     public void updateSprite(int index) {
-        image.sprite = monsterSprites[index];
-        image.transform.localScale = new Vector3(monsterScales[index], monsterScales[index], 1f);
-        BC.size = new Vector2(sizeBC.x / (monsterScales[index] * 1.75f), sizeBC.y / (monsterScales[index] * 1.50f));
-        BC.offset = new Vector2(monsterOffsets[index], -3.0f);
-        //image.transform.localPosition = monsterPositions[index];
+        changeMonster(index);
+    }
+
+    private void changeMonster(int index)
+    {
+        foreach (GameObject monsterDude in monsterElements)
+        {
+            monsterDude.SetActive(false);
+        }
+        monsterElements[index].SetActive(true);
+    }
+
+    private IEnumerator AttackCycle()
+    {
+        while (true)
+        {
+            
+            float waitTime = UnityEngine.Random.Range(10f, 15f);
+            yield return new WaitForSeconds(waitTime);
+
+            AnimateAttack();
+        }
+    }
+
+    private void AnimateAttack()
+    {
+        for (int i = 0; i < monsterElements.Length; i++)
+        {
+            //Skip index 2 and inactive ones
+            if (i == 2 || !monsterElements[i].activeSelf)
+                continue;
+
+            Animator anim = monsterElements[i].GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("Attack");
+            }
+        }
     }
 }
