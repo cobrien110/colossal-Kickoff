@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 752003647171117037, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9c3de084f61a3ee4baaf31854f3167f4, type: 2}
     - target: {fileID: 1718773609196591379, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.25
@@ -35,6 +39,18 @@ PrefabInstance:
     - target: {fileID: 3176374829716338387, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
       propertyPath: m_Name
       value: AiAhklut
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215580906102298959, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215580906102298959, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.29611325
+      objectReference: {fileID: 0}
+    - target: {fileID: 7215580906102298959, guid: d29041bd5fade53428458a67a9ad22c3, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

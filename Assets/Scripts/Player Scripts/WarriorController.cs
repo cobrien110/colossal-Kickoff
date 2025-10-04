@@ -184,6 +184,11 @@ public class WarriorController : MonoBehaviour
         transform.rotation = new Quaternion(0f, .5f, 0f, 0f);
         baseHitboxRadius = capsuleCollider.radius;
 
+        PS.Stop();
+        PSAlt.Stop();
+        int goreMode = PlayerPrefs.GetInt("goreMode", 0);
+        if (goreMode == 2 && PS != null && PSAlt != null && !GetComponent<WarriorAiController>()) PS = PSAlt;
+
         // fancy respawn
         jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint")?.transform;
         jumpInTime = 1f;

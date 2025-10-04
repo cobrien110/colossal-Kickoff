@@ -18,10 +18,11 @@ public class ButtonColorCycler : MonoBehaviour, ISelectHandler, IDeselectHandler
     AudioPlayer AP;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         MC = GameObject.FindFirstObjectByType<MenuController>();
-        AP = MC.GetComponent<AudioPlayer>();
+        if (MC != null) AP = MC.GetComponent<AudioPlayer>();
+        else AP = GetComponent<AudioPlayer>();
         selectable = GetComponent<Selectable>();
         if (selectable == null)
         {
