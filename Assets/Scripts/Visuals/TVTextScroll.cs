@@ -73,12 +73,16 @@ public class TVTextScroll : MonoBehaviour
     {
         while (isScrolling)
         {
-            //Debug.Log("Scrolling");
             warningTextTransform.position += Vector3.right * speed * Time.deltaTime;
-            if (warningTextTransform.position.x > borderPoint.position.x)
+
+            float textWidth = scrollingText.preferredWidth * warningTextTransform.lossyScale.x;
+            
+            float leftEdge = warningTextTransform.position.x - (textWidth);
+            if (leftEdge > borderPoint.position.x)
             {
                 ResetWarning();
             }
+
             yield return null;
         }
     }
