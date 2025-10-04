@@ -35906,6 +35906,7 @@ GameObject:
   - component: {fileID: 1383217904}
   - component: {fileID: 1383217906}
   - component: {fileID: 1383217905}
+  - component: {fileID: 1383217907}
   m_Layer: 5
   m_Name: HumanControlsText
   m_TagString: Untagged
@@ -35954,8 +35955,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Team up as the 3 Warriors!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 78d2a83cf8318a043a16dc7714f392b7, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: c827be4b7176c4f488a52f426b98079d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d879aef586f04cb4abcac43459c3fc30, type: 2}
+  m_sharedMaterial: {fileID: -2205983582761376483, guid: d879aef586f04cb4abcac43459c3fc30, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -36029,6 +36030,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383217903}
   m_CullTransparentMesh: 1
+--- !u!114 &1383217907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383217903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1385864337
 GameObject:
   m_ObjectHideFlags: 0
