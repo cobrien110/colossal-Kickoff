@@ -187,7 +187,7 @@ public class WarriorController : MonoBehaviour
         PS.Stop();
         PSAlt.Stop();
         int goreMode = PlayerPrefs.GetInt("goreMode", 0);
-        if (goreMode == 2 && PS != null && PSAlt != null && !GetComponent<WarriorAiController>()) PS = PSAlt;
+        if ((goreMode == 2 || goreMode == 1) && PS != null && PSAlt != null && !GetComponent<WarriorAiController>()) PS = PSAlt;
 
         // fancy respawn
         jumpInLocation = GameObject.FindGameObjectWithTag("JumpInPoint")?.transform;
