@@ -573,6 +573,10 @@ public class MenuController : MonoBehaviour
                     //WarriorTutorial
                     ALM.BeginLoad("WarriorTutorial");
                     break;
+                case -2:
+                    //MonsterTutorial
+                    ALM.BeginLoad("MonsterTutorial");
+                    break;
                 default:
                    //Scene that hasn't been made yet
                     ALM.BeginLoad("GreeceArena");

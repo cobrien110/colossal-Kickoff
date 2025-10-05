@@ -21,6 +21,7 @@ public class AbilitySphericalAttack : AbilityChargeableAttack
     public float projectileSpeed = 450f;
 
     [SerializeField] private float sphericalAttackPosY = -0.3f;
+    public bool attacked = false;
 
     new void Start()
     {
@@ -36,6 +37,7 @@ public class AbilitySphericalAttack : AbilityChargeableAttack
             return;
         }
 
+        attacked = true;
         Debug.Log("Attack!");
 
         if (BP != null && BP.ballOwner != gameObject && GM.isPlaying)

@@ -267,7 +267,7 @@ public class GameplayManager : MonoBehaviour
         if (aiMummymanager != null) aiMummymanager.ResetMummies();
 
         // Sets end-of-game Steam stats
-        if (SteamManager.Initialized && WTM == null)
+        if (SteamManager.Initialized && WTM == null && MTM == null)
         {
             SteamUserStats.RequestCurrentStats();
 

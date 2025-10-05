@@ -21,6 +21,7 @@ public class AbilityMinotaurWall : AbilityScript
 
     public GameObject spawnVisual;
     private GameObject goalSpawnVisual;
+    public bool usedWall = false;
 
     private void Start()
     {
@@ -48,6 +49,7 @@ public class AbilityMinotaurWall : AbilityScript
             spawnLocation = transform.position + (dir * wallSpawnDistance);
             spawnRotation = Quaternion.LookRotation(dir, Vector3.up);
             Instantiate(wallPrefab, spawnLocation, spawnRotation);
+            usedWall = true;
             if (willSpawnWallAtGoal)
             {
                 Instantiate(wallPrefab, goalWallSpawnPos, Quaternion.LookRotation(new Vector3(-1, 0, 0), Vector3.up));

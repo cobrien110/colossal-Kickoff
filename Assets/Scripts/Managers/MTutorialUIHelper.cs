@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialUIHelper : MonoBehaviour
+public class MTutorialUIHelper : MonoBehaviour
 {
     [SerializeField] private TMP_Text[] objText;
     [SerializeField] private GameObject[] subsets;
@@ -12,10 +12,10 @@ public class TutorialUIHelper : MonoBehaviour
     [SerializeField] private TMP_Text mainMessage;
     private string[] mainMessages = new string[]
     {
-        "Welcome to Colossal Kickoff!\n\nHere, you will be learning how to play as a warrior. We will begin with basic movement and kicking.",
+        "Welcome to Colossal Kickoff!\n\nHere, you will be learning how to play as a monster. We will begin with basic movement and kicking.",
         "Great job!\n\nNext, kick the ball towards the goals to score. When playing, the team with the most points wins!  Goals will also have barriers, which need to be hit by the ball a few times to break down. Give it a try!",
-        "The warriors have a few ways to fight back against the monsters. Each warrior can slide to steal the ball and dodge incoming attacks.\n\nWarriors can also pass to each other to charge their SUPER KICK METER, which allows you to kick with much more power. This powerful kick stuns monsters and breaks down goal barriers with ease!\n\nYou can also press (A) while your teammate is dribbling to call for a pass.",
-        "Congratulations!\n\nYou are now ready to take on the monsters. See you on the pitch!"
+        "Each monster has a few abilities they can use to crush the warriors. Monsters also have a basic attack and a passive.\n\nThe minotaur’s main abilities are Labyrinth Walls and Bull Rush. Walls can be used to block incoming shots, and Bull Rush is a great way to close down space.\n\nSome abilities, such as your basic attack, cannot be used while dribbling. Give it a try!",
+        "Congratulations!\n\nYou are now ready to take on the warriors. See you on the pitch!"
     };
     private int mainMessageIndex = 0;
 
@@ -66,7 +66,7 @@ public class TutorialUIHelper : MonoBehaviour
 
     public void FadeToBlack()
     {
-        startAlpha = Mathf.MoveTowards(startAlpha, endAlpha, (1.2f* Time.deltaTime));
+        startAlpha = Mathf.MoveTowards(startAlpha, endAlpha, (1.2f * Time.deltaTime));
         fadeCol.a = startAlpha;
         fadeToBlack.color = fadeCol;
 
@@ -122,5 +122,4 @@ public class TutorialUIHelper : MonoBehaviour
     {
         Invoke("FadeStart", 3.05f);
     }
-
 }

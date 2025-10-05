@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
         GM = GameObject.Find("Gameplay Manager").GetComponent<GameplayManager>();
         ST = GameObject.Find("Stat Tracker").GetComponent<StatTracker>();
         //console = GameObject.Find("Canvas").GetComponentInChildren<TMP_InputField>();
-        if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial"))
+        if (SceneManager.GetActiveScene().name.Equals("WarriorTutorial") || SceneManager.GetActiveScene().name.Equals("MonsterTutorial"))
         {
             inTutorial = true;
             hideDuringTutorial.SetActive(false);
